@@ -104,12 +104,12 @@ public:
     /**
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
-     * @param[in] flags         One of the Flag enums or bitwise or of the Flag enums.
-     * @param[in] database_file The path of magic database file (default is empty path).
+     * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] database_file     The path of magic database file (default is empty path).
      *
-     * @throws magic_open       if opening magic fails.
-     * @throws invalid_path     if the path of the magic database file is not a file.
-     * @throws magic_load       if loading the magic database file fails.
+     * @throws magic_open_error     if opening magic fails.
+     * @throws invalid_path         if the path of the magic database file is not a file.
+     * @throws magic_load_error     if loading the magic database file fails.
      *
      * @note If the path of the database file is empty, magic loads the default database file.
      *       The default database file is named by the MAGIC environment variable.
@@ -159,11 +159,11 @@ public:
      * @brief Check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
-     * @param[in] database_file The file to check, default is an empty path.
+     * @param[in] database_file     The file to check, default is an empty path.
      *
      * @returns True if the database_file has valid entries, false otherwise.
      *
-     * @throws magic_is_closed  if magic is closed.
+     * @throws magic_is_closed      if magic is closed.
      *
      * @note If the database_file is empty, the default database file is used.
      */
@@ -180,11 +180,11 @@ public:
      * @brief Compile the colon separated list of database files
      *        passed in as database_file.
      *
-     * @param[in] database_file The file to compile, default is an empty path.
+     * @param[in] database_file     The file to compile, default is an empty path.
      *
      * @returns True on success, false otherwise.
      *
-     * @throws magic_is_closed  if magic is closed.
+     * @throws magic_is_closed      if magic is closed.
      *
      * @note If the database_file is empty, the default database is used.
      *       The compiled files created are named from the basename
@@ -197,7 +197,7 @@ public:
      *
      * @returns Flags
      *
-     * @throws magic_is_closed  if magic is closed.
+     * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
     std::vector<Flag> get_flags() const;
@@ -205,11 +205,11 @@ public:
     /**
      * @brief Get the value of a parameter of magic.
      *
-     * @param[in] parameter     One of the Parameter enum.
+     * @param[in] parameter         One of the Parameter enum.
      *
      * @returns Value of the desired parameter.
      *
-     * @throws magic_is_closed  if magic is closed.
+     * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
     std::size_t get_parameter(Parameter parameter) const;
@@ -225,13 +225,13 @@ public:
     /**
      * @brief Identify the type of a file.
      *
-     * @param[in] path          The path of the file.
+     * @param[in] path              The path of the file.
      *
      * @returns The type of the file as a string.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws empty_path       if the path of the file is empty.
-     * @throws magic_file       if identifying the type of the file fails.
+     * @throws magic_is_closed      if magic is closed.
+     * @throws empty_path           if the path of the file is empty.
+     * @throws magic_file_error     if identifying the type of the file fails.
      */
     [[nodiscard]]
     file_type_t identify_file(const std_fs::path& path) const;
@@ -239,8 +239,8 @@ public:
     /**
      * @brief Identify the type of a file, noexcept version.
      *
-     * @param[in] path          The path of the file.
-     * @param[out] error        The out parameter for reporting the error message, if any.
+     * @param[in] path              The path of the file.
+     * @param[out] error            The out parameter for reporting the error message, if any.
      *
      * @returns The type of the file as a string. It does not contain a value on failure.
      */
@@ -251,14 +251,14 @@ public:
     /**
      * @brief Identify the types of all files in a directory.
      *
-     * @param[in] directory     The path of the directory.
-     * @param[in] option        The directory iteration option, default is follow_directory_symlink.
+     * @param[in] directory         The path of the directory.
+     * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws empty_path       if the path of the file is empty.
-     * @throws magic_file       if identifying the type of the file fails.
+     * @throws magic_is_closed      if magic is closed.
+     * @throws empty_path           if the path of the file is empty.
+     * @throws magic_file_error     if identifying the type of the file fails.
      */
     [[nodiscard]]
     types_of_files_t identify_files(
@@ -274,11 +274,11 @@ public:
     /**
      * @brief Identify the types of all files in a directory, noexcept version.
      *
-     * @tparam ContainerType    The type of the error container.
+     * @tparam ContainerType        The type of the error container.
      *
-     * @param[in] directory     The path of the directory.
-     * @param[out] errors       The out parameter for reporting the error messages, if any.
-     * @param[in] option        The directory iteration option, default is follow_directory_symlink.
+     * @param[in] directory         The path of the directory.
+     * @param[out] errors           The out parameter for reporting the error messages, if any.
+     * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
      */
@@ -297,15 +297,15 @@ public:
     /**
      * @brief Identify the types of files.
      *
-     * @tparam ContainerType    The type of the file container.
+     * @tparam ContainerType        The type of the file container.
      *
-     * @param[in] files         The container that holds the paths of the files.
+     * @param[in] files             The container that holds the paths of the files.
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws empty_path       if the path of the file is empty.
-     * @throws magic_file       if identifying the type of the file fails.
+     * @throws magic_is_closed      if magic is closed.
+     * @throws empty_path           if the path of the file is empty.
+     * @throws magic_file_error     if identifying the type of the file fails.
      */
     template <file_container ContainerType>
     [[nodiscard]]
@@ -317,11 +317,11 @@ public:
     /**
      * @brief Identify the types of files, noexcept version.
      *
-     * @tparam FileContainerType   The type of the file container.
-     * @tparam ErrorContainerType  The type of the error container.
+     * @tparam FileContainerType    The type of the file container.
+     * @tparam ErrorContainerType   The type of the error container.
      *
-     * @param[in] files            The container that holds the paths of the files.
-     * @param[out] errors          The out parameter for reporting the error messages, if any.
+     * @param[in] files             The container that holds the paths of the files.
+     * @param[out] errors           The out parameter for reporting the error messages, if any.
      *
      * @returns The types of each file as a map.
      */
@@ -345,11 +345,11 @@ public:
     /**
      * @brief Load a magic database file.
      *
-     * @param[in] database_file The path of the magic database file, default is an empty path.
+     * @param[in] database_file     The path of the magic database file, default is an empty path.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws invalid_path     if the path of the database file is not a file.
-     * @throws magic_load       if loading the database file fails.
+     * @throws magic_is_closed      if magic is closed.
+     * @throws invalid_path         if the path of the database file is not a file.
+     * @throws magic_load_error     if loading the database file fails.
      *
      * @note If the path of the database file is empty, magic loads the default database file.
      *       The default database file is named by the MAGIC environment variable.
@@ -361,9 +361,9 @@ public:
     /**
      * @brief Open magic using the flags.
      *
-     * @param[in] flags         One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
      *
-     * @throws magic_open       if opening magic fails.
+     * @throws magic_open_error     if opening magic fails.
      *
      * @note If magic is open, it will be reopened using the flags after closing it.
      */
@@ -372,21 +372,21 @@ public:
     /**
      * @brief Set the flags of magic.
      *
-     * @param[in] flags         One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] flags               One of the Flag enums or bitwise or of the Flag enums.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws magic_set_flags  if setting the flags of magic fails.
+     * @throws magic_is_closed        if magic is closed.
+     * @throws magic_set_flags_error  if setting the flags of magic fails.
      */
     void set_flags(flags_t flags);
 
     /**
      * @brief Set the value of a parameter of magic.
      *
-     * @param[in] parameter     One of the Parameter enum.
-     * @param[in] value         The value of the parameter.
+     * @param[in] parameter           One of the Parameter enum.
+     * @param[in] value               The value of the parameter.
      *
-     * @throws magic_is_closed  if magic is closed.
-     * @throws magic_set_param  if setting the parameter of magic fails.
+     * @throws magic_is_closed        if magic is closed.
+     * @throws magic_set_param_error  if setting the parameter of magic fails.
      */
     void set_parameter(Parameter parameter, std::size_t value);
 
@@ -438,8 +438,8 @@ private:
  * @brief Operator<< for the magic::types_of_files_t.
  *        The format is "The path of a file -> The type of the file".
  *
- * @param[out] os               The output stream.
- * @param[in]  types_of_files   The types of each file.
+ * @param[out] os                   The output stream.
+ * @param[in]  types_of_files       The types of each file.
  *
  * @returns os.
  */

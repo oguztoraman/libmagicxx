@@ -31,7 +31,7 @@ git clone https://github.com/oguztoraman/magic-cpp
 add_subdirectory(magic-cpp)
 
 target_link_libraries(<name of your project>   
-    <PUBLIC or PRIVATE or INTERFACE> libmagic++
+    <PUBLIC or PRIVATE or INTERFACE> magic++
 )
 ```
 

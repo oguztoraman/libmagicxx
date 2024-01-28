@@ -274,18 +274,15 @@ public:
     /**
      * @brief Identify the types of all files in a directory, noexcept version.
      *
-     * @tparam ContainerType        The type of the error container.
-     *
      * @param[in] directory         The path of the directory.
      * @param[out] errors           The out parameter for reporting the error messages, if any.
      * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
      */
-    template <error_container ContainerType>
     [[nodiscard]]
     types_of_files_t identify_files(
-        const std_fs::path& directory, ContainerType& errors,
+        const std_fs::path& directory, error_container auto& errors,
         std_fs::directory_options option = std_fs::directory_options::follow_directory_symlink
     ) const noexcept
     {
@@ -297,8 +294,6 @@ public:
     /**
      * @brief Identify the types of files.
      *
-     * @tparam ContainerType        The type of the file container.
-     *
      * @param[in] files             The container that holds the paths of the files.
      *
      * @returns The types of each file as a map.
@@ -307,9 +302,8 @@ public:
      * @throws empty_path           if the path of the file is empty.
      * @throws magic_file_error     if identifying the type of the file fails.
      */
-    template <file_container ContainerType>
     [[nodiscard]]
-    types_of_files_t identify_files(const ContainerType& files) const
+    types_of_files_t identify_files(const file_container auto& files) const
     {
         return identify_files(files);
     }
@@ -317,18 +311,14 @@ public:
     /**
      * @brief Identify the types of files, noexcept version.
      *
-     * @tparam FileContainerType    The type of the file container.
-     * @tparam ErrorContainerType   The type of the error container.
-     *
      * @param[in] files             The container that holds the paths of the files.
      * @param[out] errors           The out parameter for reporting the error messages, if any.
      *
      * @returns The types of each file as a map.
      */
-    template <file_container FileContainerType, error_container ErrorContainerType>
     [[nodiscard]]
     types_of_files_t identify_files(
-        const FileContainerType& files, ErrorContainerType& errors
+        const file_container auto& files, error_container auto& errors
     ) const noexcept
     {
         return identify_files(files, errors);
@@ -394,9 +384,8 @@ private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
 
-    template <std::ranges::range RangeType>
     [[nodiscard]]
-    types_of_files_t identify_files(const RangeType& files) const
+    types_of_files_t identify_files(const std::ranges::range auto& files) const
     {
         types_of_files_t types_of_files;
         std::ranges::for_each(files,
@@ -407,9 +396,8 @@ private:
         return types_of_files;
     }
 
-    template <std::ranges::range RangeType, error_container ErrorContainerType>
     [[nodiscard]]
-    types_of_files_t identify_files(const RangeType& files, ErrorContainerType& errors) const noexcept
+    types_of_files_t identify_files(const std::ranges::range auto& files, error_container auto& errors) const noexcept
     {
         errors.clear();
         types_of_files_t types_of_files;

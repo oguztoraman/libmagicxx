@@ -15,11 +15,6 @@
 namespace recognition {
 
 /**
- * @brief Namespace alias for the std::filesystem.
- */
-namespace std_fs = std::filesystem;
-
-/**
  * @class magic
  *
  * @brief The magic class provides a C++ wrapper over the Magic Number Recognition Library.
@@ -43,7 +38,7 @@ public:
     /**
      * @brief The types_of_files_t typedef.
      */
-    using types_of_files_t = std::map<std_fs::path, file_type_t>;
+    using types_of_files_t = std::map<std::filesystem::path, file_type_t>;
 
     /**
      * @brief The Flag enums are used for configuring the flags of a magic.
@@ -116,7 +111,7 @@ public:
      *       If that variable is not set, the default database file name is /usr/share/misc/magic.
      *       load_database_file() adds “.mgc” to the database filename as appropriate. (v5.44)
      */
-    explicit magic(flags_t flags, const std_fs::path& database_file = {});
+    explicit magic(flags_t flags, const std::filesystem::path& database_file = {});
 
     /**
      * @brief Move construct magic.
@@ -167,7 +162,7 @@ public:
      *
      * @note If the database_file is empty, the default database file is used.
      */
-    bool check(const std_fs::path& database_file = {}) const;
+    bool check(const std::filesystem::path& database_file = {}) const;
 
     /**
      * @brief Close magic.
@@ -190,7 +185,7 @@ public:
      *       The compiled files created are named from the basename
      *       of each file argument with “.mgc” appended to it.
      */
-    bool compile(const std_fs::path& database_file = {}) const;
+    bool compile(const std::filesystem::path& database_file = {}) const;
 
     /**
      * @brief Get the flags of magic.
@@ -234,7 +229,7 @@ public:
      * @throws magic_file_error     if identifying the type of the file fails.
      */
     [[nodiscard]]
-    file_type_t identify_file(const std_fs::path& path) const;
+    file_type_t identify_file(const std::filesystem::path& path) const;
 
     /**
      * @brief Identify the type of a file, noexcept version.
@@ -246,7 +241,7 @@ public:
      */
     [[nodiscard]]
     std::optional<file_type_t>
-        identify_file(const std_fs::path& path, std::string& error) const noexcept;
+        identify_file(const std::filesystem::path& path, std::string& error) const noexcept;
 
     /**
      * @brief Identify the types of all files in a directory.
@@ -262,12 +257,12 @@ public:
      */
     [[nodiscard]]
     types_of_files_t identify_files(
-        const std_fs::path& directory,
-        std_fs::directory_options option = std_fs::directory_options::follow_directory_symlink
+        const std::filesystem::path& directory,
+        std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
     ) const
     {
         return identify_files(
-            std_fs::recursive_directory_iterator{directory, option}
+            std::filesystem::recursive_directory_iterator{directory, option}
         );
     }
 
@@ -282,12 +277,12 @@ public:
      */
     [[nodiscard]]
     types_of_files_t identify_files(
-        const std_fs::path& directory, error_container auto& errors,
-        std_fs::directory_options option = std_fs::directory_options::follow_directory_symlink
+        const std::filesystem::path& directory, error_container auto& errors,
+        std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
     ) const noexcept
     {
         return identify_files(
-            std_fs::recursive_directory_iterator{directory, option}, errors
+            std::filesystem::recursive_directory_iterator{directory, option}, errors
         );
     }
 
@@ -346,7 +341,7 @@ public:
      *       If that variable is not set, the default database file name is /usr/share/misc/magic.
      *       load_database_file() adds “.mgc” to the database filename as appropriate. (v5.44)
      */
-    void load_database_file(const std_fs::path& database_file = {});
+    void load_database_file(const std::filesystem::path& database_file = {});
 
     /**
      * @brief Open magic using the flags.
@@ -389,7 +384,7 @@ private:
     {
         types_of_files_t types_of_files;
         std::ranges::for_each(files,
-            [&](const std_fs::path& file){
+            [&](const std::filesystem::path& file){
                 types_of_files[file] = identify_file(file);
             }
         );
@@ -402,7 +397,7 @@ private:
         errors.clear();
         types_of_files_t types_of_files;
         std::ranges::find_if(files,
-            [&](const std_fs::path& file){
+            [&](const std::filesystem::path& file){
                 try {
                     types_of_files[file] = identify_file(file);
                     return false; /* continue */

@@ -16,7 +16,7 @@ class magic::magic_private {
 public:
     magic_private() noexcept = default;
 
-    magic_private(flags_t flags, const std_fs::path& database_file)
+    magic_private(flags_t flags, const std::filesystem::path& database_file)
     {
         open(flags);
         load_database_file(database_file);
@@ -38,7 +38,7 @@ public:
         return is_open();
     }
 
-    bool check(const std_fs::path& database_file) const
+    bool check(const std::filesystem::path& database_file) const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         auto file_path_cstr{
@@ -53,7 +53,7 @@ public:
         m_cookie.reset(nullptr);
     }
 
-    bool compile(const std_fs::path& database_file) const
+    bool compile(const std::filesystem::path& database_file) const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         auto file_path_cstr{
@@ -86,7 +86,7 @@ public:
     }
 
     [[nodiscard]]
-    file_type_t identify_file(const std_fs::path& path) const
+    file_type_t identify_file(const std::filesystem::path& path) const
     {
         throw_exception_on_failure<empty_path>(path.empty());
         throw_exception_on_failure<magic_is_closed>(is_open());
@@ -97,7 +97,7 @@ public:
 
     [[nodiscard]]
     std::optional<file_type_t>
-        identify_file(const std_fs::path& path, std::string& error) const noexcept
+        identify_file(const std::filesystem::path& path, std::string& error) const noexcept
     {
         error.erase();
         try {
@@ -114,12 +114,12 @@ public:
         return m_cookie != nullptr;
     }
 
-    void load_database_file(const std_fs::path& database_file)
+    void load_database_file(const std::filesystem::path& database_file)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         const char* database_file_cstr{nullptr};
         if (!database_file.empty()){
-            throw_exception_on_failure<invalid_path>(std_fs::is_regular_file(database_file));
+            throw_exception_on_failure<invalid_path>(std::filesystem::is_regular_file(database_file));
             database_file_cstr = database_file.c_str();
         }
         throw_exception_on_failure<magic_load_error>(
@@ -326,7 +326,7 @@ private:
 
 magic::magic() noexcept = default;
 
-magic::magic(flags_t flags, const std_fs::path& database_file)
+magic::magic(flags_t flags, const std::filesystem::path& database_file)
     : m_impl{std::make_unique<magic_private>(flags, database_file)}
 { }
 
@@ -342,7 +342,7 @@ magic::operator bool() const noexcept
     return m_impl->operator bool();
 }
 
-bool magic::check(const std_fs::path& database_file) const
+bool magic::check(const std::filesystem::path& database_file) const
 {
     return m_impl->check(database_file);
 }
@@ -352,7 +352,7 @@ void magic::close() noexcept
     m_impl->close();
 }
 
-bool magic::compile(const std_fs::path& database_file) const
+bool magic::compile(const std::filesystem::path& database_file) const
 {
     return m_impl->compile(database_file);
 }
@@ -380,14 +380,14 @@ std::string magic::get_version() noexcept
 }
 
 [[nodiscard]]
-magic::file_type_t magic::identify_file(const std_fs::path& path) const
+magic::file_type_t magic::identify_file(const std::filesystem::path& path) const
 {
     return m_impl->identify_file(path);
 }
 
 [[nodiscard]]
 std::optional<magic::file_type_t>
-    magic::identify_file(const std_fs::path& path, std::string& error) const noexcept
+    magic::identify_file(const std::filesystem::path& path, std::string& error) const noexcept
 {
     return m_impl->identify_file(path, error);
 }
@@ -398,7 +398,7 @@ bool magic::is_open() const noexcept
     return m_impl->is_open();
 }
 
-void magic::load_database_file(const std_fs::path& database_file)
+void magic::load_database_file(const std::filesystem::path& database_file)
 {
     m_impl->load_database_file(database_file);
 }

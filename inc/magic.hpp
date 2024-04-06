@@ -7,7 +7,7 @@
 #include <map>
 #include <bitset>
 #include <vector>
-#include <optional>
+#include <expected>
 
 #include <file_concepts.hpp>
 #include <magic_exception.hpp>
@@ -36,9 +36,24 @@ public:
     using file_type_t = std::string;
 
     /**
+     * @brief The error_message_t typedef.
+     */
+    using error_message_t = std::string;
+
+    /**
+     * @brief The expected_file_type_t typedef.
+     */
+    using expected_file_type_t = std::expected<file_type_t, error_message_t>;
+
+    /**
      * @brief The types_of_files_t typedef.
      */
     using types_of_files_t = std::map<std::filesystem::path, file_type_t>;
+
+    /**
+     * @brief The expected_types_of_files_t typedef.
+     */
+    using expected_types_of_files_t = std::map<std::filesystem::path, expected_file_type_t>;
 
     /**
      * @brief The Flag enums are used for configuring the flags of a magic.
@@ -235,13 +250,12 @@ public:
      * @brief Identify the type of a file, noexcept version.
      *
      * @param[in] path              The path of the file.
-     * @param[out] error            The out parameter for reporting the error message, if any.
      *
-     * @returns The type of the file as a string. It does not contain a value on failure.
+     * @returns The type of the file or the error message.
      */
     [[nodiscard]]
-    std::optional<file_type_t>
-        identify_file(const std::filesystem::path& path, std::string& error) const noexcept;
+    expected_file_type_t
+        identify_file(const std::filesystem::path& path, std::nothrow_t) const noexcept;
 
     /**
      * @brief Identify the types of all files in a directory.
@@ -261,7 +275,7 @@ public:
         std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
     ) const
     {
-        return identify_files(
+        return identify_files_impl(
             std::filesystem::recursive_directory_iterator{directory, option}
         );
     }
@@ -270,19 +284,18 @@ public:
      * @brief Identify the types of all files in a directory, noexcept version.
      *
      * @param[in] directory         The path of the directory.
-     * @param[out] errors           The out parameter for reporting the error messages, if any.
      * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
      */
     [[nodiscard]]
-    types_of_files_t identify_files(
-        const std::filesystem::path& directory, error_container auto& errors,
+    expected_types_of_files_t identify_files(
+        const std::filesystem::path& directory, std::nothrow_t,
         std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
     ) const noexcept
     {
-        return identify_files(
-            std::filesystem::recursive_directory_iterator{directory, option}, errors
+        return identify_files_impl(
+            std::filesystem::recursive_directory_iterator{directory, option},  std::nothrow
         );
     }
 
@@ -300,23 +313,22 @@ public:
     [[nodiscard]]
     types_of_files_t identify_files(const file_container auto& files) const
     {
-        return identify_files(files);
+        return identify_files_impl(files);
     }
 
     /**
      * @brief Identify the types of files, noexcept version.
      *
      * @param[in] files             The container that holds the paths of the files.
-     * @param[out] errors           The out parameter for reporting the error messages, if any.
      *
      * @returns The types of each file as a map.
      */
     [[nodiscard]]
-    types_of_files_t identify_files(
-        const file_container auto& files, error_container auto& errors
+    expected_types_of_files_t identify_files(
+        const file_container auto& files, std::nothrow_t
     ) const noexcept
     {
-        return identify_files(files, errors);
+        return identify_files_impl(files, std::nothrow);
     }
 
     /**
@@ -380,7 +392,7 @@ private:
     std::unique_ptr<magic_private> m_impl;
 
     [[nodiscard]]
-    types_of_files_t identify_files(const std::ranges::range auto& files) const
+    types_of_files_t identify_files_impl(const std::ranges::range auto& files) const
     {
         types_of_files_t types_of_files;
         std::ranges::for_each(files,
@@ -392,28 +404,15 @@ private:
     }
 
     [[nodiscard]]
-    types_of_files_t identify_files(const std::ranges::range auto& files, error_container auto& errors) const noexcept
+    expected_types_of_files_t identify_files_impl(const std::ranges::range auto& files, std::nothrow_t) const noexcept
     {
-        errors.clear();
-        types_of_files_t types_of_files;
-        std::ranges::find_if(files,
+        expected_types_of_files_t expected_types_of_files;
+        std::ranges::for_each(files,
             [&](const std::filesystem::path& file){
-                try {
-                    types_of_files[file] = identify_file(file);
-                    return false; /* continue */
-                } catch (const magic_is_closed& e){
-                    errors.push_back(file.string() + " -> " + e.what());
-                    return true;  /* do not continue */
-                } catch (const magic_exception& e){
-                    errors.push_back(file.string() + " -> " + e.what());
-                    return false; /* continue */
-                } catch (const std::exception& e){
-                    errors.push_back(e.what());
-                    return true; /* do not continue */
-                }
+                expected_types_of_files[file] = identify_file(file, std::nothrow);
             }
         );
-        return types_of_files;
+        return expected_types_of_files;
     }
 };
 
@@ -430,7 +429,31 @@ inline std::ostream& operator<<(std::ostream& os, const magic::types_of_files_t&
 {
     std::ranges::for_each(types_of_files,
         [&](const auto& type_of_a_file){
-            os << type_of_a_file.first << " -> " << type_of_a_file.second << "\n";
+            const auto& file = type_of_a_file.first;
+            const auto& file_type = type_of_a_file.second;
+            os << file << " -> " << file_type << "\n";
+        }
+    );
+    return os;
+}
+
+/**
+ * @brief Operator<< for the magic::expected_types_of_files_t.
+ *        The format is "The path of a file -> The type of the file or the error message".
+ *
+ * @param[out] os                       The output stream.
+ * @param[in]  expected_types_of_files  The types of each file.
+ *
+ * @returns os.
+ */
+inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of_files_t& expected_types_of_files)
+{
+    std::ranges::for_each(expected_types_of_files,
+        [&](const auto& expected_type_of_a_file){
+            const auto& file = expected_type_of_a_file.first;
+            const auto& expected_type = expected_type_of_a_file.second;
+            auto type_or_error_message = expected_type.value_or(expected_type.error());
+            os << file << " -> " << type_or_error_message << "\n";
         }
     );
     return os;

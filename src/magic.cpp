@@ -96,16 +96,20 @@ public:
     }
 
     [[nodiscard]]
-    std::optional<file_type_t>
-        identify_file(const std::filesystem::path& path, std::string& error) const noexcept
+    expected_file_type_t
+        identify_file(const std::filesystem::path& path, std::nothrow_t) const noexcept
     {
-        error.erase();
-        try {
-            return identify_file(path);
-        } catch (const std::exception& e){
-            error = e.what();
-            return {};
+        if (path.empty()){
+            return std::unexpected{empty_path{}.what()};
         }
+        if (!is_open()){
+            return std::unexpected{magic_is_closed{}.what()};
+        }
+        auto type_cstr = detail::magic_file(m_cookie.get(), path.c_str());
+        if (!type_cstr){
+            return std::unexpected{magic_file_error{get_error_message(), path}.what()};
+        }
+        return {type_cstr};
     }
 
     [[nodiscard]]
@@ -386,10 +390,10 @@ magic::file_type_t magic::identify_file(const std::filesystem::path& path) const
 }
 
 [[nodiscard]]
-std::optional<magic::file_type_t>
-    magic::identify_file(const std::filesystem::path& path, std::string& error) const noexcept
+magic::expected_file_type_t
+    magic::identify_file(const std::filesystem::path& path, std::nothrow_t) const noexcept
 {
-    return m_impl->identify_file(path, error);
+    return m_impl->identify_file(path, std::nothrow);
 }
 
 [[nodiscard]]

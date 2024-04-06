@@ -22,36 +22,18 @@ concept file_container =
         std::same_as<typename ContainerType::value_type, std::filesystem::path>;
 
 /**
- * @brief The error_container concept specifies the requirements of
- *        a container which can be used as a error container by the magic class.
- */
-template <typename ContainerType>
-concept error_container =
-        requires (ContainerType c, std::string s){
-            c.clear();
-            c.push_back(s);
-            typename ContainerType::value_type;
-        } &&
-        std::ranges::range<ContainerType> &&
-        std::same_as<typename ContainerType::value_type, std::string>;
-
-/**
- * @brief Operator<< overload for the file or the error containers.
- *
- * @tparam ContainerType    The type of the container.
+ * @brief Operator<< overload for the file containers.
  *
  * @param[out] os           The output stream.
- * @param[in]  container    The container that holds the paths of the files or the errors.
+ * @param[in]  container    The container that holds the paths of the files.
  *
  * @returns os.
  */
-template <typename ContainerType>
-requires file_container<ContainerType> || error_container<ContainerType>
-inline std::ostream& operator<<(std::ostream& os, const ContainerType& container)
+inline std::ostream& operator<<(std::ostream& os, const file_container auto& container)
 {
     std::ranges::for_each(container,
-        [&](const auto& file_or_error){
-            os << file_or_error << "\n";
+        [&](const auto& file){
+            os << file << "\n";
         }
     );
     return os;

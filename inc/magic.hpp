@@ -107,6 +107,16 @@ public:
     };
 
     /**
+     * @brief The Flags typedef.
+     */
+    using Flags = std::vector<Flag>;
+
+    /**
+     * @brief The Parameters typedef.
+     */
+    using Parameters = std::map<Parameter, std::size_t>;
+
+    /**
      * @brief Construct magic without opening it.
      */
     magic() noexcept;
@@ -210,7 +220,7 @@ public:
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
-    std::vector<Flag> get_flags() const;
+    Flags get_flags() const;
 
     /**
      * @brief Get the value of a parameter of magic.
@@ -232,7 +242,7 @@ public:
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
-    std::map<Parameter, std::size_t> get_parameters() const;
+    Parameters get_parameters() const;
 
     /**
      * @brief Get the version of the Magic Number Recognition Library.
@@ -464,6 +474,64 @@ inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of
             const auto& expected_type = expected_type_of_a_file.second;
             auto type_or_error_message = expected_type.value_or(expected_type.error());
             os << file << " -> " << type_or_error_message << "\n";
+        }
+    );
+    return os;
+}
+
+/**
+ * @brief Operator<< for the magic::Flag.
+ * 
+ * @param[out] os                   The output stream.
+ * @param[in]  flag                 The flag.
+ *
+ * @returns os.
+ */
+std::ostream& operator<<(std::ostream& os, magic::Flag flag);
+
+/**
+ * @brief Operator<< for the magic::Flags.
+ * 
+ * @param[out] os                   The output stream.
+ * @param[in]  flags                The flags.
+ *
+ * @returns os.
+ */
+inline std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
+{
+    std::ranges::for_each(flags,
+        [&](const auto& flag){
+            os << flag << "\n";
+        }
+    );
+    return os;
+}
+
+/**
+ * @brief Operator<< for the magic::Parameter.
+ * 
+ * @param[out] os                   The output stream.
+ * @param[in]  parameter            The parameter.
+ *
+ * @returns os.
+ */
+std::ostream& operator<<(std::ostream& os, magic::Parameter parameter);
+
+/**
+ * @brief Operator<< for the magic::Parameters.
+ * 
+ * @param[out] os                   The output stream.
+ * @param[in]  parameters           The parameters with corresponding values.
+ *
+ * @returns os.
+ */
+inline std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)
+{
+    std::ranges::for_each(parameters,
+        [&](const auto& parameter){
+            const auto& parameter_name = parameter.first;
+            const auto& parameter_value = parameter.second;
+            os << parameter_name << ": " << parameter_value << "\n";
         }
     );
     return os;

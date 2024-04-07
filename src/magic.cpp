@@ -1,6 +1,7 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2024 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: GPL-3.0-only */
 
+#include <cmath>
 #include <array>
 #include <utility>
 
@@ -64,7 +65,7 @@ public:
     }
 
     [[nodiscard]]
-    std::vector<Flag> get_flags() const
+    Flags get_flags() const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         return flag_converter(m_flags);
@@ -86,14 +87,14 @@ public:
     }
 
     [[nodiscard]]
-    std::map<Parameter, std::size_t> get_parameters() const
+    Parameters get_parameters() const
     {
-        std::map<Parameter, std::size_t> parameter_value_map;
+        Parameters parameters;
         for (std::size_t i{}; i < libmagic_parameter_count; ++i){
             auto parameter = static_cast<Parameter>(i);
-            parameter_value_map[parameter] = get_parameter(parameter);
+            parameters[parameter] = get_parameter(parameter);
         }
-        return parameter_value_map;
+        return parameters;
     }
 
     [[nodiscard]]
@@ -287,13 +288,13 @@ private:
             return flags;
         }
 
-        operator std::vector<Flag>() const
+        operator Flags() const
         {
             if (m_flags.none()){
                 libmagic_value_t value = libmagic_pair_converter(libmagic_flag_none);
                 return {static_cast<Flag>(value)};
             }
-            std::vector<Flag> flags;
+            Flags flags;
             for (std::size_t i{}; i < m_flags.size(); ++i){
                 if (m_flags[i]){
                     flags.push_back(static_cast<Flag>(1ULL << i));
@@ -337,6 +338,19 @@ private:
 
         const libmagic_pair_t& m_pair;
     };
+
+    friend std::ostream& operator<<(std::ostream& os, Flag flag)
+    {
+        const auto& flag_name = libmagic_flags[std::log2(static_cast<double>(flag))].second;
+        return os << flag_name;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, Parameter parameter)
+    {
+        const auto& parameter_name = libmagic_parameters[static_cast<std::size_t>(parameter)].second;
+        return os << parameter_name;
+    }
+
 };
 
 magic::magic() noexcept = default;
@@ -373,7 +387,7 @@ bool magic::compile(const std::filesystem::path& database_file) const
 }
 
 [[nodiscard]]
-std::vector<magic::Flag> magic::get_flags() const
+magic::Flags magic::get_flags() const
 {
     return m_impl->get_flags();
 }
@@ -385,7 +399,7 @@ std::size_t magic::get_parameter(magic::Parameter parameter) const
 }
 
 [[nodiscard]]
-std::map<magic::Parameter, std::size_t> magic::get_parameters() const
+magic::Parameters magic::get_parameters() const
 {
     return m_impl->get_parameters();
 }

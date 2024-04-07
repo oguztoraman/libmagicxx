@@ -225,6 +225,16 @@ public:
     std::size_t get_parameter(Parameter parameter) const;
 
     /**
+     * @brief Get the values ​​of all parameters of magic.
+     *
+     * @returns <Parameter, value> map.
+     *
+     * @throws magic_is_closed      if magic is closed.
+     */
+    [[nodiscard]]
+    std::map<Parameter, std::size_t> get_parameters() const;
+
+    /**
      * @brief Get the version of the Magic Number Recognition Library.
      *
      * @returns The version number as a string.

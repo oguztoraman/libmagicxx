@@ -86,6 +86,17 @@ public:
     }
 
     [[nodiscard]]
+    std::map<Parameter, std::size_t> get_parameters() const
+    {
+        std::map<Parameter, std::size_t> parameter_value_map;
+        for (std::size_t i{}; i < libmagic_parameter_count; ++i){
+            auto parameter = static_cast<Parameter>(i);
+            parameter_value_map[parameter] = get_parameter(parameter);
+        }
+        return parameter_value_map;
+    }
+
+    [[nodiscard]]
     file_type_t identify_file(const std::filesystem::path& path) const
     {
         throw_exception_on_failure<empty_path>(!path.empty());
@@ -371,6 +382,12 @@ std::vector<magic::Flag> magic::get_flags() const
 std::size_t magic::get_parameter(magic::Parameter parameter) const
 {
     return m_impl->get_parameter(parameter);
+}
+
+[[nodiscard]]
+std::map<magic::Parameter, std::size_t> magic::get_parameters() const
+{
+    return m_impl->get_parameters();
 }
 
 [[nodiscard]]

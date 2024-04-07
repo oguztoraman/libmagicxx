@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.21.0)
 
 project(magic++
-    VERSION 2.0.0
+    VERSION 2.1.0
     DESCRIPTION "A C++ wrapper library over the Magic Number Recognition Library."
     HOMEPAGE_URL "https://github.com/oguztoraman/magic-cpp"
     LANGUAGES CXX

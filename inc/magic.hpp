@@ -458,6 +458,20 @@ inline std::ostream& operator<<(std::ostream& os, const magic::types_of_files_t&
 }
 
 /**
+ * @brief Operator<< for the magic::expected_file_type_t.
+ *
+ * @param[out] os                       The output stream.
+ * @param[in]  expected_file_type       The expected type of the file.
+ *
+ * @returns os.
+ */
+inline std::ostream& operator<<(std::ostream& os, const magic::expected_file_type_t& expected_file_type)
+{
+    auto type_or_error_message = expected_file_type.value_or(expected_file_type.error());
+    return os << type_or_error_message;
+}
+
+/**
  * @brief Operator<< for the magic::expected_types_of_files_t.
  *        The format is "The path of a file -> The type of the file or the error message".
  *
@@ -472,8 +486,7 @@ inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of
         [&](const auto& expected_type_of_a_file){
             const auto& file = expected_type_of_a_file.first;
             const auto& expected_type = expected_type_of_a_file.second;
-            auto type_or_error_message = expected_type.value_or(expected_type.error());
-            os << file << " -> " << type_or_error_message << "\n";
+            os << file << " -> " << expected_type << "\n";
         }
     );
     return os;

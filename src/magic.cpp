@@ -1,5 +1,5 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2024 Oğuz Toraman <oguz.toraman@tutanota.com> */
-/* SPDX-License-Identifier: GPL-3.0-only */
+/* SPDX-License-Identifier: LGPL-3.0-only */
 
 #include <cmath>
 #include <array>

@@ -30,14 +30,14 @@ git clone https://github.com/oguztoraman/magic-cpp
 ```
 add_subdirectory(magic-cpp)
 
-target_link_libraries(<name of your project>   
+target_link_libraries(<name of your project>
     <PUBLIC or PRIVATE or INTERFACE> magic++
 )
 ```
 
 ## License
 
-GNU General Public License Version 3, see the see [COPYING](https://github.com/oguztoraman/magic-cpp/blob/main/COPYING) file for details.
+GNU Lesser General Public License Version 3, see the see [COPYING.LESSER](https://github.com/oguztoraman/magic-cpp/blob/main/COPYING.LESSER) file for details.
 
 ## To Do
  

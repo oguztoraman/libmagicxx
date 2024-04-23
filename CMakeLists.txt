@@ -10,7 +10,21 @@ project(magic++
     LANGUAGES CXX
 )
 
-set(magic++_INCLUDE_DIR ${magic++_SOURCE_DIR}/inc)
+set(magic_INCLUDE_DIR
+    ${magic++_SOURCE_DIR}/file/src
+)
+
+set(magic_LIBRARY
+    ${magic_INCLUDE_DIR}/.libs/libmagic.so
+)
+
+if (NOT EXISTS ${magic_LIBRARY})
+    message(FATAL_ERROR "First, you need to run the setup.sh bash script.")
+endif()
+
+set(magic++_INCLUDE_DIR
+    ${magic++_SOURCE_DIR}/inc
+)
 
 set(magic++_HEADER_FILES
     ${magic++_INCLUDE_DIR}/file_concepts.hpp
@@ -31,10 +45,11 @@ set_target_properties(magic++ PROPERTIES
     SOURCES ${magic++_SOURCE_FILES}
     VERSION ${magic++_VERSION}
     SOVERSION ${magic++_VERSION_MAJOR}
-    LINK_LIBRARIES magic
+    LINK_LIBRARIES ${magic_LIBRARY}
     COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors>"
 )
 
 target_include_directories(magic++
+    PUBLIC ${magic_INCLUDE_DIR}
     PUBLIC ${magic++_INCLUDE_DIR}
 )

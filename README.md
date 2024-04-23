@@ -7,15 +7,9 @@ A C++ wrapper library over the [Magic Number Recognition Library](https://github
 + Git
 + GCC or Clang (C++23)
 + CMake
-+ Magic Number Recognition Library
-
-## Installing Requirements
-
-> For Fedora
-
-```
-sudo dnf install cmake g++ clang git file-dev
-```
++ GNU Make
++ Libtool
++ Autoconf
 
 ## Usage
 
@@ -25,7 +19,13 @@ sudo dnf install cmake g++ clang git file-dev
 git clone https://github.com/oguztoraman/magic-cpp
 ```
 
-2. Add the following lines to the top level CMakeLists.txt file of your project.
+2. Run the [setup.sh](https://github.com/oguztoraman/magic-cpp/blob/main/setup.sh) bash script to install the requirements and build the Magic Number Recognition Library.
+
+```
+cd magic-cpp && ./setup.sh
+```
+
+3. Add the following lines to the top level CMakeLists.txt file of your project.
 
 ```
 add_subdirectory(magic-cpp)
@@ -37,10 +37,16 @@ target_link_libraries(<name of your project>
 
 ## License
 
-GNU Lesser General Public License Version 3, see the see [COPYING.LESSER](https://github.com/oguztoraman/magic-cpp/blob/main/COPYING.LESSER) file for details.
+### Magic++
+
+GNU Lesser General Public License Version 3, see the [COPYING.LESSER](https://github.com/oguztoraman/magic-cpp/blob/main/COPYING.LESSER) file for details.
+
+### File and the Magic Number Recognition Library
+
+See the [COPYING](https://github.com/file/file/blob/master/COPYING) file for details.
 
 ## To Do
- 
+
 + [ ] Add tests.
 + [ ] Add the documentation.
 + [ ] Use modules.

@@ -189,7 +189,7 @@ private:
 
     static constexpr auto libmagic_error           = -1;
     static constexpr auto libmagic_flags_count     = flags_t{}.size();
-    static constexpr auto libmagic_parameter_count = 8uz;
+    static constexpr auto libmagic_parameter_count = 9uz;
 
     using libmagic_value_t = int;
     using libmagic_value_name_t  = std::string;
@@ -215,6 +215,7 @@ private:
         std::make_pair(MAGIC_APPLE,               "Apple"),
         std::make_pair(MAGIC_EXTENSION,           "Extension"),
         std::make_pair(MAGIC_COMPRESS_TRANSP,     "CompressTransp"),
+        std::make_pair(MAGIC_NO_COMPRESS_FORK,    "NoCompressFork"),
         std::make_pair(MAGIC_NODESC,              "Nodesc"),
         std::make_pair(MAGIC_NO_CHECK_COMPRESS,   "NoCheckCompress"),
         std::make_pair(MAGIC_NO_CHECK_TAR,        "NoCheckTar"),
@@ -226,18 +227,21 @@ private:
         std::make_pair(MAGIC_NO_CHECK_CSV,        "NoCheckCsv"),
         std::make_pair(MAGIC_NO_CHECK_TOKENS,     "NoCheckTokens"),
         std::make_pair(MAGIC_NO_CHECK_ENCODING,   "NoCheckEncoding"),
-        std::make_pair(MAGIC_NO_CHECK_JSON,       "NoCheckJson")
+        std::make_pair(MAGIC_NO_CHECK_JSON,       "NoCheckJson"),
+        std::make_pair(MAGIC_NO_CHECK_SIMH,       "NoCheckSimh"),
+        std::make_pair(MAGIC_NO_CHECK_BUILTIN,    "NoCheckBuiltin")
     };
 
     static constexpr std::array<libmagic_pair_t, libmagic_parameter_count> libmagic_parameters{
-        std::make_pair(MAGIC_PARAM_INDIR_MAX,     "IndirMax"),
-        std::make_pair(MAGIC_PARAM_NAME_MAX,      "NameMax"),
-        std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX, "ElfPhnumMax"),
-        std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX, "ElfShnumMax"),
-        std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX, "ElfNotesMax"),
-        std::make_pair(MAGIC_PARAM_REGEX_MAX,     "RegexMax"),
-        std::make_pair(MAGIC_PARAM_BYTES_MAX,     "BytesMax"),
-        std::make_pair(MAGIC_PARAM_ENCODING_MAX,  "EncodingMax")
+        std::make_pair(MAGIC_PARAM_INDIR_MAX,      "IndirMax"),
+        std::make_pair(MAGIC_PARAM_NAME_MAX,       "NameMax"),
+        std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX,  "ElfPhnumMax"),
+        std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX,  "ElfShnumMax"),
+        std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX,  "ElfNotesMax"),
+        std::make_pair(MAGIC_PARAM_REGEX_MAX,      "RegexMax"),
+        std::make_pair(MAGIC_PARAM_BYTES_MAX,      "BytesMax"),
+        std::make_pair(MAGIC_PARAM_ENCODING_MAX,   "EncodingMax"),
+        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "ElfShsizeMax")
     };
 
     /**

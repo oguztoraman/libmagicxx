@@ -28,7 +28,7 @@ public:
     /**
      * @brief The flags_t typedef.
      */
-    using flags_t = std::bitset<27uz>;
+    using flags_t = std::bitset<30uz>;
 
     /**
      * @brief The file_type_t typedef.
@@ -77,18 +77,21 @@ public:
         Apple           = 1ULL << 12,
         Extension       = 1ULL << 13,
         CompressTransp  = 1ULL << 14,
-        Nodesc          = 1ULL << 15,
-        NoCheckCompress = 1ULL << 16,
-        NoCheckTar      = 1ULL << 17,
-        NoCheckSoft     = 1ULL << 18,
-        NoCheckApptype  = 1ULL << 19,
-        NoCheckElf      = 1ULL << 20,
-        NoCheckText     = 1ULL << 21,
-        NoCheckCdf      = 1ULL << 22,
-        NoCheckCsv      = 1ULL << 23,
-        NoCheckTokens   = 1ULL << 24,
-        NoCheckEncoding = 1ULL << 25,
-        NoCheckJson     = 1ULL << 26
+        NoCompressFork  = 1ULL << 15,
+        Nodesc          = 1ULL << 16,
+        NoCheckCompress = 1ULL << 17,
+        NoCheckTar      = 1ULL << 18,
+        NoCheckSoft     = 1ULL << 19,
+        NoCheckApptype  = 1ULL << 20,
+        NoCheckElf      = 1ULL << 21,
+        NoCheckText     = 1ULL << 22,
+        NoCheckCdf      = 1ULL << 23,
+        NoCheckCsv      = 1ULL << 24,
+        NoCheckTokens   = 1ULL << 25,
+        NoCheckEncoding = 1ULL << 26,
+        NoCheckJson     = 1ULL << 27,
+        NoCheckSimh     = 1ULL << 28,
+        NoCheckBuiltin  = 1ULL << 29
     };
 
     /**
@@ -103,7 +106,8 @@ public:
         ElfNotesMax ,
         RegexMax    ,
         BytesMax    ,
-        EncodingMax
+        EncodingMax ,
+        ElfShsizeMax
     };
 
     /**

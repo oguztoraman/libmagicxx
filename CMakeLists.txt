@@ -46,7 +46,7 @@ set_target_properties(magic++ PROPERTIES
     VERSION ${magic++_VERSION}
     SOVERSION ${magic++_VERSION_MAJOR}
     LINK_LIBRARIES ${magic_LIBRARY}
-    COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors>"
+    COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors;$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>>"
 )
 
 target_include_directories(magic++

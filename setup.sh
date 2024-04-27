@@ -10,7 +10,7 @@ which dnf &> /dev/null || {
 }
 
 echo "Installing the requirements..."
-sudo dnf install cmake make g++ clang git autoconf libtool
+sudo dnf install cmake make g++ clang libcxx-devel git autoconf libtool
 echo
 
 echo "Initializing and updating the git submodule file..."

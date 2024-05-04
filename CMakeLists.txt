@@ -3,15 +3,15 @@
 
 cmake_minimum_required(VERSION 3.21.0)
 
-project(magic++
+project(magicxx
     VERSION 3.1.1
     DESCRIPTION "A C++ wrapper library over the Magic Number Recognition Library."
-    HOMEPAGE_URL "https://github.com/oguztoraman/magic-cpp"
+    HOMEPAGE_URL "https://github.com/oguztoraman/libmagicxx"
     LANGUAGES CXX
 )
 
 set(magic_INCLUDE_DIR
-    ${magic++_SOURCE_DIR}/file/src
+    ${magicxx_SOURCE_DIR}/file/src
 )
 
 set(magic_LIBRARY
@@ -22,34 +22,34 @@ if (NOT EXISTS ${magic_LIBRARY})
     message(FATAL_ERROR "First, you need to run the setup.sh bash script.")
 endif()
 
-set(magic++_INCLUDE_DIR
-    ${magic++_SOURCE_DIR}/inc
+set(magicxx_INCLUDE_DIR
+    ${magicxx_SOURCE_DIR}/inc
 )
 
-set(magic++_HEADER_FILES
-    ${magic++_INCLUDE_DIR}/file_concepts.hpp
-    ${magic++_INCLUDE_DIR}/magic.hpp
-    ${magic++_INCLUDE_DIR}/magic_exception.hpp
+set(magicxx_HEADER_FILES
+    ${magicxx_INCLUDE_DIR}/file_concepts.hpp
+    ${magicxx_INCLUDE_DIR}/magic.hpp
+    ${magicxx_INCLUDE_DIR}/magic_exception.hpp
 )
 
-set(magic++_SOURCE_FILES
-    ${magic++_SOURCE_DIR}/src/magic.cpp
+set(magicxx_SOURCE_FILES
+    ${magicxx_SOURCE_DIR}/src/magic.cpp
 )
 
-add_library(magic++ SHARED)
+add_library(magicxx SHARED)
 
-set_target_properties(magic++ PROPERTIES
+set_target_properties(magicxx PROPERTIES
     CXX_STANDARD 23
     CXX_EXTENSIONS OFF
     CXX_STANDARD_REQUIRED ON
-    SOURCES ${magic++_SOURCE_FILES}
-    VERSION ${magic++_VERSION}
-    SOVERSION ${magic++_VERSION_MAJOR}
+    SOURCES ${magicxx_SOURCE_FILES}
+    VERSION ${magicxx_VERSION}
+    SOVERSION ${magicxx_VERSION_MAJOR}
     LINK_LIBRARIES ${magic_LIBRARY}
     COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors;$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>>"
 )
 
-target_include_directories(magic++
+target_include_directories(magicxx
     PRIVATE ${magic_INCLUDE_DIR}
-    PUBLIC ${magic++_INCLUDE_DIR}
+    PUBLIC ${magicxx_INCLUDE_DIR}
 )

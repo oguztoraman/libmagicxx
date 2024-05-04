@@ -50,6 +50,6 @@ set_target_properties(magic++ PROPERTIES
 )
 
 target_include_directories(magic++
-    PUBLIC ${magic_INCLUDE_DIR}
+    PRIVATE ${magic_INCLUDE_DIR}
     PUBLIC ${magic++_INCLUDE_DIR}
 )

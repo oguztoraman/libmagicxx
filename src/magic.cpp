@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <array>
+#include <format>
 #include <utility>
 
 #include <magic.hpp>
@@ -411,11 +412,7 @@ magic::Parameters magic::get_parameters() const
 [[nodiscard]]
 std::string magic::get_version() noexcept
 {
-    auto version_str{std::to_string(detail::magic_version())};
-    if (version_str.size() >= 3uz){
-        version_str.insert(std::end(version_str) - 2uz, '.');
-    }
-    return version_str;
+    return std::format("{:2}", detail::magic_version() / 100.);
 }
 
 [[nodiscard]]

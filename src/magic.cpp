@@ -134,14 +134,11 @@ public:
     void load_database_file(const std::filesystem::path& database_file)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
-        const char* database_file_cstr{nullptr};
-        if (!database_file.empty()){
+        throw_exception_on_failure<empty_path>(!database_file.empty());
             throw_exception_on_failure<invalid_path>(std::filesystem::is_regular_file(database_file));
-            database_file_cstr = database_file.c_str();
-        }
         throw_exception_on_failure<magic_load_error>(
-            detail::magic_load(m_cookie.get(), database_file_cstr),
-            database_file_cstr ? database_file_cstr : "default_database_file"
+            detail::magic_load(m_cookie.get(), database_file.c_str()),
+            database_file.c_str()
         );
     }
 

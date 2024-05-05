@@ -121,6 +121,11 @@ public:
     using Parameters = std::map<Parameter, std::size_t>;
 
     /**
+     * @brief The path of the default database file.
+     */
+    static constexpr auto default_database_file = "/usr/share/misc/magic";
+
+    /**
      * @brief Construct magic without opening it.
      */
     magic() noexcept;
@@ -129,18 +134,15 @@ public:
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
-     * @param[in] database_file     The path of magic database file (default is empty path).
+     * @param[in] database_file     The path of magic database file (default is /usr/share/misc/magic).
      *
      * @throws magic_open_error     if opening magic fails.
      * @throws invalid_path         if the path of the magic database file is not a file.
      * @throws magic_load_error     if loading the magic database file fails.
      *
-     * @note If the path of the database file is empty, magic loads the default database file.
-     *       The default database file is named by the MAGIC environment variable.
-     *       If that variable is not set, the default database file name is /usr/share/misc/magic.
-     *       load_database_file() adds “.mgc” to the database filename as appropriate. (v5.44)
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    explicit magic(flags_t flags, const std::filesystem::path& database_file = {});
+    explicit magic(flags_t flags, const std::filesystem::path& database_file = default_database_file);
 
     /**
      * @brief Move construct magic.
@@ -366,18 +368,16 @@ public:
     /**
      * @brief Load a magic database file.
      *
-     * @param[in] database_file     The path of the magic database file, default is an empty path.
+     * @param[in] database_file     The path of the magic database file, default is /usr/share/misc/magic.
      *
      * @throws magic_is_closed      if magic is closed.
+     * @throws empty_path           if the path of the database file is empty.
      * @throws invalid_path         if the path of the database file is not a file.
      * @throws magic_load_error     if loading the database file fails.
      *
-     * @note If the path of the database file is empty, magic loads the default database file.
-     *       The default database file is named by the MAGIC environment variable.
-     *       If that variable is not set, the default database file name is /usr/share/misc/magic.
-     *       load_database_file() adds “.mgc” to the database filename as appropriate. (v5.44)
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    void load_database_file(const std::filesystem::path& database_file = {});
+    void load_database_file(const std::filesystem::path& database_file = default_database_file);
 
     /**
      * @brief Open magic using the flags.

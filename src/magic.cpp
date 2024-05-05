@@ -353,7 +353,9 @@ private:
 
 };
 
-magic::magic() noexcept = default;
+magic::magic() noexcept
+    : m_impl{std::make_unique<magic_private>()}
+{ }
 
 magic::magic(flags_t flags, const std::filesystem::path& database_file)
     : m_impl{std::make_unique<magic_private>(flags, database_file)}

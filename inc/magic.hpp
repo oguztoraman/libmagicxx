@@ -134,7 +134,7 @@ public:
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
-     * @param[in] database_file     The path of magic database file (default is /usr/share/misc/magic).
+     * @param[in] database_file     The path of magic database file, default is /usr/share/misc/magic.
      *
      * @throws magic_open_error     if opening magic fails.
      * @throws invalid_path         if the path of the magic database file is not a file.

@@ -40,13 +40,12 @@ public:
         return is_open();
     }
 
-    bool check(const std::filesystem::path& database_file) const
+    bool check(const std::filesystem::path& database_file) const noexcept
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
-        auto file_path_cstr{
-            database_file.empty() ? nullptr : database_file.c_str()
-        };
-        auto result = detail::magic_check(m_cookie.get(), file_path_cstr);
+        if (!is_open() || database_file.empty()){
+            return false;
+        }
+        auto result = detail::magic_check(m_cookie.get(), database_file.c_str());
         return result != libmagic_error;
     }
 
@@ -55,13 +54,12 @@ public:
         m_cookie.reset(nullptr);
     }
 
-    bool compile(const std::filesystem::path& database_file) const
+    bool compile(const std::filesystem::path& database_file) const noexcept
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
-        auto file_path_cstr{
-            database_file.empty() ? nullptr : database_file.c_str()
-        };
-        auto result = detail::magic_compile(m_cookie.get(), file_path_cstr);
+        if (!is_open() || database_file.empty()){
+            return false;
+        }
+        auto result = detail::magic_compile(m_cookie.get(), database_file.c_str());
         return result != libmagic_error;
     }
 
@@ -135,7 +133,7 @@ public:
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<empty_path>(!database_file.empty());
-            throw_exception_on_failure<invalid_path>(std::filesystem::is_regular_file(database_file));
+        throw_exception_on_failure<invalid_path>(std::filesystem::is_regular_file(database_file));
         throw_exception_on_failure<magic_load_error>(
             detail::magic_load(m_cookie.get(), database_file.c_str()),
             database_file.c_str()
@@ -373,7 +371,7 @@ magic::operator bool() const noexcept
     return m_impl->operator bool();
 }
 
-bool magic::check(const std::filesystem::path& database_file) const
+bool magic::check(const std::filesystem::path& database_file) const noexcept
 {
     return m_impl->check(database_file);
 }
@@ -383,7 +381,7 @@ void magic::close() noexcept
     m_impl->close();
 }
 
-bool magic::compile(const std::filesystem::path& database_file) const
+bool magic::compile(const std::filesystem::path& database_file) const noexcept
 {
     return m_impl->compile(database_file);
 }

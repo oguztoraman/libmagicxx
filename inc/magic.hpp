@@ -185,15 +185,11 @@ public:
      * @brief Check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
-     * @param[in] database_file     The file to check, default is an empty path.
+     * @param[in] database_file     The file to check, default is /usr/share/misc/magic.
      *
      * @returns True if the database_file has valid entries, false otherwise.
-     *
-     * @throws magic_is_closed      if magic is closed.
-     *
-     * @note If the database_file is empty, the default database file is used.
      */
-    bool check(const std::filesystem::path& database_file = {}) const;
+    bool check(const std::filesystem::path& database_file = default_database_file) const noexcept;
 
     /**
      * @brief Close magic.
@@ -206,17 +202,14 @@ public:
      * @brief Compile the colon separated list of database files
      *        passed in as database_file.
      *
-     * @param[in] database_file     The file to compile, default is an empty path.
+     * @param[in] database_file     The file to compile, default is /usr/share/misc/magic.
      *
      * @returns True on success, false otherwise.
-     *
-     * @throws magic_is_closed      if magic is closed.
-     *
-     * @note If the database_file is empty, the default database is used.
-     *       The compiled files created are named from the basename
+
+     * @note The compiled files created are named from the basename
      *       of each file argument with “.mgc” appended to it.
      */
-    bool compile(const std::filesystem::path& database_file = {}) const;
+    bool compile(const std::filesystem::path& database_file = default_database_file) const noexcept;
 
     /**
      * @brief Get the flags of magic.

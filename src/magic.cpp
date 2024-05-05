@@ -34,12 +34,6 @@ public:
 
     ~magic_private() = default;
 
-    [[nodiscard]]
-    operator bool() const noexcept
-    {
-        return is_open();
-    }
-
     bool check(const std::filesystem::path& database_file) const noexcept
     {
         if (!is_open() || database_file.empty()){
@@ -370,7 +364,7 @@ magic::~magic() = default;
 [[nodiscard]]
 magic::operator bool() const noexcept
 {
-    return m_impl->operator bool();
+    return is_open();
 }
 
 bool magic::check(const std::filesystem::path& database_file) const noexcept

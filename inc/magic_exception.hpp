@@ -4,6 +4,7 @@
 #ifndef MAGIC_EXCEPTION_HPP
 #define MAGIC_EXCEPTION_HPP
 
+#include <string>
 #include <stdexcept>
 
 namespace recognition {

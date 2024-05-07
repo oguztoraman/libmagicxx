@@ -5,6 +5,7 @@
 #include <array>
 #include <format>
 #include <utility>
+#include <iostream>
 
 #include <magic.hpp>
 
@@ -344,8 +345,17 @@ private:
         const auto& parameter_name = libmagic_parameters[static_cast<std::size_t>(parameter)].second;
         return os << parameter_name;
     }
-
 };
+
+std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
+{
+    std::ranges::for_each(flags,
+        [&](const auto& flag){
+            os << flag << "\n";
+        }
+    );
+    return os;
+}
 
 magic::magic() noexcept
     : m_impl{std::make_unique<magic_private>()}

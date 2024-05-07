@@ -5,6 +5,7 @@
 #define MAGIC_HPP
 
 #include <map>
+#include <iosfwd>
 #include <bitset>
 #include <vector>
 #include <memory>
@@ -508,15 +509,7 @@ std::ostream& operator<<(std::ostream& os, magic::Flag flag);
  *
  * @returns os.
  */
-inline std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
-{
-    std::ranges::for_each(flags,
-        [&](const auto& flag){
-            os << flag << "\n";
-        }
-    );
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, const magic::Flags& flags);
 
 /**
  * @brief Operator<< for the magic::Parameter.

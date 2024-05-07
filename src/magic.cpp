@@ -355,9 +355,15 @@ magic::magic(flags_t flags, const std::filesystem::path& database_file)
     : m_impl{std::make_unique<magic_private>(flags, database_file)}
 { }
 
-magic::magic(magic&&) noexcept = default;
+magic::magic(magic&& other) noexcept
+    : m_impl{std::exchange(other.m_impl, std::make_unique<magic_private>())}
+{ }
 
-magic& magic::operator=(magic&&) noexcept = default;
+magic& magic::operator=(magic&& other) noexcept
+{
+    m_impl = std::exchange(other.m_impl, std::make_unique<magic_private>());
+    return *this;
+}
 
 magic::~magic() = default;
 

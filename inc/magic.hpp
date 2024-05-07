@@ -7,6 +7,7 @@
 #include <map>
 #include <bitset>
 #include <vector>
+#include <memory>
 #include <expected>
 
 #include <file_concepts.hpp>

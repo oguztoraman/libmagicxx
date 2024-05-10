@@ -529,17 +529,7 @@ std::ostream& operator<<(std::ostream& os, magic::Parameter parameter);
  *
  * @returns os.
  */
-inline std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)
-{
-    std::ranges::for_each(parameters,
-        [&](const auto& parameter){
-            const auto& parameter_name = parameter.first;
-            const auto& parameter_value = parameter.second;
-            os << parameter_name << ": " << parameter_value << "\n";
-        }
-    );
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters);
 
 } /* namespace recognition */
 

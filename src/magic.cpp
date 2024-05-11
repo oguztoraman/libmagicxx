@@ -336,6 +336,9 @@ private:
 
     friend std::ostream& operator<<(std::ostream& os, Flag flag)
     {
+        if (flag == Flag::None){
+            return os << libmagic_flag_none.second;
+        }
         const auto& flag_name = libmagic_flags[std::log2(static_cast<double>(flag))].second;
         return os << flag_name;
     }

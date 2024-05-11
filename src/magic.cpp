@@ -94,8 +94,8 @@ public:
     [[nodiscard]]
     file_type_t identify_file(const std::filesystem::path& path) const
     {
-        throw_exception_on_failure<empty_path>(!path.empty());
         throw_exception_on_failure<magic_is_closed>(is_open());
+        throw_exception_on_failure<empty_path>(!path.empty());
         auto type_cstr = detail::magic_file(m_cookie.get(), path.c_str());
         throw_exception_on_failure<magic_file_error>(type_cstr != nullptr, path);
         return type_cstr;
@@ -105,11 +105,11 @@ public:
     expected_file_type_t
         identify_file(const std::filesystem::path& path, std::nothrow_t) const noexcept
     {
-        if (path.empty()){
-            return std::unexpected{empty_path{}.what()};
-        }
         if (!is_open()){
             return std::unexpected{magic_is_closed{}.what()};
+        }
+        if (path.empty()){
+            return std::unexpected{empty_path{}.what()};
         }
         auto type_cstr = detail::magic_file(m_cookie.get(), path.c_str());
         if (!type_cstr){

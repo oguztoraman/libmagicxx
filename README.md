@@ -37,10 +37,10 @@ target_link_libraries(<name of your project>
 
 ## License
 
-### Libmagicxx
++ Libmagicxx
 
 GNU Lesser General Public License Version 3, see the [COPYING.LESSER](https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER) file for details.
 
-### File and the Magic Number Recognition Library
++ File and the Magic Number Recognition Library
 
 See the [COPYING](https://github.com/file/file/blob/master/COPYING) file for details.

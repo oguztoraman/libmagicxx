@@ -44,11 +44,3 @@ GNU Lesser General Public License Version 3, see the [COPYING.LESSER](https://gi
 ### File and the Magic Number Recognition Library
 
 See the [COPYING](https://github.com/file/file/blob/master/COPYING) file for details.
-
-## To Do
-
-+ [ ] Add tests.
-+ [ ] Add the documentation.
-+ [ ] Use modules.
-+ [ ] Build as a CMake package.
-+ [ ] Build as an RPM package.

@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**BUGFIX**] inc/magic.hpp, src/magic.cpp: Fix the compilation error when trying to print the Flag and the Parameter using operator <<.
 + [**IMPROVEMENT**] README.md: Update the formatting of the license section.
 + [**IMPROVEMENT**] README.md, TODO.md: Separate the to do list from the README.
 + [**BUGFIX**] src/magic.cpp: Check if the magic is open before checking whether the path is empty or not.

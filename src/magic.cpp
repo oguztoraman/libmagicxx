@@ -334,21 +334,20 @@ private:
         const libmagic_pair_t& m_pair;
     };
 
-    friend std::ostream& operator<<(std::ostream& os, Flag flag)
-    {
-        if (flag == Flag::None){
-            return os << libmagic_flag_none.second;
-        }
-        const auto& flag_name = libmagic_flags[std::log2(static_cast<double>(flag))].second;
-        return os << flag_name;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, Parameter parameter)
-    {
-        const auto& parameter_name = libmagic_parameters[static_cast<std::size_t>(parameter)].second;
-        return os << parameter_name;
-    }
+    friend std::ostream& operator<<(std::ostream&, Flag);
+    friend std::ostream& operator<<(std::ostream&, Parameter);
 };
+
+std::ostream& operator<<(std::ostream& os, magic::Flag flag)
+{
+    if (flag == magic::Flag::None){
+        return os << magic::magic_private::libmagic_flag_none.second;
+    }
+    const auto& flag_name{
+        magic::magic_private::libmagic_flags[std::log2(std::to_underlying(flag))].second
+    };
+    return os << flag_name;
+}
 
 std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
 {
@@ -358,6 +357,14 @@ std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
         }
     );
     return os;
+}
+
+std::ostream& operator<<(std::ostream& os, magic::Parameter parameter)
+{
+    const auto& parameter_name{
+        magic::magic_private::libmagic_parameters[std::to_underlying(parameter)].second
+    };
+    return os << parameter_name;
 }
 
 std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)

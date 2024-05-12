@@ -433,6 +433,9 @@ private:
         );
         return expected_types_of_files;
     }
+
+    friend std::ostream& operator<<(std::ostream&, Flag);
+    friend std::ostream& operator<<(std::ostream&, Parameter);
 };
 
 /**

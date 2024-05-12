@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v4.1.2] - 12-05-2024
+
 + [**BUGFIX**] inc/magic.hpp, src/magic.cpp: Fix the compilation error when trying to print the Flag and the Parameter using operator <<.
 + [**IMPROVEMENT**] README.md: Update the formatting of the license section.
 + [**IMPROVEMENT**] README.md, TODO.md: Separate the to do list from the README.

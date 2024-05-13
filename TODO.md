@@ -1,6 +1,5 @@
 # To Do
 
-+ [ ] Add tests using GoogleTest.
 + [ ] Add the documentation.
 + [ ] Use modules.
 + [ ] Build as a CMake package.

@@ -36,6 +36,10 @@ set(magicxx_SOURCE_FILES
     ${magicxx_SOURCE_DIR}/src/magic.cpp
 )
 
+set(magicxx_TEST_DIR
+    ${magicxx_SOURCE_DIR}/test
+)
+
 add_library(magicxx SHARED)
 
 set_target_properties(magicxx PROPERTIES
@@ -53,3 +57,5 @@ target_include_directories(magicxx
     PRIVATE ${magic_INCLUDE_DIR}
     PUBLIC ${magicxx_INCLUDE_DIR}
 )
+
+add_subdirectory(${magicxx_TEST_DIR})

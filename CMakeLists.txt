@@ -32,6 +32,7 @@ set(magicxx_HEADER_FILES
     ${magicxx_INCLUDE_DIR}/file_concepts.hpp
     ${magicxx_INCLUDE_DIR}/magic.hpp
     ${magicxx_INCLUDE_DIR}/magic_exception.hpp
+    ${magicxx_INCLUDE_DIR}/utility.hpp
 )
 
 set(magicxx_SOURCE_FILES

@@ -339,23 +339,13 @@ private:
 
 std::string to_string(
     const magic::types_of_files_t& types_of_files,
-    const std::string& type_separator, const std::string& file_separator
-)
+    const std::string& type_separator, const std::string& file_separator)
 {
-    if (types_of_files.empty()){
-        return {};
-    }
-    auto type_of_a_file_to_string = [&](const magic::types_of_files_t::value_type& type_of_a_file) -> std::string {
-        const auto& file = type_of_a_file.first;
-        const auto& file_type = type_of_a_file.second;
-        return file.string() + type_separator + file_type;
-    };
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(types_of_files)),
-        std::ranges::end(types_of_files),
-        type_of_a_file_to_string(*std::ranges::begin(types_of_files)),
-        [&](const auto& left, const auto& right){
-            return left + file_separator + type_of_a_file_to_string(right);
+    return utility::to_string(types_of_files, file_separator,
+        [&](const magic::types_of_files_t::value_type& type_of_a_file){
+            const auto& file = type_of_a_file.first;
+            const auto& file_type = type_of_a_file.second;
+            return file.string() + type_separator + file_type;
         }
     );
 }
@@ -367,23 +357,13 @@ std::string to_string(const magic::expected_file_type_t& expected_file_type)
 
 std::string to_string(
     const magic::expected_types_of_files_t& expected_types_of_files,
-    const std::string& type_separator, const std::string& file_separator
-)
+    const std::string& type_separator, const std::string& file_separator)
 {
-    if (expected_types_of_files.empty()){
-        return {};
-    }
-    auto expected_type_of_a_file_to_string = [&](const magic::expected_types_of_files_t::value_type& type_of_a_file) -> std::string {
-        const auto& file = type_of_a_file.first;
-        const auto& expected_file_type = type_of_a_file.second;
-        return file.string() + type_separator + to_string(expected_file_type);
-    };
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(expected_types_of_files)),
-        std::ranges::end(expected_types_of_files),
-        expected_type_of_a_file_to_string(*std::ranges::begin(expected_types_of_files)),
-        [&](const auto& left, const auto& right){
-            return left + file_separator + expected_type_of_a_file_to_string(right);
+    return utility::to_string(expected_types_of_files, file_separator,
+        [&](const magic::expected_types_of_files_t::value_type& type_of_a_file){
+            const auto& file = type_of_a_file.first;
+            const auto& expected_file_type = type_of_a_file.second;
+            return file.string() + type_separator + to_string(expected_file_type);
         }
     );
 }
@@ -401,15 +381,9 @@ std::string to_string(magic::Flag flag)
 
 std::string to_string(const magic::Flags& flags, const std::string& separator)
 {
-    if (flags.empty()){
-        return {};
-    }
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(flags)),
-        std::ranges::end(flags),
-        to_string(flags.front()),
-        [&](const auto& left, const auto& right){
-            return left + separator + to_string(right);
+    return utility::to_string(flags, separator,
+        [](magic::Flag flag){
+            return to_string(flag);
         }
     );
 }
@@ -426,20 +400,11 @@ std::string to_string(
     const magic::Parameters& parameters,
     const std::string& value_separator, const std::string& parameter_separator)
 {
-    if (parameters.empty()){
-        return {};
-    }
-    auto parameter_with_value_to_string = [&](const magic::Parameters::value_type& parameter_with_value) -> std::string {
-        const auto& parameter = parameter_with_value.first;
-        const auto& value = parameter_with_value.second;
-        return to_string(parameter) + value_separator + std::to_string(value);
-    };
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(parameters)),
-        std::ranges::end(parameters),
-        parameter_with_value_to_string(*std::ranges::begin(parameters)),
-        [&](const auto& left, const auto& right){
-            return left + parameter_separator + parameter_with_value_to_string(right);
+    return utility::to_string(parameters, parameter_separator,
+        [&](const magic::Parameters::value_type& parameter_with_value) -> std::string {
+            const auto& parameter = parameter_with_value.first;
+            const auto& value = parameter_with_value.second;
+            return to_string(parameter) + value_separator + std::to_string(value);
         }
     );
 }

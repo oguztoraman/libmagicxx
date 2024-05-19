@@ -4,9 +4,9 @@
 #ifndef FILE_CONCEPTS_HPP
 #define FILE_CONCEPTS_HPP
 
-#include <string>
-#include <algorithm>
 #include <filesystem>
+
+#include "utility.hpp"
 
 namespace file_concepts {
 
@@ -19,7 +19,6 @@ concept file_container =
         requires (ContainerType c, std::filesystem::path p){
             c.push_back(p);
             c.empty();
-            c.front();
             typename ContainerType::value_type;
         } &&
         std::ranges::range<ContainerType> &&
@@ -37,15 +36,9 @@ concept file_container =
 [[nodiscard]]
 inline std::string to_string(const file_container auto& container, const std::string& separator = ", ")
 {
-    if (container.empty()){
-        return {};
-    }
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(container)),
-        std::ranges::end(container),
-        container.front().string(),
-        [&](const auto& left, const auto& right){
-            return left + separator + right.string();
+    return utility::to_string(container, separator,
+        [](const std::filesystem::path& path){
+            return path.string();
         }
     );
 }

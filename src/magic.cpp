@@ -360,6 +360,11 @@ std::string to_string(
     );
 }
 
+std::string to_string(const magic::expected_file_type_t& expected_file_type)
+{
+    return expected_file_type.value_or(expected_file_type.error());
+}
+
 std::string to_string(magic::Flag flag)
 {
     if (flag == magic::Flag::None){

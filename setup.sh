@@ -13,6 +13,9 @@ echo "Installing the requirements..."
 sudo dnf install cmake make ninja-build g++ clang libcxx-devel git autoconf libtool
 echo
 
+echo "Adding git hooks..."
+rsync --progress githooks/* .git/hooks/
+
 echo "Initializing and updating the git submodule file..."
 git submodule update --init --recursive
 

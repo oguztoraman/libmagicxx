@@ -439,25 +439,19 @@ private:
 };
 
 /**
- * @brief Operator<< for the magic::types_of_files_t.
- *        The format is "The path of a file -> The type of the file".
+ * @brief Convert the magic::types_of_files_t to string.
  *
- * @param[out] os                   The output stream.
- * @param[in]  types_of_files       The types of each file.
+ * @param[in] types_of_files            The types of each file.
+ * @param[in] type_separator            The separator between the file and its type, default is " -> ".
+ * @param[in] file_separator            The separator between the files, default is "\n".
  *
- * @returns os.
+ * @returns The types_of_files as a string.
  */
-inline std::ostream& operator<<(std::ostream& os, const magic::types_of_files_t& types_of_files)
-{
-    std::ranges::for_each(types_of_files,
-        [&](const auto& type_of_a_file){
-            const auto& file = type_of_a_file.first;
-            const auto& file_type = type_of_a_file.second;
-            os << file << " -> " << file_type << "\n";
-        }
-    );
-    return os;
-}
+std::string to_string(
+    const magic::types_of_files_t& types_of_files,
+    const std::string& type_separator = " -> ",
+    const std::string& file_separator = "\n"
+);
 
 /**
  * @brief Operator<< for the magic::expected_file_type_t.

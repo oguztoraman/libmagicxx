@@ -334,26 +334,26 @@ private:
         const libmagic_pair_t& m_pair;
     };
 
-    friend std::ostream& operator<<(std::ostream&, Flag);
+    friend std::string to_string(Flag);
     friend std::ostream& operator<<(std::ostream&, Parameter);
 };
 
-std::ostream& operator<<(std::ostream& os, magic::Flag flag)
+std::string to_string(magic::Flag flag)
 {
     if (flag == magic::Flag::None){
-        return os << magic::magic_private::libmagic_flag_none.second;
+        return magic::magic_private::libmagic_flag_none.second;
     }
     const auto& flag_name{
         magic::magic_private::libmagic_flags[std::log2(std::to_underlying(flag))].second
     };
-    return os << flag_name;
+    return flag_name;
 }
 
 std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
 {
     std::ranges::for_each(flags,
         [&](const auto& flag){
-            os << flag << "\n";
+            os << to_string(flag) << "\n";
         }
     );
     return os;

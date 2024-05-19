@@ -434,7 +434,7 @@ private:
         return expected_types_of_files;
     }
 
-    friend std::ostream& operator<<(std::ostream&, Flag);
+    friend std::string to_string(Flag);
     friend std::ostream& operator<<(std::ostream&, Parameter);
 };
 
@@ -495,14 +495,13 @@ inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of
 }
 
 /**
- * @brief Operator<< for the magic::Flag.
+ * @brief Convert the magic::Flag to string.
  * 
- * @param[out] os                   The output stream.
- * @param[in]  flag                 The flag.
+ * @param[in] flag                  The flag.
  *
- * @returns os.
+ * @returns The flag as a string.
  */
-std::ostream& operator<<(std::ostream& os, magic::Flag flag);
+std::string to_string(magic::Flag flag);
 
 /**
  * @brief Operator<< for the magic::Flags.

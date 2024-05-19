@@ -447,6 +447,7 @@ private:
  *
  * @returns The types_of_files as a string.
  */
+[[nodiscard]]
 std::string to_string(
     const magic::types_of_files_t& types_of_files,
     const std::string& type_separator = " -> ",
@@ -460,6 +461,7 @@ std::string to_string(
  *
  * @returns The expected_file_type as a string.
  */
+[[nodiscard]]
 std::string to_string(const magic::expected_file_type_t& expected_file_type);
 
 /**
@@ -471,6 +473,7 @@ std::string to_string(const magic::expected_file_type_t& expected_file_type);
  *
  * @returns The expected_types_of_files as a string.
  */
+[[nodiscard]]
 std::string to_string(
     const magic::expected_types_of_files_t& expected_types_of_files,
     const std::string& type_separator = " -> ",
@@ -484,6 +487,7 @@ std::string to_string(
  *
  * @returns The flag as a string.
  */
+[[nodiscard]]
 std::string to_string(magic::Flag flag);
 
 /**
@@ -494,6 +498,7 @@ std::string to_string(magic::Flag flag);
  *
  * @returns The flags as a string.
  */
+[[nodiscard]]
 std::string to_string(const magic::Flags& flags, const std::string& separator = ", ");
 
 /**
@@ -503,6 +508,7 @@ std::string to_string(const magic::Flags& flags, const std::string& separator = 
  *
  * @returns The parameter as a string.
  */
+[[nodiscard]]
 std::string to_string(magic::Parameter parameter);
 
 /**
@@ -514,6 +520,7 @@ std::string to_string(magic::Parameter parameter);
  *
  * @returns The parameters as a string.
  */
+[[nodiscard]]
 std::string to_string(
     const magic::Parameters& parameters,
     const std::string& value_separator = ": ",

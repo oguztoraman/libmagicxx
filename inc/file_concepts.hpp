@@ -34,6 +34,7 @@ concept file_container =
  *
  * @returns The container as a string.
  */
+[[nodiscard]]
 inline std::string to_string(const file_container auto& container, const std::string& separator = ", ")
 {
     if (container.empty()){

@@ -349,14 +349,19 @@ std::string to_string(magic::Flag flag)
     return flag_name;
 }
 
-std::ostream& operator<<(std::ostream& os, const magic::Flags& flags)
+std::string to_string(const magic::Flags& flags, const std::string& separator)
 {
-    std::ranges::for_each(flags,
-        [&](const auto& flag){
-            os << to_string(flag) << "\n";
+    if (flags.empty()){
+        return {};
+    }
+    return std::ranges::fold_left(
+        std::ranges::next(std::ranges::begin(flags)),
+        std::ranges::end(flags),
+        to_string(flags.front()),
+        [&](const auto& left, const auto& right){
+            return left + separator + to_string(right);
         }
     );
-    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, magic::Parameter parameter)

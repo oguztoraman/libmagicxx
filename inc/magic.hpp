@@ -504,14 +504,14 @@ inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of
 std::string to_string(magic::Flag flag);
 
 /**
- * @brief Operator<< for the magic::Flags.
+ * @brief Convert the magic::Flags to string.
  * 
- * @param[out] os                   The output stream.
- * @param[in]  flags                The flags.
+ * @param[in] flags                 The flags.
+ * @param[in] separator             The separator between the flags, default is ", ".
  *
- * @returns os.
+ * @returns The flags as a string.
  */
-std::ostream& operator<<(std::ostream& os, const magic::Flags& flags);
+std::string to_string(const magic::Flags& flags, const std::string& separator = ", ");
 
 /**
  * @brief Operator<< for the magic::Parameter.

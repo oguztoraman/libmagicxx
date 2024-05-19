@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flags with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flag with the to_string function.
 + [**FEAUTURE**] inc/file_concepts.hpp: Replace the operator<< function for the file containers with the to_string function.
 + [**IMPROVEMENT**] inc/file_concepts.hpp, inc/magic.hpp: Add the file_concepts namespace.

@@ -47,8 +47,8 @@ TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
 
 TEST(magic_flags_test, magic_flags_to_string_conversion)
 {
-    std::ostringstream oss;
-    oss << magic::Flags{
+    EXPECT_EQ(
+    to_string(magic::Flags{
         magic::Flag::None            ,
         magic::Flag::Debug           ,
         magic::Flag::Symlink         ,
@@ -79,39 +79,38 @@ TEST(magic_flags_test, magic_flags_to_string_conversion)
         magic::Flag::NoCheckEncoding ,
         magic::Flag::NoCheckJson     ,
         magic::Flag::NoCheckSimh     ,
-        magic::Flag::NoCheckBuiltin  
-    };
-    EXPECT_EQ(oss.str(),
-        "None\n"
-        "Debug\n"
-        "Symlink\n"
-        "Compress\n"
-        "Devices\n"
-        "MimeType\n"
-        "Continue\n"
-        "Check\n"
-        "PreserveAtime\n"
-        "Raw\n"
-        "Error\n"
-        "MimeEncoding\n"
-        "Mime\n"
-        "Apple\n"
-        "Extension\n"
-        "CompressTransp\n"
-        "NoCompressFork\n"
-        "Nodesc\n"
-        "NoCheckCompress\n"
-        "NoCheckTar\n"
-        "NoCheckSoft\n"
-        "NoCheckApptype\n"
-        "NoCheckElf\n"
-        "NoCheckText\n"
-        "NoCheckCdf\n"
-        "NoCheckCsv\n"
-        "NoCheckTokens\n"
-        "NoCheckEncoding\n"
-        "NoCheckJson\n"
-        "NoCheckSimh\n"
-        "NoCheckBuiltin\n"
+        magic::Flag::NoCheckBuiltin
+    }),
+        "None, "
+        "Debug, "
+        "Symlink, "
+        "Compress, "
+        "Devices, "
+        "MimeType, "
+        "Continue, "
+        "Check, "
+        "PreserveAtime, "
+        "Raw, "
+        "Error, "
+        "MimeEncoding, "
+        "Mime, "
+        "Apple, "
+        "Extension, "
+        "CompressTransp, "
+        "NoCompressFork, "
+        "Nodesc, "
+        "NoCheckCompress, "
+        "NoCheckTar, "
+        "NoCheckSoft, "
+        "NoCheckApptype, "
+        "NoCheckElf, "
+        "NoCheckText, "
+        "NoCheckCdf, "
+        "NoCheckCsv, "
+        "NoCheckTokens, "
+        "NoCheckEncoding, "
+        "NoCheckJson, "
+        "NoCheckSimh, "
+        "NoCheckBuiltin"
     );
 }

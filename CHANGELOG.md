@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**IMPROVEMENT**] inc/magic_exception.hpp, inc/magic.hpp: Report the parameter value with the parameter name if the set_parameter function fails.
 + [**IMPROVEMENT**] inc/file_concepts.hpp, inc/magic.hpp: Declare to_string functions with the nodiscard attribute.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_types_of_files_t with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_file_type_t with the to_string function.

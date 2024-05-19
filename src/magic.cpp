@@ -163,7 +163,7 @@ public:
                 libmagic_pair_converter(libmagic_parameter),
                 &value
             ),
-            libmagic_pair_converter(libmagic_parameter)
+            libmagic_pair_converter(libmagic_parameter), value
         );
     }
 

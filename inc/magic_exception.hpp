@@ -93,8 +93,8 @@ public:
 
 class magic_set_param_error final : public magic_exception {
 public:
-    magic_set_param_error(const std::string& error, const std::string& parameter_name)
-        : magic_exception{"magic_set_param(" + parameter_name + ")", error}
+    magic_set_param_error(const std::string& error, const std::string& parameter_name, std::size_t value)
+        : magic_exception{"magic_set_param(" + parameter_name + ", " + std::to_string(value) + ")", error}
     { }
 };
 

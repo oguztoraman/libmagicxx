@@ -5,7 +5,7 @@
 
 echo "Building libmagicxx and running the unit tests before committing..."
 
-cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_CXX_COMPILER:FILEPATH=g++ -S. -Bbuild -G Ninja &&
+cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DBUILD_MAGICXX_TESTS=ON -DCMAKE_CXX_COMPILER:FILEPATH=g++ -S. -Bbuild -G Ninja &&
 cd build &&
 ninja -j10 &&
 cd test &&

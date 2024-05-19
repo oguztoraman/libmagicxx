@@ -10,6 +10,8 @@ project(magicxx
     LANGUAGES CXX
 )
 
+option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
+
 set(magic_INCLUDE_DIR
     ${magicxx_SOURCE_DIR}/file/src
 )
@@ -58,4 +60,6 @@ target_include_directories(magicxx
     PUBLIC ${magicxx_INCLUDE_DIR}
 )
 
-add_subdirectory(${magicxx_TEST_DIR})
+if (BUILD_MAGICXX_TESTS)
+    add_subdirectory(${magicxx_TEST_DIR})
+endif()

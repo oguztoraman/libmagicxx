@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**FEAUTURE**] inc/file_concepts.hpp: Replace the operator<< function for the file containers with the to_string function.
 + [**IMPROVEMENT**] inc/file_concepts.hpp, inc/magic.hpp: Add the file_concepts namespace.
 
 ## [v4.1.2] - 12-05-2024

@@ -4,6 +4,7 @@
 #ifndef FILE_CONCEPTS_HPP
 #define FILE_CONCEPTS_HPP
 
+#include <string>
 #include <algorithm>
 #include <filesystem>
 
@@ -17,6 +18,8 @@ template <typename ContainerType>
 concept file_container =
         requires (ContainerType c, std::filesystem::path p){
             c.push_back(p);
+            c.empty();
+            c.front();
             typename ContainerType::value_type;
         } &&
         std::ranges::range<ContainerType> &&
@@ -24,21 +27,26 @@ concept file_container =
         std::same_as<typename ContainerType::value_type, std::filesystem::path>;
 
 /**
- * @brief Operator<< overload for the file containers.
+ * @brief Convert the file container to a string.
  *
- * @param[out] os           The output stream.
- * @param[in]  container    The container that holds the paths of the files.
+ * @param[in] container     The container that holds the paths of the files.
+ * @param[in] separator     The separator between the paths of the files, default is ", ".
  *
- * @returns os.
+ * @returns The container as a string.
  */
-inline std::ostream& operator<<(std::ostream& os, const file_container auto& container)
+inline std::string to_string(const file_container auto& container, const std::string& separator = ", ")
 {
-    std::ranges::for_each(container,
-        [&](const auto& file){
-            os << file << "\n";
+    if (container.empty()){
+        return {};
+    }
+    return std::ranges::fold_left(
+        std::ranges::next(std::ranges::begin(container)),
+        std::ranges::end(container),
+        container.front().string(),
+        [&](const auto& left, const auto& right){
+            return left + separator + right.string();
         }
     );
-    return os;
 }
 
 } /* namespace file_concepts */

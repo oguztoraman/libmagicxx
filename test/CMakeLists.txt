@@ -25,6 +25,7 @@ set(magicxx_tests_SOURCE_FILES
     magic_check_test.cpp
     magic_compile_test.cpp
     magic_identify_file_test.cpp
+    magic_file_concepts_test.cpp
 )
 
 enable_testing()

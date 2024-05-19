@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameters with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameter with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flags with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flag with the to_string function.

@@ -5,7 +5,6 @@
 #include <array>
 #include <format>
 #include <utility>
-#include <iostream>
 
 #include <magic.hpp>
 
@@ -372,16 +371,26 @@ std::string to_string(magic::Parameter parameter)
     return parameter_name;
 }
 
-std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)
+std::string to_string(
+    const magic::Parameters& parameters,
+    const std::string& value_separator, const std::string& parameter_separator)
 {
-    std::ranges::for_each(parameters,
-        [&](const auto& parameter){
-            const auto& parameter_name = parameter.first;
-            const auto& parameter_value = parameter.second;
-            os << to_string(parameter_name) << ": " << parameter_value << "\n";
+    if (parameters.empty()){
+        return {};
+    }
+    auto parameter_with_value_to_string = [&](const magic::Parameters::value_type& parameter_with_value) -> std::string {
+        const auto& parameter = parameter_with_value.first;
+        const auto& value = parameter_with_value.second;
+        return to_string(parameter) + value_separator + std::to_string(value);
+    };
+    return std::ranges::fold_left(
+        std::ranges::next(std::ranges::begin(parameters)),
+        std::ranges::end(parameters),
+        parameter_with_value_to_string(*std::ranges::begin(parameters)),
+        [&](const auto& left, const auto& right){
+            return left + parameter_separator + parameter_with_value_to_string(right);
         }
     );
-    return os;
 }
 
 magic::magic() noexcept

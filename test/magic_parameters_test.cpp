@@ -61,8 +61,7 @@ TEST(magic_parameters_test, parameter_to_string_conversion)
 
 TEST(magic_parameters_test, parameters_to_string_conversion)
 {
-    std::ostringstream oss;
-    oss << magic::Parameters{
+    EXPECT_EQ(to_string(magic::Parameters{
         {magic::Parameter::IndirMax, 1},
         {magic::Parameter::NameMax, 2},
         {magic::Parameter::ElfPhnumMax, 3},
@@ -72,16 +71,15 @@ TEST(magic_parameters_test, parameters_to_string_conversion)
         {magic::Parameter::BytesMax, 7},
         {magic::Parameter::EncodingMax, 8},
         {magic::Parameter::ElfShsizeMax, 9}
-    };
-    EXPECT_EQ(oss.str(),
-        "IndirMax: 1\n"
-        "NameMax: 2\n"
-        "ElfPhnumMax: 3\n"
-        "ElfShnumMax: 4\n"
-        "ElfNotesMax: 5\n"
-        "RegexMax: 6\n"
-        "BytesMax: 7\n"
-        "EncodingMax: 8\n"
-        "ElfShsizeMax: 9\n"
+    }),
+        "IndirMax: 1, "
+        "NameMax: 2, "
+        "ElfPhnumMax: 3, "
+        "ElfShnumMax: 4, "
+        "ElfNotesMax: 5, "
+        "RegexMax: 6, "
+        "BytesMax: 7, "
+        "EncodingMax: 8, "
+        "ElfShsizeMax: 9"
     );
 }

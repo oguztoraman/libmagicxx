@@ -523,14 +523,19 @@ std::string to_string(const magic::Flags& flags, const std::string& separator = 
 std::string to_string(magic::Parameter parameter);
 
 /**
- * @brief Operator<< for the magic::Parameters.
+ * @brief Convert the magic::Parameters to string.
  * 
- * @param[out] os                   The output stream.
- * @param[in]  parameters           The parameters with corresponding values.
+ * @param[in] parameters            The parameters with corresponding values.
+ * @param[in] value_separator       The separator between the parameter and its value, default is ": ".
+ * @param[in] parameter_separator   The separator between the parameters, default is ", ".
  *
- * @returns os.
+ * @returns The parameters as a string.
  */
-std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters);
+std::string to_string(
+    const magic::Parameters& parameters,
+    const std::string& value_separator = ": ",
+    const std::string& parameter_separator = ", "
+);
 
 } /* namespace recognition */
 

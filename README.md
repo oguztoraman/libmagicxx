@@ -2,12 +2,12 @@
 
 A C++ wrapper library over the [Magic Number Recognition Library](https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library).
 
-## Requirements
+## Requirements to Build Libmagicxx
 
 + Git
 + GCC or Clang (C++23)
 + CMake
-+ GNU Make
++ GNU Make or Ninja
 + Libtool
 + Autoconf
 

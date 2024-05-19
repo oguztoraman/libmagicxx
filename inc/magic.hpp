@@ -435,7 +435,7 @@ private:
     }
 
     friend std::string to_string(Flag);
-    friend std::ostream& operator<<(std::ostream&, Parameter);
+    friend std::string to_string(Parameter);
 };
 
 /**
@@ -514,14 +514,13 @@ std::string to_string(magic::Flag flag);
 std::string to_string(const magic::Flags& flags, const std::string& separator = ", ");
 
 /**
- * @brief Operator<< for the magic::Parameter.
+ * @brief Convert the magic::Parameter to string.
  * 
- * @param[out] os                   The output stream.
- * @param[in]  parameter            The parameter.
+ * @param[in] parameter             The parameter.
  *
- * @returns os.
+ * @returns The parameter as a string.
  */
-std::ostream& operator<<(std::ostream& os, magic::Parameter parameter);
+std::string to_string(magic::Parameter parameter);
 
 /**
  * @brief Operator<< for the magic::Parameters.

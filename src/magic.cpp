@@ -335,7 +335,7 @@ private:
     };
 
     friend std::string to_string(Flag);
-    friend std::ostream& operator<<(std::ostream&, Parameter);
+    friend std::string to_string(Parameter);
 };
 
 std::string to_string(magic::Flag flag)
@@ -364,12 +364,12 @@ std::string to_string(const magic::Flags& flags, const std::string& separator)
     );
 }
 
-std::ostream& operator<<(std::ostream& os, magic::Parameter parameter)
+std::string to_string(magic::Parameter parameter)
 {
     const auto& parameter_name{
         magic::magic_private::libmagic_parameters[std::to_underlying(parameter)].second
     };
-    return os << parameter_name;
+    return parameter_name;
 }
 
 std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)
@@ -378,7 +378,7 @@ std::ostream& operator<<(std::ostream& os, const magic::Parameters& parameters)
         [&](const auto& parameter){
             const auto& parameter_name = parameter.first;
             const auto& parameter_value = parameter.second;
-            os << parameter_name << ": " << parameter_value << "\n";
+            os << to_string(parameter_name) << ": " << parameter_value << "\n";
         }
     );
     return os;

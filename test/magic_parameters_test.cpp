@@ -55,9 +55,7 @@ TEST(magic_parameters_test, parameter_to_string_conversion)
         std::make_pair(magic::Parameter::ElfShsizeMax, "ElfShsizeMax")
     };
     for (const auto& parameter_pair : magic_parameters_with_names){
-        std::ostringstream oss;
-        oss << parameter_pair.first;
-        EXPECT_EQ(oss.str(), parameter_pair.second);
+        EXPECT_EQ(to_string(parameter_pair.first), parameter_pair.second);
     }
 }
 

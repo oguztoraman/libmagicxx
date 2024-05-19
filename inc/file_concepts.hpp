@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <filesystem>
 
+namespace file_concepts {
+
 /**
  * @brief The file_container concept specifies the requirements of
  *        a container which can be used as a file container by the magic class.
@@ -38,5 +40,7 @@ inline std::ostream& operator<<(std::ostream& os, const file_container auto& con
     );
     return os;
 }
+
+} /* namespace file_concepts */
 
 #endif /* FILE_CONCEPTS_HPP */

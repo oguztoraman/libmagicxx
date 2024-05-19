@@ -332,7 +332,7 @@ public:
      * @throws magic_file_error     if identifying the type of the file fails.
      */
     [[nodiscard]]
-    types_of_files_t identify_files(const file_container auto& files) const
+    types_of_files_t identify_files(const file_concepts::file_container auto& files) const
     {
         return identify_files_impl(files);
     }
@@ -346,7 +346,7 @@ public:
      */
     [[nodiscard]]
     expected_types_of_files_t identify_files(
-        const file_container auto& files, std::nothrow_t
+        const file_concepts::file_container auto& files, std::nothrow_t
     ) const noexcept
     {
         return identify_files_impl(files, std::nothrow);

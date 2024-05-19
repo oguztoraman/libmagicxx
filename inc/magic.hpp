@@ -463,25 +463,19 @@ std::string to_string(
 std::string to_string(const magic::expected_file_type_t& expected_file_type);
 
 /**
- * @brief Operator<< for the magic::expected_types_of_files_t.
- *        The format is "The path of a file -> The type of the file or the error message".
+ * @brief Convert the magic::expected_types_of_files_t to string.
  *
- * @param[out] os                       The output stream.
- * @param[in]  expected_types_of_files  The types of each file.
+ * @param[in] expected_types_of_files   The expected types of each file.
+ * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
+ * @param[in] file_separator            The separator between the files, default is "\n".
  *
- * @returns os.
+ * @returns The expected_types_of_files as a string.
  */
-inline std::ostream& operator<<(std::ostream& os, const magic::expected_types_of_files_t& expected_types_of_files)
-{
-    std::ranges::for_each(expected_types_of_files,
-        [&](const auto& expected_type_of_a_file){
-            const auto& file = expected_type_of_a_file.first;
-            const auto& expected_type = expected_type_of_a_file.second;
-            os << file << " -> " << to_string(expected_type) << "\n";
-        }
-    );
-    return os;
-}
+std::string to_string(
+    const magic::expected_types_of_files_t& expected_types_of_files,
+    const std::string& type_separator = " -> ",
+    const std::string& file_separator = "\n"
+);
 
 /**
  * @brief Convert the magic::Flag to string.

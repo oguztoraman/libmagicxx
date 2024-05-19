@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_types_of_files_t with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_file_type_t with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the types_of_files_t with the to_string function.
 + [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameters with the to_string function.

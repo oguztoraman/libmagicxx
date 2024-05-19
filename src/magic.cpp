@@ -365,6 +365,29 @@ std::string to_string(const magic::expected_file_type_t& expected_file_type)
     return expected_file_type.value_or(expected_file_type.error());
 }
 
+std::string to_string(
+    const magic::expected_types_of_files_t& expected_types_of_files,
+    const std::string& type_separator, const std::string& file_separator
+)
+{
+    if (expected_types_of_files.empty()){
+        return {};
+    }
+    auto expected_type_of_a_file_to_string = [&](const magic::expected_types_of_files_t::value_type& type_of_a_file) -> std::string {
+        const auto& file = type_of_a_file.first;
+        const auto& expected_file_type = type_of_a_file.second;
+        return file.string() + type_separator + to_string(expected_file_type);
+    };
+    return std::ranges::fold_left(
+        std::ranges::next(std::ranges::begin(expected_types_of_files)),
+        std::ranges::end(expected_types_of_files),
+        expected_type_of_a_file_to_string(*std::ranges::begin(expected_types_of_files)),
+        [&](const auto& left, const auto& right){
+            return left + file_separator + expected_type_of_a_file_to_string(right);
+        }
+    );
+}
+
 std::string to_string(magic::Flag flag)
 {
     if (flag == magic::Flag::None){

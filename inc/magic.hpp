@@ -5,7 +5,6 @@
 #define MAGIC_HPP
 
 #include <map>
-#include <iosfwd>
 #include <bitset>
 #include <vector>
 #include <memory>

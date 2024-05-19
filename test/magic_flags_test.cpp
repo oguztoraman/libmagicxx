@@ -2,7 +2,6 @@
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
 #include <random>
-#include <sstream>
 
 #include <magic.hpp>
 #include <gtest/gtest.h>

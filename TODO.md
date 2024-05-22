@@ -4,4 +4,4 @@
 + [ ] Use modules.
 + [ ] Build as a CMake package.
 + [ ] Build as an RPM package.
-+ [ ] Rename Flag, Flags, flags_t, Parameter and Parameters using snake case convention.
++ [ ] Rename Flag, Flags and flags_t using snake case convention.

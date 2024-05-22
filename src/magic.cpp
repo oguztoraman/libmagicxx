@@ -65,7 +65,7 @@ public:
     }
 
     [[nodiscard]]
-    std::size_t get_parameter(Parameter parameter) const
+    std::size_t get_parameter(parameters parameter) const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         std::size_t value{};
@@ -80,14 +80,14 @@ public:
     }
 
     [[nodiscard]]
-    Parameters get_parameters() const
+    parameter_value_map_t get_parameters() const
     {
-        Parameters parameters;
+        parameter_value_map_t parameter_value_map;
         for (std::size_t i{}; i < libmagic_parameter_count; ++i){
-            auto parameter = static_cast<Parameter>(i);
-            parameters[parameter] = get_parameter(parameter);
+            auto parameter = static_cast<parameters>(i);
+            parameter_value_map[parameter] = get_parameter(parameter);
         }
-        return parameters;
+        return parameter_value_map;
     }
 
     [[nodiscard]]
@@ -151,7 +151,7 @@ public:
         m_flags = flags;
     }
 
-    void set_parameter(Parameter parameter, std::size_t value)
+    void set_parameter(parameters parameter, std::size_t value)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         const auto& libmagic_parameter{
@@ -334,7 +334,7 @@ private:
     };
 
     friend std::string to_string(Flag);
-    friend std::string to_string(Parameter);
+    friend std::string to_string(parameters);
 };
 
 std::string to_string(
@@ -388,7 +388,7 @@ std::string to_string(const magic::Flags& flags, const std::string& separator)
     );
 }
 
-std::string to_string(magic::Parameter parameter)
+std::string to_string(magic::parameters parameter)
 {
     const auto& parameter_name{
         magic::magic_private::libmagic_parameters[std::to_underlying(parameter)].second
@@ -397,11 +397,11 @@ std::string to_string(magic::Parameter parameter)
 }
 
 std::string to_string(
-    const magic::Parameters& parameters,
+    const magic::parameter_value_map_t& parameters,
     const std::string& value_separator, const std::string& parameter_separator)
 {
     return utility::to_string(parameters, parameter_separator,
-        [&](const magic::Parameters::value_type& parameter_with_value) -> std::string {
+        [&](const magic::parameter_value_map_t::value_type& parameter_with_value) -> std::string {
             const auto& parameter = parameter_with_value.first;
             const auto& value = parameter_with_value.second;
             return to_string(parameter) + value_separator + std::to_string(value);
@@ -457,13 +457,13 @@ magic::Flags magic::get_flags() const
 }
 
 [[nodiscard]]
-std::size_t magic::get_parameter(magic::Parameter parameter) const
+std::size_t magic::get_parameter(magic::parameters parameter) const
 {
     return m_impl->get_parameter(parameter);
 }
 
 [[nodiscard]]
-magic::Parameters magic::get_parameters() const
+magic::parameter_value_map_t magic::get_parameters() const
 {
     return m_impl->get_parameters();
 }
@@ -508,7 +508,7 @@ void magic::set_flags(flags_t flags)
     m_impl->set_flags(flags);
 }
 
-void magic::set_parameter(magic::Parameter parameter, std::size_t value)
+void magic::set_parameter(magic::parameters parameter, std::size_t value)
 {
     m_impl->set_parameter(parameter, value);
 }

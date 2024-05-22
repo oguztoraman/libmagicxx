@@ -96,10 +96,10 @@ public:
     };
 
     /**
-     * @brief The Parameter enums are used for displaying or
+     * @brief The parameters enums are used for displaying or
      *        modifying the parameters of a magic.
      */
-    enum class Parameter : std::size_t {
+    enum class parameters : std::size_t {
         IndirMax    = 0uz,
         NameMax     ,
         ElfPhnumMax ,
@@ -117,9 +117,9 @@ public:
     using Flags = std::vector<Flag>;
 
     /**
-     * @brief The Parameters typedef.
+     * @brief The parameter_value_map_t typedef.
      */
-    using Parameters = std::map<Parameter, std::size_t>;
+    using parameter_value_map_t = std::map<parameters, std::size_t>;
 
     /**
      * @brief The path of the default database file.
@@ -225,24 +225,24 @@ public:
     /**
      * @brief Get the value of a parameter of magic.
      *
-     * @param[in] parameter         One of the Parameter enum.
+     * @param[in] parameter         One of the parameters enum.
      *
      * @returns Value of the desired parameter.
      *
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
-    std::size_t get_parameter(Parameter parameter) const;
+    std::size_t get_parameter(parameters parameter) const;
 
     /**
      * @brief Get the values ​​of all parameters of magic.
      *
-     * @returns <Parameter, value> map.
+     * @returns <parameters, value> map.
      *
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
-    Parameters get_parameters() const;
+    parameter_value_map_t get_parameters() const;
 
     /**
      * @brief Get the version of the Magic Number Recognition Library.
@@ -397,13 +397,13 @@ public:
     /**
      * @brief Set the value of a parameter of magic.
      *
-     * @param[in] parameter           One of the Parameter enum.
+     * @param[in] parameter           One of the parameters enum.
      * @param[in] value               The value of the parameter.
      *
      * @throws magic_is_closed        if magic is closed.
      * @throws magic_set_param_error  if setting the parameter of magic fails.
      */
-    void set_parameter(Parameter parameter, std::size_t value);
+    void set_parameter(parameters parameter, std::size_t value);
 
 private:
     class magic_private;
@@ -434,7 +434,7 @@ private:
     }
 
     friend std::string to_string(Flag);
-    friend std::string to_string(Parameter);
+    friend std::string to_string(parameters);
 };
 
 /**
@@ -501,17 +501,17 @@ std::string to_string(magic::Flag flag);
 std::string to_string(const magic::Flags& flags, const std::string& separator = ", ");
 
 /**
- * @brief Convert the magic::Parameter to string.
+ * @brief Convert the magic::parameters to string.
  * 
  * @param[in] parameter             The parameter.
  *
  * @returns The parameter as a string.
  */
 [[nodiscard]]
-std::string to_string(magic::Parameter parameter);
+std::string to_string(magic::parameters parameter);
 
 /**
- * @brief Convert the magic::Parameters to string.
+ * @brief Convert the magic::parameter_value_map_t to string.
  * 
  * @param[in] parameters            The parameters with corresponding values.
  * @param[in] value_separator       The separator between the parameter and its value, default is ": ".
@@ -521,7 +521,7 @@ std::string to_string(magic::Parameter parameter);
  */
 [[nodiscard]]
 std::string to_string(
-    const magic::Parameters& parameters,
+    const magic::parameter_value_map_t& parameters,
     const std::string& value_separator = ": ",
     const std::string& parameter_separator = ", "
 );

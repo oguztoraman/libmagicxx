@@ -100,15 +100,15 @@ public:
      *        modifying the parameters of a magic.
      */
     enum class parameters : std::size_t {
-        IndirMax    = 0uz,
-        NameMax     ,
-        ElfPhnumMax ,
-        ElfShnumMax ,
-        ElfNotesMax ,
-        RegexMax    ,
-        BytesMax    ,
-        EncodingMax ,
-        ElfShsizeMax
+        indir_max     = 0uz,
+        name_max      ,
+        elf_phnum_max ,
+        elf_shnum_max ,
+        elf_notes_max ,
+        regex_max     ,
+        bytes_max     ,
+        encoding_max  ,
+        elf_shsize_max
     };
 
     /**

@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename the parameters using the snake case convention.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename Parameter to parameters and Parameters to parameter_value_map_t.
 + [**IMPROVEMENT**] inc/file_concepts.hpp, src/magic.cpp: Use the utility::to_string function wherever possible.
 + [**FEATURE**] CMakeLists.txt, inc/utility.hpp: Add a customizable to_string function template.

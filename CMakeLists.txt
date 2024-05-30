@@ -43,6 +43,10 @@ set(magicxx_TEST_DIR
     ${magicxx_SOURCE_DIR}/test
 )
 
+set(googletest_DIR
+    ${magicxx_SOURCE_DIR}/googletest
+)
+
 add_library(magicxx SHARED)
 
 set_target_properties(magicxx PROPERTIES
@@ -62,5 +66,8 @@ target_include_directories(magicxx
 )
 
 if (BUILD_MAGICXX_TESTS)
+    set(INSTALL_GTEST OFF)
+    add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
+    add_subdirectory(${googletest_DIR})
     add_subdirectory(${magicxx_TEST_DIR})
 endif()

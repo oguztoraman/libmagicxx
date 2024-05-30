@@ -5,16 +5,6 @@ cmake_minimum_required(VERSION 3.21.0)
 
 project(magicxx_tests LANGUAGES CXX)
 
-include(FetchContent)
-
-FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-    DOWNLOAD_EXTRACT_TIMESTAMP ON
-)
-
-FetchContent_MakeAvailable(googletest)
-
 set(magicxx_tests_SOURCE_FILES
     magic_open_close_test.cpp
     magic_special_members_test.cpp
@@ -38,8 +28,8 @@ set_target_properties(magicxx_tests PROPERTIES
     CXX_STANDARD 23
     CXX_EXTENSIONS OFF
     CXX_STANDARD_REQUIRED ON
-    INCLUDE_DIRECTORIES ${magicxx_INCLUDE_DIR},
-    LINK_LIBRARIES "magicxx;GTest::gtest;GTest::gtest_main;$<$<CXX_COMPILER_ID:Clang>:c++>"
+    INCLUDE_DIRECTORIES ${magicxx_INCLUDE_DIR}
+    LINK_LIBRARIES "magicxx;GTest::gtest_main;$<$<CXX_COMPILER_ID:Clang>:c++>"
     COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors;$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>>"
 )
 

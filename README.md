@@ -44,3 +44,7 @@ GNU Lesser General Public License Version 3, see the [COPYING.LESSER](https://gi
 + File and the Magic Number Recognition Library
 
 See the [COPYING](https://github.com/file/file/blob/master/COPYING) file for details.
+
++ GoogleTest
+
+See the [LICENSE](https://github.com/google/googletest/blob/main/LICENSE) file for details.

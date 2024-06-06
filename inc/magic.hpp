@@ -146,6 +146,20 @@ public:
     explicit magic(flags_mask_t flags_mask, const std::filesystem::path& database_file = default_database_file);
 
     /**
+     * @brief Construct magic, open it using the flags and load the magic database file.
+     *
+     * @param[in] flags_container   Flags.
+     * @param[in] database_file     The path of magic database file, default is /usr/share/misc/magic.
+     *
+     * @throws magic_open_error     if opening magic fails.
+     * @throws invalid_path         if the path of the magic database file is not a file.
+     * @throws magic_load_error     if loading the magic database file fails.
+     *
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     */
+    explicit magic(flags_container_t flags_container, const std::filesystem::path& database_file = default_database_file);
+
+    /**
      * @brief Move construct magic.
      *
      * @note other is valid as a default constructed magic.

@@ -24,6 +24,12 @@ public:
         load_database_file(database_file);
     }
 
+    magic_private(flags_container_t flags_container, const std::filesystem::path& database_file)
+    {
+        open(flags_container);
+        load_database_file(database_file);
+    }
+
     magic_private(magic_private&&) noexcept = default;
 
     magic_private(const magic_private&) = delete;
@@ -435,6 +441,10 @@ magic::magic() noexcept
 
 magic::magic(flags_mask_t flags_mask, const std::filesystem::path& database_file)
     : m_impl{std::make_unique<magic_private>(flags_mask, database_file)}
+{ }
+
+magic::magic(flags_container_t flags_container, const std::filesystem::path& database_file)
+    : m_impl{std::make_unique<magic_private>(flags_container, database_file)}
 { }
 
 magic::magic(magic&& other) noexcept

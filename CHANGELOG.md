@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**FEATURE**] inc/magic.hpp, src/magic.cpp: Make construction of magic using the flags_container_t possible.
 + [**FEATURE**] inc/magic.hpp, src/magic.cpp: Make opening magic using the flags_container_t possible.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename the flags using the snake case convention.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename flags_t to flags_mask_t, Flag to flags and Flags to flags_container_t.

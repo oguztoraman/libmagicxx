@@ -31,9 +31,6 @@ TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
         1ULL << dist(eng)
     };
     std::ranges::sort(test_flags);
-    m.set_flags(
-        std::ranges::fold_left(test_flags.begin(), test_flags.end(), test_flags.front(), std::bit_or<decltype(1ULL)>{})
-    );
     magic::flags_container_t expected_magic_flags;
     std::ranges::transform(test_flags, std::back_inserter(expected_magic_flags),
         [](unsigned long long value){return static_cast<magic::flags>(value);}
@@ -41,6 +38,11 @@ TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
     expected_magic_flags.erase(
         std::unique(expected_magic_flags.begin(), expected_magic_flags.end()), expected_magic_flags.end()
     );
+    m.set_flags(
+        std::ranges::fold_left(test_flags.begin(), test_flags.end(), test_flags.front(), std::bit_or<decltype(1ULL)>{})
+    );
+    EXPECT_EQ(expected_magic_flags, m.get_flags());
+    m.set_flags(expected_magic_flags);
     EXPECT_EQ(expected_magic_flags, m.get_flags());
 }
 

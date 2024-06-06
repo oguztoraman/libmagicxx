@@ -420,6 +420,16 @@ public:
     void set_flags(flags_mask_t flags_mask);
 
     /**
+     * @brief Set the flags of magic.
+     *
+     * @param[in] flags_container     Flags.
+     *
+     * @throws magic_is_closed        if magic is closed.
+     * @throws magic_set_flags_error  if setting the flags of magic fails.
+     */
+    void set_flags(flags_container_t flags_container);
+
+    /**
      * @brief Set the value of a parameter of magic.
      *
      * @param[in] parameter           One of the parameters enum.

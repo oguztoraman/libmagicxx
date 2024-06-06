@@ -162,6 +162,11 @@ public:
         m_flags_mask = flags_mask;
     }
 
+    void set_flags(flags_container_t flags_container)
+    {
+        set_flags(flags_mask_t{flag_converter(flags_container)});
+    }
+
     void set_parameter(parameters parameter, std::size_t value)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
@@ -541,6 +546,11 @@ void magic::open(flags_container_t flags_container)
 void magic::set_flags(flags_mask_t flags_mask)
 {
     m_impl->set_flags(flags_mask);
+}
+
+void magic::set_flags(flags_container_t flags_container)
+{
+    m_impl->set_flags(flags_container);
 }
 
 void magic::set_parameter(magic::parameters parameter, std::size_t value)

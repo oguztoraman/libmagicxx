@@ -56,3 +56,14 @@ TEST(magic_open_close_test, opened_magic_close_twice)
     EXPECT_FALSE(m);
     EXPECT_FALSE(m.is_open());
 }
+
+TEST(magic_open_close_test, open_magic_using_flags_container)
+{
+    magic m;
+    m.open(magic::flags_container_t{
+        magic::flags::mime,
+        magic::flags::continue_search
+    });
+    EXPECT_TRUE(m);
+    EXPECT_TRUE(m.is_open());
+}

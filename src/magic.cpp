@@ -141,6 +141,11 @@ public:
         m_flags_mask = flags_mask;
     }
 
+    void open(flags_container_t flags_container)
+    {
+        open(flags_mask_t{flag_converter(flags_container)});
+    }
+
     void set_flags(flags_mask_t flags_mask)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
@@ -267,6 +272,16 @@ private:
     }
 
     struct flag_converter {
+        explicit flag_converter(flags_container_t flags_container) noexcept
+            : m_flags_mask{
+                std::ranges::fold_left(
+                    flags_container,
+                    flags_container.empty() ? flags::none : flags_container.front(),
+                    std::bit_or<decltype(1ULL)>{}
+                )
+            }
+        { }
+
         explicit flag_converter(flags_mask_t flags_mask) noexcept
             : m_flags_mask{flags_mask}
         { }
@@ -310,6 +325,11 @@ private:
             }
             flags.erase(flags.find_last_of(','));
             return flags;
+        }
+
+        operator flags_mask_t() const
+        {
+            return m_flags_mask;
         }
 
         const flags_mask_t m_flags_mask;
@@ -501,6 +521,11 @@ void magic::load_database_file(const std::filesystem::path& database_file)
 void magic::open(flags_mask_t flags_mask)
 {
     m_impl->open(flags_mask);
+}
+
+void magic::open(flags_container_t flags_container)
+{
+    m_impl->open(flags_container);
 }
 
 void magic::set_flags(flags_mask_t flags_mask)

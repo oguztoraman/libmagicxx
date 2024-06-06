@@ -385,6 +385,17 @@ public:
     void open(flags_mask_t flags_mask);
 
     /**
+     * @brief Open magic using the flags.
+     *
+     * @param[in] flags_container   Flags.
+     *
+     * @throws magic_open_error     if opening magic fails.
+     *
+     * @note If magic is open, it will be reopened using the flags after closing it.
+     */
+    void open(flags_container_t flags_container);
+
+    /**
      * @brief Set the flags of magic.
      *
      * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.

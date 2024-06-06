@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.0.0] - 06-06-2024
+
 + [**IMPROVEMENT**] src/magic.cpp: Rename flag_converter to flags_converter.
 + [**FEATURE**] inc/magic.hpp, src/magic.cpp: Make setting parameters of magic using parameter_value_map_t possible.
 + [**FEATURE**] inc/magic.hpp, src/magic.cpp: Make setting flags of magic using flags_container_t possible.

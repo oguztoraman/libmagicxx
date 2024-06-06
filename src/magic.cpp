@@ -24,7 +24,7 @@ public:
         load_database_file(database_file);
     }
 
-    magic_private(flags_container_t flags_container, const std::filesystem::path& database_file)
+    magic_private(const flags_container_t& flags_container, const std::filesystem::path& database_file)
     {
         open(flags_container);
         load_database_file(database_file);
@@ -147,7 +147,7 @@ public:
         m_flags_mask = flags_mask;
     }
 
-    void open(flags_container_t flags_container)
+    void open(const flags_container_t& flags_container)
     {
         open(flags_mask_t{flag_converter(flags_container)});
     }
@@ -162,7 +162,7 @@ public:
         m_flags_mask = flags_mask;
     }
 
-    void set_flags(flags_container_t flags_container)
+    void set_flags(const flags_container_t& flags_container)
     {
         set_flags(flags_mask_t{flag_converter(flags_container)});
     }
@@ -294,7 +294,7 @@ private:
     }
 
     struct flag_converter {
-        explicit flag_converter(flags_container_t flags_container) noexcept
+        explicit flag_converter(const flags_container_t& flags_container) noexcept
             : m_flags_mask{
                 std::ranges::fold_left(
                     flags_container,
@@ -459,7 +459,7 @@ magic::magic(flags_mask_t flags_mask, const std::filesystem::path& database_file
     : m_impl{std::make_unique<magic_private>(flags_mask, database_file)}
 { }
 
-magic::magic(flags_container_t flags_container, const std::filesystem::path& database_file)
+magic::magic(const flags_container_t& flags_container, const std::filesystem::path& database_file)
     : m_impl{std::make_unique<magic_private>(flags_container, database_file)}
 { }
 
@@ -549,7 +549,7 @@ void magic::open(flags_mask_t flags_mask)
     m_impl->open(flags_mask);
 }
 
-void magic::open(flags_container_t flags_container)
+void magic::open(const flags_container_t& flags_container)
 {
     m_impl->open(flags_container);
 }
@@ -559,7 +559,7 @@ void magic::set_flags(flags_mask_t flags_mask)
     m_impl->set_flags(flags_mask);
 }
 
-void magic::set_flags(flags_container_t flags_container)
+void magic::set_flags(const flags_container_t& flags_container)
 {
     m_impl->set_flags(flags_container);
 }

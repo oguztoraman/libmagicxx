@@ -157,7 +157,7 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    explicit magic(flags_container_t flags_container, const std::filesystem::path& database_file = default_database_file);
+    explicit magic(const flags_container_t& flags_container, const std::filesystem::path& database_file = default_database_file);
 
     /**
      * @brief Move construct magic.
@@ -407,7 +407,7 @@ public:
      *
      * @note If magic is open, it will be reopened using the flags after closing it.
      */
-    void open(flags_container_t flags_container);
+    void open(const flags_container_t& flags_container);
 
     /**
      * @brief Set the flags of magic.
@@ -427,7 +427,7 @@ public:
      * @throws magic_is_closed        if magic is closed.
      * @throws magic_set_flags_error  if setting the flags of magic fails.
      */
-    void set_flags(flags_container_t flags_container);
+    void set_flags(const flags_container_t& flags_container);
 
     /**
      * @brief Set the value of a parameter of magic.

@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename the flags using the snake case convention.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename flags_t to flags_mask_t, Flag to flags and Flags to flags_container_t.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename the parameters using the snake case convention.
 + [**IMPROVEMENT**] inc/magic.hpp, src/magic.cpp: Rename Parameter to parameters and Parameters to parameter_value_map_t.

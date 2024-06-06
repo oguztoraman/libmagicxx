@@ -19,7 +19,7 @@ TEST(magic_parameters_test, closed_magic_set_parameter_get_parameter)
 TEST(magic_parameters_test, opened_magic_set_parameter_get_parameter)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     std::mt19937 eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> dist{0, 100};
     magic::parameter_value_map_t expected_parameters{

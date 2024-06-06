@@ -62,37 +62,37 @@ public:
      * @note The flags enums are suitable for bitwise or operations.
      */
     enum flags : unsigned long long {
-        None            = 0ULL,
-        Debug           = 1ULL << 0,
-        Symlink         = 1ULL << 1,
-        Compress        = 1ULL << 2,
-        Devices         = 1ULL << 3,
-        MimeType        = 1ULL << 4,
-        Continue        = 1ULL << 5,
-        Check           = 1ULL << 6,
-        PreserveAtime   = 1ULL << 7,
-        Raw             = 1ULL << 8,
-        Error           = 1ULL << 9,
-        MimeEncoding    = 1ULL << 10,
-        Mime            = 1ULL << 11,
-        Apple           = 1ULL << 12,
-        Extension       = 1ULL << 13,
-        CompressTransp  = 1ULL << 14,
-        NoCompressFork  = 1ULL << 15,
-        Nodesc          = 1ULL << 16,
-        NoCheckCompress = 1ULL << 17,
-        NoCheckTar      = 1ULL << 18,
-        NoCheckSoft     = 1ULL << 19,
-        NoCheckApptype  = 1ULL << 20,
-        NoCheckElf      = 1ULL << 21,
-        NoCheckText     = 1ULL << 22,
-        NoCheckCdf      = 1ULL << 23,
-        NoCheckCsv      = 1ULL << 24,
-        NoCheckTokens   = 1ULL << 25,
-        NoCheckEncoding = 1ULL << 26,
-        NoCheckJson     = 1ULL << 27,
-        NoCheckSimh     = 1ULL << 28,
-        NoCheckBuiltin  = 1ULL << 29
+        none              = 0ULL,
+        debug             = 1ULL << 0,
+        symlink           = 1ULL << 1,
+        compress          = 1ULL << 2,
+        devices           = 1ULL << 3,
+        mime_type         = 1ULL << 4,
+        continue_search   = 1ULL << 5,
+        check_database    = 1ULL << 6,
+        preserve_atime    = 1ULL << 7,
+        raw               = 1ULL << 8,
+        error             = 1ULL << 9,
+        mime_encoding     = 1ULL << 10,
+        mime              = 1ULL << 11,
+        apple             = 1ULL << 12,
+        extension         = 1ULL << 13,
+        compress_transp   = 1ULL << 14,
+        no_compress_fork  = 1ULL << 15,
+        nodesc            = 1ULL << 16,
+        no_check_compress = 1ULL << 17,
+        no_check_tar      = 1ULL << 18,
+        no_check_soft     = 1ULL << 19,
+        no_check_apptype  = 1ULL << 20,
+        no_check_elf      = 1ULL << 21,
+        no_check_text     = 1ULL << 22,
+        no_check_cdf      = 1ULL << 23,
+        no_check_csv      = 1ULL << 24,
+        no_check_tokens   = 1ULL << 25,
+        no_check_encoding = 1ULL << 26,
+        no_check_json     = 1ULL << 27,
+        no_check_simh     = 1ULL << 28,
+        no_check_builtin  = 1ULL << 29
     };
 
     /**
@@ -183,7 +183,7 @@ public:
     operator bool() const noexcept;
 
     /**
-     * @brief Check the validity of entries in the colon separated database
+     * @brief check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
      * @param[in] database_file     The file to check, default is /usr/share/misc/magic.

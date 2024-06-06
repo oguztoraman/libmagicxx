@@ -11,14 +11,14 @@ using namespace recognition;
 TEST(magic_flags_test, closed_magic_set_flags_and_get_flags)
 {
     magic m;
-    EXPECT_THROW(m.set_flags(magic::flags::Mime), magic_is_closed);
+    EXPECT_THROW(m.set_flags(magic::flags::mime), magic_is_closed);
     EXPECT_THROW([[maybe_unused]] auto _ = m.get_flags(), magic_is_closed);
 }
 
 TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
 {
     magic m;
-    m.open(magic::flags::None);
+    m.open(magic::flags::none);
     std::mt19937 eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> dist{0, magic::flags_mask_t{}.size() - 1};
     std::vector test_flags{
@@ -48,68 +48,68 @@ TEST(magic_flags_test, magic_flags_to_string_conversion)
 {
     EXPECT_EQ(
     to_string(magic::flags_container_t{
-        magic::flags::None            ,
-        magic::flags::Debug           ,
-        magic::flags::Symlink         ,
-        magic::flags::Compress        ,
-        magic::flags::Devices         ,
-        magic::flags::MimeType        ,
-        magic::flags::Continue        ,
-        magic::flags::Check           ,
-        magic::flags::PreserveAtime   ,
-        magic::flags::Raw             ,
-        magic::flags::Error           ,
-        magic::flags::MimeEncoding    ,
-        magic::flags::Mime            ,
-        magic::flags::Apple           ,
-        magic::flags::Extension       ,
-        magic::flags::CompressTransp  ,
-        magic::flags::NoCompressFork  ,
-        magic::flags::Nodesc          ,
-        magic::flags::NoCheckCompress ,
-        magic::flags::NoCheckTar      ,
-        magic::flags::NoCheckSoft     ,
-        magic::flags::NoCheckApptype  ,
-        magic::flags::NoCheckElf      ,
-        magic::flags::NoCheckText     ,
-        magic::flags::NoCheckCdf      ,
-        magic::flags::NoCheckCsv      ,
-        magic::flags::NoCheckTokens   ,
-        magic::flags::NoCheckEncoding ,
-        magic::flags::NoCheckJson     ,
-        magic::flags::NoCheckSimh     ,
-        magic::flags::NoCheckBuiltin
+        magic::flags::none            ,
+        magic::flags::debug           ,
+        magic::flags::symlink         ,
+        magic::flags::compress        ,
+        magic::flags::devices         ,
+        magic::flags::mime_type        ,
+        magic::flags::continue_search        ,
+        magic::flags::check_database           ,
+        magic::flags::preserve_atime   ,
+        magic::flags::raw             ,
+        magic::flags::error           ,
+        magic::flags::mime_encoding    ,
+        magic::flags::mime            ,
+        magic::flags::apple           ,
+        magic::flags::extension       ,
+        magic::flags::compress_transp  ,
+        magic::flags::no_compress_fork  ,
+        magic::flags::nodesc          ,
+        magic::flags::no_check_compress ,
+        magic::flags::no_check_tar      ,
+        magic::flags::no_check_soft     ,
+        magic::flags::no_check_apptype  ,
+        magic::flags::no_check_elf      ,
+        magic::flags::no_check_text     ,
+        magic::flags::no_check_cdf      ,
+        magic::flags::no_check_csv      ,
+        magic::flags::no_check_tokens   ,
+        magic::flags::no_check_encoding ,
+        magic::flags::no_check_json     ,
+        magic::flags::no_check_simh     ,
+        magic::flags::no_check_builtin
     }),
-        "None, "
-        "Debug, "
-        "Symlink, "
-        "Compress, "
-        "Devices, "
-        "MimeType, "
-        "Continue, "
-        "Check, "
-        "PreserveAtime, "
-        "Raw, "
-        "Error, "
-        "MimeEncoding, "
-        "Mime, "
-        "Apple, "
-        "Extension, "
-        "CompressTransp, "
-        "NoCompressFork, "
-        "Nodesc, "
-        "NoCheckCompress, "
-        "NoCheckTar, "
-        "NoCheckSoft, "
-        "NoCheckApptype, "
-        "NoCheckElf, "
-        "NoCheckText, "
-        "NoCheckCdf, "
-        "NoCheckCsv, "
-        "NoCheckTokens, "
-        "NoCheckEncoding, "
-        "NoCheckJson, "
-        "NoCheckSimh, "
-        "NoCheckBuiltin"
+        "none, "
+        "debug, "
+        "symlink, "
+        "compress, "
+        "devices, "
+        "mime_type, "
+        "continue_search, "
+        "check_database, "
+        "preserve_atime, "
+        "raw, "
+        "error, "
+        "mime_encoding, "
+        "mime, "
+        "apple, "
+        "extension, "
+        "compress_transp, "
+        "no_compress_fork, "
+        "nodesc, "
+        "no_check_compress, "
+        "no_check_tar, "
+        "no_check_soft, "
+        "no_check_apptype, "
+        "no_check_elf, "
+        "no_check_text, "
+        "no_check_cdf, "
+        "no_check_csv, "
+        "no_check_tokens, "
+        "no_check_encoding, "
+        "no_check_json, "
+        "no_check_simh, "
+        "no_check_builtin"
     );
 }

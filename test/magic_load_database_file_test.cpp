@@ -16,7 +16,7 @@ TEST(magic_load_database_file_test, closed_magic_load_default_database)
 TEST(magic_load_database_file_test, opened_magic_load_empty_path)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     EXPECT_THROW(m.load_database_file({}), empty_path);
 }
 
@@ -25,7 +25,7 @@ TEST(magic_load_database_file_test, opened_magic_load_directory)
     constexpr auto test_path = "/tmp/test/";
     std::filesystem::create_directory(test_path);
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     EXPECT_THROW(m.load_database_file(test_path), invalid_path);
 }
 
@@ -36,13 +36,13 @@ TEST(magic_load_database_file_test, opened_magic_load_invalid_database)
     file << "test";
     file.flush();
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     EXPECT_THROW(m.load_database_file(test_database), magic_load_error);
 }
 
 TEST(magic_load_database_file_test, opened_magic_load_default_database)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     m.load_database_file();
 }

@@ -24,7 +24,7 @@ TEST(magic_open_close_test, closed_magic_close)
 TEST(magic_open_close_test, opened_magic_is_open)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     EXPECT_TRUE(m);
     EXPECT_TRUE(m.is_open());
 }
@@ -32,7 +32,7 @@ TEST(magic_open_close_test, opened_magic_is_open)
 TEST(magic_open_close_test, opened_magic_close)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     m.close();
     EXPECT_FALSE(m);
     EXPECT_FALSE(m.is_open());
@@ -41,8 +41,8 @@ TEST(magic_open_close_test, opened_magic_close)
 TEST(magic_open_close_test, opened_magic_open_twice)
 {
     magic m;
-    m.open(magic::flags::Mime);
-    m.open(magic::flags::MimeType);
+    m.open(magic::flags::mime);
+    m.open(magic::flags::mime_type);
     EXPECT_TRUE(m);
     EXPECT_TRUE(m.is_open());
 }
@@ -50,7 +50,7 @@ TEST(magic_open_close_test, opened_magic_open_twice)
 TEST(magic_open_close_test, opened_magic_close_twice)
 {
     magic m;
-    m.open(magic::flags::Mime);
+    m.open(magic::flags::mime);
     m.close();
     m.close();
     EXPECT_FALSE(m);

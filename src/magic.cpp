@@ -182,44 +182,44 @@ private:
     static constexpr auto libmagic_parameter_count = 9uz;
 
     using libmagic_value_t = int;
-    using libmagic_value_name_t  = std::string;
-    using libmagic_pair_t  = std::pair<libmagic_value_t, libmagic_value_name_t>;
+    using libmagic_value_name_t = std::string;
+    using libmagic_pair_t = std::pair<libmagic_value_t, const char*>;
 
     static constexpr libmagic_pair_t libmagic_flag_none{
-        std::make_pair(MAGIC_NONE,                "None")
+        std::make_pair(MAGIC_NONE,                "none")
     };
 
     static constexpr std::array<libmagic_pair_t, libmagic_flags_count> libmagic_flags{
-        std::make_pair(MAGIC_DEBUG,               "Debug"),
-        std::make_pair(MAGIC_SYMLINK,             "Symlink"),
-        std::make_pair(MAGIC_COMPRESS,            "Compress"),
-        std::make_pair(MAGIC_DEVICES,             "Devices"),
-        std::make_pair(MAGIC_MIME_TYPE,           "MimeType"),
-        std::make_pair(MAGIC_CONTINUE,            "Continue"),
-        std::make_pair(MAGIC_CHECK,               "Check"),
-        std::make_pair(MAGIC_PRESERVE_ATIME,      "PreserveAtime"),
-        std::make_pair(MAGIC_RAW,                 "Raw"),
-        std::make_pair(MAGIC_ERROR,               "Error"),
-        std::make_pair(MAGIC_MIME_ENCODING,       "MimeEncoding"),
-        std::make_pair(MAGIC_MIME,                "Mime"),
-        std::make_pair(MAGIC_APPLE,               "Apple"),
-        std::make_pair(MAGIC_EXTENSION,           "Extension"),
-        std::make_pair(MAGIC_COMPRESS_TRANSP,     "CompressTransp"),
-        std::make_pair(MAGIC_NO_COMPRESS_FORK,    "NoCompressFork"),
-        std::make_pair(MAGIC_NODESC,              "Nodesc"),
-        std::make_pair(MAGIC_NO_CHECK_COMPRESS,   "NoCheckCompress"),
-        std::make_pair(MAGIC_NO_CHECK_TAR,        "NoCheckTar"),
-        std::make_pair(MAGIC_NO_CHECK_SOFT,       "NoCheckSoft"),
-        std::make_pair(MAGIC_NO_CHECK_APPTYPE,    "NoCheckApptype"),
-        std::make_pair(MAGIC_NO_CHECK_ELF,        "NoCheckElf"),
-        std::make_pair(MAGIC_NO_CHECK_TEXT,       "NoCheckText"),
-        std::make_pair(MAGIC_NO_CHECK_CDF,        "NoCheckCdf"),
-        std::make_pair(MAGIC_NO_CHECK_CSV,        "NoCheckCsv"),
-        std::make_pair(MAGIC_NO_CHECK_TOKENS,     "NoCheckTokens"),
-        std::make_pair(MAGIC_NO_CHECK_ENCODING,   "NoCheckEncoding"),
-        std::make_pair(MAGIC_NO_CHECK_JSON,       "NoCheckJson"),
-        std::make_pair(MAGIC_NO_CHECK_SIMH,       "NoCheckSimh"),
-        std::make_pair(MAGIC_NO_CHECK_BUILTIN,    "NoCheckBuiltin")
+        std::make_pair(MAGIC_DEBUG,               "debug"),
+        std::make_pair(MAGIC_SYMLINK,             "symlink"),
+        std::make_pair(MAGIC_COMPRESS,            "compress"),
+        std::make_pair(MAGIC_DEVICES,             "devices"),
+        std::make_pair(MAGIC_MIME_TYPE,           "mime_type"),
+        std::make_pair(MAGIC_CONTINUE,            "continue_search"),
+        std::make_pair(MAGIC_CHECK,               "check_database"),
+        std::make_pair(MAGIC_PRESERVE_ATIME,      "preserve_atime"),
+        std::make_pair(MAGIC_RAW,                 "raw"),
+        std::make_pair(MAGIC_ERROR,               "error"),
+        std::make_pair(MAGIC_MIME_ENCODING,       "mime_encoding"),
+        std::make_pair(MAGIC_MIME,                "mime"),
+        std::make_pair(MAGIC_APPLE,               "apple"),
+        std::make_pair(MAGIC_EXTENSION,           "extension"),
+        std::make_pair(MAGIC_COMPRESS_TRANSP,     "compress_transp"),
+        std::make_pair(MAGIC_NO_COMPRESS_FORK,    "no_compress_fork"),
+        std::make_pair(MAGIC_NODESC,              "nodesc"),
+        std::make_pair(MAGIC_NO_CHECK_COMPRESS,   "no_check_compress"),
+        std::make_pair(MAGIC_NO_CHECK_TAR,        "no_check_tar"),
+        std::make_pair(MAGIC_NO_CHECK_SOFT,       "no_check_soft"),
+        std::make_pair(MAGIC_NO_CHECK_APPTYPE,    "no_check_apptype"),
+        std::make_pair(MAGIC_NO_CHECK_ELF,        "no_check_elf"),
+        std::make_pair(MAGIC_NO_CHECK_TEXT,       "no_check_text"),
+        std::make_pair(MAGIC_NO_CHECK_CDF,        "no_check_cdf"),
+        std::make_pair(MAGIC_NO_CHECK_CSV,        "no_check_csv"),
+        std::make_pair(MAGIC_NO_CHECK_TOKENS,     "no_check_tokens"),
+        std::make_pair(MAGIC_NO_CHECK_ENCODING,   "no_check_encoding"),
+        std::make_pair(MAGIC_NO_CHECK_JSON,       "no_check_json"),
+        std::make_pair(MAGIC_NO_CHECK_SIMH,       "no_check_simh"),
+        std::make_pair(MAGIC_NO_CHECK_BUILTIN,    "no_check_builtin")
     };
 
     static constexpr std::array<libmagic_pair_t, libmagic_parameter_count> libmagic_parameters{
@@ -322,7 +322,7 @@ private:
 
         constexpr operator libmagic_value_name_t() const noexcept
         {
-            return std::get<libmagic_value_name_t>(m_pair);
+            return std::get<const char*>(m_pair);
         }
 
         constexpr operator libmagic_value_t() const noexcept
@@ -370,7 +370,7 @@ std::string to_string(
 
 std::string to_string(magic::flags flag)
 {
-    if (flag == magic::flags::None){
+    if (flag == magic::flags::none){
         return magic::magic_private::libmagic_flag_none.second;
     }
     const auto& flag_name{

@@ -14,13 +14,13 @@ TEST(magic_check_test, closed_magic_check_default_database)
 TEST(magic_check_test, opened_magic_check_empty_path)
 {
     magic m;
-    m.open(magic::Flag::Mime);
+    m.open(magic::flags::Mime);
     EXPECT_FALSE(m.check({}));
 }
 
 TEST(magic_check_test, opened_magic_check_default_database)
 {
     magic m;
-    m.open(magic::Flag::Mime);
+    m.open(magic::flags::Mime);
     EXPECT_TRUE(m.check());
 }

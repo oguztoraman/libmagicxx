@@ -17,7 +17,7 @@ TEST(magic_identify_file_test, closed_magic_identify_file)
 
 TEST(magic_identify_file_test, opened_magic_identify_empty_path)
 {
-    magic m{magic::Flag::Mime};
+    magic m{magic::flags::Mime};
     auto expected_file_type = m.identify_file({}, std::nothrow);
     EXPECT_FALSE(expected_file_type.has_value());
     EXPECT_EQ(expected_file_type.error(), "path is empty.");
@@ -26,7 +26,7 @@ TEST(magic_identify_file_test, opened_magic_identify_empty_path)
 
 TEST(magic_identify_file_test, opened_magic_identify_default_database)
 {
-    magic m{magic::Flag::Mime};
+    magic m{magic::flags::Mime};
     EXPECT_EQ(m.identify_file(magic::default_database_file), "text/x-file; charset=us-ascii");
     EXPECT_EQ(m.identify_file(magic::default_database_file, std::nothrow).value(), "text/x-file; charset=us-ascii");
 }

@@ -17,7 +17,7 @@ TEST(magic_special_members_test, move_construct_magic_from_closed_magic)
 TEST(magic_special_members_test, move_construct_magic_from_opened_magic)
 {
     magic other;
-    other.open(magic::Flag::Mime);
+    other.open(magic::flags::Mime);
     auto m{std::move(other)};
     EXPECT_TRUE(m.is_open());
     EXPECT_FALSE(other.is_open());
@@ -34,7 +34,7 @@ TEST(magic_special_members_test, move_assign_magic_from_closed_magic)
 TEST(magic_special_members_test, move_assign_magic_from_opened_magic)
 {
     magic other;
-    other.open(magic::Flag::Mime);
+    other.open(magic::flags::Mime);
     auto m = std::move(other);
     EXPECT_TRUE(m.is_open());
     EXPECT_FALSE(other.is_open());

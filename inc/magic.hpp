@@ -27,9 +27,9 @@ class magic {
 public:
 
     /**
-     * @brief The flags_t typedef.
+     * @brief The flags_mask_t typedef.
      */
-    using flags_t = std::bitset<30uz>;
+    using flags_mask_t = std::bitset<30uz>;
 
     /**
      * @brief The file_type_t typedef.
@@ -57,11 +57,11 @@ public:
     using expected_types_of_files_t = std::map<std::filesystem::path, expected_file_type_t>;
 
     /**
-     * @brief The Flag enums are used for configuring the flags of a magic.
+     * @brief The flags enums are used for configuring the flags of a magic.
      *
-     * @note The Flag enums are suitable for bitwise or operations.
+     * @note The flags enums are suitable for bitwise or operations.
      */
-    enum Flag : unsigned long long {
+    enum flags : unsigned long long {
         None            = 0ULL,
         Debug           = 1ULL << 0,
         Symlink         = 1ULL << 1,
@@ -112,9 +112,9 @@ public:
     };
 
     /**
-     * @brief The Flags typedef.
+     * @brief The flags_container_t typedef.
      */
-    using Flags = std::vector<Flag>;
+    using flags_container_t = std::vector<flags>;
 
     /**
      * @brief The parameter_value_map_t typedef.
@@ -134,7 +134,7 @@ public:
     /**
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
-     * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
      * @param[in] database_file     The path of magic database file, default is /usr/share/misc/magic.
      *
      * @throws magic_open_error     if opening magic fails.
@@ -143,7 +143,7 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    explicit magic(flags_t flags, const std::filesystem::path& database_file = default_database_file);
+    explicit magic(flags_mask_t flags_mask, const std::filesystem::path& database_file = default_database_file);
 
     /**
      * @brief Move construct magic.
@@ -215,12 +215,12 @@ public:
     /**
      * @brief Get the flags of magic.
      *
-     * @returns Flags
+     * @returns flags_container_t
      *
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]]
-    Flags get_flags() const;
+    flags_container_t get_flags() const;
 
     /**
      * @brief Get the value of a parameter of magic.
@@ -376,23 +376,23 @@ public:
     /**
      * @brief Open magic using the flags.
      *
-     * @param[in] flags             One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
      *
      * @throws magic_open_error     if opening magic fails.
      *
      * @note If magic is open, it will be reopened using the flags after closing it.
      */
-    void open(flags_t flags);
+    void open(flags_mask_t flags_mask);
 
     /**
      * @brief Set the flags of magic.
      *
-     * @param[in] flags               One of the Flag enums or bitwise or of the Flag enums.
+     * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.
      *
      * @throws magic_is_closed        if magic is closed.
      * @throws magic_set_flags_error  if setting the flags of magic fails.
      */
-    void set_flags(flags_t flags);
+    void set_flags(flags_mask_t flags_mask);
 
     /**
      * @brief Set the value of a parameter of magic.
@@ -433,7 +433,7 @@ private:
         return expected_types_of_files;
     }
 
-    friend std::string to_string(Flag);
+    friend std::string to_string(flags);
     friend std::string to_string(parameters);
 };
 
@@ -480,17 +480,17 @@ std::string to_string(
 );
 
 /**
- * @brief Convert the magic::Flag to string.
+ * @brief Convert the magic::flags to string.
  * 
  * @param[in] flag                  The flag.
  *
  * @returns The flag as a string.
  */
 [[nodiscard]]
-std::string to_string(magic::Flag flag);
+std::string to_string(magic::flags flag);
 
 /**
- * @brief Convert the magic::Flags to string.
+ * @brief Convert the magic::flags_container_t to string.
  * 
  * @param[in] flags                 The flags.
  * @param[in] separator             The separator between the flags, default is ", ".
@@ -498,7 +498,7 @@ std::string to_string(magic::Flag flag);
  * @returns The flags as a string.
  */
 [[nodiscard]]
-std::string to_string(const magic::Flags& flags, const std::string& separator = ", ");
+std::string to_string(const magic::flags_container_t& flags, const std::string& separator = ", ");
 
 /**
  * @brief Convert the magic::parameters to string.

@@ -14,13 +14,13 @@ TEST(magic_compile_test, closed_magic_compile_default_database)
 TEST(magic_compile_test, opened_magic_compile_empty_path)
 {
     magic m;
-    m.open(magic::Flag::Mime);
+    m.open(magic::flags::Mime);
     EXPECT_FALSE(m.compile({}));
 }
 
 TEST(magic_compile_test, opened_magic_compile_default_database)
 {
     magic m;
-    m.open(magic::Flag::Mime);
+    m.open(magic::flags::Mime);
     EXPECT_TRUE(m.compile());
 }

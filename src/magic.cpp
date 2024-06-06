@@ -18,9 +18,9 @@ class magic::magic_private {
 public:
     magic_private() noexcept = default;
 
-    magic_private(flags_t flags, const std::filesystem::path& database_file)
+    magic_private(flags_mask_t flags_mask, const std::filesystem::path& database_file)
     {
-        open(flags);
+        open(flags_mask);
         load_database_file(database_file);
     }
 
@@ -58,10 +58,10 @@ public:
     }
 
     [[nodiscard]]
-    Flags get_flags() const
+    flags_container_t get_flags() const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
-        return flag_converter(m_flags);
+        return flag_converter(m_flags_mask);
     }
 
     [[nodiscard]]
@@ -134,21 +134,21 @@ public:
         );
     }
 
-    void open(flags_t flags)
+    void open(flags_mask_t flags_mask)
     {
-        m_cookie.reset(detail::magic_open(flag_converter(flags)));
+        m_cookie.reset(detail::magic_open(flag_converter(flags_mask)));
         throw_exception_on_failure<magic_open_error>(is_open());
-        m_flags = flags;
+        m_flags_mask = flags_mask;
     }
 
-    void set_flags(flags_t flags)
+    void set_flags(flags_mask_t flags_mask)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<magic_set_flags_error>(
-            detail::magic_setflags(m_cookie.get(), flag_converter(flags)),
-            flag_converter(flags)
+            detail::magic_setflags(m_cookie.get(), flag_converter(flags_mask)),
+            flag_converter(flags_mask)
         );
-        m_flags = flags;
+        m_flags_mask = flags_mask;
     }
 
     void set_parameter(parameters parameter, std::size_t value)
@@ -175,10 +175,10 @@ private:
     )>;
 
     cookie_t m_cookie{nullptr};
-    flags_t m_flags{0};
+    flags_mask_t m_flags_mask{0};
 
     static constexpr auto libmagic_error           = -1;
-    static constexpr auto libmagic_flags_count     = flags_t{}.size();
+    static constexpr auto libmagic_flags_count     = flags_mask_t{}.size();
     static constexpr auto libmagic_parameter_count = 9uz;
 
     using libmagic_value_t = int;
@@ -267,44 +267,44 @@ private:
     }
 
     struct flag_converter {
-        explicit flag_converter(flags_t flags) noexcept
-            : m_flags{flags}
+        explicit flag_converter(flags_mask_t flags_mask) noexcept
+            : m_flags_mask{flags_mask}
         { }
 
         operator libmagic_value_t() const noexcept
         {
             libmagic_value_t flags = libmagic_pair_converter(libmagic_flag_none);
-            for (std::size_t i{}; i < m_flags.size(); ++i){
-                if (m_flags[i]){
+            for (std::size_t i{}; i < m_flags_mask.size(); ++i){
+                if (m_flags_mask[i]){
                     flags |= libmagic_pair_converter(libmagic_flags[i]);
                 }
             }
             return flags;
         }
 
-        operator Flags() const
+        operator flags_container_t() const
         {
-            if (m_flags.none()){
+            if (m_flags_mask.none()){
                 libmagic_value_t value = libmagic_pair_converter(libmagic_flag_none);
-                return {static_cast<Flag>(value)};
+                return {static_cast<flags>(value)};
             }
-            Flags flags;
-            for (std::size_t i{}; i < m_flags.size(); ++i){
-                if (m_flags[i]){
-                    flags.push_back(static_cast<Flag>(1ULL << i));
+            flags_container_t flags_container;
+            for (std::size_t i{}; i < m_flags_mask.size(); ++i){
+                if (m_flags_mask[i]){
+                    flags_container.push_back(static_cast<flags>(1ULL << i));
                 }
             }
-            return flags;
+            return flags_container;
         }
 
         operator libmagic_value_name_t() const
         {
-            if (m_flags.none()){
+            if (m_flags_mask.none()){
                 return libmagic_pair_converter(libmagic_flag_none);
             }
             libmagic_value_name_t flags;
-            for (std::size_t i{}; i < m_flags.size(); ++i){
-                if (m_flags[i]){
+            for (std::size_t i{}; i < m_flags_mask.size(); ++i){
+                if (m_flags_mask[i]){
                     flags.append(libmagic_pair_converter(libmagic_flags[i])) += ",";
                 }
             }
@@ -312,7 +312,7 @@ private:
             return flags;
         }
 
-        const flags_t m_flags;
+        const flags_mask_t m_flags_mask;
     };
 
     struct libmagic_pair_converter {
@@ -333,7 +333,7 @@ private:
         const libmagic_pair_t& m_pair;
     };
 
-    friend std::string to_string(Flag);
+    friend std::string to_string(flags);
     friend std::string to_string(parameters);
 };
 
@@ -368,9 +368,9 @@ std::string to_string(
     );
 }
 
-std::string to_string(magic::Flag flag)
+std::string to_string(magic::flags flag)
 {
-    if (flag == magic::Flag::None){
+    if (flag == magic::flags::None){
         return magic::magic_private::libmagic_flag_none.second;
     }
     const auto& flag_name{
@@ -379,10 +379,10 @@ std::string to_string(magic::Flag flag)
     return flag_name;
 }
 
-std::string to_string(const magic::Flags& flags, const std::string& separator)
+std::string to_string(const magic::flags_container_t& flags, const std::string& separator)
 {
     return utility::to_string(flags, separator,
-        [](magic::Flag flag){
+        [](magic::flags flag){
             return to_string(flag);
         }
     );
@@ -413,8 +413,8 @@ magic::magic() noexcept
     : m_impl{std::make_unique<magic_private>()}
 { }
 
-magic::magic(flags_t flags, const std::filesystem::path& database_file)
-    : m_impl{std::make_unique<magic_private>(flags, database_file)}
+magic::magic(flags_mask_t flags_mask, const std::filesystem::path& database_file)
+    : m_impl{std::make_unique<magic_private>(flags_mask, database_file)}
 { }
 
 magic::magic(magic&& other) noexcept
@@ -451,7 +451,7 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 }
 
 [[nodiscard]]
-magic::Flags magic::get_flags() const
+magic::flags_container_t magic::get_flags() const
 {
     return m_impl->get_flags();
 }
@@ -498,14 +498,14 @@ void magic::load_database_file(const std::filesystem::path& database_file)
     m_impl->load_database_file(database_file);
 }
 
-void magic::open(flags_t flags)
+void magic::open(flags_mask_t flags_mask)
 {
-    m_impl->open(flags);
+    m_impl->open(flags_mask);
 }
 
-void magic::set_flags(flags_t flags)
+void magic::set_flags(flags_mask_t flags_mask)
 {
-    m_impl->set_flags(flags);
+    m_impl->set_flags(flags_mask);
 }
 
 void magic::set_parameter(magic::parameters parameter, std::size_t value)

@@ -38,6 +38,9 @@ TEST(magic_parameters_test, opened_magic_set_parameter_get_parameter)
         EXPECT_EQ(m.get_parameter(parameter_pair.first), parameter_pair.second);
     }
     EXPECT_EQ(expected_parameters, m.get_parameters());
+    m.open(magic::flags::mime);
+    m.set_parameters(expected_parameters);
+    EXPECT_EQ(expected_parameters, m.get_parameters());
 }
 
 TEST(magic_parameters_test, parameter_to_string_conversion)

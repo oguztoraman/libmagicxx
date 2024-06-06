@@ -183,6 +183,17 @@ public:
         );
     }
 
+    void set_parameters(const parameter_value_map_t& parameters)
+    {
+        std::ranges::for_each(parameters,
+            [&](const auto& parameter_value_pair){
+                const auto& parameter = parameter_value_pair.first;
+                const auto& value = parameter_value_pair.second;
+                set_parameter(parameter, value);
+            }
+        );
+    }
+
 private:
     using cookie_t = std::unique_ptr<detail::magic_set, decltype(
         [](detail::magic_t cookie) noexcept {
@@ -556,6 +567,11 @@ void magic::set_flags(flags_container_t flags_container)
 void magic::set_parameter(magic::parameters parameter, std::size_t value)
 {
     m_impl->set_parameter(parameter, value);
+}
+
+void magic::set_parameters(const parameter_value_map_t& parameters)
+{
+    m_impl->set_parameters(parameters);
 }
 
 } /* namespace recognition */

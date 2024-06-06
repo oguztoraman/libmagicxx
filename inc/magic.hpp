@@ -440,6 +440,16 @@ public:
      */
     void set_parameter(parameters parameter, std::size_t value);
 
+    /**
+     * @brief Set the values of the parameters of magic.
+     *
+     * @param[in] parameters          Parameters with corresponding values.
+     *
+     * @throws magic_is_closed        if magic is closed.
+     * @throws magic_set_param_error  if setting the parameter of magic fails.
+     */
+    void set_parameters(const parameter_value_map_t& parameters);
+
 private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;

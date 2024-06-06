@@ -1,4 +1,5 @@
 .cache/
 .vscode/
 build/
+test_build/
 CMakeLists.txt.user

@@ -42,6 +42,7 @@ TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
         std::ranges::fold_left(test_flags.begin(), test_flags.end(), test_flags.front(), std::bit_or<decltype(1ULL)>{})
     );
     EXPECT_EQ(expected_magic_flags, m.get_flags());
+    m.open(magic::flags::none);
     m.set_flags(expected_magic_flags);
     EXPECT_EQ(expected_magic_flags, m.get_flags());
 }

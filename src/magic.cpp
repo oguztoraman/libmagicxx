@@ -67,7 +67,7 @@ public:
     flags_container_t get_flags() const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
-        return flag_converter(m_flags_mask);
+        return flags_converter(m_flags_mask);
     }
 
     [[nodiscard]]
@@ -142,29 +142,29 @@ public:
 
     void open(flags_mask_t flags_mask)
     {
-        m_cookie.reset(detail::magic_open(flag_converter(flags_mask)));
+        m_cookie.reset(detail::magic_open(flags_converter(flags_mask)));
         throw_exception_on_failure<magic_open_error>(is_open());
         m_flags_mask = flags_mask;
     }
 
     void open(const flags_container_t& flags_container)
     {
-        open(flags_mask_t{flag_converter(flags_container)});
+        open(flags_mask_t{flags_converter(flags_container)});
     }
 
     void set_flags(flags_mask_t flags_mask)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<magic_set_flags_error>(
-            detail::magic_setflags(m_cookie.get(), flag_converter(flags_mask)),
-            flag_converter(flags_mask)
+            detail::magic_setflags(m_cookie.get(), flags_converter(flags_mask)),
+            flags_converter(flags_mask)
         );
         m_flags_mask = flags_mask;
     }
 
     void set_flags(const flags_container_t& flags_container)
     {
-        set_flags(flags_mask_t{flag_converter(flags_container)});
+        set_flags(flags_mask_t{flags_converter(flags_container)});
     }
 
     void set_parameter(parameters parameter, std::size_t value)
@@ -293,8 +293,8 @@ private:
         return magic_error_cstr ? magic_error_cstr : "";
     }
 
-    struct flag_converter {
-        explicit flag_converter(const flags_container_t& flags_container) noexcept
+    struct flags_converter {
+        explicit flags_converter(const flags_container_t& flags_container) noexcept
             : m_flags_mask{
                 std::ranges::fold_left(
                     flags_container,
@@ -304,7 +304,7 @@ private:
             }
         { }
 
-        explicit flag_converter(flags_mask_t flags_mask) noexcept
+        explicit flags_converter(flags_mask_t flags_mask) noexcept
             : m_flags_mask{flags_mask}
         { }
 

@@ -4,6 +4,5 @@
 + [ ] Use modules.
 + [ ] Build as a CMake package.
 + [ ] Build as an RPM package.
-+ [ ] Consider using ExternalProject.
 + [ ] Use GitHub Actions with a custom container containing the latest versions of GCC and Clang.
 

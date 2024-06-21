@@ -21,7 +21,11 @@ set(magic_LIBRARY
 )
 
 if (NOT EXISTS ${magic_LIBRARY})
-    message(FATAL_ERROR "First, you need to run the setup.sh bash script.")
+    message(STATUS "Running the setup.sh bash script...")
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E env sh ${magicxx_SOURCE_DIR}/setup.sh
+        WORKING_DIRECTORY ${magicxx_SOURCE_DIR}
+    )
 endif()
 
 set(magicxx_INCLUDE_DIR

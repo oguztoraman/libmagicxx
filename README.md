@@ -19,13 +19,7 @@ A C++ wrapper library over the [Magic Number Recognition Library](https://github
 git clone https://github.com/oguztoraman/libmagicxx
 ```
 
-2. Run the [setup.sh](https://github.com/oguztoraman/libmagicxx/blob/main/setup.sh) bash script to install the requirements and build the Magic Number Recognition Library.
-
-```
-cd libmagicxx && ./setup.sh
-```
-
-3. Add the following lines to the top level CMakeLists.txt file of your project.
+2. Add the following lines to the top level CMakeLists.txt file of your project.
 
 ```
 add_subdirectory(libmagicxx)

@@ -23,15 +23,6 @@ jobs:
     steps:
       - name: Checkout.
         uses: actions/checkout@v4
-      - name: Determine latest tag.
-        id: tag
-        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
-      - name: Replace Doxyfile PROJECT_VERSION with Git tag.
-        run: sed -i "s/@PROJECT_VERSION@/${{ steps.tag.outputs.tag }}/g" Doxyfile
-      - name: Install Doxygen.
-        run: sudo apt-get -y install doxygen
-      - name: Generate Doxygen documentation.
-        run: doxygen Doxyfile
       - name: Setup Pages.
         uses: actions/configure-pages@v5
       - name: Upload artifact.

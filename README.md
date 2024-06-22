@@ -37,6 +37,10 @@ target_link_libraries(<name of your project>
 )
 ```
 
+## Documentation
+
+For comprehensive guides, API references, and detailed information, please visit the [documentation site](https://oguztoraman.github.io/libmagicxx/).
+
 ## License
 
 + Libmagicxx

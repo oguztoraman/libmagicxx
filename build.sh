@@ -18,7 +18,7 @@ usage(){
     exit 1
 }
 
-DISPLAY_USAGE=true;
+DISPLAY_USAGE=true
 
 while getopts 'd:b:c:ht' OPTION; do
     case ${OPTION} in
@@ -36,12 +36,18 @@ fi
 
 echo "Selected options: build_dir=${BUILD_DIR}, build_type=${BUILD_TYPE}, compiler=${COMPILER}, build and run tests=${RUN_TESTS}"
 
-cmake -DCMAKE_BUILD_TYPE:STRING=${BUILD_TYPE} -DBUILD_MAGICXX_TESTS=${RUN_TESTS} -DCMAKE_CXX_COMPILER:FILEPATH=${COMPILER} -G Ninja -S . -B ${BUILD_DIR}
+cmake -DCMAKE_BUILD_TYPE:STRING=${BUILD_TYPE} -DBUILD_MAGICXX_TESTS=${RUN_TESTS} -DCMAKE_CXX_COMPILER:FILEPATH=${COMPILER} -G Ninja -S . -B ${BUILD_DIR} || {
+    exit 2
+}
 
 cd ${BUILD_DIR} && ninja -j10 &&
-echo "Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '${COMPILER}'."
+echo "Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '${COMPILER}'." || {
+    exit 3
+}
 
 if [ "$RUN_TESTS" == "ON" ]; then
     echo "Running tests..."
-    cd test && ctest --output-on-failure -j10
+    cd test && ctest --output-on-failure -j10 || {
+        exit 4
+    }
 fi

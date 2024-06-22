@@ -2,12 +2,10 @@ name: Build and Test on Linux.
 
 on:
   push:
-    tags: ['v*'] 
+    tags: ['v*']
   pull_request:
     branches: [ "main" ]
-
-env:
-  BUILD_TYPE: Release
+  workflow_dispatch:
 
 jobs:
   clang_build:

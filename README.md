@@ -1,3 +1,5 @@
+![Build & Test on Linux](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux.yml/badge.svg)
+
 # Libmagicxx
 
 A C++ wrapper library over the [Magic Number Recognition Library](https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library).

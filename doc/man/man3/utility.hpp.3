@@ -1,0 +1,39 @@
+.TH "utility.hpp" 3 "Sat Jun 22 2024 23:37:29" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+utility.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <string>\fP
+.br
+\fR#include <ranges>\fP
+.br
+\fR#include <concepts>\fP
+.br
+\fR#include <algorithm>\fP
+.br
+\fR#include <functional>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fButility\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename ContainerType , typename StringConverterType > 
+.br
+requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string \fButility::to_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.br
+.RI "Convert any container to string using the string_converter\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

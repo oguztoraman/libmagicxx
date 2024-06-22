@@ -1,0 +1,11 @@
+var searchData=
+[
+  ['magic_0',['magic',['../classrecognition_1_1magic.html#a430715087f2f65fcf0bff225ca26f26a',1,'recognition::magic::magic() noexcept'],['../classrecognition_1_1magic.html#a7313612a9efea58a409fafeee8a1c1ab',1,'recognition::magic::magic(flags_mask_t flags_mask, const std::filesystem::path &amp;database_file=default_database_file)'],['../classrecognition_1_1magic.html#a20bda9cadf381bf0609ba0cf52bbf407',1,'recognition::magic::magic(const flags_container_t &amp;flags_container, const std::filesystem::path &amp;database_file=default_database_file)'],['../classrecognition_1_1magic.html#a615522745cc53e219c8342627deeb121',1,'recognition::magic::magic(magic &amp;&amp;other) noexcept'],['../classrecognition_1_1magic.html#a66e0c2171295474ec877771d7c29fc6b',1,'recognition::magic::magic(const magic &amp;)=delete']]],
+  ['magic_5fexception_1',['magic_exception',['../classrecognition_1_1magic__exception.html#a634ed3e21468b781e651de99bc9525b4',1,'recognition::magic_exception::magic_exception(const std::string &amp;error)'],['../classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab',1,'recognition::magic_exception::magic_exception(const std::string &amp;function, const std::string &amp;error)']]],
+  ['magic_5ffile_5ferror_2',['magic_file_error',['../classrecognition_1_1magic__file__error.html#aa685a891aacbc231f951a4ff1a0570aa',1,'recognition::magic_file_error']]],
+  ['magic_5fis_5fclosed_3',['magic_is_closed',['../classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96',1,'recognition::magic_is_closed']]],
+  ['magic_5fload_5ferror_4',['magic_load_error',['../classrecognition_1_1magic__load__error.html#ab434f9b28fb784d078ca6b64e8c59bcc',1,'recognition::magic_load_error']]],
+  ['magic_5fopen_5ferror_5',['magic_open_error',['../classrecognition_1_1magic__open__error.html#a8f9678bd35cb51c3e308208e7fd73960',1,'recognition::magic_open_error']]],
+  ['magic_5fset_5fflags_5ferror_6',['magic_set_flags_error',['../classrecognition_1_1magic__set__flags__error.html#a8329266e4d579231bfb7bb51f10dd506',1,'recognition::magic_set_flags_error']]],
+  ['magic_5fset_5fparam_5ferror_7',['magic_set_param_error',['../classrecognition_1_1magic__set__param__error.html#afe8a18e9c642914e6d3afdeada0b43e9',1,'recognition::magic_set_param_error']]]
+];

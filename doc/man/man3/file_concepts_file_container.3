@@ -1,0 +1,32 @@
+.TH "file_concepts::file_container" 3 "Sat Jun 22 2024 23:37:29" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+file_concepts::file_container \- The file_container concept specifies the requirements of a container which can be used as a file container by the magic class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <file_concepts\&.hpp>\fP
+.SH "Concept definition"
+.PP 
+.PP
+.nf
+template<typename ContainerType>
+concept file_concepts::file_container = 
+        requires (ContainerType c, std::filesystem::path p){
+            c\&.push_back(p);
+            c\&.empty();
+            typename ContainerType::value_type;
+        } &&
+        std::ranges::range<ContainerType> &&
+        std::default_initializable<ContainerType> &&
+        std::same_as<typename ContainerType::value_type, std::filesystem::path>
+.fi
+.SH "Detailed Description"
+.PP 
+The file_container concept specifies the requirements of a container which can be used as a file container by the magic class\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

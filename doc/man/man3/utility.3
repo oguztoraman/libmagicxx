@@ -1,0 +1,52 @@
+.TH "utility" 3 "Sat Jun 22 2024 23:37:29" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+utility
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename ContainerType , typename StringConverterType > 
+.br
+requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string \fBto_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.br
+.RI "Convert any container to string using the string_converter\&. "
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<typename ContainerType , typename StringConverterType > 
+.br
+requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string utility::to_string (const ContainerType & container, const std::string & value_separator, StringConverterType string_converter)\fR [inline]\fP"
+
+.PP
+Convert any container to string using the string_converter\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIContainerType\fP The type of the container\&. 
+.br
+\fIStringConverterType\fP The type of the string converter callable\&.
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIcontainer\fP 
+.br
+\fIvalue_separator\fP The separator between the values of the container\&. 
+.br
+\fIstring_converter\fP The callable that converts values of the container to string\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The container as a string\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

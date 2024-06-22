@@ -1,0 +1,73 @@
+.TH "magic.hpp" 3 "Sat Jun 22 2024 23:37:29" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+magic.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <map>\fP
+.br
+\fR#include <bitset>\fP
+.br
+\fR#include <vector>\fP
+.br
+\fR#include <memory>\fP
+.br
+\fR#include <expected>\fP
+.br
+\fR#include <file_concepts\&.hpp>\fP
+.br
+\fR#include <magic_exception\&.hpp>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBrecognition::magic\fP"
+.br
+.RI "The magic class provides a C++ wrapper over the Magic Number Recognition Library\&. The magic class is used to identify the type of a file, if the following steps have been completed;\&. "
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBrecognition\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::types_of_files_t\fP &types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.br
+.RI "Convert the \fBmagic::types_of_files_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_file_type_t\fP &expected_file_type)"
+.br
+.RI "Convert the \fBmagic::expected_file_type_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_types_of_files_t\fP &expected_types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.br
+.RI "Convert the \fBmagic::expected_types_of_files_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (\fBmagic::flags\fP flag)"
+.br
+.RI "Convert the \fBmagic::flags\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::flags_container_t\fP &flags, const std::string &separator=', ')"
+.br
+.RI "Convert the \fBmagic::flags_container_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (\fBmagic::parameters\fP parameter)"
+.br
+.RI "Convert the \fBmagic::parameters\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::parameter_value_map_t\fP &parameters, const std::string &value_separator=': ', const std::string &parameter_separator=', ')"
+.br
+.RI "Convert the \fBmagic::parameter_value_map_t\fP to string\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

@@ -21,7 +21,48 @@ set(magic_LIBRARY
 )
 
 if (NOT EXISTS ${magic_LIBRARY})
-    message(FATAL_ERROR "First, you need to run the setup.sh bash script.")
+    message(STATUS "Running initialization and setup steps...")
+
+    message(STATUS "Initializing and updating git submodules...")
+    execute_process(
+        COMMAND git submodule update --init --recursive
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE submodule_result
+    )
+    if (submodule_result)
+        message(FATAL_ERROR "Failed to update git submodules.")
+    endif()
+
+    message(STATUS "Configuring the file...")
+    execute_process(
+        COMMAND autoreconf -f -i
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        RESULT_VARIABLE autoreconf_result
+    )
+    if (autoreconf_result)
+        message(FATAL_ERROR "Failed to run autoreconf.")
+    endif()
+
+    execute_process(
+        COMMAND ./configure
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        RESULT_VARIABLE configure_result
+    )
+    if (configure_result)
+        message(FATAL_ERROR "Failed to configure file.")
+    endif()
+
+    message(STATUS "Building the file command and the Magic Number Recognition Library...")
+    execute_process(
+        COMMAND make
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        RESULT_VARIABLE make_result
+    )
+    if (make_result)
+        message(FATAL_ERROR "Failed to build the file command and the Magic Number Recognition Library.")
+    endif()
+
+    message(STATUS "Done")
 endif()
 
 set(magicxx_INCLUDE_DIR

@@ -1,0 +1,44 @@
+name: Build and Test on Linux.
+
+on:
+  push:
+    tags: ['v*'] 
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  clang_build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    steps:
+    - name: Install dependencies.
+      run: dnf install -y cmake make ninja-build clang libcxx-devel git autoconf libtool
+    - name: Clone Libmagicxx.
+      run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
+    - name: Build.
+      working-directory: /libmagicxx
+      run: ./build.sh -c clang++
+    - name: Test.
+      working-directory: /libmagicxx
+      shell: bash
+      run: ./build.sh -c clang++ -t
+
+  gcc_build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    steps:
+    - name: Install dependencies.
+      run: dnf install -y cmake make ninja-build g++ git autoconf libtool
+    - name: Clone Libmagicxx.
+      run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
+    - name: Build.
+      working-directory: /libmagicxx
+      run: ./build.sh -c g++
+    - name: Test.
+      working-directory: /libmagicxx
+      run: ./build.sh -c g++ -t

@@ -41,7 +41,7 @@ sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE" || {
     exit 3
 }
 
-sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}\n/" "$CHANGELOG_FILE" || {
+sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE" || {
     exit 4
 }
 

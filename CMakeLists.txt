@@ -26,7 +26,7 @@ if (NOT EXISTS ${magic_LIBRARY})
     message(STATUS "Initializing and updating git submodules...")
     execute_process(
         COMMAND git submodule update --init --recursive
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        WORKING_DIRECTORY ${magicxx_SOURCE_DIR}
         RESULT_VARIABLE submodule_result
     )
     if (submodule_result)
@@ -36,7 +36,7 @@ if (NOT EXISTS ${magic_LIBRARY})
     message(STATUS "Configuring the file...")
     execute_process(
         COMMAND autoreconf -f -i
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
         RESULT_VARIABLE autoreconf_result
     )
     if (autoreconf_result)
@@ -45,7 +45,7 @@ if (NOT EXISTS ${magic_LIBRARY})
 
     execute_process(
         COMMAND ./configure
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
         RESULT_VARIABLE configure_result
     )
     if (configure_result)
@@ -55,7 +55,7 @@ if (NOT EXISTS ${magic_LIBRARY})
     message(STATUS "Building the file command and the Magic Number Recognition Library...")
     execute_process(
         COMMAND make
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/file
+        WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
         RESULT_VARIABLE make_result
     )
     if (make_result)

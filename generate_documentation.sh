@@ -4,12 +4,34 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 DOXYFILE=Doxyfile
-LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
+GIT_TAG=""
 
-echo "Generating Doxygen documentation..."
+usage(){
+    echo "Usage: $0 -t git_tag [-h]"
+    echo "  -t git_tag     Specify the git tag (i.e. v1.0.0)."
+    echo "  -h             Display this message."
+    exit 1
+}
 
-sed -i "s/^PROJECT_NUMBER.*/PROJECT_NUMBER = ${LATEST_GIT_TAG}/" "$DOXYFILE"
+DISPLAY_USAGE=true
 
-doxygen ${DOXYFILE}
+while getopts 't:h' OPTION; do
+    case ${OPTION} in
+        t) GIT_TAG=$OPTARG     DISPLAY_USAGE=false;;
+        *) usage;;
+    esac
+done
 
-echo "Done."
+if [ "$DISPLAY_USAGE" = true ] || [ $# -eq 0 ]; then
+    usage
+fi
+
+echo "Generating Doxygen documentation with tag '${GIT_TAG}'..."
+
+sed -i "s/^PROJECT_NUMBER.*/PROJECT_NUMBER = ${GIT_TAG}/" "$DOXYFILE"
+
+rm -rf doc/* && doxygen ${DOXYFILE} || {
+    exit 2
+}
+
+echo "Doxygen documentation generated with tag '${GIT_TAG}'."

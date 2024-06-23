@@ -1,0 +1,52 @@
+name: Update and deploy Doxygen documentation to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout.
+        uses: actions/checkout@v4
+      - name: Setup Pages.
+        uses: actions/configure-pages@v5
+      - name: Install Doxygen.
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+      - name: Update the documentation.
+        run: ./generate_documentation.sh
+      - name: Commit and push changes.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name 'Oğuz Toraman'
+          git config --global user.email 'oguz.toraman@tutanota.com'
+          git add Doxyfile doc/*
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update the documentation."
+            git push -u origin main
+          fi
+      - name: Upload artifact.
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'doc/html'
+      - name: Deploy to GitHub Pages.
+        id: deployment
+        uses: actions/deploy-pages@v4

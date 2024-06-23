@@ -23,23 +23,23 @@ A C++ wrapper library over the [Magic Number Recognition Library](https://github
 
 1. Clone the libmagicxx repo.
 
-```
+```bash
 git clone https://github.com/oguztoraman/libmagicxx
 ```
 
 2. Run the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh) bash script to install the necessary dependencies.
 
-```
+```bash
 cd libmagicxx && ./install_dependencies.sh
 ```
 
 3. Run the [build.sh](https://github.com/oguztoraman/libmagicxx/blob/main/build.sh) bash script.
 
-```
+```bash
 ./build.sh -d build -b Release -c g++ -t
 ```
 
-```
+```bash
 ./build.sh -h
 Usage: ./build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
   -d build_dir   Specify the build directory (default: release_build).
@@ -53,19 +53,19 @@ Usage: ./build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
 
 1. Clone the libmagicxx repo into your project.
 
-```
+```bash
 git clone https://github.com/oguztoraman/libmagicxx
 ```
 
 2. Run the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh) bash script to install the necessary dependencies.
 
-```
+```bash
 cd libmagicxx && ./install_dependencies.sh
 ```
 
 3. Add the following lines to the top level CMakeLists.txt file of your project to include and link libmagicxx.
 
-```
+```cmake
 add_subdirectory(libmagicxx)
 
 add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
@@ -77,7 +77,7 @@ target_link_libraries(<name of your project>
 
 4. Include the magic.hpp header file in your source files where you need to use Libmagicxx functionality.
 
-```
+```cpp
 #include <print>
 #include <iostream>
 #include <magic.hpp>
@@ -94,6 +94,10 @@ auto main(int, char**)->int
 ## Documentation
 
 For comprehensive guides, API references, and detailed information, please visit the [documentation site](https://oguztoraman.github.io/libmagicxx/).
+
+## Source Code
+
+Explore the source code of Libmagicxx on [GitHub](https://github.com/oguztoraman/libmagicxx).
 
 ## License
 

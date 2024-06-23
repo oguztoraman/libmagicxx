@@ -1,4 +1,4 @@
-.TH "utility" 3 "Sun Jun 23 2024 00:24:43" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "utility" 3 "Sun Jun 23 2024" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,17 +10,16 @@ utility
 
 .in +1c
 .ti -1c
-.RI "template<typename ContainerType , typename StringConverterType > 
-.br
-requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string \fBto_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.RI "template<typename ContainerType , typename StringConverterType > requires std::ranges::range< ContainerType > && \fBrequires\fP (ContainerType c)"
 .br
 .RI "Convert any container to string using the string_converter\&. "
+.ti -1c
+.RI "std::string \fBto_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.br
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "template<typename ContainerType , typename StringConverterType > 
-.br
-requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string utility::to_string (const ContainerType & container, const std::string & value_separator, StringConverterType string_converter)\fR [inline]\fP"
+.SS "template<typename ContainerType , typename StringConverterType > requires std::ranges::range<ContainerType>&& utility::requires (ContainerType c)"
 
 .PP
 Convert any container to string using the string_converter\&. 
@@ -46,6 +45,8 @@ Convert any container to string using the string_converter\&.
 The container as a string\&. 
 .RE
 .PP
+
+.SS "std::string utility::to_string (const ContainerType & container, const std::string & value_separator, StringConverterType string_converter)\fC [inline]\fP"
 
 .SH "Author"
 .PP 

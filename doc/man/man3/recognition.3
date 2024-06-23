@@ -1,4 +1,4 @@
-.TH "recognition" 3 "Sun Jun 23 2024 00:24:43" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition" 3 "Sun Jun 23 2024" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,12 +10,6 @@ recognition
 
 .in +1c
 .ti -1c
-.RI "class \fBempty_path\fP"
-.br
-.ti -1c
-.RI "class \fBinvalid_path\fP"
-.br
-.ti -1c
 .RI "class \fBmagic\fP"
 .br
 .RI "The magic class provides a C++ wrapper over the Magic Number Recognition Library\&. The magic class is used to identify the type of a file, if the following steps have been completed;\&. "
@@ -24,16 +18,22 @@ recognition
 .br
 .RI "The base class for all exceptions thrown by the magic class\&. "
 .ti -1c
-.RI "class \fBmagic_file_error\fP"
+.RI "class \fBempty_path\fP"
+.br
+.ti -1c
+.RI "class \fBinvalid_path\fP"
 .br
 .ti -1c
 .RI "class \fBmagic_is_closed\fP"
 .br
 .ti -1c
+.RI "class \fBmagic_open_error\fP"
+.br
+.ti -1c
 .RI "class \fBmagic_load_error\fP"
 .br
 .ti -1c
-.RI "class \fBmagic_open_error\fP"
+.RI "class \fBmagic_file_error\fP"
 .br
 .ti -1c
 .RI "class \fBmagic_set_flags_error\fP"
@@ -92,7 +92,7 @@ The expected_file_type as a string\&.
 .RE
 .PP
 
-.SS "std::string recognition::to_string (const \fBmagic::expected_types_of_files_t\fP & expected_types_of_files, const std::string & type_separator = \fR' \-> '\fP, const std::string & file_separator = \fR'\\n'\fP)"
+.SS "std::string recognition::to_string (const \fBmagic::expected_types_of_files_t\fP & expected_types_of_files, const std::string & type_separator = \fC' \-> '\fP, const std::string & file_separator = \fC'\\n'\fP)"
 
 .PP
 Convert the \fBmagic::expected_types_of_files_t\fP to string\&. 
@@ -112,7 +112,7 @@ The expected_types_of_files as a string\&.
 .RE
 .PP
 
-.SS "std::string recognition::to_string (const \fBmagic::flags_container_t\fP & flags, const std::string & separator = \fR', '\fP)"
+.SS "std::string recognition::to_string (const \fBmagic::flags_container_t\fP & flags, const std::string & separator = \fC', '\fP)"
 
 .PP
 Convert the \fBmagic::flags_container_t\fP to string\&. 
@@ -130,7 +130,7 @@ The flags as a string\&.
 .RE
 .PP
 
-.SS "std::string recognition::to_string (const \fBmagic::parameter_value_map_t\fP & parameters, const std::string & value_separator = \fR': '\fP, const std::string & parameter_separator = \fR', '\fP)"
+.SS "std::string recognition::to_string (const \fBmagic::parameter_value_map_t\fP & parameters, const std::string & value_separator = \fC': '\fP, const std::string & parameter_separator = \fC', '\fP)"
 
 .PP
 Convert the \fBmagic::parameter_value_map_t\fP to string\&. 
@@ -150,7 +150,7 @@ The parameters as a string\&.
 .RE
 .PP
 
-.SS "std::string recognition::to_string (const \fBmagic::types_of_files_t\fP & types_of_files, const std::string & type_separator = \fR' \-> '\fP, const std::string & file_separator = \fR'\\n'\fP)"
+.SS "std::string recognition::to_string (const \fBmagic::types_of_files_t\fP & types_of_files, const std::string & type_separator = \fC' \-> '\fP, const std::string & file_separator = \fC'\\n'\fP)"
 
 .PP
 Convert the \fBmagic::types_of_files_t\fP to string\&. 

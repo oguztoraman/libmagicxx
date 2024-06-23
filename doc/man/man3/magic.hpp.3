@@ -1,4 +1,4 @@
-.TH "magic.hpp" 3 "Sun Jun 23 2024 00:24:43" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "magic.hpp" 3 "Sun Jun 23 2024" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,19 +6,19 @@ magic.hpp
 .SH SYNOPSIS
 .br
 .PP
-\fR#include <map>\fP
+\fC#include <map>\fP
 .br
-\fR#include <bitset>\fP
+\fC#include <bitset>\fP
 .br
-\fR#include <vector>\fP
+\fC#include <vector>\fP
 .br
-\fR#include <memory>\fP
+\fC#include <memory>\fP
 .br
-\fR#include <expected>\fP
+\fC#include <expected>\fP
 .br
-\fR#include <file_concepts\&.hpp>\fP
+\fC#include <file_concepts\&.hpp>\fP
 .br
-\fR#include <magic_exception\&.hpp>\fP
+\fC#include <magic_exception\&.hpp>\fP
 .br
 
 .SS "Classes"
@@ -33,38 +33,38 @@ magic.hpp
 
 .in +1c
 .ti -1c
-.RI "namespace \fBrecognition\fP"
+.RI " \fBrecognition\fP"
 .br
 .in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::types_of_files_t\fP &types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.RI "std::string \fBrecognition::to_string\fP (const magic::types_of_files_t &types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
 .br
 .RI "Convert the \fBmagic::types_of_files_t\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_file_type_t\fP &expected_file_type)"
+.RI "std::string \fBrecognition::to_string\fP (const magic::expected_file_type_t &expected_file_type)"
 .br
 .RI "Convert the \fBmagic::expected_file_type_t\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_types_of_files_t\fP &expected_types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.RI "std::string \fBrecognition::to_string\fP (const magic::expected_types_of_files_t &expected_types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
 .br
 .RI "Convert the \fBmagic::expected_types_of_files_t\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (\fBmagic::flags\fP flag)"
+.RI "std::string \fBrecognition::to_string\fP (magic::flags flag)"
 .br
 .RI "Convert the \fBmagic::flags\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::flags_container_t\fP &flags, const std::string &separator=', ')"
+.RI "std::string \fBrecognition::to_string\fP (const magic::flags_container_t &flags, const std::string &separator=', ')"
 .br
 .RI "Convert the \fBmagic::flags_container_t\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (\fBmagic::parameters\fP parameter)"
+.RI "std::string \fBrecognition::to_string\fP (magic::parameters parameter)"
 .br
 .RI "Convert the \fBmagic::parameters\fP to string\&. "
 .ti -1c
-.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::parameter_value_map_t\fP &parameters, const std::string &value_separator=': ', const std::string &parameter_separator=', ')"
+.RI "std::string \fBrecognition::to_string\fP (const magic::parameter_value_map_t &parameters, const std::string &value_separator=': ', const std::string &parameter_separator=', ')"
 .br
 .RI "Convert the \fBmagic::parameter_value_map_t\fP to string\&. "
 .in -1c

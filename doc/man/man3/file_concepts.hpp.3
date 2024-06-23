@@ -1,4 +1,4 @@
-.TH "file_concepts.hpp" 3 "Sun Jun 23 2024 00:24:43" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "file_concepts.hpp" 3 "Sun Jun 23 2024" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,25 +6,17 @@ file_concepts.hpp
 .SH SYNOPSIS
 .br
 .PP
-\fR#include <filesystem>\fP
+\fC#include <filesystem>\fP
 .br
-\fR#include 'utility\&.hpp'\fP
+\fC#include 'utility\&.hpp'\fP
 .br
 
 .SS "Namespaces"
 
 .in +1c
 .ti -1c
-.RI "namespace \fBfile_concepts\fP"
+.RI " \fBfile_concepts\fP"
 .br
-.in -1c
-.SS "Concepts"
-
-.in +1c
-.ti -1c
-.RI "concept \fBfile_concepts::file_container\fP"
-.br
-.RI "The file_container concept specifies the requirements of a container which can be used as a file container by the magic class\&. "
 .in -1c
 .SS "Functions"
 
@@ -33,6 +25,14 @@ file_concepts.hpp
 .RI "std::string \fBfile_concepts::to_string\fP (const file_container auto &container, const std::string &separator=', ')"
 .br
 .RI "Convert the file container to a string\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "template<typename ContainerType > concept \fBfile_concepts::file_container\fP"
+.br
+.RI "The file_container concept specifies the requirements of a container which can be used as a file container by the magic class\&. "
 .in -1c
 .SH "Author"
 .PP 

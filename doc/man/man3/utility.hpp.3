@@ -1,4 +1,4 @@
-.TH "utility.hpp" 3 "Sun Jun 23 2024 00:24:43" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "utility.hpp" 3 "Sun Jun 23 2024" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,33 +6,34 @@ utility.hpp
 .SH SYNOPSIS
 .br
 .PP
-\fR#include <string>\fP
+\fC#include <string>\fP
 .br
-\fR#include <ranges>\fP
+\fC#include <ranges>\fP
 .br
-\fR#include <concepts>\fP
+\fC#include <concepts>\fP
 .br
-\fR#include <algorithm>\fP
+\fC#include <algorithm>\fP
 .br
-\fR#include <functional>\fP
+\fC#include <functional>\fP
 .br
 
 .SS "Namespaces"
 
 .in +1c
 .ti -1c
-.RI "namespace \fButility\fP"
+.RI " \fButility\fP"
 .br
 .in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "template<typename ContainerType , typename StringConverterType > 
-.br
-requires std::ranges::range<ContainerType> && requires (ContainerType c){c\&.empty(); typename ContainerType::value_type;}std::string \fButility::to_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.RI "template<typename ContainerType , typename StringConverterType > requires std::ranges::range< ContainerType > && \fButility::requires\fP (ContainerType c)"
 .br
 .RI "Convert any container to string using the string_converter\&. "
+.ti -1c
+.RI "std::string \fButility::to_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+.br
 .in -1c
 .SH "Author"
 .PP 

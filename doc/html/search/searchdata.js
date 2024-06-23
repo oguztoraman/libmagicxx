@@ -4,13 +4,12 @@ var indexSectionsWithContent =
   1: "eim",
   2: "fru",
   3: "fmu",
-  4: "cegilmost~",
-  5: "d",
+  4: "cegilmorst~",
+  5: "df",
   6: "efpt",
   7: "fp",
   8: "abcdeimnprs",
-  9: "t",
-  10: "f"
+  9: "t"
 };
 
 var indexSectionNames =
@@ -24,8 +23,7 @@ var indexSectionNames =
   6: "typedefs",
   7: "enums",
   8: "enumvalues",
-  9: "related",
-  10: "concepts"
+  9: "related"
 };
 
 var indexSectionLabels =
@@ -39,7 +37,6 @@ var indexSectionLabels =
   6: "Typedefs",
   7: "Enumerations",
   8: "Enumerator",
-  9: "Friends",
-  10: "Concepts"
+  9: "Friends"
 };
 

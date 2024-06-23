@@ -1,6 +1,30 @@
 var searchData=
 [
-  ['open_127',['open',['../classrecognition_1_1magic.html#a549ffb7995b83934c78b0f289a6df54a',1,'recognition::magic::open(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a4d3b340bd40453a2c66b409958878262',1,'recognition::magic::open(const flags_container_t &amp;flags_container)']]],
-  ['operator_20bool_128',['operator bool',['../classrecognition_1_1magic.html#a0f09c2aa8da9990d241e7453811254e1',1,'recognition::magic']]],
-  ['operator_3d_129',['operator=',['../classrecognition_1_1magic.html#a3c67ecee280fb0421635675cd5d837fe',1,'recognition::magic::operator=(magic &amp;&amp;other) noexcept'],['../classrecognition_1_1magic.html#ae62ac20acdc34e7a43866557676da13d',1,'recognition::magic::operator=(const magic &amp;)=delete']]]
+  ['magic_0',['magic',['../classrecognition_1_1magic.html#a430715087f2f65fcf0bff225ca26f26a',1,'recognition::magic::magic() noexcept'],['../classrecognition_1_1magic.html#a7313612a9efea58a409fafeee8a1c1ab',1,'recognition::magic::magic(flags_mask_t flags_mask, const std::filesystem::path &amp;database_file=default_database_file)'],['../classrecognition_1_1magic.html#a20bda9cadf381bf0609ba0cf52bbf407',1,'recognition::magic::magic(const flags_container_t &amp;flags_container, const std::filesystem::path &amp;database_file=default_database_file)'],['../classrecognition_1_1magic.html#a615522745cc53e219c8342627deeb121',1,'recognition::magic::magic(magic &amp;&amp;other) noexcept'],['../classrecognition_1_1magic.html#a66e0c2171295474ec877771d7c29fc6b',1,'recognition::magic::magic(const magic &amp;)=delete']]],
+  ['magic_5fbuffer_1',['magic_buffer',['../magic_8h.html#a59680e22e6fecfe62c120833371f1afb',1,'magic.h']]],
+  ['magic_5fcheck_2',['magic_check',['../magic_8h.html#ac17ecd9989c0bbdc75ebce8b612bdd0d',1,'magic.h']]],
+  ['magic_5fclose_3',['magic_close',['../magic_8h.html#af4e00f70e34cf4d9f43fefda10742473',1,'magic.h']]],
+  ['magic_5fcompile_4',['magic_compile',['../magic_8h.html#af79991c02d410b643ae37cac5ebe3023',1,'magic.h']]],
+  ['magic_5fdescriptor_5',['magic_descriptor',['../magic_8h.html#ae9d45a78c68c3986dfd5b4b23cca9049',1,'magic.h']]],
+  ['magic_5ferrno_6',['magic_errno',['../magic_8h.html#a3eac1bc30fe51b6468d1825dfcecaff3',1,'magic.h']]],
+  ['magic_5ferror_7',['magic_error',['../magic_8h.html#aa933dbe91c07a800acbab77131d933aa',1,'magic.h']]],
+  ['magic_5fexception_8',['magic_exception',['../classrecognition_1_1magic__exception.html#a634ed3e21468b781e651de99bc9525b4',1,'recognition::magic_exception::magic_exception(const std::string &amp;error)'],['../classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab',1,'recognition::magic_exception::magic_exception(const std::string &amp;function, const std::string &amp;error)']]],
+  ['magic_5ffile_9',['magic_file',['../magic_8h.html#a1431b052192d3b7f9f4d40ea08b08692',1,'magic.h']]],
+  ['magic_5ffile_5ferror_10',['magic_file_error',['../classrecognition_1_1magic__file__error.html#aa685a891aacbc231f951a4ff1a0570aa',1,'recognition::magic_file_error']]],
+  ['magic_5fgetflags_11',['magic_getflags',['../magic_8h.html#a84075b994369598b7022372e89b333af',1,'magic.h']]],
+  ['magic_5fgetparam_12',['magic_getparam',['../magic_8h.html#a76eff4537c4ebf683dad01483f98f9a1',1,'magic.h']]],
+  ['magic_5fgetpath_13',['magic_getpath',['../magic_8h.html#aaf974cdfbd7eca30d3b1cfa10b8f5a8b',1,'magic.h']]],
+  ['magic_5fis_5fclosed_14',['magic_is_closed',['../classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96',1,'recognition::magic_is_closed']]],
+  ['magic_5flist_15',['magic_list',['../magic_8h.html#a73e8e69ab3e9c99297e65ac9103ff5d7',1,'magic.h']]],
+  ['magic_5fload_16',['magic_load',['../magic_8h.html#a96b41f6e38a042f9c637b809c910adf2',1,'magic.h']]],
+  ['magic_5fload_5fbuffers_17',['magic_load_buffers',['../magic_8h.html#a3e108238b552f3767f8151dfcf854812',1,'magic.h']]],
+  ['magic_5fload_5ferror_18',['magic_load_error',['../classrecognition_1_1magic__load__error.html#ab434f9b28fb784d078ca6b64e8c59bcc',1,'recognition::magic_load_error']]],
+  ['magic_5fopen_19',['magic_open',['../magic_8h.html#a073e7f590f9b56e118c17bf0effee6b9',1,'magic.h']]],
+  ['magic_5fopen_5ferror_20',['magic_open_error',['../classrecognition_1_1magic__open__error.html#a8f9678bd35cb51c3e308208e7fd73960',1,'recognition::magic_open_error']]],
+  ['magic_5fprivate_21',['magic_private',['../classrecognition_1_1magic_1_1magic__private.html#a68baf148e08ef75d9ec8204e66d656c0',1,'recognition::magic::magic_private::magic_private() noexcept=default'],['../classrecognition_1_1magic_1_1magic__private.html#acd34257fc17788021874d72b4e4b3973',1,'recognition::magic::magic_private::magic_private(flags_mask_t flags_mask, const std::filesystem::path &amp;database_file)'],['../classrecognition_1_1magic_1_1magic__private.html#af6a2d453b2c35ab3d954421f0f583202',1,'recognition::magic::magic_private::magic_private(const flags_container_t &amp;flags_container, const std::filesystem::path &amp;database_file)'],['../classrecognition_1_1magic_1_1magic__private.html#a35707449f22104d1d46deb2daef64cc4',1,'recognition::magic::magic_private::magic_private(magic_private &amp;&amp;) noexcept=default'],['../classrecognition_1_1magic_1_1magic__private.html#a50f88199593c1312a5a5f869233b7f25',1,'recognition::magic::magic_private::magic_private(const magic_private &amp;)=delete']]],
+  ['magic_5fset_5fflags_5ferror_22',['magic_set_flags_error',['../classrecognition_1_1magic__set__flags__error.html#a8329266e4d579231bfb7bb51f10dd506',1,'recognition::magic_set_flags_error']]],
+  ['magic_5fset_5fparam_5ferror_23',['magic_set_param_error',['../classrecognition_1_1magic__set__param__error.html#afe8a18e9c642914e6d3afdeada0b43e9',1,'recognition::magic_set_param_error']]],
+  ['magic_5fsetflags_24',['magic_setflags',['../magic_8h.html#a4589a69861f3858e97dddef72ab61a7a',1,'magic.h']]],
+  ['magic_5fsetparam_25',['magic_setparam',['../magic_8h.html#a775c2daec9b9be1d4967832c0150ba36',1,'magic.h']]],
+  ['magic_5fversion_26',['magic_version',['../magic_8h.html#af9e40020d232570bce4a1cf03be53a19',1,'magic.h']]]
 ];

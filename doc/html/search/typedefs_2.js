@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['parameter_5fvalue_5fmap_5ft_144',['parameter_value_map_t',['../classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f',1,'recognition::magic']]]
+  ['file_5ftype_5ft_0',['file_type_t',['../classrecognition_1_1magic.html#aaba841e64ada719ef31a4de940840992',1,'recognition::magic']]],
+  ['flags_5fcontainer_5ft_1',['flags_container_t',['../classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2',1,'recognition::magic']]],
+  ['flags_5fmask_5ft_2',['flags_mask_t',['../classrecognition_1_1magic.html#a674c3440b7c3b20248bb712898e88529',1,'recognition::magic']]]
 ];

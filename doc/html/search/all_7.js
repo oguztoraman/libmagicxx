@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['identify_5ffile_34',['identify_file',['../classrecognition_1_1magic.html#a459c09fc969872c24afbc9cac1a8ee9e',1,'recognition::magic::identify_file(const std::filesystem::path &amp;path) const'],['../classrecognition_1_1magic.html#afa5c4c0563a3edfe7181d6f944be8bdd',1,'recognition::magic::identify_file(const std::filesystem::path &amp;path, std::nothrow_t) const noexcept']]],
-  ['identify_5ffiles_35',['identify_files',['../classrecognition_1_1magic.html#adac2e14918dd452aa9ef15516d156f44',1,'recognition::magic::identify_files(const std::filesystem::path &amp;directory, std::filesystem::directory_options option=std::filesystem::directory_options::follow_directory_symlink) const'],['../classrecognition_1_1magic.html#a86ee954d505ecbdb4e297d64bce6bb4c',1,'recognition::magic::identify_files(const std::filesystem::path &amp;directory, std::nothrow_t, std::filesystem::directory_options option=std::filesystem::directory_options::follow_directory_symlink) const noexcept'],['../classrecognition_1_1magic.html#a9af73125ea7b91facec6353ce9c2cc2c',1,'recognition::magic::identify_files(const file_concepts::file_container auto &amp;files) const'],['../classrecognition_1_1magic.html#ae4aaac10fe054750bd82e5ec4ee6bb7b',1,'recognition::magic::identify_files(const file_concepts::file_container auto &amp;files, std::nothrow_t) const noexcept']]],
-  ['indir_5fmax_36',['indir_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51',1,'recognition::magic']]],
-  ['invalid_5fpath_37',['invalid_path',['../classrecognition_1_1invalid__path.html#a02cc153aaa036dfafa21f888e730616c',1,'recognition::invalid_path::invalid_path()'],['../classrecognition_1_1invalid__path.html',1,'recognition::invalid_path']]],
-  ['is_5fopen_38',['is_open',['../classrecognition_1_1magic.html#a100b8bc7fd3a44b7579ae622c28f9ca7',1,'recognition::magic']]]
+  ['debug_0',['debug',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039',1,'recognition::magic']]],
+  ['default_5fdatabase_5ffile_1',['default_database_file',['../classrecognition_1_1magic.html#a1209192eb4f97cccd0849f575d503154',1,'recognition::magic']]],
+  ['devices_2',['devices',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb',1,'recognition::magic']]],
+  ['do_3',['To Do',['../md_TODO.html',1,'']]],
+  ['documentation_4',['Documentation',['../index.html#autotoc_md17',1,'']]]
 ];

@@ -1,0 +1,321 @@
+.TH "recognition::magic::magic_private" 3 "Sun Jun 23 2024 16:05:03" "Version v5.1.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+recognition::magic::magic_private
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBflags_converter\fP"
+.br
+.ti -1c
+.RI "struct \fBlibmagic_pair_converter\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmagic_private\fP () noexcept=default"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP (\fBflags_mask_t\fP flags_mask, const std::filesystem::path &database_file)"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP (const \fBflags_container_t\fP &flags_container, const std::filesystem::path &database_file)"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP (\fBmagic_private\fP &&) noexcept=default"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP (const \fBmagic_private\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP & \fBoperator=\fP (\fBmagic_private\fP &&) noexcept=default"
+.br
+.ti -1c
+.RI "\fBmagic_private\fP & \fBoperator=\fP (const \fBmagic_private\fP &)=delete"
+.br
+.ti -1c
+.RI "\fB~magic_private\fP ()=default"
+.br
+.ti -1c
+.RI "bool \fBcheck\fP (const std::filesystem::path &database_file) const noexcept"
+.br
+.ti -1c
+.RI "void \fBclose\fP () noexcept"
+.br
+.ti -1c
+.RI "bool \fBcompile\fP (const std::filesystem::path &database_file) const noexcept"
+.br
+.ti -1c
+.RI "\fBflags_container_t\fP \fBget_flags\fP () const"
+.br
+.ti -1c
+.RI "std::size_t \fBget_parameter\fP (\fBparameters\fP parameter) const"
+.br
+.ti -1c
+.RI "\fBparameter_value_map_t\fP \fBget_parameters\fP () const"
+.br
+.ti -1c
+.RI "\fBfile_type_t\fP \fBidentify_file\fP (const std::filesystem::path &path) const"
+.br
+.ti -1c
+.RI "\fBexpected_file_type_t\fP \fBidentify_file\fP (const std::filesystem::path &path, std::nothrow_t) const noexcept"
+.br
+.ti -1c
+.RI "bool \fBis_open\fP () const noexcept"
+.br
+.ti -1c
+.RI "void \fBload_database_file\fP (const std::filesystem::path &database_file)"
+.br
+.ti -1c
+.RI "void \fBopen\fP (\fBflags_mask_t\fP flags_mask)"
+.br
+.ti -1c
+.RI "void \fBopen\fP (const \fBflags_container_t\fP &flags_container)"
+.br
+.ti -1c
+.RI "void \fBset_flags\fP (\fBflags_mask_t\fP flags_mask)"
+.br
+.ti -1c
+.RI "void \fBset_flags\fP (const \fBflags_container_t\fP &flags_container)"
+.br
+.ti -1c
+.RI "void \fBset_parameter\fP (\fBparameters\fP parameter, std::size_t value)"
+.br
+.ti -1c
+.RI "void \fBset_parameters\fP (const \fBparameter_value_map_t\fP &\fBparameters\fP)"
+.br
+.in -1c
+.SS "Private Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBcookie_t\fP"
+.br
+.ti -1c
+.RI "using \fBlibmagic_value_t\fP = int"
+.br
+.ti -1c
+.RI "using \fBlibmagic_value_name_t\fP = std::string"
+.br
+.ti -1c
+.RI "using \fBlibmagic_pair_t\fP = std::pair<\fBlibmagic_value_t\fP, const char*>"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<std::derived_from< \fBmagic_exception\fP > ExceptionType, typename ResultType , typename \&.\&.\&. ExceptionArgs> 
+.br
+requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>void \fBthrow_exception_on_failure\fP (ResultType result, ExceptionArgs &&\&.\&.\&.args) const"
+.br
+.RI "Throws an ExceptionType exception with ExceptionArgs if the result is false or equal to libmagic_error\&. "
+.ti -1c
+.RI "std::string \fBget_error_message\fP () const noexcept"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBcookie_t\fP \fBm_cookie\fP {nullptr}"
+.br
+.ti -1c
+.RI "\fBflags_mask_t\fP \fBm_flags_mask\fP {0}"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static constexpr auto \fBlibmagic_error\fP = \-1"
+.br
+.ti -1c
+.RI "static constexpr auto \fBlibmagic_flags_count\fP = \fBflags_mask_t\fP{}\&.size()"
+.br
+.ti -1c
+.RI "static constexpr auto \fBlibmagic_parameter_count\fP = 9uz"
+.br
+.ti -1c
+.RI "static constexpr \fBlibmagic_pair_t\fP \fBlibmagic_flag_none\fP"
+.br
+.ti -1c
+.RI "static constexpr std::array< \fBlibmagic_pair_t\fP, \fBlibmagic_flags_count\fP > \fBlibmagic_flags\fP"
+.br
+.ti -1c
+.RI "static constexpr std::array< \fBlibmagic_pair_t\fP, \fBlibmagic_parameter_count\fP > \fBlibmagic_parameters\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBto_string\fP (\fBflags\fP)"
+.br
+.RI "Convert the \fBmagic::flags\fP to string\&. "
+.ti -1c
+.RI "std::string \fBto_string\fP (\fBparameters\fP)"
+.br
+.RI "Convert the \fBmagic::parameters\fP to string\&. "
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "using \fBrecognition::magic::magic_private::cookie_t\fP\fR [private]\fP"
+\fBInitial value:\fP.PP
+.nf
+ std::unique_ptr<detail::magic_set, decltype(
+        [](detail::magic_t cookie) noexcept {
+            detail::magic_close(cookie);
+        }
+    )>
+.fi
+
+.SS "using \fBrecognition::magic::magic_private::libmagic_pair_t\fP = std::pair<\fBlibmagic_value_t\fP, const char*>\fR [private]\fP"
+
+.SS "using \fBrecognition::magic::magic_private::libmagic_value_name_t\fP = std::string\fR [private]\fP"
+
+.SS "using \fBrecognition::magic::magic_private::libmagic_value_t\fP = int\fR [private]\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "recognition::magic::magic_private::magic_private ()\fR [default]\fP, \fR [noexcept]\fP"
+
+.SS "recognition::magic::magic_private::magic_private (\fBflags_mask_t\fP flags_mask, const std::filesystem::path & database_file)\fR [inline]\fP"
+
+.SS "recognition::magic::magic_private::magic_private (const \fBflags_container_t\fP & flags_container, const std::filesystem::path & database_file)\fR [inline]\fP"
+
+.SS "recognition::magic::magic_private::magic_private (\fBmagic_private\fP &&)\fR [default]\fP, \fR [noexcept]\fP"
+
+.SS "recognition::magic::magic_private::magic_private (const \fBmagic_private\fP &)\fR [delete]\fP"
+
+.SS "recognition::magic::magic_private::~magic_private ()\fR [default]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool recognition::magic::magic_private::check (const std::filesystem::path & database_file) const\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "void recognition::magic::magic_private::close ()\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "bool recognition::magic::magic_private::compile (const std::filesystem::path & database_file) const\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "std::string recognition::magic::magic_private::get_error_message () const\fR [inline]\fP, \fR [private]\fP, \fR [noexcept]\fP"
+
+.SS "\fBflags_container_t\fP recognition::magic::magic_private::get_flags () const\fR [inline]\fP"
+
+.SS "std::size_t recognition::magic::magic_private::get_parameter (\fBparameters\fP parameter) const\fR [inline]\fP"
+
+.SS "\fBparameter_value_map_t\fP recognition::magic::magic_private::get_parameters () const\fR [inline]\fP"
+
+.SS "\fBfile_type_t\fP recognition::magic::magic_private::identify_file (const std::filesystem::path & path) const\fR [inline]\fP"
+
+.SS "\fBexpected_file_type_t\fP recognition::magic::magic_private::identify_file (const std::filesystem::path & path, std::nothrow_t) const\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "bool recognition::magic::magic_private::is_open () const\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "void recognition::magic::magic_private::load_database_file (const std::filesystem::path & database_file)\fR [inline]\fP"
+
+.SS "void recognition::magic::magic_private::open (const \fBflags_container_t\fP & flags_container)\fR [inline]\fP"
+
+.SS "void recognition::magic::magic_private::open (\fBflags_mask_t\fP flags_mask)\fR [inline]\fP"
+
+.SS "\fBmagic_private\fP & recognition::magic::magic_private::operator= (const \fBmagic_private\fP &)\fR [delete]\fP"
+
+.SS "\fBmagic_private\fP & recognition::magic::magic_private::operator= (\fBmagic_private\fP &&)\fR [default]\fP, \fR [noexcept]\fP"
+
+.SS "void recognition::magic::magic_private::set_flags (const \fBflags_container_t\fP & flags_container)\fR [inline]\fP"
+
+.SS "void recognition::magic::magic_private::set_flags (\fBflags_mask_t\fP flags_mask)\fR [inline]\fP"
+
+.SS "void recognition::magic::magic_private::set_parameter (\fBparameters\fP parameter, std::size_t value)\fR [inline]\fP"
+
+.SS "void recognition::magic::magic_private::set_parameters (const \fBparameter_value_map_t\fP & parameters)\fR [inline]\fP"
+
+.SS "template<std::derived_from< \fBmagic_exception\fP > ExceptionType, typename ResultType , typename \&.\&.\&. ExceptionArgs> 
+.br
+requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>void recognition::magic::magic_private::throw_exception_on_failure (ResultType result, ExceptionArgs &&\&.\&.\&. args) const\fR [inline]\fP, \fR [private]\fP"
+
+.PP
+Throws an ExceptionType exception with ExceptionArgs if the result is false or equal to libmagic_error\&. 
+.SH "Friends And Related Symbol Documentation"
+.PP 
+.SS "std::string to_string (\fBmagic::flags\fP flag)\fR [friend]\fP"
+
+.PP
+Convert the \fBmagic::flags\fP to string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIflag\fP The flag\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The flag as a string\&. 
+.RE
+.PP
+
+.SS "std::string to_string (\fBmagic::parameters\fP parameter)\fR [friend]\fP"
+
+.PP
+Convert the \fBmagic::parameters\fP to string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIparameter\fP The parameter\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The parameter as a string\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "constexpr auto recognition::magic::magic_private::libmagic_error = \-1\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+
+.SS "constexpr \fBlibmagic_pair_t\fP recognition::magic::magic_private::libmagic_flag_none\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+\fBInitial value:\fP.PP
+.nf
+{
+        std::make_pair(MAGIC_NONE,                "none")
+    }
+.fi
+
+.SS "constexpr std::array<\fBlibmagic_pair_t\fP, \fBlibmagic_flags_count\fP> recognition::magic::magic_private::libmagic_flags\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+
+.SS "constexpr auto recognition::magic::magic_private::libmagic_flags_count = \fBflags_mask_t\fP{}\&.size()\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+
+.SS "constexpr auto recognition::magic::magic_private::libmagic_parameter_count = 9uz\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+
+.SS "constexpr std::array<\fBlibmagic_pair_t\fP, \fBlibmagic_parameter_count\fP> recognition::magic::magic_private::libmagic_parameters\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+\fBInitial value:\fP.PP
+.nf
+{
+        std::make_pair(MAGIC_PARAM_INDIR_MAX,      "indir_max"),
+        std::make_pair(MAGIC_PARAM_NAME_MAX,       "name_max"),
+        std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX,  "elf_phnum_max"),
+        std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX,  "elf_shnum_max"),
+        std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX,  "elf_notes_max"),
+        std::make_pair(MAGIC_PARAM_REGEX_MAX,      "regex_max"),
+        std::make_pair(MAGIC_PARAM_BYTES_MAX,      "bytes_max"),
+        std::make_pair(MAGIC_PARAM_ENCODING_MAX,   "encoding_max"),
+        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max")
+    }
+.fi
+
+.SS "\fBcookie_t\fP recognition::magic::magic_private::m_cookie {nullptr}\fR [private]\fP"
+
+.SS "\fBflags_mask_t\fP recognition::magic::magic_private::m_flags_mask {0}\fR [private]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

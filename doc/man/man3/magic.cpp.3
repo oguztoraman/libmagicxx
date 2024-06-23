@@ -1,0 +1,79 @@
+.TH "magic.cpp" 3 "Sun Jun 23 2024 16:05:03" "Version v5.1.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+magic.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <cmath>\fP
+.br
+\fR#include <array>\fP
+.br
+\fR#include <format>\fP
+.br
+\fR#include <utility>\fP
+.br
+\fR#include <magic\&.hpp>\fP
+.br
+\fR#include <magic\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBrecognition::magic::magic_private\fP"
+.br
+.ti -1c
+.RI "struct \fBrecognition::magic::magic_private::flags_converter\fP"
+.br
+.ti -1c
+.RI "struct \fBrecognition::magic::magic_private::libmagic_pair_converter\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBrecognition\fP"
+.br
+.ti -1c
+.RI "namespace \fBrecognition::detail\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::types_of_files_t\fP &types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.br
+.RI "Convert the \fBmagic::types_of_files_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_file_type_t\fP &expected_file_type)"
+.br
+.RI "Convert the \fBmagic::expected_file_type_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::expected_types_of_files_t\fP &expected_types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
+.br
+.RI "Convert the \fBmagic::expected_types_of_files_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (\fBmagic::flags\fP flag)"
+.br
+.RI "Convert the \fBmagic::flags\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::flags_container_t\fP &flags, const std::string &separator=', ')"
+.br
+.RI "Convert the \fBmagic::flags_container_t\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (\fBmagic::parameters\fP parameter)"
+.br
+.RI "Convert the \fBmagic::parameters\fP to string\&. "
+.ti -1c
+.RI "std::string \fBrecognition::to_string\fP (const \fBmagic::parameter_value_map_t\fP &parameters, const std::string &value_separator=': ', const std::string &parameter_separator=', ')"
+.br
+.RI "Convert the \fBmagic::parameter_value_map_t\fP to string\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

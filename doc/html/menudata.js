@@ -24,12 +24,13 @@
 */
 var menudata={children:[
 {text:"Main Page",url:"index.html"},
+{text:"Related Pages",url:"pages.html"},
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
 {text:"Namespace Members",url:"namespacemembers.html",children:[
 {text:"All",url:"namespacemembers.html"},
-{text:"Functions",url:"namespacemembers_func.html"},
-{text:"Variables",url:"namespacemembers_vars.html"}]}]},
+{text:"Functions",url:"namespacemembers_func.html"}]}]},
+{text:"Concepts",url:"concepts.html"},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
@@ -55,12 +56,14 @@ var menudata={children:[
 {text:"Functions",url:"functions_func.html",children:[
 {text:"c",url:"functions_func.html#index_c"},
 {text:"e",url:"functions_func.html#index_e"},
+{text:"f",url:"functions_func.html#index_f"},
 {text:"g",url:"functions_func.html#index_g"},
 {text:"i",url:"functions_func.html#index_i"},
 {text:"l",url:"functions_func.html#index_l"},
 {text:"m",url:"functions_func.html#index_m"},
 {text:"o",url:"functions_func.html#index_o"},
 {text:"s",url:"functions_func.html#index_s"},
+{text:"t",url:"functions_func.html#index_t"},
 {text:"~",url:"functions_func.html#index__7E"}]},
 {text:"Variables",url:"functions_vars.html"},
 {text:"Typedefs",url:"functions_type.html"},
@@ -75,6 +78,13 @@ var menudata={children:[
 {text:"p",url:"functions_eval.html#index_p"},
 {text:"r",url:"functions_eval.html#index_r"},
 {text:"s",url:"functions_eval.html#index_s"}]},
-{text:"Related Functions",url:"functions_rela.html"}]}]},
+{text:"Related Symbols",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
-{text:"File List",url:"files.html"}]}]}
+{text:"File List",url:"files.html"},
+{text:"File Members",url:"globals.html",children:[
+{text:"All",url:"globals.html",children:[
+{text:"m",url:"globals.html#index_m"}]},
+{text:"Functions",url:"globals_func.html"},
+{text:"Typedefs",url:"globals_type.html"},
+{text:"Macros",url:"globals_defs.html",children:[
+{text:"m",url:"globals_defs.html#index_m"}]}]}]}]}

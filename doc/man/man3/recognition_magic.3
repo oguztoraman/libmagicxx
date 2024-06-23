@@ -1,4 +1,4 @@
-.TH "recognition::magic" 3 "Sun Jun 23 2024" "Version v5.0.0" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic" 3 "Sun Jun 23 2024 16:05:03" "Version v5.1.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -8,7 +8,14 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 .br
 .PP
 .PP
-\fC#include <magic\&.hpp>\fP
+\fR#include <magic\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBmagic_private\fP"
+.br
+.in -1c
 .SS "Public Types"
 
 .in +1c
@@ -21,7 +28,7 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 .br
 .RI "The parameters enums are used for displaying or modifying the parameters of a magic\&. "
 .ti -1c
-.RI "using \fBflags_mask_t\fP = std::bitset< 30uz >"
+.RI "using \fBflags_mask_t\fP = std::bitset<30uz>"
 .br
 .RI "The flags_mask_t typedef\&. "
 .ti -1c
@@ -33,23 +40,23 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 .br
 .RI "The error_message_t typedef\&. "
 .ti -1c
-.RI "using \fBexpected_file_type_t\fP = std::expected< \fBfile_type_t\fP, \fBerror_message_t\fP >"
+.RI "using \fBexpected_file_type_t\fP = std::expected<\fBfile_type_t\fP, \fBerror_message_t\fP>"
 .br
 .RI "The expected_file_type_t typedef\&. "
 .ti -1c
-.RI "using \fBtypes_of_files_t\fP = std::map< std::filesystem::path, \fBfile_type_t\fP >"
+.RI "using \fBtypes_of_files_t\fP = std::map<std::filesystem::path, \fBfile_type_t\fP>"
 .br
 .RI "The types_of_files_t typedef\&. "
 .ti -1c
-.RI "using \fBexpected_types_of_files_t\fP = std::map< std::filesystem::path, \fBexpected_file_type_t\fP >"
+.RI "using \fBexpected_types_of_files_t\fP = std::map<std::filesystem::path, \fBexpected_file_type_t\fP>"
 .br
 .RI "The expected_types_of_files_t typedef\&. "
 .ti -1c
-.RI "using \fBflags_container_t\fP = std::vector< \fBflags\fP >"
+.RI "using \fBflags_container_t\fP = std::vector<\fBflags\fP>"
 .br
 .RI "The flags_container_t typedef\&. "
 .ti -1c
-.RI "using \fBparameter_value_map_t\fP = std::map< \fBparameters\fP, std::size_t >"
+.RI "using \fBparameter_value_map_t\fP = std::map<\fBparameters\fP, std::size_t>"
 .br
 .RI "The parameter_value_map_t typedef\&. "
 .in -1c
@@ -185,9 +192,26 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 
 .in +1c
 .ti -1c
-.RI "static constexpr auto \fBdefault_database_file\fP = '/usr/share/misc/\fBmagic\fP'"
+.RI "static constexpr auto \fBdefault_database_file\fP = '/usr/share/misc/magic'"
 .br
 .RI "The path of the default database file\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtypes_of_files_t\fP \fBidentify_files_impl\fP (const std::ranges::range auto &files) const"
+.br
+.ti -1c
+.RI "\fBexpected_types_of_files_t\fP \fBidentify_files_impl\fP (const std::ranges::range auto &files, std::nothrow_t) const noexcept"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::unique_ptr< \fBmagic_private\fP > \fBm_impl\fP"
+.br
 .in -1c
 .SS "Friends"
 
@@ -214,35 +238,35 @@ A magic database file must be loaded\&.
 
 .SH "Member Typedef Documentation"
 .PP 
-.SS "using \fBrecognition::magic::error_message_t\fP =  std::string"
+.SS "using \fBrecognition::magic::error_message_t\fP = std::string"
 
 .PP
 The error_message_t typedef\&. 
-.SS "using \fBrecognition::magic::expected_file_type_t\fP =  std::expected<\fBfile_type_t\fP, \fBerror_message_t\fP>"
+.SS "using \fBrecognition::magic::expected_file_type_t\fP = std::expected<\fBfile_type_t\fP, \fBerror_message_t\fP>"
 
 .PP
 The expected_file_type_t typedef\&. 
-.SS "using \fBrecognition::magic::expected_types_of_files_t\fP =  std::map<std::filesystem::path, \fBexpected_file_type_t\fP>"
+.SS "using \fBrecognition::magic::expected_types_of_files_t\fP = std::map<std::filesystem::path, \fBexpected_file_type_t\fP>"
 
 .PP
 The expected_types_of_files_t typedef\&. 
-.SS "using \fBrecognition::magic::file_type_t\fP =  std::string"
+.SS "using \fBrecognition::magic::file_type_t\fP = std::string"
 
 .PP
 The file_type_t typedef\&. 
-.SS "using \fBrecognition::magic::flags_container_t\fP =  std::vector<\fBflags\fP>"
+.SS "using \fBrecognition::magic::flags_container_t\fP = std::vector<\fBflags\fP>"
 
 .PP
 The flags_container_t typedef\&. 
-.SS "using \fBrecognition::magic::flags_mask_t\fP =  std::bitset<30uz>"
+.SS "using \fBrecognition::magic::flags_mask_t\fP = std::bitset<30uz>"
 
 .PP
 The flags_mask_t typedef\&. 
-.SS "using \fBrecognition::magic::parameter_value_map_t\fP =  std::map<\fBparameters\fP, std::size_t>"
+.SS "using \fBrecognition::magic::parameter_value_map_t\fP = std::map<\fBparameters\fP, std::size_t>"
 
 .PP
 The parameter_value_map_t typedef\&. 
-.SS "using \fBrecognition::magic::types_of_files_t\fP =  std::map<std::filesystem::path, \fBfile_type_t\fP>"
+.SS "using \fBrecognition::magic::types_of_files_t\fP = std::map<std::filesystem::path, \fBfile_type_t\fP>"
 
 .PP
 The types_of_files_t typedef\&. 
@@ -324,7 +348,7 @@ The flags enums are suitable for bitwise or operations\&.
 \fB\fIno_check_simh \fP\fP
 .TP
 \fB\fIno_check_builtin \fP\fP
-.SS "enum \fBrecognition::magic::parameters\fP : std::size_t\fC [strong]\fP"
+.SS "enum class \fBrecognition::magic::parameters\fP : std::size_t\fR [strong]\fP"
 
 .PP
 The parameters enums are used for displaying or modifying the parameters of a magic\&. 
@@ -351,11 +375,11 @@ The parameters enums are used for displaying or modifying the parameters of a ma
 \fB\fIelf_shsize_max \fP\fP
 .SH "Constructor & Destructor Documentation"
 .PP 
-.SS "recognition::magic::magic ()\fC [noexcept]\fP"
+.SS "recognition::magic::magic ()\fR [noexcept]\fP"
 
 .PP
 Construct magic without opening it\&. 
-.SS "recognition::magic::magic (\fBflags_mask_t\fP flags_mask, const std::filesystem::path & database_file = \fC\fBdefault_database_file\fP\fP)\fC [explicit]\fP"
+.SS "recognition::magic::magic (\fBflags_mask_t\fP flags_mask, const std::filesystem::path & database_file = \fR\fBdefault_database_file\fP\fP)\fR [explicit]\fP"
 
 .PP
 Construct magic, open it using the flags and load the magic database file\&. 
@@ -382,7 +406,7 @@ Construct magic, open it using the flags and load the magic database file\&.
 .RE
 .PP
 
-.SS "recognition::magic::magic (const \fBflags_container_t\fP & flags_container, const std::filesystem::path & database_file = \fC\fBdefault_database_file\fP\fP)\fC [explicit]\fP"
+.SS "recognition::magic::magic (const \fBflags_container_t\fP & flags_container, const std::filesystem::path & database_file = \fR\fBdefault_database_file\fP\fP)\fR [explicit]\fP"
 
 .PP
 Construct magic, open it using the flags and load the magic database file\&. 
@@ -409,7 +433,7 @@ Construct magic, open it using the flags and load the magic database file\&.
 .RE
 .PP
 
-.SS "recognition::magic::magic (\fBmagic\fP && other)\fC [noexcept]\fP"
+.SS "recognition::magic::magic (\fBmagic\fP && other)\fR [noexcept]\fP"
 
 .PP
 Move construct magic\&. 
@@ -420,17 +444,17 @@ other is valid as a default constructed magic\&.
 .RE
 .PP
 
-.SS "recognition::magic::magic (const \fBmagic\fP &)\fC [delete]\fP"
+.SS "recognition::magic::magic (const \fBmagic\fP &)\fR [delete]\fP"
 
 .PP
 Deleted copy constructor\&. 
-.SS "recognition::magic::~magic ()"
+.SS "recognition::magic::~magic ()\fR [default]\fP"
 
 .PP
 Destruct magic\&. 
 .SH "Member Function Documentation"
 .PP 
-.SS "bool recognition::magic::check (const std::filesystem::path & database_file = \fC\fBdefault_database_file\fP\fP) const\fC [noexcept]\fP"
+.SS "bool recognition::magic::check (const std::filesystem::path & database_file = \fR\fBdefault_database_file\fP\fP) const\fR [noexcept]\fP"
 
 .PP
 check the validity of entries in the colon separated database files passed in as database_file\&. 
@@ -446,7 +470,7 @@ True if the database_file has valid entries, false otherwise\&.
 .RE
 .PP
 
-.SS "void recognition::magic::close ()\fC [noexcept]\fP"
+.SS "void recognition::magic::close ()\fR [noexcept]\fP"
 
 .PP
 Close magic\&. 
@@ -457,7 +481,7 @@ magic is valid as a default constructed magic\&.
 .RE
 .PP
 
-.SS "bool recognition::magic::compile (const std::filesystem::path & database_file = \fC\fBdefault_database_file\fP\fP) const\fC [noexcept]\fP"
+.SS "bool recognition::magic::compile (const std::filesystem::path & database_file = \fR\fBdefault_database_file\fP\fP) const\fR [noexcept]\fP"
 
 .PP
 Compile the colon separated list of database files passed in as database_file\&. 
@@ -478,7 +502,7 @@ The compiled files created are named from the basename of each file argument wit
 .RE
 .PP
 
-.SS "\fBflags_container_t\fP recognition::magic::get_flags () const"
+.SS "\fBmagic::flags_container_t\fP recognition::magic::get_flags () const"
 
 .PP
 Get the flags of magic\&. 
@@ -494,7 +518,7 @@ flags_container_t
 .RE
 .PP
 
-.SS "std::size_t recognition::magic::get_parameter (\fBparameters\fP parameter) const"
+.SS "std::size_t recognition::magic::get_parameter (\fBmagic::parameters\fP parameter) const"
 
 .PP
 Get the value of a parameter of magic\&. 
@@ -515,7 +539,7 @@ Value of the desired parameter\&.
 .RE
 .PP
 
-.SS "\fBparameter_value_map_t\fP recognition::magic::get_parameters () const"
+.SS "\fBmagic::parameter_value_map_t\fP recognition::magic::get_parameters () const"
 
 .PP
 Get the values ​​of all parameters of magic\&. 
@@ -531,7 +555,7 @@ Get the values ​​of all parameters of magic\&.
 .RE
 .PP
 
-.SS "static std::string recognition::magic::get_version ()\fC [static]\fP, \fC [noexcept]\fP"
+.SS "std::string recognition::magic::get_version ()\fR [static]\fP, \fR [noexcept]\fP"
 
 .PP
 Get the version of the Magic Number Recognition Library\&. 
@@ -542,7 +566,7 @@ The version number as a string\&.
 .RE
 .PP
 
-.SS "\fBfile_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path) const"
+.SS "\fBmagic::file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path) const"
 
 .PP
 Identify the type of a file\&. 
@@ -567,7 +591,7 @@ The type of the file as a string\&.
 .RE
 .PP
 
-.SS "\fBexpected_file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path, std::nothrow_t) const\fC [noexcept]\fP"
+.SS "\fBmagic::expected_file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path, std::nothrow_t) const\fR [noexcept]\fP"
 
 .PP
 Identify the type of a file, noexcept version\&. 
@@ -583,7 +607,7 @@ The type of the file or the error message\&.
 .RE
 .PP
 
-.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files) const\fC [inline]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files) const\fR [inline]\fP"
 
 .PP
 Identify the types of files\&. 
@@ -608,7 +632,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files, std::nothrow_t) const\fC [inline]\fP, \fC [noexcept]\fP"
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files, std::nothrow_t) const\fR [inline]\fP, \fR [noexcept]\fP"
 
 .PP
 Identify the types of files, noexcept version\&. 
@@ -624,7 +648,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::filesystem::directory_options option = \fCstd::filesystem::directory_options::follow_directory_symlink\fP) const\fC [inline]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP"
 
 .PP
 Identify the types of all files in a directory\&. 
@@ -651,7 +675,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::nothrow_t, std::filesystem::directory_options option = \fCstd::filesystem::directory_options::follow_directory_symlink\fP) const\fC [inline]\fP, \fC [noexcept]\fP"
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::nothrow_t, std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP, \fR [noexcept]\fP"
 
 .PP
 Identify the types of all files in a directory, noexcept version\&. 
@@ -669,7 +693,11 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "bool recognition::magic::is_open () const\fC [noexcept]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files) const\fR [inline]\fP, \fR [private]\fP"
+
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files, std::nothrow_t) const\fR [inline]\fP, \fR [private]\fP, \fR [noexcept]\fP"
+
+.SS "bool recognition::magic::is_open () const\fR [noexcept]\fP"
 
 .PP
 Used for testing whether magic is open or closed\&. 
@@ -680,7 +708,7 @@ True if magic is open, false otherwise\&.
 .RE
 .PP
 
-.SS "void recognition::magic::load_database_file (const std::filesystem::path & database_file = \fC\fBdefault_database_file\fP\fP)"
+.SS "void recognition::magic::load_database_file (const std::filesystem::path & database_file = \fR\fBdefault_database_file\fP\fP)"
 
 .PP
 Load a magic database file\&. 
@@ -749,7 +777,7 @@ If magic is open, it will be reopened using the flags after closing it\&.
 .RE
 .PP
 
-.SS "recognition::magic::operator bool () const\fC [noexcept]\fP"
+.SS "recognition::magic::operator bool () const\fR [noexcept]\fP"
 
 .PP
 Used for testing whether magic is open or closed\&. 
@@ -760,11 +788,11 @@ True if magic is open, false otherwise\&.
 .RE
 .PP
 
-.SS "\fBmagic\fP& recognition::magic::operator= (const \fBmagic\fP &)\fC [delete]\fP"
+.SS "\fBmagic\fP & recognition::magic::operator= (const \fBmagic\fP &)\fR [delete]\fP"
 
 .PP
 Deleted copy assignment\&. 
-.SS "\fBmagic\fP& recognition::magic::operator= (\fBmagic\fP && other)\fC [noexcept]\fP"
+.SS "\fBmagic\fP & recognition::magic::operator= (\fBmagic\fP && other)\fR [noexcept]\fP"
 
 .PP
 Move assign to this magic\&. 
@@ -811,7 +839,7 @@ Set the flags of magic\&.
 .RE
 .PP
 
-.SS "void recognition::magic::set_parameter (\fBparameters\fP parameter, std::size_t value)"
+.SS "void recognition::magic::set_parameter (\fBmagic::parameters\fP parameter, std::size_t value)"
 
 .PP
 Set the value of a parameter of magic\&. 
@@ -849,9 +877,9 @@ Set the values of the parameters of magic\&.
 .RE
 .PP
 
-.SH "Friends And Related Function Documentation"
+.SH "Friends And Related Symbol Documentation"
 .PP 
-.SS "std::string to_string (\fBflags\fP)\fC [friend]\fP"
+.SS "std::string to_string (\fBmagic::flags\fP flag)\fR [friend]\fP"
 
 .PP
 Convert the \fBmagic::flags\fP to string\&. 
@@ -867,7 +895,7 @@ The flag as a string\&.
 .RE
 .PP
 
-.SS "std::string to_string (\fBparameters\fP)\fC [friend]\fP"
+.SS "std::string to_string (\fBmagic::parameters\fP parameter)\fR [friend]\fP"
 
 .PP
 Convert the \fBmagic::parameters\fP to string\&. 
@@ -885,10 +913,12 @@ The parameter as a string\&.
 
 .SH "Member Data Documentation"
 .PP 
-.SS "constexpr auto recognition::magic::default_database_file = '/usr/share/misc/\fBmagic\fP'\fC [static]\fP, \fC [constexpr]\fP"
+.SS "constexpr auto recognition::magic::default_database_file = '/usr/share/misc/magic'\fR [static]\fP, \fR [constexpr]\fP"
 
 .PP
 The path of the default database file\&. 
+.SS "std::unique_ptr<\fBmagic_private\fP> recognition::magic::m_impl\fR [private]\fP"
+
 
 .SH "Author"
 .PP 

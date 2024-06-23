@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['open_70',['open',['../classrecognition_1_1magic.html#a549ffb7995b83934c78b0f289a6df54a',1,'recognition::magic::open(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a4d3b340bd40453a2c66b409958878262',1,'recognition::magic::open(const flags_container_t &amp;flags_container)']]],
-  ['operator_20bool_71',['operator bool',['../classrecognition_1_1magic.html#a0f09c2aa8da9990d241e7453811254e1',1,'recognition::magic']]],
-  ['operator_3d_72',['operator=',['../classrecognition_1_1magic.html#a3c67ecee280fb0421635675cd5d837fe',1,'recognition::magic::operator=(magic &amp;&amp;other) noexcept'],['../classrecognition_1_1magic.html#ae62ac20acdc34e7a43866557676da13d',1,'recognition::magic::operator=(const magic &amp;)=delete']]]
+  ['how_20to_20build_20libmagicxx_0',['How to Build Libmagicxx',['../index.html#autotoc_md15',1,'']]],
+  ['how_20to_20use_20libmagicxx_20in_20a_20cmake_20based_20project_1',['How to Use Libmagicxx in a CMake-based Project',['../index.html#autotoc_md16',1,'']]]
 ];

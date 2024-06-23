@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.1.0] - 23-06-2024
+
 + [**FEATURE**] commit_release.sh: Add commit_release.sh.
 + [**FEATURE**] .github/workflows/build_and_test_on_linux.yml, update_and_deploy_doxygen_documentation.yml: Add Github Actions.
 + [**FEATURE**] doc/*, Doxyfile, generate_documentation.sh, README.md: Add Doxygen-generated documentation.

@@ -1,20 +1,9 @@
 var searchData=
 [
-  ['name_5fmax_53',['name_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b',1,'recognition::magic']]],
-  ['no_5fcheck_5fapptype_54',['no_check_apptype',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea2f046d7f27a20f5d941dc5d9e3ec7782',1,'recognition::magic']]],
-  ['no_5fcheck_5fbuiltin_55',['no_check_builtin',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeac55a17808c4a08f4309166c845dcadd6',1,'recognition::magic']]],
-  ['no_5fcheck_5fcdf_56',['no_check_cdf',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea185ebf88136353f324c22038301ffc87',1,'recognition::magic']]],
-  ['no_5fcheck_5fcompress_57',['no_check_compress',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea423d4cfbdc707b449d90b30dba53b868',1,'recognition::magic']]],
-  ['no_5fcheck_5fcsv_58',['no_check_csv',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeae77f0c271fa17042c730735a91fce6b5',1,'recognition::magic']]],
-  ['no_5fcheck_5felf_59',['no_check_elf',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea9be0d7ac03445106377f55b677237f28',1,'recognition::magic']]],
-  ['no_5fcheck_5fencoding_60',['no_check_encoding',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdead668eccc7f38cdff95eda75a7ace887e',1,'recognition::magic']]],
-  ['no_5fcheck_5fjson_61',['no_check_json',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaf856a65c6d3a22bb243b4782a7bbcbab',1,'recognition::magic']]],
-  ['no_5fcheck_5fsimh_62',['no_check_simh',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeadd49fbc9fe2662afd3367889502acf46',1,'recognition::magic']]],
-  ['no_5fcheck_5fsoft_63',['no_check_soft',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeab8d219348fe8c4d1804a03d18e7daaca',1,'recognition::magic']]],
-  ['no_5fcheck_5ftar_64',['no_check_tar',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea42d11975caf23280dc657d50363e2502',1,'recognition::magic']]],
-  ['no_5fcheck_5ftext_65',['no_check_text',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeab266c31ca087e4ce019d73739bd27fe8',1,'recognition::magic']]],
-  ['no_5fcheck_5ftokens_66',['no_check_tokens',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea06e3b509821897a30d9048eb16ed9623',1,'recognition::magic']]],
-  ['no_5fcompress_5ffork_67',['no_compress_fork',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeabd85cf526c10815605edc4626702f52b',1,'recognition::magic']]],
-  ['nodesc_68',['nodesc',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea9f161ae014900672a5683a0a7dd698b9',1,'recognition::magic']]],
-  ['none_69',['none',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea9c7ba0185b2d2b6d54abf6fd1bb7cd52',1,'recognition::magic']]]
+  ['get_5ferror_5fmessage_0',['get_error_message',['../classrecognition_1_1magic_1_1magic__private.html#ac2590530b7c76453f83af37bd2f2036f',1,'recognition::magic::magic_private']]],
+  ['get_5fflags_1',['get_flags',['../classrecognition_1_1magic.html#a3f3de1d3379c20f8d4876f37214c5f2d',1,'recognition::magic::get_flags()'],['../classrecognition_1_1magic_1_1magic__private.html#ac1f9c889cb79d6bd7ebbcf8c4f1961d7',1,'recognition::magic::magic_private::get_flags()']]],
+  ['get_5fparameter_2',['get_parameter',['../classrecognition_1_1magic.html#a25e9790043884d04b5a26aca07862f28',1,'recognition::magic::get_parameter()'],['../classrecognition_1_1magic_1_1magic__private.html#a73f8787e3a8058e92efdb2fb4de33bff',1,'recognition::magic::magic_private::get_parameter()']]],
+  ['get_5fparameters_3',['get_parameters',['../classrecognition_1_1magic.html#ac7906ab455592c9d086ee236f7402eca',1,'recognition::magic::get_parameters()'],['../classrecognition_1_1magic_1_1magic__private.html#a311441638277af2c0ec382a6e9b21e2a',1,'recognition::magic::magic_private::get_parameters()']]],
+  ['get_5fversion_4',['get_version',['../classrecognition_1_1magic.html#adb745dc9cd5f6076475489a19e148922',1,'recognition::magic']]],
+  ['guidelines_5',['Enforcement Guidelines',['../md_CODE__OF__CONDUCT.html#autotoc_md6',1,'']]]
 ];

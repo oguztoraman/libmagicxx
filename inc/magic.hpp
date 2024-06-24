@@ -62,37 +62,37 @@ public:
      * @note The flags enums are suitable for bitwise or operations.
      */
     enum flags : unsigned long long {
-        none              = 0ULL,
-        debug             = 1ULL << 0,
-        symlink           = 1ULL << 1,
-        compress          = 1ULL << 2,
-        devices           = 1ULL << 3,
-        mime_type         = 1ULL << 4,
-        continue_search   = 1ULL << 5,
-        check_database    = 1ULL << 6,
-        preserve_atime    = 1ULL << 7,
-        raw               = 1ULL << 8,
-        error             = 1ULL << 9,
-        mime_encoding     = 1ULL << 10,
-        mime              = 1ULL << 11,
-        apple             = 1ULL << 12,
-        extension         = 1ULL << 13,
-        compress_transp   = 1ULL << 14,
-        no_compress_fork  = 1ULL << 15,
-        nodesc            = 1ULL << 16,
-        no_check_compress = 1ULL << 17,
-        no_check_tar      = 1ULL << 18,
-        no_check_soft     = 1ULL << 19,
-        no_check_apptype  = 1ULL << 20,
-        no_check_elf      = 1ULL << 21,
-        no_check_text     = 1ULL << 22,
-        no_check_cdf      = 1ULL << 23,
-        no_check_csv      = 1ULL << 24,
-        no_check_tokens   = 1ULL << 25,
-        no_check_encoding = 1ULL << 26,
-        no_check_json     = 1ULL << 27,
-        no_check_simh     = 1ULL << 28,
-        no_check_builtin  = 1ULL << 29
+        none              = 0ULL,       /**< No special handling. */
+        debug             = 1ULL << 0,  /**< Print debugging messages to stderr. */
+        symlink           = 1ULL << 1,  /**< If the file queried is a symlink, follow it. */
+        compress          = 1ULL << 2,  /**< If the file is compressed, unpack it and look at the  contents. */
+        devices           = 1ULL << 3,  /**< If the file is a block or character special device, then open the device and try to look in its contents. */
+        mime_type         = 1ULL << 4,  /**< Return a MIME type string, instead of a  textual  description. */
+        continue_search   = 1ULL << 5,  /**< Return all matches, not just the first. */
+        check_database    = 1ULL << 6,  /**< Check the magic database for consistency and print warnings to stderr. */
+        preserve_atime    = 1ULL << 7,  /**< On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed. */
+        raw               = 1ULL << 8,  /**< Don't translate unprintable characters to a \ooo octal representation. */
+        error             = 1ULL << 9,  /**< Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer. */
+        mime_encoding     = 1ULL << 10, /**< Return a MIME encoding, instead of a textual description. */
+        mime              = 1ULL << 11, /**< A shorthand for mime_type|mime_encoding. */
+        apple             = 1ULL << 12, /**< Return the Apple creator and type. */
+        extension         = 1ULL << 13, /**< Return a slash-separated list of extensions for this file type. */
+        compress_transp   = 1ULL << 14, /**< Don't report on compression, only report about the uncompressed data. */
+        no_compress_fork  = 1ULL << 15, /**< Don't allow decompressors that use fork. */
+        nodesc            = 1ULL << 16, /**< A shorthand for extension|mime|apple */
+        no_check_compress = 1ULL << 17, /**< Don't look inside compressed files. */
+        no_check_tar      = 1ULL << 18, /**< Don't examine tar files. */
+        no_check_soft     = 1ULL << 19, /**< Don't consult magic files. */
+        no_check_apptype  = 1ULL << 20, /**< Don't check for EMX application type (only on EMX). */
+        no_check_elf      = 1ULL << 21, /**< Don't print ELF details. */
+        no_check_text     = 1ULL << 22, /**< Don't check for various types of text files. */
+        no_check_cdf      = 1ULL << 23, /**< Don't get extra information on MS Composite Document Files. */
+        no_check_csv      = 1ULL << 24, /**< Don't examine CSV files. */
+        no_check_tokens   = 1ULL << 25, /**< Don't look for known tokens inside ascii files. */
+        no_check_encoding = 1ULL << 26, /**< Don't check text encodings. */
+        no_check_json     = 1ULL << 27, /**< Don't examine JSON files. */
+        no_check_simh     = 1ULL << 28, /**< Don't examine SIMH tape files. */
+        no_check_builtin  = 1ULL << 29  /**< No built-in tests; only consult the magic file. */
     };
 
     /**
@@ -100,15 +100,15 @@ public:
      *        modifying the parameters of a magic.
      */
     enum class parameters : std::size_t {
-        indir_max      = 0uz,
-        name_max       = 1uz,
-        elf_phnum_max  = 2uz,
-        elf_shnum_max  = 3uz,
-        elf_notes_max  = 4uz,
-        regex_max      = 5uz,
-        bytes_max      = 6uz,
-        encoding_max   = 7uz,
-        elf_shsize_max = 8uz
+        indir_max      = 0uz, /**< Recursion limit for indirection (default is 50). */
+        name_max       = 1uz, /**< Use limit for name/use magic (default is 50). */
+        elf_phnum_max  = 2uz, /**< Max ELF program sections processed (default is 2048). */
+        elf_shnum_max  = 3uz, /**< Max ELF sections processed (default is 32768). */
+        elf_notes_max  = 4uz, /**< Max ELF notes processed (default is 256). */
+        regex_max      = 5uz, /**< Max length limit for REGEX searches (default is 8192). */
+        bytes_max      = 6uz, /**< Max bytes to look inside file (default is 7340032). */
+        encoding_max   = 7uz, /**< Max bytes to scan for encoding (default is 65536). */
+        elf_shsize_max = 8uz  /**< Max ELF section size (default is 134217728). */
     };
 
     /**

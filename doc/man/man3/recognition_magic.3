@@ -1,4 +1,4 @@
-.TH "recognition::magic" 3 "Sun Jun 23 2024 16:05:03" "Version v5.1.0" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic" 3 "Tue Jun 25 2024 23:14:54" "Version v5.1.1" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -288,66 +288,97 @@ The flags enums are suitable for bitwise or operations\&.
 .in +1c
 .TP
 \fB\fInone \fP\fP
+No special handling\&. 
 .TP
 \fB\fIdebug \fP\fP
+Print debugging messages to stderr\&. 
 .TP
 \fB\fIsymlink \fP\fP
+If the file queried is a symlink, follow it\&. 
 .TP
 \fB\fIcompress \fP\fP
+If the file is compressed, unpack it and look at the contents\&. 
 .TP
 \fB\fIdevices \fP\fP
+If the file is a block or character special device, then open the device and try to look in its contents\&. 
 .TP
 \fB\fImime_type \fP\fP
+Return a MIME type string, instead of a textual description\&. 
 .TP
 \fB\fIcontinue_search \fP\fP
+Return all matches, not just the first\&. 
 .TP
 \fB\fIcheck_database \fP\fP
+Check the magic database for consistency and print warnings to stderr\&. 
 .TP
 \fB\fIpreserve_atime \fP\fP
+On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed\&. 
 .TP
 \fB\fIraw \fP\fP
+Don't translate unprintable characters to a \\ooo octal representation\&. 
 .TP
 \fB\fIerror \fP\fP
+Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer\&. 
 .TP
 \fB\fImime_encoding \fP\fP
+Return a MIME encoding, instead of a textual description\&. 
 .TP
 \fB\fImime \fP\fP
+A shorthand for mime_type|mime_encoding\&. 
 .TP
 \fB\fIapple \fP\fP
+Return the Apple creator and type\&. 
 .TP
 \fB\fIextension \fP\fP
+Return a slash-separated list of extensions for this file type\&. 
 .TP
 \fB\fIcompress_transp \fP\fP
+Don't report on compression, only report about the uncompressed data\&. 
 .TP
 \fB\fIno_compress_fork \fP\fP
+Don't allow decompressors that use fork\&. 
 .TP
 \fB\fInodesc \fP\fP
+A shorthand for extension|mime|apple 
 .TP
 \fB\fIno_check_compress \fP\fP
+Don't look inside compressed files\&. 
 .TP
 \fB\fIno_check_tar \fP\fP
+Don't examine tar files\&. 
 .TP
 \fB\fIno_check_soft \fP\fP
+Don't consult magic files\&. 
 .TP
 \fB\fIno_check_apptype \fP\fP
+Don't check for EMX application type (only on EMX)\&. 
 .TP
 \fB\fIno_check_elf \fP\fP
+Don't print ELF details\&. 
 .TP
 \fB\fIno_check_text \fP\fP
+Don't check for various types of text files\&. 
 .TP
 \fB\fIno_check_cdf \fP\fP
+Don't get extra information on MS Composite Document Files\&. 
 .TP
 \fB\fIno_check_csv \fP\fP
+Don't examine CSV files\&. 
 .TP
 \fB\fIno_check_tokens \fP\fP
+Don't look for known tokens inside ascii files\&. 
 .TP
 \fB\fIno_check_encoding \fP\fP
+Don't check text encodings\&. 
 .TP
 \fB\fIno_check_json \fP\fP
+Don't examine JSON files\&. 
 .TP
 \fB\fIno_check_simh \fP\fP
+Don't examine SIMH tape files\&. 
 .TP
 \fB\fIno_check_builtin \fP\fP
+No built-in tests; only consult the magic file\&. 
 .SS "enum class \fBrecognition::magic::parameters\fP : std::size_t\fR [strong]\fP"
 
 .PP
@@ -357,22 +388,31 @@ The parameters enums are used for displaying or modifying the parameters of a ma
 .in +1c
 .TP
 \fB\fIindir_max \fP\fP
+Recursion limit for indirection (default is 50)\&. 
 .TP
 \fB\fIname_max \fP\fP
+Use limit for name/use magic (default is 50)\&. 
 .TP
 \fB\fIelf_phnum_max \fP\fP
+Max ELF program sections processed (default is 2048)\&. 
 .TP
 \fB\fIelf_shnum_max \fP\fP
+Max ELF sections processed (default is 32768)\&. 
 .TP
 \fB\fIelf_notes_max \fP\fP
+Max ELF notes processed (default is 256)\&. 
 .TP
 \fB\fIregex_max \fP\fP
+Max length limit for REGEX searches (default is 8192)\&. 
 .TP
 \fB\fIbytes_max \fP\fP
+Max bytes to look inside file (default is 7340032)\&. 
 .TP
 \fB\fIencoding_max \fP\fP
+Max bytes to scan for encoding (default is 65536)\&. 
 .TP
 \fB\fIelf_shsize_max \fP\fP
+Max ELF section size (default is 134217728)\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "recognition::magic::magic ()\fR [noexcept]\fP"

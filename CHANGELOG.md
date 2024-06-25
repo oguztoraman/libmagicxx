@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.1.1] - 25-06-2024
+
 + [**BUGFIX**] inc/magic.hpp: Add missing documentation for flags and parameters.
 + [**BUGFIX**] CHANGELOG.md: Fix typo in CHANGELOG.md.
 + [**BUGFIX**] README.md: Update README.md presentation for better readability.

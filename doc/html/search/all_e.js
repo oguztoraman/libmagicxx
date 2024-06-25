@@ -12,6 +12,7 @@ var searchData=
   ['libmagic_5fvalue_5ft_9',['libmagic_value_t',['../classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3',1,'recognition::magic::magic_private']]],
   ['libmagicxx_10',['Libmagicxx',['../index.html#autotoc_md15',1,'How to Build Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md12',1,'Libmagicxx'],['../index.html#autotoc_md14',1,'Requirements to Build Libmagicxx']]],
   ['libmagicxx_20in_20a_20cmake_20based_20project_11',['How to Use Libmagicxx in a CMake-based Project',['../index.html#autotoc_md16',1,'']]],
-  ['license_12',['License',['../index.html#autotoc_md18',1,'']]],
-  ['load_5fdatabase_5ffile_13',['load_database_file',['../classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63',1,'recognition::magic::load_database_file()'],['../classrecognition_1_1magic_1_1magic__private.html#a853208cfe1593e44e21fd7054cd120c8',1,'recognition::magic::magic_private::load_database_file()']]]
+  ['license_12',['License',['../index.html#autotoc_md19',1,'']]],
+  ['licenses_3a_13',['Other licenses:',['../index.html#autotoc_md20',1,'']]],
+  ['load_5fdatabase_5ffile_14',['load_database_file',['../classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63',1,'recognition::magic::load_database_file()'],['../classrecognition_1_1magic_1_1magic__private.html#a853208cfe1593e44e21fd7054cd120c8',1,'recognition::magic::magic_private::load_database_file()']]]
 ];

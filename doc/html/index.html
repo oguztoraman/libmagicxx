@@ -24,7 +24,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.1.0</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.1.1</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -79,7 +79,7 @@ $(function() {
 <div class="textblock"><p><a class="anchor" id="md_README"></a> <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux.yml/badge.svg" alt="Build & Test on Linux" style="pointer-events: none;" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md12"></a>
 Libmagicxx</h1>
-<p>A C++ wrapper library over the <a href="https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library">Magic Number Recognition Library</a>. It provides an easy-to-use interface through the magic class, enabling the identification of file types based on their content rather than file extensions.</p>
+<p><b>Libmagicxx</b> is a C++ wrapper library over the <a href="https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library">Magic Number Recognition Library</a>. It provides an easy-to-use interface through the <code>magic</code> class, enabling the <em>identification of file types</em> based on their content rather than file extensions.</p>
 <h2><a class="anchor" id="autotoc_md13"></a>
 Key Features</h2>
 <ul>
@@ -100,37 +100,34 @@ Requirements to Build Libmagicxx</h2>
 <h2><a class="anchor" id="autotoc_md15"></a>
 How to Build Libmagicxx</h2>
 <ol type="1">
-<li>Clone the libmagicxx repo.</li>
-</ol>
+<li><p class="startli">Clone the libmagicxx repo.</p>
 <div class="fragment"><div class="line">git clone https://github.com/oguztoraman/libmagicxx</div>
-</div><!-- fragment --><ol type="1">
-<li>Run the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh">install_dependencies.sh</a> bash script to install the necessary dependencies.</li>
-</ol>
+</div><!-- fragment --></li>
+<li><p class="startli">Install the necessary dependencies using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh">install_dependencies.sh</a> bash script.</p>
 <div class="fragment"><div class="line">cd libmagicxx &amp;&amp; ./install_dependencies.sh</div>
-</div><!-- fragment --><ol type="1">
-<li>Run the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/build.sh">build.sh</a> bash script.</li>
-</ol>
+</div><!-- fragment --></li>
+<li><p class="startli">Build the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/build.sh">build.sh</a> bash script.</p>
 <div class="fragment"><div class="line">./build.sh -d build -b Release -c g++ -t</div>
-</div><!-- fragment --><div class="fragment"><div class="line">./build.sh -h</div>
+</div><!-- fragment --><p class="startli">For more options, use:</p>
+<div class="fragment"><div class="line">./build.sh -h</div>
 <div class="line">Usage: ./build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]</div>
 <div class="line">  -d build_dir   Specify the build directory (default: release_build).</div>
 <div class="line">  -b build_type  Specify the CMake build type (default: Release).</div>
 <div class="line">  -c compiler    Specify the compiler (g++ or clang++, default: g++).</div>
 <div class="line">  -t             Build and run tests (default: OFF).</div>
 <div class="line">  -h             Display this message.</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md16"></a>
+</div><!-- fragment --></li>
+</ol>
+<h2><a class="anchor" id="autotoc_md16"></a>
 How to Use Libmagicxx in a CMake-based Project</h2>
 <ol type="1">
-<li>Clone the libmagicxx repo into your project.</li>
-</ol>
+<li><p class="startli">Clone the libmagicxx repo into your project.</p>
 <div class="fragment"><div class="line">git clone https://github.com/oguztoraman/libmagicxx</div>
-</div><!-- fragment --><ol type="1">
-<li>Run the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh">install_dependencies.sh</a> bash script to install the necessary dependencies.</li>
-</ol>
+</div><!-- fragment --></li>
+<li><p class="startli">Install the necessary dependencies using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh">install_dependencies.sh</a> bash script.</p>
 <div class="fragment"><div class="line">cd libmagicxx &amp;&amp; ./install_dependencies.sh</div>
-</div><!-- fragment --><ol type="1">
-<li>Add the following lines to the top level CMakeLists.txt file of your project to include and link libmagicxx.</li>
-</ol>
+</div><!-- fragment --></li>
+<li><p class="startli">Add the following lines to the top level <code>CMakeLists.txt</code> file of your project to include and link libmagicxx.</p>
 <div class="fragment"><div class="line">add_subdirectory(libmagicxx)</div>
 <div class="line"> </div>
 <div class="line">add_compile_options(&quot;$&lt;$&lt;CXX_COMPILER_ID:Clang&gt;:-stdlib=libc++&gt;&quot;)</div>
@@ -138,43 +135,45 @@ How to Use Libmagicxx in a CMake-based Project</h2>
 <div class="line">target_link_libraries(&lt;name of your project&gt;</div>
 <div class="line">    &lt;PUBLIC or PRIVATE or INTERFACE&gt; &quot;magicxx;$&lt;$&lt;CXX_COMPILER_ID:Clang&gt;:c++&gt;&quot;</div>
 <div class="line">)</div>
-</div><!-- fragment --><ol type="1">
-<li>Include the <a class="el" href="magic_8hpp.html">magic.hpp</a> header file in your source files where you need to use Libmagicxx functionality.</li>
-</ol>
-<div class="fragment"><div class="line">#include &lt;print&gt;</div>
-<div class="line">#include &lt;iostream&gt;</div>
-<div class="line">#include &lt;magic.hpp&gt;</div>
+</div><!-- fragment --></li>
+<li><p class="startli">Include the <code><a class="el" href="magic_8hpp.html">magic.hpp</a></code> header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the <code>magic</code> class.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;print&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="magic_8hpp.html">magic.hpp</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line">auto main(int, char**)-&gt;int</div>
+<div class="line"><span class="keyword">auto</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**) -&gt; <span class="keywordtype">int</span></div>
 <div class="line">{</div>
-<div class="line">    using namespace recognition;</div>
-<div class="line">    magic m{magic::flags::mime};</div>
-<div class="line">    std::println(std::cout, &quot;{}&quot;, m.identify_file(magic::default_database_file));</div>
-<div class="line">    // possible output: text/x-file; charset=us-ascii</div>
+<div class="line">    <span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacerecognition.html">recognition</a>;</div>
+<div class="line">    <a class="code hl_class" href="classrecognition_1_1magic.html">magic</a> m{magic::flags::mime};</div>
+<div class="line">    std::println(std::cout, <span class="stringliteral">&quot;{}&quot;</span>, m.identify_file(magic::default_database_file));</div>
+<div class="line">    <span class="comment">// possible output: text/x-file; charset=us-ascii</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+<div class="ttc" id="aclassrecognition_1_1magic_html"><div class="ttname"><a href="classrecognition_1_1magic.html">recognition::magic</a></div><div class="ttdoc">The magic class provides a C++ wrapper over the Magic Number Recognition Library. The magic class is ...</div><div class="ttdef"><b>Definition</b> magic.hpp:26</div></div>
+<div class="ttc" id="amagic_8hpp_html"><div class="ttname"><a href="magic_8hpp.html">magic.hpp</a></div></div>
+<div class="ttc" id="anamespacerecognition_html"><div class="ttname"><a href="namespacerecognition.html">recognition</a></div><div class="ttdef"><b>Definition</b> magic.hpp:16</div></div>
+</div><!-- fragment --></li>
+</ol>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Documentation</h2>
-<p>For comprehensive guides, API references, and detailed information, please visit the <a href="https://oguztoraman.github.io/libmagicxx/">documentation site</a>.</p>
+<p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">documentation site</a>.</p>
 <h2><a class="anchor" id="autotoc_md18"></a>
+Source Code</h2>
+<p>Explore the source code of Libmagicxx on <a href="https://github.com/oguztoraman/libmagicxx">GitHub</a>.</p>
+<h2><a class="anchor" id="autotoc_md19"></a>
 License</h2>
+<p>Libmagicxx is licensed under the GNU Lesser General Public License Version 3. For more details, see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER">COPYING.LESSER</a> file.</p>
+<h3><a class="anchor" id="autotoc_md20"></a>
+Other licenses:</h3>
 <ul>
-<li>Libmagicxx</li>
+<li>File and the Magic Number Recognition Library: See the <a href="https://github.com/file/file/blob/master/COPYING">COPYING</a> file.</li>
+<li>GoogleTest: See the <a href="https://github.com/google/googletest/blob/main/LICENSE">LICENSE</a> file. </li>
 </ul>
-<p>GNU Lesser General Public License Version 3, see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER">COPYING.LESSER</a> file for details.</p>
-<ul>
-<li>File and the Magic Number Recognition Library</li>
-</ul>
-<p>See the <a href="https://github.com/file/file/blob/master/COPYING">COPYING</a> file for details.</p>
-<ul>
-<li>GoogleTest</li>
-</ul>
-<p>See the <a href="https://github.com/google/googletest/blob/main/LICENSE">LICENSE</a> file for details. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"/>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 23 2024 16:05:03 for Libmagicxx by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+Generated on Tue Jun 25 2024 23:14:54 for Libmagicxx by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
 </small></address>
 </body>
 </html>

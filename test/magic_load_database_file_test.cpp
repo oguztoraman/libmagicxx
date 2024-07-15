@@ -22,7 +22,7 @@ TEST(magic_load_database_file_test, opened_magic_load_empty_path)
 
 TEST(magic_load_database_file_test, opened_magic_load_directory)
 {
-    constexpr auto test_path = "/tmp/test/";
+    constexpr auto test_path = "/tmp/magicxx_test/";
     std::filesystem::create_directory(test_path);
     magic m;
     m.open(magic::flags::mime);
@@ -31,7 +31,7 @@ TEST(magic_load_database_file_test, opened_magic_load_directory)
 
 TEST(magic_load_database_file_test, opened_magic_load_invalid_database)
 {
-    constexpr auto test_database = "/tmp/test/invalid_database";
+    constexpr auto test_database = "/tmp/magicxx_test/invalid_database";
     std::ofstream file{test_database, std::ios::trunc};
     file << "test";
     file.flush();

@@ -4,3 +4,7 @@
 + [ ] Build as a CMake package.
 + [ ] Build as an RPM package.
 + [ ] Add examples.
++ [ ] Add .clang-format
++ [ ] Add CONTRIBUTING.md.
++ [ ] Add ISSUE_TEMPLATE.md.
++ [ ] Add PULL_REQUEST_TEMPLATE.md.

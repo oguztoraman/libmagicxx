@@ -7,8 +7,6 @@
 #include <string>
 #include <ranges>
 #include <concepts>
-#include <algorithm>
-#include <functional>
 
 namespace utility {
 
@@ -35,17 +33,9 @@ inline std::string to_string(
         std::same_as<std::invoke_result_t<StringConverterType, typename ContainerType::value_type>, std::string>,
         "StringConverterType must return std::string"
     );
-    if (container.empty()){
-        return {};
-    }
-    return std::ranges::fold_left(
-        std::ranges::next(std::ranges::begin(container)),
-        std::ranges::end(container),
-        std::invoke(string_converter, *std::ranges::begin(container)),
-        [&](const auto& left, const auto& right){
-            return left + value_separator + std::invoke(string_converter, right);
-        }
-    );
+    return container | std::views::transform(string_converter)
+                     | std::views::join_with(value_separator)
+                     | std::ranges::to<std::string>();
 }
 
 } /* namespace utility */

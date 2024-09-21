@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <expected>
+#include <algorithm>
 
 #include <file_concepts.hpp>
 #include <magic_exception.hpp>

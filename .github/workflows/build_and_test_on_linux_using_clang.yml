@@ -1,11 +1,8 @@
-name: Build and Test on Linux using CLANG.
+name: Build and Test on Linux using CLANG
 
 on:
   push:
-    branches: ["main"]
     tags: ['v*']
-  pull_request:
-    branches: ["main"]
   workflow_dispatch:
 
 jobs:

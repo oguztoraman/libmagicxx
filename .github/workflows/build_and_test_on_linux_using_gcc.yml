@@ -1,4 +1,4 @@
-name: Build and Test on Linux.
+name: Build and Test on Linux using GCC.
 
 on:
   push:
@@ -9,23 +9,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  clang_build:
-    runs-on: ubuntu-latest
-    container:
-      image: fedora:rawhide
-    steps:
-    - name: Install dependencies.
-      run: dnf install -y cmake make ninja-build clang libcxx-devel git autoconf libtool
-    - name: Clone Libmagicxx.
-      run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
-    - name: Build.
-      working-directory: /libmagicxx
-      run: ./build.sh -c clang++
-    - name: Test.
-      working-directory: /libmagicxx
-      shell: bash
-      run: ./build.sh -c clang++ -t
-
   gcc_build:
     runs-on: ubuntu-latest
     container:

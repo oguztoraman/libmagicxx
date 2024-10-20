@@ -12,7 +12,7 @@ jobs:
   clang_build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:latest
+      image: fedora:rawhide
     steps:
     - name: Install dependencies.
       run: dnf install -y cmake make ninja-build clang libcxx-devel git autoconf libtool
@@ -29,7 +29,7 @@ jobs:
   gcc_build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:latest
+      image: fedora:rawhide
     steps:
     - name: Install dependencies.
       run: dnf install -y cmake make ninja-build g++ git autoconf libtool

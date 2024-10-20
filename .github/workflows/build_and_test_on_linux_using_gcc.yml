@@ -1,11 +1,8 @@
-name: Build and Test on Linux using GCC.
+name: Build and Test on Linux using GCC
 
 on:
   push:
-    branches: ["main"]
     tags: ['v*']
-  pull_request:
-    branches: ["main"]
   workflow_dispatch:
 
 jobs:

@@ -8,3 +8,4 @@
 + [ ] Add CONTRIBUTING.md.
 + [ ] Add ISSUE_TEMPLATE.md.
 + [ ] Add PULL_REQUEST_TEMPLATE.md.
++ [ ] Cross compile for Windows and macOS.

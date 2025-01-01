@@ -8,5 +8,5 @@ using namespace recognition;
 
 TEST(magic_version_test, magic_get_version)
 {
-    EXPECT_EQ(magic::get_version(), "5.45");
+    EXPECT_EQ(magic::get_version(), "5.46");
 }

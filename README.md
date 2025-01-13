@@ -29,22 +29,22 @@
     git clone https://github.com/oguztoraman/libmagicxx
     ```
 
-2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh) bash script.
+2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh) bash script.
 
     ```bash
-    cd libmagicxx && ./install_dependencies.sh
+    cd libmagicxx && ./scripts/install_dependencies.sh
     ```
 
-3. Build the project using the [build.sh](https://github.com/oguztoraman/libmagicxx/blob/main/build.sh) bash script.
+3. Build the project using the [build.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/build.sh) bash script.
 
     ```bash
-    ./build.sh -d build -b Release -c g++ -t
+    ./scripts/build.sh -d build -b Release -c g++ -t
     ```
 
     For more options, use:
 
     ```bash
-    ./build.sh -h
+    ./scripts/build.sh -h
     Usage: ./build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
       -d build_dir   Specify the build directory (default: release_build).
       -b build_type  Specify the CMake build type (default: Release).
@@ -64,7 +64,7 @@
 2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh) bash script.
 
     ```bash
-    cd libmagicxx && ./install_dependencies.sh
+    cd libmagicxx && ./scripts/install_dependencies.sh
     ```
 
 3. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.

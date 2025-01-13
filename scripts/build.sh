@@ -3,6 +3,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2024-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
+cd ${SCRIPT_DIR}/..
+
 BUILD_DIR="release_build"
 BUILD_TYPE="Release"
 COMPILER="g++"

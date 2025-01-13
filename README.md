@@ -45,7 +45,7 @@
 
     ```bash
     ./scripts/build.sh -h
-    Usage: ./build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
+    Usage: ./scripts/build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
       -d build_dir   Specify the build directory (default: release_build).
       -b build_type  Specify the CMake build type (default: Release).
       -c compiler    Specify the compiler (g++ or clang++, default: g++).
@@ -61,7 +61,7 @@
     git clone https://github.com/oguztoraman/libmagicxx
     ```
 
-2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/install_dependencies.sh) bash script.
+2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh) bash script.
 
     ```bash
     cd libmagicxx && ./scripts/install_dependencies.sh

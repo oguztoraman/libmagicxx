@@ -81,7 +81,7 @@ set(magicxx_SOURCE_FILES
 )
 
 set(magicxx_TEST_DIR
-    ${magicxx_SOURCE_DIR}/test
+    ${magicxx_SOURCE_DIR}/tests
 )
 
 set(googletest_DIR

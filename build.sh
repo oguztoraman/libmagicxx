@@ -47,7 +47,7 @@ echo "Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '$
 
 if [ "$RUN_TESTS" == "ON" ]; then
     echo "Running tests..."
-    cd test && ctest --output-on-failure -j10 || {
+    cd tests && ctest --output-on-failure -j10 || {
         exit 4
     }
 fi

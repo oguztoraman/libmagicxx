@@ -63,6 +63,7 @@ public:
      * @note The flags enums are suitable for bitwise or operations.
      */
     enum flags : unsigned long long {
+        /* clang-format off */
         none              = 0ULL,       /**< No special handling. */
         debug             = 1ULL << 0,  /**< Print debugging messages to stderr. */
         symlink           = 1ULL << 1,  /**< If the file queried is a symlink, follow it. */
@@ -94,6 +95,7 @@ public:
         no_check_json     = 1ULL << 27, /**< Don't examine JSON files. */
         no_check_simh     = 1ULL << 28, /**< Don't examine SIMH tape files. */
         no_check_builtin  = 1ULL << 29  /**< No built-in tests; only consult the magic file. */
+        /* clang-format on */
     };
 
     /**
@@ -101,6 +103,7 @@ public:
      *        modifying the parameters of a magic.
      */
     enum class parameters : std::size_t {
+        /* clang-format off */
         indir_max      = 0uz, /**< Recursion limit for indirection (default is 50). */
         name_max       = 1uz, /**< Use limit for name/use magic (default is 50). */
         elf_phnum_max  = 2uz, /**< Max ELF program sections processed (default is 2048). */
@@ -110,6 +113,7 @@ public:
         bytes_max      = 6uz, /**< Max bytes to look inside file (default is 7340032). */
         encoding_max   = 7uz, /**< Max bytes to scan for encoding (default is 65536). */
         elf_shsize_max = 8uz  /**< Max ELF section size (default is 134217728). */
+        /* clang-format on */
     };
 
     /**

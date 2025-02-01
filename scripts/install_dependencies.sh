@@ -10,6 +10,5 @@ which dnf &> /dev/null || {
 }
 
 echo "Installing the dependencies..."
-sudo dnf install -y cmake make ninja-build g++ clang libcxx-devel git autoconf libtool
-
+sudo dnf install -y cmake make ninja-build g++ clang clang-tools-extra libcxx-devel git autoconf libtool
 echo "Done"

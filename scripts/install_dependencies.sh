@@ -5,10 +5,12 @@
 
 which dnf &> /dev/null || {
     echo "Error: Unsupported system. DNF does not exist on this system."
-    echo "You need to install the dependencies manually.";
-    exit 1;
+    echo "You need to install the dependencies manually."
+    exit 1
 }
 
 echo "Installing the dependencies..."
-sudo dnf install -y cmake make ninja-build g++ clang clang-tools-extra libcxx-devel git autoconf libtool
+sudo dnf install -y cmake make ninja-build g++ clang clang-tools-extra libcxx-devel git autoconf libtool || {
+    exit 2
+}
 echo "Done"

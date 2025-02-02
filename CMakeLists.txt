@@ -17,7 +17,7 @@ set(magic_INCLUDE_DIR
 )
 
 set(magic_LIBRARY
-    ${magic_INCLUDE_DIR}/.libs/libmagic.so
+    ${magic_INCLUDE_DIR}/.libs/libmagic.a
 )
 
 if (NOT EXISTS ${magic_LIBRARY})
@@ -44,7 +44,10 @@ if (NOT EXISTS ${magic_LIBRARY})
     endif()
 
     execute_process(
-        COMMAND ./configure
+        COMMAND ./configure --enable-static=yes --enable-shared=no
+            --disable-zlib --disable-bzlib
+            --disable-xzlib --disable-zstdlib
+            --disable-lzlib --disable-lrziplib
         WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
         RESULT_VARIABLE configure_result
     )
@@ -54,7 +57,7 @@ if (NOT EXISTS ${magic_LIBRARY})
 
     message(STATUS "Building the file command and the Magic Number Recognition Library...")
     execute_process(
-        COMMAND make
+        COMMAND make -j10
         WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
         RESULT_VARIABLE make_result
     )

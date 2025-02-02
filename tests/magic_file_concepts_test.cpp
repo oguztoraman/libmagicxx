@@ -1,10 +1,11 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2024-2025 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+#include <gtest/gtest.h>
+
 #include <vector>
 
-#include <gtest/gtest.h>
-#include <file_concepts.hpp>
+#include "file_concepts.hpp"
 
 using namespace file_concepts;
 
@@ -34,7 +35,8 @@ TEST(magic_file_concepts_test, multiple_files_to_string_conversion_test)
         "/home",
         "/root",
     };
-    EXPECT_EQ(to_string(files),
+    EXPECT_EQ(
+        to_string(files),
         "/tmp, "
         "/usr, "
         "/include, "

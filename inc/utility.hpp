@@ -4,9 +4,9 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
-#include <string>
-#include <ranges>
 #include <concepts>
+#include <ranges>
+#include <string>
 
 namespace utility {
 
@@ -23,19 +23,27 @@ namespace utility {
  * @returns The container as a string.
  */
 template <typename ContainerType, typename StringConverterType>
-requires std::ranges::range<ContainerType> && requires (ContainerType c){c.empty(); typename ContainerType::value_type;}
-[[nodiscard]]
-inline std::string to_string(
+requires std::ranges::range<ContainerType> && requires(ContainerType c) {
+    c.empty();
+    typename ContainerType::value_type;
+}
+[[nodiscard]] inline std::string to_string(
     const ContainerType& container,
-    const std::string& value_separator, StringConverterType string_converter)
+    const std::string&   value_separator,
+    StringConverterType  string_converter
+)
 {
     static_assert(
-        std::same_as<std::invoke_result_t<StringConverterType, typename ContainerType::value_type>, std::string>,
+        std::same_as<
+            std::invoke_result_t<
+                StringConverterType,
+                typename ContainerType::value_type>,
+            std::string>,
         "StringConverterType must return std::string"
     );
     return container | std::views::transform(string_converter)
-                     | std::views::join_with(value_separator)
-                     | std::ranges::to<std::string>();
+         | std::views::join_with(value_separator)
+         | std::ranges::to<std::string>();
 }
 
 } /* namespace utility */

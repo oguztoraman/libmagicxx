@@ -1,10 +1,11 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2024-2025 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+#include <gtest/gtest.h>
+
 #include <fstream>
 
-#include <magic.hpp>
-#include <gtest/gtest.h>
+#include "magic.hpp"
 
 using namespace recognition;
 
@@ -34,7 +35,7 @@ TEST(magic_load_database_file_test, opened_magic_load_invalid_database)
     constexpr auto test_path = "/tmp/magicxx_test/";
     std::filesystem::create_directory(test_path);
     constexpr auto test_database = "/tmp/magicxx_test/invalid_database";
-    std::ofstream file{test_database, std::ios::trunc};
+    std::ofstream  file{test_database, std::ios::trunc};
     file << "test";
     file.flush();
     magic m;

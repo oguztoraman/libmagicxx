@@ -4,15 +4,15 @@
 #ifndef MAGIC_HPP
 #define MAGIC_HPP
 
-#include <map>
-#include <bitset>
-#include <vector>
-#include <memory>
-#include <expected>
 #include <algorithm>
+#include <bitset>
+#include <expected>
+#include <map>
+#include <memory>
+#include <vector>
 
-#include <file_concepts.hpp>
-#include <magic_exception.hpp>
+#include "file_concepts.hpp"
+#include "magic_exception.hpp"
 
 namespace recognition {
 
@@ -26,7 +26,6 @@ namespace recognition {
  */
 class magic {
 public:
-
     /**
      * @brief The flags_mask_t typedef.
      */
@@ -55,7 +54,8 @@ public:
     /**
      * @brief The expected_types_of_files_t typedef.
      */
-    using expected_types_of_files_t = std::map<std::filesystem::path, expected_file_type_t>;
+    using expected_types_of_files_t
+        = std::map<std::filesystem::path, expected_file_type_t>;
 
     /**
      * @brief The flags enums are used for configuring the flags of a magic.
@@ -148,7 +148,10 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    explicit magic(flags_mask_t flags_mask, const std::filesystem::path& database_file = default_database_file);
+    explicit magic(
+        flags_mask_t                 flags_mask,
+        const std::filesystem::path& database_file = default_database_file
+    );
 
     /**
      * @brief Construct magic, open it using the flags and load the magic database file.
@@ -162,7 +165,10 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    explicit magic(const flags_container_t& flags_container, const std::filesystem::path& database_file = default_database_file);
+    explicit magic(
+        const flags_container_t&     flags_container,
+        const std::filesystem::path& database_file = default_database_file
+    );
 
     /**
      * @brief Move construct magic.
@@ -198,8 +204,7 @@ public:
      *
      * @returns True if magic is open, false otherwise.
      */
-    [[nodiscard]]
-    operator bool() const noexcept;
+    [[nodiscard]] operator bool() const noexcept;
 
     /**
      * @brief check the validity of entries in the colon separated database
@@ -209,7 +214,9 @@ public:
      *
      * @returns True if the database_file has valid entries, false otherwise.
      */
-    bool check(const std::filesystem::path& database_file = default_database_file) const noexcept;
+    bool check(
+        const std::filesystem::path& database_file = default_database_file
+    ) const noexcept;
 
     /**
      * @brief Close magic.
@@ -229,7 +236,9 @@ public:
      * @note The compiled files created are named from the basename
      *       of each file argument with “.mgc” appended to it.
      */
-    bool compile(const std::filesystem::path& database_file = default_database_file) const noexcept;
+    bool compile(
+        const std::filesystem::path& database_file = default_database_file
+    ) const noexcept;
 
     /**
      * @brief Get the flags of magic.
@@ -238,8 +247,7 @@ public:
      *
      * @throws magic_is_closed      if magic is closed.
      */
-    [[nodiscard]]
-    flags_container_t get_flags() const;
+    [[nodiscard]] flags_container_t get_flags() const;
 
     /**
      * @brief Get the value of a parameter of magic.
@@ -250,8 +258,7 @@ public:
      *
      * @throws magic_is_closed      if magic is closed.
      */
-    [[nodiscard]]
-    std::size_t get_parameter(parameters parameter) const;
+    [[nodiscard]] std::size_t get_parameter(parameters parameter) const;
 
     /**
      * @brief Get the values ​​of all parameters of magic.
@@ -260,16 +267,14 @@ public:
      *
      * @throws magic_is_closed      if magic is closed.
      */
-    [[nodiscard]]
-    parameter_value_map_t get_parameters() const;
+    [[nodiscard]] parameter_value_map_t get_parameters() const;
 
     /**
      * @brief Get the version of the Magic Number Recognition Library.
      *
      * @returns The version number as a string.
      */
-    [[nodiscard]]
-    static std::string get_version() noexcept;
+    [[nodiscard]] static std::string get_version() noexcept;
 
     /**
      * @brief Identify the type of a file.
@@ -282,8 +287,8 @@ public:
      * @throws empty_path           if the path of the file is empty.
      * @throws magic_file_error     if identifying the type of the file fails.
      */
-    [[nodiscard]]
-    file_type_t identify_file(const std::filesystem::path& path) const;
+    [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
+    ) const;
 
     /**
      * @brief Identify the type of a file, noexcept version.
@@ -292,9 +297,10 @@ public:
      *
      * @returns The type of the file or the error message.
      */
-    [[nodiscard]]
-    expected_file_type_t
-        identify_file(const std::filesystem::path& path, std::nothrow_t) const noexcept;
+    [[nodiscard]] expected_file_type_t identify_file(
+        const std::filesystem::path& path,
+        std::nothrow_t
+    ) const noexcept;
 
     /**
      * @brief Identify the types of all files in a directory.
@@ -308,10 +314,10 @@ public:
      * @throws empty_path           if the path of the file is empty.
      * @throws magic_file_error     if identifying the type of the file fails.
      */
-    [[nodiscard]]
-    types_of_files_t identify_files(
-        const std::filesystem::path& directory,
-        std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
+    [[nodiscard]] types_of_files_t identify_files(
+        const std::filesystem::path&       directory,
+        std::filesystem::directory_options option
+        = std::filesystem::directory_options::follow_directory_symlink
     ) const
     {
         return identify_files_impl(
@@ -327,14 +333,16 @@ public:
      *
      * @returns The types of each file as a map.
      */
-    [[nodiscard]]
-    expected_types_of_files_t identify_files(
-        const std::filesystem::path& directory, std::nothrow_t,
-        std::filesystem::directory_options option = std::filesystem::directory_options::follow_directory_symlink
+    [[nodiscard]] expected_types_of_files_t identify_files(
+        const std::filesystem::path& directory,
+        std::nothrow_t,
+        std::filesystem::directory_options option
+        = std::filesystem::directory_options::follow_directory_symlink
     ) const noexcept
     {
         return identify_files_impl(
-            std::filesystem::recursive_directory_iterator{directory, option},  std::nothrow
+            std::filesystem::recursive_directory_iterator{directory, option},
+            std::nothrow
         );
     }
 
@@ -349,8 +357,8 @@ public:
      * @throws empty_path           if the path of the file is empty.
      * @throws magic_file_error     if identifying the type of the file fails.
      */
-    [[nodiscard]]
-    types_of_files_t identify_files(const file_concepts::file_container auto& files) const
+    [[nodiscard]] types_of_files_t
+        identify_files(const file_concepts::file_container auto& files) const
     {
         return identify_files_impl(files);
     }
@@ -362,9 +370,9 @@ public:
      *
      * @returns The types of each file as a map.
      */
-    [[nodiscard]]
-    expected_types_of_files_t identify_files(
-        const file_concepts::file_container auto& files, std::nothrow_t
+    [[nodiscard]] expected_types_of_files_t identify_files(
+        const file_concepts::file_container auto& files,
+        std::nothrow_t
     ) const noexcept
     {
         return identify_files_impl(files, std::nothrow);
@@ -375,8 +383,7 @@ public:
      *
      * @returns True if magic is open, false otherwise.
      */
-    [[nodiscard]]
-    bool is_open() const noexcept;
+    [[nodiscard]] bool is_open() const noexcept;
 
     /**
      * @brief Load a magic database file.
@@ -390,7 +397,9 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    void load_database_file(const std::filesystem::path& database_file = default_database_file);
+    void load_database_file(
+        const std::filesystem::path& database_file = default_database_file
+    );
 
     /**
      * @brief Open magic using the flags.
@@ -459,27 +468,25 @@ private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
 
-    [[nodiscard]]
-    types_of_files_t identify_files_impl(const std::ranges::range auto& files) const
+    [[nodiscard]] types_of_files_t
+        identify_files_impl(const std::ranges::range auto& files) const
     {
         types_of_files_t types_of_files;
-        std::ranges::for_each(files,
-            [&](const std::filesystem::path& file){
-                types_of_files[file] = identify_file(file);
-            }
-        );
+        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+            types_of_files[file] = identify_file(file);
+        });
         return types_of_files;
     }
 
-    [[nodiscard]]
-    expected_types_of_files_t identify_files_impl(const std::ranges::range auto& files, std::nothrow_t) const noexcept
+    [[nodiscard]] expected_types_of_files_t identify_files_impl(
+        const std::ranges::range auto& files,
+        std::nothrow_t
+    ) const noexcept
     {
         expected_types_of_files_t expected_types_of_files;
-        std::ranges::for_each(files,
-            [&](const std::filesystem::path& file){
-                expected_types_of_files[file] = identify_file(file, std::nothrow);
-            }
-        );
+        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+            expected_types_of_files[file] = identify_file(file, std::nothrow);
+        });
         return expected_types_of_files;
     }
 
@@ -496,11 +503,10 @@ private:
  *
  * @returns The types_of_files as a string.
  */
-[[nodiscard]]
-std::string to_string(
+[[nodiscard]] std::string to_string(
     const magic::types_of_files_t& types_of_files,
-    const std::string& type_separator = " -> ",
-    const std::string& file_separator = "\n"
+    const std::string&             type_separator = " -> ",
+    const std::string&             file_separator = "\n"
 );
 
 /**
@@ -510,8 +516,8 @@ std::string to_string(
  *
  * @returns The expected_file_type as a string.
  */
-[[nodiscard]]
-std::string to_string(const magic::expected_file_type_t& expected_file_type);
+[[nodiscard]] std::string
+    to_string(const magic::expected_file_type_t& expected_file_type);
 
 /**
  * @brief Convert the magic::expected_types_of_files_t to string.
@@ -522,11 +528,10 @@ std::string to_string(const magic::expected_file_type_t& expected_file_type);
  *
  * @returns The expected_types_of_files as a string.
  */
-[[nodiscard]]
-std::string to_string(
+[[nodiscard]] std::string to_string(
     const magic::expected_types_of_files_t& expected_types_of_files,
-    const std::string& type_separator = " -> ",
-    const std::string& file_separator = "\n"
+    const std::string&                      type_separator = " -> ",
+    const std::string&                      file_separator = "\n"
 );
 
 /**
@@ -536,8 +541,7 @@ std::string to_string(
  *
  * @returns The flag as a string.
  */
-[[nodiscard]]
-std::string to_string(magic::flags flag);
+[[nodiscard]] std::string to_string(magic::flags flag);
 
 /**
  * @brief Convert the magic::flags_container_t to string.
@@ -547,8 +551,10 @@ std::string to_string(magic::flags flag);
  *
  * @returns The flags as a string.
  */
-[[nodiscard]]
-std::string to_string(const magic::flags_container_t& flags, const std::string& separator = ", ");
+[[nodiscard]] std::string to_string(
+    const magic::flags_container_t& flags,
+    const std::string&              separator = ", "
+);
 
 /**
  * @brief Convert the magic::parameters to string.
@@ -557,8 +563,7 @@ std::string to_string(const magic::flags_container_t& flags, const std::string& 
  *
  * @returns The parameter as a string.
  */
-[[nodiscard]]
-std::string to_string(magic::parameters parameter);
+[[nodiscard]] std::string to_string(magic::parameters parameter);
 
 /**
  * @brief Convert the magic::parameter_value_map_t to string.
@@ -569,11 +574,10 @@ std::string to_string(magic::parameters parameter);
  *
  * @returns The parameters as a string.
  */
-[[nodiscard]]
-std::string to_string(
+[[nodiscard]] std::string to_string(
     const magic::parameter_value_map_t& parameters,
-    const std::string& value_separator = ": ",
-    const std::string& parameter_separator = ", "
+    const std::string&                  value_separator     = ": ",
+    const std::string&                  parameter_separator = ", "
 );
 
 } /* namespace recognition */

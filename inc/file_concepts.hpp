@@ -15,15 +15,15 @@ namespace file_concepts {
  *        a container which can be used as a file container by the magic class.
  */
 template <typename ContainerType>
-concept file_container =
-        requires (ContainerType c, std::filesystem::path p){
-            c.push_back(p);
-            c.empty();
-            typename ContainerType::value_type;
-        } &&
-        std::ranges::range<ContainerType> &&
-        std::default_initializable<ContainerType> &&
-        std::same_as<typename ContainerType::value_type, std::filesystem::path>;
+concept file_container
+    = std::ranges::range<ContainerType>
+   && std::default_initializable<ContainerType>
+   && std::same_as<typename ContainerType::value_type, std::filesystem::path>
+   && requires(ContainerType c, std::filesystem::path p) {
+          c.push_back(p);
+          c.empty();
+          typename ContainerType::value_type;
+      };
 
 /**
  * @brief Convert the file container to a string.
@@ -33,11 +33,15 @@ concept file_container =
  *
  * @returns The container as a string.
  */
-[[nodiscard]]
-inline std::string to_string(const file_container auto& container, const std::string& separator = ", ")
+[[nodiscard]] inline std::string to_string(
+    const file_container auto& container,
+    const std::string&         separator = ", "
+)
 {
-    return utility::to_string(container, separator,
-        [](const std::filesystem::path& path){
+    return utility::to_string(
+        container,
+        separator,
+        [](const std::filesystem::path& path) {
             return path.string();
         }
     );

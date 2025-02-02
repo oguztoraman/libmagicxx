@@ -50,6 +50,7 @@
       -b build_type  Specify the CMake build type (default: Release).
       -c compiler    Specify the compiler (g++ or clang++, default: g++).
       -t             Build and run tests (default: OFF).
+      -r             Rebuild libmagic (default: OFF).
       -h             Display this message.
     ```
 

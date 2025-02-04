@@ -6,3 +6,4 @@
 + [ ] Add examples.
 + [ ] Add CONTRIBUTING.md.
 + [ ] Cross compile for Windows and macOS.
++ [ ] Use docker for the development environment

@@ -1,30 +1,51 @@
-# Reporting Issues
+## Confirmation
 
-If you find a bug or have a feature request, please create an issue on the [GitHub Issues](https://github.com/oguztoraman/libmagicxx/issues) page. Provide as much detail as possible to help us understand and address the issue.
++ [ ] This issue is not a duplicate.
++ [ ] I have read [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md).
 
-## How to Create an Issue
+## Select Label
 
-1. **Title**: Add a title summarizing the issue.
++ [ ] bug
++ [ ] documentation
++ [ ] enhancement
++ [ ] question
 
-2. **Label**: Add a label that fits with the issue.
+## Description
 
-| Label            | Description                                |
-| ---------------- | ------------------------------------------ |
-| bug              | Something isn't working                    |
-| documentation    | Improvements or additions to documentation |
-| enhancement      | New feature or request                     |
-| question         | Further information is requested           |
+Provide a detailed description of the issue...
 
-3. **Description**: Write a clear and concise description of the issue.
+## Bug Report (if applicable)
 
-4. **How to Reproduce**: Write steps to reproduce the behavior if the issue is a bug.
+### Type of Bug
 
-5. **Expected Behavior**: Write a clear and concise description of what you expected to happen.
++ [ ] Silent Failure
++ [ ] Runtime Error
++ [ ] Compile-time Error
++ [ ] Performance
++ [ ] Something else
 
-6. **Information**: Please complete the following information:
- + Operating System: [e.g. Windows, MacOS, Linux]
- + Compiler: [e.g. g++, clang++]
- + Compiler Version: [e.g. 14.2.1, 19.1.7]
- + Libmagicxx Version: [e.g. 5.1.1]
+### How to Reproduce
 
-7. **Additional Context**: Add any other context about the problem here.
+Steps to reproduce the issue...
+
+### Expected Behaviour
+
+Describe what you expected to happen...
+
+### System Information
+
++ **Operating System**: ...
++ **Compiler**: ...
++ **Compiler Version**: ...
++ **Libmagicxx Version**: ...
+
+## Feature Request (if applicable)
+
+### Rationale
+
+Explain why this feature would be beneficial...
+
+### Additional Information
+
+Add any other context or screenshots related to the feature request...
+

@@ -129,7 +129,7 @@ The current development environment is the latest stable release of Fedora. You 
 
 4. **Format Code**:
 
-Ensure your code is properly formatted using the `format.sh` script:
++ Ensure your code is properly formatted using the `format.sh` script:
 
     ```bash
     ./scripts/format.sh

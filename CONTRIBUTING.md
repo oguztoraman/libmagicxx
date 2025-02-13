@@ -58,7 +58,7 @@ We expect all contributors to adhere to the [Code of Conduct](https://github.com
 
 2. **Set up Development Environment**:
 
-The current development environment is the latest stable release of Fedora. You can install the necessary dependencies using the `install_dependencies.sh` script:
++ The current development environment is the latest stable release of Fedora. You can install the necessary dependencies using the `install_dependencies.sh` script:
 
     ```bash
     ./scripts/install_dependencies.sh

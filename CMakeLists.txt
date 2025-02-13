@@ -11,6 +11,7 @@ project(magicxx
 )
 
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
+option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
 option(REBUILD_MAGIC "Rebuild the libmagic." OFF)
 
 set(magic_INCLUDE_DIR
@@ -115,4 +116,8 @@ if (BUILD_MAGICXX_TESTS)
     add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
     add_subdirectory(${googletest_DIR})
     add_subdirectory(${magicxx_TEST_DIR})
+endif()
+
+if (BUILD_MAGICXX_EXAMPLES)
+    add_subdirectory(examples)
 endif()

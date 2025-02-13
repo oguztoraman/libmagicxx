@@ -6,8 +6,8 @@
 SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
 cd ${SCRIPT_DIR}/..
 
+set -e
+
 echo "Formatting source files..."
-clang-format -i -style=file inc/*.hpp src/*.cpp tests/*.cpp || {
-    exit 1
-}
+clang-format -i -style=file inc/*.hpp src/*.cpp tests/*.cpp examples/*.cpp
 echo "Done."

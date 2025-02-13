@@ -10,7 +10,7 @@ jobs:
   gcc_build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:rawhide
+      image: fedora:latest
     steps:
     - name: Install dependencies.
       run: dnf install -y cmake make ninja-build g++ git autoconf libtool

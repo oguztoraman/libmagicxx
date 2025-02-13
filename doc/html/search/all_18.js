@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['_7emagic_0',['~magic',['../classrecognition_1_1magic.html#a24e9d5fec63bb9a90b8e5f26e80d5cd9',1,'recognition::magic']]],
-  ['_7emagic_5fprivate_1',['~magic_private',['../classrecognition_1_1magic_1_1magic__private.html#a8854031bbdf49e373d2cc7689ec6d222',1,'recognition::magic::magic_private']]]
+  ['use_20libmagicxx_20in_20a_20cmake_20based_20project_0',['Use Libmagicxx in a CMake based Project',['../md_CONTRIBUTING.html#autotoc_md35',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md47',1,'How to Use Libmagicxx in a CMake-based Project']]],
+  ['utility_1',['utility',['../namespaceutility.html',1,'']]],
+  ['utility_2ehpp_2',['utility.hpp',['../utility_8hpp.html',1,'']]]
 ];

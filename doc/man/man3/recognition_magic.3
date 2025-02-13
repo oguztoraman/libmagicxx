@@ -1,4 +1,4 @@
-.TH "recognition::magic" 3 "Tue Jun 25 2024 23:14:54" "Version v5.1.1" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic" 3 "Thu Feb 13 2025 23:22:52" "Version v5.2.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -217,11 +217,11 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 
 .in +1c
 .ti -1c
-.RI "std::string \fBto_string\fP (\fBflags\fP)"
+.RI "std::string \fBto_string\fP (\fBmagic::flags\fP flag)"
 .br
 .RI "Convert the \fBmagic::flags\fP to string\&. "
 .ti -1c
-.RI "std::string \fBto_string\fP (\fBparameters\fP)"
+.RI "std::string \fBto_string\fP (\fBmagic::parameters\fP parameter)"
 .br
 .RI "Convert the \fBmagic::parameters\fP to string\&. "
 .in -1c
@@ -287,97 +287,97 @@ The flags enums are suitable for bitwise or operations\&.
 \fBEnumerator\fP
 .in +1c
 .TP
-\fB\fInone \fP\fP
+\f(BInone \fP
 No special handling\&. 
 .TP
-\fB\fIdebug \fP\fP
+\f(BIdebug \fP
 Print debugging messages to stderr\&. 
 .TP
-\fB\fIsymlink \fP\fP
+\f(BIsymlink \fP
 If the file queried is a symlink, follow it\&. 
 .TP
-\fB\fIcompress \fP\fP
+\f(BIcompress \fP
 If the file is compressed, unpack it and look at the contents\&. 
 .TP
-\fB\fIdevices \fP\fP
+\f(BIdevices \fP
 If the file is a block or character special device, then open the device and try to look in its contents\&. 
 .TP
-\fB\fImime_type \fP\fP
+\f(BImime_type \fP
 Return a MIME type string, instead of a textual description\&. 
 .TP
-\fB\fIcontinue_search \fP\fP
+\f(BIcontinue_search \fP
 Return all matches, not just the first\&. 
 .TP
-\fB\fIcheck_database \fP\fP
+\f(BIcheck_database \fP
 Check the magic database for consistency and print warnings to stderr\&. 
 .TP
-\fB\fIpreserve_atime \fP\fP
+\f(BIpreserve_atime \fP
 On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed\&. 
 .TP
-\fB\fIraw \fP\fP
+\f(BIraw \fP
 Don't translate unprintable characters to a \\ooo octal representation\&. 
 .TP
-\fB\fIerror \fP\fP
+\f(BIerror \fP
 Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer\&. 
 .TP
-\fB\fImime_encoding \fP\fP
+\f(BImime_encoding \fP
 Return a MIME encoding, instead of a textual description\&. 
 .TP
-\fB\fImime \fP\fP
+\f(BImime \fP
 A shorthand for mime_type|mime_encoding\&. 
 .TP
-\fB\fIapple \fP\fP
+\f(BIapple \fP
 Return the Apple creator and type\&. 
 .TP
-\fB\fIextension \fP\fP
+\f(BIextension \fP
 Return a slash-separated list of extensions for this file type\&. 
 .TP
-\fB\fIcompress_transp \fP\fP
+\f(BIcompress_transp \fP
 Don't report on compression, only report about the uncompressed data\&. 
 .TP
-\fB\fIno_compress_fork \fP\fP
+\f(BIno_compress_fork \fP
 Don't allow decompressors that use fork\&. 
 .TP
-\fB\fInodesc \fP\fP
+\f(BInodesc \fP
 A shorthand for extension|mime|apple 
 .TP
-\fB\fIno_check_compress \fP\fP
+\f(BIno_check_compress \fP
 Don't look inside compressed files\&. 
 .TP
-\fB\fIno_check_tar \fP\fP
+\f(BIno_check_tar \fP
 Don't examine tar files\&. 
 .TP
-\fB\fIno_check_soft \fP\fP
+\f(BIno_check_soft \fP
 Don't consult magic files\&. 
 .TP
-\fB\fIno_check_apptype \fP\fP
+\f(BIno_check_apptype \fP
 Don't check for EMX application type (only on EMX)\&. 
 .TP
-\fB\fIno_check_elf \fP\fP
+\f(BIno_check_elf \fP
 Don't print ELF details\&. 
 .TP
-\fB\fIno_check_text \fP\fP
+\f(BIno_check_text \fP
 Don't check for various types of text files\&. 
 .TP
-\fB\fIno_check_cdf \fP\fP
+\f(BIno_check_cdf \fP
 Don't get extra information on MS Composite Document Files\&. 
 .TP
-\fB\fIno_check_csv \fP\fP
+\f(BIno_check_csv \fP
 Don't examine CSV files\&. 
 .TP
-\fB\fIno_check_tokens \fP\fP
+\f(BIno_check_tokens \fP
 Don't look for known tokens inside ascii files\&. 
 .TP
-\fB\fIno_check_encoding \fP\fP
+\f(BIno_check_encoding \fP
 Don't check text encodings\&. 
 .TP
-\fB\fIno_check_json \fP\fP
+\f(BIno_check_json \fP
 Don't examine JSON files\&. 
 .TP
-\fB\fIno_check_simh \fP\fP
+\f(BIno_check_simh \fP
 Don't examine SIMH tape files\&. 
 .TP
-\fB\fIno_check_builtin \fP\fP
+\f(BIno_check_builtin \fP
 No built-in tests; only consult the magic file\&. 
 .SS "enum class \fBrecognition::magic::parameters\fP : std::size_t\fR [strong]\fP"
 
@@ -387,31 +387,31 @@ The parameters enums are used for displaying or modifying the parameters of a ma
 \fBEnumerator\fP
 .in +1c
 .TP
-\fB\fIindir_max \fP\fP
+\f(BIindir_max \fP
 Recursion limit for indirection (default is 50)\&. 
 .TP
-\fB\fIname_max \fP\fP
+\f(BIname_max \fP
 Use limit for name/use magic (default is 50)\&. 
 .TP
-\fB\fIelf_phnum_max \fP\fP
+\f(BIelf_phnum_max \fP
 Max ELF program sections processed (default is 2048)\&. 
 .TP
-\fB\fIelf_shnum_max \fP\fP
+\f(BIelf_shnum_max \fP
 Max ELF sections processed (default is 32768)\&. 
 .TP
-\fB\fIelf_notes_max \fP\fP
+\f(BIelf_notes_max \fP
 Max ELF notes processed (default is 256)\&. 
 .TP
-\fB\fIregex_max \fP\fP
+\f(BIregex_max \fP
 Max length limit for REGEX searches (default is 8192)\&. 
 .TP
-\fB\fIbytes_max \fP\fP
+\f(BIbytes_max \fP
 Max bytes to look inside file (default is 7340032)\&. 
 .TP
-\fB\fIencoding_max \fP\fP
+\f(BIencoding_max \fP
 Max bytes to scan for encoding (default is 65536)\&. 
 .TP
-\fB\fIelf_shsize_max \fP\fP
+\f(BIelf_shsize_max \fP
 Max ELF section size (default is 134217728)\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
@@ -484,7 +484,7 @@ other is valid as a default constructed magic\&.
 .RE
 .PP
 
-.SS "recognition::magic::magic (const \fBmagic\fP &)\fR [delete]\fP"
+.SS "recognition::magic::magic (const \fBmagic\fP & )\fR [delete]\fP"
 
 .PP
 Deleted copy constructor\&. 
@@ -542,7 +542,7 @@ The compiled files created are named from the basename of each file argument wit
 .RE
 .PP
 
-.SS "\fBmagic::flags_container_t\fP recognition::magic::get_flags () const"
+.SS "\fBmagic::flags_container_t\fP recognition::magic::get_flags () const\fR [nodiscard]\fP"
 
 .PP
 Get the flags of magic\&. 
@@ -558,7 +558,7 @@ flags_container_t
 .RE
 .PP
 
-.SS "std::size_t recognition::magic::get_parameter (\fBmagic::parameters\fP parameter) const"
+.SS "std::size_t recognition::magic::get_parameter (\fBmagic::parameters\fP parameter) const\fR [nodiscard]\fP"
 
 .PP
 Get the value of a parameter of magic\&. 
@@ -579,7 +579,7 @@ Value of the desired parameter\&.
 .RE
 .PP
 
-.SS "\fBmagic::parameter_value_map_t\fP recognition::magic::get_parameters () const"
+.SS "\fBmagic::parameter_value_map_t\fP recognition::magic::get_parameters () const\fR [nodiscard]\fP"
 
 .PP
 Get the values ​​of all parameters of magic\&. 
@@ -595,7 +595,7 @@ Get the values ​​of all parameters of magic\&.
 .RE
 .PP
 
-.SS "std::string recognition::magic::get_version ()\fR [static]\fP, \fR [noexcept]\fP"
+.SS "std::string recognition::magic::get_version ()\fR [static]\fP, \fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Get the version of the Magic Number Recognition Library\&. 
@@ -606,7 +606,7 @@ The version number as a string\&.
 .RE
 .PP
 
-.SS "\fBmagic::file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path) const"
+.SS "\fBmagic::file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path) const\fR [nodiscard]\fP"
 
 .PP
 Identify the type of a file\&. 
@@ -631,7 +631,7 @@ The type of the file as a string\&.
 .RE
 .PP
 
-.SS "\fBmagic::expected_file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path, std::nothrow_t) const\fR [noexcept]\fP"
+.SS "\fBmagic::expected_file_type_t\fP recognition::magic::identify_file (const std::filesystem::path & path, std::nothrow_t ) const\fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Identify the type of a file, noexcept version\&. 
@@ -647,7 +647,7 @@ The type of the file or the error message\&.
 .RE
 .PP
 
-.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files) const\fR [inline]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files) const\fR [inline]\fP, \fR [nodiscard]\fP"
 
 .PP
 Identify the types of files\&. 
@@ -672,7 +672,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files, std::nothrow_t) const\fR [inline]\fP, \fR [noexcept]\fP"
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const \fBfile_concepts::file_container\fP auto & files, std::nothrow_t ) const\fR [inline]\fP, \fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Identify the types of files, noexcept version\&. 
@@ -688,7 +688,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP, \fR [nodiscard]\fP"
 
 .PP
 Identify the types of all files in a directory\&. 
@@ -715,7 +715,7 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::nothrow_t, std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP, \fR [noexcept]\fP"
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files (const std::filesystem::path & directory, std::nothrow_t , std::filesystem::directory_options option = \fRstd::filesystem::directory_options::follow_directory_symlink\fP) const\fR [inline]\fP, \fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Identify the types of all files in a directory, noexcept version\&. 
@@ -733,11 +733,11 @@ The types of each file as a map\&.
 .RE
 .PP
 
-.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files) const\fR [inline]\fP, \fR [private]\fP"
+.SS "\fBtypes_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files) const\fR [inline]\fP, \fR [nodiscard]\fP, \fR [private]\fP"
 
-.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files, std::nothrow_t) const\fR [inline]\fP, \fR [private]\fP, \fR [noexcept]\fP"
+.SS "\fBexpected_types_of_files_t\fP recognition::magic::identify_files_impl (const std::ranges::range auto & files, std::nothrow_t ) const\fR [inline]\fP, \fR [nodiscard]\fP, \fR [private]\fP, \fR [noexcept]\fP"
 
-.SS "bool recognition::magic::is_open () const\fR [noexcept]\fP"
+.SS "bool recognition::magic::is_open () const\fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Used for testing whether magic is open or closed\&. 
@@ -817,7 +817,7 @@ If magic is open, it will be reopened using the flags after closing it\&.
 .RE
 .PP
 
-.SS "recognition::magic::operator bool () const\fR [noexcept]\fP"
+.SS "recognition::magic::operator bool () const\fR [nodiscard]\fP, \fR [noexcept]\fP"
 
 .PP
 Used for testing whether magic is open or closed\&. 
@@ -828,7 +828,7 @@ True if magic is open, false otherwise\&.
 .RE
 .PP
 
-.SS "\fBmagic\fP & recognition::magic::operator= (const \fBmagic\fP &)\fR [delete]\fP"
+.SS "\fBmagic\fP & recognition::magic::operator= (const \fBmagic\fP & )\fR [delete]\fP"
 
 .PP
 Deleted copy assignment\&. 
@@ -953,7 +953,7 @@ The parameter as a string\&.
 
 .SH "Member Data Documentation"
 .PP 
-.SS "constexpr auto recognition::magic::default_database_file = '/usr/share/misc/magic'\fR [static]\fP, \fR [constexpr]\fP"
+.SS "auto recognition::magic::default_database_file = '/usr/share/misc/magic'\fR [static]\fP, \fR [constexpr]\fP"
 
 .PP
 The path of the default database file\&. 

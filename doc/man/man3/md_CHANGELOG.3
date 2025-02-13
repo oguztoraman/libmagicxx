@@ -1,0 +1,214 @@
+.TH "md_CHANGELOG" 3 "Thu Feb 13 2025 23:22:52" "Version v5.2.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_CHANGELOG \- Changelog 
+.PP
+
+.SH "Next Release"
+.PP
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBCONTRIBUTING\&.md\fP: Add \fBCONTRIBUTING\&.md\fP
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] examples/*: Add examples\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] PULL_REQUEST_TEMPLATE\&.md: Add PULL_REQUEST_TEMPLATE\&.md
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] ISSUE_TEMPLATE\&.md: Add ISSUE_TEMPLATE\&.md
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt: Add rebuild the libmagic option\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt: Build libmagic as a static library\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.clang-format: Add formatting rules via clang-format\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] scripts/*\&.sh: Move scripts into the scripts directory\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] file: Update the version of File to 5\&.46
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] googletest: Update the version of GoogleTest to 1\&.15\&.2
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP: Update documentation\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBinc/utility\&.hpp\fP: Use std::views instead of std::ranges::fold_left\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] Doxyfile: Update documentation\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBSECURITY\&.md\fP: Add \fBSECURITY\&.md\fP
+.PP
+.SH "[v5\&.1\&.1] - 25-06-2024"
+.PP
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBinc/magic\&.hpp\fP: Add missing documentation for flags and parameters\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBCHANGELOG\&.md\fP: Fix typo in \fBCHANGELOG\&.md\fP\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP: Update \fBREADME\&.md\fP presentation for better readability\&.
+.PP
+.SH "[v5\&.1\&.0] - 23-06-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] commit_release\&.sh: Add commit_release\&.sh\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.github/workflows/build_and_test_on_linux\&.yml, deploy_doxygen_documentation\&.yml: Add Github Actions\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] doc/*, Doxyfile, generate_documentation\&.sh, \fBREADME\&.md\fP: Add Doxygen-generated documentation\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] build\&.sh: Add build script\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, install_dependencies\&.sh, setup\&.sh, \fBREADME\&.md\fP: Automate initialization and setup steps\&.
+.PP
+.SH "[v5\&.0\&.0] - 06-06-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBsrc/magic\&.cpp\fP: Rename flag_converter to flags_converter\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make setting parameters of magic using parameter_value_map_t possible\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make setting flags of magic using flags_container_t possible\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make construction of magic using the flags_container_t possible\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make opening magic using the flags_container_t possible\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Rename the flags using the snake case convention\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Rename flags_t to flags_mask_t, Flag to flags and Flags to flags_container_t\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Rename the parameters using the snake case convention\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Rename Parameter to parameters and Parameters to parameter_value_map_t\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Use the \fButility::to_string\fP function wherever possible\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, \fBinc/utility\&.hpp\fP: Add a customizable to_string function template\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic_exception\&.hpp\fP, \fBinc/magic\&.hpp\fP: Report the parameter value with the parameter name if the set_parameter function fails\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP: Declare to_string functions with the nodiscard attribute\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_types_of_files_t with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_file_type_t with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the types_of_files_t with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameters with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameter with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flags with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flag with the to_string function\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/file_concepts\&.hpp\fP: Replace the operator<< function for the file containers with the to_string function\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP: Add the \fBfile_concepts\fP namespace\&.
+.PP
+.SH "[v4\&.1\&.2] - 12-05-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Fix the compilation error when trying to print the Flag and the Parameter using operator <<\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP: Update the formatting of the license section\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP, \fBTODO\&.md\fP: Separate the to do list from the README\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Check if the magic is open before checking whether the path is empty or not\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Fix the incorrect string conversion of Flag::None when using the operator<<\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Fix the compilation error when trying to print Parameters using operator <<\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic_exception\&.hpp\fP: Add the missing string header\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Fix the compilation error when trying to print Flags using operator <<\&.
+.PP
+.SH "[v4\&.1\&.1] - 07-05-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Fix the segmentation fault error when calling a member function of a moved-from magic object\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBsrc/magic\&.cpp\fP: Erase the operator bool function of the magic_private class\&.
+.PP
+.SH "[v4\&.1\&.0] - 05-05-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Fix the segmentation fault error when calling a member function of a default constructed magic\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make the functions 'check' and 'compile' noexcept\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP: Erase the brackets\&.
+.IP "\(bu" 2
+[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add default_database_file\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBsrc/magic\&.cpp\fP: Use std::format for the version string\&.
+.PP
+.SH "[v4\&.0\&.0] - 04-05-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, \fBREADME\&.md\fP: Change the project name to Libmagicxx\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] CMakeLists\&.txt: Make magic_INCLUDE_DIR private\&.
+.PP
+.SH "[v3\&.1\&.1] - 28-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] CMakeLists\&.txt: Use libc++ when the compiler is clang\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] setup\&.sh: Install the missing libcxx-devel package for clang\&.
+.PP
+.SH "[v3\&.1\&.0] - 23-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add the missing parameters and flags\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, \fBREADME\&.md\fP, setup\&.sh: Add setup\&.sh\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] CMakeLists\&.txt: Fix the SPDX-License-Identifier\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.gitmodules, file: Add the Magic Number Recognition Library v5\&.45 as a submodule\&.
+.PP
+.SH "[v3\&.0\&.0] - 14-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] COPYING, COPYING\&.LESSER, \fBREADME\&.md\fP, \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP, \fBinc/magic_exception\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Change the license to LGPL-3\&.0-only\&.
+.PP
+.SH "[v2\&.1\&.0] - 07-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP: Add operator<< overload for expected_file_type_t\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add operator<< overloads for Flag, Flags, Parameter and Parameters\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add get_parameters function\&.
+.PP
+.SH "[v2\&.0\&.0] - 06-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Use std::expected instead of std::optional to report the error\&.
+.PP
+.SH "[v1\&.0\&.2] - 03-04-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Fix throwing an empty_path exception when the path is not empty\&.
+.PP
+.SH "[v1\&.0\&.1] - 11-03-2024"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] CMakeLists\&.txt: Fix typo\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBinc/magic\&.hpp\fP: Update Doxygen comments\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP: Fix typo\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP: Use abbreviated function templates\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Remove the namespace alias std_fs for the Doxygen\&.
+.PP
+.SH "[v1\&.0\&.0] - 03-01-2024"
+.PP
+.IP "\(bu" 2
+Initial release\&. 
+.PP
+

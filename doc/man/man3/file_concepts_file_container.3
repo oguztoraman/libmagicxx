@@ -1,4 +1,4 @@
-.TH "file_concepts::file_container" 3 "Tue Jun 25 2024 23:14:54" "Version v5.1.1" "Libmagicxx" \" -*- nroff -*-
+.TH "file_concepts::file_container" 3 "Thu Feb 13 2025 23:22:52" "Version v5.2.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,18 +11,18 @@ file_concepts::file_container \- The file_container concept specifies the requir
 \fR#include <file_concepts\&.hpp>\fP
 .SH "Concept definition"
 .PP 
-.PP
+
 .nf
 template<typename ContainerType>
-concept file_concepts::file_container = 
-        requires (ContainerType c, std::filesystem::path p){
-            c\&.push_back(p);
-            c\&.empty();
-            typename ContainerType::value_type;
-        } &&
-        std::ranges::range<ContainerType> &&
-        std::default_initializable<ContainerType> &&
-        std::same_as<typename ContainerType::value_type, std::filesystem::path>
+concept file_concepts::file_container =  std::ranges::range<ContainerType>
+   && std::default_initializable<ContainerType>
+   && std::same_as<typename ContainerType::value_type, std::filesystem::path>
+   && requires(ContainerType c, std::filesystem::path p) {
+          c\&.push_back(p);
+          c\&.empty();
+          typename ContainerType::value_type;
+      }
+.PP
 .fi
 .SH "Detailed Description"
 .PP 

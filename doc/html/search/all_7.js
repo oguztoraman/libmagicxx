@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['debug_0',['debug',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039',1,'recognition::magic']]],
-  ['default_5fdatabase_5ffile_1',['default_database_file',['../classrecognition_1_1magic.html#a1209192eb4f97cccd0849f575d503154',1,'recognition::magic']]],
-  ['devices_2',['devices',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb',1,'recognition::magic']]],
-  ['do_3',['To Do',['../md_TODO.html',1,'']]],
-  ['documentation_4',['Documentation',['../index.html#autotoc_md17',1,'']]]
+  ['ban_0',['Ban',['../md_CODE__OF__CONDUCT.html#autotoc_md26',1,'3. Temporary Ban'],['../md_CODE__OF__CONDUCT.html#autotoc_md27',1,'4. Permanent Ban']]],
+  ['based_20project_1',['based Project',['../md_CONTRIBUTING.html#autotoc_md35',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md47',1,'How to Use Libmagicxx in a CMake-based Project']]],
+  ['build_20libmagicxx_2',['Build Libmagicxx',['../index.html#autotoc_md46',1,'How to Build Libmagicxx'],['../index.html#autotoc_md45',1,'Requirements to Build Libmagicxx']]],
+  ['bytes_5fmax_3',['bytes_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11',1,'recognition::magic']]]
 ];

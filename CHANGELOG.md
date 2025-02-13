@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.2.0] - 13-02-2025
+
 + [**DOCUMENTATION**] CONTRIBUTING.md: Add CONTRIBUTING.md
 + [**DOCUMENTATION**] examples/*: Add examples.
 + [**DOCUMENTATION**] PULL_REQUEST_TEMPLATE.md: Add PULL_REQUEST_TEMPLATE.md

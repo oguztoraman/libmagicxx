@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['scope_0',['Scope',['../md_CODE__OF__CONDUCT.html#autotoc_md4',1,'']]],
-  ['set_5fflags_1',['set_flags',['../classrecognition_1_1magic.html#a10a1048294a6a5fb074835c7d4e3a0e5',1,'recognition::magic::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a629b5d1efe7d275c32896805edb6ff5f',1,'recognition::magic::set_flags(const flags_container_t &amp;flags_container)'],['../classrecognition_1_1magic_1_1magic__private.html#a490d0f51a5b578ca83a96cbe9decb63b',1,'recognition::magic::magic_private::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic_1_1magic__private.html#a7045e278d25be5c47d88268075a35044',1,'recognition::magic::magic_private::set_flags(const flags_container_t &amp;flags_container)']]],
-  ['set_5fparameter_2',['set_parameter',['../classrecognition_1_1magic.html#a974c60ca269f6b718af895977bba08ca',1,'recognition::magic::set_parameter()'],['../classrecognition_1_1magic_1_1magic__private.html#a31b89650aa7c24bd8c4be87c1a571846',1,'recognition::magic::magic_private::set_parameter()']]],
-  ['set_5fparameters_3',['set_parameters',['../classrecognition_1_1magic.html#a1e8985a4ad62b2dfdacfea763166572c',1,'recognition::magic::set_parameters()'],['../classrecognition_1_1magic_1_1magic__private.html#a4dcf6f5b61b24f56c760f186d0339bbf',1,'recognition::magic::magic_private::set_parameters()']]],
-  ['source_20code_4',['Source Code',['../index.html#autotoc_md18',1,'']]],
-  ['standards_5',['Our Standards',['../md_CODE__OF__CONDUCT.html#autotoc_md2',1,'']]],
-  ['symlink_6',['symlink',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330',1,'recognition::magic']]]
+  ['parameter_5fvalue_5fmap_5ft_0',['parameter_value_map_t',['../classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f',1,'recognition::magic']]],
+  ['parameters_1',['parameters',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940',1,'recognition::magic']]],
+  ['permanent_20ban_2',['4. Permanent Ban',['../md_CODE__OF__CONDUCT.html#autotoc_md27',1,'']]],
+  ['pledge_3',['Our Pledge',['../md_CODE__OF__CONDUCT.html#autotoc_md18',1,'']]],
+  ['policy_4',['Security Policy',['../md_SECURITY.html',1,'']]],
+  ['preserve_5fatime_5',['preserve_atime',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeac44aa990e942d6874811524fc0dbd8c0',1,'recognition::magic']]],
+  ['process_6',['Review Process',['../md_CONTRIBUTING.html#autotoc_md41',1,'']]],
+  ['project_7',['Project',['../md_CONTRIBUTING.html#autotoc_md35',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md47',1,'How to Use Libmagicxx in a CMake-based Project']]],
+  ['project_20structure_8',['Project Structure',['../md_CONTRIBUTING.html#autotoc_md30',1,'']]],
+  ['pull_20request_9',['Creating a Pull Request',['../md_CONTRIBUTING.html#autotoc_md37',1,'']]]
 ];

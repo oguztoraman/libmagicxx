@@ -1,0 +1,252 @@
+.TH "md_CONTRIBUTING" 3 "Thu Feb 13 2025 23:22:52" "Version v5.2.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_CONTRIBUTING \- Contributing to Libmagicxx 
+.PP
+
+
+.PP
+Welcome to the Libmagicxx project! We appreciate your interest in contributing\&. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone\&.
+.SH "Project Structure"
+.PP
+.PP
+.nf
+libmagicxx/
+├── \&.github/                   # Continuous Integration (CI)
+├── doc/                       # Documentation files
+├── examples/                  # Examples
+├── file/                      # File and the Magic Number Recognition Library
+├── googletest                 # GoogleTest
+├── inc/                       # Header files
+├── scripts/                   # Utility scripts
+├── src/                       # Source files
+├── tests/                     # Test files
+├── \&.clang\-format              # Clang format configuration
+├── \&.gitignore                 # Git ignore file
+├── \&.gitmodules                # Git submodules configuration
+├── CHANGELOG\&.md               # Changelog
+├── CMakeLists\&.txt             # CMake build configuration
+├── CODE_OF_CONDUCT\&.md         # Code of Conduct
+├── CONTRIBUTING\&.md            # Contribution guidelines
+├── COPYING\&.LESSER             # License file
+├── Doxyfile                   # Doxygen configuration
+├── ISSUE_TEMPLATE\&.md          # Issue template
+├── PULL_REQUEST_TEMPLATE\&.md   # Pull request template
+├── README\&.md                  # Project details
+├── SECURITY\&.md                # Security policy
+├── TODO\&.md                    # To do list
+.fi
+.PP
+.SH "Development"
+.PP
+.IP "\(bu" 2
+The \fRmain\fP branch is the development branch for the next feature release\&. The \fRmain\fP branch contains the tags of the feature releases (e\&.g\&., \fRv5\&.2\&.0\fP)\&.
+.IP "\(bu" 2
+Each release is supported until the next feature release\&. The maintenance of the release is done in its own branch, (e\&.g\&., \fRv5\&.2\&.x\fP)\&. These branches contain the tags of the bugfix releases, (e\&.g\&., \fRv5\&.2\&.1\fP)\&.
+.IP "\(bu" 2
+Each change for the bugfix release is merged to the \fRmain\fP branch\&.
+.PP
+.SH "Documentation"
+.PP
+For comprehensive guides, API references, and detailed information, visit the \fRdocumentation site\fP\&.
+.SH "Code of Conduct"
+.PP
+We expect all contributors to adhere to the \fRCode of Conduct\fP\&. Please read it to understand the standards of behavior we expect from our community\&.
+.SH "Getting Started"
+.PP
+.IP "1." 4
+\fBFork & Clone the Repository\fP:
+
+.PP
+.PP
+.nf
+git clone https://github\&.com/your\-username/libmagicxx\&.git
+cd libmagicxx
+.fi
+.PP
+
+.IP "2." 4
+\fBSet up Development Environment\fP:
+.PP
+.IP "\(bu" 2
+The current development environment is the latest stable release of Fedora\&. You can install the necessary dependencies using the \fRinstall_dependencies\&.sh\fP script:
+
+.PP
+.PP
+.nf
+\&./scripts/install_dependencies\&.sh
+.fi
+.PP
+
+.PP
+.SH "How to Use Libmagicxx in a CMake-based Project"
+.PP
+.IP "1." 4
+Add the following lines to the top level \fRCMakeLists\&.txt\fP file of your project to include and link libmagicxx\&.
+
+.PP
+.PP
+.nf
+add_subdirectory(libmagicxx)
+
+add_compile_options("$<$<CXX_COMPILER_ID:Clang>:\-stdlib=libc++>")
+
+target_include_directories(<name of your project>
+    <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
+)
+
+target_link_libraries(<name of your project>
+    <PUBLIC or PRIVATE or INTERFACE> "magicxx;$<$<CXX_COMPILER_ID:Clang>:c++>"
+)
+.fi
+.PP
+
+.IP "2." 4
+Include the \fR\fBmagic\&.hpp\fP\fP header file in your source files\&.
+.PP
+.SH "Making Changes"
+.PP
+.IP "1." 4
+\fBCreate a New Branch\fP:
+.PP
+.IP "\(bu" 2
+Create the branch from \fRmain\fP if your change is scheduled for the next feature release\&. If you are fixing an issue for a supported release, create your branch from the supported release branch (e\&.g\&., \fRv5\&.2\&.x\fP)\&.
+.IP "\(bu" 2
+Use the following naming conventions for your branches:
+.IP "  \(bu" 4
+For bug fixes: \fRbugfix/brief_description\fP
+.IP "  \(bu" 4
+For documentation changes: \fRdocument/brief_description\fP
+.IP "  \(bu" 4
+For enhancements: \fRenhancement/brief_description\fP
+.PP
+
+.PP
+.IP "2." 4
+\fBMake Changes\fP:
+.PP
+.IP "\(bu" 2
+Make your changes to the codebase\&. Ensure that your code follows the \fRC++ Core Guidelines\fP\&.
+.IP "\(bu" 2
+To maintain high-quality documentation, ensure that all public APIs are 100% documented using \fRDoxygen\fP\&. For more information on how to write Doxygen comments, refer to the \fRDoxygen Manual\fP\&.
+.IP "\(bu" 2
+If your changes introduce new features or significant modifications, add an example to demonstrate the usage\&.
+.PP
+.IP "3." 4
+\fBBuild and Test\fP:
+.PP
+.IP "\(bu" 2
+Use the \fRbuild\&.sh\fP script to build and test the project:
+
+.PP
+.PP
+.nf
+\&./scripts/build\&.sh \-t
+.fi
+.PP
+
+.IP "\(bu" 2
+For more options, use:
+
+.PP
+.PP
+.nf
+\&./scripts/build\&.sh \-h
+Usage: \&./scripts/build\&.sh [\-d build_dir] [\-b build_type] [\-c compiler] [\-t] [\-e] [\-h]
+  \-d build_dir   Specify the build directory (default: release_build)\&.
+  \-b build_type  Specify the CMake build type (default: Release)\&.
+  \-c compiler    Specify the compiler (g++ or clang++, default: g++)\&.
+  \-t             Build and run tests (default: OFF)\&.
+  \-e             Build and run examples (default: OFF)\&.
+  \-r             Rebuild libmagic (default: OFF)\&.
+  \-h             Display this message\&.
+.fi
+.PP
+
+.IP "\(bu" 2
+Ensure that your changes do not break any existing tests\&. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes\&.
+.PP
+.IP "4." 4
+\fBFormat Code\fP:
+.PP
+.IP "\(bu" 2
+Ensure your code is properly formatted using the \fRformat\&.sh\fP script:
+
+.PP
+.PP
+.nf
+\&./scripts/format\&.sh
+.fi
+.PP
+
+.PP
+.SH "Creating a Pull Request"
+.PP
+.IP "\(bu" 2
+Each pull request must fix an existing issue\&. Please ensure that there is a linked issue or create a new issue before submitting your pull request\&.
+.IP "\(bu" 2
+Create a pull request to the \fRmain\fP branch if your change is scheduled for the next feature release\&. If you are fixing an issue for a supported release, create a pull request to the supported release branch (e\&.g\&., \fRv5\&.2\&.x\fP) and also the \fRmain\fP branch\&.
+.IP "\(bu" 2
+Use the following naming conventions for your pull request title:
+.IP "  \(bu" 4
+For bug fixes: \fRBUGFIX: Brief Description, Fixes issue #????\&.\fP
+.IP "  \(bu" 4
+For documentation changes: \fRDOCUMENTATION: Brief Description, Fixes issue #????\&.\fP
+.IP "  \(bu" 4
+For enhancements: \fRENHANCEMENT: Brief Description, Fixes issue #????\&.\fP
+.PP
+
+.IP "\(bu" 2
+Fill the \fRPULL_REQUEST_TEMPLATE\&.md\fP\&.
+.PP
+.SH "Reporting Issues"
+.PP
+If you find a bug or have a feature request, please create an issue on the \fRGitHub Issues\fP page\&. Provide as much detail as possible to help us understand and address the issue\&.
+.SH "How to Create an Issue"
+.PP
+.IP "1." 4
+Add a title summarizing the issue\&.
+.IP "2." 4
+Fill the \fRISSUE_TEMPLATE\&.md\fP\&.
+.PP
+.SH "Continuous Integration (CI)"
+.PP
+Our CI pipeline runs automated tests and checks on each pull request to ensure code quality and correctness\&.
+.SH "Review Process"
+.PP
+.IP "1." 4
+\fBInitial Review\fP:
+.PP
+.IP "\(bu" 2
+Once you submit a pull request, it will be reviewed by one or more project maintainers\&.
+.IP "\(bu" 2
+The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing\&.
+.PP
+.IP "2." 4
+\fBFeedback and Revisions\fP:
+.PP
+.IP "\(bu" 2
+If the maintainers find any issues or have suggestions, they will provide feedback on the pull request\&.
+.IP "\(bu" 2
+You are expected to address the feedback by making the necessary changes and updating the pull request\&.
+.PP
+.IP "3." 4
+\fBApproval and Merging\fP:
+.PP
+.IP "\(bu" 2
+Once the maintainers are satisfied with the changes, they will approve the pull request\&.
+.IP "\(bu" 2
+The pull request will then be merged into the appropriate branch (\fRmain\fP or a supported release branch)\&.
+.PP
+.IP "4." 4
+\fBPost-Merge\fP:
+.PP
+.IP "\(bu" 2
+After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues\&.
+.IP "\(bu" 2
+If any issues are found, they will be addressed promptly\&.
+.PP
+.SH "Thank You"
+.PP
+Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone\&. 

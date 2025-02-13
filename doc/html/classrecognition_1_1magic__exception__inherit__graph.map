@@ -1,6 +1,6 @@
 <map id="recognition::magic_exception" name="recognition::magic_exception">
 <area shape="rect" id="Node000001" title="The base class for all exceptions thrown by the magic class." alt="" coords="177,207,304,249"/>
-<area shape="rect" id="Node000003" href="$classrecognition_1_1empty__path.html" title=" " alt="" coords="353,5,513,32"/>
+<area shape="rect" id="Node000003" href="$classrecognition_1_1empty__path.html" title=" " alt="" coords="352,5,513,32"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,191,267,156,288,116,316,76,350,42,370,30,373,35,354,46,320,80,293,119,272,158,257,193"/>
 <area shape="rect" id="Node000004" href="$classrecognition_1_1invalid__path.html" title=" " alt="" coords="352,56,513,83"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,192,298,141,323,115,351,92,373,81,375,86,353,97,326,119,302,144,264,195"/>

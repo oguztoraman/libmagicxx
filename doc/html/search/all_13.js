@@ -1,10 +1,14 @@
 var searchData=
 [
-  ['raw_0',['raw',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e',1,'recognition::magic']]],
-  ['readme_2emd_1',['README.md',['../README_8md.html',1,'']]],
-  ['recognition_2',['recognition',['../namespacerecognition.html',1,'']]],
-  ['recognition_3a_3adetail_3',['detail',['../namespacerecognition_1_1detail.html',1,'recognition']]],
-  ['regex_5fmax_4',['regex_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05',1,'recognition::magic']]],
-  ['requirements_20to_20build_20libmagicxx_5',['Requirements to Build Libmagicxx',['../index.html#autotoc_md14',1,'']]],
-  ['responsibilities_6',['Enforcement Responsibilities',['../md_CODE__OF__CONDUCT.html#autotoc_md3',1,'']]]
+  ['of_20conduct_0',['of Conduct',['../md_CONTRIBUTING.html#autotoc_md33',1,'Code of Conduct'],['../index.html#autotoc_md51',1,'Code of Conduct'],['../md_CODE__OF__CONDUCT.html',1,'Contributor Covenant Code of Conduct']]],
+  ['open_1',['open',['../classrecognition_1_1magic.html#a549ffb7995b83934c78b0f289a6df54a',1,'recognition::magic::open(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a4d3b340bd40453a2c66b409958878262',1,'recognition::magic::open(const flags_container_t &amp;flags_container)'],['../classrecognition_1_1magic_1_1magic__private.html#ae2f03b522838f32ccac984af2408d720',1,'recognition::magic::magic_private::open(flags_mask_t flags_mask)'],['../classrecognition_1_1magic_1_1magic__private.html#aa537a8e99d75c39011511ae83d0a7e03',1,'recognition::magic::magic_private::open(const flags_container_t &amp;flags_container)']]],
+  ['operator_20bool_2',['operator bool',['../classrecognition_1_1magic.html#a0f09c2aa8da9990d241e7453811254e1',1,'recognition::magic']]],
+  ['operator_20flags_5fcontainer_5ft_3',['operator flags_container_t',['../structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#a8ddd1826aa7a6814a22f2479df522ec9',1,'recognition::magic::magic_private::flags_converter']]],
+  ['operator_20flags_5fmask_5ft_4',['operator flags_mask_t',['../structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#ab7fcaa9a43a3d28674c634f098e06ca0',1,'recognition::magic::magic_private::flags_converter']]],
+  ['operator_20libmagic_5fvalue_5fname_5ft_5',['operator libmagic_value_name_t',['../structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#aee0f1314dd3897389544d7721b698cfa',1,'recognition::magic::magic_private::flags_converter::operator libmagic_value_name_t()'],['../structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter.html#a980d8490495b323ec730b4622ef18e88',1,'recognition::magic::magic_private::libmagic_pair_converter::operator libmagic_value_name_t()']]],
+  ['operator_20libmagic_5fvalue_5ft_6',['operator libmagic_value_t',['../structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#a0576499ee5caa952e7e5a855d44457a5',1,'recognition::magic::magic_private::flags_converter::operator libmagic_value_t()'],['../structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter.html#a3c583d787afc71dd865e4a49b8626743',1,'recognition::magic::magic_private::libmagic_pair_converter::operator libmagic_value_t()']]],
+  ['operator_3d_7',['operator=',['../classrecognition_1_1magic.html#a0f78839baa33c09c52909f6dfc9a2011',1,'recognition::magic::operator=(magic &amp;&amp;other) noexcept'],['../classrecognition_1_1magic.html#a78108612c014f0927310f9842f0f2210',1,'recognition::magic::operator=(const magic &amp;)=delete'],['../classrecognition_1_1magic_1_1magic__private.html#a21beaf893f3b0a01c3267a679c46989b',1,'recognition::magic::magic_private::operator=(magic_private &amp;&amp;) noexcept=default'],['../classrecognition_1_1magic_1_1magic__private.html#aa65d82302d1bdf62ee40937468537b95',1,'recognition::magic::magic_private::operator=(const magic_private &amp;)=delete']]],
+  ['other_20licenses_3a_8',['Other licenses:',['../index.html#autotoc_md55',1,'']]],
+  ['our_20pledge_9',['Our Pledge',['../md_CODE__OF__CONDUCT.html#autotoc_md18',1,'']]],
+  ['our_20standards_10',['Our Standards',['../md_CODE__OF__CONDUCT.html#autotoc_md19',1,'']]]
 ];

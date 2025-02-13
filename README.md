@@ -17,7 +17,8 @@
 + Git
 + GCC with libstdc++ or Clang with libc++ (C++23)
 + CMake
-+ GNU Make or Ninja
++ GNU Make
++ Ninja
 + Libtool
 + Autoconf
 
@@ -45,11 +46,12 @@
 
     ```bash
     ./scripts/build.sh -h
-    Usage: ./scripts/build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-h]
+    Usage: ./scripts/build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-e] [-h]
       -d build_dir   Specify the build directory (default: release_build).
       -b build_type  Specify the CMake build type (default: Release).
       -c compiler    Specify the compiler (g++ or clang++, default: g++).
       -t             Build and run tests (default: OFF).
+      -e             Build and run examples (default: OFF).
       -r             Rebuild libmagic (default: OFF).
       -h             Display this message.
     ```
@@ -75,6 +77,10 @@
 
     add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
 
+    target_include_directories(<name of your project>
+        <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
+    )
+
     target_link_libraries(<name of your project>
         <PUBLIC or PRIVATE or INTERFACE> "magicxx;$<$<CXX_COMPILER_ID:Clang>:c++>"
     )
@@ -96,9 +102,25 @@
     }
     ```
 
+## Examples
+
+For more examples, refer to the [examples directory](https://github.com/oguztoraman/libmagicxx/tree/main/examples).
+
 ## Documentation
 
 For comprehensive guides, API references, and detailed information, visit the [documentation site](https://oguztoraman.github.io/libmagicxx/).
+
+## Contributing
+
+We welcome contributions! Please see the [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md) file for guidelines on how to contribute.
+
+## Code of Conduct
+
+We expect all contributors to adhere to the [Code of Conduct](https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
+
+## Security
+
+For information on reporting security vulnerabilities, please see the [SECURITY.md](https://github.com/oguztoraman/libmagicxx/blob/main/SECURITY.md) file.
 
 ## Source Code
 

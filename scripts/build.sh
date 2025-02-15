@@ -13,7 +13,6 @@ BUILD_TYPE="Release"
 COMPILER="g++"
 RUN_TESTS="OFF"
 RUN_EXAMPLES="OFF"
-REBUILD_MAGIC="OFF"
 
 usage(){
     echo "Usage: $0 [-d build_dir] [-b build_type] [-c compiler] [-t] [-e] [-r] [-h]"
@@ -22,7 +21,6 @@ usage(){
     echo "  -c compiler    Specify the compiler (g++ or clang++, default: ${COMPILER})."
     echo "  -t             Build and run tests (default: ${RUN_TESTS})."
     echo "  -e             Build and run examples (default: ${RUN_EXAMPLES})."
-    echo "  -r             Rebuild libmagic (default: ${REBUILD_MAGIC})."
     echo "  -h             Display this message."
     exit 1
 }
@@ -36,7 +34,6 @@ while getopts 'd:b:c:htre' OPTION; do
         c) COMPILER=$OPTARG   DISPLAY_USAGE=false;;
         e) RUN_EXAMPLES="ON"  DISPLAY_USAGE=false;;
         t) RUN_TESTS="ON"     DISPLAY_USAGE=false;;
-        r) REBUILD_MAGIC="ON" DISPLAY_USAGE=false;;
         *) usage;;
     esac
 done
@@ -45,9 +42,9 @@ if [ "$DISPLAY_USAGE" = true ] && [ $# -gt 0 ]; then
     usage
 fi
 
-echo "Selected options: build_dir=${BUILD_DIR}, build_type=${BUILD_TYPE}, compiler=${COMPILER}, build and run tests=${RUN_TESTS}, build and run examples=${RUN_EXAMPLES}, rebuild libmagic=${REBUILD_MAGIC}"
+echo "Selected options: build_dir=${BUILD_DIR}, build_type=${BUILD_TYPE}, compiler=${COMPILER}, build and run tests=${RUN_TESTS}, build and run examples=${RUN_EXAMPLES}"
 
-cmake -DCMAKE_BUILD_TYPE:STRING=${BUILD_TYPE} -DBUILD_MAGICXX_TESTS=${RUN_TESTS} -DBUILD_MAGICXX_EXAMPLES=${RUN_EXAMPLES} -DREBUILD_MAGIC=${REBUILD_MAGIC} -DCMAKE_CXX_COMPILER:FILEPATH=${COMPILER} -G Ninja -S . -B ${BUILD_DIR}
+cmake -DCMAKE_BUILD_TYPE:STRING=${BUILD_TYPE} -DBUILD_MAGICXX_TESTS=${RUN_TESTS} -DBUILD_MAGICXX_EXAMPLES=${RUN_EXAMPLES} -DCMAKE_CXX_COMPILER:FILEPATH=${COMPILER} -G Ninja -S . -B ${BUILD_DIR}
 
 cd ${BUILD_DIR} && ninja -j10 &&
 echo "Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '${COMPILER}'."

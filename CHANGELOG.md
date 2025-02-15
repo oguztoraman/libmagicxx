@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CMakeLists.txt, scripts/build.sh: Remove rebuild the libmagic option.
+
 ## [v5.2.0] - 13-02-2025
 
 + [**DOCUMENTATION**] CONTRIBUTING.md: Add CONTRIBUTING.md

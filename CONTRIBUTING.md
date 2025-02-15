@@ -121,7 +121,6 @@ We expect all contributors to adhere to the [Code of Conduct](https://github.com
       -c compiler    Specify the compiler (g++ or clang++, default: g++).
       -t             Build and run tests (default: OFF).
       -e             Build and run examples (default: OFF).
-      -r             Rebuild libmagic (default: OFF).
       -h             Display this message.
     ```
 

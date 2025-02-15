@@ -3,7 +3,6 @@ name: Build and Test on Linux using CLANG
 on:
   pull_request:
   push:
-    tags: ['v*']
   workflow_dispatch:
 
 jobs:
@@ -18,8 +17,12 @@ jobs:
       run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
     - name: Build.
       working-directory: /libmagicxx
-      run: ./build.sh -c clang++
-    - name: Test.
+      run: ./scripts/build.sh -c clang++
+    - name: Tests.
       working-directory: /libmagicxx
       shell: bash
-      run: ./build.sh -c clang++ -t
+      run: ./scripts//build.sh -c clang++ -t
+    - name: Examples.
+      working-directory: /libmagicxx
+      shell: bash
+      run: ./scripts//build.sh -c clang++ -e

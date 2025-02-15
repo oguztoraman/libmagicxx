@@ -53,14 +53,14 @@
 + [**ENHANCEMENT**] CMakeLists.txt, inc/utility.hpp: Add a customizable to_string function template.
 + [**ENHANCEMENT**] inc/magic_exception.hpp, inc/magic.hpp: Report the parameter value with the parameter name if the set_parameter function fails.
 + [**ENHANCEMENT**] inc/file_concepts.hpp, inc/magic.hpp: Declare to_string functions with the nodiscard attribute.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_types_of_files_t with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_file_type_t with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the types_of_files_t with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameters with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameter with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flags with the to_string function.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flag with the to_string function.
-+ [**FEAUTURE**] inc/file_concepts.hpp: Replace the operator<< function for the file containers with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_types_of_files_t with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the expected_file_type_t with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the types_of_files_t with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameters with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Parameter with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flags with the to_string function.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Replace the operator<< function for the Flag with the to_string function.
++ [**ENHANCEMENT**] inc/file_concepts.hpp: Replace the operator<< function for the file containers with the to_string function.
 + [**ENHANCEMENT**] inc/file_concepts.hpp, inc/magic.hpp: Add the file_concepts namespace.
 
 ## [v4.1.2] - 12-05-2024
@@ -82,9 +82,9 @@
 ## [v4.1.0] - 05-05-2024
 
 + [**BUGFIX**] src/magic.cpp: Fix the segmentation fault error when calling a member function of a default constructed magic.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Make the functions "check" and "compile" noexcept.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Make the functions "check" and "compile" noexcept.
 + [**ENHANCEMENT**] inc/magic.hpp: Erase the brackets.
-+ [**FEAUTURE**] inc/magic.hpp, src/magic.cpp: Add default_database_file.
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Add default_database_file.
 + [**ENHANCEMENT**] src/magic.cpp: Use std::format for the version string.
 
 ## [v4.0.0] - 04-05-2024

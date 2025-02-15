@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] file: Set the version of File to 5.45 to fix compilation errors.
+
 ## [v5.3.0] - 15-02-2025
 
 + [**ENHANCEMENT**] CMakeLists.txt, scripts/build.sh: Add build as static option.

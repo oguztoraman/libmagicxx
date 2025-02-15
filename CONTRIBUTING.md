@@ -119,6 +119,7 @@ We expect all contributors to adhere to the [Code of Conduct](https://github.com
       -d build_dir   Specify the build directory (default: release_build).
       -b build_type  Specify the CMake build type (default: Release).
       -c compiler    Specify the compiler (g++ or clang++, default: g++).
+      -l library_type Specify the library type (STATIC or SHARED, default: SHARED).
       -t             Build and run tests (default: OFF).
       -e             Build and run examples (default: OFF).
       -h             Display this message.

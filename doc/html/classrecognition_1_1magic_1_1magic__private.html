@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.3.0</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.3.1</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -253,11 +253,9 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"> std::unique_ptr&lt;</div>
 <div class="line">        detail::magic_set,</div>
-<div class="line">        <span class="keyword">decltype</span>([](<a class="code hl_typedef" href="namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7">detail::magic_t</a> cookie) <span class="keyword">noexcept</span> {</div>
-<div class="line">            <a class="code hl_function" href="namespacerecognition_1_1detail.html#a613f784ac6272bc17b95eecd7a974e4c">detail::magic_close</a>(cookie);</div>
+<div class="line">        <span class="keyword">decltype</span>([](detail::magic_t cookie) <span class="keyword">noexcept</span> {</div>
+<div class="line">            detail::magic_close(cookie);</div>
 <div class="line">        })&gt;</div>
-<div class="ttc" id="anamespacerecognition_1_1detail_html_a1779def330abe87b9647bbe08b5641c7"><div class="ttname"><a href="namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7">recognition::detail::magic_t</a></div><div class="ttdeci">struct magic_set * magic_t</div><div class="ttdef"><b>Definition</b> magic.cpp:125</div></div>
-<div class="ttc" id="anamespacerecognition_1_1detail_html_a613f784ac6272bc17b95eecd7a974e4c"><div class="ttname"><a href="namespacerecognition_1_1detail.html#a613f784ac6272bc17b95eecd7a974e4c">recognition::detail::magic_close</a></div><div class="ttdeci">void magic_close(magic_t)</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1160,9 +1158,8 @@ requires std::same_as&lt;ResultType, int&gt; || std::same_as&lt;ResultType, bool
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#affd74523395f3a98d1234b0bd8a97940">MAGIC_NONE</a>, <span class="stringliteral">&quot;none&quot;</span>)</div>
+<div class="line">        std::make_pair(MAGIC_NONE, <span class="stringliteral">&quot;none&quot;</span>)</div>
 <div class="line">    }</div>
-<div class="ttc" id="amagic_8cpp_html_affd74523395f3a98d1234b0bd8a97940"><div class="ttname"><a href="magic_8cpp.html#affd74523395f3a98d1234b0bd8a97940">MAGIC_NONE</a></div><div class="ttdeci">#define MAGIC_NONE</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1252,25 +1249,16 @@ requires std::same_as&lt;ResultType, int&gt; || std::same_as&lt;ResultType, bool
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#a02b4e567385d56659651324f9b079820">MAGIC_PARAM_INDIR_MAX</a>, <span class="stringliteral">&quot;indir_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#a597d76f922a5f55bf8727af99b87193e">MAGIC_PARAM_NAME_MAX</a>, <span class="stringliteral">&quot;name_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#af206a4c7571c629fa90f2771364a01a6">MAGIC_PARAM_ELF_PHNUM_MAX</a>, <span class="stringliteral">&quot;elf_phnum_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#aba2b4fab092e1fd9ae6f53485c8106a6">MAGIC_PARAM_ELF_SHNUM_MAX</a>, <span class="stringliteral">&quot;elf_shnum_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#a0d84131a3490a73873a0d02006a6692d">MAGIC_PARAM_ELF_NOTES_MAX</a>, <span class="stringliteral">&quot;elf_notes_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#ae52056b7029108d11a7dfec3723931fd">MAGIC_PARAM_REGEX_MAX</a>, <span class="stringliteral">&quot;regex_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#a4a46222b07a0f5275d902dbb877c4547">MAGIC_PARAM_BYTES_MAX</a>, <span class="stringliteral">&quot;bytes_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#abd3b7033bbceaf70624e492f15c305fc">MAGIC_PARAM_ENCODING_MAX</a>, <span class="stringliteral">&quot;encoding_max&quot;</span>),</div>
-<div class="line">        std::make_pair(<a class="code hl_define" href="magic_8cpp.html#ade49bfa579914443b878884d1415c1fa">MAGIC_PARAM_ELF_SHSIZE_MAX</a>, <span class="stringliteral">&quot;elf_shsize_max&quot;</span>)</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_INDIR_MAX, <span class="stringliteral">&quot;indir_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_NAME_MAX, <span class="stringliteral">&quot;name_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX, <span class="stringliteral">&quot;elf_phnum_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX, <span class="stringliteral">&quot;elf_shnum_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX, <span class="stringliteral">&quot;elf_notes_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_REGEX_MAX, <span class="stringliteral">&quot;regex_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_BYTES_MAX, <span class="stringliteral">&quot;bytes_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_ENCODING_MAX, <span class="stringliteral">&quot;encoding_max&quot;</span>),</div>
+<div class="line">        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, <span class="stringliteral">&quot;elf_shsize_max&quot;</span>)</div>
 <div class="line">    }</div>
-<div class="ttc" id="amagic_8cpp_html_a02b4e567385d56659651324f9b079820"><div class="ttname"><a href="magic_8cpp.html#a02b4e567385d56659651324f9b079820">MAGIC_PARAM_INDIR_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_INDIR_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_a0d84131a3490a73873a0d02006a6692d"><div class="ttname"><a href="magic_8cpp.html#a0d84131a3490a73873a0d02006a6692d">MAGIC_PARAM_ELF_NOTES_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_ELF_NOTES_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_a4a46222b07a0f5275d902dbb877c4547"><div class="ttname"><a href="magic_8cpp.html#a4a46222b07a0f5275d902dbb877c4547">MAGIC_PARAM_BYTES_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_BYTES_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_a597d76f922a5f55bf8727af99b87193e"><div class="ttname"><a href="magic_8cpp.html#a597d76f922a5f55bf8727af99b87193e">MAGIC_PARAM_NAME_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_NAME_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_aba2b4fab092e1fd9ae6f53485c8106a6"><div class="ttname"><a href="magic_8cpp.html#aba2b4fab092e1fd9ae6f53485c8106a6">MAGIC_PARAM_ELF_SHNUM_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_ELF_SHNUM_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_abd3b7033bbceaf70624e492f15c305fc"><div class="ttname"><a href="magic_8cpp.html#abd3b7033bbceaf70624e492f15c305fc">MAGIC_PARAM_ENCODING_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_ENCODING_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_ade49bfa579914443b878884d1415c1fa"><div class="ttname"><a href="magic_8cpp.html#ade49bfa579914443b878884d1415c1fa">MAGIC_PARAM_ELF_SHSIZE_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_ELF_SHSIZE_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_ae52056b7029108d11a7dfec3723931fd"><div class="ttname"><a href="magic_8cpp.html#ae52056b7029108d11a7dfec3723931fd">MAGIC_PARAM_REGEX_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_REGEX_MAX</div></div>
-<div class="ttc" id="amagic_8cpp_html_af206a4c7571c629fa90f2771364a01a6"><div class="ttname"><a href="magic_8cpp.html#af206a4c7571c629fa90f2771364a01a6">MAGIC_PARAM_ELF_PHNUM_MAX</a></div><div class="ttdeci">#define MAGIC_PARAM_ELF_PHNUM_MAX</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1327,7 +1315,7 @@ requires std::same_as&lt;ResultType, int&gt; || std::same_as&lt;ResultType, bool
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerecognition.html">recognition</a></li><li class="navelem"><a class="el" href="classrecognition_1_1magic.html">magic</a></li><li class="navelem"><a class="el" href="classrecognition_1_1magic_1_1magic__private.html">magic_private</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 22:17:11 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sat Feb 15 2025 23:18:44 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

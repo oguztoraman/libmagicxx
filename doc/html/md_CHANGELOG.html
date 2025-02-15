@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.3.0</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.3.1</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -111,10 +111,15 @@ $(function(){initNavTree('md_CHANGELOG.html',''); initResizable(true); });
 <h1><a class="anchor" id="autotoc_md1"></a>
 Next Release</h1>
 <ul>
+<li>[<b>BUGFIX</b>] file: Set the version of File to 5.45 to fix compilation errors.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+[v5.3.0] - 15-02-2025</h1>
+<ul>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, scripts/build.sh: Add build as static option.</li>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, scripts/build.sh: Remove rebuild the libmagic option.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 [v5.2.0] - 13-02-2025</h1>
 <ul>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Add <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a></li>
@@ -132,14 +137,14 @@ Next Release</h1>
 <li>[<b>DOCUMENTATION</b>] Doxyfile: Update documentation.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="SECURITY_8md.html">SECURITY.md</a>: Add <a class="el" href="SECURITY_8md.html">SECURITY.md</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 [v5.1.1] - 25-06-2024</h1>
 <ul>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add missing documentation for flags and parameters.</li>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="CHANGELOG_8md.html">CHANGELOG.md</a>: Fix typo in <a class="el" href="CHANGELOG_8md.html">CHANGELOG.md</a>.</li>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="README_8md.html">README.md</a>: Update <a class="el" href="README_8md.html">README.md</a> presentation for better readability.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 [v5.1.0] - 23-06-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] commit_release.sh: Add commit_release.sh.</li>
@@ -148,7 +153,7 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] build.sh: Add build script.</li>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, install_dependencies.sh, setup.sh, <a class="el" href="README_8md.html">README.md</a>: Automate initialization and setup steps.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 [v5.0.0] - 06-06-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Rename flag_converter to flags_converter.</li>
@@ -164,17 +169,17 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, <a class="el" href="utility_8hpp.html">inc/utility.hpp</a>: Add a customizable to_string function template.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic__exception_8hpp.html">inc/magic_exception.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Report the parameter value with the parameter name if the set_parameter function fails.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Declare to_string functions with the nodiscard attribute.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the expected_types_of_files_t with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the expected_file_type_t with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the types_of_files_t with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Parameters with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Parameter with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Flags with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Flag with the to_string function.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>: Replace the operator&lt;&lt; function for the file containers with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the expected_types_of_files_t with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the expected_file_type_t with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the types_of_files_t with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Parameters with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Parameter with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Flags with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Replace the operator&lt;&lt; function for the Flag with the to_string function.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>: Replace the operator&lt;&lt; function for the file containers with the to_string function.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add the <a class="el" href="namespacefile__concepts.html">file_concepts</a> namespace.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 [v4.1.2] - 12-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the compilation error when trying to print the Flag and the Parameter using operator &lt;&lt;.</li>
@@ -186,34 +191,34 @@ Next Release</h1>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic__exception_8hpp.html">inc/magic_exception.hpp</a>: Add the missing string header.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the compilation error when trying to print Flags using operator &lt;&lt;.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 [v4.1.1] - 07-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the segmentation fault error when calling a member function of a moved-from magic object.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Erase the operator bool function of the magic_private class.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 [v4.1.0] - 05-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the segmentation fault error when calling a member function of a default constructed magic.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Make the functions "check" and "compile" noexcept.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Make the functions "check" and "compile" noexcept.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Erase the brackets.</li>
-<li>[<b>FEAUTURE</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add default_database_file.</li>
+<li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add default_database_file.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Use std::format for the version string.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 [v4.0.0] - 04-05-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, <a class="el" href="README_8md.html">README.md</a>: Change the project name to Libmagicxx.</li>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Make magic_INCLUDE_DIR private.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 [v3.1.1] - 28-04-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Use libc++ when the compiler is clang.</li>
 <li>[<b>BUGFIX</b>] setup.sh: Install the missing libcxx-devel package for clang.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 [v3.1.0] - 23-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add the missing parameters and flags.</li>
@@ -221,29 +226,29 @@ Next Release</h1>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Fix the SPDX-License-Identifier.</li>
 <li>[<b>ENHANCEMENT</b>] .gitmodules, file: Add the Magic Number Recognition Library v5.45 as a submodule.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 [v3.0.0] - 14-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] COPYING, COPYING.LESSER, <a class="el" href="README_8md.html">README.md</a>, <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic__exception_8hpp.html">inc/magic_exception.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Change the license to LGPL-3.0-only.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 [v2.1.0] - 07-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add operator&lt;&lt; overload for expected_file_type_t.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add operator&lt;&lt; overloads for Flag, Flags, Parameter and Parameters.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add get_parameters function.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 [v2.0.0] - 06-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Use std::expected instead of std::optional to report the error.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 [v1.0.2] - 03-04-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix throwing an empty_path exception when the path is not empty.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 [v1.0.1] - 11-03-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Fix typo.</li>
@@ -252,7 +257,7 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Use abbreviated function templates.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Remove the namespace alias std_fs for the Doxygen.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 [v1.0.0] - 03-01-2024</h1>
 <ul>
 <li>Initial release. </li>
@@ -263,7 +268,7 @@ Next Release</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Feb 15 2025 22:17:11 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sat Feb 15 2025 23:18:44 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

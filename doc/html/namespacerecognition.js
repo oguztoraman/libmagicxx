@@ -1,26 +1,6 @@
 var namespacerecognition =
 [
-    [ "detail", "namespacerecognition_1_1detail.html", [
-      [ "magic_t", "namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7", null ],
-      [ "magic_buffer", "namespacerecognition_1_1detail.html#a751ec8db43d9bbc5ed362894247035b7", null ],
-      [ "magic_check", "namespacerecognition_1_1detail.html#acdd2e066ef2872b5dc9e4778fbe11949", null ],
-      [ "magic_close", "namespacerecognition_1_1detail.html#a613f784ac6272bc17b95eecd7a974e4c", null ],
-      [ "magic_compile", "namespacerecognition_1_1detail.html#a0cd45627e964ea22a6be91a0a3c17baf", null ],
-      [ "magic_descriptor", "namespacerecognition_1_1detail.html#aa5306511169d3b3efd6fd7cbd12b620c", null ],
-      [ "magic_errno", "namespacerecognition_1_1detail.html#aefdd1b0b0499c7c82ffd719b4536b7fe", null ],
-      [ "magic_error", "namespacerecognition_1_1detail.html#a2c84bf9ffc90f6a03e3494a840932cd3", null ],
-      [ "magic_file", "namespacerecognition_1_1detail.html#a1a7e250bd975db0ff7f822e208eecd26", null ],
-      [ "magic_getflags", "namespacerecognition_1_1detail.html#a2015b3aa31725d2f919bc6a968fa0409", null ],
-      [ "magic_getparam", "namespacerecognition_1_1detail.html#a3b53e4d12605f15137e28f9c67ef264d", null ],
-      [ "magic_getpath", "namespacerecognition_1_1detail.html#a34406c7dc48260d3c291be82732aa6ac", null ],
-      [ "magic_list", "namespacerecognition_1_1detail.html#a769ad4fd0fbded6e70a8a13e1094e00b", null ],
-      [ "magic_load", "namespacerecognition_1_1detail.html#af9274ccf78d5335c4c9d685b5b3d617b", null ],
-      [ "magic_load_buffers", "namespacerecognition_1_1detail.html#a3441ebb7e8d4d2a18967e0366d9b805d", null ],
-      [ "magic_open", "namespacerecognition_1_1detail.html#a0cc7aeca0f2e5405b62908de1d18192b", null ],
-      [ "magic_setflags", "namespacerecognition_1_1detail.html#afa16802de6b4b118ddcc0554f2ab5a57", null ],
-      [ "magic_setparam", "namespacerecognition_1_1detail.html#a50ff23a2081345a5607efdbbf80c6e38", null ],
-      [ "magic_version", "namespacerecognition_1_1detail.html#ab63d94d4d62ce4aac835b5ca6425ff62", null ]
-    ] ],
+    [ "detail", "namespacerecognition_1_1detail.html", null ],
     [ "empty_path", "classrecognition_1_1empty__path.html", "classrecognition_1_1empty__path" ],
     [ "invalid_path", "classrecognition_1_1invalid__path.html", "classrecognition_1_1invalid__path" ],
     [ "magic", "classrecognition_1_1magic.html", "classrecognition_1_1magic" ],

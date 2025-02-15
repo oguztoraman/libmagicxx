@@ -26,6 +26,7 @@ set(magic_DIR
 
 set(magic_INCLUDE_DIR
     ${magic_DIR}
+    ${magic_DIR}/src
 )
 
 set(magic_SOURCE_DIR

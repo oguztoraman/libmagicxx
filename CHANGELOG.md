@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CMakeLists.txt, scripts/build.sh: Add build as static option.
 + [**ENHANCEMENT**] CMakeLists.txt, scripts/build.sh: Remove rebuild the libmagic option.
 
 ## [v5.2.0] - 13-02-2025

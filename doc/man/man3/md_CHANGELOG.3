@@ -1,4 +1,4 @@
-.TH "md_CHANGELOG" 3 "Sat Feb 15 2025 22:17:11" "Version v5.3.0" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CHANGELOG" 3 "Sat Feb 15 2025 23:18:44" "Version v5.3.1" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,11 @@ md_CHANGELOG \- Changelog
 .PP
 
 .SH "Next Release"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] file: Set the version of File to 5\&.45 to fix compilation errors\&.
+.PP
+.SH "[v5\&.3\&.0] - 15-02-2025"
 .PP
 .IP "\(bu" 2
 [\fBENHANCEMENT\fP] CMakeLists\&.txt, scripts/build\&.sh: Add build as static option\&.
@@ -94,21 +99,21 @@ md_CHANGELOG \- Changelog
 .IP "\(bu" 2
 [\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP: Declare to_string functions with the nodiscard attribute\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_types_of_files_t with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_types_of_files_t with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_file_type_t with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the expected_file_type_t with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the types_of_files_t with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the types_of_files_t with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameters with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameters with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameter with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Parameter with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flags with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flags with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flag with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Replace the operator<< function for the Flag with the to_string function\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/file_concepts\&.hpp\fP: Replace the operator<< function for the file containers with the to_string function\&.
+[\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP: Replace the operator<< function for the file containers with the to_string function\&.
 .IP "\(bu" 2
 [\fBENHANCEMENT\fP] \fBinc/file_concepts\&.hpp\fP, \fBinc/magic\&.hpp\fP: Add the \fBfile_concepts\fP namespace\&.
 .PP
@@ -143,11 +148,11 @@ md_CHANGELOG \- Changelog
 .IP "\(bu" 2
 [\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Fix the segmentation fault error when calling a member function of a default constructed magic\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make the functions 'check' and 'compile' noexcept\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Make the functions 'check' and 'compile' noexcept\&.
 .IP "\(bu" 2
 [\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP: Erase the brackets\&.
 .IP "\(bu" 2
-[\fBFEAUTURE\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add default_database_file\&.
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Add default_database_file\&.
 .IP "\(bu" 2
 [\fBENHANCEMENT\fP] \fBsrc/magic\&.cpp\fP: Use std::format for the version string\&.
 .PP

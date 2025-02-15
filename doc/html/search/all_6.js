@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['a_20cmake_20based_20project_0',['a CMake based Project',['../md_CONTRIBUTING.html#autotoc_md36',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md48',1,'How to Use Libmagicxx in a CMake-based Project']]],
-  ['a_20pull_20request_1',['Creating a Pull Request',['../md_CONTRIBUTING.html#autotoc_md38',1,'']]],
-  ['a_20vulnerability_2',['Reporting a Vulnerability',['../md_SECURITY.html#autotoc_md59',1,'']]],
-  ['an_20issue_3',['How to Create an Issue',['../md_CONTRIBUTING.html#autotoc_md40',1,'']]],
-  ['apple_4',['apple',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaa9741451e5183c02e81018e51b7b7a10',1,'recognition::magic']]],
-  ['attribution_5',['Attribution',['../md_CODE__OF__CONDUCT.html#autotoc_md29',1,'']]]
+  ['ban_0',['Ban',['../md_CODE__OF__CONDUCT.html#autotoc_md28',1,'3. Temporary Ban'],['../md_CODE__OF__CONDUCT.html#autotoc_md29',1,'4. Permanent Ban']]],
+  ['based_20project_1',['based Project',['../md_CONTRIBUTING.html#autotoc_md37',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md49',1,'How to Use Libmagicxx in a CMake-based Project']]],
+  ['build_20libmagicxx_2',['Build Libmagicxx',['../index.html#autotoc_md48',1,'How to Build Libmagicxx'],['../index.html#autotoc_md47',1,'Requirements to Build Libmagicxx']]],
+  ['bytes_5fmax_3',['bytes_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11',1,'recognition::magic']]]
 ];

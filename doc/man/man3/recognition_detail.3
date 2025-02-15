@@ -1,4 +1,4 @@
-.TH "recognition::detail" 3 "Sat Feb 15 2025 22:17:11" "Version v5.3.0" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::detail" 3 "Sat Feb 15 2025 23:18:45" "Version v5.3.1" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,113 +6,6 @@ recognition::detail
 .SH SYNOPSIS
 .br
 .PP
-.SS "Typedefs"
-
-.in +1c
-.ti -1c
-.RI "typedef struct magic_set * \fBmagic_t\fP"
-.br
-.in -1c
-.SS "Functions"
-
-.in +1c
-.ti -1c
-.RI "\fBmagic_t\fP \fBmagic_open\fP (int)"
-.br
-.ti -1c
-.RI "void \fBmagic_close\fP (\fBmagic_t\fP)"
-.br
-.ti -1c
-.RI "const char * \fBmagic_getpath\fP (const char *, int)"
-.br
-.ti -1c
-.RI "const char * \fBmagic_file\fP (\fBmagic_t\fP, const char *)"
-.br
-.ti -1c
-.RI "const char * \fBmagic_descriptor\fP (\fBmagic_t\fP, int)"
-.br
-.ti -1c
-.RI "const char * \fBmagic_buffer\fP (\fBmagic_t\fP, const void *, size_t)"
-.br
-.ti -1c
-.RI "const char * \fBmagic_error\fP (\fBmagic_t\fP)"
-.br
-.ti -1c
-.RI "int \fBmagic_getflags\fP (\fBmagic_t\fP)"
-.br
-.ti -1c
-.RI "int \fBmagic_setflags\fP (\fBmagic_t\fP, int)"
-.br
-.ti -1c
-.RI "int \fBmagic_version\fP (void)"
-.br
-.ti -1c
-.RI "int \fBmagic_load\fP (\fBmagic_t\fP, const char *)"
-.br
-.ti -1c
-.RI "int \fBmagic_load_buffers\fP (\fBmagic_t\fP, void **, size_t *, size_t)"
-.br
-.ti -1c
-.RI "int \fBmagic_compile\fP (\fBmagic_t\fP, const char *)"
-.br
-.ti -1c
-.RI "int \fBmagic_check\fP (\fBmagic_t\fP, const char *)"
-.br
-.ti -1c
-.RI "int \fBmagic_list\fP (\fBmagic_t\fP, const char *)"
-.br
-.ti -1c
-.RI "int \fBmagic_errno\fP (\fBmagic_t\fP)"
-.br
-.ti -1c
-.RI "int \fBmagic_setparam\fP (\fBmagic_t\fP, int, const void *)"
-.br
-.ti -1c
-.RI "int \fBmagic_getparam\fP (\fBmagic_t\fP, int, void *)"
-.br
-.in -1c
-.SH "Typedef Documentation"
-.PP 
-.SS "typedef struct magic_set* \fBrecognition::detail::magic_t\fP"
-
-.SH "Function Documentation"
-.PP 
-.SS "const char * recognition::detail::magic_buffer (\fBmagic_t\fP , const void * , size_t )"
-
-.SS "int recognition::detail::magic_check (\fBmagic_t\fP , const char * )"
-
-.SS "void recognition::detail::magic_close (\fBmagic_t\fP )"
-
-.SS "int recognition::detail::magic_compile (\fBmagic_t\fP , const char * )"
-
-.SS "const char * recognition::detail::magic_descriptor (\fBmagic_t\fP , int )"
-
-.SS "int recognition::detail::magic_errno (\fBmagic_t\fP )"
-
-.SS "const char * recognition::detail::magic_error (\fBmagic_t\fP )"
-
-.SS "const char * recognition::detail::magic_file (\fBmagic_t\fP , const char * )"
-
-.SS "int recognition::detail::magic_getflags (\fBmagic_t\fP )"
-
-.SS "int recognition::detail::magic_getparam (\fBmagic_t\fP , int , void * )"
-
-.SS "const char * recognition::detail::magic_getpath (const char * , int )"
-
-.SS "int recognition::detail::magic_list (\fBmagic_t\fP , const char * )"
-
-.SS "int recognition::detail::magic_load (\fBmagic_t\fP , const char * )"
-
-.SS "int recognition::detail::magic_load_buffers (\fBmagic_t\fP , void ** , size_t * , size_t )"
-
-.SS "\fBmagic_t\fP recognition::detail::magic_open (int )"
-
-.SS "int recognition::detail::magic_setflags (\fBmagic_t\fP , int )"
-
-.SS "int recognition::detail::magic_setparam (\fBmagic_t\fP , int , const void * )"
-
-.SS "int recognition::detail::magic_version (void )"
-
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for Libmagicxx from the source code\&.

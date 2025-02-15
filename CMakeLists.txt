@@ -12,7 +12,6 @@ project(magicxx
 
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
-option(REBUILD_MAGIC "Rebuild the libmagic." OFF)
 
 set(magic_INCLUDE_DIR
     ${magicxx_SOURCE_DIR}/file/src
@@ -22,7 +21,7 @@ set(magic_LIBRARY
     ${magic_INCLUDE_DIR}/.libs/libmagic.a
 )
 
-if (NOT EXISTS ${magic_LIBRARY} OR ${REBUILD_MAGIC})
+if (NOT EXISTS ${magic_LIBRARY})
     message(STATUS "Running initialization and setup steps...")
 
     message(STATUS "Initializing and updating git submodules...")

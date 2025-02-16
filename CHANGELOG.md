@@ -2,7 +2,11 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] scripts/*: Improve error handling in scripts.
+
 ## [v5.3.2] - 16-02-2025
+
++ [**BUGFIX**] CMakeLists.txt: Fix compilation errors.
 
 ## [v5.3.1] - 15-02-2025
 

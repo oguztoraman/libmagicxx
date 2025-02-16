@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parameter_5fvalue_5fmap_5ft_0',['parameter_value_map_t',['../classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f',1,'recognition::magic']]]
+  ['magic_5ft_0',['magic_t',['../namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7',1,'recognition::detail::magic_t'],['../magic_8h.html#a79bca0ed7c87da00e08a010c5d91e821',1,'magic_t:&#160;magic.h']]]
 ];

@@ -107,7 +107,7 @@ endif()
 message(STATUS "Configuring the file...")
 execute_process(
     COMMAND autoreconf -f -i
-    WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
+    WORKING_DIRECTORY ${magic_DIR}
     RESULT_VARIABLE autoreconf_result
 )
 if (autoreconf_result)
@@ -118,12 +118,21 @@ execute_process(
     COMMAND ./configure --enable-static=yes --enable-shared=yes
         --disable-zlib --disable-bzlib
         --disable-xzlib --disable-zstdlib
-        --disable-lzlib --disable-lrziplib
-    WORKING_DIRECTORY ${magicxx_SOURCE_DIR}/file
+        --disable-lzlib
+    WORKING_DIRECTORY ${magic_DIR}
     RESULT_VARIABLE configure_result
 )
 if (configure_result)
     message(FATAL_ERROR "Failed to configure file.")
+endif()
+
+execute_process(
+    COMMAND make magic.h
+    WORKING_DIRECTORY ${magic_SOURCE_DIR}
+    RESULT_VARIABLE make_result
+)
+if (make_result)
+    message(FATAL_ERROR "Failed to make.")
 endif()
 
 add_library(magicxx ${LIBRARY_TYPE}

@@ -3,6 +3,7 @@ name: Build and Test on Linux using CLANG
 on:
   pull_request:
   push:
+    tags: ['v*']
   workflow_dispatch:
 
 jobs:

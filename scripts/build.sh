@@ -6,8 +6,6 @@
 SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
 cd ${SCRIPT_DIR}/..
 
-set -e
-
 BUILD_DIR="release_build"
 BUILD_TYPE="Release"
 COMPILER="g++"
@@ -59,17 +57,25 @@ echo "Selected options: build_dir=${BUILD_DIR}, build_type=${BUILD_TYPE}, compil
 
 cmake -DCMAKE_CXX_COMPILER:FILEPATH=${COMPILER} -G Ninja -S . -B ${BUILD_DIR}       \
       -DCMAKE_BUILD_TYPE:STRING=${BUILD_TYPE} -DBUILD_MAGICXX_TESTS=${RUN_TESTS}    \
-      -DBUILD_MAGICXX_EXAMPLES=${RUN_EXAMPLES} -DBUILD_AS_STATIC=${BUILD_AS_STATIC}
+      -DBUILD_MAGICXX_EXAMPLES=${RUN_EXAMPLES} -DBUILD_AS_STATIC=${BUILD_AS_STATIC} || {
+    exit 3
+}
 
 cd ${BUILD_DIR} && ninja -j10 &&
-echo "$LIBRARY_TYPE Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '${COMPILER}'."
+echo "$LIBRARY_TYPE Build completed in '${BUILD_DIR}' with build type '${BUILD_TYPE}' using '${COMPILER}'." || {
+    exit 4
+}
 
 if [ "$RUN_TESTS" == "ON" ]; then
     echo "Running tests..."
-    cd tests && ctest --output-on-failure -j10 && cd ..
+    cd tests && ctest --output-on-failure -j10 && cd .. || {
+        exit 5
+    }
 fi
 
 if [ "$RUN_EXAMPLES" == "ON" ]; then
     echo "Running examples..."
-    cd examples && ./magicxx_examples && cd ..
+    cd examples && ./magicxx_examples && cd .. || {
+        exit 6
+    }
 fi

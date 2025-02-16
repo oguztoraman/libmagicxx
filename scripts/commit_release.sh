@@ -6,8 +6,6 @@
 SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
 cd ${SCRIPT_DIR}/..
 
-set -e
-
 GIT_TAG=""
 
 usage(){
@@ -39,16 +37,25 @@ CHANGELOG_FILE=CHANGELOG.md
 VERSION=$(sed 's/^v//' <<< "$GIT_TAG")
 RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "$GIT_TAG")
 
-./scripts/format.sh
+./scripts/format.sh || {
+    exit 2
+}
 
-./scripts/generate_documentation.sh -t ${GIT_TAG}
+./scripts/generate_documentation.sh -t ${GIT_TAG} || {
+    exit 3
+}
 
-sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE"
-sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE"
+sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE" &&
+sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE" || {
+    exit 4
+}
 
 git add $CMAKE_FILE $CHANGELOG_FILE $DOXYFILE doc/* &&
 git commit -m "Update the project version to ${VERSION}" &&
-git tag -a $GIT_TAG -m "Version $VERSION" && 
+git tag -a $GIT_TAG -m "Version $VERSION" || {
+    exit 5
+}
+
 git branch $RELEASE_BRANCH
 
 echo "Committed '${GIT_TAG}'."

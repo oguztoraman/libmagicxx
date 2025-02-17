@@ -56,13 +56,13 @@ The current development environment is a container image built on top of the lat
 
     Download and install Visual Studio Code from the [official website](https://code.visualstudio.com/).
 
-2. **Install Visual Studio Code Extensions**
+2. **Install the Dev Containers Extension**
 
-    + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
+    + Open Visual Studio Code.
+    + Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
+    + Search for `Dev Containers`.
+    + Click `Install` on the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
-    + [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
-
-    + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 3. **Install Podman**
 
@@ -101,6 +101,21 @@ The current development environment is a container image built on top of the lat
 7. **Attach to the Container**
 
    Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
+
+8. **Install Extensions in the Container**
+
+    Once you have attached to the container, you need to install the necessary Visual Studio Code extensions within the container environment as well. Follow these steps:
+
+    + Open the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
+
+    + Search for and install the following extensions:
+        + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
+        + [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+        + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+    These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
+
+9. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
 
 ## How to Use Libmagicxx in a CMake-based Project
 

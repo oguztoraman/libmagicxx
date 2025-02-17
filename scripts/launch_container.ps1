@@ -10,7 +10,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-podman run -it --name libmagicxx_dev_env -v ${PWD}:/libmagicxx:Z libmagicxx_dev_env
+podman run -it -v ${PWD}:/libmagicxx:Z libmagicxx_dev_env
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Error: Failed to run the container."
     exit 2

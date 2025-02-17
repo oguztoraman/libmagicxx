@@ -11,7 +11,7 @@ podman build -t libmagicxx_dev_env -f Containerfile || {
     exit 1
 }
 
-podman run -it --name libmagicxx_dev_env -v $(pwd):/libmagicxx:Z libmagicxx_dev_env || {
+podman run -it -v $(pwd):/libmagicxx:Z libmagicxx_dev_env || {
     echo "Error: Failed to run the container."
     exit 2
 }

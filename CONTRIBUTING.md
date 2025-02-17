@@ -21,6 +21,7 @@ libmagicxx/
 ├── CHANGELOG.md               # Changelog
 ├── CMakeLists.txt             # CMake build configuration
 ├── CODE_OF_CONDUCT.md         # Code of Conduct
+├── Containerfile              # Container image configuration
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── COPYING.LESSER             # License file
 ├── Doxyfile                   # Doxygen configuration
@@ -49,20 +50,57 @@ We expect all contributors to adhere to the [Code of Conduct](https://github.com
 
 ## Getting Started
 
-1. **Fork & Clone the Repository**:
+The current development environment is a container image built on top of the latest stable release of [Fedora](https://fedoraproject.org/).
+
+1. **Install Visual Studio Code**
+
+    Download and install Visual Studio Code from the [official website](https://code.visualstudio.com/).
+
+2. **Install Visual Studio Code Extensions**
+
+    + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
+
+    + [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+
+    + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+3. **Install Podman**
+
+    Follow the [installation guide](https://podman.io/getting-started/installation) to install Podman.
+
+4. **Install Git**
+
+    Download and install Git from the [official website](https://git-scm.com/).
+
+5. **Fork & Clone the Repository**
+
+    Fork the repository on GitHub and clone it to your local machine:
 
     ```bash
     git clone https://github.com/your-username/libmagicxx.git
+
     cd libmagicxx
     ```
 
-2. **Set up Development Environment**:
+6. **Run the Launch Container Script**
 
-+ The current development environment is the latest stable release of Fedora. You can install the necessary dependencies using the `install_dependencies.sh` script:
+    Open a terminal in Visual Studio Code and run the following script:
+
+    > On Linux/MacOS
 
     ```bash
-    ./scripts/install_dependencies.sh
+    ./scripts/launch_container.sh
     ```
+
+    > On Windows
+
+    ```powershell
+    ./scripts/launch_container.ps1
+    ```
+
+7. **Attach to the Container**
+
+   Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
 
 ## How to Use Libmagicxx in a CMake-based Project
 

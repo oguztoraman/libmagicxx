@@ -1,4 +1,4 @@
-.TH "md_CONTRIBUTING" 3 "Sun Feb 16 2025 11:10:00" "Version v5.3.2" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CONTRIBUTING" 3 "Mon Feb 17 2025 19:21:13" "Version v5.4.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,6 +28,7 @@ libmagicxx/
 ├── CHANGELOG\&.md               # Changelog
 ├── CMakeLists\&.txt             # CMake build configuration
 ├── CODE_OF_CONDUCT\&.md         # Code of Conduct
+├── Containerfile              # Container image configuration
 ├── CONTRIBUTING\&.md            # Contribution guidelines
 ├── COPYING\&.LESSER             # License file
 ├── Doxyfile                   # Doxygen configuration
@@ -55,30 +56,100 @@ For comprehensive guides, API references, and detailed information, visit the \f
 We expect all contributors to adhere to the \fRCode of Conduct\fP\&. Please read it to understand the standards of behavior we expect from our community\&.
 .SH "Getting Started"
 .PP
+The current development environment is a container image built on top of the latest stable release of \fRFedora\fP\&.
+
+.PP
 .IP "1." 4
-\fBFork & Clone the Repository\fP:
+\fBInstall Visual Studio Code\fP
+
+.PP
+Download and install Visual Studio Code from the \fRofficial website\fP\&.
+.IP "2." 4
+\fBInstall the Dev Containers Extension\fP
+.IP "  \(bu" 4
+Open Visual Studio Code\&.
+.IP "  \(bu" 4
+Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing \fRCtrl+Shift+X\fP\&.
+.IP "  \(bu" 4
+Search for \fRDev Containers\fP\&.
+.IP "  \(bu" 4
+Click \fRInstall\fP on the \fRDev Containers\fP extension\&.
+.PP
+
+.IP "3." 4
+\fBInstall Podman\fP
+
+.PP
+Follow the \fRinstallation guide\fP to install Podman\&.
+.IP "4." 4
+\fBInstall Git\fP
+
+.PP
+Download and install Git from the \fRofficial website\fP\&.
+.IP "5." 4
+\fBFork & Clone the Repository\fP
+
+.PP
+Fork the repository on GitHub and clone it to your local machine:
 
 .PP
 .PP
 .nf
 git clone https://github\&.com/your\-username/libmagicxx\&.git
+
 cd libmagicxx
 .fi
 .PP
 
-.IP "2." 4
-\fBSet up Development Environment\fP:
-.PP
-.IP "\(bu" 2
-The current development environment is the latest stable release of Fedora\&. You can install the necessary dependencies using the \fRinstall_dependencies\&.sh\fP script:
+.IP "6." 4
+\fBRun the Launch Container Script\fP
 
 .PP
-.PP
-.nf
-\&./scripts/install_dependencies\&.sh
-.fi
+Open a terminal in Visual Studio Code and run the following script:
 .PP
 
+.PP
+.RS 4
+On Linux/MacOS 
+.RE
+.PP
+\fRbash \&./scripts/launch_container\&.sh \fP
+
+.PP
+> On Windows
+
+.PP
+\fRpowershell \&./scripts/launch_container\&.ps1 \fP
+
+.PP
+.IP "7." 4
+\fBAttach to the Container\fP
+
+.PP
+Press \fRCtrl+Shift+P\fP in Visual Studio Code, then select \fRRemote-Containers: Attach to Running Container\&.\&.\&.\fP and choose the container \fRlibmagicxx_dev_env\fP you just launched\&.
+.IP "8." 4
+\fBInstall Extensions in the Container\fP
+
+.PP
+Once you have attached to the container, you need to install the necessary Visual Studio Code extensions within the container environment as well\&. Follow these steps:
+.IP "  \(bu" 4
+Open the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing \fRCtrl+Shift+X\fP\&.
+.IP "  \(bu" 4
+Search for and install the following extensions:
+.IP "    \(bu" 6
+\fRClangd\fP
+.IP "    \(bu" 6
+\fRCMake Tools\fP
+.IP "    \(bu" 6
+\fRDev Containers\fP
+.PP
+
+.PP
+
+.PP
+These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration\&.
+.IP "9." 4
+Now you are ready for your changes\&. You can commit your changes, build the project, run tests, and execute scripts within the container\&. However, you cannot push these changes directly from the container\&. Once you are done, close the container connection and push your work from your local computer\&.
 .PP
 .SH "How to Use Libmagicxx in a CMake-based Project"
 .PP
@@ -154,13 +225,13 @@ For more options, use:
 .nf
 \&./scripts/build\&.sh \-h
 Usage: \&./scripts/build\&.sh [\-d build_dir] [\-b build_type] [\-c compiler] [\-t] [\-e] [\-h]
-  \-d build_dir   Specify the build directory (default: release_build)\&.
-  \-b build_type  Specify the CMake build type (default: Release)\&.
-  \-c compiler    Specify the compiler (g++ or clang++, default: g++)\&.
+  \-d build_dir    Specify the build directory (default: release_build)\&.
+  \-b build_type   Specify the CMake build type (default: Release)\&.
+  \-c compiler     Specify the compiler (g++ or clang++, default: g++)\&.
   \-l library_type Specify the library type (STATIC or SHARED, default: SHARED)\&.
-  \-t             Build and run tests (default: OFF)\&.
-  \-e             Build and run examples (default: OFF)\&.
-  \-h             Display this message\&.
+  \-t              Build and run tests (default: OFF)\&.
+  \-e              Build and run examples (default: OFF)\&.
+  \-h              Display this message\&.
 .fi
 .PP
 

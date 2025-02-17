@@ -12,9 +12,9 @@ var searchData=
   ['libmagic_5fparameters_5ft_9',['libmagic_parameters_t',['../classrecognition_1_1magic_1_1magic__private.html#a9aa45113e9fa80b8b999bcb08e372125',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5fname_5ft_10',['libmagic_value_name_t',['../classrecognition_1_1magic_1_1magic__private.html#aecf89e7759422eaf9d45db53b29bd192',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5ft_11',['libmagic_value_t',['../classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3',1,'recognition::magic::magic_private']]],
-  ['libmagicxx_12',['Libmagicxx',['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md50',1,'How to Build Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md47',1,'Libmagicxx'],['../index.html#autotoc_md49',1,'Requirements to Build Libmagicxx']]],
-  ['libmagicxx_20in_20a_20cmake_20based_20project_13',['Libmagicxx in a CMake based Project',['../md_CONTRIBUTING.html#autotoc_md39',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md51',1,'How to Use Libmagicxx in a CMake-based Project']]],
-  ['license_14',['License',['../index.html#autotoc_md58',1,'']]],
-  ['licenses_3a_15',['Other licenses:',['../index.html#autotoc_md59',1,'']]],
+  ['libmagicxx_12',['Libmagicxx',['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md51',1,'How to Build Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md48',1,'Libmagicxx'],['../index.html#autotoc_md50',1,'Requirements to Build Libmagicxx']]],
+  ['libmagicxx_20in_20a_20cmake_20based_20project_13',['Libmagicxx in a CMake based Project',['../md_CONTRIBUTING.html#autotoc_md40',1,'How to Use Libmagicxx in a CMake-based Project'],['../index.html#autotoc_md52',1,'How to Use Libmagicxx in a CMake-based Project']]],
+  ['license_14',['License',['../index.html#autotoc_md59',1,'']]],
+  ['licenses_3a_15',['Other licenses:',['../index.html#autotoc_md60',1,'']]],
   ['load_5fdatabase_5ffile_16',['load_database_file',['../classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63',1,'recognition::magic::load_database_file()'],['../classrecognition_1_1magic_1_1magic__private.html#a853208cfe1593e44e21fd7054cd120c8',1,'recognition::magic::magic_private::load_database_file()']]]
 ];

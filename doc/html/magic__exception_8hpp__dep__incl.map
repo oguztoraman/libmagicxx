@@ -1,7 +1,7 @@
 <map id="magic_exception.hpp" name="magic_exception.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,157,35"/>
-<area shape="rect" id="Node000002" href="$magic_8hpp.html" title=" " alt="" coords="38,83,124,113"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,51,84,82,78,82,78,51"/>
-<area shape="rect" id="Node000003" href="$magic_8cpp.html" title=" " alt="" coords="39,161,123,190"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,129,84,160,78,160,78,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,150,32"/>
+<area shape="rect" id="Node000002" href="$magic_8hpp.html" title=" " alt="" coords="37,80,118,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,48,80,80,75,80,75,48"/>
+<area shape="rect" id="Node000003" href="$magic_8cpp.html" title=" " alt="" coords="37,155,118,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,122,80,154,75,154,75,122"/>
 </map>

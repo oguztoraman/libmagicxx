@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] scripts/launch_container.ps1, scripts/launch_container.sh: Remove container name specification in launch scripts to fix the container name is already used error.
+
 ## [v5.4.0] - 17-02-2025
 
 + [**ENHANCEMENT**] CONTRIBUTING.md, Containerfile, scripts/launch_container.ps1, scripts/launch_container.sh: Add container development environment setup and scripts.

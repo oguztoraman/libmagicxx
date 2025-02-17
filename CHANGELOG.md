@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CONTRIBUTING.md, Containerfile, scripts/launch_container.ps1, scripts/launch_container.sh: Add container development environment setup and scripts.
 + [**ENHANCEMENT**] scripts/*: Improve error handling in scripts.
 
 ## [v5.3.2] - 16-02-2025

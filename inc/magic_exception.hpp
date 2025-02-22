@@ -4,6 +4,7 @@
 #ifndef MAGIC_EXCEPTION_HPP
 #define MAGIC_EXCEPTION_HPP
 
+#include <format>
 #include <stdexcept>
 #include <string>
 
@@ -74,14 +75,17 @@ public:
         const std::string& error,
         const std::string& database_file_path
     )
-      : magic_exception{"magic_load(" + database_file_path + ")", error}
+      : magic_exception{
+            std::format("magic_load({})", database_file_path),
+            error
+        }
     { }
 };
 
 class magic_file_error final : public magic_exception {
 public:
     magic_file_error(const std::string& error, const std::string& file_path)
-      : magic_exception{"magic_file(" + file_path + ")", error}
+      : magic_exception{std::format("magic_file({})", file_path), error}
     { }
 };
 
@@ -91,7 +95,7 @@ public:
         const std::string& error,
         const std::string& flag_names
     )
-      : magic_exception{"magic_set_flags(" + flag_names + ")", error}
+      : magic_exception{std::format("magic_set_flags({})", flag_names), error}
     { }
 };
 
@@ -103,8 +107,7 @@ public:
         std::size_t        value
     )
       : magic_exception{
-            "magic_set_param(" + parameter_name + ", " + std::to_string(value)
-                + ")",
+            std::format("magic_set_param({}, {})", parameter_name, value),
             error
         }
     { }

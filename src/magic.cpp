@@ -4,7 +4,6 @@
 #include <cmath>
 
 #include <array>
-#include <format>
 #include <utility>
 
 #include "magic.hpp"
@@ -441,8 +440,12 @@ std::string to_string(
         [&](const value_t& type_of_a_file) {
             const auto& file               = type_of_a_file.first;
             const auto& expected_file_type = type_of_a_file.second;
-            return file.string() + type_separator
-                 + to_string(expected_file_type);
+            return std::format(
+                "{}{}{}",
+                file.string(),
+                type_separator,
+                to_string(expected_file_type)
+            );
         }
     );
 }
@@ -488,8 +491,12 @@ std::string to_string(
         [&](const value_t& parameter_with_value) -> std::string {
             const auto& parameter = parameter_with_value.first;
             const auto& value     = parameter_with_value.second;
-            return to_string(parameter) + value_separator
-                 + std::to_string(value);
+            return std::format(
+                "{}{}{}",
+                to_string(parameter),
+                value_separator,
+                value
+            );
         }
     );
 }

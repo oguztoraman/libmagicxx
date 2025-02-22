@@ -56,8 +56,10 @@ jobs:
         # If you are analyzing a compiled language, you can modify the 'build-mode' for that language to customize how
         # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Install dependencies.
+      run: dnf install -y cmake make ninja-build g++ git autoconf libtool
+    - name: Clone Libmagicxx.
+      run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
 
     # Add any setup steps before running the `github/codeql-action/init` action.
     # This includes steps like installing compilers or runtimes (`actions/setup-node`
@@ -86,8 +88,8 @@ jobs:
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
     - if: matrix.build-mode == 'manual'
       shell: bash
-      run: ./scripts/install_dependencies.sh && ./scripts/build.sh -c g++
-
+      run: ./scripts/build.sh -c g++
+      working-directory: /libmagicxx
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:

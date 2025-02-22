@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .clang-format: Update .clang-format to adjust line breaking penalties and compound requirement settings.
 + [**ENHANCEMENT**] .clang-format: Add SPDX license information and clang-format version to .clang-format.
 
 ## [v5.4.1] - 17-02-2025

@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] inc/magic_exception.hpp: Refactor magic_exception constructor to inherit from std::runtime_error.
 + [**ENHANCEMENT**] inc/magic_exception.hpp, src/magic.cpp: Use std::format instead of concatenating pieces manually.
 + [**ENHANCEMENT**] .clang-format: Update .clang-format to adjust line breaking penalties and compound requirement settings.
 + [**ENHANCEMENT**] .clang-format: Add SPDX license information and clang-format version to .clang-format.

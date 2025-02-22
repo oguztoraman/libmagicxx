@@ -17,14 +17,7 @@ namespace recognition {
  */
 class magic_exception : public std::runtime_error {
 public:
-    /**
-     * @brief Construct magic_exception with an error message.
-     *
-     * @param[in] error     The description of the error.
-     */
-    explicit magic_exception(const std::string& error)
-      : std::runtime_error{error}
-    { }
+    using std::runtime_error::runtime_error;
 
     /**
      * @brief Construct magic_exception with an error message

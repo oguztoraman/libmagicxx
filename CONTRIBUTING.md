@@ -150,7 +150,9 @@ The current development environment is a container image built on top of the lat
 
 2. **Make Changes**:
 
-+ Make your changes to the codebase. Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
++ Use `snake_case` naming convention. The only exception is template parameters, which should use `PascalCase`.
+
++ Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 
 + To maintain high-quality documentation, ensure that all public APIs are 100% documented using `Doxygen`. For more information on how to write Doxygen comments, refer to the [Doxygen Manual](http://www.doxygen.nl/manual/docblocks.html).
 

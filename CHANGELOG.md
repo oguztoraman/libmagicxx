@@ -2,6 +2,7 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CONTRIBUTING.md: Update CONTRIBUTING.md to specify naming conventions.
 + [**ENHANCEMENT**] inc/utility.hpp: Add concepts for range containers and string converters to improve maintainability.
 + [**ENHANCEMENT**] src/magic.cpp: Explicitly capture the required scope variables & Remove the redundant return type.
 + [**ENHANCEMENT**] inc/magic_exception.hpp: Refactor magic_exception constructor to inherit from std::runtime_error.

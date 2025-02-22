@@ -16,14 +16,21 @@ jobs:
       run: dnf install -y cmake make ninja-build clang libcxx-devel git autoconf libtool
     - name: Clone Libmagicxx.
       run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
-    - name: Build.
+    - name: Build (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++
-    - name: Tests.
+      run: ./scripts/build.sh -c clang++ -l SHARED
+    - name: Tests (Shared library).
       working-directory: /libmagicxx
-      shell: bash
-      run: ./scripts//build.sh -c clang++ -t
-    - name: Examples.
+      run: ./scripts/build.sh -c clang++ -l SHARED -t
+    - name: Examples (Shared library).
       working-directory: /libmagicxx
-      shell: bash
-      run: ./scripts//build.sh -c clang++ -e
+      run: ./scripts/build.sh -c clang++ -l SHARED -e
+    - name: Build (Static library).
+      working-directory: /libmagicxx
+      run: ./scripts/build.sh -c clang++ -l STATIC
+    - name: Tests (Static library).
+      working-directory: /libmagicxx
+      run: ./scripts/build.sh -c clang++ -l STATIC -t
+    - name: Examples (Static library).
+      working-directory: /libmagicxx
+      run: ./scripts/build.sh -c clang++ -l STATIC -e

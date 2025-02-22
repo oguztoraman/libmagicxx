@@ -54,8 +54,9 @@ public:
     /**
      * @brief The expected_types_of_files_t typedef.
      */
-    using expected_types_of_files_t
-        = std::map<std::filesystem::path, expected_file_type_t>;
+    using expected_types_of_files_t = std::map<
+        std::filesystem::path,
+        expected_file_type_t>;
 
     /**
      * @brief The flags enums are used for configuring the flags of a magic.
@@ -316,8 +317,8 @@ public:
      */
     [[nodiscard]] types_of_files_t identify_files(
         const std::filesystem::path&       directory,
-        std::filesystem::directory_options option
-        = std::filesystem::directory_options::follow_directory_symlink
+        std::filesystem::directory_options option = std::filesystem::
+            directory_options::follow_directory_symlink
     ) const
     {
         return identify_files_impl(
@@ -336,8 +337,8 @@ public:
     [[nodiscard]] expected_types_of_files_t identify_files(
         const std::filesystem::path& directory,
         std::nothrow_t,
-        std::filesystem::directory_options option
-        = std::filesystem::directory_options::follow_directory_symlink
+        std::filesystem::directory_options option = std::filesystem::
+            directory_options::follow_directory_symlink
     ) const noexcept
     {
         return identify_files_impl(
@@ -357,8 +358,9 @@ public:
      * @throws empty_path           if the path of the file is empty.
      * @throws magic_file_error     if identifying the type of the file fails.
      */
-    [[nodiscard]] types_of_files_t
-        identify_files(const file_concepts::file_container auto& files) const
+    [[nodiscard]] types_of_files_t identify_files(
+        const file_concepts::file_container auto& files
+    ) const
     {
         return identify_files_impl(files);
     }
@@ -468,8 +470,9 @@ private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
 
-    [[nodiscard]] types_of_files_t
-        identify_files_impl(const std::ranges::range auto& files) const
+    [[nodiscard]] types_of_files_t identify_files_impl(
+        const std::ranges::range auto& files
+    ) const
     {
         types_of_files_t types_of_files;
         std::ranges::for_each(files, [&](const std::filesystem::path& file) {
@@ -516,8 +519,9 @@ private:
  *
  * @returns The expected_file_type as a string.
  */
-[[nodiscard]] std::string
-    to_string(const magic::expected_file_type_t& expected_file_type);
+[[nodiscard]] std::string to_string(
+    const magic::expected_file_type_t& expected_file_type
+);
 
 /**
  * @brief Convert the magic::expected_types_of_files_t to string.

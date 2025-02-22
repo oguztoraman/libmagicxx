@@ -10,8 +10,10 @@ using namespace recognition;
 TEST(magic_identify_file_test, closed_magic_identify_file)
 {
     magic m;
-    auto  expected_file_type
-        = m.identify_file(magic::default_database_file, std::nothrow);
+    auto  expected_file_type = m.identify_file(
+        magic::default_database_file,
+        std::nothrow
+    );
     EXPECT_FALSE(expected_file_type.has_value());
     EXPECT_EQ(expected_file_type.error(), "magic is closed.");
     EXPECT_THROW(

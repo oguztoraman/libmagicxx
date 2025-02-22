@@ -227,8 +227,9 @@ private:
     using libmagic_value_name_t = std::string;
     using libmagic_pair_t       = std::pair<libmagic_value_t, const char*>;
     using libmagic_flags_t = std::array<libmagic_pair_t, libmagic_flags_count>;
-    using libmagic_parameters_t
-        = std::array<libmagic_pair_t, libmagic_parameter_count>;
+    using libmagic_parameters_t = std::array<
+        libmagic_pair_t,
+        libmagic_parameter_count>;
 
     static constexpr libmagic_pair_t libmagic_flag_none{
         std::make_pair(MAGIC_NONE, "none")
@@ -332,8 +333,8 @@ private:
 
         operator libmagic_value_t() const noexcept
         {
-            libmagic_value_t flags
-                = libmagic_pair_converter(libmagic_flag_none);
+            libmagic_value_t flags = libmagic_pair_converter(libmagic_flag_none
+            );
             for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
                 if (m_flags_mask[i]) {
                     flags |= libmagic_pair_converter(libmagic_flags[i]);
@@ -345,8 +346,9 @@ private:
         operator flags_container_t() const
         {
             if (m_flags_mask.none()) {
-                libmagic_value_t value
-                    = libmagic_pair_converter(libmagic_flag_none);
+                libmagic_value_t value = libmagic_pair_converter(
+                    libmagic_flag_none
+                );
                 return {static_cast<flags>(value)};
             }
             flags_container_t flags_container;
@@ -366,8 +368,8 @@ private:
             libmagic_value_name_t flags;
             for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
                 if (m_flags_mask[i]) {
-                    flags.append(libmagic_pair_converter(libmagic_flags[i]))
-                        += ",";
+                    flags.append(libmagic_pair_converter(libmagic_flags[i])
+                    ) += ",";
                 }
             }
             flags.erase(flags.find_last_of(','));
@@ -574,8 +576,9 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
     return std::format("{:2}", detail::magic_version() / 100.);
 }
 
-[[nodiscard]] magic::file_type_t
-    magic::identify_file(const std::filesystem::path& path) const
+[[nodiscard]] magic::file_type_t magic::identify_file(
+    const std::filesystem::path& path
+) const
 {
     return m_impl->identify_file(path);
 }

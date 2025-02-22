@@ -15,15 +15,16 @@ namespace file_concepts {
  *        a container which can be used as a file container by the magic class.
  */
 template <typename ContainerType>
-concept file_container
-    = std::ranges::range<ContainerType>
-   && std::default_initializable<ContainerType>
-   && std::same_as<typename ContainerType::value_type, std::filesystem::path>
-   && requires(ContainerType c, std::filesystem::path p) {
-          c.push_back(p);
-          c.empty();
-          typename ContainerType::value_type;
-      };
+concept file_container = std::ranges::range<ContainerType>
+                      && std::default_initializable<ContainerType>
+                      && std::same_as<
+                             typename ContainerType::value_type,
+                             std::filesystem::path>
+                      && requires(ContainerType c, std::filesystem::path p) {
+                             c.push_back(p);
+                             c.empty();
+                             typename ContainerType::value_type;
+                         };
 
 /**
  * @brief Convert the file container to a string.

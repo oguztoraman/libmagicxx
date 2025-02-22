@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .clang-format: Add SPDX license information and clang-format version to .clang-format.
+
 ## [v5.4.1] - 17-02-2025
 
 + [**BUGFIX**] scripts/launch_container.ps1, scripts/launch_container.sh: Remove container name specification in launch scripts to fix the container name is already used error.

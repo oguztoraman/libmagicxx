@@ -414,7 +414,9 @@ std::string to_string(
     return utility::to_string(
         types_of_files,
         file_separator,
-        [&](const magic::types_of_files_t::value_type& type_of_a_file) {
+        [&type_separator](
+            const magic::types_of_files_t::value_type& type_of_a_file
+        ) {
             const auto& file      = type_of_a_file.first;
             const auto& file_type = type_of_a_file.second;
             return file.string() + type_separator + file_type;
@@ -437,7 +439,7 @@ std::string to_string(
     return utility::to_string(
         expected_types_of_files,
         file_separator,
-        [&](const value_t& type_of_a_file) {
+        [&type_separator](const value_t& type_of_a_file) {
             const auto& file               = type_of_a_file.first;
             const auto& expected_file_type = type_of_a_file.second;
             return std::format(
@@ -488,7 +490,7 @@ std::string to_string(
     return utility::to_string(
         parameters,
         parameter_separator,
-        [&](const value_t& parameter_with_value) -> std::string {
+        [&value_separator](const value_t& parameter_with_value) {
             const auto& parameter = parameter_with_value.first;
             const auto& value     = parameter_with_value.second;
             return std::format(

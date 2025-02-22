@@ -86,7 +86,7 @@ jobs:
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
     - if: matrix.build-mode == 'manual'
       shell: bash
-      run: ./scripts/build.sh -c g++
+      run: ./scripts/install_dependencies.sh && ./scripts/build.sh -c g++
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

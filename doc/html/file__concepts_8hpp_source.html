@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.4.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.5.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -122,41 +122,42 @@ $(function(){initNavTree('file__concepts_8hpp_source.html',''); initResizable(tr
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ContainerType&gt;</div>
 <div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="conceptfile__concepts_1_1file__container.html">   18</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptfile__concepts_1_1file__container.html">file_container</a></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    = std::ranges::range&lt;ContainerType&gt;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>   &amp;&amp; std::default_initializable&lt;ContainerType&gt;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>   &amp;&amp; std::same_as&lt;typename ContainerType::value_type, std::filesystem::path&gt;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>   &amp;&amp; <span class="keyword">requires</span>(ContainerType c, std::filesystem::path p) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>          c.push_back(p);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>          c.empty();</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>          <span class="keyword">typename</span> ContainerType::value_type;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      };</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="conceptfile__concepts_1_1file__container.html">   18</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptfile__concepts_1_1file__container.html">file_container</a> = std::ranges::range&lt;ContainerType&gt;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                      &amp;&amp; std::default_initializable&lt;ContainerType&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                      &amp;&amp; std::same_as&lt;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                             <span class="keyword">typename</span> ContainerType::value_type,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                             std::filesystem::path&gt;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                      &amp;&amp; <span class="keyword">requires</span>(ContainerType c, std::filesystem::path p) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                             c.push_back(p);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                             c.empty();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                             <span class="keyword">typename</span> ContainerType::value_type;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                         };</div>
 </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">   36</a></span>[[nodiscard]] <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">to_string</a>(</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">const</span> <a class="code hl_concept" href="conceptfile__concepts_1_1file__container.html">file_container</a> <span class="keyword">auto</span>&amp; container,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">const</span> std::string&amp;         separator = <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceutility.html#a7fc573454a66fafcc36a88cda7686efa">utility::to_string</a>(</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        container,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        separator,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        [](<span class="keyword">const</span> std::filesystem::path&amp; path) {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordflow">return</span> path.string();</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    );</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">   37</a></span>[[nodiscard]] <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">to_string</a>(</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">const</span> <a class="code hl_concept" href="conceptfile__concepts_1_1file__container.html">file_container</a> <span class="keyword">auto</span>&amp; container,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">const</span> std::string&amp;         separator = <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceutility.html#ac8a3b41e1982683f7499746ea1af2fb9">utility::to_string</a>(</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        container,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        separator,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        [](<span class="keyword">const</span> std::filesystem::path&amp; path) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> path.string();</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    );</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
 </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">/* namespace file_concepts */</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>} <span class="comment">/* namespace file_concepts */</span></div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">/* FILE_CONCEPTS_HPP */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aconceptfile__concepts_1_1file__container_html"><div class="ttname"><a href="conceptfile__concepts_1_1file__container.html">file_concepts::file_container</a></div><div class="ttdoc">The file_container concept specifies the requirements of a container which can be used as a file cont...</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:19</div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif </span><span class="comment">/* FILE_CONCEPTS_HPP */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aconceptfile__concepts_1_1file__container_html"><div class="ttname"><a href="conceptfile__concepts_1_1file__container.html">file_concepts::file_container</a></div><div class="ttdoc">The file_container concept specifies the requirements of a container which can be used as a file cont...</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:18</div></div>
 <div class="ttc" id="anamespacefile__concepts_html"><div class="ttname"><a href="namespacefile__concepts.html">file_concepts</a></div><div class="ttdef"><b>Definition</b> file_concepts.hpp:11</div></div>
-<div class="ttc" id="anamespacefile__concepts_html_a028c066510f270777e62811a26e5aa52"><div class="ttname"><a href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">file_concepts::to_string</a></div><div class="ttdeci">std::string to_string(const file_container auto &amp;container, const std::string &amp;separator=&quot;, &quot;)</div><div class="ttdoc">Convert the file container to a string.</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:36</div></div>
-<div class="ttc" id="anamespaceutility_html_a7fc573454a66fafcc36a88cda7686efa"><div class="ttname"><a href="namespaceutility.html#a7fc573454a66fafcc36a88cda7686efa">utility::to_string</a></div><div class="ttdeci">std::string to_string(const ContainerType &amp;container, const std::string &amp;value_separator, StringConverterType string_converter)</div><div class="ttdoc">Convert any container to string using the string_converter.</div><div class="ttdef"><b>Definition</b> utility.hpp:30</div></div>
+<div class="ttc" id="anamespacefile__concepts_html_a028c066510f270777e62811a26e5aa52"><div class="ttname"><a href="namespacefile__concepts.html#a028c066510f270777e62811a26e5aa52">file_concepts::to_string</a></div><div class="ttdeci">std::string to_string(const file_container auto &amp;container, const std::string &amp;separator=&quot;, &quot;)</div><div class="ttdoc">Convert the file container to a string.</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:37</div></div>
+<div class="ttc" id="anamespaceutility_html_ac8a3b41e1982683f7499746ea1af2fb9"><div class="ttname"><a href="namespaceutility.html#ac8a3b41e1982683f7499746ea1af2fb9">utility::to_string</a></div><div class="ttdeci">std::string to_string(const ContainerType &amp;container, const std::string &amp;value_separator, StringConverterType string_converter)</div><div class="ttdoc">Convert any container to string using the string_converter.</div><div class="ttdef"><b>Definition</b> utility.hpp:51</div></div>
 <div class="ttc" id="autility_8hpp_html"><div class="ttname"><a href="utility_8hpp.html">utility.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -164,7 +165,7 @@ $(function(){initNavTree('file__concepts_8hpp_source.html',''); initResizable(tr
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li><li class="navelem"><a class="el" href="file__concepts_8hpp.html">file_concepts.hpp</a></li>
-    <li class="footer">Generated on Mon Feb 17 2025 22:53:10 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Feb 23 2025 19:46:44 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

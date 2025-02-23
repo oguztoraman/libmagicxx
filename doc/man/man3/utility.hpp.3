@@ -1,4 +1,4 @@
-.TH "utility.hpp" 3 "Mon Feb 17 2025 22:53:10" "Version v5.4.1" "Libmagicxx" \" -*- nroff -*-
+.TH "utility.hpp" 3 "Sun Feb 23 2025 19:46:44" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -20,15 +20,27 @@ utility.hpp
 .RI "namespace \fButility\fP"
 .br
 .in -1c
+.SS "Concepts"
+
+.in +1c
+.ti -1c
+.RI "concept \fButility::range_container\fP"
+.br
+.RI "Define requirements for a range container\&. "
+.ti -1c
+.RI "concept \fButility::string_converter\fP"
+.br
+.RI "Define requirements for a string converter\&. "
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "template<typename ContainerType , typename StringConverterType > 
+.RI "template<range_container ContainerType, typename StringConverterType > 
 .br
-requires std::ranges::range<ContainerType> && requires(ContainerType c) { c\&.empty(); typename ContainerType::value_type; }std::string \fButility::to_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+requires string_converter< typename ContainerType::value_type, StringConverterType>std::string \fButility::to_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
 .br
-.RI "Convert any container to string using the string_converter\&. "
+.RI "Convert any container to string using the \fBstring_converter\fP\&. "
 .in -1c
 .SH "Author"
 .PP 

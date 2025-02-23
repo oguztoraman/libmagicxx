@@ -3,7 +3,7 @@ var classrecognition_1_1magic =
     [ "magic_private", "classrecognition_1_1magic_1_1magic__private.html", "classrecognition_1_1magic_1_1magic__private" ],
     [ "error_message_t", "classrecognition_1_1magic.html#a3aae90ba7f77084f8cb9cf53e86d382e", null ],
     [ "expected_file_type_t", "classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3", null ],
-    [ "expected_types_of_files_t", "classrecognition_1_1magic.html#addbb520a4e7e4538f86706d3ff591c55", null ],
+    [ "expected_types_of_files_t", "classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510", null ],
     [ "file_type_t", "classrecognition_1_1magic.html#aaba841e64ada719ef31a4de940840992", null ],
     [ "flags_container_t", "classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2", null ],
     [ "flags_mask_t", "classrecognition_1_1magic.html#a674c3440b7c3b20248bb712898e88529", null ],

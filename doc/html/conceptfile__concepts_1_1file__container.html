@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.4.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.5.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -115,14 +115,16 @@ $(function(){initNavTree('conceptfile__concepts_1_1file__container.html',''); in
 <h2 class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> ContainerType&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptfile__concepts_1_1file__container.html">file_concepts::file_container</a> =  std::ranges::range&lt;ContainerType&gt;</div>
-<div class="line">   &amp;&amp; std::default_initializable&lt;ContainerType&gt;</div>
-<div class="line">   &amp;&amp; std::same_as&lt;typename ContainerType::value_type, std::filesystem::path&gt;</div>
-<div class="line">   &amp;&amp; <span class="keyword">requires</span>(ContainerType c, std::filesystem::path p) {</div>
-<div class="line">          c.push_back(p);</div>
-<div class="line">          c.empty();</div>
-<div class="line">          <span class="keyword">typename</span> ContainerType::value_type;</div>
-<div class="line">      }</div>
-<div class="ttc" id="aconceptfile__concepts_1_1file__container_html"><div class="ttname"><a href="conceptfile__concepts_1_1file__container.html">file_concepts::file_container</a></div><div class="ttdoc">The file_container concept specifies the requirements of a container which can be used as a file cont...</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:19</div></div>
+<div class="line">                      &amp;&amp; std::default_initializable&lt;ContainerType&gt;</div>
+<div class="line">                      &amp;&amp; std::same_as&lt;</div>
+<div class="line">                             <span class="keyword">typename</span> ContainerType::value_type,</div>
+<div class="line">                             std::filesystem::path&gt;</div>
+<div class="line">                      &amp;&amp; <span class="keyword">requires</span>(ContainerType c, std::filesystem::path p) {</div>
+<div class="line">                             c.push_back(p);</div>
+<div class="line">                             c.empty();</div>
+<div class="line">                             <span class="keyword">typename</span> ContainerType::value_type;</div>
+<div class="line">                         }</div>
+<div class="ttc" id="aconceptfile__concepts_1_1file__container_html"><div class="ttname"><a href="conceptfile__concepts_1_1file__container.html">file_concepts::file_container</a></div><div class="ttdoc">The file_container concept specifies the requirements of a container which can be used as a file cont...</div><div class="ttdef"><b>Definition</b> file_concepts.hpp:18</div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The file_container concept specifies the requirements of a container which can be used as a file container by the magic class. </p>
 </div></div><!-- contents -->
@@ -131,7 +133,7 @@ $(function(){initNavTree('conceptfile__concepts_1_1file__container.html',''); in
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacefile__concepts.html">file_concepts</a></li><li class="navelem"><a class="el" href="conceptfile__concepts_1_1file__container.html">file_container</a></li>
-    <li class="footer">Generated on Mon Feb 17 2025 22:53:10 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Feb 23 2025 19:46:45 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

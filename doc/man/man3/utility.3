@@ -1,4 +1,4 @@
-.TH "utility" 3 "Mon Feb 17 2025 22:53:10" "Version v5.4.1" "Libmagicxx" \" -*- nroff -*-
+.TH "utility" 3 "Sun Feb 23 2025 19:46:45" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,24 +6,36 @@ utility
 .SH SYNOPSIS
 .br
 .PP
+.SS "Concepts"
+
+.in +1c
+.ti -1c
+.RI "concept \fBrange_container\fP"
+.br
+.RI "Define requirements for a range container\&. "
+.ti -1c
+.RI "concept \fBstring_converter\fP"
+.br
+.RI "Define requirements for a string converter\&. "
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "template<typename ContainerType , typename StringConverterType > 
+.RI "template<range_container ContainerType, typename StringConverterType > 
 .br
-requires std::ranges::range<ContainerType> && requires(ContainerType c) { c\&.empty(); typename ContainerType::value_type; }std::string \fBto_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
+requires string_converter< typename ContainerType::value_type, StringConverterType>std::string \fBto_string\fP (const ContainerType &container, const std::string &value_separator, StringConverterType string_converter)"
 .br
-.RI "Convert any container to string using the string_converter\&. "
+.RI "Convert any container to string using the \fBstring_converter\fP\&. "
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "template<typename ContainerType , typename StringConverterType > 
+.SS "template<range_container ContainerType, typename StringConverterType > 
 .br
-requires std::ranges::range<ContainerType> && requires(ContainerType c) { c\&.empty(); typename ContainerType::value_type; }std::string utility::to_string (const ContainerType & container, const std::string & value_separator, StringConverterType string_converter)\fR [inline]\fP, \fR [nodiscard]\fP"
+requires string_converter< typename ContainerType::value_type, StringConverterType>std::string utility::to_string (const ContainerType & container, const std::string & value_separator, StringConverterType string_converter)\fR [inline]\fP, \fR [nodiscard]\fP"
 
 .PP
-Convert any container to string using the string_converter\&. 
+Convert any container to string using the \fBstring_converter\fP\&. 
 .PP
 \fBTemplate Parameters\fP
 .RS 4
@@ -38,7 +50,7 @@ Convert any container to string using the string_converter\&.
 .br
 \fIvalue_separator\fP The separator between the values of the container\&. 
 .br
-\fIstring_converter\fP The callable that converts values of the container to string\&.
+\fI\fBstring_converter\fP\fP The callable that converts values of the container to string\&.
 .RE
 .PP
 \fBReturns\fP

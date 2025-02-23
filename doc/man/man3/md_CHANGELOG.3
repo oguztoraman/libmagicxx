@@ -1,4 +1,4 @@
-.TH "md_CHANGELOG" 3 "Mon Feb 17 2025 22:53:10" "Version v5.4.1" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CHANGELOG" 3 "Sun Feb 23 2025 19:46:44" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,23 @@ md_CHANGELOG \- Changelog
 .PP
 
 .SH "Next Release"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBCONTRIBUTING\&.md\fP: Update \fBCONTRIBUTING\&.md\fP to specify naming conventions\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/utility\&.hpp\fP: Add concepts for range containers and string converters to improve maintainability\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBsrc/magic\&.cpp\fP: Explicitly capture the required scope variables & Remove the redundant return type\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic_exception\&.hpp\fP: Refactor magic_exception constructor to inherit from std::runtime_error\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic_exception\&.hpp\fP, \fBsrc/magic\&.cpp\fP: Use std::format instead of concatenating pieces manually\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.clang-format: Update \&.clang-format to adjust line breaking penalties and compound requirement settings\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.clang-format: Add SPDX license information and clang-format version to \&.clang-format\&.
+.PP
+.SH "[v5\&.4\&.1] - 17-02-2025"
 .PP
 .IP "\(bu" 2
 [\fBBUGFIX\fP] scripts/launch_container\&.ps1, scripts/launch_container\&.sh: Remove container name specification in launch scripts to fix the container name is already used error\&.

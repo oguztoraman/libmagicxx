@@ -1,4 +1,4 @@
-.TH "recognition::magic::magic_private" 3 "Mon Feb 17 2025 22:53:10" "Version v5.4.1" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic::magic_private" 3 "Sun Feb 23 2025 19:46:45" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -111,7 +111,7 @@ recognition::magic::magic_private
 .RI "using \fBlibmagic_flags_t\fP = std::array<\fBlibmagic_pair_t\fP, \fBlibmagic_flags_count\fP>"
 .br
 .ti -1c
-.RI "using \fBlibmagic_parameters_t\fP = std::array<\fBlibmagic_pair_t\fP, \fBlibmagic_parameter_count\fP>"
+.RI "using \fBlibmagic_parameters_t\fP"
 .br
 .in -1c
 .SS "Private Member Functions"
@@ -188,7 +188,14 @@ requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>void \fB
 
 .SS "using \fBrecognition::magic::magic_private::libmagic_pair_t\fP = std::pair<\fBlibmagic_value_t\fP, const char*>\fR [private]\fP"
 
-.SS "using \fBrecognition::magic::magic_private::libmagic_parameters_t\fP = std::array<\fBlibmagic_pair_t\fP, \fBlibmagic_parameter_count\fP>\fR [private]\fP"
+.SS "using \fBrecognition::magic::magic_private::libmagic_parameters_t\fP\fR [private]\fP"
+\fBInitial value:\fP
+.nf
+ std::array<
+        libmagic_pair_t,
+        libmagic_parameter_count>
+.PP
+.fi
 
 .SS "using \fBrecognition::magic::magic_private::libmagic_value_name_t\fP = std::string\fR [private]\fP"
 

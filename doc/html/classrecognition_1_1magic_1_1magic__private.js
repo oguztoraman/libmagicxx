@@ -5,7 +5,7 @@ var classrecognition_1_1magic_1_1magic__private =
     [ "cookie_t", "classrecognition_1_1magic_1_1magic__private.html#aa6bd4e0eeec34ed12dd2055353e7625d", null ],
     [ "libmagic_flags_t", "classrecognition_1_1magic_1_1magic__private.html#a76f8aa0698ca5a99413729e310fb30eb", null ],
     [ "libmagic_pair_t", "classrecognition_1_1magic_1_1magic__private.html#a9aa00753320a44fa020594ae1a8cd2b9", null ],
-    [ "libmagic_parameters_t", "classrecognition_1_1magic_1_1magic__private.html#a9aa45113e9fa80b8b999bcb08e372125", null ],
+    [ "libmagic_parameters_t", "classrecognition_1_1magic_1_1magic__private.html#aecf4cf2634438ecdd3c8970794ec404e", null ],
     [ "libmagic_value_name_t", "classrecognition_1_1magic_1_1magic__private.html#aecf89e7759422eaf9d45db53b29bd192", null ],
     [ "libmagic_value_t", "classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3", null ],
     [ "magic_private", "classrecognition_1_1magic_1_1magic__private.html#a68baf148e08ef75d9ec8204e66d656c0", null ],

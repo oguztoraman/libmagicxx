@@ -1,0 +1,37 @@
+.TH "utility::range_container" 3 "Sun Feb 23 2025 19:46:45" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+utility::range_container \- Define requirements for a range container\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <utility\&.hpp>\fP
+.SH "Concept definition"
+.PP 
+
+.nf
+template<typename ContainerType>
+concept utility::range_container =  std::ranges::range<ContainerType>
+                       && requires(ContainerType c) {
+                              typename ContainerType::value_type;
+                          }
+.PP
+.fi
+.SH "Detailed Description"
+.PP 
+Define requirements for a range container\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIContainerType\fP The type of the container\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

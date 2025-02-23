@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.4.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.5.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -106,6 +106,7 @@ $(function(){initNavTree('utility_8hpp.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#concepts">Concepts</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">utility.hpp File Reference</div></div>
 </div><!--header-->
@@ -149,13 +150,22 @@ Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility.html">utility</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="concepts" name="concepts"></a>
+Concepts</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptutility_1_1range__container.html">utility::range_container</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define requirements for a range container. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptutility_1_1string__converter.html">utility::string_converter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define requirements for a string converter. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7fc573454a66fafcc36a88cda7686efa" id="r_a7fc573454a66fafcc36a88cda7686efa"><td class="memTemplParams" colspan="2">template&lt;typename ContainerType , typename StringConverterType &gt; <br />
-requires std::ranges::range&lt;ContainerType&gt; &amp;&amp; requires(ContainerType c) { c.empty(); typename ContainerType::value_type; }</td></tr>
-<tr class="memitem:a7fc573454a66fafcc36a88cda7686efa"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceutility.html#a7fc573454a66fafcc36a88cda7686efa">utility::to_string</a> (const ContainerType &amp;container, const std::string &amp;value_separator, StringConverterType string_converter)</td></tr>
-<tr class="memdesc:a7fc573454a66fafcc36a88cda7686efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert any container to string using the string_converter.  <br /></td></tr>
-<tr class="separator:a7fc573454a66fafcc36a88cda7686efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8a3b41e1982683f7499746ea1af2fb9" id="r_ac8a3b41e1982683f7499746ea1af2fb9"><td class="memTemplParams" colspan="2">template&lt;range_container ContainerType, typename StringConverterType &gt; <br />
+requires string_converter&lt; typename ContainerType::value_type, StringConverterType&gt;</td></tr>
+<tr class="memitem:ac8a3b41e1982683f7499746ea1af2fb9"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceutility.html#ac8a3b41e1982683f7499746ea1af2fb9">utility::to_string</a> (const ContainerType &amp;container, const std::string &amp;value_separator, StringConverterType string_converter)</td></tr>
+<tr class="memdesc:ac8a3b41e1982683f7499746ea1af2fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert any container to string using the <a class="el" href="conceptutility_1_1string__converter.html" title="Define requirements for a string converter.">string_converter</a>.  <br /></td></tr>
+<tr class="separator:ac8a3b41e1982683f7499746ea1af2fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -163,7 +173,7 @@ requires std::ranges::range&lt;ContainerType&gt; &amp;&amp; requires(ContainerTy
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li><li class="navelem"><a class="el" href="utility_8hpp.html">utility.hpp</a></li>
-    <li class="footer">Generated on Mon Feb 17 2025 22:53:10 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Feb 23 2025 19:46:44 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

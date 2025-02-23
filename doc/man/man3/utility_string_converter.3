@@ -1,0 +1,38 @@
+.TH "utility::string_converter" 3 "Sun Feb 23 2025 19:46:45" "Version v5.5.0" "Libmagicxx" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+utility::string_converter \- Define requirements for a string converter\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <utility\&.hpp>\fP
+.SH "Concept definition"
+.PP 
+
+.nf
+template<typename ValueType, typename StringConverterType>
+concept utility::string_converter =  std::same_as<
+    std::invoke_result_t<StringConverterType, ValueType>,
+    std::string>
+.PP
+.fi
+.SH "Detailed Description"
+.PP 
+Define requirements for a string converter\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIValueType\fP The type of the value\&. 
+.br
+\fIStringConverterType\fP The type of the string converter callable\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Libmagicxx from the source code\&.

@@ -23,7 +23,7 @@ var searchData=
   ['magic_5ferrno_20',['magic_errno',['../namespacerecognition_1_1detail.html#aefdd1b0b0499c7c82ffd719b4536b7fe',1,'recognition::detail::magic_errno()'],['../magic_8h.html#a3eac1bc30fe51b6468d1825dfcecaff3',1,'magic_errno(magic_t):&#160;magic.h']]],
   ['magic_5ferror_21',['MAGIC_ERROR',['../magic_8cpp.html#a1e9ca52b8714223248b4233150c7fbaf',1,'MAGIC_ERROR:&#160;magic.cpp'],['../magic_8h.html#a1e9ca52b8714223248b4233150c7fbaf',1,'MAGIC_ERROR:&#160;magic.cpp']]],
   ['magic_5ferror_22',['magic_error',['../namespacerecognition_1_1detail.html#a2c84bf9ffc90f6a03e3494a840932cd3',1,'recognition::detail::magic_error()'],['../magic_8h.html#aa933dbe91c07a800acbab77131d933aa',1,'magic_error():&#160;magic.h']]],
-  ['magic_5fexception_23',['magic_exception',['../classrecognition_1_1magic__exception.html',1,'recognition::magic_exception'],['../classrecognition_1_1magic__exception.html#a634ed3e21468b781e651de99bc9525b4',1,'recognition::magic_exception::magic_exception(const std::string &amp;error)'],['../classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab',1,'recognition::magic_exception::magic_exception(const std::string &amp;function, const std::string &amp;error)']]],
+  ['magic_5fexception_23',['magic_exception',['../classrecognition_1_1magic__exception.html',1,'recognition::magic_exception'],['../classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab',1,'recognition::magic_exception::magic_exception()']]],
   ['magic_5fexception_2ehpp_24',['magic_exception.hpp',['../magic__exception_8hpp.html',1,'']]],
   ['magic_5fextension_25',['MAGIC_EXTENSION',['../magic_8cpp.html#a8b0f6cc61233a23ebd72524a20fa726e',1,'MAGIC_EXTENSION:&#160;magic.cpp'],['../magic_8h.html#a8b0f6cc61233a23ebd72524a20fa726e',1,'MAGIC_EXTENSION:&#160;magic.cpp']]],
   ['magic_5ffile_26',['magic_file',['../namespacerecognition_1_1detail.html#a1a7e250bd975db0ff7f822e208eecd26',1,'recognition::detail::magic_file()'],['../magic_8h.html#a1431b052192d3b7f9f4d40ea08b08692',1,'magic_file():&#160;magic.h']]],
@@ -81,7 +81,7 @@ var searchData=
   ['magic_5ft_78',['magic_t',['../namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7',1,'recognition::detail::magic_t'],['../magic_8h.html#a79bca0ed7c87da00e08a010c5d91e821',1,'magic_t:&#160;magic.h']]],
   ['magic_5fversion_79',['MAGIC_VERSION',['../magic_8cpp.html#a3a4fc0626e4c8e4b3fb1d8986de16c51',1,'MAGIC_VERSION:&#160;magic.cpp'],['../magic_8h.html#a3a4fc0626e4c8e4b3fb1d8986de16c51',1,'MAGIC_VERSION:&#160;magic.cpp']]],
   ['magic_5fversion_80',['magic_version',['../namespacerecognition_1_1detail.html#ab63d94d4d62ce4aac835b5ca6425ff62',1,'recognition::detail::magic_version()'],['../magic_8h.html#af9e40020d232570bce4a1cf03be53a19',1,'magic_version():&#160;magic.h']]],
-  ['making_20changes_81',['Making Changes',['../md_CONTRIBUTING.html#autotoc_md41',1,'']]],
+  ['making_20changes_81',['Making Changes',['../md_CONTRIBUTING.html#autotoc_md42',1,'']]],
   ['mime_82',['mime',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377',1,'recognition::magic']]],
   ['mime_5fencoding_83',['mime_encoding',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785',1,'recognition::magic']]],
   ['mime_5ftype_84',['mime_type',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83',1,'recognition::magic']]]

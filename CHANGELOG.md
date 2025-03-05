@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/ISSUE_TEMPLATE/*: Add issue templates for bug reports, documentation, and feature requests.
+
 ## [v5.5.0] - 23-02-2025
 
 + [**ENHANCEMENT**] CONTRIBUTING.md: Update CONTRIBUTING.md to specify naming conventions.

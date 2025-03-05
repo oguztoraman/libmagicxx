@@ -25,7 +25,6 @@ libmagicxx/
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── COPYING.LESSER             # License file
 ├── Doxyfile                   # Doxygen configuration
-├── ISSUE_TEMPLATE.md          # Issue template
 ├── PULL_REQUEST_TEMPLATE.md   # Pull request template
 ├── README.md                  # Project details
 ├── SECURITY.md                # Security policy
@@ -211,7 +210,7 @@ If you find a bug or have a feature request, please create an issue on the [GitH
 
 1. Add a title summarizing the issue.
 
-2. Fill the [ISSUE_TEMPLATE.md](https://github.com/oguztoraman/libmagicxx/blob/main/ISSUE_TEMPLATE.md).
+2. Fill the issue template.
 
 ## Continuous Integration (CI)
 

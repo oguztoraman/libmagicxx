@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.5.1] - 06-03-2025
+
 + [**BUGFIX**] PULL_REQUEST_TEMPLATE.md: Update PULL_REQUEST_TEMPLATE.md to include title format guidelines.
 + [**BUGFIX**] .github/ISSUE_TEMPLATE/*: Add issue templates for bug reports, documentation, and feature requests.
 

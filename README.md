@@ -19,6 +19,7 @@
 + Ninja
 + Libtool
 + Autoconf
++ Mold
 
 ## How to Build Libmagicxx
 
@@ -34,23 +35,19 @@
     cd libmagicxx && ./scripts/install_dependencies.sh
     ```
 
-3. Build the project using the [build.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/build.sh) bash script.
+3. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
 
     ```bash
-    ./scripts/build.sh -d build -b Release -c g++ -t
+    ./scripts/workflows.sh -p gcc-shared-release
     ```
 
     For more options, use:
 
     ```bash
-    ./scripts/build.sh -h
-    Usage: ./scripts/build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-e] [-h]
-      -d build_dir    Specify the build directory (default: release_build).
-      -b build_type   Specify the CMake build type (default: Release).
-      -c compiler     Specify the compiler (g++ or clang++, default: g++).
-      -l library_type Specify the library type (STATIC or SHARED, default: SHARED).
-      -t              Build and run tests (default: OFF).
-      -e              Build and run examples (default: OFF).
+    ./scripts/workflows.sh -h
+    Usage: ./scripts/workflows.sh [-l] [-p preset] [-h]
+      -l              List available CMake workflow presets.
+      -p preset       Specify the CMake workflow preset to use.
       -h              Display this message.
     ```
 

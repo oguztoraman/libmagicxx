@@ -159,23 +159,19 @@ The current development environment is a container image built on top of the lat
 
 3. **Build and Test**:
 
-+ Use the `build.sh` script to build and test the project:
++ Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
 
     ```bash
-    ./scripts/build.sh -t
+    ./scripts/workflows.sh -p gcc-shared-tests-release
     ```
 
 + For more options, use:
 
     ```bash
-    ./scripts/build.sh -h
-    Usage: ./scripts/build.sh [-d build_dir] [-b build_type] [-c compiler] [-t] [-e] [-h]
-      -d build_dir    Specify the build directory (default: release_build).
-      -b build_type   Specify the CMake build type (default: Release).
-      -c compiler     Specify the compiler (g++ or clang++, default: g++).
-      -l library_type Specify the library type (STATIC or SHARED, default: SHARED).
-      -t              Build and run tests (default: OFF).
-      -e              Build and run examples (default: OFF).
+    ./scripts/workflows.sh -h
+    Usage: ./scripts/workflows.sh [-l] [-p preset] [-h]
+      -l              List available CMake workflow presets.
+      -p preset       Specify the CMake workflow preset to use.
       -h              Display this message.
     ```
 

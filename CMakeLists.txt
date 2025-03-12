@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-cmake_minimum_required(VERSION 3.21.0)
+cmake_minimum_required(VERSION 3.30.8)
 
 project(magicxx
     VERSION 5.5.1
@@ -14,7 +14,7 @@ option(BUILD_AS_STATIC "Build as static." OFF)
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
 
-if (${BUILD_AS_STATIC})
+if(BUILD_AS_STATIC)
     set(LIBRARY_TYPE STATIC)
 else()
     set(LIBRARY_TYPE SHARED)
@@ -86,60 +86,9 @@ set(magicxx_SOURCE_FILES
     ${magicxx_SOURCE_DIR}/src/magic.cpp
 )
 
-set(magicxx_TEST_DIR
-    ${magicxx_SOURCE_DIR}/tests
-)
+include(cmake/configure_libmagic.cmake)
 
-set(googletest_DIR
-    ${magicxx_SOURCE_DIR}/googletest
-)
-
-message(STATUS "Initializing and updating git submodules...")
-execute_process(
-    COMMAND git submodule update --init --recursive
-    WORKING_DIRECTORY ${magicxx_SOURCE_DIR}
-    RESULT_VARIABLE submodule_result
-)
-if (submodule_result)
-    message(FATAL_ERROR "Failed to update git submodules.")
-endif()
-
-message(STATUS "Configuring the file...")
-execute_process(
-    COMMAND autoreconf -f -i
-    WORKING_DIRECTORY ${magic_DIR}
-    RESULT_VARIABLE autoreconf_result
-)
-if (autoreconf_result)
-    message(FATAL_ERROR "Failed to run autoreconf.")
-endif()
-
-execute_process(
-    COMMAND ./configure --enable-static=yes --enable-shared=yes
-        --disable-zlib --disable-bzlib
-        --disable-xzlib --disable-zstdlib
-        --disable-lzlib
-    WORKING_DIRECTORY ${magic_DIR}
-    RESULT_VARIABLE configure_result
-)
-if (configure_result)
-    message(FATAL_ERROR "Failed to configure file.")
-endif()
-
-execute_process(
-    COMMAND make magic.h
-    WORKING_DIRECTORY ${magic_SOURCE_DIR}
-    RESULT_VARIABLE make_result
-)
-if (make_result)
-    message(FATAL_ERROR "Failed to make.")
-endif()
-
-add_library(magicxx ${LIBRARY_TYPE}
-    ${magic_SOURCE_FILES}
-    ${magicxx_HEADER_FILES}
-    ${magicxx_SOURCE_FILES}
-)
+add_library(magicxx ${LIBRARY_TYPE})
 
 set_target_properties(magicxx PROPERTIES
     C_STANDARD 99
@@ -150,20 +99,37 @@ set_target_properties(magicxx PROPERTIES
     CXX_STANDARD_REQUIRED ON
     VERSION ${magicxx_VERSION}
     SOVERSION ${magicxx_VERSION_MAJOR}
-    COMPILE_DEFINITIONS "HAVE_STDINT_H;HAVE_CONFIG_H"
-    COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors;$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>>"
+)
+
+target_sources(magicxx
+    PUBLIC
+        FILE_SET magicxx_headers
+        TYPE HEADERS
+        BASE_DIRS ${magicxx_INCLUDE_DIR}
+        FILES ${magicxx_HEADER_FILES}
+    PRIVATE
+        ${magic_SOURCE_FILES}
+        ${magicxx_SOURCE_FILES}
+)
+
+target_compile_definitions(magicxx
+    PRIVATE
+        HAVE_CONFIG_H
+        HAVE_STDINT_H
 )
 
 target_include_directories(magicxx
-    PRIVATE ${magic_INCLUDE_DIR}
-    PUBLIC ${magicxx_INCLUDE_DIR}
+    PRIVATE
+        ${magic_INCLUDE_DIR}
+    PUBLIC
+        ${magicxx_INCLUDE_DIR}
 )
 
 if (BUILD_MAGICXX_TESTS)
+    enable_testing()
     set(INSTALL_GTEST OFF)
-    add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
-    add_subdirectory(${googletest_DIR})
-    add_subdirectory(${magicxx_TEST_DIR})
+    add_subdirectory(googletest)
+    add_subdirectory(tests)
 endif()
 
 if (BUILD_MAGICXX_EXAMPLES)

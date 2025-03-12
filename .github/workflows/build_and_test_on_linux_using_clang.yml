@@ -18,19 +18,19 @@ jobs:
       run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
     - name: Build (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l SHARED
+      run: ./scripts/workflows.sh -p clang-shared-release
     - name: Tests (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l SHARED -t
+      run: ./scripts/workflows.sh -p clang-shared-tests-release
     - name: Examples (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l SHARED -e
+      run: ./scripts/workflows.sh -p clang-shared-examples-release
     - name: Build (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l STATIC
+      run: ./scripts/workflows.sh -p clang-static-release
     - name: Tests (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l STATIC -t
+      run: ./scripts/workflows.sh -p clang-static-tests-release
     - name: Examples (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c clang++ -l STATIC -e
+      run: ./scripts/workflows.sh -p clang-static-examples-release

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2024-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-cmake_minimum_required(VERSION 3.21.0)
+cmake_minimum_required(VERSION 3.30.8)
 
 project(magicxx_tests LANGUAGES CXX)
 
@@ -18,19 +18,29 @@ set(magicxx_tests_SOURCE_FILES
     magic_file_concepts_test.cpp
 )
 
-enable_testing()
-
 include(GoogleTest)
 
-add_executable(magicxx_tests ${magicxx_tests_SOURCE_FILES})
+add_executable(magicxx_tests)
 
 set_target_properties(magicxx_tests PROPERTIES
     CXX_STANDARD 23
     CXX_EXTENSIONS OFF
     CXX_STANDARD_REQUIRED ON
-    INCLUDE_DIRECTORIES ${magicxx_INCLUDE_DIR}
-    LINK_LIBRARIES "magicxx;GTest::gtest_main;$<$<CXX_COMPILER_ID:Clang>:c++>"
-    COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic;-Wfatal-errors;$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>>"
+)
+
+target_sources(magicxx_tests
+    PRIVATE
+        ${magicxx_tests_SOURCE_FILES}
+)
+
+target_include_directories(magicxx_tests
+    PRIVATE
+        ${magicxx_INCLUDE_DIR}
+)
+
+target_link_libraries(magicxx_tests
+    PRIVATE
+        magicxx GTest::gtest_main
 )
 
 gtest_discover_tests(magicxx_tests)

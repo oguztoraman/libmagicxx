@@ -18,19 +18,19 @@ jobs:
       run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
     - name: Build (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l SHARED
+      run: ./scripts/workflows.sh -p gcc-shared-release
     - name: Tests (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l SHARED -t
+      run: ./scripts/workflows.sh -p gcc-shared-tests-release
     - name: Examples (Shared library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l SHARED -e
+      run: ./scripts/workflows.sh -p gcc-shared-examples-release
     - name: Build (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l STATIC
+      run: ./scripts/workflows.sh -p gcc-static-release
     - name: Tests (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l STATIC -t
+      run: ./scripts/workflows.sh -p gcc-static-tests-release
     - name: Examples (Static library).
       working-directory: /libmagicxx
-      run: ./scripts/build.sh -c g++ -l STATIC -e
+      run: ./scripts/workflows.sh -p gcc-static-examples-release

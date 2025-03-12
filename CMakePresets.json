@@ -1,0 +1,859 @@
+{
+    "version": 9,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 8
+    },
+    "configurePresets": [
+        {
+            "name": "base-config",
+            "generator": "Ninja",
+            "hidden": true
+        },
+        {
+            "name": "gcc-base-config",
+            "inherits": "base-config",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/linux_amd64_gcc.cmake",
+            "hidden": true
+        },
+        {
+            "name": "clang-base-config",
+            "inherits": "base-config",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/linux_amd64_clang.cmake",
+            "hidden": true
+        },
+        {
+            "name": "debug-config",
+            "inherits": "base-config",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "hidden": true
+        },
+        {
+            "name": "release-config",
+            "inherits": "base-config",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "hidden": true
+        },
+        {
+            "name": "gcc-debug",
+            "inherits": [
+                "gcc-base-config",
+                "debug-config"
+            ],
+            "hidden": true
+        },
+        {
+            "name": "gcc-release",
+            "inherits": [
+                "gcc-base-config",
+                "release-config"
+            ],
+            "hidden": true
+        },
+        {
+            "name": "clang-debug",
+            "inherits": [
+                "clang-base-config",
+                "debug-config"
+            ],
+            "hidden": true
+        },
+        {
+            "name": "clang-release",
+            "inherits": [
+                "clang-base-config",
+                "release-config"
+            ],
+            "hidden": true
+        },
+        {
+            "name": "shared-config",
+            "hidden": true
+        },
+        {
+            "name": "static-config",
+            "cacheVariables": {
+                "BUILD_AS_STATIC": "ON"
+            },
+            "hidden": true
+        },
+        {
+            "name": "tests-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_TESTS": "ON"
+            },
+            "hidden": true
+        },
+        {
+            "name": "examples-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_EXAMPLES": "ON"
+            },
+            "hidden": true
+        },
+        {
+            "name": "gcc-shared-debug",
+            "inherits": [
+                "gcc-debug",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-shared-release",
+            "inherits": [
+                "gcc-release",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-debug",
+            "inherits": [
+                "gcc-debug",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-release",
+            "inherits": [
+                "gcc-release",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-shared-tests-debug",
+            "inherits": [
+                "gcc-debug",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-shared-tests-release",
+            "inherits": [
+                "gcc-release",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-tests-debug",
+            "inherits": [
+                "gcc-debug",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-tests-release",
+            "inherits": [
+                "gcc-release",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-shared-examples-debug",
+            "inherits": [
+                "gcc-debug",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-shared-examples-release",
+            "inherits": [
+                "gcc-release",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-examples-debug",
+            "inherits": [
+                "gcc-debug",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-static-examples-release",
+            "inherits": [
+                "gcc-release",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-debug",
+            "inherits": [
+                "clang-debug",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-release",
+            "inherits": [
+                "clang-release",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-debug",
+            "inherits": [
+                "clang-debug",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-release",
+            "inherits": [
+                "clang-release",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-tests-debug",
+            "inherits": [
+                "clang-debug",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-tests-release",
+            "inherits": [
+                "clang-release",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-tests-debug",
+            "inherits": [
+                "clang-debug",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-tests-release",
+            "inherits": [
+                "clang-release",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-examples-debug",
+            "inherits": [
+                "clang-debug",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-shared-examples-release",
+            "inherits": [
+                "clang-release",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-examples-debug",
+            "inherits": [
+                "clang-debug",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang-static-examples-release",
+            "inherits": [
+                "clang-release",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "base-config",
+            "cleanFirst": true,
+            "jobs": 10,
+            "hidden": true
+        },
+        {
+            "name": "gcc-shared-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-debug"
+        },
+        {
+            "name": "gcc-shared-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-release"
+        },
+        {
+            "name": "gcc-static-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-debug"
+        },
+        {
+            "name": "gcc-static-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-release"
+        },
+        {
+            "name": "gcc-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-tests-debug"
+        },
+        {
+            "name": "gcc-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-tests-release"
+        },
+        {
+            "name": "gcc-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-tests-debug"
+        },
+        {
+            "name": "gcc-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-tests-release"
+        },
+        {
+            "name": "gcc-shared-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-examples-debug"
+        },
+        {
+            "name": "gcc-shared-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-examples-release"
+        },
+        {
+            "name": "gcc-static-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-examples-debug"
+        },
+        {
+            "name": "gcc-static-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-examples-release"
+        },
+        {
+            "name": "clang-shared-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-debug"
+        },
+        {
+            "name": "clang-shared-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-release"
+        },
+        {
+            "name": "clang-static-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-debug"
+        },
+        {
+            "name": "clang-static-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-release"
+        },
+        {
+            "name": "clang-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-tests-debug"
+        },
+        {
+            "name": "clang-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-tests-release"
+        },
+        {
+            "name": "clang-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-tests-debug"
+        },
+        {
+            "name": "clang-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-tests-release"
+        },
+        {
+            "name": "clang-shared-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-examples-debug"
+        },
+        {
+            "name": "clang-shared-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-examples-release"
+        },
+        {
+            "name": "clang-static-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-examples-debug"
+        },
+        {
+            "name": "clang-static-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-examples-release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "base-config",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "jobs": 10,
+                "stopOnFailure": true
+            },
+            "hidden": true
+        },
+        {
+            "name": "gcc-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-tests-debug"
+        },
+        {
+            "name": "gcc-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-shared-tests-release"
+        },
+        {
+            "name": "gcc-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-tests-debug"
+        },
+        {
+            "name": "gcc-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "gcc-static-tests-release"
+        },
+        {
+            "name": "clang-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-tests-debug"
+        },
+        {
+            "name": "clang-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-shared-tests-release"
+        },
+        {
+            "name": "clang-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-tests-debug"
+        },
+        {
+            "name": "clang-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "clang-static-tests-release"
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "gcc-shared-debug",
+            "displayName": "Build Shared Library (GCC toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-shared-release",
+            "displayName": "Build Shared Library (GCC toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-release"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-debug",
+            "displayName": "Build Static Library (GCC toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-release",
+            "displayName": "Build Static Library (GCC toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-release"
+                }
+            ]
+        },
+        {
+            "name": "gcc-shared-tests-debug",
+            "displayName": "Run Tests (GCC toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-shared-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-shared-tests-release",
+            "displayName": "Run Tests (GCC toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-shared-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-tests-debug",
+            "displayName": "Run Tests (GCC toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-static-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-tests-release",
+            "displayName": "Run Tests (GCC toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-static-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "gcc-shared-examples-debug",
+            "displayName": "Build Examples (GCC toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-shared-examples-release",
+            "displayName": "Build Examples (GCC toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-shared-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-shared-examples-release"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-examples-debug",
+            "displayName": "Build Examples (GCC toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "gcc-static-examples-release",
+            "displayName": "Build Examples (GCC toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-static-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-static-examples-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-debug",
+            "displayName": "Build Shared Library (Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-release",
+            "displayName": "Build Shared Library (Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-debug",
+            "displayName": "Build Static Library (Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-release",
+            "displayName": "Build Static Library (Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-tests-debug",
+            "displayName": "Run Tests (Clang toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-shared-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-tests-release",
+            "displayName": "Run Tests (Clang toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-shared-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-tests-debug",
+            "displayName": "Run Tests (Clang toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-static-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-tests-release",
+            "displayName": "Run Tests (Clang toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-static-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-examples-debug",
+            "displayName": "Build Examples (Clang toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-shared-examples-release",
+            "displayName": "Build Examples (Clang toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-shared-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-shared-examples-release"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-examples-debug",
+            "displayName": "Build Examples (Clang toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "clang-static-examples-release",
+            "displayName": "Build Examples (Clang toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-static-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-static-examples-release"
+                }
+            ]
+        }
+    ]
+}

@@ -1,6 +1,4 @@
 .cache/
 .vscode/
 build/
-test_build/
-release_build/
 CMakeLists.txt.user

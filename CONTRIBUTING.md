@@ -160,7 +160,7 @@ The current development environment is a container image built on top of the lat
 + Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
 
     ```bash
-    ./scripts/workflows.sh -p gcc-shared-tests-release
+    ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release
     ```
 
 + For more options, use:

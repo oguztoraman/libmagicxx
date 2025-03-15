@@ -38,7 +38,7 @@
 3. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
 
     ```bash
-    ./scripts/workflows.sh -p gcc-shared-release
+    ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
     ```
 
     For more options, use:

@@ -123,14 +123,12 @@ The current development environment is a container image built on top of the lat
     ```cmake
     add_subdirectory(libmagicxx)
 
-    add_compile_options("$<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>")
-
     target_include_directories(<name of your project>
         <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
     )
 
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> "magicxx;$<$<CXX_COMPILER_ID:Clang>:c++>"
+        <PUBLIC or PRIVATE or INTERFACE> magicxx
     )
     ```
 

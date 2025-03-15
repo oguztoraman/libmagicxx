@@ -138,7 +138,7 @@
 ## [v3.1.0] - 23-04-2024
 
 + [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp: Add the missing parameters and flags.
-* [**ENHANCEMENT**] CMakeLists.txt, README.md, setup.sh: Add setup.sh.
++ [**ENHANCEMENT**] CMakeLists.txt, README.md, setup.sh: Add setup.sh.
 + [**BUGFIX**] CMakeLists.txt: Fix the SPDX-License-Identifier.
 + [**ENHANCEMENT**] .gitmodules, file: Add the Magic Number Recognition Library v5.45 as a submodule.
 

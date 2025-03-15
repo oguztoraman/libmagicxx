@@ -27,6 +27,7 @@ execute_process(
         --disable-xzlib --disable-zstdlib
         --disable-lzlib --silent
         --host=${FILE_HOST}
+        CC=${CMAKE_C_COMPILER}
     WORKING_DIRECTORY ${magic_DIR}
     RESULT_VARIABLE configure_result
 )

@@ -25,8 +25,8 @@ execute_process(
     COMMAND ./configure --enable-static=yes --enable-shared=yes
         --disable-zlib --disable-bzlib
         --disable-xzlib --disable-zstdlib
-        --disable-lzlib --silent
-        --host=${FILE_HOST}
+        --disable-lzlib --enable-year2038
+        --host=${FILE_HOST} --silent
         CC=${CMAKE_C_COMPILER}
     WORKING_DIRECTORY ${magic_DIR}
     RESULT_VARIABLE configure_result

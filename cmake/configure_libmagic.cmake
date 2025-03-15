@@ -26,6 +26,7 @@ execute_process(
         --disable-zlib --disable-bzlib
         --disable-xzlib --disable-zstdlib
         --disable-lzlib --silent
+        --host=${FILE_HOST}
     WORKING_DIRECTORY ${magic_DIR}
     RESULT_VARIABLE configure_result
 )

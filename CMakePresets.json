@@ -14,13 +14,13 @@
         {
             "name": "gcc-base-config",
             "inherits": "base-config",
-            "toolchainFile": "${sourceDir}/cmake/toolchains/linux_amd64_gcc.cmake",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/linux-x86_64-gcc.cmake",
             "hidden": true
         },
         {
             "name": "clang-base-config",
             "inherits": "base-config",
-            "toolchainFile": "${sourceDir}/cmake/toolchains/linux_amd64_clang.cmake",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/linux-x86_64-clang.cmake",
             "hidden": true
         },
         {

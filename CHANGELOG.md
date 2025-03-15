@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CMakeLists.txt: Remove unused source files.
+
 + [**ENHANCEMENT**] cmake/configure_libmagic.cmake: Enable year 2038 support in libmagic.
 
 + [**BUGFIX**] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml, .gitignore, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md, README.md, cmake/configure_libmagic.cmake, cmake/toolchains/linux-x86_64-clang.cmake, cmake/toolchains/linux-x86_64-gcc.cmake, examples/CMakeLists.txt, scripts/install_dependencies.sh, scripts/workflows.sh, tests/CMakeLists.txt: Refactor build scripts and CMake configurations & Add new toolchain files for GCC and Clang.

@@ -6,8 +6,6 @@
 SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
 cd ${SCRIPT_DIR}/..
 
-PRESETS_FILE="CMakePresets.json"
-
 usage(){
     echo "Usage: $0 [-l] [-p preset] [-h]"
     echo "  -l              List available CMake workflow presets."

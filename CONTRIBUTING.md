@@ -62,7 +62,6 @@ The current development environment is a container image built on top of the lat
     + Search for `Dev Containers`.
     + Click `Install` on the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
-
 3. **Install Podman**
 
     Follow the [installation guide](https://podman.io/getting-started/installation) to install Podman.
@@ -213,21 +212,25 @@ Our CI pipeline runs automated tests and checks on each pull request to ensure c
 ## Review Process
 
 1. **Initial Review**:
+
 + Once you submit a pull request, it will be reviewed by one or more project maintainers.
 
 + The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing.
 
 2. **Feedback and Revisions**:
+
 + If the maintainers find any issues or have suggestions, they will provide feedback on the pull request.
 
 + You are expected to address the feedback by making the necessary changes and updating the pull request.
 
 3. **Approval and Merging**:
+
 + Once the maintainers are satisfied with the changes, they will approve the pull request.
 
 + The pull request will then be merged into the appropriate branch (`main` or a supported release branch).
 
 4. **Post-Merge**:
+
 + After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.
 
 + If any issues are found, they will be addressed promptly.

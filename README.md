@@ -123,6 +123,8 @@ Explore the source code of Libmagicxx on [GitHub](https://github.com/oguztoraman
 
 Libmagicxx is licensed under the GNU Lesser General Public License Version 3. For more details, see the [COPYING.LESSER](https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER) file.
 
-### Other licenses:
+### Other Licenses
+
 + File and the Magic Number Recognition Library: See the [COPYING](https://github.com/file/file/blob/master/COPYING) file.
+
 + GoogleTest: See the [LICENSE](https://github.com/google/googletest/blob/main/LICENSE) file.

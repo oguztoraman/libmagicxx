@@ -1,5 +1,6 @@
 name: Build and Test on Linux using CLANG
-
+permissions:
+  contents: read
 on:
   pull_request:
   push:

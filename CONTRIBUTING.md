@@ -19,7 +19,8 @@ libmagicxx/
 ├── .gitignore                 # Git ignore file
 ├── .gitmodules                # Git submodules configuration
 ├── CHANGELOG.md               # Changelog
-├── CMakeLists.txt             # CMake build configuration
+├── CMakeLists.txt             # CMake configuration
+├── CMakePresets.json          # CMake presets
 ├── CODE_OF_CONDUCT.md         # Code of Conduct
 ├── Containerfile              # Container image configuration
 ├── CONTRIBUTING.md            # Contribution guidelines

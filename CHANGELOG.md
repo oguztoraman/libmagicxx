@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] CONTRIBUTING.md: Update CONTRIBUTING.md to include CMakePresets.json and clarify CMake configuration.
+
 ## [v5.6.2] - 16-03-2025
 
 + [**BUGFIX**]: Update copyright year in source files to 2022-2025.

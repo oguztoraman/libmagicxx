@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.6.2</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.6.3</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -107,9 +107,9 @@ $(function(){initNavTree('md_CONTRIBUTING.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Contributing to Libmagicxx</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md39"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md40"></a></p>
 <p>Welcome to the Libmagicxx project! We appreciate your interest in contributing. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone.</p>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 Project Structure</h1>
 <div class="fragment"><div class="line">libmagicxx/</div>
 <div class="line">├── .github/                   # Continuous Integration (CI)</div>
@@ -125,7 +125,8 @@ Project Structure</h1>
 <div class="line">├── .gitignore                 # Git ignore file</div>
 <div class="line">├── .gitmodules                # Git submodules configuration</div>
 <div class="line">├── CHANGELOG.md               # Changelog</div>
-<div class="line">├── CMakeLists.txt             # CMake build configuration</div>
+<div class="line">├── CMakeLists.txt             # CMake configuration</div>
+<div class="line">├── CMakePresets.json          # CMake presets</div>
 <div class="line">├── CODE_OF_CONDUCT.md         # Code of Conduct</div>
 <div class="line">├── Containerfile              # Container image configuration</div>
 <div class="line">├── CONTRIBUTING.md            # Contribution guidelines</div>
@@ -135,20 +136,20 @@ Project Structure</h1>
 <div class="line">├── README.md                  # Project details</div>
 <div class="line">├── SECURITY.md                # Security policy</div>
 <div class="line">├── TODO.md                    # To do list</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md41"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md42"></a>
 Development</h1>
 <ul>
 <li>The <code>main</code> branch is the development branch for the next feature release. The <code>main</code> branch contains the tags of the feature releases (e.g., <code>v5.2.0</code>).</li>
 <li>Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., <code>v5.2.x</code>). These branches contain the tags of the bugfix releases, (e.g., <code>v5.2.1</code>).</li>
 <li>Each change for the bugfix release is merged to the <code>main</code> branch.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Documentation</h1>
 <p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">documentation site</a>.</p>
-<h1><a class="anchor" id="autotoc_md43"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Code of Conduct</h1>
 <p>We expect all contributors to adhere to the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it to understand the standards of behavior we expect from our community.</p>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Getting Started</h1>
 <p>The current development environment is a container image built on top of the latest stable release of <a href="https://fedoraproject.org/">Fedora</a>.</p>
 <ol type="1">
@@ -202,7 +203,7 @@ Getting Started</h1>
 </li>
 <li>Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<h1><a class="anchor" id="autotoc_md46"></a>
 How to Use Libmagicxx in a CMake-based Project</h1>
 <ol type="1">
 <li><p class="startli">Add the following lines to the top level <code>CMakeLists.txt</code> file of your project to include and link libmagicxx.</p>
@@ -218,7 +219,7 @@ How to Use Libmagicxx in a CMake-based Project</h1>
 </div><!-- fragment --></li>
 <li>Include the <code><a class="el" href="magic_8hpp.html">magic.hpp</a></code> header file in your source files.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Making Changes</h1>
 <ol type="1">
 <li><b>Create a New Branch</b>:</li>
@@ -265,7 +266,7 @@ Making Changes</h1>
 <div class="fragment"><div class="line">./scripts/format.sh</div>
 </div><!-- fragment --></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Creating a Pull Request</h1>
 <ul>
 <li>Each pull request must fix an existing issue. Please ensure that there is a linked issue or create a new issue before submitting your pull request.</li>
@@ -278,19 +279,19 @@ Creating a Pull Request</h1>
 </li>
 <li>Fill the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md48"></a>
+<h1><a class="anchor" id="autotoc_md49"></a>
 Reporting Issues</h1>
 <p>If you find a bug or have a feature request, please create an issue on the <a href="https://github.com/oguztoraman/libmagicxx/issues">GitHub Issues</a> page. Provide as much detail as possible to help us understand and address the issue.</p>
-<h1><a class="anchor" id="autotoc_md49"></a>
+<h1><a class="anchor" id="autotoc_md50"></a>
 How to Create an Issue</h1>
 <ol type="1">
 <li>Add a title summarizing the issue.</li>
 <li>Fill the issue template.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md50"></a>
+<h1><a class="anchor" id="autotoc_md51"></a>
 Continuous Integration (CI)</h1>
 <p>Our CI pipeline runs automated tests and checks on each pull request to ensure code quality and correctness.</p>
-<h1><a class="anchor" id="autotoc_md51"></a>
+<h1><a class="anchor" id="autotoc_md52"></a>
 Review Process</h1>
 <ol type="1">
 <li><b>Initial Review</b>:</li>
@@ -320,7 +321,7 @@ Review Process</h1>
 <li>After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.</li>
 <li>If any issues are found, they will be addressed promptly.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md52"></a>
+<h1><a class="anchor" id="autotoc_md53"></a>
 Thank You</h1>
 <p>Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone. </p>
 </div></div><!-- contents -->
@@ -329,7 +330,7 @@ Thank You</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Mar 16 2025 14:35:10 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Mar 16 2025 23:31:05 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

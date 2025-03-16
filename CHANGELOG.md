@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.6.3] - 16-03-2025
+
 + [**BUGFIX**] CONTRIBUTING.md: Update CONTRIBUTING.md to include CMakePresets.json and clarify CMake configuration.
 
 ## [v5.6.2] - 16-03-2025

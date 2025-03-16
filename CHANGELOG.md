@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.6.1] - 16-03-2025
+
 ## [v5.6.0] - 16-03-2025
 
 + [**ENHANCEMENT**] CMakeLists.txt: Remove unused source files.

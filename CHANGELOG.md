@@ -4,6 +4,8 @@
 
 ## [v5.6.1] - 16-03-2025
 
++ [**BUGFIX**] SECURITY.md: Update SECURITY.md to reflect support status for version 5.6.x.
+
 ## [v5.6.0] - 16-03-2025
 
 + [**ENHANCEMENT**] CMakeLists.txt: Remove unused source files.

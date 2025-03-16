@@ -1,5 +1,3 @@
-![Build & Test on Linux using GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_gcc.yml/badge.svg) ![Build & Test on Linux using CLANG](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_clang.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx)
-
 # Libmagicxx
 
 **Libmagicxx** is a C++ wrapper library over the [Magic Number Recognition Library](https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library). It provides an easy-to-use interface through the `magic` class, enabling the *identification of file types* based on their content rather than file extensions.
@@ -9,6 +7,14 @@
 + **Modern C++**: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.
 + **High-Level API**: Provides a simple and intuitive high-level API for easy integration and use.
 + **Simple Integration with CMake**: Easily integrate file type recognition into your CMake-based C++ projects.
+
+## Project Status
+
+![Build & Test on Linux using GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_gcc.yml/badge.svg) ![Build & Test on Linux using CLANG](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_clang.yml/badge.svg)
+
+## Code Quality
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240)](https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx)
 
 ## Requirements to Build Libmagicxx
 

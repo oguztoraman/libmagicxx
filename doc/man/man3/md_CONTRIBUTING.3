@@ -1,4 +1,4 @@
-.TH "md_CONTRIBUTING" 3 "Thu Mar 6 2025 21:52:38" "Version v5.5.1" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CONTRIBUTING" 3 "Sun Mar 16 2025 12:53:51" "Version v5.6.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -160,14 +160,12 @@ Add the following lines to the top level \fRCMakeLists\&.txt\fP file of your pro
 .nf
 add_subdirectory(libmagicxx)
 
-add_compile_options("$<$<CXX_COMPILER_ID:Clang>:\-stdlib=libc++>")
-
 target_include_directories(<name of your project>
     <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
 )
 
 target_link_libraries(<name of your project>
-    <PUBLIC or PRIVATE or INTERFACE> "magicxx;$<$<CXX_COMPILER_ID:Clang>:c++>"
+    <PUBLIC or PRIVATE or INTERFACE> magicxx
 )
 .fi
 .PP
@@ -209,12 +207,12 @@ If your changes introduce new features or significant modifications, add an exam
 \fBBuild and Test\fP:
 .PP
 .IP "\(bu" 2
-Use the \fRbuild\&.sh\fP script to build and test the project:
+Use the \fRworkflows\&.sh\fP script to configure, build and test the project via CMake workflow presets:
 
 .PP
 .PP
 .nf
-\&./scripts/build\&.sh \-t
+\&./scripts/workflows\&.sh \-p linux\-x86_64\-gcc\-shared\-tests\-release
 .fi
 .PP
 
@@ -224,14 +222,10 @@ For more options, use:
 .PP
 .PP
 .nf
-\&./scripts/build\&.sh \-h
-Usage: \&./scripts/build\&.sh [\-d build_dir] [\-b build_type] [\-c compiler] [\-t] [\-e] [\-h]
-  \-d build_dir    Specify the build directory (default: release_build)\&.
-  \-b build_type   Specify the CMake build type (default: Release)\&.
-  \-c compiler     Specify the compiler (g++ or clang++, default: g++)\&.
-  \-l library_type Specify the library type (STATIC or SHARED, default: SHARED)\&.
-  \-t              Build and run tests (default: OFF)\&.
-  \-e              Build and run examples (default: OFF)\&.
+\&./scripts/workflows\&.sh \-h
+Usage: \&./scripts/workflows\&.sh [\-l] [\-p preset] [\-h]
+  \-l              List available CMake workflow presets\&.
+  \-p preset       Specify the CMake workflow preset to use\&.
   \-h              Display this message\&.
 .fi
 .PP

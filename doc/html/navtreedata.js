@@ -25,78 +25,79 @@
 var NAVTREE =
 [
   [ "Libmagicxx", "index.html", [
-    [ "Libmagicxx", "index.html#autotoc_md50", [
-      [ "Key Features", "index.html#autotoc_md51", null ],
-      [ "Requirements to Build Libmagicxx", "index.html#autotoc_md52", null ],
-      [ "How to Build Libmagicxx", "index.html#autotoc_md53", null ],
-      [ "How to Use Libmagicxx in a CMake-based Project", "index.html#autotoc_md54", null ],
-      [ "Examples", "index.html#autotoc_md55", null ],
-      [ "Documentation", "index.html#autotoc_md56", null ],
-      [ "Contributing", "index.html#autotoc_md57", null ],
-      [ "Code of Conduct", "index.html#autotoc_md58", null ],
-      [ "Security", "index.html#autotoc_md59", null ],
-      [ "Source Code", "index.html#autotoc_md60", null ],
-      [ "License", "index.html#autotoc_md61", [
-        [ "Other licenses:", "index.html#autotoc_md62", null ]
-      ] ]
+    [ "Key Features", "index.html#autotoc_md52", null ],
+    [ "Project Status", "index.html#autotoc_md53", null ],
+    [ "Code Quality", "index.html#autotoc_md54", null ],
+    [ "Requirements to Build Libmagicxx", "index.html#autotoc_md55", null ],
+    [ "How to Build Libmagicxx", "index.html#autotoc_md56", null ],
+    [ "How to Use Libmagicxx in a CMake-based Project", "index.html#autotoc_md57", null ],
+    [ "Examples", "index.html#autotoc_md58", null ],
+    [ "Documentation", "index.html#autotoc_md59", null ],
+    [ "Contributing", "index.html#autotoc_md60", null ],
+    [ "Code of Conduct", "index.html#autotoc_md61", null ],
+    [ "Security", "index.html#autotoc_md62", null ],
+    [ "Source Code", "index.html#autotoc_md63", null ],
+    [ "License", "index.html#autotoc_md64", [
+      [ "Other Licenses", "index.html#autotoc_md65", null ]
     ] ],
     [ "Changelog", "md_CHANGELOG.html", [
       [ "Next Release", "md_CHANGELOG.html#autotoc_md1", null ],
-      [ "[v5.5.0] - 23-02-2025", "md_CHANGELOG.html#autotoc_md2", null ],
-      [ "[v5.4.1] - 17-02-2025", "md_CHANGELOG.html#autotoc_md3", null ],
-      [ "[v5.4.0] - 17-02-2025", "md_CHANGELOG.html#autotoc_md4", null ],
-      [ "[v5.3.2] - 16-02-2025", "md_CHANGELOG.html#autotoc_md5", null ],
-      [ "[v5.3.1] - 15-02-2025", "md_CHANGELOG.html#autotoc_md6", null ],
-      [ "[v5.3.0] - 15-02-2025", "md_CHANGELOG.html#autotoc_md7", null ],
-      [ "[v5.2.0] - 13-02-2025", "md_CHANGELOG.html#autotoc_md8", null ],
-      [ "[v5.1.1] - 25-06-2024", "md_CHANGELOG.html#autotoc_md9", null ],
-      [ "[v5.1.0] - 23-06-2024", "md_CHANGELOG.html#autotoc_md10", null ],
-      [ "[v5.0.0] - 06-06-2024", "md_CHANGELOG.html#autotoc_md11", null ],
-      [ "[v4.1.2] - 12-05-2024", "md_CHANGELOG.html#autotoc_md12", null ],
-      [ "[v4.1.1] - 07-05-2024", "md_CHANGELOG.html#autotoc_md13", null ],
-      [ "[v4.1.0] - 05-05-2024", "md_CHANGELOG.html#autotoc_md14", null ],
-      [ "[v4.0.0] - 04-05-2024", "md_CHANGELOG.html#autotoc_md15", null ],
-      [ "[v3.1.1] - 28-04-2024", "md_CHANGELOG.html#autotoc_md16", null ],
-      [ "[v3.1.0] - 23-04-2024", "md_CHANGELOG.html#autotoc_md17", null ],
-      [ "[v3.0.0] - 14-04-2024", "md_CHANGELOG.html#autotoc_md18", null ],
-      [ "[v2.1.0] - 07-04-2024", "md_CHANGELOG.html#autotoc_md19", null ],
-      [ "[v2.0.0] - 06-04-2024", "md_CHANGELOG.html#autotoc_md20", null ],
-      [ "[v1.0.2] - 03-04-2024", "md_CHANGELOG.html#autotoc_md21", null ],
-      [ "[v1.0.1] - 11-03-2024", "md_CHANGELOG.html#autotoc_md22", null ],
-      [ "[v1.0.0] - 03-01-2024", "md_CHANGELOG.html#autotoc_md23", null ]
+      [ "[v5.5.1] - 06-03-2025", "md_CHANGELOG.html#autotoc_md2", null ],
+      [ "[v5.5.0] - 23-02-2025", "md_CHANGELOG.html#autotoc_md3", null ],
+      [ "[v5.4.1] - 17-02-2025", "md_CHANGELOG.html#autotoc_md4", null ],
+      [ "[v5.4.0] - 17-02-2025", "md_CHANGELOG.html#autotoc_md5", null ],
+      [ "[v5.3.2] - 16-02-2025", "md_CHANGELOG.html#autotoc_md6", null ],
+      [ "[v5.3.1] - 15-02-2025", "md_CHANGELOG.html#autotoc_md7", null ],
+      [ "[v5.3.0] - 15-02-2025", "md_CHANGELOG.html#autotoc_md8", null ],
+      [ "[v5.2.0] - 13-02-2025", "md_CHANGELOG.html#autotoc_md9", null ],
+      [ "[v5.1.1] - 25-06-2024", "md_CHANGELOG.html#autotoc_md10", null ],
+      [ "[v5.1.0] - 23-06-2024", "md_CHANGELOG.html#autotoc_md11", null ],
+      [ "[v5.0.0] - 06-06-2024", "md_CHANGELOG.html#autotoc_md12", null ],
+      [ "[v4.1.2] - 12-05-2024", "md_CHANGELOG.html#autotoc_md13", null ],
+      [ "[v4.1.1] - 07-05-2024", "md_CHANGELOG.html#autotoc_md14", null ],
+      [ "[v4.1.0] - 05-05-2024", "md_CHANGELOG.html#autotoc_md15", null ],
+      [ "[v4.0.0] - 04-05-2024", "md_CHANGELOG.html#autotoc_md16", null ],
+      [ "[v3.1.1] - 28-04-2024", "md_CHANGELOG.html#autotoc_md17", null ],
+      [ "[v3.1.0] - 23-04-2024", "md_CHANGELOG.html#autotoc_md18", null ],
+      [ "[v3.0.0] - 14-04-2024", "md_CHANGELOG.html#autotoc_md19", null ],
+      [ "[v2.1.0] - 07-04-2024", "md_CHANGELOG.html#autotoc_md20", null ],
+      [ "[v2.0.0] - 06-04-2024", "md_CHANGELOG.html#autotoc_md21", null ],
+      [ "[v1.0.2] - 03-04-2024", "md_CHANGELOG.html#autotoc_md22", null ],
+      [ "[v1.0.1] - 11-03-2024", "md_CHANGELOG.html#autotoc_md23", null ],
+      [ "[v1.0.0] - 03-01-2024", "md_CHANGELOG.html#autotoc_md24", null ]
     ] ],
     [ "Contributor Covenant Code of Conduct", "md_CODE__OF__CONDUCT.html", [
-      [ "Our Pledge", "md_CODE__OF__CONDUCT.html#autotoc_md25", null ],
-      [ "Our Standards", "md_CODE__OF__CONDUCT.html#autotoc_md26", null ],
-      [ "Enforcement Responsibilities", "md_CODE__OF__CONDUCT.html#autotoc_md27", null ],
-      [ "Scope", "md_CODE__OF__CONDUCT.html#autotoc_md28", null ],
-      [ "Enforcement", "md_CODE__OF__CONDUCT.html#autotoc_md29", null ],
-      [ "Enforcement Guidelines", "md_CODE__OF__CONDUCT.html#autotoc_md30", [
-        [ "Correction", "md_CODE__OF__CONDUCT.html#autotoc_md31", null ],
-        [ "Warning", "md_CODE__OF__CONDUCT.html#autotoc_md32", null ],
-        [ "Temporary Ban", "md_CODE__OF__CONDUCT.html#autotoc_md33", null ],
-        [ "Permanent Ban", "md_CODE__OF__CONDUCT.html#autotoc_md34", null ]
+      [ "Our Pledge", "md_CODE__OF__CONDUCT.html#autotoc_md26", null ],
+      [ "Our Standards", "md_CODE__OF__CONDUCT.html#autotoc_md27", null ],
+      [ "Enforcement Responsibilities", "md_CODE__OF__CONDUCT.html#autotoc_md28", null ],
+      [ "Scope", "md_CODE__OF__CONDUCT.html#autotoc_md29", null ],
+      [ "Enforcement", "md_CODE__OF__CONDUCT.html#autotoc_md30", null ],
+      [ "Enforcement Guidelines", "md_CODE__OF__CONDUCT.html#autotoc_md31", [
+        [ "Correction", "md_CODE__OF__CONDUCT.html#autotoc_md32", null ],
+        [ "Warning", "md_CODE__OF__CONDUCT.html#autotoc_md33", null ],
+        [ "Temporary Ban", "md_CODE__OF__CONDUCT.html#autotoc_md34", null ],
+        [ "Permanent Ban", "md_CODE__OF__CONDUCT.html#autotoc_md35", null ]
       ] ],
-      [ "Attribution", "md_CODE__OF__CONDUCT.html#autotoc_md35", null ]
+      [ "Attribution", "md_CODE__OF__CONDUCT.html#autotoc_md36", null ]
     ] ],
     [ "Contributing to Libmagicxx", "md_CONTRIBUTING.html", [
-      [ "Project Structure", "md_CONTRIBUTING.html#autotoc_md37", null ],
-      [ "Development", "md_CONTRIBUTING.html#autotoc_md38", null ],
-      [ "Documentation", "md_CONTRIBUTING.html#autotoc_md39", null ],
-      [ "Code of Conduct", "md_CONTRIBUTING.html#autotoc_md40", null ],
-      [ "Getting Started", "md_CONTRIBUTING.html#autotoc_md41", null ],
-      [ "How to Use Libmagicxx in a CMake-based Project", "md_CONTRIBUTING.html#autotoc_md42", null ],
-      [ "Making Changes", "md_CONTRIBUTING.html#autotoc_md43", null ],
-      [ "Creating a Pull Request", "md_CONTRIBUTING.html#autotoc_md44", null ],
-      [ "Reporting Issues", "md_CONTRIBUTING.html#autotoc_md45", null ],
-      [ "How to Create an Issue", "md_CONTRIBUTING.html#autotoc_md46", null ],
-      [ "Continuous Integration (CI)", "md_CONTRIBUTING.html#autotoc_md47", null ],
-      [ "Review Process", "md_CONTRIBUTING.html#autotoc_md48", null ],
-      [ "Thank You", "md_CONTRIBUTING.html#autotoc_md49", null ]
+      [ "Project Structure", "md_CONTRIBUTING.html#autotoc_md38", null ],
+      [ "Development", "md_CONTRIBUTING.html#autotoc_md39", null ],
+      [ "Documentation", "md_CONTRIBUTING.html#autotoc_md40", null ],
+      [ "Code of Conduct", "md_CONTRIBUTING.html#autotoc_md41", null ],
+      [ "Getting Started", "md_CONTRIBUTING.html#autotoc_md42", null ],
+      [ "How to Use Libmagicxx in a CMake-based Project", "md_CONTRIBUTING.html#autotoc_md43", null ],
+      [ "Making Changes", "md_CONTRIBUTING.html#autotoc_md44", null ],
+      [ "Creating a Pull Request", "md_CONTRIBUTING.html#autotoc_md45", null ],
+      [ "Reporting Issues", "md_CONTRIBUTING.html#autotoc_md46", null ],
+      [ "How to Create an Issue", "md_CONTRIBUTING.html#autotoc_md47", null ],
+      [ "Continuous Integration (CI)", "md_CONTRIBUTING.html#autotoc_md48", null ],
+      [ "Review Process", "md_CONTRIBUTING.html#autotoc_md49", null ],
+      [ "Thank You", "md_CONTRIBUTING.html#autotoc_md50", null ]
     ] ],
     [ "Security Policy", "md_SECURITY.html", [
-      [ "Supported Versions", "md_SECURITY.html#autotoc_md64", null ],
-      [ "Reporting a Vulnerability", "md_SECURITY.html#autotoc_md65", null ]
+      [ "Supported Versions", "md_SECURITY.html#autotoc_md67", null ],
+      [ "Reporting a Vulnerability", "md_SECURITY.html#autotoc_md68", null ]
     ] ],
     [ "To Do", "md_TODO.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -138,7 +139,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classrecognition_1_1magic_1_1magic__private.html#ac11b869176931514a6f5b1cd09e2ab90",
-"md_CHANGELOG.html#autotoc_md19"
+"md_CHANGELOG.html#autotoc_md18"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

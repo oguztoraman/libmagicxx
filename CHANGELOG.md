@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.6.0] - 16-03-2025
+
 + [**ENHANCEMENT**] CMakeLists.txt: Remove unused source files.
 
 + [**ENHANCEMENT**] cmake/configure_libmagic.cmake: Enable year 2038 support in libmagic.

@@ -81,7 +81,7 @@ var searchData=
   ['magic_5ft_78',['magic_t',['../namespacerecognition_1_1detail.html#a1779def330abe87b9647bbe08b5641c7',1,'recognition::detail::magic_t'],['../magic_8h.html#a79bca0ed7c87da00e08a010c5d91e821',1,'magic_t:&#160;magic.h']]],
   ['magic_5fversion_79',['MAGIC_VERSION',['../magic_8cpp.html#a3a4fc0626e4c8e4b3fb1d8986de16c51',1,'MAGIC_VERSION:&#160;magic.cpp'],['../magic_8h.html#a3a4fc0626e4c8e4b3fb1d8986de16c51',1,'MAGIC_VERSION:&#160;magic.cpp']]],
   ['magic_5fversion_80',['magic_version',['../namespacerecognition_1_1detail.html#ab63d94d4d62ce4aac835b5ca6425ff62',1,'recognition::detail::magic_version()'],['../magic_8h.html#af9e40020d232570bce4a1cf03be53a19',1,'magic_version():&#160;magic.h']]],
-  ['making_20changes_81',['Making Changes',['../md_CONTRIBUTING.html#autotoc_md45',1,'']]],
+  ['making_20changes_81',['Making Changes',['../md_CONTRIBUTING.html#autotoc_md46',1,'']]],
   ['mime_82',['mime',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377',1,'recognition::magic']]],
   ['mime_5fencoding_83',['mime_encoding',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785',1,'recognition::magic']]],
   ['mime_5ftype_84',['mime_type',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83',1,'recognition::magic']]]

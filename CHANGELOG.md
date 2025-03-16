@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.6.2] - 16-03-2025
+
 + [**BUGFIX**]: Update copyright year in source files to 2022-2025.
 
 ## [v5.6.1] - 16-03-2025

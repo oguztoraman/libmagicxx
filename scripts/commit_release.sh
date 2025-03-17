@@ -41,12 +41,12 @@ RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "$GIT_TAG")
     exit 2
 }
 
-./scripts/generate_documentation.sh -t ${GIT_TAG} || {
+sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE" &&
+sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE" || {
     exit 3
 }
 
-sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE" &&
-sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE" || {
+./scripts/workflows.sh -p documentation || {
     exit 4
 }
 

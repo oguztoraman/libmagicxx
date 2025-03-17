@@ -13,6 +13,12 @@ project(magicxx
 option(BUILD_AS_STATIC "Build as static." OFF)
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
+option(BUILD_MAGICXX_DOCUMENTATION_ONLY "Build only the documentation." OFF)
+
+if (BUILD_MAGICXX_DOCUMENTATION_ONLY)
+    add_subdirectory(doc)
+    return()
+endif()
 
 if(BUILD_AS_STATIC)
     set(LIBRARY_TYPE STATIC)

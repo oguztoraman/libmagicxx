@@ -7,6 +7,13 @@
     },
     "configurePresets": [
         {
+            "name": "documentation",
+            "cacheVariables": {
+                "BUILD_MAGICXX_DOCUMENTATION_ONLY": "ON"
+            },
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "base-config",
             "generator": "Ninja",
             "hidden": true
@@ -313,6 +320,14 @@
             "hidden": true
         },
         {
+            "name": "documentation",
+            "inherits": "base-config",
+            "configurePreset": "documentation",
+            "targets": [
+                "magicxx_documentation"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-shared-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-shared-debug"
@@ -487,6 +502,20 @@
         }
     ],
     "workflowPresets": [
+        {
+            "name": "documentation",
+            "displayName": "Build Documentation",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "documentation"
+                },
+                {
+                    "type": "build",
+                    "name": "documentation"
+                }
+            ]
+        },
         {
             "name": "linux-x86_64-gcc-shared-debug",
             "displayName": "Build Shared Library (Linux, x86_64, GCC toolchain, Debug config)",

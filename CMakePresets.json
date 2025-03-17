@@ -85,7 +85,7 @@
         {
             "name": "static-config",
             "cacheVariables": {
-                "BUILD_AS_STATIC": "ON"
+                "BUILD_MAGICXX_AS_STATIC": "ON"
             },
             "hidden": true
         },

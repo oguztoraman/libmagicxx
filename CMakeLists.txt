@@ -10,7 +10,7 @@ project(magicxx
     LANGUAGES C CXX
 )
 
-option(BUILD_AS_STATIC "Build as static." OFF)
+option(BUILD_MAGICXX_AS_STATIC "Build as static." OFF)
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
 option(BUILD_MAGICXX_DOCUMENTATION_ONLY "Build only the documentation." OFF)
@@ -20,7 +20,7 @@ if (BUILD_MAGICXX_DOCUMENTATION_ONLY)
     return()
 endif()
 
-if(BUILD_AS_STATIC)
+if(BUILD_MAGICXX_AS_STATIC)
     set(LIBRARY_TYPE STATIC)
 else()
     set(LIBRARY_TYPE SHARED)

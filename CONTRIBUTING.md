@@ -25,7 +25,6 @@ libmagicxx/
 ├── Containerfile              # Container image configuration
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── COPYING.LESSER             # License file
-├── Doxyfile                   # Doxygen configuration
 ├── PULL_REQUEST_TEMPLATE.md   # Pull request template
 ├── README.md                  # Project details
 ├── SECURITY.md                # Security policy

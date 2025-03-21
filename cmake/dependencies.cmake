@@ -44,4 +44,5 @@ add_dependencies(configure_file
 
 add_dependencies(magic_header
     configure_file
+    initialize_and_update_git_submodules
 )

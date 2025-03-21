@@ -14,6 +14,10 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "format-source-code",
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "base-config",
             "generator": "Ninja",
             "hidden": true
@@ -328,6 +332,14 @@
             ]
         },
         {
+            "name": "format-source-code",
+            "inherits": "base-config",
+            "configurePreset": "format-source-code",
+            "targets": [
+                "format_source_code"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-shared-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-shared-debug"
@@ -513,6 +525,20 @@
                 {
                     "type": "build",
                     "name": "documentation"
+                }
+            ]
+        },
+        {
+            "name": "format-source-code",
+            "displayName": "Format the Source Code",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "format-source-code"
+                },
+                {
+                    "type": "build",
+                    "name": "format-source-code"
                 }
             ]
         },

@@ -37,7 +37,7 @@ CHANGELOG_FILE=CHANGELOG.md
 VERSION=$(sed 's/^v//' <<< "$GIT_TAG")
 RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "$GIT_TAG")
 
-./scripts/format.sh || {
+./scripts/workflows.sh -p format-source-code || {
     exit 2
 }
 

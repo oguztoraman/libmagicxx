@@ -39,4 +39,6 @@ doxygen_add_docs(
         SECURITY.md
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
+    COMMENT
+        "Building documentation..."
 )

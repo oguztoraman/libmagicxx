@@ -13,14 +13,9 @@ project(magicxx
 option(BUILD_MAGICXX_AS_STATIC "Build as static." OFF)
 option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
-option(BUILD_MAGICXX_DOCUMENTATION_ONLY "Build only the documentation." OFF)
+option(BUILD_MAGICXX_DOCUMENTATION "Build only the documentation." OFF)
 
-if (BUILD_MAGICXX_DOCUMENTATION_ONLY)
-    add_subdirectory(doc)
-    return()
-endif()
-
-if(BUILD_MAGICXX_AS_STATIC)
+if (BUILD_MAGICXX_AS_STATIC)
     set(LIBRARY_TYPE STATIC)
 else()
     set(LIBRARY_TYPE SHARED)
@@ -126,4 +121,8 @@ endif()
 
 if (BUILD_MAGICXX_EXAMPLES)
     add_subdirectory(examples)
+endif()
+
+if (BUILD_MAGICXX_DOCUMENTATION)
+    add_subdirectory(doc)
 endif()

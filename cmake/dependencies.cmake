@@ -38,7 +38,10 @@ add_custom_target(magic_header
     VERBATIM
 )
 
+add_dependencies(configure_file
+    initialize_and_update_git_submodules
+)
+
 add_dependencies(magic_header
     configure_file
-    initialize_and_update_git_submodules
 )

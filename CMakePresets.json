@@ -9,7 +9,7 @@
         {
             "name": "documentation",
             "cacheVariables": {
-                "BUILD_MAGICXX_DOCUMENTATION_ONLY": "ON"
+                "BUILD_MAGICXX_DOCUMENTATION": "ON"
             },
             "binaryDir": "${sourceDir}/build/${presetName}"
         },

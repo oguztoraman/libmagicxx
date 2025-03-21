@@ -73,9 +73,11 @@ set(magicxx_SOURCE_FILES
     ${magicxx_SOURCE_DIR}/src/magic.cpp
 )
 
-include(cmake/configure_libmagic.cmake)
+include(cmake/dependencies.cmake)
 
 add_library(magicxx ${LIBRARY_TYPE})
+
+add_dependencies(magicxx magic_header)
 
 set_target_properties(magicxx PROPERTIES
     C_STANDARD 99

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/dependencies.cmake, CMakeLists.txt: Refactor the CMake configuration by adding custom targets for the magicxx dependencies to speed up the configuration process.
+
 + [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json: Rename BUILD_MAGICXX_DOCUMENTATION_ONLY build option to BUILD_MAGICXX_DOCUMENTATION.
 
 + [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json: Rename BUILD_AS_STATIC build option to BUILD_MAGICXX_AS_STATIC.

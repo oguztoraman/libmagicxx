@@ -7,6 +7,7 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing. 
 ```
 libmagicxx/
 ├── .github/                   # Continuous Integration (CI)
+├── cmake/                     # CMake configuration files, custom CMake targets.
 ├── doc/                       # Documentation files
 ├── examples/                  # Examples
 ├── file/                      # File and the Magic Number Recognition Library
@@ -19,7 +20,7 @@ libmagicxx/
 ├── .gitignore                 # Git ignore file
 ├── .gitmodules                # Git submodules configuration
 ├── CHANGELOG.md               # Changelog
-├── CMakeLists.txt             # CMake configuration
+├── CMakeLists.txt             # Top-level CMake file
 ├── CMakePresets.json          # CMake presets
 ├── CODE_OF_CONDUCT.md         # Code of Conduct
 ├── Containerfile              # Container image configuration

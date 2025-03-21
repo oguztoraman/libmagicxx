@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json: Rename BUILD_MAGICXX_DOCUMENTATION_ONLY build option to BUILD_MAGICXX_DOCUMENTATION.
+
 + [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json: Rename BUILD_AS_STATIC build option to BUILD_MAGICXX_AS_STATIC.
 
 + [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md, doc/CMakeLists.txt, scripts/commit_release.sh, scripts/generate_documentation.sh: Add support for building documentation from CMake and remove generate_documentation.sh script.

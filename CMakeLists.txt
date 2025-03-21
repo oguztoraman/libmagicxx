@@ -128,3 +128,5 @@ endif()
 if (BUILD_MAGICXX_DOCUMENTATION)
     add_subdirectory(doc)
 endif()
+
+include(cmake/format_source_code.cmake)

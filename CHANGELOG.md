@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/format_source_code.cmake, scripts/commit_release.sh, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md: Replace format script with CMake workflow for source code formatting.
+
 + [**ENHANCEMENT**] cmake/dependencies.cmake, CMakeLists.txt: Refactor the CMake configuration by adding custom targets for the magicxx dependencies to speed up the configuration process.
 
 + [**ENHANCEMENT**] CMakeLists.txt, CMakePresets.json: Rename BUILD_MAGICXX_DOCUMENTATION_ONLY build option to BUILD_MAGICXX_DOCUMENTATION.

@@ -176,10 +176,10 @@ The current development environment is a container image built on top of the lat
 
 4. **Format Code**:
 
-+ Ensure your code is properly formatted using the `format.sh` script:
++ Ensure your code is properly formatted using the CMake workflow preset `format-source-code`:
 
     ```bash
-    ./scripts/format.sh
+    ./scripts/workflows.sh -p format-source-code
     ```
 
 ## Creating a Pull Request

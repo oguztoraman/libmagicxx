@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] cmake/dependencies.cmake, scripts/install_dependencies.sh, CMakePresets.json, Containerfile, CONTRIBUTING.md, README.md: Bring back the install_dependencies.sh script.
+
 + [**BUGFIX**] Containerfile: Add missing development tools installation to Containerfile.
 
 + [**ENHANCEMENT**] cmake/dependencies.cmake, CMakePresets.json, Containerfile, CONTRIBUTING.md, README.md: Embed the install_dependencies.sh script to the CMake workflows && Add new CMake workflow presets install-dependencies, initialize-and-update-git-submodules and initialize.

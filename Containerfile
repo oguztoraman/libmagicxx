@@ -3,6 +3,8 @@
 
 FROM fedora:latest
 
-RUN dnf install -y cmake git gcc g++ clang-tools-extra
+COPY ./scripts/install_dependencies.sh /scripts/
+
+RUN ./scripts/install_dependencies.sh
 
 WORKDIR /libmagicxx

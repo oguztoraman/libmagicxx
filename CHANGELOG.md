@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .scripts/install_dependencies.sh, README.md: Add missing build dependency awk.
+
 + [**BUGFIX**] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml: Fix CI workflows.
 
 + [**BUGFIX**] cmake/dependencies.cmake, scripts/install_dependencies.sh, CMakePresets.json, Containerfile, CONTRIBUTING.md, README.md: Bring back the install_dependencies.sh script.

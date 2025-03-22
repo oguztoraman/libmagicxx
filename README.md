@@ -26,6 +26,7 @@
 + Libtool
 + Autoconf
 + Mold
++ Awk
 
 ## How to Build Libmagicxx
 

@@ -7,6 +7,10 @@
     },
     "configurePresets": [
         {
+            "name": "initialize",
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "documentation",
             "cacheVariables": {
                 "BUILD_MAGICXX_DOCUMENTATION": "ON"
@@ -324,6 +328,30 @@
             "hidden": true
         },
         {
+            "name": "install-dependencies",
+            "inherits": "base-config",
+            "configurePreset": "initialize",
+            "targets": [
+                "install_dependencies"
+            ]
+        },
+        {
+            "name": "initialize-and-update-git-submodules",
+            "inherits": "base-config",
+            "configurePreset": "initialize",
+            "targets": [
+                "initialize_and_update_git_submodules"
+            ]
+        },
+        {
+            "name": "initialize",
+            "inherits": [
+                "install-dependencies",
+                "initialize-and-update-git-submodules"
+            ],
+            "configurePreset": "initialize"
+        },
+        {
             "name": "documentation",
             "inherits": "base-config",
             "configurePreset": "documentation",
@@ -514,6 +542,48 @@
         }
     ],
     "workflowPresets": [
+        {
+            "name": "install-dependencies",
+            "displayName": "Install the Dependencies",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "initialize"
+                },
+                {
+                    "type": "build",
+                    "name": "install-dependencies"
+                }
+            ]
+        },
+        {
+            "name": "initialize-and-update-git-submodules",
+            "displayName": "Initialize and Update Git Submodules",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "initialize"
+                },
+                {
+                    "type": "build",
+                    "name": "initialize-and-update-git-submodules"
+                }
+            ]
+        },
+        {
+            "name": "initialize",
+            "displayName": "Initialize the Project",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "initialize"
+                },
+                {
+                    "type": "build",
+                    "name": "initialize"
+                }
+            ]
+        },
         {
             "name": "documentation",
             "displayName": "Build Documentation",

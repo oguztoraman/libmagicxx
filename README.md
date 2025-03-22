@@ -35,10 +35,10 @@
     git clone https://github.com/oguztoraman/libmagicxx
     ```
 
-2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh) bash script.
+2. Initialize the project using the CMake workflow preset `initialize`.
 
     ```bash
-    cd libmagicxx && ./scripts/install_dependencies.sh
+    cd libmagicxx && ./scripts/workflows.sh -p initialize
     ```
 
 3. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
@@ -65,10 +65,10 @@
     git clone https://github.com/oguztoraman/libmagicxx
     ```
 
-2. Install the necessary dependencies using the [install_dependencies.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh) bash script.
+2. Initialize the project using the CMake workflow preset `initialize`.
 
     ```bash
-    cd libmagicxx && ./scripts/install_dependencies.sh
+    cd libmagicxx && ./scripts/workflows.sh -p initialize
     ```
 
 3. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.

@@ -1,6 +1,21 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+add_custom_target(install_dependencies
+    COMMAND
+        sudo dnf install -y
+            git
+            autoconf libtool make
+            cmake ninja-build
+            g++ clang libcxx-devel mold
+            clang-tools-extra doxygen
+    WORKING_DIRECTORY
+        ${magicxx_SOURCE_DIR}
+    COMMENT
+        "Installing the dependencies..."
+    VERBATIM
+)
+
 add_custom_target(initialize_and_update_git_submodules
     COMMAND
         git submodule update --init --recursive

@@ -114,7 +114,15 @@ The current development environment is a container image built on top of the lat
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 
-9. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
+9. **Initialize the Project**
+
+    Use the CMake workflow preset `initialize` to initialize the project.
+
+    ```bash
+    cd libmagicxx && ./scripts/workflows.sh -p initialize
+    ```
+
+10. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
 
 ## How to Use Libmagicxx in a CMake-based Project
 

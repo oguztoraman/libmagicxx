@@ -3,8 +3,4 @@
 
 FROM fedora:latest
 
-COPY ./scripts/install_dependencies.sh /scripts/
-
-RUN /scripts/install_dependencies.sh
-
 WORKDIR /libmagicxx

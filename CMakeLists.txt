@@ -77,7 +77,7 @@ include(cmake/dependencies.cmake)
 
 add_library(magicxx ${LIBRARY_TYPE})
 
-add_dependencies(magicxx magic_header)
+add_dependencies(magicxx configure_file)
 
 set_target_properties(magicxx PROPERTIES
     C_STANDARD 99

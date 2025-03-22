@@ -21,28 +21,11 @@ add_custom_target(configure_file
         --disable-lzlib --enable-year2038
         --host=${FILE_HOST} --silent
         CC=${CMAKE_C_COMPILER}
+    COMMAND
+        make -C ${magic_SOURCE_DIR} magic.h
     WORKING_DIRECTORY
         ${magic_DIR}
     COMMENT
         "Configuring the file..."
     VERBATIM
-)
-
-add_custom_target(magic_header
-    COMMAND
-        make magic.h
-    WORKING_DIRECTORY
-        ${magic_SOURCE_DIR}
-    COMMENT
-        "Running make for the magic header..."
-    VERBATIM
-)
-
-add_dependencies(configure_file
-    initialize_and_update_git_submodules
-)
-
-add_dependencies(magic_header
-    configure_file
-    initialize_and_update_git_submodules
 )

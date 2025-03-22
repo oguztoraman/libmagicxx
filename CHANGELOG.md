@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/dependencies.cmake,CMakeLists.txt: Embed the magic_header target into the configure_file target..
+
 + [**DOCUMENTATION**]: CONTRIBUTING.md: Update CONTRIBUTING.md to clarify project structure.
 
 + [**ENHANCEMENT**] cmake/format_source_code.cmake, scripts/commit_release.sh, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md: Replace format script with CMake workflow for source code formatting.

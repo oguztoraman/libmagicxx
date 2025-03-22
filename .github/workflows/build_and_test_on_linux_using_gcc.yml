@@ -20,7 +20,7 @@ jobs:
       with:
         submodules: recursive
     - name: Install Dependencies.
-      run: /scripts/install_dependencies.sh
+      run: ./scripts/install_dependencies.sh
     - name: Build (Shared library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
     - name: Tests (Shared library).

@@ -13,25 +13,21 @@ jobs:
     container:
       image: fedora:latest
     steps:
-    - name: Install dependencies.
-      run: dnf install -y cmake make ninja-build clang libcxx-devel git autoconf libtool mold
-    - name: Clone Libmagicxx.
-      run: git clone https://github.com/oguztoraman/libmagicxx /libmagicxx
+    - name: Install Git.
+      run: dnf install -y git
+    - name: Checkout.
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
     - name: Build (Shared library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-release
     - name: Tests (Shared library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-tests-release
     - name: Examples (Shared library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-examples-release
     - name: Build (Static library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-static-release
     - name: Tests (Static library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-static-tests-release
     - name: Examples (Static library).
-      working-directory: /libmagicxx
       run: ./scripts/workflows.sh -p linux-x86_64-clang-static-examples-release

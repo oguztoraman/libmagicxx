@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml: Fix CI workflows.
+
 + [**BUGFIX**] cmake/dependencies.cmake, scripts/install_dependencies.sh, CMakePresets.json, Containerfile, CONTRIBUTING.md, README.md: Bring back the install_dependencies.sh script.
 
 + [**BUGFIX**] Containerfile: Add missing development tools installation to Containerfile.

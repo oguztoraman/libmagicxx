@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] scripts/launch_container.ps1, scripts/launch_container.sh: Enhance container launch scripts to support image updates and improve usage instructions.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Update contributing guidelines and README to include project initialization step.
 
 + [**BUGFIX**] .scripts/install_dependencies.sh, README.md: Add missing build dependency awk.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .scripts/commit_release.sh: Remove unused DOXYFILE variable from commit_release script to fix the runtime error.
+
 + [**ENHANCEMENT**] scripts/launch_container.ps1, scripts/launch_container.sh: Enhance container launch scripts to support image updates and improve usage instructions.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Update contributing guidelines and README to include project initialization step.

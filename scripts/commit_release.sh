@@ -31,7 +31,6 @@ fi
 echo "Committing with tag '${GIT_TAG}'..."
 
 DATE=$(date +%d-%m-%Y)
-DOXYFILE=Doxyfile
 CMAKE_FILE=CMakeLists.txt
 CHANGELOG_FILE=CHANGELOG.md
 VERSION=$(sed 's/^v//' <<< "$GIT_TAG")
@@ -50,7 +49,7 @@ sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHA
     exit 4
 }
 
-git add $CMAKE_FILE $CHANGELOG_FILE $DOXYFILE doc/* &&
+git add $CMAKE_FILE $CHANGELOG_FILE doc/* &&
 git commit -m "Update the project version to ${VERSION}" &&
 git tag -a $GIT_TAG -m "Version $VERSION" || {
     exit 5

@@ -147,3 +147,5 @@ Libmagicxx is licensed under the GNU Lesser General Public License Version 3. Fo
 + File and the Magic Number Recognition Library: See the [COPYING](https://github.com/file/file/blob/master/COPYING) file.
 
 + GoogleTest: See the [LICENSE](https://github.com/google/googletest/blob/main/LICENSE) file.
+
++ Libgnurx: See the [LICENSE](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) file.

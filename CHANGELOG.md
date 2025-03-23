@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] external/libgnurx, .gitsubmodules, README.md: Add libgnurx submodule for the x86_64-w64-mingw32 build.
+
 + [**ENHANCEMENT**] external/file, external/googletest, .gitsubmodules, CMakeLists.txt, CONTRIBUTING.md: Refactor submodule paths to use 'external/' directory for better organization.
 
 ## [v5.7.1] - 23-03-2025

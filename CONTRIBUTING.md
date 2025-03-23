@@ -10,8 +10,9 @@ libmagicxx/
 ├── cmake/                     # CMake configuration files, custom CMake targets.
 ├── doc/                       # Documentation files
 ├── examples/                  # Examples
-├── file/                      # File and the Magic Number Recognition Library
-├── googletest                 # GoogleTest
+├── external/                  # External projects
+    ├── file/                  # File and the Magic Number Recognition Library
+    ├── googletest             # GoogleTest
 ├── inc/                       # Header files
 ├── scripts/                   # Utility scripts
 ├── src/                       # Source files

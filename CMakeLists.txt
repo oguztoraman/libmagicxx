@@ -22,7 +22,7 @@ else()
 endif()
 
 set(magic_DIR
-    ${magicxx_SOURCE_DIR}/file
+    ${magicxx_SOURCE_DIR}/external/file
 )
 
 set(magic_INCLUDE_DIR
@@ -117,7 +117,7 @@ target_include_directories(magicxx
 if (BUILD_MAGICXX_TESTS)
     enable_testing()
     set(INSTALL_GTEST OFF)
-    add_subdirectory(googletest)
+    add_subdirectory(external/googletest)
     add_subdirectory(tests)
 endif()
 

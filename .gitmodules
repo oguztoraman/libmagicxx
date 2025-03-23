@@ -4,3 +4,6 @@
 [submodule "googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest
+[submodule "libgnurx"]
+	path = external/libgnurx
+	url = https://github.com/TimothyGu/libgnurx

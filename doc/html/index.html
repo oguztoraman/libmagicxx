@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.0</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.1</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -109,20 +109,20 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
 <p><b>Libmagicxx</b> is a C++ wrapper library over the <a href="https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library">Magic Number Recognition Library</a>. It provides an easy-to-use interface through the <code>magic</code> class, enabling the <em>identification of file types</em> based on their content rather than file extensions.</p>
-<h1><a class="anchor" id="autotoc_md57"></a>
+<h1><a class="anchor" id="autotoc_md58"></a>
 Key Features</h1>
 <ul>
 <li><b>Modern C++</b>: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.</li>
 <li><b>High-Level API</b>: Provides a simple and intuitive high-level API for easy integration and use.</li>
 <li><b>Simple Integration with CMake</b>: Easily integrate file type recognition into your CMake-based C++ projects.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md58"></a>
+<h1><a class="anchor" id="autotoc_md59"></a>
 Project Status</h1>
 <p><img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_gcc.yml/badge.svg" alt="Build & Test on Linux using GCC" style="pointer-events: none;" class="inline"/> <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_clang.yml/badge.svg" alt="Build & Test on Linux using CLANG" style="pointer-events: none;" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md59"></a>
+<h1><a class="anchor" id="autotoc_md60"></a>
 Code Quality</h1>
 <p><a href="https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240" alt="Codacy Badge" class="inline"/></a> <a href="https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx"><img src="https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&amp;metric=alert_status" alt="Quality Gate Status" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md60"></a>
+<h1><a class="anchor" id="autotoc_md61"></a>
 Requirements to Build Libmagicxx</h1>
 <ul>
 <li>Git</li>
@@ -135,7 +135,7 @@ Requirements to Build Libmagicxx</h1>
 <li>Mold</li>
 <li>Awk</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md61"></a>
+<h1><a class="anchor" id="autotoc_md62"></a>
 How to Build Libmagicxx</h1>
 <ol type="1">
 <li><p class="startli">Clone the libmagicxx repo.</p>
@@ -144,8 +144,8 @@ How to Build Libmagicxx</h1>
 <li><p class="startli">Install the necessary dependencies using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh">install_dependencies.sh</a> bash script.</p>
 <div class="fragment"><div class="line">cd libmagicxx &amp;&amp; ./scripts/install_dependencies.sh</div>
 </div><!-- fragment --></li>
-<li><p class="startli">Initialize the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh">workflows.sh</a> bash script.</p>
-<div class="fragment"><div class="line">./scripts/workflows.sh -p initialize</div>
+<li><p class="startli">Initialize the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh">initialize.sh</a> bash script.</p>
+<div class="fragment"><div class="line">./scripts/initialize.sh</div>
 </div><!-- fragment --></li>
 <li><p class="startli">Build the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh">workflows.sh</a> bash script.</p>
 <div class="fragment"><div class="line">./scripts/workflows.sh -p linux-x86_64-gcc-shared-release</div>
@@ -157,7 +157,7 @@ How to Build Libmagicxx</h1>
 <div class="line">  -h              Display this message.</div>
 </div><!-- fragment --></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md63"></a>
 How to Use Libmagicxx in a CMake-based Project</h1>
 <ol type="1">
 <li><p class="startli">Clone the libmagicxx repo into your project.</p>
@@ -166,8 +166,8 @@ How to Use Libmagicxx in a CMake-based Project</h1>
 <li><p class="startli">Install the necessary dependencies using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/install_dependencies.sh">install_dependencies.sh</a> bash script.</p>
 <div class="fragment"><div class="line">cd libmagicxx &amp;&amp; ./scripts/install_dependencies.sh</div>
 </div><!-- fragment --></li>
-<li><p class="startli">Initialize the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh">workflows.sh</a> bash script.</p>
-<div class="fragment"><div class="line">./scripts/workflows.sh -p initialize</div>
+<li><p class="startli">Initialize the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh">initialize.sh</a> bash script.</p>
+<div class="fragment"><div class="line">./scripts/initialize.sh</div>
 </div><!-- fragment --></li>
 <li><p class="startli">Add the following lines to the top level <code>CMakeLists.txt</code> file of your project to include and link libmagicxx.</p>
 <div class="fragment"><div class="line">add_subdirectory(libmagicxx)</div>
@@ -197,28 +197,28 @@ How to Use Libmagicxx in a CMake-based Project</h1>
 <div class="ttc" id="anamespacerecognition_html"><div class="ttname"><a href="namespacerecognition.html">recognition</a></div><div class="ttdef"><b>Definition</b> magic.hpp:17</div></div>
 </div><!-- fragment --></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md63"></a>
+<h1><a class="anchor" id="autotoc_md64"></a>
 Examples</h1>
 <p>For more examples, refer to the <a href="https://github.com/oguztoraman/libmagicxx/tree/main/examples">examples directory</a>.</p>
-<h1><a class="anchor" id="autotoc_md64"></a>
+<h1><a class="anchor" id="autotoc_md65"></a>
 Documentation</h1>
 <p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">documentation site</a>.</p>
-<h1><a class="anchor" id="autotoc_md65"></a>
+<h1><a class="anchor" id="autotoc_md66"></a>
 Contributing</h1>
 <p>We welcome contributions! Please see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> file for guidelines on how to contribute.</p>
-<h1><a class="anchor" id="autotoc_md66"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 Code of Conduct</h1>
 <p>We expect all contributors to adhere to the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it to understand the standards of behavior we expect from our community.</p>
-<h1><a class="anchor" id="autotoc_md67"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Security</h1>
 <p>For information on reporting security vulnerabilities, please see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/SECURITY.md">SECURITY.md</a> file.</p>
-<h1><a class="anchor" id="autotoc_md68"></a>
+<h1><a class="anchor" id="autotoc_md69"></a>
 Source Code</h1>
 <p>Explore the source code of Libmagicxx on <a href="https://github.com/oguztoraman/libmagicxx">GitHub</a>.</p>
-<h1><a class="anchor" id="autotoc_md69"></a>
+<h1><a class="anchor" id="autotoc_md70"></a>
 License</h1>
 <p>Libmagicxx is licensed under the GNU Lesser General Public License Version 3. For more details, see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER">COPYING.LESSER</a> file.</p>
-<h2><a class="anchor" id="autotoc_md70"></a>
+<h2><a class="anchor" id="autotoc_md71"></a>
 Other Licenses</h2>
 <ul>
 <li>File and the Magic Number Recognition Library: See the <a href="https://github.com/file/file/blob/master/COPYING">COPYING</a> file.</li>
@@ -231,7 +231,7 @@ Other Licenses</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Mar 23 2025 13:15:52 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Mar 23 2025 11:00:41 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

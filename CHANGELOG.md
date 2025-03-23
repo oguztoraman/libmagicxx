@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.7.1] - 23-03-2025
+
 + [**BUGFIX**]  cmake/dependencies.cmake, .scripts/initialize.sh, CMakePresets.json, CONTRIBUTING.md, README.md: Move the project initialization process from CMake workflow to a bash script to fix CMake initialization workflow error.
 
 ## [v5.7.0] - 23-03-2025

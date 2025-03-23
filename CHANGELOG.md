@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Update contributing guidelines and README to include project initialization step.
+
 + [**BUGFIX**] .scripts/install_dependencies.sh, README.md: Add missing build dependency awk.
 
 + [**BUGFIX**] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml: Fix CI workflows.

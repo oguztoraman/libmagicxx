@@ -42,7 +42,13 @@
     cd libmagicxx && ./scripts/install_dependencies.sh
     ```
 
-3. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
+3. Initialize the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
+
+    ```bash
+    ./scripts/workflows.sh -p initialize
+    ```
+
+4. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
 
     ```bash
     ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
@@ -72,7 +78,13 @@
     cd libmagicxx && ./scripts/install_dependencies.sh
     ```
 
-3. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.
+3. Initialize the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
+
+    ```bash
+    ./scripts/workflows.sh -p initialize
+    ```
+
+4. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.
 
     ```cmake
     add_subdirectory(libmagicxx)
@@ -86,7 +98,7 @@
     )
     ```
 
-4. Include the `magic.hpp` header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the `magic` class.
+5. Include the `magic.hpp` header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the `magic` class.
 
     ```cpp
     #include <print>

@@ -1,4 +1,4 @@
-.TH "md_CHANGELOG" 3 "Sun Mar 16 2025 23:31:05" "Version v5.6.3" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CHANGELOG" 3 "Sun Mar 23 2025 13:15:52" "Version v5.7.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,41 @@ md_CHANGELOG \- Changelog
 .PP
 
 .SH "Next Release"
+.PP
+.SH "[v5\&.7\&.0] - 23-03-2025"
+.PP
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \&.scripts/commit_release\&.sh: Remove unused DOXYFILE variable from commit_release script to fix the runtime error\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] scripts/launch_container\&.ps1, scripts/launch_container\&.sh: Enhance container launch scripts to support image updates and improve usage instructions\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBCONTRIBUTING\&.md\fP, \fBREADME\&.md\fP: Update contributing guidelines and README to include project initialization step\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \&.scripts/install_dependencies\&.sh, \fBREADME\&.md\fP: Add missing build dependency awk\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \&.github/workflows/build_and_test_on_linux_using_clang\&.yml, \&.github/workflows/build_and_test_on_linux_using_gcc\&.yml: Fix CI workflows\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] cmake/dependencies\&.cmake, scripts/install_dependencies\&.sh, CMakePresets\&.json, Containerfile, \fBCONTRIBUTING\&.md\fP, \fBREADME\&.md\fP: Bring back the install_dependencies\&.sh script\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] Containerfile: Add missing development tools installation to Containerfile\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] cmake/dependencies\&.cmake, CMakePresets\&.json, Containerfile, \fBCONTRIBUTING\&.md\fP, \fBREADME\&.md\fP: Embed the install_dependencies\&.sh script to the CMake workflows && Add new CMake workflow presets install-dependencies, initialize-and-update-git-submodules and initialize\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] cmake/dependencies\&.cmake,CMakeLists\&.txt: Embed the magic_header target into the configure_file target\&.\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP]: \fBCONTRIBUTING\&.md\fP: Update \fBCONTRIBUTING\&.md\fP to clarify project structure\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] cmake/format_source_code\&.cmake, scripts/commit_release\&.sh, CMakeLists\&.txt, CMakePresets\&.json, \fBCONTRIBUTING\&.md\fP: Replace format script with CMake workflow for source code formatting\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] cmake/dependencies\&.cmake, CMakeLists\&.txt: Refactor the CMake configuration by adding custom targets for the magicxx dependencies to speed up the configuration process\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, CMakePresets\&.json: Rename BUILD_MAGICXX_DOCUMENTATION_ONLY build option to BUILD_MAGICXX_DOCUMENTATION\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, CMakePresets\&.json: Rename BUILD_AS_STATIC build option to BUILD_MAGICXX_AS_STATIC\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakeLists\&.txt, CMakePresets\&.json, \fBCONTRIBUTING\&.md\fP, doc/CMakeLists\&.txt, scripts/commit_release\&.sh, scripts/generate_documentation\&.sh: Add support for building documentation from CMake and remove generate_documentation\&.sh script\&.
+.PP
+.SH "[v5\&.6\&.3] - 16-03-2025"
 .PP
 .IP "\(bu" 2
 [\fBBUGFIX\fP] \fBCONTRIBUTING\&.md\fP: Update \fBCONTRIBUTING\&.md\fP to include CMakePresets\&.json and clarify CMake configuration\&.
@@ -189,7 +224,7 @@ md_CHANGELOG \- Changelog
 .IP "\(bu" 2
 [\fBDOCUMENTATION\fP] \fBREADME\&.md\fP: Update the formatting of the license section\&.
 .IP "\(bu" 2
-[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP, \fBTODO\&.md\fP: Separate the to do list from the README\&.
+[\fBDOCUMENTATION\fP] \fBREADME\&.md\fP, TODO\&.md: Separate the to do list from the README\&.
 .IP "\(bu" 2
 [\fBBUGFIX\fP] \fBsrc/magic\&.cpp\fP: Check if the magic is open before checking whether the path is empty or not\&.
 .IP "\(bu" 2

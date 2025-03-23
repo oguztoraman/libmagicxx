@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.6.3</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -110,33 +110,54 @@ $(function(){initNavTree('md_CHANGELOG.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Next Release</h1>
+<h1><a class="anchor" id="autotoc_md2"></a>
+[v5.7.0] - 23-03-2025</h1>
+<ul>
+<li>[<b>BUGFIX</b>] .scripts/commit_release.sh: Remove unused DOXYFILE variable from commit_release script to fix the runtime error.</li>
+<li>[<b>ENHANCEMENT</b>] scripts/launch_container.ps1, scripts/launch_container.sh: Enhance container launch scripts to support image updates and improve usage instructions.</li>
+<li>[<b>DOCUMENTATION</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, <a class="el" href="README_8md.html">README.md</a>: Update contributing guidelines and README to include project initialization step.</li>
+<li>[<b>BUGFIX</b>] .scripts/install_dependencies.sh, <a class="el" href="README_8md.html">README.md</a>: Add missing build dependency awk.</li>
+<li>[<b>BUGFIX</b>] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml: Fix CI workflows.</li>
+<li>[<b>BUGFIX</b>] cmake/dependencies.cmake, scripts/install_dependencies.sh, CMakePresets.json, Containerfile, <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, <a class="el" href="README_8md.html">README.md</a>: Bring back the install_dependencies.sh script.</li>
+<li>[<b>BUGFIX</b>] Containerfile: Add missing development tools installation to Containerfile.</li>
+<li>[<b>ENHANCEMENT</b>] cmake/dependencies.cmake, CMakePresets.json, Containerfile, <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, <a class="el" href="README_8md.html">README.md</a>: Embed the install_dependencies.sh script to the CMake workflows &amp;&amp; Add new CMake workflow presets install-dependencies, initialize-and-update-git-submodules and initialize.</li>
+<li>[<b>ENHANCEMENT</b>] cmake/dependencies.cmake,CMakeLists.txt: Embed the magic_header target into the configure_file target..</li>
+<li>[<b>DOCUMENTATION</b>]: <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Update <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a> to clarify project structure.</li>
+<li>[<b>ENHANCEMENT</b>] cmake/format_source_code.cmake, scripts/commit_release.sh, CMakeLists.txt, CMakePresets.json, <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Replace format script with CMake workflow for source code formatting.</li>
+<li>[<b>ENHANCEMENT</b>] cmake/dependencies.cmake, CMakeLists.txt: Refactor the CMake configuration by adding custom targets for the magicxx dependencies to speed up the configuration process.</li>
+<li>[<b>ENHANCEMENT</b>] CMakeLists.txt, CMakePresets.json: Rename BUILD_MAGICXX_DOCUMENTATION_ONLY build option to BUILD_MAGICXX_DOCUMENTATION.</li>
+<li>[<b>ENHANCEMENT</b>] CMakeLists.txt, CMakePresets.json: Rename BUILD_AS_STATIC build option to BUILD_MAGICXX_AS_STATIC.</li>
+<li>[<b>ENHANCEMENT</b>] CMakeLists.txt, CMakePresets.json, <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, doc/CMakeLists.txt, scripts/commit_release.sh, scripts/generate_documentation.sh: Add support for building documentation from CMake and remove generate_documentation.sh script.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md3"></a>
+[v5.6.3] - 16-03-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Update <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a> to include CMakePresets.json and clarify CMake configuration.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 [v5.6.2] - 16-03-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>]: Update copyright year in source files to 2022-2025.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 [v5.6.1] - 16-03-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="SECURITY_8md.html">SECURITY.md</a>: Update <a class="el" href="SECURITY_8md.html">SECURITY.md</a> to reflect support status for version 5.6.x.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 [v5.6.0] - 16-03-2025</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt: Remove unused source files.</li>
 <li>[<b>ENHANCEMENT</b>] cmake/configure_libmagic.cmake: Enable year 2038 support in libmagic.</li>
 <li>[<b>BUGFIX</b>] .github/workflows/build_and_test_on_linux_using_clang.yml, .github/workflows/build_and_test_on_linux_using_gcc.yml, .gitignore, CMakeLists.txt, CMakePresets.json, <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, <a class="el" href="README_8md.html">README.md</a>, cmake/configure_libmagic.cmake, cmake/toolchains/linux-x86_64-clang.cmake, cmake/toolchains/linux-x86_64-gcc.cmake, examples/CMakeLists.txt, scripts/install_dependencies.sh, scripts/workflows.sh, tests/CMakeLists.txt: Refactor build scripts and CMake configurations &amp; Add new toolchain files for GCC and Clang.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 [v5.5.1] - 06-03-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] PULL_REQUEST_TEMPLATE.md: Update PULL_REQUEST_TEMPLATE.md to include title format guidelines.</li>
 <li>[<b>BUGFIX</b>] .github/ISSUE_TEMPLATE/*: Add issue templates for bug reports, documentation, and feature requests.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 [v5.5.0] - 23-02-2025</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Update <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a> to specify naming conventions.</li>
@@ -147,34 +168,34 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] .clang-format: Update .clang-format to adjust line breaking penalties and compound requirement settings.</li>
 <li>[<b>ENHANCEMENT</b>] .clang-format: Add SPDX license information and clang-format version to .clang-format.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 [v5.4.1] - 17-02-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] scripts/launch_container.ps1, scripts/launch_container.sh: Remove container name specification in launch scripts to fix the container name is already used error.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 [v5.4.0] - 17-02-2025</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>, Containerfile, scripts/launch_container.ps1, scripts/launch_container.sh: Add container development environment setup and scripts.</li>
 <li>[<b>ENHANCEMENT</b>] scripts/*: Improve error handling in scripts.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 [v5.3.2] - 16-02-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Fix compilation errors.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 [v5.3.1] - 15-02-2025</h1>
 <ul>
 <li>[<b>BUGFIX</b>] file: Set the version of File to 5.45 to fix compilation errors.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 [v5.3.0] - 15-02-2025</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, scripts/build.sh: Add build as static option.</li>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, scripts/build.sh: Remove rebuild the libmagic option.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 [v5.2.0] - 13-02-2025</h1>
 <ul>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a>: Add <a class="el" href="CONTRIBUTING_8md.html">CONTRIBUTING.md</a></li>
@@ -192,14 +213,14 @@ Next Release</h1>
 <li>[<b>DOCUMENTATION</b>] Doxyfile: Update documentation.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="SECURITY_8md.html">SECURITY.md</a>: Add <a class="el" href="SECURITY_8md.html">SECURITY.md</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 [v5.1.1] - 25-06-2024</h1>
 <ul>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add missing documentation for flags and parameters.</li>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="CHANGELOG_8md.html">CHANGELOG.md</a>: Fix typo in <a class="el" href="CHANGELOG_8md.html">CHANGELOG.md</a>.</li>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="README_8md.html">README.md</a>: Update <a class="el" href="README_8md.html">README.md</a> presentation for better readability.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 [v5.1.0] - 23-06-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] commit_release.sh: Add commit_release.sh.</li>
@@ -208,7 +229,7 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] build.sh: Add build script.</li>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, install_dependencies.sh, setup.sh, <a class="el" href="README_8md.html">README.md</a>: Automate initialization and setup steps.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 [v5.0.0] - 06-06-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Rename flag_converter to flags_converter.</li>
@@ -234,25 +255,25 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>: Replace the operator&lt;&lt; function for the file containers with the to_string function.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add the <a class="el" href="namespacefile__concepts.html">file_concepts</a> namespace.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 [v4.1.2] - 12-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the compilation error when trying to print the Flag and the Parameter using operator &lt;&lt;.</li>
 <li>[<b>DOCUMENTATION</b>] <a class="el" href="README_8md.html">README.md</a>: Update the formatting of the license section.</li>
-<li>[<b>DOCUMENTATION</b>] <a class="el" href="README_8md.html">README.md</a>, <a class="el" href="TODO_8md.html">TODO.md</a>: Separate the to do list from the README.</li>
+<li>[<b>DOCUMENTATION</b>] <a class="el" href="README_8md.html">README.md</a>, TODO.md: Separate the to do list from the README.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Check if the magic is open before checking whether the path is empty or not.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the incorrect string conversion of Flag::None when using the operator&lt;&lt;.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the compilation error when trying to print Parameters using operator &lt;&lt;.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic__exception_8hpp.html">inc/magic_exception.hpp</a>: Add the missing string header.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the compilation error when trying to print Flags using operator &lt;&lt;.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 [v4.1.1] - 07-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the segmentation fault error when calling a member function of a moved-from magic object.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Erase the operator bool function of the magic_private class.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 [v4.1.0] - 05-05-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix the segmentation fault error when calling a member function of a default constructed magic.</li>
@@ -261,19 +282,19 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add default_database_file.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Use std::format for the version string.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 [v4.0.0] - 04-05-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] CMakeLists.txt, <a class="el" href="README_8md.html">README.md</a>: Change the project name to Libmagicxx.</li>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Make magic_INCLUDE_DIR private.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 [v3.1.1] - 28-04-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Use libc++ when the compiler is clang.</li>
 <li>[<b>BUGFIX</b>] setup.sh: Install the missing libcxx-devel package for clang.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 [v3.1.0] - 23-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add the missing parameters and flags.</li>
@@ -281,29 +302,29 @@ Next Release</h1>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Fix the SPDX-License-Identifier.</li>
 <li>[<b>ENHANCEMENT</b>] .gitmodules, file: Add the Magic Number Recognition Library v5.45 as a submodule.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 [v3.0.0] - 14-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] COPYING, COPYING.LESSER, <a class="el" href="README_8md.html">README.md</a>, <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic__exception_8hpp.html">inc/magic_exception.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Change the license to LGPL-3.0-only.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 [v2.1.0] - 07-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Add operator&lt;&lt; overload for expected_file_type_t.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add operator&lt;&lt; overloads for Flag, Flags, Parameter and Parameters.</li>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Add get_parameters function.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 [v2.0.0] - 06-04-2024</h1>
 <ul>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="file__concepts_8hpp.html">inc/file_concepts.hpp</a>, <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Use std::expected instead of std::optional to report the error.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 [v1.0.2] - 03-04-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Fix throwing an empty_path exception when the path is not empty.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 [v1.0.1] - 11-03-2024</h1>
 <ul>
 <li>[<b>BUGFIX</b>] CMakeLists.txt: Fix typo.</li>
@@ -312,7 +333,7 @@ Next Release</h1>
 <li>[<b>ENHANCEMENT</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>: Use abbreviated function templates.</li>
 <li>[<b>BUGFIX</b>] <a class="el" href="magic_8hpp.html">inc/magic.hpp</a>, <a class="el" href="magic_8cpp.html">src/magic.cpp</a>: Remove the namespace alias std_fs for the Doxygen.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 [v1.0.0] - 03-01-2024</h1>
 <ul>
 <li>Initial release. </li>
@@ -323,7 +344,7 @@ Next Release</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Mar 16 2025 23:31:05 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Mar 23 2025 13:15:52 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

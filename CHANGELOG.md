@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v5.7.0] - 23-03-2025
+
 + [**BUGFIX**] .scripts/commit_release.sh: Remove unused DOXYFILE variable from commit_release script to fix the runtime error.
 
 + [**ENHANCEMENT**] scripts/launch_container.ps1, scripts/launch_container.sh: Enhance container launch scripts to support image updates and improve usage instructions.

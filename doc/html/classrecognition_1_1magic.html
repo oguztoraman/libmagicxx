@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.6.3</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -492,67 +492,67 @@ Friends</h2></td></tr>
 <p>The flags enums are used for configuring the flags of a magic. </p>
 <dl class="section note"><dt>Note</dt><dd>The flags enums are suitable for bitwise or operations. </dd></dl>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9c7ba0185b2d2b6d54abf6fd1bb7cd52" name="a41764bcc1857661422a1b062c9cdacdea9c7ba0185b2d2b6d54abf6fd1bb7cd52"></a>none&#160;</td><td class="fielddoc"><p>No special handling. </p>
+<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9c7ba0185b2d2b6d54abf6fd1bb7cd52" name="a41764bcc1857661422a1b062c9cdacdea9c7ba0185b2d2b6d54abf6fd1bb7cd52"></a>none&#160;</td><td class="fieldinit">0ULL&#160;</td><td class="fielddoc"><p>No special handling. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039" name="a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039"></a>debug&#160;</td><td class="fielddoc"><p>Print debugging messages to stderr. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039" name="a41764bcc1857661422a1b062c9cdacdea8cacbdbf14727071b711ed9f98cbc039"></a>debug&#160;</td><td class="fieldinit">1ULL &lt;&lt; 0&#160;</td><td class="fielddoc"><p>Print debugging messages to stderr. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330" name="a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330"></a>symlink&#160;</td><td class="fielddoc"><p>If the file queried is a symlink, follow it. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330" name="a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330"></a>symlink&#160;</td><td class="fieldinit">1ULL &lt;&lt; 1&#160;</td><td class="fielddoc"><p>If the file queried is a symlink, follow it. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaacea878d4b680c4c78d211805454777d" name="a41764bcc1857661422a1b062c9cdacdeaacea878d4b680c4c78d211805454777d"></a>compress&#160;</td><td class="fielddoc"><p>If the file is compressed, unpack it and look at the contents. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaacea878d4b680c4c78d211805454777d" name="a41764bcc1857661422a1b062c9cdacdeaacea878d4b680c4c78d211805454777d"></a>compress&#160;</td><td class="fieldinit">1ULL &lt;&lt; 2&#160;</td><td class="fielddoc"><p>If the file is compressed, unpack it and look at the contents. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb" name="a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb"></a>devices&#160;</td><td class="fielddoc"><p>If the file is a block or character special device, then open the device and try to look in its contents. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb" name="a41764bcc1857661422a1b062c9cdacdeaca259f80d5d325eff2d3569541d152eb"></a>devices&#160;</td><td class="fieldinit">1ULL &lt;&lt; 3&#160;</td><td class="fielddoc"><p>If the file is a block or character special device, then open the device and try to look in its contents. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83" name="a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83"></a>mime_type&#160;</td><td class="fielddoc"><p>Return a MIME type string, instead of a textual description. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83" name="a41764bcc1857661422a1b062c9cdacdea477647b5dca788325571cb253f48ed83"></a>mime_type&#160;</td><td class="fieldinit">1ULL &lt;&lt; 4&#160;</td><td class="fielddoc"><p>Return a MIME type string, instead of a textual description. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeae8bc834a10246a8534e5ff264d18ffd7" name="a41764bcc1857661422a1b062c9cdacdeae8bc834a10246a8534e5ff264d18ffd7"></a>continue_search&#160;</td><td class="fielddoc"><p>Return all matches, not just the first. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeae8bc834a10246a8534e5ff264d18ffd7" name="a41764bcc1857661422a1b062c9cdacdeae8bc834a10246a8534e5ff264d18ffd7"></a>continue_search&#160;</td><td class="fieldinit">1ULL &lt;&lt; 5&#160;</td><td class="fielddoc"><p>Return all matches, not just the first. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaf8199a761ae3ae4f871885486e048010" name="a41764bcc1857661422a1b062c9cdacdeaf8199a761ae3ae4f871885486e048010"></a>check_database&#160;</td><td class="fielddoc"><p>Check the magic database for consistency and print warnings to stderr. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaf8199a761ae3ae4f871885486e048010" name="a41764bcc1857661422a1b062c9cdacdeaf8199a761ae3ae4f871885486e048010"></a>check_database&#160;</td><td class="fieldinit">1ULL &lt;&lt; 6&#160;</td><td class="fielddoc"><p>Check the magic database for consistency and print warnings to stderr. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac44aa990e942d6874811524fc0dbd8c0" name="a41764bcc1857661422a1b062c9cdacdeac44aa990e942d6874811524fc0dbd8c0"></a>preserve_atime&#160;</td><td class="fielddoc"><p>On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac44aa990e942d6874811524fc0dbd8c0" name="a41764bcc1857661422a1b062c9cdacdeac44aa990e942d6874811524fc0dbd8c0"></a>preserve_atime&#160;</td><td class="fieldinit">1ULL &lt;&lt; 7&#160;</td><td class="fielddoc"><p>On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e" name="a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e"></a>raw&#160;</td><td class="fielddoc"><p>Don't translate unprintable characters to a \ooo octal representation. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e" name="a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e"></a>raw&#160;</td><td class="fieldinit">1ULL &lt;&lt; 8&#160;</td><td class="fielddoc"><p>Don't translate unprintable characters to a \ooo octal representation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea38a306e4353c000732db8729f0edbb67" name="a41764bcc1857661422a1b062c9cdacdea38a306e4353c000732db8729f0edbb67"></a>error&#160;</td><td class="fielddoc"><p>Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea38a306e4353c000732db8729f0edbb67" name="a41764bcc1857661422a1b062c9cdacdea38a306e4353c000732db8729f0edbb67"></a>error&#160;</td><td class="fieldinit">1ULL &lt;&lt; 9&#160;</td><td class="fielddoc"><p>Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785" name="a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785"></a>mime_encoding&#160;</td><td class="fielddoc"><p>Return a MIME encoding, instead of a textual description. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785" name="a41764bcc1857661422a1b062c9cdacdea85fbe7f40c74bdb5de41e241d5b5b785"></a>mime_encoding&#160;</td><td class="fieldinit">1ULL &lt;&lt; 10&#160;</td><td class="fielddoc"><p>Return a MIME encoding, instead of a textual description. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377" name="a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377"></a>mime&#160;</td><td class="fielddoc"><p>A shorthand for mime_type|mime_encoding. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377" name="a41764bcc1857661422a1b062c9cdacdeaac78781d57fb5dfc24a15052316a4377"></a>mime&#160;</td><td class="fieldinit">1ULL &lt;&lt; 11&#160;</td><td class="fielddoc"><p>A shorthand for mime_type|mime_encoding. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaa9741451e5183c02e81018e51b7b7a10" name="a41764bcc1857661422a1b062c9cdacdeaa9741451e5183c02e81018e51b7b7a10"></a>apple&#160;</td><td class="fielddoc"><p>Return the Apple creator and type. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaa9741451e5183c02e81018e51b7b7a10" name="a41764bcc1857661422a1b062c9cdacdeaa9741451e5183c02e81018e51b7b7a10"></a>apple&#160;</td><td class="fieldinit">1ULL &lt;&lt; 12&#160;</td><td class="fielddoc"><p>Return the Apple creator and type. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac74357d1f7e08660ae09fdcd74639131" name="a41764bcc1857661422a1b062c9cdacdeac74357d1f7e08660ae09fdcd74639131"></a>extension&#160;</td><td class="fielddoc"><p>Return a slash-separated list of extensions for this file type. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac74357d1f7e08660ae09fdcd74639131" name="a41764bcc1857661422a1b062c9cdacdeac74357d1f7e08660ae09fdcd74639131"></a>extension&#160;</td><td class="fieldinit">1ULL &lt;&lt; 13&#160;</td><td class="fielddoc"><p>Return a slash-separated list of extensions for this file type. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaa02f54957e99577f7eb798ab8c479baf" name="a41764bcc1857661422a1b062c9cdacdeaa02f54957e99577f7eb798ab8c479baf"></a>compress_transp&#160;</td><td class="fielddoc"><p>Don't report on compression, only report about the uncompressed data. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaa02f54957e99577f7eb798ab8c479baf" name="a41764bcc1857661422a1b062c9cdacdeaa02f54957e99577f7eb798ab8c479baf"></a>compress_transp&#160;</td><td class="fieldinit">1ULL &lt;&lt; 14&#160;</td><td class="fielddoc"><p>Don't report on compression, only report about the uncompressed data. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeabd85cf526c10815605edc4626702f52b" name="a41764bcc1857661422a1b062c9cdacdeabd85cf526c10815605edc4626702f52b"></a>no_compress_fork&#160;</td><td class="fielddoc"><p>Don't allow decompressors that use fork. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeabd85cf526c10815605edc4626702f52b" name="a41764bcc1857661422a1b062c9cdacdeabd85cf526c10815605edc4626702f52b"></a>no_compress_fork&#160;</td><td class="fieldinit">1ULL &lt;&lt; 15&#160;</td><td class="fielddoc"><p>Don't allow decompressors that use fork. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9f161ae014900672a5683a0a7dd698b9" name="a41764bcc1857661422a1b062c9cdacdea9f161ae014900672a5683a0a7dd698b9"></a>nodesc&#160;</td><td class="fielddoc"><p>A shorthand for extension|mime|apple </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9f161ae014900672a5683a0a7dd698b9" name="a41764bcc1857661422a1b062c9cdacdea9f161ae014900672a5683a0a7dd698b9"></a>nodesc&#160;</td><td class="fieldinit">1ULL &lt;&lt; 16&#160;</td><td class="fielddoc"><p>A shorthand for extension|mime|apple </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea423d4cfbdc707b449d90b30dba53b868" name="a41764bcc1857661422a1b062c9cdacdea423d4cfbdc707b449d90b30dba53b868"></a>no_check_compress&#160;</td><td class="fielddoc"><p>Don't look inside compressed files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea423d4cfbdc707b449d90b30dba53b868" name="a41764bcc1857661422a1b062c9cdacdea423d4cfbdc707b449d90b30dba53b868"></a>no_check_compress&#160;</td><td class="fieldinit">1ULL &lt;&lt; 17&#160;</td><td class="fielddoc"><p>Don't look inside compressed files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea42d11975caf23280dc657d50363e2502" name="a41764bcc1857661422a1b062c9cdacdea42d11975caf23280dc657d50363e2502"></a>no_check_tar&#160;</td><td class="fielddoc"><p>Don't examine tar files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea42d11975caf23280dc657d50363e2502" name="a41764bcc1857661422a1b062c9cdacdea42d11975caf23280dc657d50363e2502"></a>no_check_tar&#160;</td><td class="fieldinit">1ULL &lt;&lt; 18&#160;</td><td class="fielddoc"><p>Don't examine tar files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeab8d219348fe8c4d1804a03d18e7daaca" name="a41764bcc1857661422a1b062c9cdacdeab8d219348fe8c4d1804a03d18e7daaca"></a>no_check_soft&#160;</td><td class="fielddoc"><p>Don't consult magic files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeab8d219348fe8c4d1804a03d18e7daaca" name="a41764bcc1857661422a1b062c9cdacdeab8d219348fe8c4d1804a03d18e7daaca"></a>no_check_soft&#160;</td><td class="fieldinit">1ULL &lt;&lt; 19&#160;</td><td class="fielddoc"><p>Don't consult magic files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea2f046d7f27a20f5d941dc5d9e3ec7782" name="a41764bcc1857661422a1b062c9cdacdea2f046d7f27a20f5d941dc5d9e3ec7782"></a>no_check_apptype&#160;</td><td class="fielddoc"><p>Don't check for EMX application type (only on EMX). </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea2f046d7f27a20f5d941dc5d9e3ec7782" name="a41764bcc1857661422a1b062c9cdacdea2f046d7f27a20f5d941dc5d9e3ec7782"></a>no_check_apptype&#160;</td><td class="fieldinit">1ULL &lt;&lt; 20&#160;</td><td class="fielddoc"><p>Don't check for EMX application type (only on EMX). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9be0d7ac03445106377f55b677237f28" name="a41764bcc1857661422a1b062c9cdacdea9be0d7ac03445106377f55b677237f28"></a>no_check_elf&#160;</td><td class="fielddoc"><p>Don't print ELF details. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea9be0d7ac03445106377f55b677237f28" name="a41764bcc1857661422a1b062c9cdacdea9be0d7ac03445106377f55b677237f28"></a>no_check_elf&#160;</td><td class="fieldinit">1ULL &lt;&lt; 21&#160;</td><td class="fielddoc"><p>Don't print ELF details. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeab266c31ca087e4ce019d73739bd27fe8" name="a41764bcc1857661422a1b062c9cdacdeab266c31ca087e4ce019d73739bd27fe8"></a>no_check_text&#160;</td><td class="fielddoc"><p>Don't check for various types of text files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeab266c31ca087e4ce019d73739bd27fe8" name="a41764bcc1857661422a1b062c9cdacdeab266c31ca087e4ce019d73739bd27fe8"></a>no_check_text&#160;</td><td class="fieldinit">1ULL &lt;&lt; 22&#160;</td><td class="fielddoc"><p>Don't check for various types of text files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea185ebf88136353f324c22038301ffc87" name="a41764bcc1857661422a1b062c9cdacdea185ebf88136353f324c22038301ffc87"></a>no_check_cdf&#160;</td><td class="fielddoc"><p>Don't get extra information on MS Composite Document Files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea185ebf88136353f324c22038301ffc87" name="a41764bcc1857661422a1b062c9cdacdea185ebf88136353f324c22038301ffc87"></a>no_check_cdf&#160;</td><td class="fieldinit">1ULL &lt;&lt; 23&#160;</td><td class="fielddoc"><p>Don't get extra information on MS Composite Document Files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeae77f0c271fa17042c730735a91fce6b5" name="a41764bcc1857661422a1b062c9cdacdeae77f0c271fa17042c730735a91fce6b5"></a>no_check_csv&#160;</td><td class="fielddoc"><p>Don't examine CSV files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeae77f0c271fa17042c730735a91fce6b5" name="a41764bcc1857661422a1b062c9cdacdeae77f0c271fa17042c730735a91fce6b5"></a>no_check_csv&#160;</td><td class="fieldinit">1ULL &lt;&lt; 24&#160;</td><td class="fielddoc"><p>Don't examine CSV files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea06e3b509821897a30d9048eb16ed9623" name="a41764bcc1857661422a1b062c9cdacdea06e3b509821897a30d9048eb16ed9623"></a>no_check_tokens&#160;</td><td class="fielddoc"><p>Don't look for known tokens inside ascii files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdea06e3b509821897a30d9048eb16ed9623" name="a41764bcc1857661422a1b062c9cdacdea06e3b509821897a30d9048eb16ed9623"></a>no_check_tokens&#160;</td><td class="fieldinit">1ULL &lt;&lt; 25&#160;</td><td class="fielddoc"><p>Don't look for known tokens inside ascii files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdead668eccc7f38cdff95eda75a7ace887e" name="a41764bcc1857661422a1b062c9cdacdead668eccc7f38cdff95eda75a7ace887e"></a>no_check_encoding&#160;</td><td class="fielddoc"><p>Don't check text encodings. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdead668eccc7f38cdff95eda75a7ace887e" name="a41764bcc1857661422a1b062c9cdacdead668eccc7f38cdff95eda75a7ace887e"></a>no_check_encoding&#160;</td><td class="fieldinit">1ULL &lt;&lt; 26&#160;</td><td class="fielddoc"><p>Don't check text encodings. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaf856a65c6d3a22bb243b4782a7bbcbab" name="a41764bcc1857661422a1b062c9cdacdeaf856a65c6d3a22bb243b4782a7bbcbab"></a>no_check_json&#160;</td><td class="fielddoc"><p>Don't examine JSON files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeaf856a65c6d3a22bb243b4782a7bbcbab" name="a41764bcc1857661422a1b062c9cdacdeaf856a65c6d3a22bb243b4782a7bbcbab"></a>no_check_json&#160;</td><td class="fieldinit">1ULL &lt;&lt; 27&#160;</td><td class="fielddoc"><p>Don't examine JSON files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeadd49fbc9fe2662afd3367889502acf46" name="a41764bcc1857661422a1b062c9cdacdeadd49fbc9fe2662afd3367889502acf46"></a>no_check_simh&#160;</td><td class="fielddoc"><p>Don't examine SIMH tape files. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeadd49fbc9fe2662afd3367889502acf46" name="a41764bcc1857661422a1b062c9cdacdeadd49fbc9fe2662afd3367889502acf46"></a>no_check_simh&#160;</td><td class="fieldinit">1ULL &lt;&lt; 28&#160;</td><td class="fielddoc"><p>Don't examine SIMH tape files. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac55a17808c4a08f4309166c845dcadd6" name="a41764bcc1857661422a1b062c9cdacdeac55a17808c4a08f4309166c845dcadd6"></a>no_check_builtin&#160;</td><td class="fielddoc"><p>No built-in tests; only consult the magic file. </p>
+<tr><td class="fieldname"><a id="a41764bcc1857661422a1b062c9cdacdeac55a17808c4a08f4309166c845dcadd6" name="a41764bcc1857661422a1b062c9cdacdeac55a17808c4a08f4309166c845dcadd6"></a>no_check_builtin&#160;</td><td class="fieldinit">1ULL &lt;&lt; 29&#160;</td><td class="fielddoc"><p>No built-in tests; only consult the magic file. </p>
 </td></tr>
 </table>
 
@@ -580,23 +580,23 @@ Friends</h2></td></tr>
 
 <p>The parameters enums are used for displaying or modifying the parameters of a magic. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51" name="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51"></a>indir_max&#160;</td><td class="fielddoc"><p>Recursion limit for indirection (default is 50). </p>
+<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51" name="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51"></a>indir_max&#160;</td><td class="fieldinit">0uz&#160;</td><td class="fielddoc"><p>Recursion limit for indirection (default is 50). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b" name="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b"></a>name_max&#160;</td><td class="fielddoc"><p>Use limit for name/use magic (default is 50). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b" name="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b"></a>name_max&#160;</td><td class="fieldinit">1uz&#160;</td><td class="fielddoc"><p>Use limit for name/use magic (default is 50). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c" name="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c"></a>elf_phnum_max&#160;</td><td class="fielddoc"><p>Max ELF program sections processed (default is 2048). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c" name="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c"></a>elf_phnum_max&#160;</td><td class="fieldinit">2uz&#160;</td><td class="fielddoc"><p>Max ELF program sections processed (default is 2048). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df" name="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df"></a>elf_shnum_max&#160;</td><td class="fielddoc"><p>Max ELF sections processed (default is 32768). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df" name="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df"></a>elf_shnum_max&#160;</td><td class="fieldinit">3uz&#160;</td><td class="fielddoc"><p>Max ELF sections processed (default is 32768). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940af635ed1aaa01c9f87a6437f4b3d8c143" name="a85e5da0093fe0bc74bb1911a99e1a940af635ed1aaa01c9f87a6437f4b3d8c143"></a>elf_notes_max&#160;</td><td class="fielddoc"><p>Max ELF notes processed (default is 256). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940af635ed1aaa01c9f87a6437f4b3d8c143" name="a85e5da0093fe0bc74bb1911a99e1a940af635ed1aaa01c9f87a6437f4b3d8c143"></a>elf_notes_max&#160;</td><td class="fieldinit">4uz&#160;</td><td class="fielddoc"><p>Max ELF notes processed (default is 256). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05" name="a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05"></a>regex_max&#160;</td><td class="fielddoc"><p>Max length limit for REGEX searches (default is 8192). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05" name="a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05"></a>regex_max&#160;</td><td class="fieldinit">5uz&#160;</td><td class="fielddoc"><p>Max length limit for REGEX searches (default is 8192). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11" name="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11"></a>bytes_max&#160;</td><td class="fielddoc"><p>Max bytes to look inside file (default is 7340032). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11" name="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11"></a>bytes_max&#160;</td><td class="fieldinit">6uz&#160;</td><td class="fielddoc"><p>Max bytes to look inside file (default is 7340032). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378" name="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378"></a>encoding_max&#160;</td><td class="fielddoc"><p>Max bytes to scan for encoding (default is 65536). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378" name="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378"></a>encoding_max&#160;</td><td class="fieldinit">7uz&#160;</td><td class="fielddoc"><p>Max bytes to scan for encoding (default is 65536). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8" name="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8"></a>elf_shsize_max&#160;</td><td class="fielddoc"><p>Max ELF section size (default is 134217728). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8" name="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8"></a>elf_shsize_max&#160;</td><td class="fieldinit">8uz&#160;</td><td class="fielddoc"><p>Max ELF section size (default is 134217728). </p>
 </td></tr>
 </table>
 
@@ -1814,7 +1814,7 @@ Friends</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerecognition.html">recognition</a></li><li class="navelem"><a class="el" href="classrecognition_1_1magic.html">magic</a></li>
-    <li class="footer">Generated on Sun Mar 16 2025 23:31:05 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Mar 23 2025 13:15:52 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

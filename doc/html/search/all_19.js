@@ -1,17 +1,15 @@
 var searchData=
 [
-  ['scope_0',['Scope',['../md_CODE__OF__CONDUCT.html#autotoc_md32',1,'']]],
-  ['security_1',['Security',['../index.html#autotoc_md65',1,'']]],
-  ['security_20policy_2',['Security Policy',['../md_SECURITY.html',1,'']]],
-  ['security_2emd_3',['SECURITY.md',['../SECURITY_8md.html',1,'']]],
-  ['set_5fflags_4',['set_flags',['../classrecognition_1_1magic.html#a10a1048294a6a5fb074835c7d4e3a0e5',1,'recognition::magic::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a629b5d1efe7d275c32896805edb6ff5f',1,'recognition::magic::set_flags(const flags_container_t &amp;flags_container)'],['../classrecognition_1_1magic_1_1magic__private.html#a490d0f51a5b578ca83a96cbe9decb63b',1,'recognition::magic::magic_private::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic_1_1magic__private.html#a7045e278d25be5c47d88268075a35044',1,'recognition::magic::magic_private::set_flags(const flags_container_t &amp;flags_container)']]],
-  ['set_5fparameter_5',['set_parameter',['../classrecognition_1_1magic.html#a974c60ca269f6b718af895977bba08ca',1,'recognition::magic::set_parameter()'],['../classrecognition_1_1magic_1_1magic__private.html#a31b89650aa7c24bd8c4be87c1a571846',1,'recognition::magic::magic_private::set_parameter()']]],
-  ['set_5fparameters_6',['set_parameters',['../classrecognition_1_1magic.html#a1e8985a4ad62b2dfdacfea763166572c',1,'recognition::magic::set_parameters()'],['../classrecognition_1_1magic_1_1magic__private.html#a4dcf6f5b61b24f56c760f186d0339bbf',1,'recognition::magic::magic_private::set_parameters()']]],
-  ['source_20code_7',['Source Code',['../index.html#autotoc_md66',1,'']]],
-  ['standards_8',['Our Standards',['../md_CODE__OF__CONDUCT.html#autotoc_md30',1,'']]],
-  ['started_9',['Getting Started',['../md_CONTRIBUTING.html#autotoc_md45',1,'']]],
-  ['status_10',['Project Status',['../index.html#autotoc_md56',1,'']]],
-  ['structure_11',['Project Structure',['../md_CONTRIBUTING.html#autotoc_md41',1,'']]],
-  ['supported_20versions_12',['Supported Versions',['../md_SECURITY.html#autotoc_md70',1,'']]],
-  ['symlink_13',['symlink',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330',1,'recognition::magic']]]
+  ['raw_0',['raw',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea06d6a17f2dca6e9bf41b6eeb1311f36e',1,'recognition::magic']]],
+  ['readme_2emd_1',['README.md',['../README_8md.html',1,'']]],
+  ['recognition_2',['recognition',['../namespacerecognition.html',1,'']]],
+  ['recognition_3a_3adetail_3',['detail',['../namespacerecognition_1_1detail.html',1,'recognition']]],
+  ['regex_5fmax_4',['regex_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05',1,'recognition::magic']]],
+  ['release_5',['Next Release',['../md_CHANGELOG.html#autotoc_md1',1,'']]],
+  ['reporting_20a_20vulnerability_6',['Reporting a Vulnerability',['../md_SECURITY.html#autotoc_md73',1,'']]],
+  ['reporting_20issues_7',['Reporting Issues',['../md_CONTRIBUTING.html#autotoc_md51',1,'']]],
+  ['request_8',['Creating a Pull Request',['../md_CONTRIBUTING.html#autotoc_md50',1,'']]],
+  ['requirements_20to_20build_20libmagicxx_9',['Requirements to Build Libmagicxx',['../index.html#autotoc_md60',1,'']]],
+  ['responsibilities_10',['Enforcement Responsibilities',['../md_CODE__OF__CONDUCT.html#autotoc_md33',1,'']]],
+  ['review_20process_11',['Review Process',['../md_CONTRIBUTING.html#autotoc_md54',1,'']]]
 ];

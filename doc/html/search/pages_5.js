@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['security_20policy_0',['Security Policy',['../md_SECURITY.html',1,'']]]
+  ['to_20libmagicxx_0',['Contributing to Libmagicxx',['../md_CONTRIBUTING.html',1,'']]]
 ];

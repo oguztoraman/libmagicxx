@@ -1,4 +1,4 @@
-.TH "md_CONTRIBUTING" 3 "Sun Mar 16 2025 23:31:05" "Version v5.6.3" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CONTRIBUTING" 3 "Sun Mar 23 2025 13:15:52" "Version v5.7.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,6 +14,7 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing\&
 .nf
 libmagicxx/
 ├── \&.github/                   # Continuous Integration (CI)
+├── cmake/                     # CMake configuration files, custom CMake targets\&.
 ├── doc/                       # Documentation files
 ├── examples/                  # Examples
 ├── file/                      # File and the Magic Number Recognition Library
@@ -26,13 +27,12 @@ libmagicxx/
 ├── \&.gitignore                 # Git ignore file
 ├── \&.gitmodules                # Git submodules configuration
 ├── CHANGELOG\&.md               # Changelog
-├── CMakeLists\&.txt             # CMake configuration
+├── CMakeLists\&.txt             # Top\-level CMake file
 ├── CMakePresets\&.json          # CMake presets
 ├── CODE_OF_CONDUCT\&.md         # Code of Conduct
 ├── Containerfile              # Container image configuration
 ├── CONTRIBUTING\&.md            # Contribution guidelines
 ├── COPYING\&.LESSER             # License file
-├── Doxyfile                   # Doxygen configuration
 ├── PULL_REQUEST_TEMPLATE\&.md   # Pull request template
 ├── README\&.md                  # Project details
 ├── SECURITY\&.md                # Security policy
@@ -149,6 +149,16 @@ Search for and install the following extensions:
 .PP
 These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration\&.
 .IP "9." 4
+Open a new terminal and initialize the project using the \fRworkflows\&.sh\fP bash script\&.
+
+.PP
+.PP
+.nf
+\&./scripts/workflows\&.sh \-p initialize
+.fi
+.PP
+
+.IP "10." 4
 Now you are ready for your changes\&. You can commit your changes, build the project, run tests, and execute scripts within the container\&. However, you cannot push these changes directly from the container\&. Once you are done, close the container connection and push your work from your local computer\&.
 .PP
 .SH "How to Use Libmagicxx in a CMake-based Project"
@@ -238,12 +248,12 @@ Ensure that your changes do not break any existing tests\&. If you are adding ne
 \fBFormat Code\fP:
 .PP
 .IP "\(bu" 2
-Ensure your code is properly formatted using the \fRformat\&.sh\fP script:
+Ensure your code is properly formatted using the CMake workflow preset \fRformat-source-code\fP:
 
 .PP
 .PP
 .nf
-\&./scripts/format\&.sh
+\&./scripts/workflows\&.sh \-p format\-source\-code
 .fi
 .PP
 

@@ -7,10 +7,6 @@
     },
     "configurePresets": [
         {
-            "name": "initialize",
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
             "name": "documentation",
             "cacheVariables": {
                 "BUILD_MAGICXX_DOCUMENTATION": "ON"
@@ -328,14 +324,6 @@
             "hidden": true
         },
         {
-            "name": "initialize",
-            "inherits": "base-config",
-            "configurePreset": "initialize",
-            "targets": [
-                "initialize_and_update_git_submodules"
-            ]
-        },
-        {
             "name": "documentation",
             "inherits": "base-config",
             "configurePreset": "documentation",
@@ -526,20 +514,6 @@
         }
     ],
     "workflowPresets": [
-        {
-            "name": "initialize",
-            "displayName": "Initialize the Project",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "initialize"
-                },
-                {
-                    "type": "build",
-                    "name": "initialize"
-                }
-            ]
-        },
         {
             "name": "documentation",
             "displayName": "Build Documentation",

@@ -1,16 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-add_custom_target(initialize_and_update_git_submodules
-    COMMAND
-        git submodule update --init --recursive
-    WORKING_DIRECTORY
-        ${magicxx_SOURCE_DIR}
-    COMMENT
-        "Initializing and updating git submodules..."
-    VERBATIM
-)
-
 add_custom_target(configure_file
     COMMAND
         autoreconf -f -i

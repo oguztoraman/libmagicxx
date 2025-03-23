@@ -114,10 +114,10 @@ The current development environment is a container image built on top of the lat
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 
-9. Open a new terminal and initialize the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
+9. Open a new terminal and initialize the project using the [initialize.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh) bash script.
 
     ```bash
-    ./scripts/workflows.sh -p initialize
+    ./scripts/initialize.sh
     ```
 
 10. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.

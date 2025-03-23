@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] external/file, external/googletest, .gitsubmodules, CMakeLists.txt, CONTRIBUTING.md: Refactor submodule paths to use 'external/' directory for better organization.
+
 ## [v5.7.1] - 23-03-2025
 
 + [**BUGFIX**]  cmake/dependencies.cmake, .scripts/initialize.sh, CMakePresets.json, CONTRIBUTING.md, README.md: Move the project initialization process from CMake workflow to a bash script to fix CMake initialization workflow error.

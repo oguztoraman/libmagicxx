@@ -1,6 +1,6 @@
 [submodule "file"]
-	path = file
+	path = external/file
 	url = https://github.com/file/file
 [submodule "googletest"]
-	path = googletest
+	path = external/googletest
 	url = https://github.com/google/googletest

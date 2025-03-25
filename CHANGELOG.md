@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] external/file, external/googletest, tests/magic_version_test.cpp: Update file version to v5.46, googletest version to v1.16.0.
+
 + [**ENHANCEMENT**] .github/workflows/*, cmake/toolchains/windows-x86_64-mingw64.cmake, cmake/dependencies.cmake, scripts/install_dependencies.sh, src/magic.cpp, CMakeLists.txt, CMakePresets.json, README.md: Add support for Windows build using MinGW64.
 
 + [**ENHANCEMENT**] external/libgnurx, .gitsubmodules, README.md: Add libgnurx submodule for the x86_64-w64-mingw32 build.

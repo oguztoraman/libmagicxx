@@ -15,10 +15,10 @@ jobs:
     steps:
     - name: Install Dependencies.
       run: >
-        dnf install -y git
-            awk make autoconf libtool
-            cmake ninja-build
-            mold clang libcxx-devel
+        dnf install -y git            \
+            awk make autoconf libtool \
+            cmake ninja-build         \
+            mold clang libcxx-devel   \
             clang-tools-extra
     - name: Checkout.
       uses: actions/checkout@v4

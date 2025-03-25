@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, cmake/toolchains/windows-x86_64-mingw64.cmake, cmake/dependencies.cmake, scripts/install_dependencies.sh, src/magic.cpp, CMakeLists.txt, CMakePresets.json, README.md: Add support for Windows build using MinGW64.
+
 + [**ENHANCEMENT**] external/libgnurx, .gitsubmodules, README.md: Add libgnurx submodule for the x86_64-w64-mingw32 build.
 
 + [**ENHANCEMENT**] external/file, external/googletest, .gitsubmodules, CMakeLists.txt, CONTRIBUTING.md: Refactor submodule paths to use 'external/' directory for better organization.

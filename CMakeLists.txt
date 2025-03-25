@@ -34,6 +34,31 @@ set(magic_SOURCE_DIR
     ${magic_DIR}/src
 )
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(gnurx_DIR
+        ${magicxx_SOURCE_DIR}/external/libgnurx
+    )
+
+    set(gnurx_INCLUDE_DIR
+        ${gnurx_DIR}
+    )
+
+    set(gnurx_SOURCE_FILES
+        ${gnurx_DIR}/regex.c
+    )
+
+    set(magic_OS_REPLACEMENT_SOURCE_FILES
+        ${magic_SOURCE_DIR}/asctime_r.c
+        ${magic_SOURCE_DIR}/ctime_r.c
+        ${magic_SOURCE_DIR}/getline.c
+        ${magic_SOURCE_DIR}/gmtime_r.c
+        ${magic_SOURCE_DIR}/localtime_r.c
+        ${magic_SOURCE_DIR}/pread.c
+        ${magic_SOURCE_DIR}/strcasestr.c
+        ${magic_SOURCE_DIR}/strlcpy.c
+    )
+endif()
+
 set(magic_SOURCE_FILES
     ${magic_SOURCE_DIR}/apprentice.c
     ${magic_SOURCE_DIR}/apptype.c
@@ -56,6 +81,7 @@ set(magic_SOURCE_FILES
     ${magic_SOURCE_DIR}/readcdf.c
     ${magic_SOURCE_DIR}/readelf.c
     ${magic_SOURCE_DIR}/softmagic.c
+    ${magic_OS_REPLACEMENT_SOURCE_FILES}
 )
 
 set(magicxx_INCLUDE_DIR
@@ -97,6 +123,7 @@ target_sources(magicxx
         BASE_DIRS ${magicxx_INCLUDE_DIR}
         FILES ${magicxx_HEADER_FILES}
     PRIVATE
+        ${gnurx_SOURCE_FILES}
         ${magic_SOURCE_FILES}
         ${magicxx_SOURCE_FILES}
 )
@@ -109,6 +136,7 @@ target_compile_definitions(magicxx
 
 target_include_directories(magicxx
     PRIVATE
+        ${gnurx_INCLUDE_DIR}
         ${magic_INCLUDE_DIR}
     PUBLIC
         ${magicxx_INCLUDE_DIR}

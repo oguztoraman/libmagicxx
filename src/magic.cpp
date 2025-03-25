@@ -52,7 +52,10 @@ public:
             return false;
         }
         using detail::magic_check;
-        auto result = magic_check(m_cookie.get(), database_file.c_str());
+        auto result = magic_check(
+            m_cookie.get(),
+            database_file.string().c_str()
+        );
         return result != libmagic_error;
     }
 
@@ -67,7 +70,10 @@ public:
             return false;
         }
         using detail::magic_compile;
-        auto result = magic_compile(m_cookie.get(), database_file.c_str());
+        auto result = magic_compile(
+            m_cookie.get(),
+            database_file.string().c_str()
+        );
         return result != libmagic_error;
     }
 
@@ -106,10 +112,13 @@ public:
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<empty_path>(!path.empty());
-        auto type_cstr = detail::magic_file(m_cookie.get(), path.c_str());
+        auto type_cstr = detail::magic_file(
+            m_cookie.get(),
+            path.string().c_str()
+        );
         throw_exception_on_failure<magic_file_error>(
             type_cstr != nullptr,
-            path
+            path.string()
         );
         return type_cstr;
     }
@@ -125,10 +134,13 @@ public:
         if (path.empty()) {
             return std::unexpected{empty_path{}.what()};
         }
-        auto type_cstr = detail::magic_file(m_cookie.get(), path.c_str());
+        auto type_cstr = detail::magic_file(
+            m_cookie.get(),
+            path.string().c_str()
+        );
         if (!type_cstr) {
             return std::unexpected{
-                magic_file_error{get_error_message(), path}
+                magic_file_error{get_error_message(), path.string()}
                 .what()
             };
         }
@@ -148,8 +160,8 @@ public:
             std::filesystem::is_regular_file(database_file)
         );
         throw_exception_on_failure<magic_load_error>(
-            detail::magic_load(m_cookie.get(), database_file.c_str()),
-            database_file.c_str()
+            detail::magic_load(m_cookie.get(), database_file.string().c_str()),
+            database_file.string()
         );
     }
 

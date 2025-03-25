@@ -4,7 +4,14 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 echo "Installing the dependencies..."
-sudo dnf install -y awk cmake make ninja-build mold g++ clang clang-tools-extra libcxx-devel git autoconf libtool doxygen || {
+sudo dnf install -y            \
+     git                       \
+     awk make autoconf libtool \
+     cmake ninja-build         \
+     g++ mold                  \
+     clang libcxx-devel        \
+     mingw64-gcc-c++           \
+     clang-tools-extra doxygen || {
     exit 1
 }
 echo "Done"

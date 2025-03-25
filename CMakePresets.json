@@ -23,6 +23,45 @@
             "hidden": true
         },
         {
+            "name": "debug-config",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "hidden": true
+        },
+        {
+            "name": "release-config",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "hidden": true
+        },
+        {
+            "name": "shared-config",
+            "hidden": true
+        },
+        {
+            "name": "static-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_AS_STATIC": "ON"
+            },
+            "hidden": true
+        },
+        {
+            "name": "tests-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_TESTS": "ON"
+            },
+            "hidden": true
+        },
+        {
+            "name": "examples-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_EXAMPLES": "ON"
+            },
+            "hidden": true
+        },
+        {
             "name": "linux-x86_64-gcc-base-config",
             "inherits": "base-config",
             "toolchainFile": "${sourceDir}/cmake/toolchains/linux-x86_64-gcc.cmake",
@@ -35,19 +74,9 @@
             "hidden": true
         },
         {
-            "name": "debug-config",
+            "name": "windows-x86_64-mingw64-base-config",
             "inherits": "base-config",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            },
-            "hidden": true
-        },
-        {
-            "name": "release-config",
-            "inherits": "base-config",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            },
+            "toolchainFile": "${sourceDir}/cmake/toolchains/windows-x86_64-mingw64.cmake",
             "hidden": true
         },
         {
@@ -83,34 +112,41 @@
             "hidden": true
         },
         {
-            "name": "shared-config",
+            "name": "windows-x86_64-mingw64-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-base-config",
+                "debug-config"
+            ],
             "hidden": true
         },
         {
-            "name": "static-config",
-            "cacheVariables": {
-                "BUILD_MAGICXX_AS_STATIC": "ON"
-            },
-            "hidden": true
-        },
-        {
-            "name": "tests-config",
-            "cacheVariables": {
-                "BUILD_MAGICXX_TESTS": "ON"
-            },
-            "hidden": true
-        },
-        {
-            "name": "examples-config",
-            "cacheVariables": {
-                "BUILD_MAGICXX_EXAMPLES": "ON"
-            },
+            "name": "windows-x86_64-mingw64-release",
+            "inherits": [
+                "windows-x86_64-mingw64-base-config",
+                "release-config"
+            ],
             "hidden": true
         },
         {
             "name": "linux-x86_64-gcc-shared-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-shared-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "shared-config"
             ],
             "binaryDir": "${sourceDir}/build/${presetName}"
@@ -124,9 +160,41 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "linux-x86_64-clang-shared-release",
+            "inherits": [
+                "linux-x86_64-clang-release",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
+                "shared-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "linux-x86_64-gcc-static-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-static-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "static-config"
             ],
             "binaryDir": "${sourceDir}/build/${presetName}"
@@ -140,9 +208,43 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "linux-x86_64-clang-static-release",
+            "inherits": [
+                "linux-x86_64-clang-release",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
+                "static-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "linux-x86_64-gcc-shared-tests-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-shared-tests-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-tests-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "shared-config",
                 "tests-config"
             ],
@@ -158,9 +260,45 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "linux-x86_64-clang-shared-tests-release",
+            "inherits": [
+                "linux-x86_64-clang-release",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-tests-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
+                "shared-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "linux-x86_64-gcc-static-tests-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-static-tests-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-tests-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "static-config",
                 "tests-config"
             ],
@@ -176,9 +314,45 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "linux-x86_64-clang-static-tests-release",
+            "inherits": [
+                "linux-x86_64-clang-release",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-tests-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
+                "static-config",
+                "tests-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "linux-x86_64-gcc-shared-examples-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-shared-examples-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-examples-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "shared-config",
                 "examples-config"
             ],
@@ -194,9 +368,45 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
+            "name": "linux-x86_64-clang-shared-examples-release",
+            "inherits": [
+                "linux-x86_64-clang-release",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-examples-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
+                "shared-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
             "name": "linux-x86_64-gcc-static-examples-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux-x86_64-clang-static-examples-debug",
+            "inherits": [
+                "linux-x86_64-clang-debug",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-examples-debug",
+            "inherits": [
+                "windows-x86_64-mingw64-debug",
                 "static-config",
                 "examples-config"
             ],
@@ -212,104 +422,18 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "linux-x86_64-clang-shared-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-shared-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-static-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-static-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-shared-tests-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "shared-config",
-                "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-shared-tests-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "shared-config",
-                "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-static-tests-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "static-config",
-                "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-static-tests-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "static-config",
-                "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-shared-examples-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "shared-config",
-                "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-shared-examples-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "shared-config",
-                "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "linux-x86_64-clang-static-examples-debug",
-            "inherits": [
-                "linux-x86_64-clang-debug",
-                "static-config",
-                "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
             "name": "linux-x86_64-clang-static-examples-release",
             "inherits": [
                 "linux-x86_64-clang-release",
+                "static-config",
+                "examples-config"
+            ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-examples-release",
+            "inherits": [
+                "windows-x86_64-mingw64-release",
                 "static-config",
                 "examples-config"
             ],
@@ -345,64 +469,19 @@
             "configurePreset": "linux-x86_64-gcc-shared-debug"
         },
         {
-            "name": "linux-x86_64-gcc-shared-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-tests-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-tests-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-tests-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-tests-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-tests-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-examples-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-examples-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-examples-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-examples-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-examples-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-examples-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-examples-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-examples-release"
-        },
-        {
             "name": "linux-x86_64-clang-shared-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-shared-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-release"
         },
         {
             "name": "linux-x86_64-clang-shared-release",
@@ -410,9 +489,29 @@
             "configurePreset": "linux-x86_64-clang-shared-release"
         },
         {
+            "name": "windows-x86_64-mingw64-shared-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-debug"
+        },
+        {
             "name": "linux-x86_64-clang-static-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-release"
         },
         {
             "name": "linux-x86_64-clang-static-release",
@@ -420,9 +519,29 @@
             "configurePreset": "linux-x86_64-clang-static-release"
         },
         {
+            "name": "windows-x86_64-mingw64-static-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-tests-debug"
+        },
+        {
             "name": "linux-x86_64-clang-shared-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-shared-tests-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-tests-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-tests-release"
         },
         {
             "name": "linux-x86_64-clang-shared-tests-release",
@@ -430,9 +549,29 @@
             "configurePreset": "linux-x86_64-clang-shared-tests-release"
         },
         {
+            "name": "windows-x86_64-mingw64-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-tests-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-tests-debug"
+        },
+        {
             "name": "linux-x86_64-clang-static-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-tests-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-tests-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-tests-release"
         },
         {
             "name": "linux-x86_64-clang-static-tests-release",
@@ -440,9 +579,29 @@
             "configurePreset": "linux-x86_64-clang-static-tests-release"
         },
         {
+            "name": "windows-x86_64-mingw64-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-tests-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-examples-debug"
+        },
+        {
             "name": "linux-x86_64-clang-shared-examples-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-shared-examples-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-examples-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-examples-release"
         },
         {
             "name": "linux-x86_64-clang-shared-examples-release",
@@ -450,14 +609,39 @@
             "configurePreset": "linux-x86_64-clang-shared-examples-release"
         },
         {
+            "name": "windows-x86_64-mingw64-shared-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-examples-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-examples-debug"
+        },
+        {
             "name": "linux-x86_64-clang-static-examples-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-examples-debug"
         },
         {
+            "name": "windows-x86_64-mingw64-static-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-examples-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-examples-release"
+        },
+        {
             "name": "linux-x86_64-clang-static-examples-release",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-examples-release"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-examples-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-examples-release"
         }
     ],
     "testPresets": [
@@ -478,24 +662,19 @@
             "configurePreset": "linux-x86_64-gcc-shared-tests-debug"
         },
         {
-            "name": "linux-x86_64-gcc-shared-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-shared-tests-release"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-debug",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-tests-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-static-tests-release"
-        },
-        {
             "name": "linux-x86_64-clang-shared-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-shared-tests-debug"
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-tests-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-shared-tests-release"
         },
         {
             "name": "linux-x86_64-clang-shared-tests-release",
@@ -503,14 +682,39 @@
             "configurePreset": "linux-x86_64-clang-shared-tests-release"
         },
         {
+            "name": "windows-x86_64-mingw64-shared-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-shared-tests-release"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-tests-debug"
+        },
+        {
             "name": "linux-x86_64-clang-static-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-tests-debug"
         },
         {
+            "name": "windows-x86_64-mingw64-static-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-tests-debug"
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-static-tests-release"
+        },
+        {
             "name": "linux-x86_64-clang-static-tests-release",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-clang-static-tests-release"
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-tests-release",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-static-tests-release"
         }
     ],
     "workflowPresets": [
@@ -557,6 +761,34 @@
             ]
         },
         {
+            "name": "linux-x86_64-clang-shared-debug",
+            "displayName": "Build Shared Library (Linux, x86_64, Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang-shared-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-clang-shared-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-debug",
+            "displayName": "Build Shared Library (Windows, x86_64, MinGW64 toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-shared-release",
             "displayName": "Build Shared Library (Linux, x86_64, GCC toolchain, Release config)",
             "steps": [
@@ -567,6 +799,34 @@
                 {
                     "type": "build",
                     "name": "linux-x86_64-gcc-shared-release"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang-shared-release",
+            "displayName": "Build Shared Library (Linux, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang-shared-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-clang-shared-release"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-release",
+            "displayName": "Build Shared Library (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-release"
                 }
             ]
         },
@@ -585,6 +845,34 @@
             ]
         },
         {
+            "name": "linux-x86_64-clang-static-debug",
+            "displayName": "Build Static Library (Linux, x86_64, Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang-static-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-clang-static-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-debug",
+            "displayName": "Build Static Library (Windows, x86_64, MinGW64 toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-static-release",
             "displayName": "Build Static Library (Linux, x86_64, GCC toolchain, Release config)",
             "steps": [
@@ -595,6 +883,34 @@
                 {
                     "type": "build",
                     "name": "linux-x86_64-gcc-static-release"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang-static-release",
+            "displayName": "Build Static Library (Linux, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang-static-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-clang-static-release"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-release",
+            "displayName": "Build Static Library (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-release"
                 }
             ]
         },
@@ -617,172 +933,6 @@
             ]
         },
         {
-            "name": "linux-x86_64-gcc-shared-tests-release",
-            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Shared library, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-shared-tests-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-shared-tests-release"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-x86_64-gcc-shared-tests-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-debug",
-            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Static library, Debug config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-static-tests-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-static-tests-debug"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-x86_64-gcc-static-tests-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-static-tests-release",
-            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Static library, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-static-tests-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-static-tests-release"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-x86_64-gcc-static-tests-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-examples-debug",
-            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Shared library, Debug config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-shared-examples-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-shared-examples-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-shared-examples-release",
-            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Shared library, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-shared-examples-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-shared-examples-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-static-examples-debug",
-            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Static library, Debug config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-static-examples-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-static-examples-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-static-examples-release",
-            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Static library, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-static-examples-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-static-examples-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-shared-debug",
-            "displayName": "Build Shared Library (Linux, x86_64, Clang toolchain, Debug config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-clang-shared-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-clang-shared-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-shared-release",
-            "displayName": "Build Shared Library (Linux, x86_64, Clang toolchain, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-clang-shared-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-clang-shared-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-static-debug",
-            "displayName": "Build Static Library (Linux, x86_64, Clang toolchain, Debug config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-clang-static-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-clang-static-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-static-release",
-            "displayName": "Build Static Library (Linux, x86_64, Clang toolchain, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-clang-static-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-clang-static-release"
-                }
-            ]
-        },
-        {
             "name": "linux-x86_64-clang-shared-tests-debug",
             "displayName": "Run Tests (Linux, x86_64, Clang toolchain, Shared library, Debug config)",
             "steps": [
@@ -797,6 +947,42 @@
                 {
                     "type": "test",
                     "name": "linux-x86_64-clang-shared-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-tests-debug",
+            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-mingw64-shared-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-tests-release",
+            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-shared-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-shared-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-x86_64-gcc-shared-tests-release"
                 }
             ]
         },
@@ -819,6 +1005,42 @@
             ]
         },
         {
+            "name": "windows-x86_64-mingw64-shared-tests-release",
+            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-mingw64-shared-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-debug",
+            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-static-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-static-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-x86_64-gcc-static-tests-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-clang-static-tests-debug",
             "displayName": "Run Tests (Linux, x86_64, Clang toolchain, Static library, Debug config)",
             "steps": [
@@ -833,6 +1055,42 @@
                 {
                     "type": "test",
                     "name": "linux-x86_64-clang-static-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-tests-debug",
+            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-mingw64-static-tests-debug"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-static-tests-release",
+            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-static-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-static-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-x86_64-gcc-static-tests-release"
                 }
             ]
         },
@@ -855,6 +1113,38 @@
             ]
         },
         {
+            "name": "windows-x86_64-mingw64-static-tests-release",
+            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-tests-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-tests-release"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-mingw64-static-tests-release"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-examples-debug",
+            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-shared-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-shared-examples-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-clang-shared-examples-debug",
             "displayName": "Build Examples (Linux, x86_64, Clang toolchain, Shared library, Debug config)",
             "steps": [
@@ -865,6 +1155,34 @@
                 {
                     "type": "build",
                     "name": "linux-x86_64-clang-shared-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-shared-examples-debug",
+            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Shared library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-shared-examples-release",
+            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-shared-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-shared-examples-release"
                 }
             ]
         },
@@ -883,6 +1201,34 @@
             ]
         },
         {
+            "name": "windows-x86_64-mingw64-shared-examples-release",
+            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Shared library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-shared-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-shared-examples-release"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-static-examples-debug",
+            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-static-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-static-examples-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-clang-static-examples-debug",
             "displayName": "Build Examples (Linux, x86_64, Clang toolchain, Static library, Debug config)",
             "steps": [
@@ -897,6 +1243,34 @@
             ]
         },
         {
+            "name": "windows-x86_64-mingw64-static-examples-debug",
+            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Static library, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-static-examples-release",
+            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc-static-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc-static-examples-release"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-clang-static-examples-release",
             "displayName": "Build Examples (Linux, x86_64, Clang toolchain, Static library, Release config)",
             "steps": [
@@ -907,6 +1281,20 @@
                 {
                     "type": "build",
                     "name": "linux-x86_64-clang-static-examples-release"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-static-examples-release",
+            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Static library, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64-static-examples-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64-static-examples-release"
                 }
             ]
         }

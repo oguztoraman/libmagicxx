@@ -1,0 +1,38 @@
+name: Build and Test (Windows x86_64 build, MinGW64 Toolchain)
+permissions:
+  contents: read
+on:
+  pull_request:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  gcc_build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    steps:
+    - name: Install Dependencies.
+      run: >
+        dnf install -y git
+            awk make autoconf libtool
+            cmake ninja-build
+            mingw64-gcc-c++
+            clang-tools-extra
+    - name: Checkout.
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Build (Shared library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-release
+    - name: Tests (Shared library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-tests-release
+    - name: Examples (Shared library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-examples-release
+    - name: Build (Static library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-release
+    - name: Tests (Static library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-tests-release
+    - name: Examples (Static library).
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-examples-release

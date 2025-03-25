@@ -4,13 +4,14 @@
 
 ## Key Features
 
-+ **Modern C++**: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.
++ **Modern C++ (C++23)**: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.
 + **High-Level API**: Provides a simple and intuitive high-level API for easy integration and use.
 + **Simple Integration with CMake**: Easily integrate file type recognition into your CMake-based C++ projects.
++ **Cross Platform**: Compatible with both Windows and Linux, ensuring broad usability and flexibility in various development environments.
 
 ## Project Status
 
-![Build & Test on Linux using GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_gcc.yml/badge.svg) ![Build & Test on Linux using CLANG](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_on_linux_using_clang.yml/badge.svg)
+![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_windows_mingw64.yml/badge.svg)
 
 ## Code Quality
 
@@ -18,15 +19,19 @@
 
 ## Requirements to Build Libmagicxx
 
-+ Git
-+ GCC with libstdc++ or Clang with libc++ (C++23)
-+ CMake
-+ GNU Make
-+ Ninja
-+ Libtool
-+ Autoconf
-+ Mold
-+ Awk
+To build Libmagicxx, ensure you have the following tools and dependencies installed:
+
++ **Git**: Version control system to clone the repository.
++ **Awk**: Text processing tool.
++ **Autoconf**: Tool for generating configuration scripts.
++ **GNU Make**: Build automation tool.
++ **Libtool**: Generic library support script.
++ **CMake**: Cross-platform build system.
++ **Ninja**: Small build system with a focus on speed.
++ **Toolchains**: One of the following toolchains is required:
+    + **GCC**: GNU Compiler Collection (libstdc++, Mold Linker)
+    + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
+    + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
 
 ## How to Build Libmagicxx
 

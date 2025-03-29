@@ -95,7 +95,7 @@ The current development environment is a container image built on top of the lat
     > On Windows
 
     ```powershell
-    ./scripts/launch_container.ps1
+    .\scripts\launch_container.ps1
     ```
 
 7. **Attach to the Container**

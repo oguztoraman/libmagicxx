@@ -43,7 +43,7 @@ echo "Workflow completed with preset '${PRESET}'." || {
 
 if [[ "$PRESET" == *"examples"* ]]; then
     echo "Running examples..."
-    cd build/${PRESET}/examples && ./magicxx_examples || {
+    cd build/examples && ./magicxx_examples || {
         exit 3
     }
 fi

@@ -15,6 +15,8 @@ option(BUILD_MAGICXX_TESTS "Build the tests." OFF)
 option(BUILD_MAGICXX_EXAMPLES "Build the examples." OFF)
 option(BUILD_MAGICXX_DOCUMENTATION "Build the documentation." OFF)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 if (BUILD_MAGICXX_AS_STATIC)
     set(LIBRARY_TYPE STATIC)
 else()

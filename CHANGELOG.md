@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] scrips/workflows.sh, CMakeLists.txt, CMakePresets.json: Export compile commands to a location easily accessible by Clangd.
+
 + [**BUGFIX**] CONTRIBUTING.md: Fix path syntax for launching the container in Windows.
 
 + [**ENHANCEMENT**] external/file, external/googletest, tests/magic_version_test.cpp: Update file version to v5.46, googletest version to v1.16.0.

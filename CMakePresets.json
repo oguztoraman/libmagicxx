@@ -7,20 +7,21 @@
     },
     "configurePresets": [
         {
+            "name": "base-config",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/",
+            "hidden": true
+        },
+        {
             "name": "documentation",
+            "inherits": "base-config",
             "cacheVariables": {
                 "BUILD_MAGICXX_DOCUMENTATION": "ON"
-            },
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            }
         },
         {
             "name": "format-source-code",
-            "binaryDir": "${sourceDir}/build/${presetName}"
-        },
-        {
-            "name": "base-config",
-            "generator": "Ninja",
-            "hidden": true
+            "inherits": "base-config"
         },
         {
             "name": "debug-config",
@@ -132,96 +133,84 @@
             "inherits": [
                 "linux-x86_64-gcc-debug",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-debug",
             "inherits": [
                 "linux-x86_64-clang-debug",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-debug",
             "inherits": [
                 "windows-x86_64-mingw64-debug",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-shared-release",
             "inherits": [
                 "linux-x86_64-gcc-release",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-release",
             "inherits": [
                 "linux-x86_64-clang-release",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-release",
             "inherits": [
                 "windows-x86_64-mingw64-release",
                 "shared-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-debug",
             "inherits": [
                 "linux-x86_64-clang-debug",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-debug",
             "inherits": [
                 "windows-x86_64-mingw64-debug",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-release",
             "inherits": [
                 "linux-x86_64-gcc-release",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-release",
             "inherits": [
                 "linux-x86_64-clang-release",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-release",
             "inherits": [
                 "windows-x86_64-mingw64-release",
                 "static-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-shared-tests-debug",
@@ -229,8 +218,7 @@
                 "linux-x86_64-gcc-debug",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-tests-debug",
@@ -238,8 +226,7 @@
                 "linux-x86_64-clang-debug",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-tests-debug",
@@ -247,8 +234,7 @@
                 "windows-x86_64-mingw64-debug",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-shared-tests-release",
@@ -256,8 +242,7 @@
                 "linux-x86_64-gcc-release",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-tests-release",
@@ -265,8 +250,7 @@
                 "linux-x86_64-clang-release",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-tests-release",
@@ -274,8 +258,7 @@
                 "windows-x86_64-mingw64-release",
                 "shared-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-tests-debug",
@@ -283,8 +266,7 @@
                 "linux-x86_64-gcc-debug",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-tests-debug",
@@ -292,8 +274,7 @@
                 "linux-x86_64-clang-debug",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-tests-debug",
@@ -301,8 +282,7 @@
                 "windows-x86_64-mingw64-debug",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-tests-release",
@@ -310,8 +290,7 @@
                 "linux-x86_64-gcc-release",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-tests-release",
@@ -319,8 +298,7 @@
                 "linux-x86_64-clang-release",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-tests-release",
@@ -328,8 +306,7 @@
                 "windows-x86_64-mingw64-release",
                 "static-config",
                 "tests-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-shared-examples-debug",
@@ -337,8 +314,7 @@
                 "linux-x86_64-gcc-debug",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-examples-debug",
@@ -346,8 +322,7 @@
                 "linux-x86_64-clang-debug",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-examples-debug",
@@ -355,8 +330,7 @@
                 "windows-x86_64-mingw64-debug",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-shared-examples-release",
@@ -364,8 +338,7 @@
                 "linux-x86_64-gcc-release",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-shared-examples-release",
@@ -373,8 +346,7 @@
                 "linux-x86_64-clang-release",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-shared-examples-release",
@@ -382,8 +354,7 @@
                 "windows-x86_64-mingw64-release",
                 "shared-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-examples-debug",
@@ -391,8 +362,7 @@
                 "linux-x86_64-gcc-debug",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-examples-debug",
@@ -400,8 +370,7 @@
                 "linux-x86_64-clang-debug",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-examples-debug",
@@ -409,8 +378,7 @@
                 "windows-x86_64-mingw64-debug",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-gcc-static-examples-release",
@@ -418,8 +386,7 @@
                 "linux-x86_64-gcc-release",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "linux-x86_64-clang-static-examples-release",
@@ -427,8 +394,7 @@
                 "linux-x86_64-clang-release",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-static-examples-release",
@@ -436,8 +402,7 @@
                 "windows-x86_64-mingw64-release",
                 "static-config",
                 "examples-config"
-            ],
-            "binaryDir": "${sourceDir}/build/${presetName}"
+            ]
         }
     ],
     "buildPresets": [

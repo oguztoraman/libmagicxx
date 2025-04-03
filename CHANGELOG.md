@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] Containerfile: Fix script execution path in Containerfile.
+
 + [**BUGFIX**] scrips/workflows.sh, CMakeLists.txt, CMakePresets.json: Export compile commands to a location easily accessible by Clangd.
 
 + [**BUGFIX**] CONTRIBUTING.md: Fix path syntax for launching the container in Windows.

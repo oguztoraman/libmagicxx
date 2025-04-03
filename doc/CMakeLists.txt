@@ -29,9 +29,9 @@ set(DOXYGEN_OUTPUT_DIRECTORY       ${magicxx_SOURCE_DIR}/doc)
 
 doxygen_add_docs(
     magicxx_documentation
-        inc
-        src
-        file/src/magic.h
+        ${magic_HEADER_FILES}
+        ${magicxx_HEADER_FILES}
+        ${magicxx_SOURCE_FILES}
         CHANGELOG.md
         CODE_OF_CONDUCT.md
         CONTRIBUTING.md

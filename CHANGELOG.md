@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] doc/CMakeLists.txt, CMakeLists.txt: Add missing magic header files to Doxygen documentation generation.
+
 + [**BUGFIX**] Containerfile: Fix script execution path in Containerfile.
 
 + [**BUGFIX**] scrips/workflows.sh, CMakeLists.txt, CMakePresets.json: Export compile commands to a location easily accessible by Clangd.

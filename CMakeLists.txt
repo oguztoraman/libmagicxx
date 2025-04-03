@@ -61,6 +61,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 endif()
 
+set(magic_HEADER_FILES
+    ${magic_SOURCE_DIR}/magic.h
+)
+
 set(magic_SOURCE_FILES
     ${magic_SOURCE_DIR}/apprentice.c
     ${magic_SOURCE_DIR}/apptype.c

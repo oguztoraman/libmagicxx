@@ -9,6 +9,7 @@
 #include <expected>
 #include <map>
 #include <memory>
+#include <string_view>
 #include <vector>
 
 #include "file_concepts.hpp"
@@ -130,7 +131,7 @@ public:
     /**
      * @brief The path of the default database file.
      */
-    static constexpr auto default_database_file = "/usr/share/misc/magic";
+    static std::string_view default_database_file;
 
     /**
      * @brief Construct magic without opening it.

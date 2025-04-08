@@ -59,6 +59,14 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         ${magic_SOURCE_DIR}/strcasestr.c
         ${magic_SOURCE_DIR}/strlcpy.c
     )
+
+    set(magicxx_DEFAULT_DATABASE_FILE
+        "C:\\Program Files\\libmagicxx\\database\\magic"
+    )
+else()
+    set(magicxx_DEFAULT_DATABASE_FILE
+        "/usr/share/libmagicxx/database/magic"
+    )
 endif()
 
 set(magic_HEADER_FILES
@@ -138,6 +146,7 @@ target_compile_definitions(magicxx
     PRIVATE
         HAVE_CONFIG_H
         HAVE_STDINT_H
+        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
 )
 
 target_include_directories(magicxx

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp, CMakeLists.txt: Adapt default database file path based on the target operating system.
+
 + [**BUGFIX**] doc/CMakeLists.txt, CMakeLists.txt: Add missing magic header files to Doxygen documentation generation.
 
 + [**BUGFIX**] Containerfile: Fix script execution path in Containerfile.

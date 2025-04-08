@@ -517,6 +517,8 @@ std::string to_string(
     );
 }
 
+std::string_view magic::default_database_file{DEFAULT_DATABASE_FILE};
+
 magic::magic() noexcept
   : m_impl{std::make_unique<magic_private>()}
 { }

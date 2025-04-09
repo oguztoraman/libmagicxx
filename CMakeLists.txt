@@ -61,11 +61,11 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 
     set(magicxx_DEFAULT_DATABASE_FILE
-        "C:\\Program Files\\libmagicxx\\database\\magic"
+        "C:\\Program Files\\libmagicxx\\database\\magic.mgc"
     )
 else()
     set(magicxx_DEFAULT_DATABASE_FILE
-        "/usr/share/libmagicxx/database/magic"
+        "/usr/share/libmagicxx/database/magic.mgc"
     )
 endif()
 

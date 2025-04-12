@@ -32,6 +32,28 @@ add_custom_target(configure_file
     VERBATIM
 )
 
+add_custom_target(generate_default_database_files
+    COMMAND
+        make magic.mgc
+    COMMAND
+        bash -c "for file in Magdir/*; do cat $file >> magic; done"
+    COMMAND
+        mkdir -p ${magicxx_DEFAULT_DATABASE_PATH}
+    COMMAND
+        cp magic ${magicxx_DEFAULT_DATABASE_FILE} && rm magic
+    COMMAND
+        cp magic.mgc ${magicxx_DEFAULT_COMPILED_DATABASE_FILE}
+    COMMAND
+        echo "Default database files have been generated in ${magicxx_DEFAULT_DATABASE_PATH}."
+    WORKING_DIRECTORY
+        ${magic_DIR}/magic
+    COMMENT
+        "Generating default database files..."
+    VERBATIM
+)
+
+add_dependencies(generate_default_database_files configure_file)
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_dependencies(configure_file configure_gnurx)
 endif()

@@ -23,5 +23,5 @@ TEST(magic_check_test, opened_magic_check_default_database)
 {
     magic m;
     m.open(magic::flags::mime);
-    EXPECT_TRUE(m.check());
+    EXPECT_TRUE(m.check(DEFAULT_DATABASE_FILE));
 }

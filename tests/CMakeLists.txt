@@ -33,6 +33,11 @@ target_sources(magicxx_tests
         ${magicxx_tests_SOURCE_FILES}
 )
 
+target_compile_definitions(magicxx_tests
+    PRIVATE
+        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+)
+
 target_include_directories(magicxx_tests
     PRIVATE
         ${magicxx_INCLUDE_DIR}

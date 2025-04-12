@@ -60,11 +60,11 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         ${magic_SOURCE_DIR}/strlcpy.c
     )
 
-    set(magicxx_DEFAULT_DATABASE_FILE
+    set(magicxx_OS_DEFAULT_DATABASE_FILE
         "C:\\Program Files\\libmagicxx\\database\\magic"
     )
 else()
-    set(magicxx_DEFAULT_DATABASE_FILE
+    set(magicxx_OS_DEFAULT_DATABASE_FILE
         "/usr/share/libmagicxx/database/magic"
     )
 endif()
@@ -98,6 +98,18 @@ set(magic_SOURCE_FILES
     ${magic_OS_REPLACEMENT_SOURCE_FILES}
 )
 
+set(magicxx_DEFAULT_DATABASE_PATH
+    ${magicxx_SOURCE_DIR}/database
+)
+
+set(magicxx_DEFAULT_DATABASE_FILE
+    ${magicxx_DEFAULT_DATABASE_PATH}/magic
+)
+
+set(magicxx_DEFAULT_COMPILED_DATABASE_FILE
+    ${magicxx_DEFAULT_DATABASE_PATH}/magic.mgc
+)
+
 set(magicxx_INCLUDE_DIR
     ${magicxx_SOURCE_DIR}/inc
 )
@@ -117,7 +129,7 @@ include(cmake/dependencies.cmake)
 
 add_library(magicxx ${LIBRARY_TYPE})
 
-add_dependencies(magicxx configure_file)
+add_dependencies(magicxx configure_file generate_default_database_files)
 
 set_target_properties(magicxx PROPERTIES
     C_STANDARD 99
@@ -146,7 +158,7 @@ target_compile_definitions(magicxx
     PRIVATE
         HAVE_CONFIG_H
         HAVE_STDINT_H
-        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+        DEFAULT_DATABASE_FILE="${magicxx_OS_DEFAULT_DATABASE_FILE}"
 )
 
 target_include_directories(magicxx

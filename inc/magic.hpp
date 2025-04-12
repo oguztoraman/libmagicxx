@@ -142,7 +142,7 @@ public:
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
-     * @param[in] database_file     The path of magic database file, default is /usr/share/misc/magic.
+     * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
      * @throws magic_open_error     if opening magic fails.
      * @throws invalid_path         if the path of the magic database file is not a file.
@@ -159,7 +159,7 @@ public:
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags_container   Flags.
-     * @param[in] database_file     The path of magic database file, default is /usr/share/misc/magic.
+     * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
      * @throws magic_open_error     if opening magic fails.
      * @throws invalid_path         if the path of the magic database file is not a file.
@@ -212,7 +212,7 @@ public:
      * @brief check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
-     * @param[in] database_file     The file to check, default is /usr/share/misc/magic.
+     * @param[in] database_file     The file to check, default is default_database_file.
      *
      * @returns True if the database_file has valid entries, false otherwise.
      */
@@ -231,7 +231,7 @@ public:
      * @brief Compile the colon separated list of database files
      *        passed in as database_file.
      *
-     * @param[in] database_file     The file to compile, default is /usr/share/misc/magic.
+     * @param[in] database_file     The file to compile, default is default_database_file.
      *
      * @returns True on success, false otherwise.
 
@@ -391,7 +391,7 @@ public:
     /**
      * @brief Load a magic database file.
      *
-     * @param[in] database_file     The path of the magic database file, default is /usr/share/misc/magic.
+     * @param[in] database_file     The path of the magic database file, default is default_database_file.
      *
      * @throws magic_is_closed      if magic is closed.
      * @throws empty_path           if the path of the database file is empty.

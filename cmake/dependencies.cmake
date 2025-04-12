@@ -34,19 +34,19 @@ add_custom_target(configure_file
 
 add_custom_target(generate_default_database_files
     COMMAND
-        make magic.mgc
+        make -C magic magic.mgc
     COMMAND
-        bash -c "for file in Magdir/*; do cat $file >> magic; done"
+        bash -c "for file in magic/Magdir/*; do cat $file >> magic/magic; done"
     COMMAND
         mkdir -p ${magicxx_DEFAULT_DATABASE_PATH}
     COMMAND
-        cp magic ${magicxx_DEFAULT_DATABASE_FILE} && rm magic
+        cp magic/magic ${magicxx_DEFAULT_DATABASE_FILE} && rm magic/magic
     COMMAND
-        cp magic.mgc ${magicxx_DEFAULT_COMPILED_DATABASE_FILE}
+        cp magic/magic.mgc ${magicxx_DEFAULT_COMPILED_DATABASE_FILE}
     COMMAND
         echo "Default database files have been generated in ${magicxx_DEFAULT_DATABASE_PATH}."
     WORKING_DIRECTORY
-        ${magic_DIR}/magic
+        ${magic_DIR}
     COMMENT
         "Generating default database files..."
     VERBATIM

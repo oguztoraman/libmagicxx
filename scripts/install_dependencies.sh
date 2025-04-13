@@ -5,7 +5,7 @@
 
 echo "Installing the dependencies..."
 sudo dnf install -y            \
-     git                       \
+     git python                \
      awk make autoconf libtool \
      cmake ninja-build         \
      g++ mold                  \

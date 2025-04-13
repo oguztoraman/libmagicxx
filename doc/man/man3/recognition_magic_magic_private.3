@@ -1,4 +1,4 @@
-.TH "recognition::magic::magic_private" 3 "Sun Mar 23 2025 11:00:41" "Version v5.7.1" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic::magic_private" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -147,7 +147,7 @@ requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>void \fB
 .RI "static constexpr auto \fBlibmagic_flags_count\fP = \fBflags_mask_t\fP{}\&.size()"
 .br
 .ti -1c
-.RI "static constexpr auto \fBlibmagic_parameter_count\fP = 9uz"
+.RI "static constexpr auto \fBlibmagic_parameter_count\fP = 10uz"
 .br
 .ti -1c
 .RI "static constexpr \fBlibmagic_pair_t\fP \fBlibmagic_flag_none\fP"
@@ -312,7 +312,7 @@ The parameter as a string\&.
 
 .SS "auto recognition::magic::magic_private::libmagic_flags_count = \fBflags_mask_t\fP{}\&.size()\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
 
-.SS "auto recognition::magic::magic_private::libmagic_parameter_count = 9uz\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
+.SS "auto recognition::magic::magic_private::libmagic_parameter_count = 10uz\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
 
 .SS "\fBlibmagic_parameters_t\fP recognition::magic::magic_private::libmagic_parameters\fR [static]\fP, \fR [constexpr]\fP, \fR [private]\fP"
 \fBInitial value:\fP
@@ -326,7 +326,8 @@ The parameter as a string\&.
         std::make_pair(MAGIC_PARAM_REGEX_MAX, "regex_max"),
         std::make_pair(MAGIC_PARAM_BYTES_MAX, "bytes_max"),
         std::make_pair(MAGIC_PARAM_ENCODING_MAX, "encoding_max"),
-        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max")
+        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max"),
+        std::make_pair(MAGIC_PARAM_MAGWARN_MAX, "mag_warn_max")
     }
 .PP
 .fi

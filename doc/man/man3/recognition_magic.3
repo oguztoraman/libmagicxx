@@ -1,4 +1,4 @@
-.TH "recognition::magic" 3 "Sun Mar 23 2025 11:00:41" "Version v5.7.1" "Libmagicxx" \" -*- nroff -*-
+.TH "recognition::magic" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -24,7 +24,7 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 .br
 .RI "The flags enums are used for configuring the flags of a magic\&. "
 .ti -1c
-.RI "enum class \fBparameters\fP : std::size_t { \fBindir_max\fP = 0uz, \fBname_max\fP = 1uz, \fBelf_phnum_max\fP = 2uz, \fBelf_shnum_max\fP = 3uz, \fBelf_notes_max\fP = 4uz, \fBregex_max\fP = 5uz, \fBbytes_max\fP = 6uz, \fBencoding_max\fP = 7uz, \fBelf_shsize_max\fP = 8uz }"
+.RI "enum class \fBparameters\fP : std::size_t { \fBindir_max\fP = 0uz, \fBname_max\fP = 1uz, \fBelf_phnum_max\fP = 2uz, \fBelf_shnum_max\fP = 3uz, \fBelf_notes_max\fP = 4uz, \fBregex_max\fP = 5uz, \fBbytes_max\fP = 6uz, \fBencoding_max\fP = 7uz, \fBelf_shsize_max\fP = 8uz, \fBmag_warn_max\fP = 9uz }"
 .br
 .RI "The parameters enums are used for displaying or modifying the parameters of a magic\&. "
 .ti -1c
@@ -192,7 +192,7 @@ recognition::magic \- The magic class provides a C++ wrapper over the Magic Numb
 
 .in +1c
 .ti -1c
-.RI "static constexpr auto \fBdefault_database_file\fP = '/usr/share/misc/magic'"
+.RI "static std::string_view \fBdefault_database_file\fP {DEFAULT_DATABASE_FILE}"
 .br
 .RI "The path of the default database file\&. "
 .in -1c
@@ -395,13 +395,13 @@ The parameters enums are used for displaying or modifying the parameters of a ma
 .in +1c
 .TP
 \f(BIindir_max \fP(0uz)
-Recursion limit for indirection (default is 50)\&. 
+Recursion limit for indirection (default is 15)\&. 
 .TP
 \f(BIname_max \fP(1uz)
-Use limit for name/use magic (default is 50)\&. 
+Use limit for name/use magic (default is 30)\&. 
 .TP
 \f(BIelf_phnum_max \fP(2uz)
-Max ELF program sections processed (default is 2048)\&. 
+Max ELF program sections processed (default is 128)\&. 
 .TP
 \f(BIelf_shnum_max \fP(3uz)
 Max ELF sections processed (default is 32768)\&. 
@@ -416,10 +416,13 @@ Max length limit for REGEX searches (default is 8192)\&.
 Max bytes to look inside file (default is 7340032)\&. 
 .TP
 \f(BIencoding_max \fP(7uz)
-Max bytes to scan for encoding (default is 65536)\&. 
+Max bytes to scan for encoding (default is 1048576)\&. 
 .TP
 \f(BIelf_shsize_max \fP(8uz)
 Max ELF section size (default is 134217728)\&. 
+.TP
+\f(BImag_warn_max \fP(9uz)
+Max warnings to tolerate in a magic file (default is 64)\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "recognition::magic::magic ()\fR [noexcept]\fP"
@@ -435,7 +438,7 @@ Construct magic, open it using the flags and load the magic database file\&.
 .RS 4
 \fIflags_mask\fP One of the flags enums or bitwise or of the flags enums\&. 
 .br
-\fIdatabase_file\fP The path of magic database file, default is /usr/share/misc/magic\&.
+\fIdatabase_file\fP The path of magic database file, default is default_database_file\&.
 .RE
 .PP
 \fBExceptions\fP
@@ -462,7 +465,7 @@ Construct magic, open it using the flags and load the magic database file\&.
 .RS 4
 \fIflags_container\fP Flags\&. 
 .br
-\fIdatabase_file\fP The path of magic database file, default is /usr/share/misc/magic\&.
+\fIdatabase_file\fP The path of magic database file, default is default_database_file\&.
 .RE
 .PP
 \fBExceptions\fP
@@ -508,7 +511,7 @@ check the validity of entries in the colon separated database files passed in as
 .PP
 \fBParameters\fP
 .RS 4
-\fIdatabase_file\fP The file to check, default is /usr/share/misc/magic\&.
+\fIdatabase_file\fP The file to check, default is default_database_file\&.
 .RE
 .PP
 \fBReturns\fP
@@ -535,7 +538,7 @@ Compile the colon separated list of database files passed in as database_file\&.
 .PP
 \fBParameters\fP
 .RS 4
-\fIdatabase_file\fP The file to compile, default is /usr/share/misc/magic\&.
+\fIdatabase_file\fP The file to compile, default is default_database_file\&.
 .RE
 .PP
 \fBReturns\fP
@@ -762,7 +765,7 @@ Load a magic database file\&.
 .PP
 \fBParameters\fP
 .RS 4
-\fIdatabase_file\fP The path of the magic database file, default is /usr/share/misc/magic\&.
+\fIdatabase_file\fP The path of the magic database file, default is default_database_file\&.
 .RE
 .PP
 \fBExceptions\fP
@@ -960,7 +963,7 @@ The parameter as a string\&.
 
 .SH "Member Data Documentation"
 .PP 
-.SS "auto recognition::magic::default_database_file = '/usr/share/misc/magic'\fR [static]\fP, \fR [constexpr]\fP"
+.SS "std::string_view recognition::magic::default_database_file {DEFAULT_DATABASE_FILE}\fR [static]\fP"
 
 .PP
 The path of the default database file\&. 

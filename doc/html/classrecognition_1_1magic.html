@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v6.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -185,6 +185,7 @@ Public Types</h2></td></tr>
 , <a class="el" href="#a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378">encoding_max</a> = 7uz
 , <br />
 &#160;&#160;<a class="el" href="#a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8">elf_shsize_max</a> = 8uz
+, <a class="el" href="#a85e5da0093fe0bc74bb1911a99e1a940aee63240541329f0ed8f5608d1b513eae">mag_warn_max</a> = 9uz
 <br />
  }</td></tr>
 <tr class="memdesc:a85e5da0093fe0bc74bb1911a99e1a940"><td class="mdescLeft">&#160;</td><td class="mdescRight">The parameters enums are used for displaying or modifying the parameters of a magic.  <a href="#a85e5da0093fe0bc74bb1911a99e1a940">More...</a><br /></td></tr>
@@ -219,10 +220,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a430715087f2f65fcf0bff225ca26f26a" id="r_a430715087f2f65fcf0bff225ca26f26a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a430715087f2f65fcf0bff225ca26f26a">magic</a> () noexcept</td></tr>
 <tr class="memdesc:a430715087f2f65fcf0bff225ca26f26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct magic without opening it.  <br /></td></tr>
 <tr class="separator:a430715087f2f65fcf0bff225ca26f26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7313612a9efea58a409fafeee8a1c1ab" id="r_a7313612a9efea58a409fafeee8a1c1ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7313612a9efea58a409fafeee8a1c1ab">magic</a> (<a class="el" href="#a674c3440b7c3b20248bb712898e88529">flags_mask_t</a> flags_mask, const std::filesystem::path &amp;database_file=<a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a>)</td></tr>
+<tr class="memitem:a7313612a9efea58a409fafeee8a1c1ab" id="r_a7313612a9efea58a409fafeee8a1c1ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7313612a9efea58a409fafeee8a1c1ab">magic</a> (<a class="el" href="#a674c3440b7c3b20248bb712898e88529">flags_mask_t</a> flags_mask, const std::filesystem::path &amp;database_file=<a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a>)</td></tr>
 <tr class="memdesc:a7313612a9efea58a409fafeee8a1c1ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct magic, open it using the flags and load the magic database file.  <br /></td></tr>
 <tr class="separator:a7313612a9efea58a409fafeee8a1c1ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20bda9cadf381bf0609ba0cf52bbf407" id="r_a20bda9cadf381bf0609ba0cf52bbf407"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20bda9cadf381bf0609ba0cf52bbf407">magic</a> (const <a class="el" href="#a79b2d07b0d1cb27e0f67d9f8f53838a2">flags_container_t</a> &amp;flags_container, const std::filesystem::path &amp;database_file=<a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a>)</td></tr>
+<tr class="memitem:a20bda9cadf381bf0609ba0cf52bbf407" id="r_a20bda9cadf381bf0609ba0cf52bbf407"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20bda9cadf381bf0609ba0cf52bbf407">magic</a> (const <a class="el" href="#a79b2d07b0d1cb27e0f67d9f8f53838a2">flags_container_t</a> &amp;flags_container, const std::filesystem::path &amp;database_file=<a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a>)</td></tr>
 <tr class="memdesc:a20bda9cadf381bf0609ba0cf52bbf407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct magic, open it using the flags and load the magic database file.  <br /></td></tr>
 <tr class="separator:a20bda9cadf381bf0609ba0cf52bbf407"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a615522745cc53e219c8342627deeb121" id="r_a615522745cc53e219c8342627deeb121"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a615522745cc53e219c8342627deeb121">magic</a> (<a class="el" href="classrecognition_1_1magic.html">magic</a> &amp;&amp;other) noexcept</td></tr>
@@ -243,13 +244,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0f09c2aa8da9990d241e7453811254e1" id="r_a0f09c2aa8da9990d241e7453811254e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f09c2aa8da9990d241e7453811254e1">operator bool</a> () const noexcept</td></tr>
 <tr class="memdesc:a0f09c2aa8da9990d241e7453811254e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for testing whether magic is open or closed.  <br /></td></tr>
 <tr class="separator:a0f09c2aa8da9990d241e7453811254e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6613f08333068bd8122ea235cd9e279d" id="r_a6613f08333068bd8122ea235cd9e279d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6613f08333068bd8122ea235cd9e279d">check</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a>) const noexcept</td></tr>
+<tr class="memitem:a6613f08333068bd8122ea235cd9e279d" id="r_a6613f08333068bd8122ea235cd9e279d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6613f08333068bd8122ea235cd9e279d">check</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a>) const noexcept</td></tr>
 <tr class="memdesc:a6613f08333068bd8122ea235cd9e279d"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the validity of entries in the colon separated database files passed in as database_file.  <br /></td></tr>
 <tr class="separator:a6613f08333068bd8122ea235cd9e279d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b4f61e2acdbe2b14baf1334797b89f" id="r_ab5b4f61e2acdbe2b14baf1334797b89f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5b4f61e2acdbe2b14baf1334797b89f">close</a> () noexcept</td></tr>
 <tr class="memdesc:ab5b4f61e2acdbe2b14baf1334797b89f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close magic.  <br /></td></tr>
 <tr class="separator:ab5b4f61e2acdbe2b14baf1334797b89f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e18435eddf9c82754fa0595515d6d90" id="r_a1e18435eddf9c82754fa0595515d6d90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e18435eddf9c82754fa0595515d6d90">compile</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a>) const noexcept</td></tr>
+<tr class="memitem:a1e18435eddf9c82754fa0595515d6d90" id="r_a1e18435eddf9c82754fa0595515d6d90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e18435eddf9c82754fa0595515d6d90">compile</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a>) const noexcept</td></tr>
 <tr class="memdesc:a1e18435eddf9c82754fa0595515d6d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile the colon separated list of database files passed in as database_file.  <br /></td></tr>
 <tr class="separator:a1e18435eddf9c82754fa0595515d6d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f3de1d3379c20f8d4876f37214c5f2d" id="r_a3f3de1d3379c20f8d4876f37214c5f2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a79b2d07b0d1cb27e0f67d9f8f53838a2">flags_container_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f3de1d3379c20f8d4876f37214c5f2d">get_flags</a> () const</td></tr>
@@ -282,7 +283,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a100b8bc7fd3a44b7579ae622c28f9ca7" id="r_a100b8bc7fd3a44b7579ae622c28f9ca7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a100b8bc7fd3a44b7579ae622c28f9ca7">is_open</a> () const noexcept</td></tr>
 <tr class="memdesc:a100b8bc7fd3a44b7579ae622c28f9ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for testing whether magic is open or closed.  <br /></td></tr>
 <tr class="separator:a100b8bc7fd3a44b7579ae622c28f9ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e57aad5f00161dd5d06fdcfe1ddf63" id="r_ab8e57aad5f00161dd5d06fdcfe1ddf63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8e57aad5f00161dd5d06fdcfe1ddf63">load_database_file</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a>)</td></tr>
+<tr class="memitem:ab8e57aad5f00161dd5d06fdcfe1ddf63" id="r_ab8e57aad5f00161dd5d06fdcfe1ddf63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8e57aad5f00161dd5d06fdcfe1ddf63">load_database_file</a> (const std::filesystem::path &amp;database_file=<a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a>)</td></tr>
 <tr class="memdesc:ab8e57aad5f00161dd5d06fdcfe1ddf63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a magic database file.  <br /></td></tr>
 <tr class="separator:ab8e57aad5f00161dd5d06fdcfe1ddf63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a549ffb7995b83934c78b0f289a6df54a" id="r_a549ffb7995b83934c78b0f289a6df54a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a549ffb7995b83934c78b0f289a6df54a">open</a> (<a class="el" href="#a674c3440b7c3b20248bb712898e88529">flags_mask_t</a> flags_mask)</td></tr>
@@ -312,9 +313,9 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a1209192eb4f97cccd0849f575d503154" id="r_a1209192eb4f97cccd0849f575d503154"><td class="memItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a> = &quot;/usr/share/misc/magic&quot;</td></tr>
-<tr class="memdesc:a1209192eb4f97cccd0849f575d503154"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the default database file.  <br /></td></tr>
-<tr class="separator:a1209192eb4f97cccd0849f575d503154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bd11faed14ce4add011a66fe50e0b73" id="r_a9bd11faed14ce4add011a66fe50e0b73"><td class="memItemLeft" align="right" valign="top">static std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a> {DEFAULT_DATABASE_FILE}</td></tr>
+<tr class="memdesc:a9bd11faed14ce4add011a66fe50e0b73"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the default database file.  <br /></td></tr>
+<tr class="separator:a9bd11faed14ce4add011a66fe50e0b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -390,7 +391,7 @@ Friends</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line"> std::map&lt;</div>
 <div class="line">        std::filesystem::path,</div>
 <div class="line">        <a class="code hl_typedef" href="#aa88225eaed5da2f7b73a75f9709611e3">expected_file_type_t</a>&gt;</div>
-<div class="ttc" id="aclassrecognition_1_1magic_html_aa88225eaed5da2f7b73a75f9709611e3"><div class="ttname"><a href="#aa88225eaed5da2f7b73a75f9709611e3">recognition::magic::expected_file_type_t</a></div><div class="ttdeci">std::expected&lt; file_type_t, error_message_t &gt; expected_file_type_t</div><div class="ttdoc">The expected_file_type_t typedef.</div><div class="ttdef"><b>Definition</b> magic.hpp:47</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic_html_aa88225eaed5da2f7b73a75f9709611e3"><div class="ttname"><a href="#aa88225eaed5da2f7b73a75f9709611e3">recognition::magic::expected_file_type_t</a></div><div class="ttdeci">std::expected&lt; file_type_t, error_message_t &gt; expected_file_type_t</div><div class="ttdoc">The expected_file_type_t typedef.</div><div class="ttdef"><b>Definition</b> magic.hpp:48</div></div>
 </div><!-- fragment -->
 <p>The expected_types_of_files_t typedef. </p>
 
@@ -580,11 +581,11 @@ Friends</h2></td></tr>
 
 <p>The parameters enums are used for displaying or modifying the parameters of a magic. </p>
 <table class="fieldtable">
-<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51" name="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51"></a>indir_max&#160;</td><td class="fieldinit">0uz&#160;</td><td class="fielddoc"><p>Recursion limit for indirection (default is 50). </p>
+<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51" name="a85e5da0093fe0bc74bb1911a99e1a940a08cd25ba4e603af20f51192274da2f51"></a>indir_max&#160;</td><td class="fieldinit">0uz&#160;</td><td class="fielddoc"><p>Recursion limit for indirection (default is 15). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b" name="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b"></a>name_max&#160;</td><td class="fieldinit">1uz&#160;</td><td class="fielddoc"><p>Use limit for name/use magic (default is 50). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b" name="a85e5da0093fe0bc74bb1911a99e1a940a5ddfe6f8de67531725083ba88953240b"></a>name_max&#160;</td><td class="fieldinit">1uz&#160;</td><td class="fielddoc"><p>Use limit for name/use magic (default is 30). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c" name="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c"></a>elf_phnum_max&#160;</td><td class="fieldinit">2uz&#160;</td><td class="fielddoc"><p>Max ELF program sections processed (default is 2048). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c" name="a85e5da0093fe0bc74bb1911a99e1a940a4f82e4de907613f0c14942f4c4df729c"></a>elf_phnum_max&#160;</td><td class="fieldinit">2uz&#160;</td><td class="fielddoc"><p>Max ELF program sections processed (default is 128). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df" name="a85e5da0093fe0bc74bb1911a99e1a940a863e6931ac3453fc8e32ed22621c54df"></a>elf_shnum_max&#160;</td><td class="fieldinit">3uz&#160;</td><td class="fielddoc"><p>Max ELF sections processed (default is 32768). </p>
 </td></tr>
@@ -594,9 +595,11 @@ Friends</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11" name="a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11"></a>bytes_max&#160;</td><td class="fieldinit">6uz&#160;</td><td class="fielddoc"><p>Max bytes to look inside file (default is 7340032). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378" name="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378"></a>encoding_max&#160;</td><td class="fieldinit">7uz&#160;</td><td class="fielddoc"><p>Max bytes to scan for encoding (default is 65536). </p>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378" name="a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378"></a>encoding_max&#160;</td><td class="fieldinit">7uz&#160;</td><td class="fielddoc"><p>Max bytes to scan for encoding (default is 1048576). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8" name="a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8"></a>elf_shsize_max&#160;</td><td class="fieldinit">8uz&#160;</td><td class="fielddoc"><p>Max ELF section size (default is 134217728). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85e5da0093fe0bc74bb1911a99e1a940aee63240541329f0ed8f5608d1b513eae" name="a85e5da0093fe0bc74bb1911a99e1a940aee63240541329f0ed8f5608d1b513eae"></a>mag_warn_max&#160;</td><td class="fieldinit">9uz&#160;</td><td class="fielddoc"><p>Max warnings to tolerate in a magic file (default is 64). </p>
 </td></tr>
 </table>
 
@@ -647,7 +650,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a></span>&#160;)</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -661,7 +664,7 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">flags_mask</td><td>One of the flags enums or bitwise or of the flags enums. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of magic database file, default is /usr/share/misc/magic.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of magic database file, default is default_database_file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -694,7 +697,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a></span>&#160;)</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -708,7 +711,7 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">flags_container</td><td>Flags. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of magic database file, default is /usr/share/misc/magic.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of magic database file, default is default_database_file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -819,7 +822,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">bool recognition::magic::check </td>
           <td>(</td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a></span></td><td>)</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -833,7 +836,7 @@ Friends</h2></td></tr>
 <p>check the validity of entries in the colon separated database files passed in as database_file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The file to check, default is /usr/share/misc/magic.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The file to check, default is default_database_file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -881,7 +884,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">bool recognition::magic::compile </td>
           <td>(</td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a></span></td><td>)</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -895,7 +898,7 @@ Friends</h2></td></tr>
 <p>Compile the colon separated list of database files passed in as database_file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The file to compile, default is /usr/share/misc/magic.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The file to compile, default is default_database_file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1382,7 +1385,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">void recognition::magic::load_database_file </td>
           <td>(</td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a1209192eb4f97cccd0849f575d503154">default_database_file</a></span></td><td>)</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>database_file</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a9bd11faed14ce4add011a66fe50e0b73">default_database_file</a></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1391,7 +1394,7 @@ Friends</h2></td></tr>
 <p>Load a magic database file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of the magic database file, default is /usr/share/misc/magic.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database_file</td><td>The path of the magic database file, default is default_database_file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1758,8 +1761,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a1209192eb4f97cccd0849f575d503154" name="a1209192eb4f97cccd0849f575d503154"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1209192eb4f97cccd0849f575d503154">&#9670;&#160;</a></span>default_database_file</h2>
+<a id="a9bd11faed14ce4add011a66fe50e0b73" name="a9bd11faed14ce4add011a66fe50e0b73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bd11faed14ce4add011a66fe50e0b73">&#9670;&#160;</a></span>default_database_file</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1768,12 +1771,12 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto recognition::magic::default_database_file = &quot;/usr/share/misc/magic&quot;</td>
+          <td class="memname">std::string_view recognition::magic::default_database_file {DEFAULT_DATABASE_FILE}</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1814,7 +1817,7 @@ Friends</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerecognition.html">recognition</a></li><li class="navelem"><a class="el" href="classrecognition_1_1magic.html">magic</a></li>
-    <li class="footer">Generated on Sun Mar 23 2025 11:00:41 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Apr 13 2025 19:46:45 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

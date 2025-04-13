@@ -1,4 +1,4 @@
-.TH "magic.h" 3 "Sun Mar 23 2025 13:15:52" "Version v5.7.0" "Libmagicxx" \" -*- nroff -*-
+.TH "magic.h" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -106,7 +106,7 @@ magic.h
 .RI "#define \fBMAGIC_NO_CHECK_BUILTIN\fP"
 .br
 .ti -1c
-.RI "#define \fBMAGIC_SNPRINTB\fP   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_sapptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
+.RI "#define \fBMAGIC_SNPRINTB\fP   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_apptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
 .br
 .ti -1c
 .RI "#define \fBMAGIC_NO_CHECK_ASCII\fP   \fBMAGIC_NO_CHECK_TEXT\fP"
@@ -118,7 +118,7 @@ magic.h
 .RI "#define \fBMAGIC_NO_CHECK_TROFF\fP   0x000000 /* Don't check ascii/troff */"
 .br
 .ti -1c
-.RI "#define \fBMAGIC_VERSION\fP   545	/* This implementation */"
+.RI "#define \fBMAGIC_VERSION\fP   546	/* This implementation */"
 .br
 .ti -1c
 .RI "#define \fBMAGIC_PARAM_INDIR_MAX\fP   0"
@@ -146,6 +146,9 @@ magic.h
 .br
 .ti -1c
 .RI "#define \fBMAGIC_PARAM_ELF_SHSIZE_MAX\fP   8"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_MAGWARN_MAX\fP   9"
 .br
 .in -1c
 .SS "Typedefs"
@@ -328,6 +331,8 @@ magic.h
 
 .SS "#define MAGIC_PARAM_INDIR_MAX   0"
 
+.SS "#define MAGIC_PARAM_MAGWARN_MAX   9"
+
 .SS "#define MAGIC_PARAM_NAME_MAX   1"
 
 .SS "#define MAGIC_PARAM_REGEX_MAX   5"
@@ -336,11 +341,11 @@ magic.h
 
 .SS "#define MAGIC_RAW   0x0000100 /* Don't convert unprintable chars */"
 
-.SS "#define MAGIC_SNPRINTB   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_sapptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
+.SS "#define MAGIC_SNPRINTB   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_apptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
 
 .SS "#define MAGIC_SYMLINK   0x0000002 /* Follow symlinks */"
 
-.SS "#define MAGIC_VERSION   545	/* This implementation */"
+.SS "#define MAGIC_VERSION   546	/* This implementation */"
 
 .SH "Typedef Documentation"
 .PP 

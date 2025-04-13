@@ -1,4 +1,4 @@
-.TH "magic.cpp" 3 "Sun Mar 23 2025 11:00:41" "Version v5.7.1" "Libmagicxx" \" -*- nroff -*-
+.TH "magic.cpp" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -40,9 +40,215 @@ magic.cpp
 .RI "namespace \fBrecognition::detail\fP"
 .br
 .in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_MAGIC_H\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NONE\fP   0x0000000 /* No flags */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_DEBUG\fP   0x0000001 /* Turn on debugging */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_SYMLINK\fP   0x0000002 /* Follow symlinks */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_COMPRESS\fP   0x0000004 /* Check inside compressed files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_DEVICES\fP   0x0000008 /* Look at the contents of devices */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_MIME_TYPE\fP   0x0000010 /* Return the MIME type */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_CONTINUE\fP   0x0000020 /* Return all matches */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_CHECK\fP   0x0000040 /* Print warnings to stderr */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PRESERVE_ATIME\fP   0x0000080 /* Restore access time on exit */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_RAW\fP   0x0000100 /* Don't convert unprintable chars */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_ERROR\fP   0x0000200 /* Handle ENOENT etc as real errors */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_MIME_ENCODING\fP   0x0000400 /* Return the MIME encoding */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_MIME\fP   (\fBMAGIC_MIME_TYPE\fP|\fBMAGIC_MIME_ENCODING\fP)"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_APPLE\fP   0x0000800 /* Return the Apple creator/type */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_EXTENSION\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_COMPRESS_TRANSP\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_COMPRESS_FORK\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NODESC\fP   (\fBMAGIC_EXTENSION\fP|\fBMAGIC_MIME\fP|\fBMAGIC_APPLE\fP)"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_COMPRESS\fP   0x0001000 /* Don't check for compressed files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_TAR\fP   0x0002000 /* Don't check for tar files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_SOFT\fP   0x0004000 /* Don't check magic entries */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_APPTYPE\fP   0x0008000 /* Don't check application type */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_ELF\fP   0x0010000 /* Don't check for elf details */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_TEXT\fP   0x0020000 /* Don't check for text files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_CDF\fP   0x0040000 /* Don't check for cdf files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_CSV\fP   0x0080000 /* Don't check for CSV files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_TOKENS\fP   0x0100000 /* Don't check tokens */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_ENCODING\fP   0x0200000 /* Don't check text encodings */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_JSON\fP   0x0400000 /* Don't check for JSON files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_SIMH\fP   0x0800000 /* Don't check for SIMH tape files */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_BUILTIN\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_SNPRINTB\fP   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_apptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_ASCII\fP   \fBMAGIC_NO_CHECK_TEXT\fP"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_FORTRAN\fP   0x000000 /* Don't check ascii/fortran */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_NO_CHECK_TROFF\fP   0x000000 /* Don't check ascii/troff */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_VERSION\fP   546	/* This implementation */"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_INDIR_MAX\fP   0"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_NAME_MAX\fP   1"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_ELF_PHNUM_MAX\fP   2"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_ELF_SHNUM_MAX\fP   3"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_ELF_NOTES_MAX\fP   4"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_REGEX_MAX\fP   5"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_BYTES_MAX\fP   6"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_ENCODING_MAX\fP   7"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_ELF_SHSIZE_MAX\fP   8"
+.br
+.ti -1c
+.RI "#define \fBMAGIC_PARAM_MAGWARN_MAX\fP   9"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct magic_set * \fBrecognition::detail::magic_t\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "\fBmagic_t\fP \fBrecognition::detail::magic_open\fP (int)"
+.br
+.ti -1c
+.RI "void \fBrecognition::detail::magic_close\fP (\fBmagic_t\fP)"
+.br
+.ti -1c
+.RI "const char * \fBrecognition::detail::magic_getpath\fP (const char *, int)"
+.br
+.ti -1c
+.RI "const char * \fBrecognition::detail::magic_file\fP (\fBmagic_t\fP, const char *)"
+.br
+.ti -1c
+.RI "const char * \fBrecognition::detail::magic_descriptor\fP (\fBmagic_t\fP, int)"
+.br
+.ti -1c
+.RI "const char * \fBrecognition::detail::magic_buffer\fP (\fBmagic_t\fP, const void *, size_t)"
+.br
+.ti -1c
+.RI "const char * \fBrecognition::detail::magic_error\fP (\fBmagic_t\fP)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_getflags\fP (\fBmagic_t\fP)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_setflags\fP (\fBmagic_t\fP, int)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_version\fP (void)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_load\fP (\fBmagic_t\fP, const char *)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_load_buffers\fP (\fBmagic_t\fP, void **, size_t *, size_t)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_compile\fP (\fBmagic_t\fP, const char *)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_check\fP (\fBmagic_t\fP, const char *)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_list\fP (\fBmagic_t\fP, const char *)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_errno\fP (\fBmagic_t\fP)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_setparam\fP (\fBmagic_t\fP, int, const void *)"
+.br
+.ti -1c
+.RI "int \fBrecognition::detail::magic_getparam\fP (\fBmagic_t\fP, int, void *)"
+.br
 .ti -1c
 .RI "std::string \fBrecognition::to_string\fP (const \fBmagic::types_of_files_t\fP &types_of_files, const std::string &type_separator=' \-> ', const std::string &file_separator='\\n')"
 .br
@@ -72,6 +278,139 @@ magic.cpp
 .br
 .RI "Convert the \fBmagic::parameter_value_map_t\fP to string\&. "
 .in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _MAGIC_H"
+
+.SS "#define MAGIC_APPLE   0x0000800 /* Return the Apple creator/type */"
+
+.SS "#define MAGIC_CHECK   0x0000040 /* Print warnings to stderr */"
+
+.SS "#define MAGIC_COMPRESS   0x0000004 /* Check inside compressed files */"
+
+.SS "#define MAGIC_COMPRESS_TRANSP"
+\fBValue:\fP
+.nf
+                       0x2000000 /* Check inside compressed files
+                       * but not report compression */
+.PP
+.fi
+
+.SS "#define MAGIC_CONTINUE   0x0000020 /* Return all matches */"
+
+.SS "#define MAGIC_DEBUG   0x0000001 /* Turn on debugging */"
+
+.SS "#define MAGIC_DEVICES   0x0000008 /* Look at the contents of devices */"
+
+.SS "#define MAGIC_ERROR   0x0000200 /* Handle ENOENT etc as real errors */"
+
+.SS "#define MAGIC_EXTENSION"
+\fBValue:\fP
+.nf
+                       0x1000000 /* Return a /\-separated list of
+                       * extensions */
+.PP
+.fi
+
+.SS "#define MAGIC_MIME   (\fBMAGIC_MIME_TYPE\fP|\fBMAGIC_MIME_ENCODING\fP)"
+
+.SS "#define MAGIC_MIME_ENCODING   0x0000400 /* Return the MIME encoding */"
+
+.SS "#define MAGIC_MIME_TYPE   0x0000010 /* Return the MIME type */"
+
+.SS "#define MAGIC_NO_CHECK_APPTYPE   0x0008000 /* Don't check application type */"
+
+.SS "#define MAGIC_NO_CHECK_ASCII   \fBMAGIC_NO_CHECK_TEXT\fP"
+
+.SS "#define MAGIC_NO_CHECK_BUILTIN"
+\fBValue:\fP
+.nf
+    ( \\
+    MAGIC_NO_CHECK_COMPRESS | \\
+    MAGIC_NO_CHECK_TAR  | \\
+/*  MAGIC_NO_CHECK_SOFT | */ \\
+    MAGIC_NO_CHECK_APPTYPE  | \\
+    MAGIC_NO_CHECK_ELF  | \\
+    MAGIC_NO_CHECK_TEXT | \\
+    MAGIC_NO_CHECK_CSV  | \\
+    MAGIC_NO_CHECK_CDF  | \\
+    MAGIC_NO_CHECK_TOKENS   | \\
+    MAGIC_NO_CHECK_ENCODING | \\
+    MAGIC_NO_CHECK_JSON | \\
+    MAGIC_NO_CHECK_SIMH | \\
+    0             \\
+)
+.PP
+.fi
+
+.SS "#define MAGIC_NO_CHECK_CDF   0x0040000 /* Don't check for cdf files */"
+
+.SS "#define MAGIC_NO_CHECK_COMPRESS   0x0001000 /* Don't check for compressed files */"
+
+.SS "#define MAGIC_NO_CHECK_CSV   0x0080000 /* Don't check for CSV files */"
+
+.SS "#define MAGIC_NO_CHECK_ELF   0x0010000 /* Don't check for elf details */"
+
+.SS "#define MAGIC_NO_CHECK_ENCODING   0x0200000 /* Don't check text encodings */"
+
+.SS "#define MAGIC_NO_CHECK_FORTRAN   0x000000 /* Don't check ascii/fortran */"
+
+.SS "#define MAGIC_NO_CHECK_JSON   0x0400000 /* Don't check for JSON files */"
+
+.SS "#define MAGIC_NO_CHECK_SIMH   0x0800000 /* Don't check for SIMH tape files */"
+
+.SS "#define MAGIC_NO_CHECK_SOFT   0x0004000 /* Don't check magic entries */"
+
+.SS "#define MAGIC_NO_CHECK_TAR   0x0002000 /* Don't check for tar files */"
+
+.SS "#define MAGIC_NO_CHECK_TEXT   0x0020000 /* Don't check for text files */"
+
+.SS "#define MAGIC_NO_CHECK_TOKENS   0x0100000 /* Don't check tokens */"
+
+.SS "#define MAGIC_NO_CHECK_TROFF   0x000000 /* Don't check ascii/troff */"
+
+.SS "#define MAGIC_NO_COMPRESS_FORK"
+\fBValue:\fP
+.nf
+                       0x4000000 /* Don't allow decompression that
+                       * needs to fork */
+.PP
+.fi
+
+.SS "#define MAGIC_NODESC   (\fBMAGIC_EXTENSION\fP|\fBMAGIC_MIME\fP|\fBMAGIC_APPLE\fP)"
+
+.SS "#define MAGIC_NONE   0x0000000 /* No flags */"
+
+.SS "#define MAGIC_PARAM_BYTES_MAX   6"
+
+.SS "#define MAGIC_PARAM_ELF_NOTES_MAX   4"
+
+.SS "#define MAGIC_PARAM_ELF_PHNUM_MAX   2"
+
+.SS "#define MAGIC_PARAM_ELF_SHNUM_MAX   3"
+
+.SS "#define MAGIC_PARAM_ELF_SHSIZE_MAX   8"
+
+.SS "#define MAGIC_PARAM_ENCODING_MAX   7"
+
+.SS "#define MAGIC_PARAM_INDIR_MAX   0"
+
+.SS "#define MAGIC_PARAM_MAGWARN_MAX   9"
+
+.SS "#define MAGIC_PARAM_NAME_MAX   1"
+
+.SS "#define MAGIC_PARAM_REGEX_MAX   5"
+
+.SS "#define MAGIC_PRESERVE_ATIME   0x0000080 /* Restore access time on exit */"
+
+.SS "#define MAGIC_RAW   0x0000100 /* Don't convert unprintable chars */"
+
+.SS "#define MAGIC_SNPRINTB   '\\177\\020\\b\\0debug\\0\\b\\1symlink\\0\\b\\2compress\\0\\b\\3devices\\0\\b\\4mime_type\\0\\b\\5continue\\0\\b\\6check\\0\\b\\7preserve_atime\\0\\b\\10raw\\0\\b\\11error\\0\\b\\12mime_encoding\\0\\b\\13apple\\0\\b\\14no_check_compress\\0\\b\\15no_check_tar\\0\\b\\16no_check_soft\\0\\b\\17no_check_apptype\\0\\b\\20no_check_elf\\0\\b\\21no_check_text\\0\\b\\22no_check_cdf\\0\\b\\23no_check_csv\\0\\b\\24no_check_tokens\\0\\b\\25no_check_encoding\\0\\b\\26no_check_json\\0\\b\\27no_check_simh\\0\\b\\30extension\\0\\b\\31transp_compression\\0\\'"
+
+.SS "#define MAGIC_SYMLINK   0x0000002 /* Follow symlinks */"
+
+.SS "#define MAGIC_VERSION   546	/* This implementation */"
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for Libmagicxx from the source code\&.

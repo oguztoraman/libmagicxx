@@ -1,4 +1,4 @@
-.TH "md_CHANGELOG" 3 "Sun Mar 23 2025 11:00:41" "Version v5.7.1" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CHANGELOG" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,43 @@ md_CHANGELOG \- Changelog
 .PP
 
 .SH "Next Release"
+.PP
+.SH "[v6\&.0\&.0] - 13-04-2025"
+.PP
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.github/workflows/*, cmake/dependencies\&.cmake, cmake/generate_default_database_files\&.cmake, databases/*, scripts/install_dependencies\&.sh, \&.gitattributes, \&.gitignore, CMakeLists\&.txt, CMakePresets\&.json, \fBCONTRIBUTING\&.md\fP: Add default database files to speed up build & Add CMake workflow preset to generate default database files\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP, tests/magic_parameters_test\&.cpp: Add missing parameter mag_warn_max & Fix parameters' default values in the documentation\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] cmake/dependencies\&.cmake: Fix file configure options to disable lrziplib\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] CMakePresets\&.json: Remove 'cleanFirst' option from base-config build preset\&.
+.IP "\(bu" 2
+[\fBDOCUMENTATION\fP] \fBCONTRIBUTING\&.md\fP: Update \fBCONTRIBUTING\&.md\fP to correct directory structure and remove TODO\&.md reference
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.scripts/launch_container\&.py, \fBCONTRIBUTING\&.md\fP: Merge launch_container scripts into one Python script\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \&.github/workflows/*, cmake/dependencies\&.cmake, CMakeLists\&.txt: Refactor CMake dependencies and update database generation commands for the Windows build\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] cmake/dependencies\&.cmake, \fBinc/magic\&.hpp\fP, tests/*, \&.gitignore, CMakeLists\&.txt: Generate default database files & Refactor default database file handling to pass the tests\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \fBinc/magic\&.hpp\fP, \fBsrc/magic\&.cpp\fP, CMakeLists\&.txt: Adapt default database file path based on the target operating system\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] doc/CMakeLists\&.txt, CMakeLists\&.txt: Add missing magic header files to Doxygen documentation generation\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] Containerfile: Fix script execution path in Containerfile\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] scrips/workflows\&.sh, CMakeLists\&.txt, CMakePresets\&.json: Export compile commands to a location easily accessible by Clangd\&.
+.IP "\(bu" 2
+[\fBBUGFIX\fP] \fBCONTRIBUTING\&.md\fP: Fix path syntax for launching the container in Windows\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] external/file, external/googletest, tests/magic_version_test\&.cpp: Update file version to v5\&.46, googletest version to v1\&.16\&.0\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] \&.github/workflows/*, cmake/toolchains/windows-x86_64-mingw64\&.cmake, cmake/dependencies\&.cmake, scripts/install_dependencies\&.sh, \fBsrc/magic\&.cpp\fP, CMakeLists\&.txt, CMakePresets\&.json, \fBREADME\&.md\fP: Add support for Windows build using MinGW64\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] external/libgnurx, \&.gitsubmodules, \fBREADME\&.md\fP: Add libgnurx submodule for the x86_64-w64-mingw32 build\&.
+.IP "\(bu" 2
+[\fBENHANCEMENT\fP] external/file, external/googletest, \&.gitsubmodules, CMakeLists\&.txt, \fBCONTRIBUTING\&.md\fP: Refactor submodule paths to use 'external/' directory for better organization\&.
 .PP
 .SH "[v5\&.7\&.1] - 23-03-2025"
 .PP

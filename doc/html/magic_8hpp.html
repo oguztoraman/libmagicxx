@@ -33,7 +33,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v5.7.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v6.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -116,6 +116,7 @@ $(function(){initNavTree('magic_8hpp.html',''); initResizable(true); });
 <code>#include &lt;expected&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="file__concepts_8hpp_source.html">file_concepts.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="magic__exception_8hpp_source.html">magic_exception.hpp</a>&quot;</code><br />
@@ -124,38 +125,40 @@ Include dependency graph for magic.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="magic_8hpp__incl.png" border="0" usemap="#amagic_8hpp" alt=""/></div>
 <map name="amagic_8hpp" id="amagic_8hpp">
-<area shape="rect" title=" " alt="" coords="319,5,405,35"/>
+<area shape="rect" title=" " alt="" coords="362,5,447,35"/>
 <area shape="rect" title=" " alt="" coords="5,83,87,113"/>
-<area shape="poly" title=" " alt="" coords="319,34,103,85,101,80,318,29"/>
+<area shape="poly" title=" " alt="" coords="362,32,103,85,102,80,361,27"/>
 <area shape="rect" title=" " alt="" coords="111,83,168,113"/>
-<area shape="poly" title=" " alt="" coords="321,38,183,85,181,80,319,33"/>
+<area shape="poly" title=" " alt="" coords="362,35,183,85,182,80,361,30"/>
 <area shape="rect" title=" " alt="" coords="192,83,270,113"/>
-<area shape="poly" title=" " alt="" coords="339,38,270,77,267,73,336,33"/>
+<area shape="poly" title=" " alt="" coords="373,38,279,79,277,74,371,33"/>
 <area shape="rect" title=" " alt="" coords="295,83,344,113"/>
-<area shape="poly" title=" " alt="" coords="356,37,337,70,333,68,352,34"/>
+<area shape="poly" title=" " alt="" coords="390,38,348,74,345,70,387,34"/>
 <area shape="rect" title=" " alt="" coords="368,83,442,113"/>
-<area shape="poly" title=" " alt="" coords="372,34,391,68,387,70,368,37"/>
-<area shape="rect" title=" " alt="" coords="466,83,527,113"/>
-<area shape="poly" title=" " alt="" coords="389,33,459,73,457,77,386,38"/>
-<area shape="rect" href="file__concepts_8hpp.html" title=" " alt="" coords="552,83,681,113"/>
-<area shape="poly" title=" " alt="" coords="406,32,555,76,554,81,404,37"/>
-<area shape="rect" href="magic__exception_8hpp.html" title=" " alt="" coords="705,83,856,113"/>
-<area shape="poly" title=" " alt="" coords="406,27,690,78,689,83,405,32"/>
-<area shape="rect" title=" " alt="" coords="477,161,562,190"/>
-<area shape="poly" title=" " alt="" coords="600,115,551,153,548,149,597,111"/>
-<area shape="rect" href="utility_8hpp.html" title=" " alt="" coords="586,161,668,190"/>
-<area shape="poly" title=" " alt="" coords="621,113,626,145,621,146,616,114"/>
-<area shape="rect" title=" " alt="" coords="496,238,572,268"/>
-<area shape="poly" title=" " alt="" coords="611,193,565,230,562,226,608,189"/>
-<area shape="rect" title=" " alt="" coords="596,238,659,268"/>
-<area shape="poly" title=" " alt="" coords="630,191,630,223,625,223,625,191"/>
-<area shape="rect" title=" " alt="" coords="683,238,740,268"/>
-<area shape="poly" title=" " alt="" coords="645,189,686,226,683,230,641,193"/>
-<area shape="poly" title=" " alt="" coords="771,115,754,136,739,162,727,193,719,223,714,222,722,191,734,160,750,133,767,111"/>
-<area shape="rect" title=" " alt="" coords="748,161,813,190"/>
-<area shape="poly" title=" " alt="" coords="783,113,783,145,778,145,778,113"/>
-<area shape="rect" title=" " alt="" coords="837,161,919,190"/>
-<area shape="poly" title=" " alt="" coords="801,111,849,149,846,153,797,115"/>
+<area shape="poly" title=" " alt="" coords="407,36,407,67,402,67,402,36"/>
+<area shape="rect" title=" " alt="" coords="466,83,556,113"/>
+<area shape="poly" title=" " alt="" coords="426,33,481,72,478,76,423,38"/>
+<area shape="rect" title=" " alt="" coords="581,83,642,113"/>
+<area shape="poly" title=" " alt="" coords="444,33,567,77,565,82,443,38"/>
+<area shape="rect" href="file__concepts_8hpp.html" title=" " alt="" coords="667,83,796,113"/>
+<area shape="poly" title=" " alt="" coords="448,29,656,76,655,82,447,34"/>
+<area shape="rect" href="magic__exception_8hpp.html" title=" " alt="" coords="820,83,971,113"/>
+<area shape="poly" title=" " alt="" coords="448,25,805,80,804,85,447,31"/>
+<area shape="rect" title=" " alt="" coords="592,161,676,190"/>
+<area shape="poly" title=" " alt="" coords="715,115,666,153,663,149,711,111"/>
+<area shape="rect" href="utility_8hpp.html" title=" " alt="" coords="701,161,783,190"/>
+<area shape="poly" title=" " alt="" coords="736,113,741,145,735,146,731,114"/>
+<area shape="rect" title=" " alt="" coords="610,238,687,268"/>
+<area shape="poly" title=" " alt="" coords="726,193,680,230,676,226,723,189"/>
+<area shape="rect" title=" " alt="" coords="710,238,774,268"/>
+<area shape="poly" title=" " alt="" coords="745,191,745,223,739,223,739,191"/>
+<area shape="rect" title=" " alt="" coords="797,238,855,268"/>
+<area shape="poly" title=" " alt="" coords="760,189,801,226,797,230,756,193"/>
+<area shape="poly" title=" " alt="" coords="885,115,869,136,854,162,842,193,834,223,829,222,837,191,849,160,865,133,881,111"/>
+<area shape="rect" title=" " alt="" coords="863,161,928,190"/>
+<area shape="poly" title=" " alt="" coords="898,113,898,145,893,145,893,113"/>
+<area shape="rect" title=" " alt="" coords="952,161,1033,190"/>
+<area shape="poly" title=" " alt="" coords="915,111,964,149,961,153,912,115"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -212,7 +215,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li><li class="navelem"><a class="el" href="magic_8hpp.html">magic.hpp</a></li>
-    <li class="footer">Generated on Sun Mar 23 2025 11:00:41 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sun Apr 13 2025 19:46:45 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

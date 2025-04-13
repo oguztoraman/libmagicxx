@@ -51,7 +51,8 @@ var classrecognition_1_1magic =
       [ "regex_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05", null ],
       [ "bytes_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a05e64339c57e9d64b127bdecc0c4aa11", null ],
       [ "encoding_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940afb50601114a2961d6b7054a7a5835378", null ],
-      [ "elf_shsize_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8", null ]
+      [ "elf_shsize_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a106ca63d581c7eed200a19cdfe2b59d8", null ],
+      [ "mag_warn_max", "classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940aee63240541329f0ed8f5608d1b513eae", null ]
     ] ],
     [ "magic", "classrecognition_1_1magic.html#a430715087f2f65fcf0bff225ca26f26a", null ],
     [ "magic", "classrecognition_1_1magic.html#a7313612a9efea58a409fafeee8a1c1ab", null ],
@@ -87,6 +88,6 @@ var classrecognition_1_1magic =
     [ "set_parameters", "classrecognition_1_1magic.html#a1e8985a4ad62b2dfdacfea763166572c", null ],
     [ "to_string", "classrecognition_1_1magic.html#ab69f8b24899a347c63c60208a3cf99fd", null ],
     [ "to_string", "classrecognition_1_1magic.html#a46bb2074d9789b39f0888ecc55f81b0c", null ],
-    [ "default_database_file", "classrecognition_1_1magic.html#a1209192eb4f97cccd0849f575d503154", null ],
+    [ "default_database_file", "classrecognition_1_1magic.html#a9bd11faed14ce4add011a66fe50e0b73", null ],
     [ "m_impl", "classrecognition_1_1magic.html#a38636c1e6367f33ae1684c4255618548", null ]
 ];

@@ -1,4 +1,4 @@
-.TH "md_CONTRIBUTING" 3 "Sun Mar 23 2025 11:00:41" "Version v5.7.1" "Libmagicxx" \" -*- nroff -*-
+.TH "md_CONTRIBUTING" 3 "Sun Apr 13 2025 19:46:45" "Version v6.0.0" "Libmagicxx" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,16 +14,20 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing\&
 .nf
 libmagicxx/
 ├── \&.github/                   # Continuous Integration (CI)
-├── cmake/                     # CMake configuration files, custom CMake targets\&.
+├── cmake/                     # CMake configuration files, custom CMake targets
+├── databases/                 # Default database files
 ├── doc/                       # Documentation files
 ├── examples/                  # Examples
-├── file/                      # File and the Magic Number Recognition Library
-├── googletest                 # GoogleTest
+├── external/                  # External projects
+    ├── file/                  # File and the Magic Number Recognition Library
+    ├── googletest/            # GoogleTest
+    ├── libgnurx/              # Regex library
 ├── inc/                       # Header files
 ├── scripts/                   # Utility scripts
 ├── src/                       # Source files
 ├── tests/                     # Test files
 ├── \&.clang\-format              # Clang format configuration
+├── \&.gitattributes             # Git attributes file
 ├── \&.gitignore                 # Git ignore file
 ├── \&.gitmodules                # Git submodules configuration
 ├── CHANGELOG\&.md               # Changelog
@@ -36,7 +40,6 @@ libmagicxx/
 ├── PULL_REQUEST_TEMPLATE\&.md   # Pull request template
 ├── README\&.md                  # Project details
 ├── SECURITY\&.md                # Security policy
-├── TODO\&.md                    # To do list
 .fi
 .PP
 .SH "Development"
@@ -82,11 +85,16 @@ Click \fRInstall\fP on the \fRDev Containers\fP extension\&.
 .PP
 Follow the \fRinstallation guide\fP to install Podman\&.
 .IP "4." 4
-\fBInstall Git\fP
+\fBInstall Git & Git Large File Storage\fP
 
 .PP
-Download and install Git from the \fRofficial website\fP\&.
+Download and install Git from the \fRofficial website\fP\&. Download and install Git Large File Storage from the \fRofficial website\fP\&.
 .IP "5." 4
+\fBInstall Python\fP
+
+.PP
+Download and install Python from the \fRofficial website\fP\&.
+.IP "6." 4
 \fBFork & Clone the Repository\fP
 
 .PP
@@ -101,11 +109,11 @@ cd libmagicxx
 .fi
 .PP
 
-.IP "6." 4
+.IP "7." 4
 \fBRun the Launch Container Script\fP
 
 .PP
-Open a terminal in Visual Studio Code and run the following script:
+Open the project in Visual Studio Code and run the following script in a terminal to launch the development container:
 .PP
 
 .PP
@@ -113,21 +121,21 @@ Open a terminal in Visual Studio Code and run the following script:
 On Linux/MacOS 
 .RE
 .PP
-\fRbash \&./scripts/launch_container\&.sh \fP
+\fRbash python \&./scripts/launch_container\&.py \fP
 
 .PP
 > On Windows
 
 .PP
-\fRpowershell \&./scripts/launch_container\&.ps1 \fP
+\fRpowershell python \&.\\scripts\\launch_container\&.py \fP
 
 .PP
-.IP "7." 4
+.IP "8." 4
 \fBAttach to the Container\fP
 
 .PP
 Press \fRCtrl+Shift+P\fP in Visual Studio Code, then select \fRRemote-Containers: Attach to Running Container\&.\&.\&.\fP and choose the container \fRlibmagicxx_dev_env\fP you just launched\&.
-.IP "8." 4
+.IP "9." 4
 \fBInstall Extensions in the Container\fP
 
 .PP
@@ -142,23 +150,20 @@ Search for and install the following extensions:
 \fRCMake Tools\fP
 .IP "    \(bu" 6
 \fRDev Containers\fP
+.IP "    \(bu" 6
+\fRPython\fP
 .PP
 
 .PP
 
 .PP
 These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration\&.
-.IP "9." 4
+.IP "10." 4
 Open a new terminal and initialize the project using the \fRinitialize\&.sh\fP bash script\&.
 
 .PP
-.PP
-.nf
-\&./scripts/initialize\&.sh
-.fi
-.PP
-
-.IP "10." 4
+\fRbash \&./scripts/initialize\&.sh \fP
+.IP "11." 4
 Now you are ready for your changes\&. You can commit your changes, build the project, run tests, and execute scripts within the container\&. However, you cannot push these changes directly from the container\&. Once you are done, close the container connection and push your work from your local computer\&.
 .PP
 .SH "How to Use Libmagicxx in a CMake-based Project"

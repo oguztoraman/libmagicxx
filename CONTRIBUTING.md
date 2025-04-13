@@ -88,7 +88,7 @@ The current development environment is a container image built on top of the lat
 
 7. **Run the Launch Container Script**
 
-    Open the project in Visual Studio Code and run the following script:
+    Open the project in Visual Studio Code and run the following script in a terminal to launch the development container:
 
     > On Linux/MacOS
 

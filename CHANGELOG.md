@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] cmake/dependencies.cmake: Fix file configure options to disable lrziplib.
+
 + [**ENHANCEMENT**] CMakePresets.json: Remove 'cleanFirst' option from base-config build preset.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md: Update CONTRIBUTING.md to correct directory structure and remove TODO.md reference

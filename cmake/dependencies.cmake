@@ -20,7 +20,8 @@ add_custom_target(configure_file
         ./configure --enable-static=yes --enable-shared=yes
         --disable-zlib --disable-bzlib
         --disable-xzlib --disable-zstdlib
-        --disable-lzlib --enable-year2038
+        --disable-lzlib --disable-lrziplib
+        --enable-year2038
         --host=${FILE_HOST} --silent
         CC=${CMAKE_C_COMPILER}
     COMMAND
@@ -51,7 +52,8 @@ add_custom_target(generate_default_database_files
         ./configure --enable-static=yes --enable-shared=yes
         --disable-zlib --disable-bzlib
         --disable-xzlib --disable-zstdlib
-        --disable-lzlib --enable-year2038
+        --disable-lzlib --disable-lrziplib
+        --enable-year2038
         --host=x86_64-pc-linux-gnu --silent
         CC=gcc
     COMMAND

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] CMakePresets.json: Remove 'cleanFirst' option from base-config build preset.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md: Update CONTRIBUTING.md to correct directory structure and remove TODO.md reference
 
 + [**ENHANCEMENT**] .scripts/launch_container.py, CONTRIBUTING.md: Merge launch_container scripts into one Python script.

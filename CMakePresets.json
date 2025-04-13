@@ -408,7 +408,6 @@
     "buildPresets": [
         {
             "name": "base-config",
-            "cleanFirst": true,
             "jobs": 10,
             "hidden": true
         },

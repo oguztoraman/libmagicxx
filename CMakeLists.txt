@@ -129,7 +129,7 @@ include(cmake/dependencies.cmake)
 
 add_library(magicxx ${LIBRARY_TYPE})
 
-add_dependencies(magicxx configure_file generate_default_database_files)
+add_dependencies(magicxx configure_file)
 
 set_target_properties(magicxx PROPERTIES
     C_STANDARD 99

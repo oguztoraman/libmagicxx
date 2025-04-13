@@ -47,5 +47,5 @@ TEST(magic_load_database_file_test, opened_magic_load_default_database)
 {
     magic m;
     m.open(magic::flags::mime);
-    m.load_database_file();
+    m.load_database_file(DEFAULT_DATABASE_FILE);
 }

@@ -11,4 +11,9 @@ git submodule update --init --recursive || {
     echo "Failed to initialize and update git submodules."
     exit 1
 }
+echo "Pulling database files..."
+git lfs pull || {
+    echo "Failed to pull database files."
+    exit 2
+}
 echo "Done."

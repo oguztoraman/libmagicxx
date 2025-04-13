@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .scripts/launch_container.py, CONTRIBUTING.md: Merge launch_container scripts into one Python script.
+
 + [**BUGFIX**] .github/workflows/*, cmake/dependencies.cmake, CMakeLists.txt: Refactor CMake dependencies and update database generation commands for the Windows build.
 
 + [**BUGFIX**] cmake/dependencies.cmake, inc/magic.hpp, tests/*, .gitignore, CMakeLists.txt: Generate default database files & Refactor default database file handling to pass the tests.

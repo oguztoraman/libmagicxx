@@ -72,7 +72,11 @@ The current development environment is a container image built on top of the lat
 
     Download and install Git from the [official website](https://git-scm.com/).
 
-5. **Fork & Clone the Repository**
+5. **Install Python**
+
+    Download and install Python from the [official website](https://www.python.org/).
+
+6. **Fork & Clone the Repository**
 
     Fork the repository on GitHub and clone it to your local machine:
 
@@ -82,27 +86,27 @@ The current development environment is a container image built on top of the lat
     cd libmagicxx
     ```
 
-6. **Run the Launch Container Script**
+7. **Run the Launch Container Script**
 
-    Open a terminal in Visual Studio Code and run the following script:
+    Open the project in Visual Studio Code and run the following script:
 
     > On Linux/MacOS
 
     ```bash
-    ./scripts/launch_container.sh
+    python ./scripts/launch_container.py
     ```
 
     > On Windows
 
     ```powershell
-    .\scripts\launch_container.ps1
+    python .\scripts\launch_container.py
     ```
 
-7. **Attach to the Container**
+8. **Attach to the Container**
 
    Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
 
-8. **Install Extensions in the Container**
+9. **Install Extensions in the Container**
 
     Once you have attached to the container, you need to install the necessary Visual Studio Code extensions within the container environment as well. Follow these steps:
 
@@ -112,16 +116,17 @@ The current development environment is a container image built on top of the lat
         + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
         + [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
         + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+        + [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 
-9. Open a new terminal and initialize the project using the [initialize.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh) bash script.
+10. Open a new terminal and initialize the project using the [initialize.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh) bash script.
 
     ```bash
     ./scripts/initialize.sh
     ```
 
-10. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
+11. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
 
 ## How to Use Libmagicxx in a CMake-based Project
 

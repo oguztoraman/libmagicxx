@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] inc/magic.hpp, src/magic.cpp, tests/magic_parameters_test.cpp: Add missing parameter mag_warn_max & Fix parameters' default values in the documentation.
+
 + [**BUGFIX**] cmake/dependencies.cmake: Fix file configure options to disable lrziplib.
 
 + [**ENHANCEMENT**] CMakePresets.json: Remove 'cleanFirst' option from base-config build preset.

@@ -39,7 +39,8 @@ TEST(magic_parameters_test, opened_magic_set_parameter_get_parameter)
         {regex_max,      dist(eng)},
         {bytes_max,      dist(eng)},
         {encoding_max,   dist(eng)},
-        {elf_shsize_max, dist(eng)}
+        {elf_shsize_max, dist(eng)},
+        {mag_warn_max,   dist(eng)}
     };
     for (const auto& [parameter, value] : expected_parameters) {
         m.set_parameter(parameter, value);
@@ -63,7 +64,8 @@ TEST(magic_parameters_test, parameter_to_string_conversion)
         std::make_pair(regex_max, "regex_max"),
         std::make_pair(bytes_max, "bytes_max"),
         std::make_pair(encoding_max, "encoding_max"),
-        std::make_pair(elf_shsize_max, "elf_shsize_max")
+        std::make_pair(elf_shsize_max, "elf_shsize_max"),
+        std::make_pair(mag_warn_max, "mag_warn_max")
     };
     for (const auto& [parameter, parameter_str] : magic_parameters_with_names) {
         EXPECT_EQ(to_string(parameter), parameter_str);
@@ -75,15 +77,16 @@ TEST(magic_parameters_test, parameters_to_string_conversion)
     using enum magic::parameters;
     EXPECT_EQ(
         to_string(magic::parameter_value_map_t{
-            {indir_max,      1},
-            {name_max,       2},
-            {elf_phnum_max,  3},
-            {elf_shnum_max,  4},
-            {elf_notes_max,  5},
-            {regex_max,      6},
-            {bytes_max,      7},
-            {encoding_max,   8},
-            {elf_shsize_max, 9}
+            {indir_max,      1 },
+            {name_max,       2 },
+            {elf_phnum_max,  3 },
+            {elf_shnum_max,  4 },
+            {elf_notes_max,  5 },
+            {regex_max,      6 },
+            {bytes_max,      7 },
+            {encoding_max,   8 },
+            {elf_shsize_max, 9 },
+            {mag_warn_max,   10}
     }),
         "indir_max: 1, "
         "name_max: 2, "
@@ -93,6 +96,7 @@ TEST(magic_parameters_test, parameters_to_string_conversion)
         "regex_max: 6, "
         "bytes_max: 7, "
         "encoding_max: 8, "
-        "elf_shsize_max: 9"
+        "elf_shsize_max: 9, "
+        "mag_warn_max: 10"
     );
 }

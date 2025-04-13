@@ -233,7 +233,7 @@ private:
 
     static constexpr auto libmagic_error           = -1;
     static constexpr auto libmagic_flags_count     = flags_mask_t{}.size();
-    static constexpr auto libmagic_parameter_count = 9uz;
+    static constexpr auto libmagic_parameter_count = 10uz;
 
     using libmagic_value_t      = int;
     using libmagic_value_name_t = std::string;
@@ -289,7 +289,8 @@ private:
         std::make_pair(MAGIC_PARAM_REGEX_MAX, "regex_max"),
         std::make_pair(MAGIC_PARAM_BYTES_MAX, "bytes_max"),
         std::make_pair(MAGIC_PARAM_ENCODING_MAX, "encoding_max"),
-        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max")
+        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max"),
+        std::make_pair(MAGIC_PARAM_MAGWARN_MAX, "mag_warn_max")
     };
 
     /**

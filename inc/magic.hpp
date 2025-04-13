@@ -106,15 +106,16 @@ public:
      */
     enum class parameters : std::size_t {
         /* clang-format off */
-        indir_max      = 0uz, /**< Recursion limit for indirection (default is 50). */
-        name_max       = 1uz, /**< Use limit for name/use magic (default is 50). */
-        elf_phnum_max  = 2uz, /**< Max ELF program sections processed (default is 2048). */
+        indir_max      = 0uz, /**< Recursion limit for indirection (default is 15). */
+        name_max       = 1uz, /**< Use limit for name/use magic (default is 30). */
+        elf_phnum_max  = 2uz, /**< Max ELF program sections processed (default is 128). */
         elf_shnum_max  = 3uz, /**< Max ELF sections processed (default is 32768). */
         elf_notes_max  = 4uz, /**< Max ELF notes processed (default is 256). */
         regex_max      = 5uz, /**< Max length limit for REGEX searches (default is 8192). */
         bytes_max      = 6uz, /**< Max bytes to look inside file (default is 7340032). */
-        encoding_max   = 7uz, /**< Max bytes to scan for encoding (default is 65536). */
-        elf_shsize_max = 8uz  /**< Max ELF section size (default is 134217728). */
+        encoding_max   = 7uz, /**< Max bytes to scan for encoding (default is 1048576). */
+        elf_shsize_max = 8uz, /**< Max ELF section size (default is 134217728). */
+        mag_warn_max   = 9uz  /**< Max warnings to tolerate in a magic file (default is 64). */
         /* clang-format on */
     };
 

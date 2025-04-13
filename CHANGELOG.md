@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/workflows/*, cmake/dependencies.cmake, CMakeLists.txt: Refactor CMake dependencies and update database generation commands for the Windows build.
+
 + [**BUGFIX**] cmake/dependencies.cmake, inc/magic.hpp, tests/*, .gitignore, CMakeLists.txt: Generate default database files & Refactor default database file handling to pass the tests.
 
 + [**ENHANCEMENT**] inc/magic.hpp, src/magic.cpp, CMakeLists.txt: Adapt default database file path based on the target operating system.

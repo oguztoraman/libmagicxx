@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Install Dependencies.
       run: >
-        dnf install -y git            \
+        dnf install -y git git-lfs    \
             awk make autoconf libtool \
             cmake ninja-build         \
             mingw64-gcc-c++           \

@@ -12,7 +12,8 @@ libmagicxx/
 ├── examples/                  # Examples
 ├── external/                  # External projects
     ├── file/                  # File and the Magic Number Recognition Library
-    ├── googletest             # GoogleTest
+    ├── googletest/            # GoogleTest
+    ├── libgnurx/              # Regex library
 ├── inc/                       # Header files
 ├── scripts/                   # Utility scripts
 ├── src/                       # Source files
@@ -30,7 +31,6 @@ libmagicxx/
 ├── PULL_REQUEST_TEMPLATE.md   # Pull request template
 ├── README.md                  # Project details
 ├── SECURITY.md                # Security policy
-├── TODO.md                    # To do list
 ```
 
 ## Development

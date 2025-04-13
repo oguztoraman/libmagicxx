@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md: Update CONTRIBUTING.md to correct directory structure and remove TODO.md reference
+
 + [**ENHANCEMENT**] .scripts/launch_container.py, CONTRIBUTING.md: Merge launch_container scripts into one Python script.
 
 + [**BUGFIX**] .github/workflows/*, cmake/dependencies.cmake, CMakeLists.txt: Refactor CMake dependencies and update database generation commands for the Windows build.

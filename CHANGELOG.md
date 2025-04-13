@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, cmake/dependencies.cmake, cmake/generate_default_database_files.cmake, databases/*, scripts/install_dependencies.sh, .gitattributes, .gitignore, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md: Add default database files to speed up build & Add CMake workflow preset to generate default database files.
+
 + [**BUGFIX**] inc/magic.hpp, src/magic.cpp, tests/magic_parameters_test.cpp: Add missing parameter mag_warn_max & Fix parameters' default values in the documentation.
 
 + [**BUGFIX**] cmake/dependencies.cmake: Fix file configure options to disable lrziplib.

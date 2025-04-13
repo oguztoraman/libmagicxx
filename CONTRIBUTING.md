@@ -7,7 +7,8 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing. 
 ```
 libmagicxx/
 ├── .github/                   # Continuous Integration (CI)
-├── cmake/                     # CMake configuration files, custom CMake targets.
+├── cmake/                     # CMake configuration files, custom CMake targets
+├── databases/                 # Default database files
 ├── doc/                       # Documentation files
 ├── examples/                  # Examples
 ├── external/                  # External projects
@@ -19,6 +20,7 @@ libmagicxx/
 ├── src/                       # Source files
 ├── tests/                     # Test files
 ├── .clang-format              # Clang format configuration
+├── .gitattributes             # Git attributes file
 ├── .gitignore                 # Git ignore file
 ├── .gitmodules                # Git submodules configuration
 ├── CHANGELOG.md               # Changelog
@@ -68,9 +70,10 @@ The current development environment is a container image built on top of the lat
 
     Follow the [installation guide](https://podman.io/getting-started/installation) to install Podman.
 
-4. **Install Git**
+4. **Install Git & Git Large File Storage**
 
     Download and install Git from the [official website](https://git-scm.com/).
+    Download and install Git Large File Storage from the [official website](https://git-lfs.com/).
 
 5. **Install Python**
 

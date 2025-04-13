@@ -24,6 +24,10 @@
             "inherits": "base-config"
         },
         {
+            "name": "generate-default-database-files",
+            "inherits": "base-config"
+        },
+        {
             "name": "debug-config",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
@@ -428,6 +432,14 @@
             ]
         },
         {
+            "name": "generate-default-database-files",
+            "inherits": "base-config",
+            "configurePreset": "generate-default-database-files",
+            "targets": [
+                "generate_default_database_files"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-shared-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-shared-debug"
@@ -707,6 +719,20 @@
                 {
                     "type": "build",
                     "name": "format-source-code"
+                }
+            ]
+        },
+        {
+            "name": "generate-default-database-files",
+            "displayName": "Generate Default Database Files",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "generate-default-database-files"
+                },
+                {
+                    "type": "build",
+                    "name": "generate-default-database-files"
                 }
             ]
         },

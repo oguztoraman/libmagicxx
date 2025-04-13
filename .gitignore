@@ -2,4 +2,3 @@
 .vscode/
 build/
 CMakeLists.txt.user
-database/

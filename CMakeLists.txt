@@ -99,7 +99,7 @@ set(magic_SOURCE_FILES
 )
 
 set(magicxx_DEFAULT_DATABASE_PATH
-    ${magicxx_SOURCE_DIR}/database
+    ${magicxx_SOURCE_DIR}/databases
 )
 
 set(magicxx_DEFAULT_DATABASE_FILE
@@ -185,3 +185,4 @@ if (BUILD_MAGICXX_DOCUMENTATION)
 endif()
 
 include(cmake/format_source_code.cmake)
+include(cmake/generate_default_database_files.cmake)

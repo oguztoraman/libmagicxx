@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v6.0.1] - 14-04-2025
+
 + [**BUGFIX**] doc/CMakeLists.txt, CMakePresets.json: Update documentation generation steps and add cleanup target to delete old documentation.
 
 ## [v6.0.0] - 13-04-2025

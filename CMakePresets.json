@@ -696,7 +696,7 @@
     "workflowPresets": [
         {
             "name": "documentation",
-            "displayName": "Build Documentation",
+            "displayName": "Generate Documentation",
             "steps": [
                 {
                     "type": "configure",

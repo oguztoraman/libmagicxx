@@ -25,7 +25,18 @@ set(DOXYGEN_GENERATE_TREEVIEW      YES)
 set(DOXYGEN_SHOW_ENUM_VALUES       YES)
 set(DOXYGEN_GENERATE_LATEX         NO)
 set(DOXYGEN_GENERATE_MAN           YES)
+set(DOXYGEN_MAN_EXTENSION          .3)
 set(DOXYGEN_OUTPUT_DIRECTORY       ${magicxx_SOURCE_DIR}/doc)
+
+add_custom_target(delete_old_docs
+    COMMAND
+        rm -rf html/* man/*
+    WORKING_DIRECTORY
+        ${magicxx_SOURCE_DIR}/doc
+    COMMENT
+        "Deleting old documentation..."
+    VERBATIM
+)
 
 doxygen_add_docs(
     magicxx_documentation
@@ -40,5 +51,7 @@ doxygen_add_docs(
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT
-        "Building documentation..."
+        "Generating documentation..."
 )
+
+add_dependencies(magicxx_documentation delete_old_docs)

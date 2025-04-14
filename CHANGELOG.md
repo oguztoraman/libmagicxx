@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] doc/CMakeLists.txt, CMakePresets.json: Update documentation generation steps and add cleanup target to delete old documentation.
+
 ## [v6.0.0] - 13-04-2025
 
 + [**ENHANCEMENT**] .github/workflows/*, cmake/dependencies.cmake, cmake/generate_default_database_files.cmake, databases/*, scripts/install_dependencies.sh, .gitattributes, .gitignore, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md: Add default database files to speed up build & Add CMake workflow preset to generate default database files.

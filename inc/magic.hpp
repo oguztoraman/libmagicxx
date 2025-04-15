@@ -21,7 +21,8 @@ namespace recognition {
  * @class magic
  *
  * @brief The magic class provides a C++ wrapper over the Magic Number Recognition Library.
- *        The magic class is used to identify the type of a file, if the following steps have been completed;
+ *
+ * @note  The magic class is used to identify the type of a file, if the following steps have been completed;
  *        1. magic must be opened.
  *        2. A magic database file must be loaded.
  */

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] inc/magic.hpp: Fix documentation formatting in magic class description.
+
 ## [v6.0.1] - 14-04-2025
 
 + [**BUGFIX**] doc/CMakeLists.txt, CMakePresets.json: Update documentation generation steps and add cleanup target to delete old documentation.

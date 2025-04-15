@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v6.0.2] - 15-04-2025
+
 + [**DOCUMENTATION**] inc/magic.hpp: Fix documentation formatting in magic class description.
 
 ## [v6.0.1] - 14-04-2025

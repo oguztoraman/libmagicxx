@@ -24,13 +24,11 @@ set(DOXYGEN_DISABLE_INDEX          YES)
 set(DOXYGEN_GENERATE_TREEVIEW      YES)
 set(DOXYGEN_SHOW_ENUM_VALUES       YES)
 set(DOXYGEN_GENERATE_LATEX         NO)
-set(DOXYGEN_GENERATE_MAN           YES)
-set(DOXYGEN_MAN_EXTENSION          .3)
 set(DOXYGEN_OUTPUT_DIRECTORY       ${magicxx_SOURCE_DIR}/doc)
 
 add_custom_target(delete_old_docs
     COMMAND
-        rm -rf html/* man/*
+        rm -rf html/*
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}/doc
     COMMENT

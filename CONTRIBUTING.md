@@ -93,13 +93,13 @@ The current development environment is a container image built on top of the lat
 
     Open the project in Visual Studio Code and run the following script in a terminal to launch the development container:
 
-    > On Linux/MacOS
+    On Linux/MacOS;
 
     ```bash
     python ./scripts/launch_container.py
     ```
 
-    > On Windows
+    On Windows;
 
     ```powershell
     python .\scripts\launch_container.py
@@ -123,13 +123,17 @@ The current development environment is a container image built on top of the lat
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 
-10. Open a new terminal and initialize the project using the [initialize.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh) bash script.
+10. **Initialize the Project**
 
-    ```bash
-    ./scripts/initialize.sh
+    Open a new terminal initialize the project using the `initialize.sh` bash script;
+    
+    ```
+    ./scripts/initialize.sh 
     ```
 
-11. Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
+11. **Now You Are Ready for Your Changes**
+
+    You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
 
 ## How to Use Libmagicxx in a CMake-based Project
 
@@ -153,32 +157,32 @@ The current development environment is a container image built on top of the lat
 
 1. **Create a New Branch**:
 
-+ Create the branch from `main` if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., `v5.2.x`).
+    + Create the branch from `main` if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., `v5.2.x`).
 
-+ Use the following naming conventions for your branches:
-    + For bug fixes: `bugfix/brief_description`
-    + For documentation changes: `document/brief_description`
-    + For enhancements: `enhancement/brief_description`
+    + Use the following naming conventions for your branches:
+        + For bug fixes: `bugfix/brief_description`
+        + For documentation changes: `document/brief_description`
+        + For enhancements: `enhancement/brief_description`
 
 2. **Make Changes**:
 
-+ Use `snake_case` naming convention. The only exception is template parameters, which should use `PascalCase`.
+    + Use `snake_case` naming convention. The only exception is template parameters, which should use `PascalCase`.
 
-+ Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
+    + Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 
-+ To maintain high-quality documentation, ensure that all public APIs are 100% documented using `Doxygen`. For more information on how to write Doxygen comments, refer to the [Doxygen Manual](http://www.doxygen.nl/manual/docblocks.html).
+    + To maintain high-quality documentation, ensure that all public APIs are 100% documented using `Doxygen`. For more information on how to write Doxygen comments, refer to the [Doxygen Manual](http://www.doxygen.nl/manual/docblocks.html).
 
-+ If your changes introduce new features or significant modifications, add an example to demonstrate the usage.
+    + If your changes introduce new features or significant modifications, add an example to demonstrate the usage.
 
 3. **Build and Test**:
 
-+ Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
+    Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
 
     ```bash
     ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release
     ```
 
-+ For more options, use:
+    For more options, use:
 
     ```bash
     ./scripts/workflows.sh -h
@@ -188,11 +192,11 @@ The current development environment is a container image built on top of the lat
       -h              Display this message.
     ```
 
-+ Ensure that your changes do not break any existing tests. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes.
+    Ensure that your changes do not break any existing tests. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes.
 
 4. **Format Code**:
 
-+ Ensure your code is properly formatted using the CMake workflow preset `format-source-code`:
+    Ensure your code is properly formatted using the CMake workflow preset `format-source-code`:
 
     ```bash
     ./scripts/workflows.sh -p format-source-code
@@ -229,27 +233,27 @@ Our CI pipeline runs automated tests and checks on each pull request to ensure c
 
 1. **Initial Review**:
 
-+ Once you submit a pull request, it will be reviewed by one or more project maintainers.
+    + Once you submit a pull request, it will be reviewed by one or more project maintainers.
 
-+ The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing.
+    + The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing.
 
 2. **Feedback and Revisions**:
 
-+ If the maintainers find any issues or have suggestions, they will provide feedback on the pull request.
+    + If the maintainers find any issues or have suggestions, they will provide feedback on the pull request.
 
-+ You are expected to address the feedback by making the necessary changes and updating the pull request.
+    + You are expected to address the feedback by making the necessary changes and updating the pull request.
 
 3. **Approval and Merging**:
 
-+ Once the maintainers are satisfied with the changes, they will approve the pull request.
+    + Once the maintainers are satisfied with the changes, they will approve the pull request.
 
-+ The pull request will then be merged into the appropriate branch (`main` or a supported release branch).
+    + The pull request will then be merged into the appropriate branch (`main` or a supported release branch).
 
 4. **Post-Merge**:
 
-+ After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.
+    + After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.
 
-+ If any issues are found, they will be addressed promptly.
+    + If any issues are found, they will be addressed promptly.
 
 ## Thank You
 

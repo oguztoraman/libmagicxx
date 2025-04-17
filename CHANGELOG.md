@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md: Update contributing guidelines to fix rendering issues.
+
 + [**DOCUMENTATION**] doc/man/*, doc/CMakeLists.txt: Delete man documentation.
 
 ## [v6.0.2] - 15-04-2025

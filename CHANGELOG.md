@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] doc/CMakeLists.txt: Update Doxygen configuration to enable index and adjust sidebar settings.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md: Update contributing guidelines to fix rendering issues.
 
 + [**DOCUMENTATION**] doc/man/*, doc/CMakeLists.txt: Delete man documentation.

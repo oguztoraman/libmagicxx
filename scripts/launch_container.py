@@ -24,7 +24,7 @@ def main():
 
         if image_exists:
             if update_image:
-                subprocess.run(["podman", "build", "--pull", "-t", "libmagicxx_dev_env", "-f", "Containerfile"], check=True)
+                subprocess.run(["podman", "build", "--pull=always", "-t", "libmagicxx_dev_env", "-f", "Containerfile"], check=True)
         else:
             subprocess.run(["podman", "build", "-t", "libmagicxx_dev_env", "-f", "Containerfile"], check=True)
 

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] scripts/launch_container.py: Always pull the latest image when updating the development container.
+
 + [**DOCUMENTATION**] doc/CMakeLists.txt: Update Doxygen configuration to enable index and adjust sidebar settings.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md: Update contributing guidelines to fix rendering issues.

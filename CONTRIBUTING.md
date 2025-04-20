@@ -9,15 +9,15 @@ libmagicxx/
 ├── .github/                   # Continuous Integration (CI)
 ├── cmake/                     # CMake configuration files, custom CMake targets
 ├── databases/                 # Default database files
-├── doc/                       # Documentation files
+├── documentation/             # Documentation files
 ├── examples/                  # Examples
 ├── external/                  # External projects
     ├── file/                  # File and the Magic Number Recognition Library
     ├── googletest/            # GoogleTest
     ├── libgnurx/              # Regex library
-├── inc/                       # Header files
+├── include/                   # Header files
 ├── scripts/                   # Utility scripts
-├── src/                       # Source files
+├── sources/                   # Source files
 ├── tests/                     # Test files
 ├── .clang-format              # Clang format configuration
 ├── .gitattributes             # Git attributes file

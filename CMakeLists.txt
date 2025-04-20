@@ -111,7 +111,7 @@ set(magicxx_DEFAULT_COMPILED_DATABASE_FILE
 )
 
 set(magicxx_INCLUDE_DIR
-    ${magicxx_SOURCE_DIR}/inc
+    ${magicxx_SOURCE_DIR}/include/magicxx
 )
 
 set(magicxx_HEADER_FILES
@@ -122,7 +122,7 @@ set(magicxx_HEADER_FILES
 )
 
 set(magicxx_SOURCE_FILES
-    ${magicxx_SOURCE_DIR}/src/magic.cpp
+    ${magicxx_SOURCE_DIR}/sources/magic.cpp
 )
 
 include(cmake/dependencies.cmake)
@@ -181,7 +181,7 @@ if (BUILD_MAGICXX_EXAMPLES)
 endif()
 
 if (BUILD_MAGICXX_DOCUMENTATION)
-    add_subdirectory(doc)
+    add_subdirectory(documentation)
 endif()
 
 include(cmake/format_source_code.cmake)

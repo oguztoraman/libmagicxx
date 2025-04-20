@@ -25,13 +25,13 @@ set(DOXYGEN_GENERATE_TREEVIEW      YES)
 set(DOXYGEN_FULL_SIDEBAR           NO)
 set(DOXYGEN_SHOW_ENUM_VALUES       YES)
 set(DOXYGEN_GENERATE_LATEX         NO)
-set(DOXYGEN_OUTPUT_DIRECTORY       ${magicxx_SOURCE_DIR}/doc)
+set(DOXYGEN_OUTPUT_DIRECTORY       ${magicxx_SOURCE_DIR}/documentation)
 
 add_custom_target(delete_old_docs
     COMMAND
         rm -rf html/*
     WORKING_DIRECTORY
-        ${magicxx_SOURCE_DIR}/doc
+        ${magicxx_SOURCE_DIR}/documentation
     COMMENT
         "Deleting old documentation..."
     VERBATIM

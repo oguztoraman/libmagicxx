@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/deploy_doxygen_documentation.yml, docdocumentation/*, include/*, sources/*, CMakeLists.txt, CONTRIBUTING.md: Improve project structure.
+
 + [**BUGFIX**] .github/workflows/*, Containerfile: Update container images to use Fedora 41 to fix the compilation error.
 
 + [**BUGFIX**] scripts/launch_container.py: Always pull the latest image when updating the development container.

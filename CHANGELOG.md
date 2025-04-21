@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/workflows/*: Clear cache files in the workflows.
+
 + [**ENHANCEMENT**] scripts/workflows.sh: Enhance workflow script to include cache clearing option and update usage instructions.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Improve documentation clarity and add installation/uninstallation instructions for Libmagicxx.

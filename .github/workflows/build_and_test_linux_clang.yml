@@ -26,22 +26,22 @@ jobs:
         submodules: recursive
         lfs: true
     - name: Build (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-release -c
     - name: Tests (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-tests-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-tests-release -c
     - name: Install (Shared library).
       run: cmake --install build/ --strip
     - name: Examples (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-examples-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-shared-examples-release -c
     - name: Uninstall (Shared library).
       run: cmake --build build/ --target uninstall
     - name: Build (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-release -c
     - name: Tests (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-tests-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-tests-release -c
     - name: Install (Static library).
       run: cmake --install build/ --strip
     - name: Examples (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-examples-release
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-static-examples-release -c
     - name: Uninstall (Static library).
       run: cmake --build build/ --target uninstall

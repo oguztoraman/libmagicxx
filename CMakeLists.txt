@@ -60,12 +60,12 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         ${magic_SOURCE_DIR}/strlcpy.c
     )
 
-    set(magicxx_OS_DEFAULT_DATABASE_FILE
-        "C:\\Program Files\\libmagicxx\\database\\magic"
+    set(magicxx_DEFAULT_DATABASES_INSTALL_DIR
+        "C:\\Program Files\\magicxx\\databases"
     )
 else()
-    set(magicxx_OS_DEFAULT_DATABASE_FILE
-        "/usr/share/libmagicxx/database/magic"
+    set(magicxx_DEFAULT_DATABASES_INSTALL_DIR
+        "/usr/share/magicxx/databases"
     )
 endif()
 
@@ -110,6 +110,15 @@ set(magicxx_DEFAULT_COMPILED_DATABASE_FILE
     ${magicxx_DEFAULT_DATABASE_PATH}/magic.mgc
 )
 
+set(magicxx_DEFAULT_DATABASE_FILES
+    ${magicxx_DEFAULT_DATABASE_FILE}
+    ${magicxx_DEFAULT_COMPILED_DATABASE_FILE}
+)
+
+set(magicxx_INSTALLED_DEFAULT_DATABASE_FILE
+    ${magicxx_DEFAULT_DATABASES_INSTALL_DIR}/magic
+)
+
 set(magicxx_INCLUDE_DIR
     ${magicxx_SOURCE_DIR}/include/magicxx
 )
@@ -127,7 +136,13 @@ set(magicxx_SOURCE_FILES
 
 include(cmake/dependencies.cmake)
 
+include(cmake/format_source_code.cmake)
+
+include(cmake/generate_default_database_files.cmake)
+
 add_library(magicxx ${LIBRARY_TYPE})
+
+add_library(recognition::magicxx ALIAS magicxx)
 
 add_dependencies(magicxx configure_file)
 
@@ -144,9 +159,9 @@ set_target_properties(magicxx PROPERTIES
 
 target_sources(magicxx
     PUBLIC
-        FILE_SET magicxx_headers
+        FILE_SET magicxxHeaders
         TYPE HEADERS
-        BASE_DIRS ${magicxx_INCLUDE_DIR}
+        BASE_DIRS ./include
         FILES ${magicxx_HEADER_FILES}
     PRIVATE
         ${gnurx_SOURCE_FILES}
@@ -158,7 +173,13 @@ target_compile_definitions(magicxx
     PRIVATE
         HAVE_CONFIG_H
         HAVE_STDINT_H
-        DEFAULT_DATABASE_FILE="${magicxx_OS_DEFAULT_DATABASE_FILE}"
+        DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
+)
+
+include(GNUInstallDirs)
+
+set(magicxx_INSTALL_INCLUDEDIR
+    ${CMAKE_INSTALL_INCLUDEDIR}/magicxx
 )
 
 target_include_directories(magicxx
@@ -166,7 +187,104 @@ target_include_directories(magicxx
         ${gnurx_INCLUDE_DIR}
         ${magic_INCLUDE_DIR}
     PUBLIC
-        ${magicxx_INCLUDE_DIR}
+        "$<BUILD_INTERFACE:${magicxx_INCLUDE_DIR}>"
+        "$<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDEDIR}>"
+)
+
+include(CMakePackageConfigHelpers)
+
+set(magicxx_INSTALL_LIBDIR
+    ${CMAKE_INSTALL_LIBDIR}/magicxx
+)
+
+set(magicxx_INSTALL_DOCDIR
+    ${CMAKE_INSTALL_DOCDIR}
+)
+
+set(magicxx_CMAKE_INSTALL_LIBDIR
+    ${CMAKE_INSTALL_LIBDIR}/cmake/magicxx
+)
+
+set(magicxx_CMAKE_PACKAGE_CONFIG_FILE
+    ${CMAKE_CURRENT_BINARY_DIR}/magicxxConfig.cmake
+)
+
+set(magicxx_CMAKE_PACKAGE_CONFIG_VERSION_FILE
+    ${CMAKE_CURRENT_BINARY_DIR}/magicxxConfigVersion.cmake
+)
+
+configure_package_config_file(
+    cmake/magicxxConfig.cmake.in
+        ${magicxx_CMAKE_PACKAGE_CONFIG_FILE}
+    INSTALL_DESTINATION
+        ${magicxx_CMAKE_INSTALL_LIBDIR}
+    PATH_VARS
+        magicxx_INSTALL_INCLUDEDIR
+        magicxx_INSTALL_LIBDIR
+        magicxx_INSTALL_DOCDIR
+        magicxx_CMAKE_INSTALL_LIBDIR
+        magicxx_DEFAULT_DATABASES_INSTALL_DIR
+)
+
+write_basic_package_version_file(
+    ${magicxx_CMAKE_PACKAGE_CONFIG_VERSION_FILE}
+    VERSION
+        ${magicxx_VERSION}
+    COMPATIBILITY
+        SameMajorVersion
+)
+
+install(
+    FILES
+        ${magicxx_CMAKE_PACKAGE_CONFIG_FILE}
+        ${magicxx_CMAKE_PACKAGE_CONFIG_VERSION_FILE}
+    DESTINATION
+        ${magicxx_CMAKE_INSTALL_LIBDIR}
+)
+
+install(
+    TARGETS
+        magicxx
+    EXPORT
+        magicxxTargets
+    FILE_SET
+        magicxxHeaders
+    LIBRARY DESTINATION
+        ${magicxx_INSTALL_LIBDIR}
+)
+
+install(
+    EXPORT
+        magicxxTargets
+    NAMESPACE
+        recognition::
+    DESTINATION
+        ${magicxx_CMAKE_INSTALL_LIBDIR}
+)
+
+install(
+    FILES
+        ${magicxx_DEFAULT_DATABASE_FILES}
+    DESTINATION
+        ${magicxx_DEFAULT_DATABASES_INSTALL_DIR}
+)
+
+install(
+    DIRECTORY
+        documentation/html
+    DESTINATION
+        ${CMAKE_INSTALL_DOCDIR}
+)
+
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall_magicxx.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE
+        @ONLY
+)
+
+add_custom_target(uninstall
+    "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
 )
 
 if (BUILD_MAGICXX_TESTS)
@@ -183,6 +301,3 @@ endif()
 if (BUILD_MAGICXX_DOCUMENTATION)
     add_subdirectory(documentation)
 endif()
-
-include(cmake/format_source_code.cmake)
-include(cmake/generate_default_database_files.cmake)

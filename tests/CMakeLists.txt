@@ -38,14 +38,10 @@ target_compile_definitions(magicxx_tests
         DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
 )
 
-target_include_directories(magicxx_tests
-    PRIVATE
-        ${magicxx_INCLUDE_DIR}
-)
-
 target_link_libraries(magicxx_tests
     PRIVATE
-        magicxx GTest::gtest_main
+        recognition::magicxx
+        GTest::gtest_main
 )
 
 gtest_discover_tests(magicxx_tests)

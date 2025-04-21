@@ -45,7 +45,7 @@ libmagicxx/
 
 ## Documentation
 
-For comprehensive guides, API references, and detailed information, visit the [documentation site](https://oguztoraman.github.io/libmagicxx/).
+For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/). The source code for the documentation site is available in the `documentation/html` directory of the repository.
 
 ## Code of Conduct
 
@@ -134,20 +134,6 @@ The current development environment is a container image built on top of the lat
 11. **Now You Are Ready for Your Changes**
 
     You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
-
-## How to Use Libmagicxx in a CMake-based Project
-
-1. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.
-
-    ```cmake
-    add_subdirectory(libmagicxx)
-
-    target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
-    )
-    ```
-
-2. Include the `magic.hpp` header file in your source files.
 
 ## Making Changes
 

@@ -17,11 +17,12 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240)](https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx)
 
-## Requirements to Build Libmagicxx
+## Build Requirements for Libmagicxx
 
 To build Libmagicxx, ensure you have the following tools and dependencies installed:
 
-+ **Git**: Version control system to clone the repository.
++ **Git**: Version control system.
++ **Git LFS**: Git extension for versioning large files.
 + **Awk**: Text processing tool.
 + **Autoconf**: Tool for generating configuration scripts.
 + **GNU Make**: Build automation tool.
@@ -33,7 +34,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
     + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
 
-## How to Build Libmagicxx
+## Building Libmagicxx
 
 1. Clone the libmagicxx repo.
 
@@ -69,7 +70,23 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
       -h              Display this message.
     ```
 
-## How to Use Libmagicxx in a CMake-based Project
+## Installing Libmagicxx
+
+1. Install Libmagicxx using CMake.
+
+    ```bash
+    cmake --install build/ --strip
+    ```
+
+## Uninstalling Libmagicxx
+
+1. Uninstall Libmagicxx using CMake.
+
+    ```bash
+    cmake --build build/ --target uninstall
+    ```
+
+## Using Libmagicxx in a CMake Project Without Installation
 
 1. Clone the libmagicxx repo into your project.
 
@@ -89,7 +106,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     ./scripts/initialize.sh
     ```
 
-4. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link libmagicxx.
+4. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link Libmagicxx.
 
     ```cmake
     add_subdirectory(libmagicxx)
@@ -99,7 +116,21 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     )
     ```
 
-5. Include the `magic.hpp` header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the `magic` class.
+5. Include the `magic.hpp` header file in your source files.
+
+## Using Installed Libmagicxx with CMake
+
+1. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link Libmagicxx.
+
+    ```cmake
+    find_package(magicxx REQUIRED)
+
+    target_link_libraries(<name of your project>
+        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
+    )
+    ```
+
+2. Include the `magic.hpp` header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the `magic` class.
 
     ```cpp
     #include <print>
@@ -121,7 +152,7 @@ For more examples, refer to the [examples directory](https://github.com/oguztora
 
 ## Documentation
 
-For comprehensive guides, API references, and detailed information, visit the [documentation site](https://oguztoraman.github.io/libmagicxx/).
+For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/). The source code for the documentation site is available in the `documentation/html` directory of the repository.
 
 ## Contributing
 

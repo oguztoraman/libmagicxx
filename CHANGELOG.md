@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Improve documentation clarity and add installation/uninstallation instructions for Libmagicxx.
+
 + [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in, cmake/uninstall_magicxx.cmake.in, examples/*, tests/CMakeLists.txt, CMakeLists.txt, CONTRIBUTING.md, README.md: Add support for installing, uninstalling, and exporting magicxx.
 
 + [**ENHANCEMENT**] .github/workflows/deploy_doxygen_documentation.yml, docdocumentation/*, include/*, sources/*, CMakeLists.txt, CONTRIBUTING.md: Improve project structure.

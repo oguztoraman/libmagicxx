@@ -251,6 +251,8 @@ install(
         magicxxHeaders
     LIBRARY DESTINATION
         ${magicxx_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION
+        ${magicxx_INSTALL_LIBDIR}
 )
 
 install(

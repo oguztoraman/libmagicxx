@@ -29,11 +29,19 @@ jobs:
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
     - name: Tests (Shared library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release
+    - name: Install (Shared library).
+      run: cmake --install build/ --strip
     - name: Examples (Shared library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-examples-release
+    - name: Uninstall (Shared library).
+      run: cmake --build build/ --target uninstall
     - name: Build (Static library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-release
     - name: Tests (Static library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-tests-release
+    - name: Install (Static library).
+      run: cmake --install build/ --strip
     - name: Examples (Static library).
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-examples-release
+    - name: Uninstall (Static library).
+      run: cmake --build build/ --target uninstall

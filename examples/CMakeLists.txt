@@ -5,6 +5,20 @@ cmake_minimum_required(VERSION 3.30.8)
 
 project(magicxx_examples LANGUAGES CXX)
 
+find_package(magicxx REQUIRED)
+
+if (NOT MAGICXX_FOUND)
+    message(FATAL_ERROR "Libmagicxx not found. Please install it first.")
+else()
+    message(STATUS "Libmagicxx found.")
+    message(STATUS "Libmagicxx version: ${MAGICXX_VERSION}")
+    message(STATUS "Libmagicxx include directory: ${MAGICXX_INCLUDE_DIR}")
+    message(STATUS "Libmagicxx library directory: ${MAGICXX_LIB_DIR}")
+    message(STATUS "Libmagicxx documentation directory: ${MAGICXX_DOC_DIR}")
+    message(STATUS "Libmagicxx CMake directory: ${MAGICXX_CMAKE_DIR}")
+    message(STATUS "Libmagicxx default database directory: ${MAGICXX_DEFAULT_DATABASE_DIR}")
+endif()
+
 set(magicxx_examples_SOURCE_FILES
     magic_examples.cpp
 )
@@ -22,12 +36,7 @@ target_sources(magicxx_examples
         ${magicxx_examples_SOURCE_FILES}
 )
 
-target_include_directories(magicxx_examples
-    PRIVATE
-        ${magicxx_INCLUDE_DIR}
-)
-
 target_link_libraries(magicxx_examples
     PRIVATE
-        magicxx
+        recognition::magicxx
 )

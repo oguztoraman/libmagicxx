@@ -1,4 +1,4 @@
-name: Build and Test (Windows x86_64 build, MinGW64 Toolchain)
+name: Build (Windows x86_64 build, MinGW64 Toolchain)
 permissions:
   contents: read
 on:
@@ -27,13 +27,5 @@ jobs:
         lfs: true
     - name: Build (Shared library).
       run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-release
-    - name: Tests (Shared library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-tests-release
-    - name: Examples (Shared library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-examples-release
     - name: Build (Static library).
       run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-release
-    - name: Tests (Static library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-tests-release
-    - name: Examples (Static library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-examples-release

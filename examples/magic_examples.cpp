@@ -2,9 +2,8 @@
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
 #include <iostream>
+#include <magic.hpp>
 #include <print>
-
-#include "magic.hpp"
 
 using namespace recognition;
 

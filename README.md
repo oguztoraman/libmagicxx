@@ -11,7 +11,7 @@
 
 ## Project Status
 
-![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_windows_mingw64.yml/badge.svg)
+![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg)
 
 ## Code Quality
 
@@ -94,12 +94,8 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     ```cmake
     add_subdirectory(libmagicxx)
 
-    target_include_directories(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
-    )
-
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> magicxx
+        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
     )
     ```
 

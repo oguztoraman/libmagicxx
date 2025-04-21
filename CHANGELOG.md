@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in, cmake/uninstall_magicxx.cmake.in, examples/*, tests/CMakeLists.txt, CMakeLists.txt, CONTRIBUTING.md, README.md: Add support for installing, uninstalling, and exporting magicxx.
+
 + [**ENHANCEMENT**] .github/workflows/deploy_doxygen_documentation.yml, docdocumentation/*, include/*, sources/*, CMakeLists.txt, CONTRIBUTING.md: Improve project structure.
 
 + [**BUGFIX**] .github/workflows/*, Containerfile: Update container images to use Fedora 41 to fix the compilation error.

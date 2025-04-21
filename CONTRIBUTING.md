@@ -142,12 +142,8 @@ The current development environment is a container image built on top of the lat
     ```cmake
     add_subdirectory(libmagicxx)
 
-    target_include_directories(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> ${magicxx_INCLUDE_DIR}
-    )
-
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> magicxx
+        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
     )
     ```
 

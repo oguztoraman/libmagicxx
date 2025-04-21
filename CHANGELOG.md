@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] scripts/workflows.sh: Enhance workflow script to include cache clearing option and update usage instructions.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Improve documentation clarity and add installation/uninstallation instructions for Libmagicxx.
 
 + [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in, cmake/uninstall_magicxx.cmake.in, examples/*, tests/CMakeLists.txt, CMakeLists.txt, CONTRIBUTING.md, README.md: Add support for installing, uninstalling, and exporting magicxx.
@@ -50,7 +52,7 @@
 
 + [**BUGFIX**] Containerfile: Fix script execution path in Containerfile.
 
-+ [**BUGFIX**] scrips/workflows.sh, CMakeLists.txt, CMakePresets.json: Export compile commands to a location easily accessible by Clangd.
++ [**BUGFIX**] scripts/workflows.sh, CMakeLists.txt, CMakePresets.json: Export compile commands to a location easily accessible by Clangd.
 
 + [**BUGFIX**] CONTRIBUTING.md: Fix path syntax for launching the container in Windows.
 

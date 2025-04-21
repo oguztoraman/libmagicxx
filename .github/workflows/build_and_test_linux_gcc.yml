@@ -26,22 +26,22 @@ jobs:
         submodules: recursive
         lfs: true
     - name: Build (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release -c
     - name: Tests (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release -c
     - name: Install (Shared library).
       run: cmake --install build/ --strip
     - name: Examples (Shared library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-examples-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-shared-examples-release -c
     - name: Uninstall (Shared library).
       run: cmake --build build/ --target uninstall
     - name: Build (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-release -c
     - name: Tests (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-tests-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-tests-release -c
     - name: Install (Static library).
       run: cmake --install build/ --strip
     - name: Examples (Static library).
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-examples-release
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-static-examples-release -c
     - name: Uninstall (Static library).
       run: cmake --build build/ --target uninstall

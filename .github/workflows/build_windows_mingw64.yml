@@ -26,6 +26,6 @@ jobs:
         submodules: recursive
         lfs: true
     - name: Build (Shared library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-release
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-shared-release -c
     - name: Build (Static library).
-      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-release
+      run: ./scripts/workflows.sh -p windows-x86_64-mingw64-static-release -c

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/*, CMakeLists.txt: Refactor CMake configuration.
+
 + [**BUGFIX**] .github/workflows/*: Clear cache files in the workflows.
 
 + [**ENHANCEMENT**] scripts/workflows.sh: Enhance workflow script to include cache clearing option and update usage instructions.

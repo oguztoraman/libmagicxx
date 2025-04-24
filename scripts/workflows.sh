@@ -54,8 +54,14 @@ echo "Workflow completed with preset '${PRESET}'." || {
 }
 
 if [[ "$PRESET" == *"examples"* ]]; then
-    echo "Running examples..."
-    cd build/examples && ./magicxx_examples || {
+    echo "    ========== Running Examples ==========   "
+    cd build/examples
+    echo "========== Shared Library Examples =========="
+    ./magicxx_examples || {
         exit 4
+    }
+    echo "========== Static Library Examples =========="
+    ./magicxx_examples_static || {
+        exit 5
     }
 fi

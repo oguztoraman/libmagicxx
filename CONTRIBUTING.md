@@ -161,16 +161,17 @@ The current development environment is a container image built on top of the lat
     Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
 
     ```bash
-    ./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release
+    ./scripts/workflows.sh -p linux-x86_64-gcc-tests-release -c
     ```
 
     For more options, use:
 
     ```bash
     ./scripts/workflows.sh -h
-    Usage: ./scripts/workflows.sh [-l] [-p preset] [-h]
+    Usage: ./scripts/workflows.sh [-l] [-p preset] [-c] [-h]
       -l              List available CMake workflow presets.
       -p preset       Specify the CMake workflow preset to use.
+      -c              Clear the CMake cache before running the selected preset.
       -h              Display this message.
     ```
 

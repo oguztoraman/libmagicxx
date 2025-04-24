@@ -57,16 +57,17 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
 4. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
 
     ```bash
-    ./scripts/workflows.sh -p linux-x86_64-gcc-shared-release
+    ./scripts/workflows.sh -p linux-x86_64-gcc-release -c
     ```
 
     For more options, use:
 
     ```bash
     ./scripts/workflows.sh -h
-    Usage: ./scripts/workflows.sh [-l] [-p preset] [-h]
+    Usage: ./scripts/workflows.sh [-l] [-p preset] [-c] [-h]
       -l              List available CMake workflow presets.
       -p preset       Specify the CMake workflow preset to use.
+      -c              Clear the CMake cache before running the selected preset.
       -h              Display this message.
     ```
 
@@ -112,7 +113,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     add_subdirectory(libmagicxx)
 
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
+        <PUBLIC or PRIVATE or INTERFACE> <recognition::magicxx or recognition::magicxx_static>
     )
     ```
 
@@ -126,7 +127,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     find_package(magicxx REQUIRED)
 
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> recognition::magicxx
+        <PUBLIC or PRIVATE or INTERFACE> <recognition::magicxx or recognition::magicxx_static>
     )
     ```
 

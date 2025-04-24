@@ -40,3 +40,21 @@ target_link_libraries(magicxx_examples
     PRIVATE
         recognition::magicxx
 )
+
+add_executable(magicxx_examples_static)
+
+set_target_properties(magicxx_examples_static PROPERTIES
+    CXX_STANDARD 23
+    CXX_EXTENSIONS OFF
+    CXX_STANDARD_REQUIRED ON
+)
+
+target_sources(magicxx_examples_static
+    PRIVATE
+        ${magicxx_examples_SOURCE_FILES}
+)
+
+target_link_libraries(magicxx_examples_static
+    PRIVATE
+        recognition::magicxx_static
+)

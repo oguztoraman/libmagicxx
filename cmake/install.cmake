@@ -18,6 +18,15 @@ install(
         magicxxHeaders
     LIBRARY DESTINATION
         ${magicxx_INSTALL_LIBDIR}
+)
+
+install(
+    TARGETS
+        magicxx_static
+    EXPORT
+        magicxxTargets
+    FILE_SET
+        magicxx_staticHeaders
     ARCHIVE DESTINATION
         ${magicxx_INSTALL_LIBDIR}
 )

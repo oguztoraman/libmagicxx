@@ -4,8 +4,8 @@
 
 | Version | Supported |
 | ------- | ----------|
-|  6.0.x  |     +     |
-|  < 6.0  |     -     |
+|  7.0.x  |     +     |
+|  < 7.0  |     -     |
 
 ## Reporting a Vulnerability
 

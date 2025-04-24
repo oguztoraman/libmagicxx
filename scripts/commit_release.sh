@@ -49,7 +49,7 @@ sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHA
     exit 4
 }
 
-git add $CMAKE_FILE $CHANGELOG_FILE doc/* &&
+git add $CMAKE_FILE $CHANGELOG_FILE documentation/html/* &&
 git commit -m "Update the project version to ${VERSION}" &&
 git tag -a $GIT_TAG -m "Version $VERSION" || {
     exit 5

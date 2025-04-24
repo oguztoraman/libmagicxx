@@ -40,8 +40,33 @@ target_compile_definitions(magicxx_tests
 
 target_link_libraries(magicxx_tests
     PRIVATE
-        recognition::magicxx
         GTest::gtest_main
+        recognition::magicxx
+)
+
+add_executable(magicxx_tests_static)
+
+set_target_properties(magicxx_tests_static PROPERTIES
+    CXX_STANDARD 23
+    CXX_EXTENSIONS OFF
+    CXX_STANDARD_REQUIRED ON
+)
+
+target_sources(magicxx_tests_static
+    PRIVATE
+        ${magicxx_tests_SOURCE_FILES}
+)
+
+target_compile_definitions(magicxx_tests_static
+    PRIVATE
+        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+)
+
+target_link_libraries(magicxx_tests_static
+    PRIVATE
+        GTest::gtest_main
+        recognition::magicxx_static
 )
 
 gtest_discover_tests(magicxx_tests)
+gtest_discover_tests(magicxx_tests_static)

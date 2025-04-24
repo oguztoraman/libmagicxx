@@ -10,13 +10,9 @@ project(magicxx
     LANGUAGES C CXX
 )
 
-option(BUILD_MAGICXX_AS_STATIC     "Build as static."         OFF)
-option(BUILD_MAGICXX_TESTS         "Build the tests."         OFF)
-option(BUILD_MAGICXX_EXAMPLES      "Build the examples."      OFF)
-option(BUILD_MAGICXX_DOCUMENTATION "Build the documentation." OFF)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+include(cmake/options.cmake)
 include(cmake/paths.cmake)
 include(cmake/sources.cmake)
 include(cmake/files.cmake)

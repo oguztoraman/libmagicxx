@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, cmake/install.cmake, cmake/options.cmake, cmake/targets.cmake, examples/CMakeLists.txt, scripts/workflows.sh, tests/CMakeLists.txt, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md, README.md: Update build system to support simultaneous compilation of shared and static libraries.
+
 + [**ENHANCEMENT**] cmake/*, CMakeLists.txt: Refactor CMake configuration.
 
 + [**BUGFIX**] .github/workflows/*: Clear cache files in the workflows.

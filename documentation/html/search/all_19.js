@@ -6,10 +6,10 @@ var searchData=
   ['recognition_3a_3adetail_3',['detail',['../namespacerecognition_1_1detail.html',1,'recognition']]],
   ['regex_5fmax_4',['regex_max',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940a1082f2dc797d03f7f3c8753398711a05',1,'recognition::magic']]],
   ['release_5',['Next Release',['../md_CHANGELOG.html#autotoc_md1',1,'']]],
-  ['reporting_20a_20vulnerability_6',['Reporting a Vulnerability',['../md_SECURITY.html#autotoc_md77',1,'']]],
+  ['reporting_20a_20vulnerability_6',['Reporting a Vulnerability',['../md_SECURITY.html#autotoc_md80',1,'']]],
   ['reporting_20issues_7',['Reporting Issues',['../md_CONTRIBUTING.html#autotoc_md55',1,'']]],
   ['request_8',['Creating a Pull Request',['../md_CONTRIBUTING.html#autotoc_md54',1,'']]],
-  ['requirements_20to_20build_20libmagicxx_9',['Requirements to Build Libmagicxx',['../index.html#autotoc_md64',1,'']]],
-  ['responsibilities_10',['Enforcement Responsibilities',['../md_CODE__OF__CONDUCT.html#autotoc_md37',1,'']]],
+  ['requirements_20for_20libmagicxx_9',['Build Requirements for Libmagicxx',['../index.html#autotoc_md64',1,'']]],
+  ['responsibilities_10',['Enforcement Responsibilities',['../md_CODE__OF__CONDUCT.html#autotoc_md38',1,'']]],
   ['review_20process_11',['Review Process',['../md_CONTRIBUTING.html#autotoc_md58',1,'']]]
 ];

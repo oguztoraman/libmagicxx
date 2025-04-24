@@ -18,11 +18,6 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <script type="text/javascript" src="darkmode_toggle.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
@@ -33,22 +28,10 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v6.0.2</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v7.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -65,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -107,23 +101,23 @@ $(function(){initNavTree('md_CONTRIBUTING.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Contributing to Libmagicxx</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md46"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md47"></a></p>
 <p>Welcome to the Libmagicxx project! We appreciate your interest in contributing. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone.</p>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Project Structure</h1>
 <div class="fragment"><div class="line">libmagicxx/</div>
 <div class="line">├── .github/                   # Continuous Integration (CI)</div>
 <div class="line">├── cmake/                     # CMake configuration files, custom CMake targets</div>
 <div class="line">├── databases/                 # Default database files</div>
-<div class="line">├── doc/                       # Documentation files</div>
+<div class="line">├── documentation/             # Documentation files</div>
 <div class="line">├── examples/                  # Examples</div>
 <div class="line">├── external/                  # External projects</div>
 <div class="line">    ├── file/                  # File and the Magic Number Recognition Library</div>
 <div class="line">    ├── googletest/            # GoogleTest</div>
 <div class="line">    ├── libgnurx/              # Regex library</div>
-<div class="line">├── inc/                       # Header files</div>
+<div class="line">├── include/                   # Header files</div>
 <div class="line">├── scripts/                   # Utility scripts</div>
-<div class="line">├── src/                       # Source files</div>
+<div class="line">├── sources/                   # Source files</div>
 <div class="line">├── tests/                     # Test files</div>
 <div class="line">├── .clang-format              # Clang format configuration</div>
 <div class="line">├── .gitattributes             # Git attributes file</div>
@@ -139,20 +133,20 @@ Project Structure</h1>
 <div class="line">├── PULL_REQUEST_TEMPLATE.md   # Pull request template</div>
 <div class="line">├── README.md                  # Project details</div>
 <div class="line">├── SECURITY.md                # Security policy</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md49"></a>
 Development</h1>
 <ul>
 <li>The <code>main</code> branch is the development branch for the next feature release. The <code>main</code> branch contains the tags of the feature releases (e.g., <code>v5.2.0</code>).</li>
 <li>Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., <code>v5.2.x</code>). These branches contain the tags of the bugfix releases, (e.g., <code>v5.2.1</code>).</li>
 <li>Each change for the bugfix release is merged to the <code>main</code> branch.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md49"></a>
-Documentation</h1>
-<p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">documentation site</a>.</p>
 <h1><a class="anchor" id="autotoc_md50"></a>
+Documentation</h1>
+<p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">Libmagicxx Documentation Site</a>. The source code for the documentation site is available in the <code>documentation/html</code> directory of the repository.</p>
+<h1><a class="anchor" id="autotoc_md51"></a>
 Code of Conduct</h1>
 <p>We expect all contributors to adhere to the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it to understand the standards of behavior we expect from our community.</p>
-<h1><a class="anchor" id="autotoc_md51"></a>
+<h1><a class="anchor" id="autotoc_md52"></a>
 Getting Started</h1>
 <p>The current development environment is a container image built on top of the latest stable release of <a href="https://fedoraproject.org/">Fedora</a>.</p>
 <ol type="1">
@@ -183,15 +177,11 @@ Getting Started</h1>
 </div><!-- fragment --></li>
 <li><p class="startli"><b>Run the Launch Container Script</b></p>
 <p class="startli">Open the project in Visual Studio Code and run the following script in a terminal to launch the development container:</p>
-</li>
-</ol>
-<blockquote class="doxtable">
-<p>&zwj;On Linux/MacOS </p>
-</blockquote>
-<p><code>bash python ./scripts/launch_container.py </code></p>
-<p>&gt; On Windows</p>
-<p><code>powershell python .\scripts\launch_container.py </code></p>
-<ol type="1">
+<p class="startli">On Linux/MacOS;</p>
+<div class="fragment"><div class="line">python ./scripts/launch_container.py</div>
+</div><!-- fragment --><p class="startli">On Windows;</p>
+<div class="fragment"><div class="line">python .\scripts\launch_container.py</div>
+</div><!-- fragment --></li>
 <li><p class="startli"><b>Attach to the Container</b></p>
 <p class="startli">Press <code>Ctrl+Shift+P</code> in Visual Studio Code, then select <code>Remote-Containers: Attach to Running Container...</code> and choose the container <code>libmagicxx_dev_env</code> you just launched.</p>
 </li>
@@ -208,33 +198,18 @@ Getting Started</h1>
 </ul>
 <p class="startli">These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.</p>
 </li>
-<li><p class="startli">Open a new terminal and initialize the project using the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/scripts/initialize.sh">initialize.sh</a> bash script.</p>
-<p class="startli"><code>bash ./scripts/initialize.sh </code></p>
+<li><p class="startli"><b>Initialize the Project</b></p>
+<p class="startli">Open a new terminal initialize the project using the <code>initialize.sh</code> bash script;</p>
+<p class="startli"><code> ./scripts/initialize.sh </code></p>
 </li>
-<li>Now you are ready for your changes. You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.</li>
-</ol>
-<h1><a class="anchor" id="autotoc_md52"></a>
-How to Use Libmagicxx in a CMake-based Project</h1>
-<ol type="1">
-<li><p class="startli">Add the following lines to the top level <code>CMakeLists.txt</code> file of your project to include and link libmagicxx.</p>
-<div class="fragment"><div class="line">add_subdirectory(libmagicxx)</div>
-<div class="line"> </div>
-<div class="line">target_include_directories(&lt;name of your project&gt;</div>
-<div class="line">    &lt;PUBLIC or PRIVATE or INTERFACE&gt; ${magicxx_INCLUDE_DIR}</div>
-<div class="line">)</div>
-<div class="line"> </div>
-<div class="line">target_link_libraries(&lt;name of your project&gt;</div>
-<div class="line">    &lt;PUBLIC or PRIVATE or INTERFACE&gt; magicxx</div>
-<div class="line">)</div>
-</div><!-- fragment --></li>
-<li>Include the <code><a class="el" href="magic_8hpp.html">magic.hpp</a></code> header file in your source files.</li>
+<li><p class="startli"><b>Now You Are Ready for Your Changes</b></p>
+<p class="startli">You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.</p>
+</li>
 </ol>
 <h1><a class="anchor" id="autotoc_md53"></a>
 Making Changes</h1>
 <ol type="1">
-<li><b>Create a New Branch</b>:</li>
-</ol>
-<ul>
+<li><b>Create a New Branch</b>:<ul>
 <li>Create the branch from <code>main</code> if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., <code>v5.2.x</code>).</li>
 <li>Use the following naming conventions for your branches:<ul>
 <li>For bug fixes: <code>bugfix/brief_description</code></li>
@@ -243,39 +218,31 @@ Making Changes</h1>
 </ul>
 </li>
 </ul>
-<ol type="1">
-<li><b>Make Changes</b>:</li>
-</ol>
-<ul>
+</li>
+<li><b>Make Changes</b>:<ul>
 <li>Use <code>snake_case</code> naming convention. The only exception is template parameters, which should use <code>PascalCase</code>.</li>
 <li>Ensure that your code follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>.</li>
 <li>To maintain high-quality documentation, ensure that all public APIs are 100% documented using <code>Doxygen</code>. For more information on how to write Doxygen comments, refer to the <a href="http://www.doxygen.nl/manual/docblocks.html">Doxygen Manual</a>.</li>
 <li>If your changes introduce new features or significant modifications, add an example to demonstrate the usage.</li>
 </ul>
-<ol type="1">
-<li><b>Build and Test</b>:</li>
-</ol>
-<ul>
-<li><p class="startli">Use the <code>workflows.sh</code> script to configure, build and test the project via CMake workflow presets:</p>
-<div class="fragment"><div class="line">./scripts/workflows.sh -p linux-x86_64-gcc-shared-tests-release</div>
-</div><!-- fragment --></li>
-<li><p class="startli">For more options, use:</p>
+</li>
+<li><p class="startli"><b>Build and Test</b>:</p>
+<p class="startli">Use the <code>workflows.sh</code> script to configure, build and test the project via CMake workflow presets:</p>
+<div class="fragment"><div class="line">./scripts/workflows.sh -p linux-x86_64-gcc-tests-release -c</div>
+</div><!-- fragment --><p class="startli">For more options, use:</p>
 <div class="fragment"><div class="line">./scripts/workflows.sh -h</div>
-<div class="line">Usage: ./scripts/workflows.sh [-l] [-p preset] [-h]</div>
+<div class="line">Usage: ./scripts/workflows.sh [-l] [-p preset] [-c] [-h]</div>
 <div class="line">  -l              List available CMake workflow presets.</div>
 <div class="line">  -p preset       Specify the CMake workflow preset to use.</div>
+<div class="line">  -c              Clear the CMake cache before running the selected preset.</div>
 <div class="line">  -h              Display this message.</div>
-</div><!-- fragment --></li>
-<li>Ensure that your changes do not break any existing tests. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes.</li>
-</ul>
-<ol type="1">
-<li><b>Format Code</b>:</li>
-</ol>
-<ul>
-<li><p class="startli">Ensure your code is properly formatted using the CMake workflow preset <code>format-source-code</code>:</p>
+</div><!-- fragment --><p class="startli">Ensure that your changes do not break any existing tests. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes.</p>
+</li>
+<li><p class="startli"><b>Format Code</b>:</p>
+<p class="startli">Ensure your code is properly formatted using the CMake workflow preset <code>format-source-code</code>:</p>
 <div class="fragment"><div class="line">./scripts/workflows.sh -p format-source-code</div>
 </div><!-- fragment --></li>
-</ul>
+</ol>
 <h1><a class="anchor" id="autotoc_md54"></a>
 Creating a Pull Request</h1>
 <ul>
@@ -304,33 +271,27 @@ Continuous Integration (CI)</h1>
 <h1><a class="anchor" id="autotoc_md58"></a>
 Review Process</h1>
 <ol type="1">
-<li><b>Initial Review</b>:</li>
-</ol>
-<ul>
+<li><b>Initial Review</b>:<ul>
 <li>Once you submit a pull request, it will be reviewed by one or more project maintainers.</li>
 <li>The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing.</li>
 </ul>
-<ol type="1">
-<li><b>Feedback and Revisions</b>:</li>
-</ol>
-<ul>
+</li>
+<li><b>Feedback and Revisions</b>:<ul>
 <li>If the maintainers find any issues or have suggestions, they will provide feedback on the pull request.</li>
 <li>You are expected to address the feedback by making the necessary changes and updating the pull request.</li>
 </ul>
-<ol type="1">
-<li><b>Approval and Merging</b>:</li>
-</ol>
-<ul>
+</li>
+<li><b>Approval and Merging</b>:<ul>
 <li>Once the maintainers are satisfied with the changes, they will approve the pull request.</li>
 <li>The pull request will then be merged into the appropriate branch (<code>main</code> or a supported release branch).</li>
 </ul>
-<ol type="1">
-<li><b>Post-Merge</b>:</li>
-</ol>
-<ul>
+</li>
+<li><b>Post-Merge</b>:<ul>
 <li>After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.</li>
 <li>If any issues are found, they will be addressed promptly.</li>
 </ul>
+</li>
+</ol>
 <h1><a class="anchor" id="autotoc_md59"></a>
 Thank You</h1>
 <p>Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone. </p>
@@ -340,7 +301,7 @@ Thank You</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Apr 15 2025 15:44:47 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Thu Apr 24 2025 20:12:33 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

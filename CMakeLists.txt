@@ -13,7 +13,7 @@ project(magicxx
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(cmake/options.cmake)
-include(cmake/paths.cmake)
+include(cmake/directories.cmake)
 include(cmake/sources.cmake)
 include(cmake/files.cmake)
 include(cmake/dependencies.cmake)

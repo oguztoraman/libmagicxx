@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 set(magicxx_DEFAULT_DATABASE_FILE
-    ${magicxx_DEFAULT_DATABASE_PATH}/magic
+    ${magicxx_DEFAULT_DATABASE_DIR}/magic
 )
 
 set(magicxx_DEFAULT_COMPILED_DATABASE_FILE
-    ${magicxx_DEFAULT_DATABASE_PATH}/magic.mgc
+    ${magicxx_DEFAULT_DATABASE_DIR}/magic.mgc
 )
 
 set(magicxx_DEFAULT_DATABASE_FILES

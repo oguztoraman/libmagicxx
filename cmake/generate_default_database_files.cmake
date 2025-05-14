@@ -1,16 +1,16 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-set(magic_DEFAULT_DATABASE_PATH
+set(magic_DEFAULT_DATABASE_DIR
     ${magic_DIR}/magic
 )
 
 set(magic_DEFAULT_DATABASE_FILE
-    ${magic_DEFAULT_DATABASE_PATH}/magic
+    ${magic_DEFAULT_DATABASE_DIR}/magic
 )
 
 set(magic_DEFAULT_COMPILED_DATABASE_FILE
-    ${magic_DEFAULT_DATABASE_PATH}/magic.mgc
+    ${magic_DEFAULT_DATABASE_DIR}/magic.mgc
 )
 
 add_custom_target(generate_default_database_files
@@ -29,7 +29,7 @@ add_custom_target(generate_default_database_files
     COMMAND
         bash -c "for file in magic/Magdir/*; do cat $file >> ${magic_DEFAULT_DATABASE_FILE}; done"
     COMMAND
-        mkdir -p ${magicxx_DEFAULT_DATABASE_PATH}
+        mkdir -p ${magicxx_DEFAULT_DATABASE_DIR}
     COMMAND
         cp ${magic_DEFAULT_DATABASE_FILE} ${magicxx_DEFAULT_DATABASE_FILE}
     COMMAND
@@ -37,7 +37,7 @@ add_custom_target(generate_default_database_files
     COMMAND
         cp ${magic_DEFAULT_COMPILED_DATABASE_FILE} ${magicxx_DEFAULT_COMPILED_DATABASE_FILE}
     COMMAND
-        echo "Default database files have been generated in ${magicxx_DEFAULT_DATABASE_PATH}."
+        echo "Default database files have been generated in ${magicxx_DEFAULT_DATABASE_DIR}."
     WORKING_DIRECTORY
         ${magic_DIR}
     COMMENT

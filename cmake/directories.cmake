@@ -24,7 +24,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 endif()
 
-set(magicxx_DEFAULT_DATABASE_PATH
+set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases
 )
 

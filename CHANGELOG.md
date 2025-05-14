@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/directories.cmake, cmake/files.cmake, cmake/generate_default_database_files.cmake, CMakeLists.txt: Use the dir naming convention instead of path in the CMake files.
+
 ## [v7.0.0] - 24-04-2025
 
 + [**ENHANCEMENT**] .github/workflows/*, cmake/install.cmake, cmake/options.cmake, cmake/targets.cmake, examples/CMakeLists.txt, scripts/workflows.sh, tests/CMakeLists.txt, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md, README.md: Update build system to support simultaneous compilation of shared and static libraries.

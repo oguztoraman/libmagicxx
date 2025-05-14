@@ -57,7 +57,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
 4. Build the project using the [workflows.sh](https://github.com/oguztoraman/libmagicxx/blob/main/scripts/workflows.sh) bash script.
 
     ```bash
-    ./scripts/workflows.sh -p linux-x86_64-gcc-release -c
+    ./scripts/workflows.sh -p linux-x86_64-gcc -c
     ```
 
     For more options, use:

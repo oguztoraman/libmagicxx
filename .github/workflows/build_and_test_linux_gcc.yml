@@ -26,12 +26,12 @@ jobs:
         submodules: recursive
         lfs: true
     - name: Build.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc -c
     - name: Tests.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-tests-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
     - name: Install.
       run: cmake --install build/ --strip
     - name: Examples.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples -c
     - name: Uninstall.
       run: cmake --build build/ --target uninstall

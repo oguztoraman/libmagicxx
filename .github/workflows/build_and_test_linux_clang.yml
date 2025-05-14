@@ -26,12 +26,12 @@ jobs:
         submodules: recursive
         lfs: true
     - name: Build.
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-clang -c
     - name: Tests.
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-tests-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-tests -c
     - name: Install.
       run: cmake --install build/ --strip
     - name: Examples.
-      run: ./scripts/workflows.sh -p linux-x86_64-clang-examples-release -c
+      run: ./scripts/workflows.sh -p linux-x86_64-clang-examples -c
     - name: Uninstall.
       run: cmake --build build/ --target uninstall

@@ -13,21 +13,6 @@
             "hidden": true
         },
         {
-            "name": "documentation",
-            "inherits": "base-config",
-            "cacheVariables": {
-                "BUILD_MAGICXX_DOCUMENTATION": "ON"
-            }
-        },
-        {
-            "name": "format-source-code",
-            "inherits": "base-config"
-        },
-        {
-            "name": "generate-default-database-files",
-            "inherits": "base-config"
-        },
-        {
             "name": "debug-config",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
@@ -74,17 +59,46 @@
             "hidden": true
         },
         {
+            "name": "documentation",
+            "inherits": "base-config",
+            "cacheVariables": {
+                "BUILD_MAGICXX_DOCUMENTATION": "ON"
+            }
+        },
+        {
+            "name": "format-source-code",
+            "inherits": "base-config"
+        },
+        {
+            "name": "generate-default-database-files",
+            "inherits": "base-config"
+        },
+        {
+            "name": "linux-x86_64-gcc",
+            "inherits": [
+                "linux-x86_64-gcc-base-config",
+                "release-config"
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang",
+            "inherits": [
+                "linux-x86_64-clang-base-config",
+                "release-config"
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64",
+            "inherits": [
+                "windows-x86_64-mingw64-base-config",
+                "release-config"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "inherits": [
                 "linux-x86_64-gcc-base-config",
                 "debug-config"
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-release",
-            "inherits": [
-                "linux-x86_64-gcc-base-config",
-                "release-config"
             ]
         },
         {
@@ -95,13 +109,6 @@
             ]
         },
         {
-            "name": "linux-x86_64-clang-release",
-            "inherits": [
-                "linux-x86_64-clang-base-config",
-                "release-config"
-            ]
-        },
-        {
             "name": "windows-x86_64-mingw64-debug",
             "inherits": [
                 "windows-x86_64-mingw64-base-config",
@@ -109,10 +116,24 @@
             ]
         },
         {
-            "name": "windows-x86_64-mingw64-release",
+            "name": "linux-x86_64-gcc-tests",
             "inherits": [
-                "windows-x86_64-mingw64-base-config",
-                "release-config"
+                "linux-x86_64-gcc",
+                "tests-config"
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang-tests",
+            "inherits": [
+                "linux-x86_64-clang",
+                "tests-config"
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-tests",
+            "inherits": [
+                "windows-x86_64-mingw64",
+                "tests-config"
             ]
         },
         {
@@ -137,24 +158,24 @@
             ]
         },
         {
-            "name": "linux-x86_64-gcc-tests-release",
+            "name": "linux-x86_64-gcc-examples",
             "inherits": [
-                "linux-x86_64-gcc-release",
-                "tests-config"
+                "linux-x86_64-gcc",
+                "examples-config"
             ]
         },
         {
-            "name": "linux-x86_64-clang-tests-release",
+            "name": "linux-x86_64-clang-examples",
             "inherits": [
-                "linux-x86_64-clang-release",
-                "tests-config"
+                "linux-x86_64-clang",
+                "examples-config"
             ]
         },
         {
-            "name": "windows-x86_64-mingw64-tests-release",
+            "name": "windows-x86_64-mingw64-examples",
             "inherits": [
-                "windows-x86_64-mingw64-release",
-                "tests-config"
+                "windows-x86_64-mingw64",
+                "examples-config"
             ]
         },
         {
@@ -175,27 +196,6 @@
             "name": "windows-x86_64-mingw64-examples-debug",
             "inherits": [
                 "windows-x86_64-mingw64-debug",
-                "examples-config"
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-examples-release",
-            "inherits": [
-                "linux-x86_64-gcc-release",
-                "examples-config"
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-examples-release",
-            "inherits": [
-                "linux-x86_64-clang-release",
-                "examples-config"
-            ]
-        },
-        {
-            "name": "windows-x86_64-mingw64-examples-release",
-            "inherits": [
-                "windows-x86_64-mingw64-release",
                 "examples-config"
             ]
         }
@@ -231,6 +231,21 @@
             ]
         },
         {
+            "name": "linux-x86_64-gcc",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc"
+        },
+        {
+            "name": "linux-x86_64-clang",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-clang"
+        },
+        {
+            "name": "windows-x86_64-mingw64",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64"
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-debug"
@@ -246,19 +261,19 @@
             "configurePreset": "windows-x86_64-mingw64-debug"
         },
         {
-            "name": "linux-x86_64-gcc-release",
+            "name": "linux-x86_64-gcc-tests",
             "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-release"
+            "configurePreset": "linux-x86_64-gcc-tests"
         },
         {
-            "name": "linux-x86_64-clang-release",
+            "name": "linux-x86_64-clang-tests",
             "inherits": "base-config",
-            "configurePreset": "linux-x86_64-clang-release"
+            "configurePreset": "linux-x86_64-clang-tests"
         },
         {
-            "name": "windows-x86_64-mingw64-release",
+            "name": "windows-x86_64-mingw64-tests",
             "inherits": "base-config",
-            "configurePreset": "windows-x86_64-mingw64-release"
+            "configurePreset": "windows-x86_64-mingw64-tests"
         },
         {
             "name": "linux-x86_64-gcc-tests-debug",
@@ -276,19 +291,19 @@
             "configurePreset": "windows-x86_64-mingw64-tests-debug"
         },
         {
-            "name": "linux-x86_64-gcc-tests-release",
+            "name": "linux-x86_64-gcc-examples",
             "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-tests-release"
+            "configurePreset": "linux-x86_64-gcc-examples"
         },
         {
-            "name": "linux-x86_64-clang-tests-release",
+            "name": "linux-x86_64-clang-examples",
             "inherits": "base-config",
-            "configurePreset": "linux-x86_64-clang-tests-release"
+            "configurePreset": "linux-x86_64-clang-examples"
         },
         {
-            "name": "windows-x86_64-mingw64-tests-release",
+            "name": "windows-x86_64-mingw64-examples",
             "inherits": "base-config",
-            "configurePreset": "windows-x86_64-mingw64-tests-release"
+            "configurePreset": "windows-x86_64-mingw64-examples"
         },
         {
             "name": "linux-x86_64-gcc-examples-debug",
@@ -304,21 +319,6 @@
             "name": "windows-x86_64-mingw64-examples-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-examples-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-examples-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-examples-release"
-        },
-        {
-            "name": "linux-x86_64-clang-examples-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-clang-examples-release"
-        },
-        {
-            "name": "windows-x86_64-mingw64-examples-release",
-            "inherits": "base-config",
-            "configurePreset": "windows-x86_64-mingw64-examples-release"
         }
     ],
     "testPresets": [
@@ -334,6 +334,21 @@
             "hidden": true
         },
         {
+            "name": "linux-x86_64-gcc-tests",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-gcc-tests"
+        },
+        {
+            "name": "linux-x86_64-clang-tests",
+            "inherits": "base-config",
+            "configurePreset": "linux-x86_64-clang-tests"
+        },
+        {
+            "name": "windows-x86_64-mingw64-tests",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-mingw64-tests"
+        },
+        {
             "name": "linux-x86_64-gcc-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-tests-debug"
@@ -347,21 +362,6 @@
             "name": "windows-x86_64-mingw64-tests-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-tests-debug"
-        },
-        {
-            "name": "linux-x86_64-gcc-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-gcc-tests-release"
-        },
-        {
-            "name": "linux-x86_64-clang-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "linux-x86_64-clang-tests-release"
-        },
-        {
-            "name": "windows-x86_64-mingw64-tests-release",
-            "inherits": "base-config",
-            "configurePreset": "windows-x86_64-mingw64-tests-release"
         }
     ],
     "workflowPresets": [
@@ -408,6 +408,48 @@
             ]
         },
         {
+            "name": "linux-x86_64-gcc",
+            "displayName": "Build Libraries (Linux, x86_64, GCC toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang",
+            "displayName": "Build Libraries (Linux, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-x86_64-clang"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64",
+            "displayName": "Build Libraries (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-mingw64"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "displayName": "Build Libraries (Linux, x86_64, GCC toolchain, Debug config)",
             "steps": [
@@ -450,44 +492,56 @@
             ]
         },
         {
-            "name": "linux-x86_64-gcc-release",
-            "displayName": "Build Libraries (Linux, x86_64, GCC toolchain, Release config)",
+            "name": "linux-x86_64-gcc-tests",
+            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "linux-x86_64-gcc-release"
+                    "name": "linux-x86_64-gcc-tests"
                 },
                 {
                     "type": "build",
-                    "name": "linux-x86_64-gcc-release"
+                    "name": "linux-x86_64-gcc-tests"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-x86_64-gcc-tests"
                 }
             ]
         },
         {
-            "name": "linux-x86_64-clang-release",
-            "displayName": "Build Libraries (Linux, x86_64, Clang toolchain, Release config)",
+            "name": "linux-x86_64-clang-tests",
+            "displayName": "Run Tests (Linux, x86_64, Clang toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "linux-x86_64-clang-release"
+                    "name": "linux-x86_64-clang-tests"
                 },
                 {
                     "type": "build",
-                    "name": "linux-x86_64-clang-release"
+                    "name": "linux-x86_64-clang-tests"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-x86_64-clang-tests"
                 }
             ]
         },
         {
-            "name": "windows-x86_64-mingw64-release",
-            "displayName": "Build Libraries (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "name": "windows-x86_64-mingw64-tests",
+            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "windows-x86_64-mingw64-release"
+                    "name": "windows-x86_64-mingw64-tests"
                 },
                 {
                     "type": "build",
-                    "name": "windows-x86_64-mingw64-release"
+                    "name": "windows-x86_64-mingw64-tests"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-mingw64-tests"
                 }
             ]
         },
@@ -546,56 +600,44 @@
             ]
         },
         {
-            "name": "linux-x86_64-gcc-tests-release",
-            "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Release config)",
+            "name": "linux-x86_64-gcc-examples",
+            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "linux-x86_64-gcc-tests-release"
+                    "name": "linux-x86_64-gcc-examples"
                 },
                 {
                     "type": "build",
-                    "name": "linux-x86_64-gcc-tests-release"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-x86_64-gcc-tests-release"
+                    "name": "linux-x86_64-gcc-examples"
                 }
             ]
         },
         {
-            "name": "linux-x86_64-clang-tests-release",
-            "displayName": "Run Tests (Linux, x86_64, Clang toolchain, Release config)",
+            "name": "linux-x86_64-clang-examples",
+            "displayName": "Build Examples (Linux, x86_64, Clang toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "linux-x86_64-clang-tests-release"
+                    "name": "linux-x86_64-clang-examples"
                 },
                 {
                     "type": "build",
-                    "name": "linux-x86_64-clang-tests-release"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-x86_64-clang-tests-release"
+                    "name": "linux-x86_64-clang-examples"
                 }
             ]
         },
         {
-            "name": "windows-x86_64-mingw64-tests-release",
-            "displayName": "Run Tests (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "name": "windows-x86_64-mingw64-examples",
+            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Release config)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "windows-x86_64-mingw64-tests-release"
+                    "name": "windows-x86_64-mingw64-examples"
                 },
                 {
                     "type": "build",
-                    "name": "windows-x86_64-mingw64-tests-release"
-                },
-                {
-                    "type": "test",
-                    "name": "windows-x86_64-mingw64-tests-release"
+                    "name": "windows-x86_64-mingw64-examples"
                 }
             ]
         },
@@ -638,48 +680,6 @@
                 {
                     "type": "build",
                     "name": "windows-x86_64-mingw64-examples-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-gcc-examples-release",
-            "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-gcc-examples-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-gcc-examples-release"
-                }
-            ]
-        },
-        {
-            "name": "linux-x86_64-clang-examples-release",
-            "displayName": "Build Examples (Linux, x86_64, Clang toolchain, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-x86_64-clang-examples-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-x86_64-clang-examples-release"
-                }
-            ]
-        },
-        {
-            "name": "windows-x86_64-mingw64-examples-release",
-            "displayName": "Build Examples (Windows, x86_64, MinGW64 toolchain, Release config)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "windows-x86_64-mingw64-examples-release"
-                },
-                {
-                    "type": "build",
-                    "name": "windows-x86_64-mingw64-examples-release"
                 }
             ]
         }

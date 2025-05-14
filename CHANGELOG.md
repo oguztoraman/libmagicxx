@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, CMakePresets.json, CONTRIBUTING.md, README.md: Erase the release tag from the CMake presets.
+
 + [**ENHANCEMENT**] cmake/toolchains/*, cmake/magicxxConfig.cmake.in, cmake/options.cmake, documentation/CMakeLists.txt: Format CMake files.
 
 + [**ENHANCEMENT**] cmake/directories.cmake, cmake/files.cmake, cmake/generate_default_database_files.cmake, CMakeLists.txt: Use the dir naming convention instead of path in the CMake files.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/toolchains/*, cmake/magicxxConfig.cmake.in, cmake/options.cmake, documentation/CMakeLists.txt: Format CMake files.
+
 + [**ENHANCEMENT**] cmake/directories.cmake, cmake/files.cmake, cmake/generate_default_database_files.cmake, CMakeLists.txt: Use the dir naming convention instead of path in the CMake files.
 
 ## [v7.0.0] - 24-04-2025

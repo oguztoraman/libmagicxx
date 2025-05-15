@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/install.cmake: Add support for component-based installation in CMake.
+
 + [**ENHANCEMENT**] cmake/files.cmake, cmake/install.cmake: Install the license file.
 
 + [**ENHANCEMENT**] .github/workflows/*, CMakePresets.json, CONTRIBUTING.md, README.md: Erase the release tag from the CMake presets.

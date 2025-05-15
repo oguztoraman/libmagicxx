@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/files.cmake, cmake/install.cmake: Install the license file.
+
 + [**ENHANCEMENT**] .github/workflows/*, CMakePresets.json, CONTRIBUTING.md, README.md: Erase the release tag from the CMake presets.
 
 + [**ENHANCEMENT**] cmake/toolchains/*, cmake/magicxxConfig.cmake.in, cmake/options.cmake, documentation/CMakeLists.txt: Format CMake files.

@@ -8,6 +8,7 @@ sudo dnf install -y            \
      git git-lfs python        \
      awk make autoconf libtool \
      cmake ninja-build         \
+     rpm-build mingw32-nsis    \
      g++ mold                  \
      clang libcxx-devel        \
      mingw64-gcc-c++           \

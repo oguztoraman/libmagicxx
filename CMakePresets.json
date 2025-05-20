@@ -70,6 +70,10 @@
             "inherits": "base-config"
         },
         {
+            "name": "generate-source-package",
+            "inherits": "base-config"
+        },
+        {
             "name": "generate-default-database-files",
             "inherits": "base-config"
         },
@@ -223,6 +227,14 @@
             ]
         },
         {
+            "name": "generate-source-package",
+            "inherits": "base-config",
+            "configurePreset": "generate-source-package",
+            "targets": [
+                "generate_source_package"
+            ]
+        },
+        {
             "name": "generate-default-database-files",
             "inherits": "base-config",
             "configurePreset": "generate-default-database-files",
@@ -364,6 +376,20 @@
             "configurePreset": "windows-x86_64-mingw64-tests-debug"
         }
     ],
+    "packagePresets": [
+        {
+            "name": "linux-x86_64-gcc-packages",
+            "configurePreset": "linux-x86_64-gcc"
+        },
+        {
+            "name": "linux-x86_64-clang-packages",
+            "configurePreset": "linux-x86_64-clang"
+        },
+        {
+            "name": "windows-x86_64-mingw64-packages",
+            "configurePreset": "windows-x86_64-mingw64"
+        }
+    ],
     "workflowPresets": [
         {
             "name": "documentation",
@@ -390,6 +416,20 @@
                 {
                     "type": "build",
                     "name": "format-source-code"
+                }
+            ]
+        },
+        {
+            "name": "generate-source-package",
+            "displayName": "Generate Source Package",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "generate-source-package"
+                },
+                {
+                    "type": "build",
+                    "name": "generate-source-package"
                 }
             ]
         },
@@ -680,6 +720,48 @@
                 {
                     "type": "build",
                     "name": "windows-x86_64-mingw64-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-gcc-packages",
+            "displayName": "Build Packages (Linux, x86_64, GCC toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-gcc"
+                },
+                {
+                    "type": "package",
+                    "name": "linux-x86_64-gcc-packages"
+                }
+            ]
+        },
+        {
+            "name": "linux-x86_64-clang-packages",
+            "displayName": "Build Packages (Linux, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-x86_64-clang"
+                },
+                {
+                    "type": "package",
+                    "name": "linux-x86_64-clang-packages"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-mingw64-packages",
+            "displayName": "Build Packages (Windows, x86_64, MinGW64 toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-mingw64"
+                },
+                {
+                    "type": "package",
+                    "name": "windows-x86_64-mingw64-packages"
                 }
             ]
         }

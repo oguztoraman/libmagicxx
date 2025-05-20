@@ -73,19 +73,51 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
 
 ## Installing Libmagicxx
 
-1. Install Libmagicxx using CMake.
++ Install Libmagicxx using CMake.
 
     ```bash
     cmake --install build/ --strip
     ```
 
++ Install Libmagicxx packages.
+
+    **For Debian-based Linux distributions**: Use the `apt` command to install the `.deb` package.
+
+    ```bash
+    sudo apt install libmagicxx-<version>-linux-x86_64.deb
+    ```
+
+    **For Red Hat-based Linux distributions**: Use the `dnf` command to install the `.rpm` package.
+
+    ```bash
+    sudo dnf install libmagicxx-<version>-linux-x86_64.rpm
+    ```
+
+    **For Windows**: Install the `libmagicxx-<version>-windows-x86_64.exe` package provided by the NSIS installer. Run the installer and follow the on-screen instructions to complete the installation.
+
 ## Uninstalling Libmagicxx
 
-1. Uninstall Libmagicxx using CMake.
++ Uninstall Libmagicxx using CMake.
 
     ```bash
     cmake --build build/ --target uninstall
     ```
+
++ Uninstall Libmagicxx packages.
+
+    **For Debian-based Linux distributions**: Use the `apt` command to remove the installed `.deb` package.
+
+    ```bash
+    sudo apt remove libmagicxx
+    ```
+
+    **For Red Hat-based Linux distributions**: Use the `dnf` command to remove the installed `.rpm` package.
+
+    ```bash
+    sudo dnf remove libmagicxx
+    ```
+
+    **For Windows**: Use the uninstaller provided by the NSIS installer. Navigate to the "Add or Remove Programs" section in the Control Panel, find `libmagicxx`, and click "Uninstall."
 
 ## Using Libmagicxx in a CMake Project Without Installation
 

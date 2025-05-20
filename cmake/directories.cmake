@@ -28,6 +28,10 @@ set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases
 )
 
+set(magicxx_PACKAGES_DIR
+    ${magicxx_SOURCE_DIR}/packages
+)
+
 set(magicxx_INCLUDE_DIR
     ${magicxx_SOURCE_DIR}/include/magicxx
 )

@@ -9,6 +9,10 @@ set(CMAKE_SYSTEM_PROCESSOR
     x86_64
 )
 
+set(CPACK_SYSTEM_NAME
+    linux-x86_64
+)
+
 set(FILE_HOST
     x86_64-pc-linux-gnu
 )

@@ -90,7 +90,7 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     **For Red Hat-based Linux distributions**: Use the `dnf` command to install the `.rpm` package.
 
     ```bash
-    sudo dnf install libmagicxx-<version>-linux-x86_64.rpm
+    sudo dnf install --setopt=tsflags=nodocs libmagicxx-<version>-linux-x86_64.rpm
     ```
 
     **For Windows**: Install the `libmagicxx-<version>-windows-x86_64.exe` package provided by the NSIS installer. Run the installer and follow the on-screen instructions to complete the installation.

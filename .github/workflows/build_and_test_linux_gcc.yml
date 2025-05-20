@@ -27,11 +27,19 @@ jobs:
         lfs: true
     - name: Build.
       run: ./scripts/workflows.sh -p linux-x86_64-gcc -c
-    - name: Tests.
+    - name: Run Tests.
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
-    - name: Install.
+    - name: Generate Packages.
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-packages -c
+    - name: Install using CMake.
       run: cmake --install build/ --strip
-    - name: Examples.
+    - name: Run Examples.
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples -c
-    - name: Uninstall.
+    - name: Uninstall using CMake.
       run: cmake --build build/ --target uninstall
+    - name: Install RPM package.
+      run: dnf install -y packages/*.rpm
+    - name: Run Examples.
+      run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples
+    - name: Uninstall RPM package.
+      run: dnf remove -y libmagicxx

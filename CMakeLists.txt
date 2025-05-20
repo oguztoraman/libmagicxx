@@ -21,6 +21,7 @@ include(cmake/targets.cmake)
 include(cmake/package_config.cmake)
 include(cmake/install.cmake)
 include(cmake/uninstall.cmake)
+include(cmake/cpack.cmake)
 include(cmake/format_source_code.cmake)
 include(cmake/generate_default_database_files.cmake)
 

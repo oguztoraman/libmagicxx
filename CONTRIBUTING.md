@@ -7,6 +7,7 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing. 
 ```
 libmagicxx/
 ├── .github/                   # Continuous Integration (CI)
+├── build/                     # Build directory (Git ignored)
 ├── cmake/                     # CMake configuration files, custom CMake targets
 ├── databases/                 # Default database files
 ├── documentation/             # Documentation files
@@ -16,6 +17,7 @@ libmagicxx/
     ├── googletest/            # GoogleTest
     ├── libgnurx/              # Regex library
 ├── include/                   # Header files
+├── packages                   # DEB/RPM/NSIS/ZIP/SOURCE Packages (Git ignored)
 ├── scripts/                   # Utility scripts
 ├── sources/                   # Source files
 ├── tests/                     # Test files

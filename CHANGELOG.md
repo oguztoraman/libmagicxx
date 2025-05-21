@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/workflows/deploy_release_packages.yml: Update permissions in deployment workflow to allow write access.
+
 ## [v8.1.0] - 21-05-2025
 
 + [**ENHANCEMENT**] .github/workflows/deploy_release_packages.yml, scripts/generate_release_packages.sh: Add GitHub Actions workflow for deploying release packages.

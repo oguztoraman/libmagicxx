@@ -7,16 +7,9 @@ if (NOT CLANG_FORMAT)
     message(FATAL_ERROR "clang-format not found!")
 endif()
 
-set(MAGICXX_SOURCE_FILES_TO_FORMAT
-    ${magicxx_HEADER_FILES}
-    ${magicxx_SOURCE_FILES}
-    ${magicxx_examples_SOURCE_FILES}
-    ${magicxx_tests_SOURCE_FILES}
-)
-
 add_custom_target(format_source_code
     COMMAND
-        clang-format -i -style=file ${MAGICXX_SOURCE_FILES_TO_FORMAT}
+        clang-format -i -style=file ${magicxx_SOURCE_FILES_TO_FORMAT}
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT

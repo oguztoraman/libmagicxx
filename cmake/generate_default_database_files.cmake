@@ -1,18 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-set(magic_DEFAULT_DATABASE_DIR
-    ${magic_DIR}/magic
-)
-
-set(magic_DEFAULT_DATABASE_FILE
-    ${magic_DEFAULT_DATABASE_DIR}/magic
-)
-
-set(magic_DEFAULT_COMPILED_DATABASE_FILE
-    ${magic_DEFAULT_DATABASE_DIR}/magic.mgc
-)
-
 add_custom_target(generate_default_database_files
     COMMAND
         autoreconf -f -i

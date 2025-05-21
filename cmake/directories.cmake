@@ -14,6 +14,10 @@ set(magic_SOURCE_DIR
     ${magic_DIR}/src
 )
 
+set(magic_DEFAULT_DATABASE_DIR
+    ${magic_DIR}/magic
+)
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(gnurx_DIR
         ${magicxx_SOURCE_DIR}/external/libgnurx

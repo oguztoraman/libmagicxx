@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] cmake/directories.cmake, cmake/files.cmake, cmake/format_source_code.cmake, cmake/generate_default_database_files.cmake: Fix CMake organization.
+
 + [**ENHANCEMENT**] .github/workflows/build*, cmake/toolchains/*, cmake/cpack*, cmake/directories.cmake, cmake/files.cmake, scripts/install_dependencies.sh, .gitignore, CMakeLists.txt, CMakePresets.json, CONTRIBUTING.md, README.md: Add support for generating DEB, RPM, NSIS, ZIP and source packages for easier installation and distribution.
 
 + [**ENHANCEMENT**] cmake/install.cmake: Add support for component-based installation in CMake.

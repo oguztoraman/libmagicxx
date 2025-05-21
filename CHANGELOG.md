@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v8.1.1] - 21-05-2025
+
 + [**BUGFIX**] .github/workflows/deploy_release_packages.yml: Update permissions in deployment workflow to allow write access.
 
 ## [v8.1.0] - 21-05-2025

@@ -12,10 +12,10 @@ var searchData=
   ['libmagic_5fparameters_5ft_9',['libmagic_parameters_t',['../classrecognition_1_1magic_1_1magic__private.html#aecf4cf2634438ecdd3c8970794ec404e',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5fname_5ft_10',['libmagic_value_name_t',['../classrecognition_1_1magic_1_1magic__private.html#aecf89e7759422eaf9d45db53b29bd192',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5ft_11',['libmagic_value_t',['../classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3',1,'recognition::magic::magic_private']]],
-  ['libmagicxx_12',['Libmagicxx',['../index.html#autotoc_md67',1,'Build Requirements for Libmagicxx'],['../index.html#autotoc_md68',1,'Building Libmagicxx'],['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md69',1,'Installing Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md70',1,'Uninstalling Libmagicxx']]],
-  ['libmagicxx_20in_20a_20cmake_20project_20without_20installation_13',['Using Libmagicxx in a CMake Project Without Installation',['../index.html#autotoc_md71',1,'']]],
-  ['libmagicxx_20with_20cmake_14',['Using Installed Libmagicxx with CMake',['../index.html#autotoc_md72',1,'']]],
-  ['license_15',['License',['../index.html#autotoc_md79',1,'']]],
-  ['licenses_16',['Other Licenses',['../index.html#autotoc_md80',1,'']]],
+  ['libmagicxx_12',['Libmagicxx',['../index.html#autotoc_md68',1,'Build Requirements for Libmagicxx'],['../index.html#autotoc_md69',1,'Building Libmagicxx'],['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md70',1,'Installing Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md71',1,'Uninstalling Libmagicxx']]],
+  ['libmagicxx_20in_20a_20cmake_20project_20without_20installation_13',['Using Libmagicxx in a CMake Project Without Installation',['../index.html#autotoc_md72',1,'']]],
+  ['libmagicxx_20with_20cmake_14',['Using Installed Libmagicxx with CMake',['../index.html#autotoc_md73',1,'']]],
+  ['license_15',['License',['../index.html#autotoc_md80',1,'']]],
+  ['licenses_16',['Other Licenses',['../index.html#autotoc_md81',1,'']]],
   ['load_5fdatabase_5ffile_17',['load_database_file',['../classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63',1,'recognition::magic::load_database_file()'],['../classrecognition_1_1magic_1_1magic__private.html#a853208cfe1593e44e21fd7054cd120c8',1,'recognition::magic::magic_private::load_database_file()']]]
 ];

@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v8.0.1] - 21-05-2025
+
 + [**BUGFIX**] cmake/cpack_source.cmake, cmake/directories.cmake: Clean existing build files before generating source package.
 
 + [**BUGFIX**] SECURITY.md: Update supported versions in SECURITY.md to reflect version 8.0.x.

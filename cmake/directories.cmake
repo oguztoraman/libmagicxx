@@ -18,15 +18,13 @@ set(magic_DEFAULT_DATABASE_DIR
     ${magic_DIR}/magic
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(gnurx_DIR
-        ${magicxx_SOURCE_DIR}/external/libgnurx
-    )
+set(gnurx_DIR
+    ${magicxx_SOURCE_DIR}/external/libgnurx
+)
 
-    set(gnurx_INCLUDE_DIR
-        ${gnurx_DIR}
-    )
-endif()
+set(gnurx_INCLUDE_DIR
+    ${gnurx_DIR}
+)
 
 set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases

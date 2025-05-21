@@ -18,6 +18,14 @@ set(CPACK_SOURCE_IGNORE_FILES
 
 add_custom_target(generate_source_package
     COMMAND
+        make -C ${gnurx_DIR} clean || true
+    COMMAND
+        make -C ${gnurx_DIR} distclean || true
+    COMMAND
+        make -C ${magic_DIR} clean || true
+    COMMAND
+        make -C ${magic_DIR} distclean || true
+    COMMAND
         cpack --config build/CPackSourceConfig.cmake
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}

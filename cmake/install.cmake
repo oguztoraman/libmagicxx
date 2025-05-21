@@ -70,7 +70,7 @@ install(
     DIRECTORY
         documentation/html
     DESTINATION
-        ${CMAKE_INSTALL_DOCDIR}
+        ${magicxx_INSTALL_DOCDIR}
     COMPONENT
         Documentation
 )
@@ -79,7 +79,7 @@ install(
     FILES
         ${magicxx_LICENSE_FILE}
     DESTINATION
-        ${CMAKE_INSTALL_DOCDIR}
+        ${magicxx_INSTALL_DOCDIR}
     COMPONENT
         Documentation
 )

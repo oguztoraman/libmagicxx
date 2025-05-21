@@ -14,6 +14,8 @@ jobs:
     container:
       image: fedora:41
     steps:
+      - name: Install Git.
+        run: dnf install -y git git-lfs
       - name: Checkout.
         uses: actions/checkout@v4
         with:

@@ -38,7 +38,7 @@ jobs:
     - name: Uninstall using CMake.
       run: cmake --build build/ --target uninstall
     - name: Install RPM package.
-      run: dnf install -y packages/*.rpm
+      run: dnf install -y --setopt=tsflags='' packages/*.rpm
     - name: Run Examples.
       run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples
     - name: Uninstall RPM package.

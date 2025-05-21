@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] SECURITY.md: Update supported versions in SECURITY.md to reflect version 8.0.x.
+
 ## [v8.0.0] - 21-05-2025
 
 + [**BUGFIX**] cmake/directories.cmake, cmake/files.cmake, cmake/format_source_code.cmake, cmake/generate_default_database_files.cmake: Fix CMake organization.

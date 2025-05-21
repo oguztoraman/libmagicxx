@@ -379,15 +379,24 @@
     "packagePresets": [
         {
             "name": "linux-x86_64-gcc-packages",
-            "configurePreset": "linux-x86_64-gcc"
+            "configurePreset": "linux-x86_64-gcc",
+            "configurations": [
+                "Release"
+            ]
         },
         {
             "name": "linux-x86_64-clang-packages",
-            "configurePreset": "linux-x86_64-clang"
+            "configurePreset": "linux-x86_64-clang",
+            "configurations": [
+                "Release"
+            ]
         },
         {
             "name": "windows-x86_64-mingw64-packages",
-            "configurePreset": "windows-x86_64-mingw64"
+            "configurePreset": "windows-x86_64-mingw64",
+            "configurations": [
+                "Release"
+            ]
         }
     ],
     "workflowPresets": [
@@ -732,6 +741,10 @@
                     "name": "linux-x86_64-gcc"
                 },
                 {
+                    "type": "build",
+                    "name": "linux-x86_64-gcc"
+                },
+                {
                     "type": "package",
                     "name": "linux-x86_64-gcc-packages"
                 }
@@ -746,6 +759,10 @@
                     "name": "linux-x86_64-clang"
                 },
                 {
+                    "type": "build",
+                    "name": "linux-x86_64-clang"
+                },
+                {
                     "type": "package",
                     "name": "linux-x86_64-clang-packages"
                 }
@@ -757,6 +774,10 @@
             "steps": [
                 {
                     "type": "configure",
+                    "name": "windows-x86_64-mingw64"
+                },
+                {
+                    "type": "build",
                     "name": "windows-x86_64-mingw64"
                 },
                 {

@@ -14,7 +14,7 @@ install(
     FILES
         ${magicxx_HEADER_FILES}
     DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}/magicxx
+        ${magicxx_INSTALL_INCLUDEDIR}
     COMPONENT
         Development
 )

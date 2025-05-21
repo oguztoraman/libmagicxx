@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v8.1.0] - 21-05-2025
+
 + [**ENHANCEMENT**] .github/workflows/deploy_release_packages.yml, scripts/generate_release_packages.sh: Add GitHub Actions workflow for deploying release packages.
 
 ## [v8.0.1] - 21-05-2025

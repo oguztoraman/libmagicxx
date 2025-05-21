@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/deploy_release_packages.yml, scripts/generate_release_packages.sh: Add GitHub Actions workflow for deploying release packages.
+
 ## [v8.0.1] - 21-05-2025
 
 + [**BUGFIX**] cmake/cpack_source.cmake, cmake/directories.cmake: Clean existing build files before generating source package.

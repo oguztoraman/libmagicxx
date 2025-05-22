@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] README.md: Add disclaimer section to README.md clarifying project status and affiliations.
+
 + [**BUGFIX**] cmake/directories.cmake, cmake/files.cmake, cmake/install.cmake: Include all required license files in binary distributions.
 
 + [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in: Remove documentation dependency from CMake package.

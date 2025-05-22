@@ -21,6 +21,7 @@
 + [Security](#security)
 + [Source Code](#source-code)
 + [License](#license)
++ [Disclaimer](#disclaimer)
 
 ## Key Features
 
@@ -153,3 +154,10 @@ Libmagicxx is licensed under the GNU Lesser General Public License Version 3. Fo
 + GoogleTest: See the [LICENSE](https://github.com/google/googletest/blob/main/LICENSE) file.
 
 + Libgnurx: See the [LICENSE](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) file.
+
+## Disclaimer
+
+This project is a personal hobby project developed in my own time and with my own resources.
+It is not affiliated with, endorsed by, or created on behalf of any employer, company, or organization.
+No proprietary or confidential information belonging to any employer or third party was used in its development.
+This project is not intended for any commercial purpose, income generation, or professional service.

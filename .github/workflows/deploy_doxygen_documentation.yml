@@ -23,16 +23,6 @@ jobs:
     steps:
       - name: Checkout.
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: main
-      - name: Determine latest tag.
-        id: get_latest_tag
-        run: echo "latest_tag=$(git tag | sort -V | tail -n 1)" >> $GITHUB_ENV
-      - name: Checkout latest tag.
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ env.latest_tag }}
       - name: Setup Pages.
         uses: actions/configure-pages@v5
       - name: Upload artifact.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] .github/workflows/deploy_release_packages.yml: Fix release title in workflow to use correct reference name.
+
 ## [v8.2.0] - 22-05-2025
 
 + [**BUGFIX**] cmake/magicxxConfig.cmake.in, cmake/package_config.cmake, examples/CMakeLists.txt: Add license directory into the CMake package.

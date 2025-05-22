@@ -19,6 +19,7 @@ configure_package_config_file(
     PATH_VARS
         magicxx_INSTALL_INCLUDE_DIR
         magicxx_INSTALL_LIB_DIR
+        magicxx_INSTALL_LICENSE_DIR
         magicxx_INSTALL_DOC_DIR
         magicxx_CMAKE_INSTALL_LIB_DIR
         magicxx_INSTALL_DEFAULT_DATABASES_DIR

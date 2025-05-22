@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] SECURITY.md: Update supported versions in SECURITY.md to reflect version 8.2.x.
+
 + [**BUGFIX**] .github/workflows/deploy_release_packages.yml: Fix release title in workflow to use correct reference name.
 
 ## [v8.2.0] - 22-05-2025

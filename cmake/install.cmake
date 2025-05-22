@@ -3,6 +3,35 @@
 
 install(
     FILES
+        ${magicxx_LICENSE_FILE}
+    DESTINATION
+        ${magicxx_INSTALL_LICENSEDIR}
+    COMPONENT
+        License
+)
+
+install(
+    FILES
+        ${magic_LICENSE_FILE}
+    DESTINATION
+        ${magic_INSTALL_LICENSEDIR}
+    COMPONENT
+        License
+)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    install(
+        FILES
+            ${gnurx_LICENSE_FILE}
+        DESTINATION
+            ${gnurx_INSTALL_LICENSEDIR}
+        COMPONENT
+            License
+    )
+endif()
+
+install(
+    FILES
         ${magicxx_DEFAULT_DATABASE_FILES}
     DESTINATION
         ${magicxx_DEFAULT_DATABASES_INSTALL_DIR}
@@ -69,15 +98,6 @@ install(
 install(
     DIRECTORY
         documentation/html
-    DESTINATION
-        ${magicxx_INSTALL_DOCDIR}
-    COMPONENT
-        Documentation
-)
-
-install(
-    FILES
-        ${magicxx_LICENSE_FILE}
     DESTINATION
         ${magicxx_INSTALL_DOCDIR}
     COMPONENT

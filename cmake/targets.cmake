@@ -43,7 +43,7 @@ target_include_directories(magicxx
         ${magic_INCLUDE_DIR}
     PUBLIC
         $<BUILD_INTERFACE:${magicxx_INCLUDE_DIR}>
-        $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDEDIR}>
+        $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDE_DIR}>
 )
 
 add_library(magicxx_static STATIC)
@@ -86,5 +86,5 @@ target_include_directories(magicxx_static
         ${magic_INCLUDE_DIR}
     PUBLIC
         $<BUILD_INTERFACE:${magicxx_INCLUDE_DIR}>
-        $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDEDIR}>
+        $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDE_DIR}>
 )

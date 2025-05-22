@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/deploy_release_packages.yml: Add project name to the release title when deploying release packages.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Enhance documentation in README.md and CONTRIBUTING.md with detailed sections.
 
 + [**ENHANCEMENT**] README.md: Add downloading instructions for Libmagicxx in README.md.

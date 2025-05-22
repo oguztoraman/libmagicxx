@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**] .github/workflows/*: Refactor GitHub Actions workflows to standardize formatting.
+
 + [**ENHANCEMENT**] .github/ISSUE_TEMPLATE/code-quality.md, CONTRIBUTING.md, PULL_REQUEST_TEMPLATE.md: Add code quality issue template and update contributing guidelines.
 
 ## [v8.1.1] - 21-05-2025

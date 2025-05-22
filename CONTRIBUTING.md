@@ -2,6 +2,32 @@
 
 Welcome to the Libmagicxx project! We appreciate your interest in contributing. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone.
 
+## Table of Contents
++ [Code of Conduct](#code-of-conduct)
++ [Development](#development)
++ [Project Structure](#project-structure)
++ [Build Requirements for Libmagicxx](#build-requirements-for-libmagicxx)
++ [Building Libmagicxx](#building-libmagicxx)
++ [Getting Started](#getting-started)
++ [Making Changes](#making-changes)
++ [Creating a Pull Request](#creating-a-pull-request)
++ [Reporting Issues](#reporting-issues)
++ [Continuous Integration (CI)](#continuous-integration-ci)
++ [Review Process](#review-process)
++ [Thank You](#thank-you)
+
+## Code of Conduct
+
+We expect all contributors to adhere to the [Code of Conduct](https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
+
+## Development
+
++ The `main` branch is the development branch for the next feature release. The `main` branch contains the tags of the feature releases (e.g., `v5.2.0`).
+
++ Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., `v5.2.x`). These branches contain the tags of the bugfix releases, (e.g., `v5.2.1`).
+
++ Each change for the bugfix release is merged to the `main` branch.
+
 ## Project Structure
 
 ```
@@ -38,21 +64,30 @@ libmagicxx/
 ├── SECURITY.md                # Security policy
 ```
 
-## Development
+## Build Requirements for Libmagicxx
 
-+ The `main` branch is the development branch for the next feature release. The `main` branch contains the tags of the feature releases (e.g., `v5.2.0`).
+To build Libmagicxx, ensure you have the following tools and dependencies installed:
 
-+ Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., `v5.2.x`). These branches contain the tags of the bugfix releases, (e.g., `v5.2.1`).
++ **Git**: Version control system.
++ **Git LFS**: Git extension for versioning large files.
++ **Awk**: Text processing tool.
++ **Autoconf**: Tool for generating configuration scripts.
++ **GNU Make**: Build automation tool.
++ **Libtool**: Generic library support script.
++ **CMake**: Cross-platform build system.
++ **Ninja**: Small build system with a focus on speed.
++ **Toolchains**: One of the following toolchains is required:
+    + **GCC**: GNU Compiler Collection (libstdc++, Mold Linker)
+    + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
+    + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
 
-+ Each change for the bugfix release is merged to the `main` branch.
+## Building Libmagicxx
 
-## Documentation
+The recommended way to build Libmagicxx is to use the provided development container, which ensures a consistent and fully supported build environment. To do this, follow the steps in the **Getting Started** section above. This will set up the container with all required dependencies and tools, allowing you to build, test, and develop Libmagicxx seamlessly.
 
-For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/). The source code for the documentation site is available in the `documentation/html` directory of the repository.
+Alternatively, you may attempt to build Libmagicxx by manually installing all the required dependencies listed in the **Build Requirements for Libmagicxx** section. However, this method is **not tested or officially supported**, and you may encounter issues related to missing or incompatible dependencies.
 
-## Code of Conduct
-
-We expect all contributors to adhere to the [Code of Conduct](https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
+For best results, always use the development container workflow described in this guide.
 
 ## Getting Started
 
@@ -188,6 +223,10 @@ The current development environment is a container image built on top of the lat
     ```bash
     ./scripts/workflows.sh -p format-source-code
     ```
+
+5. **Update the Changelog**:
+
+    Add a summary of your changes to the `CHANGELOG.md` file under the appropriate section (e.g., Next Release). This helps keep track of all improvements, bug fixes, and new features for each release.
 
 ## Creating a Pull Request
 

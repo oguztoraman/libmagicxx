@@ -1,11 +1,13 @@
 name: Build and Test (Linux x86_64 build, GCC Toolchain)
-permissions:
-  contents: read
+
 on:
   pull_request:
   push:
     tags: ['v*']
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   gcc_build:
@@ -13,33 +15,33 @@ jobs:
     container:
       image: fedora:41
     steps:
-    - name: Install Dependencies.
-      run: >
-        dnf install -y git git-lfs      \
-            awk make autoconf libtool   \
-            cmake ninja-build rpm-build \
-            g++ mold                    \
-            clang-tools-extra
-    - name: Checkout.
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
-        lfs: true
-    - name: Build.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc -c
-    - name: Run Tests.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
-    - name: Generate Packages.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-packages -c
-    - name: Install using CMake.
-      run: cmake --install build/ --strip
-    - name: Run Examples.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples -c
-    - name: Uninstall using CMake.
-      run: cmake --build build/ --target uninstall
-    - name: Install RPM package.
-      run: dnf install -y --setopt=tsflags='' packages/*.rpm
-    - name: Run Examples.
-      run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples
-    - name: Uninstall RPM package.
-      run: dnf remove -y libmagicxx
+      - name: Install Dependencies.
+        run: >
+          dnf install -y git git-lfs      \
+              awk make autoconf libtool   \
+              cmake ninja-build rpm-build \
+              g++ mold                    \
+              clang-tools-extra
+      - name: Checkout.
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+      - name: Build.
+        run: ./scripts/workflows.sh -p linux-x86_64-gcc -c
+      - name: Run Tests.
+        run: ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
+      - name: Generate Packages.
+        run: ./scripts/workflows.sh -p linux-x86_64-gcc-packages -c
+      - name: Install using CMake.
+        run: cmake --install build/ --strip
+      - name: Run Examples.
+        run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples -c
+      - name: Uninstall using CMake.
+        run: cmake --build build/ --target uninstall
+      - name: Install RPM package.
+        run: dnf install -y --setopt=tsflags='' packages/*.rpm
+      - name: Run Examples.
+        run: ./scripts/workflows.sh -p linux-x86_64-gcc-examples
+      - name: Uninstall RPM package.
+        run: dnf remove -y libmagicxx

@@ -12,6 +12,10 @@ assignees: oguztoraman
 + [ ] This issue is not a duplicate.
 + [ ] I have read [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md).
 
+## Version Information
+
+**Libmagicxx Version**:...
+
 ## Description
 
 Provide a detailed description of the issue...

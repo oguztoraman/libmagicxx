@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**] .github/workflows/deploy_doxygen_documentation.yml: Remove unnecessary steps in Doxygen documentation deployment workflow.
+
 + [**QUALITY**] .github/workflows/*: Refactor GitHub Actions workflows to standardize formatting.
 
 + [**ENHANCEMENT**] .github/ISSUE_TEMPLATE/code-quality.md, CONTRIBUTING.md, PULL_REQUEST_TEMPLATE.md: Add code quality issue template and update contributing guidelines.

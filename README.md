@@ -17,6 +17,15 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240)](https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx)
 
+## Downloading Libmagicxx
+
+You can download the latest release packages and source code directly from the [GitHub Releases page](https://github.com/oguztoraman/libmagicxx/releases).
+
++ **[Latest Release](https://github.com/oguztoraman/libmagicxx/releases/latest)**: Download the most recent version of Libmagicxx, including pre-built packages for Linux and Windows, as well as the source code archive.
++ **[All Releases](https://github.com/oguztoraman/libmagicxx/releases)**: Browse and download previous versions.
+
+After downloading, follow the installation instructions below for your platform.
+
 ## Build Requirements for Libmagicxx
 
 To build Libmagicxx, ensure you have the following tools and dependencies installed:

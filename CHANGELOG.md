@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/ISSUE_TEMPLATE/code-quality.md, CONTRIBUTING.md, PULL_REQUEST_TEMPLATE.md: Add code quality issue template and update contributing guidelines.
+
 ## [v8.1.1] - 21-05-2025
 
 + [**BUGFIX**] .github/workflows/deploy_release_packages.yml: Update permissions in deployment workflow to allow write access.

@@ -147,6 +147,7 @@ The current development environment is a container image built on top of the lat
         + For bug fixes: `bugfix/brief_description`
         + For documentation changes: `document/brief_description`
         + For enhancements: `enhancement/brief_description`
+        + For code quality improvements: `quality/brief_description`
 
 2. **Make Changes**:
 
@@ -197,6 +198,7 @@ The current development environment is a container image built on top of the lat
     + For bug fixes: `BUGFIX: Brief Description, Fixes issue #????.`
     + For documentation changes: `DOCUMENTATION: Brief Description, Fixes issue #????.`
     + For enhancements: `ENHANCEMENT: Brief Description, Fixes issue #????.`
+    + For code quality improvements: `QUALITY: Brief Description, Fixes issue #????.`
 
 + Fill the [PULL_REQUEST_TEMPLATE.md](https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md).
 

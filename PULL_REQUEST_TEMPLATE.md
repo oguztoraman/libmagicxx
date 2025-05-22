@@ -19,3 +19,4 @@ Fixes issue #????.
 + For bug fixes: `BUGFIX: Brief Description, Fixes issue #????.`
 + For documentation changes: `DOCUMENTATION: Brief Description, Fixes issue #????.`
 + For enhancements: `ENHANCEMENT: Brief Description, Fixes issue #????.`
++ For code quality improvements: `QUALITY: Brief Description, Fixes issue #????.`

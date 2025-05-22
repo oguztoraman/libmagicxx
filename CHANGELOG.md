@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md: Clarify git operations restrictions within the container environment in CONTRIBUTING.md.
+
 + [**ENHANCEMENT**] scripts/publish_release.sh, RELEASE_PROCEDURE.md: Rename commit_release.sh to publish_release.sh and automate pushing new release tag and branch.
 
 + [**ENHANCEMENT**] CONTRIBUTING.md, RELEASE_PROCEDURE.md: Add release procedure documentation.

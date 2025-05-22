@@ -136,7 +136,7 @@ The current development environment is a container image built on top of the lat
 
 11. **Now You Are Ready for Your Changes**
 
-    You can commit your changes, build the project, run tests, and execute scripts within the container. However, you cannot push these changes directly from the container. Once you are done, close the container connection and push your work from your local computer.
+    You can commit your changes, build the project, run tests, and execute scripts within the container. **However, you cannot perform `git push`, `git pull`, or `git fetch` operations directly from the container.** Once you are done, close the container connection and perform these `git` operations from your local machine (the host). This is necessary because authentication restrictions in the container environment prevent these operations from working correctly.
 
 ## Making Changes
 

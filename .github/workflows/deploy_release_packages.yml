@@ -29,7 +29,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          name: Libmagicxx ${{ github.ref }}
+          name: Libmagicxx ${{ github.ref_name }}
           generate_release_notes: true
           files: |
             ./packages/libmagicxx-*

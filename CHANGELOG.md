@@ -2,7 +2,7 @@
 
 ## Next Release
 
-+ [**ENHANCEMENT**] scripts/publish_release.sh: Rename commit_release.sh to publish_release.sh and automate pushing new release tag and branch
++ [**ENHANCEMENT**] scripts/publish_release.sh, RELEASE_PROCEDURE.md: Rename commit_release.sh to publish_release.sh and automate pushing new release tag and branch.
 
 + [**ENHANCEMENT**] CONTRIBUTING.md, RELEASE_PROCEDURE.md: Add release procedure documentation.
 

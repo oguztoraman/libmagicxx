@@ -58,3 +58,7 @@ git tag -a $GIT_TAG -m "Version $VERSION" || {
 git branch $RELEASE_BRANCH
 
 echo "Committed '${GIT_TAG}'."
+
+git push origin $GIT_TAG
+
+git push origin $RELEASE_BRANCH

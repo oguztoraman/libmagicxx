@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] RELEASE_PROCEDURE.md: Add release procedure documentation.
+
 + [**QUALITY**] .github/workflows/deploy_doxygen_documentation.yml: Remove unnecessary steps in Doxygen documentation deployment workflow.
 
 + [**QUALITY**] .github/workflows/*: Refactor GitHub Actions workflows to standardize formatting.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Enhance documentation in README.md and CONTRIBUTING.md with detailed sections.
+
 + [**ENHANCEMENT**] README.md: Add downloading instructions for Libmagicxx in README.md.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md: Clarify git operations restrictions within the container environment in CONTRIBUTING.md.

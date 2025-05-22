@@ -13,9 +13,15 @@ set_and_check(MAGICXX_LIB_DIR
     "@PACKAGE_magicxx_INSTALL_LIBDIR@"
 )
 
-set_and_check(MAGICXX_DOC_DIR
-    "@PACKAGE_magicxx_INSTALL_DOCDIR@"
-)
+if (EXISTS "@PACKAGE_magicxx_INSTALL_DOCDIR@")
+    set(MAGICXX_DOC_DIR
+        "@PACKAGE_magicxx_INSTALL_DOCDIR@"
+    )
+else()
+    set(MAGICXX_DOC_DIR
+        ""
+    )
+endif()
 
 set_and_check(MAGICXX_CMAKE_DIR
     "@PACKAGE_magicxx_CMAKE_INSTALL_LIBDIR@"

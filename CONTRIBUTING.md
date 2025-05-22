@@ -34,6 +34,7 @@ libmagicxx/
 ├── COPYING.LESSER             # License file
 ├── PULL_REQUEST_TEMPLATE.md   # Pull request template
 ├── README.md                  # Project details
+├── RELEASE_PROCEDURE.md       # Release procedure
 ├── SECURITY.md                # Security policy
 ```
 

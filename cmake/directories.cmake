@@ -56,6 +56,18 @@ set(magicxx_INSTALL_DOCDIR
     ${CMAKE_INSTALL_DOCDIR}
 )
 
+set(magicxx_INSTALL_LICENSEDIR
+    ${CMAKE_INSTALL_DATADIR}/licenses/magicxx
+)
+
+set(magic_INSTALL_LICENSEDIR
+    ${CMAKE_INSTALL_DATADIR}/licenses/magicxx/file
+)
+
+set(gnurx_INSTALL_LICENSEDIR
+    ${CMAKE_INSTALL_DATADIR}/licenses/magicxx/libgnurx
+)
+
 set(magicxx_CMAKE_INSTALL_LIBDIR
     ${CMAKE_INSTALL_LIBDIR}/cmake/magicxx
 )

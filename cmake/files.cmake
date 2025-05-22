@@ -9,6 +9,14 @@ set(magic_DEFAULT_COMPILED_DATABASE_FILE
     ${magic_DEFAULT_DATABASE_DIR}/magic.mgc
 )
 
+set(magic_LICENSE_FILE
+    ${magic_DIR}/COPYING
+)
+
+set(gnurx_LICENSE_FILE
+    ${gnurx_DIR}/COPYING.LIB
+)
+
 set(magicxx_LICENSE_FILE
     ${magicxx_SOURCE_DIR}/COPYING.LESSER
 )

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] cmake/directories.cmake, cmake/files.cmake, cmake/install.cmake: Include all required license files in binary distributions.
+
 + [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in: Remove documentation dependency from CMake package.
 
 + [**ENHANCEMENT**] .github/ISSUE_TEMPLATE/*: Add version information to the issue templates.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] cmake/magicxxConfig.cmake.in, cmake/package_config.cmake, examples/CMakeLists.txt: Add license directory into the CMake package.
+
 + [**QUALITY**] cmake/directories.cmake, cmake/files.cmake, cmake/install.cmake, cmake/magicxxConfig.cmake.in, cmake/package_config.cmake, cmake/targets.cmake: Refactor installation directory variables for consistency in CMake files.
 
 + [**DOCUMENTATION**] README.md: Add disclaimer section to README.md clarifying project status and affiliations.

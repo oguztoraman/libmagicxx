@@ -15,13 +15,13 @@ configure_package_config_file(
     cmake/magicxxConfig.cmake.in
         ${magicxx_CMAKE_PACKAGE_CONFIG_FILE}
     INSTALL_DESTINATION
-        ${magicxx_CMAKE_INSTALL_LIBDIR}
+        ${magicxx_CMAKE_INSTALL_LIB_DIR}
     PATH_VARS
-        magicxx_INSTALL_INCLUDEDIR
-        magicxx_INSTALL_LIBDIR
-        magicxx_INSTALL_DOCDIR
-        magicxx_CMAKE_INSTALL_LIBDIR
-        magicxx_DEFAULT_DATABASES_INSTALL_DIR
+        magicxx_INSTALL_INCLUDE_DIR
+        magicxx_INSTALL_LIB_DIR
+        magicxx_INSTALL_DOC_DIR
+        magicxx_CMAKE_INSTALL_LIB_DIR
+        magicxx_INSTALL_DEFAULT_DATABASES_DIR
 )
 
 write_basic_package_version_file(

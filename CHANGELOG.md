@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] .github/workflows/*, cmake/magicxxConfig.cmake.in: Remove documentation dependency from CMake package.
+
 + [**ENHANCEMENT**] .github/ISSUE_TEMPLATE/*: Add version information to the issue templates.
 
 + [**ENHANCEMENT**] .github/workflows/deploy_release_packages.yml: Add project name to the release title when deploying release packages.

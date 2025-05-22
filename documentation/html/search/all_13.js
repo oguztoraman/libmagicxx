@@ -12,9 +12,9 @@ var searchData=
   ['libmagic_5fparameters_5ft_9',['libmagic_parameters_t',['../classrecognition_1_1magic_1_1magic__private.html#aecf4cf2634438ecdd3c8970794ec404e',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5fname_5ft_10',['libmagic_value_name_t',['../classrecognition_1_1magic_1_1magic__private.html#aecf89e7759422eaf9d45db53b29bd192',1,'recognition::magic::magic_private']]],
   ['libmagic_5fvalue_5ft_11',['libmagic_value_t',['../classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3',1,'recognition::magic::magic_private']]],
-  ['libmagicxx_12',['Libmagicxx',['../md_CONTRIBUTING.html#autotoc_md57',1,'Build Requirements for Libmagicxx'],['../md_CONTRIBUTING.html#autotoc_md58',1,'Building Libmagicxx'],['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md74',1,'Downloading Libmagicxx'],['../index.html#autotoc_md75',1,'Installing Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md79',1,'Uninstalling Libmagicxx']]],
-  ['libmagicxx_20with_20cmake_13',['Using Libmagicxx with CMake',['../index.html#autotoc_md76',1,'']]],
-  ['license_14',['License',['../index.html#autotoc_md83',1,'']]],
-  ['licenses_15',['Other Licenses',['../index.html#autotoc_md84',1,'']]],
+  ['libmagicxx_12',['Libmagicxx',['../md_CONTRIBUTING.html#autotoc_md58',1,'Build Requirements for Libmagicxx'],['../md_CONTRIBUTING.html#autotoc_md59',1,'Building Libmagicxx'],['../md_CONTRIBUTING.html',1,'Contributing to Libmagicxx'],['../index.html#autotoc_md75',1,'Downloading Libmagicxx'],['../index.html#autotoc_md76',1,'Installing Libmagicxx'],['../index.html',1,'Libmagicxx'],['../index.html#autotoc_md80',1,'Uninstalling Libmagicxx']]],
+  ['libmagicxx_20with_20cmake_13',['Using Libmagicxx with CMake',['../index.html#autotoc_md77',1,'']]],
+  ['license_14',['License',['../index.html#autotoc_md84',1,'']]],
+  ['licenses_15',['Other Licenses',['../index.html#autotoc_md85',1,'']]],
   ['load_5fdatabase_5ffile_16',['load_database_file',['../classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63',1,'recognition::magic::load_database_file()'],['../classrecognition_1_1magic_1_1magic__private.html#a853208cfe1593e44e21fd7054cd120c8',1,'recognition::magic::magic_private::load_database_file()']]]
 ];

@@ -14,6 +14,7 @@
 + [Downloading Libmagicxx](#downloading-libmagicxx)
 + [Installing Libmagicxx](#installing-libmagicxx)
 + [Using Libmagicxx with CMake](#using-libmagicxx-with-cmake)
++ [Libmagicxx CMake Package Variables](#libmagicxx-cmake-package-variables)
 + [Examples](#examples)
 + [Documentation](#documentation)
 + [Uninstalling Libmagicxx](#uninstalling-libmagicxx)
@@ -106,6 +107,25 @@ Libmagicxx is designed to be easily integrated into CMake-based projects. To use
         // possible output: text/x-file; charset=us-ascii
     }
     ```
+
+## Libmagicxx CMake Package Variables
+
+Below is a table describing the variables provided by Libmagicxx CMake package:
+
+| Variable                        | Description                                           |
+|---------------------------------|-------------------------------------------------------|
+| `MAGICXX_FOUND`                 | Indicates if Libmagicxx was found by CMake.           |
+| `MAGICXX_VERSION`               | The version of the installed Libmagicxx package.      |
+| `MAGICXX_SHARED_LIB_AVAILABLE`  | Whether the shared library is available.              |
+| `MAGICXX_STATIC_LIB_AVAILABLE`  | Whether the static library is available.              |
+| `MAGICXX_INCLUDE_DIR`           | Path to the Libmagicxx include directory.             |
+| `MAGICXX_LIB_DIR`               | Path to the Libmagicxx library directory.             |
+| `MAGICXX_LICENSE_DIR`           | Path to the Libmagicxx license directory.             |
+| `MAGICXX_DOC_DIR`               | Path to the Libmagicxx documentation directory.       |
+| `MAGICXX_CMAKE_DIR`             | Path to the Libmagicxx CMake configuration directory. |
+| `MAGICXX_DEFAULT_DATABASE_DIR`  | Path to the default database directory of Libmagicxx. |
+
+Note: `MAGICXX_DOC_DIR` may be empty if the documentation is not installed.
 
 ## Examples
 

@@ -7,6 +7,7 @@ Welcome to the Libmagicxx project! We appreciate your interest in contributing. 
 + [Development](#development)
 + [Project Structure](#project-structure)
 + [Build Requirements for Libmagicxx](#build-requirements-for-libmagicxx)
++ [CMake Options of Libmagicxx](#cmake-options-of-libmagicxx)
 + [Building Libmagicxx](#building-libmagicxx)
 + [Getting Started](#getting-started)
 + [Making Changes](#making-changes)
@@ -80,6 +81,19 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
     + **GCC**: GNU Compiler Collection (libstdc++, Mold Linker)
     + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
     + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
+
+## CMake Options of Libmagicxx
+
+Below is a table describing the CMake configuration options of Libmagicxx.
+
+| Option                        | Default | Description                                |
+|-------------------------------|---------|--------------------------------------------|
+| `INSTALL_MAGICXX`             | ON      | Enable installation of Libmagicxx.         |
+| `BUILD_MAGICXX_SHARED_LIB`    | ON      | Build recognition::magicxx shared library. |
+| `BUILD_MAGICXX_STATIC_LIB`    | ON      | Build recognition::magicxx_static library. |
+| `BUILD_MAGICXX_TESTS`         | OFF     | Build the tests.                           |
+| `BUILD_MAGICXX_EXAMPLES`      | OFF     | Build the examples.                        |
+| `BUILD_MAGICXX_DOCUMENTATION` | OFF     | Build the documentation.                   |
 
 ## Building Libmagicxx
 

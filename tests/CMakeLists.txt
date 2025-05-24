@@ -20,53 +20,58 @@ set(magicxx_tests_SOURCE_FILES
 
 include(GoogleTest)
 
-add_executable(magicxx_tests)
+if (BUILD_MAGICXX_SHARED_LIB)
+    add_executable(magicxx_tests)
 
-set_target_properties(magicxx_tests PROPERTIES
-    CXX_STANDARD 23
-    CXX_EXTENSIONS OFF
-    CXX_STANDARD_REQUIRED ON
-)
+    set_target_properties(magicxx_tests PROPERTIES
+        CXX_STANDARD 23
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD_REQUIRED ON
+    )
 
-target_sources(magicxx_tests
-    PRIVATE
-        ${magicxx_tests_SOURCE_FILES}
-)
+    target_sources(magicxx_tests
+        PRIVATE
+            ${magicxx_tests_SOURCE_FILES}
+    )
 
-target_compile_definitions(magicxx_tests
-    PRIVATE
-        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
-)
+    target_compile_definitions(magicxx_tests
+        PRIVATE
+            DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+    )
 
-target_link_libraries(magicxx_tests
-    PRIVATE
-        GTest::gtest_main
-        recognition::magicxx
-)
+    target_link_libraries(magicxx_tests
+        PRIVATE
+            GTest::gtest_main
+            recognition::magicxx
+    )
 
-add_executable(magicxx_tests_static)
+    gtest_discover_tests(magicxx_tests)
+endif()
 
-set_target_properties(magicxx_tests_static PROPERTIES
-    CXX_STANDARD 23
-    CXX_EXTENSIONS OFF
-    CXX_STANDARD_REQUIRED ON
-)
+if (BUILD_MAGICXX_STATIC_LIB)
+    add_executable(magicxx_tests_static)
 
-target_sources(magicxx_tests_static
-    PRIVATE
-        ${magicxx_tests_SOURCE_FILES}
-)
+    set_target_properties(magicxx_tests_static PROPERTIES
+        CXX_STANDARD 23
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD_REQUIRED ON
+    )
 
-target_compile_definitions(magicxx_tests_static
-    PRIVATE
-        DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
-)
+    target_sources(magicxx_tests_static
+        PRIVATE
+            ${magicxx_tests_SOURCE_FILES}
+    )
 
-target_link_libraries(magicxx_tests_static
-    PRIVATE
-        GTest::gtest_main
-        recognition::magicxx_static
-)
+    target_compile_definitions(magicxx_tests_static
+        PRIVATE
+            DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+    )
 
-gtest_discover_tests(magicxx_tests)
-gtest_discover_tests(magicxx_tests_static)
+    target_link_libraries(magicxx_tests_static
+        PRIVATE
+            GTest::gtest_main
+            recognition::magicxx_static
+    )
+
+    gtest_discover_tests(magicxx_tests_static)
+endif(BUILD_MAGICXX_STATIC_LIB)

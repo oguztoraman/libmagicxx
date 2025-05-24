@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/install.cmake, cmake/magicxxConfig.cmake.in, cmake/options.cmake, cmake/targets.cmake, examples/CMakeLists.txt, scripts/workflows.sh, tests/CMakeLists.txt: CMake: Add options to build shared and static libraries independently.
+
 + [**ENHANCEMENT**] cmake/install.cmake, cmake/options.cmake: CMake: Add option to disable installation of Libmagicxx.
 
 ## [v8.2.1] - 22-05-2025

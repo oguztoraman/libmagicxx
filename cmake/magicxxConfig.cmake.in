@@ -35,6 +35,26 @@ set_and_check(MAGICXX_DEFAULT_DATABASE_DIR
     "@PACKAGE_magicxx_INSTALL_DEFAULT_DATABASES_DIR@"
 )
 
+set(MAGICXX_SHARED_LIB_AVAILABLE
+    FALSE
+)
+
+set(MAGICXX_STATIC_LIB_AVAILABLE
+    FALSE
+)
+
+if (TARGET recognition::magicxx)
+    set(MAGICXX_SHARED_LIB_AVAILABLE
+        TRUE
+    )
+endif()
+
+if (TARGET recognition::magicxx_static)
+    set(MAGICXX_STATIC_LIB_AVAILABLE
+        TRUE
+    )
+endif()
+
 set(MAGICXX_FOUND
     TRUE
 )

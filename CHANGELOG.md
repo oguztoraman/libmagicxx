@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/install.cmake, cmake/options.cmake: CMake: Add option to disable installation of Libmagicxx.
+
 ## [v8.2.1] - 22-05-2025
 
 + [**DOCUMENTATION**] SECURITY.md: Update supported versions in SECURITY.md to reflect version 8.2.x.

@@ -70,31 +70,35 @@ if (INSTALL_MAGICXX)
             Development
     )
 
-    install(
-        TARGETS
-            magicxx
-        EXPORT
-            magicxxTargets
-        FILE_SET
-            magicxxHeaders
-        LIBRARY DESTINATION
-            ${magicxx_INSTALL_LIB_DIR}
-        COMPONENT
-            Library
-    )
+    if (BUILD_MAGICXX_SHARED_LIB)
+        install(
+            TARGETS
+                magicxx
+            EXPORT
+                magicxxTargets
+            FILE_SET
+                magicxxHeaders
+            LIBRARY DESTINATION
+                ${magicxx_INSTALL_LIB_DIR}
+            COMPONENT
+                Library
+        )
+    endif(BUILD_MAGICXX_SHARED_LIB)
 
-    install(
-        TARGETS
-            magicxx_static
-        EXPORT
-            magicxxTargets
-        FILE_SET
-            magicxx_staticHeaders
-        ARCHIVE DESTINATION
-            ${magicxx_INSTALL_LIB_DIR}
-        COMPONENT
-            Archive
-    )
+    if (BUILD_MAGICXX_STATIC_LIB)
+        install(
+            TARGETS
+                magicxx_static
+            EXPORT
+                magicxxTargets
+            FILE_SET
+                magicxx_staticHeaders
+            ARCHIVE DESTINATION
+                ${magicxx_INSTALL_LIB_DIR}
+            COMPONENT
+                Archive
+        )
+    endif(BUILD_MAGICXX_STATIC_LIB)
 
     install(
         DIRECTORY

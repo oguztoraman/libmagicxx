@@ -12,6 +12,8 @@ if (NOT MAGICXX_FOUND)
 else()
     message(STATUS "Libmagicxx found.")
     message(STATUS "Libmagicxx version: ${MAGICXX_VERSION}")
+    message(STATUS "Libmagicxx shared library available: ${MAGICXX_SHARED_LIB_AVAILABLE}")
+    message(STATUS "Libmagicxx static library available: ${MAGICXX_STATIC_LIB_AVAILABLE}")
     message(STATUS "Libmagicxx include directory: ${MAGICXX_INCLUDE_DIR}")
     message(STATUS "Libmagicxx library directory: ${MAGICXX_LIB_DIR}")
     message(STATUS "Libmagicxx license directory: ${MAGICXX_LICENSE_DIR}")
@@ -24,38 +26,42 @@ set(magicxx_examples_SOURCE_FILES
     magic_examples.cpp
 )
 
-add_executable(magicxx_examples)
+if (MAGICXX_SHARED_LIB_AVAILABLE)
+    add_executable(magicxx_examples)
 
-set_target_properties(magicxx_examples PROPERTIES
-    CXX_STANDARD 23
-    CXX_EXTENSIONS OFF
-    CXX_STANDARD_REQUIRED ON
-)
+    set_target_properties(magicxx_examples PROPERTIES
+        CXX_STANDARD 23
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD_REQUIRED ON
+    )
 
-target_sources(magicxx_examples
-    PRIVATE
-        ${magicxx_examples_SOURCE_FILES}
-)
+    target_sources(magicxx_examples
+        PRIVATE
+            ${magicxx_examples_SOURCE_FILES}
+    )
 
-target_link_libraries(magicxx_examples
-    PRIVATE
-        recognition::magicxx
-)
+    target_link_libraries(magicxx_examples
+        PRIVATE
+            recognition::magicxx
+    )
+endif(MAGICXX_SHARED_LIB_AVAILABLE)
 
-add_executable(magicxx_examples_static)
+if (MAGICXX_STATIC_LIB_AVAILABLE)
+    add_executable(magicxx_examples_static)
 
-set_target_properties(magicxx_examples_static PROPERTIES
-    CXX_STANDARD 23
-    CXX_EXTENSIONS OFF
-    CXX_STANDARD_REQUIRED ON
-)
+    set_target_properties(magicxx_examples_static PROPERTIES
+        CXX_STANDARD 23
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD_REQUIRED ON
+    )
 
-target_sources(magicxx_examples_static
-    PRIVATE
-        ${magicxx_examples_SOURCE_FILES}
-)
+    target_sources(magicxx_examples_static
+        PRIVATE
+            ${magicxx_examples_SOURCE_FILES}
+    )
 
-target_link_libraries(magicxx_examples_static
-    PRIVATE
-        recognition::magicxx_static
-)
+    target_link_libraries(magicxx_examples_static
+        PRIVATE
+            recognition::magicxx_static
+    )
+endif(MAGICXX_STATIC_LIB_AVAILABLE)

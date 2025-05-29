@@ -36,7 +36,10 @@
         {
             "name": "examples-config",
             "cacheVariables": {
-                "BUILD_MAGICXX_EXAMPLES": "ON"
+                "INSTALL_MAGICXX": "OFF",
+                "BUILD_MAGICXX_EXAMPLES": "ON",
+                "BUILD_MAGICXX_SHARED_LIB": "OFF",
+                "BUILD_MAGICXX_STATIC_LIB": "OFF"
             },
             "hidden": true
         },

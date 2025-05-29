@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] include/magicxx/magic.hpp: Magicxx: Do not throw exceptions while constructing std::filesystem::recursive_directory_iterator in a noexcept function.
+
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Docs: Update CONTRIBUTING.md and README.md to include CMake options and package variables.
 
 + [**ENHANCEMENT**] cmake/install.cmake, cmake/magicxxConfig.cmake.in, cmake/options.cmake, cmake/targets.cmake, examples/CMakeLists.txt, scripts/workflows.sh, tests/CMakeLists.txt: CMake: Add options to build shared and static libraries independently.

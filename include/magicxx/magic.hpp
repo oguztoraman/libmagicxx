@@ -344,8 +344,13 @@ public:
             directory_options::follow_directory_symlink
     ) const noexcept
     {
+        std::error_code error_code{};
         return identify_files_impl(
-            std::filesystem::recursive_directory_iterator{directory, option},
+            std::filesystem::recursive_directory_iterator{
+                directory,
+                option,
+                error_code
+            },
             std::nothrow
         );
     }

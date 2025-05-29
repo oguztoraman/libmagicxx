@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**] tests/magic_load_database_file_test.cpp: Tests: Refactor magic_load_database_file_test with using test fixture.
+
 + [**ENHANCEMENT**] cmake/options.cmake, CMakePresets.json: CMake: Do not build libraries when building examples.
 
 + [**BUGFIX**] include/magicxx/magic.hpp: Magicxx: Do not throw exceptions while constructing std::filesystem::recursive_directory_iterator in a noexcept function.

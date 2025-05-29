@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] cmake/options.cmake, CMakePresets.json: CMake: Do not build libraries when building examples.
+
 + [**BUGFIX**] include/magicxx/magic.hpp: Magicxx: Do not throw exceptions while constructing std::filesystem::recursive_directory_iterator in a noexcept function.
 
 + [**DOCUMENTATION**] CONTRIBUTING.md, README.md: Docs: Update CONTRIBUTING.md and README.md to include CMake options and package variables.

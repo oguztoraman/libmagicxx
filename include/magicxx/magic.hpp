@@ -287,9 +287,10 @@ public:
      *
      * @returns The type of the file as a string.
      *
-     * @throws magic_is_closed      if magic is closed.
-     * @throws empty_path           if the path of the file is empty.
-     * @throws magic_file_error     if identifying the type of the file fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_database_not_loaded    if the magic database is not loaded.
+     * @throws empty_path                   if the path of the file is empty.
+     * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
     ) const;
@@ -314,9 +315,10 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed      if magic is closed.
-     * @throws empty_path           if the path of the file is empty.
-     * @throws magic_file_error     if identifying the type of the file fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_database_not_loaded    if the magic database is not loaded.
+     * @throws empty_path                   if the path of the file is empty.
+     * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const std::filesystem::path&       directory,
@@ -362,9 +364,10 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed      if magic is closed.
-     * @throws empty_path           if the path of the file is empty.
-     * @throws magic_file_error     if identifying the type of the file fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_database_not_loaded    if the magic database is not loaded.
+     * @throws empty_path                   if the path of the file is empty.
+     * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const file_concepts::file_container auto& files

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp, tests/magic_identify_file_test.cpp: Magicxx: Add magic_database_not_loaded exception and update identify_file functions to handle database loading state.
+
 + [**DOCUMENTATION**] README.md: Docs: Add C++ standard badge to README.md.
 
 + [**QUALITY**] tests/magic_load_database_file_test.cpp: Tests: Refactor magic_load_database_file_test with using test fixture.

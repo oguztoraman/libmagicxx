@@ -112,6 +112,9 @@ public:
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<empty_path>(!path.empty());
+        throw_exception_on_failure<magic_database_not_loaded>(
+            m_is_database_loaded
+        );
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
             path.string().c_str()
@@ -133,6 +136,9 @@ public:
         }
         if (path.empty()) {
             return std::unexpected{empty_path{}.what()};
+        }
+        if (!m_is_database_loaded) {
+            return std::unexpected{magic_database_not_loaded{}.what()};
         }
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
@@ -159,10 +165,12 @@ public:
         throw_exception_on_failure<invalid_path>(
             std::filesystem::is_regular_file(database_file)
         );
+        m_is_database_loaded = false;
         throw_exception_on_failure<magic_load_error>(
             detail::magic_load(m_cookie.get(), database_file.string().c_str()),
             database_file.string()
         );
+        m_is_database_loaded = true;
     }
 
     void open(flags_mask_t flags_mask)
@@ -230,6 +238,7 @@ private:
 
     cookie_t     m_cookie{nullptr};
     flags_mask_t m_flags_mask{0};
+    bool         m_is_database_loaded{false};
 
     static constexpr auto libmagic_error           = -1;
     static constexpr auto libmagic_flags_count     = flags_mask_t{}.size();

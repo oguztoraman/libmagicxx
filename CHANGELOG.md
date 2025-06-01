@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] README.md: Docs: Add C++ standard badge to README.md.
+
 + [**QUALITY**] tests/magic_load_database_file_test.cpp: Tests: Refactor magic_load_database_file_test with using test fixture.
 
 + [**ENHANCEMENT**] cmake/options.cmake, CMakePresets.json: CMake: Do not build libraries when building examples.

@@ -12,7 +12,7 @@ using namespace recognition;
 struct magic_load_database_file_test : public ::testing::Test {
 protected:
     std::filesystem::path test_dir = std::filesystem::temp_directory_path()
-                                   / "magicxx_test";
+                                   / "magic_load_database_file_test";
     std::filesystem::path invalid_database = test_dir / "invalid_database";
     magic                 opened_magic{};
 

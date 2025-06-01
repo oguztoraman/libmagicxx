@@ -75,6 +75,13 @@ public:
     { }
 };
 
+class magic_database_not_loaded final : public magic_exception {
+public:
+    magic_database_not_loaded()
+      : magic_exception{"magic database is not loaded."}
+    { }
+};
+
 class magic_file_error final : public magic_exception {
 public:
     magic_file_error(const std::string& error, const std::string& file_path)

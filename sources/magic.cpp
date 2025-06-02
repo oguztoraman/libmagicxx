@@ -153,6 +153,29 @@ public:
         return {type_cstr};
     }
 
+    [[nodiscard]] types_of_files_t identify_files(
+        const std::ranges::range auto& files
+    ) const
+    {
+        types_of_files_t types_of_files;
+        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+            types_of_files[file] = identify_file(file);
+        });
+        return types_of_files;
+    }
+
+    [[nodiscard]] expected_types_of_files_t identify_files(
+        const std::ranges::range auto& files,
+        std::nothrow_t
+    ) const noexcept
+    {
+        expected_types_of_files_t expected_types_of_files;
+        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+            expected_types_of_files[file] = identify_file(file, std::nothrow);
+        });
+        return expected_types_of_files;
+    }
+
     [[nodiscard]] bool is_open() const noexcept
     {
         return m_cookie != nullptr;
@@ -618,6 +641,48 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 ) const noexcept
 {
     return m_impl->identify_file(path, std::nothrow);
+}
+
+[[nodiscard]] magic::types_of_files_t magic::identify_files(
+    const std::filesystem::path&       directory,
+    std::filesystem::directory_options option
+) const
+{
+    return m_impl->identify_files(
+        std::filesystem::recursive_directory_iterator{directory, option}
+    );
+}
+
+[[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
+    const std::filesystem::path& directory,
+    std::nothrow_t,
+    std::filesystem::directory_options option
+) const noexcept
+{
+    std::error_code error_code{};
+    return m_impl->identify_files(
+        std::filesystem::recursive_directory_iterator{
+            directory,
+            option,
+            error_code
+        },
+        std::nothrow
+    );
+}
+
+[[nodiscard]] magic::types_of_files_t magic::identify_files(
+    const file_concepts::file_container auto& files
+) const
+{
+    return m_impl->identify_files(files);
+}
+
+[[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
+    const file_concepts::file_container auto& files,
+    std::nothrow_t
+) const noexcept
+{
+    return m_impl->identify_files(files, std::nothrow);
 }
 
 [[nodiscard]] bool magic::is_open() const noexcept

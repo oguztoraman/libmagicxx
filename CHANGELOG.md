@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**] include/magicxx/magic.hpp, sources/magic.cpp: Magicxx: Move implementation of identify_files functions from header to source file.
+
 + [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp, tests/*, examples/*: Magicxx: API change – Add is_valid() to check if instance is valid for identification (open and database loaded); Make operator bool() a shortcut for is_valid().
 
 + [**ENHANCEMENT**] external/googletest: Tests: Update googletest version to v1.17.0.

@@ -4,7 +4,6 @@
 #ifndef MAGIC_HPP
 #define MAGIC_HPP
 
-#include <algorithm>
 #include <bitset>
 #include <expected>
 #include <map>

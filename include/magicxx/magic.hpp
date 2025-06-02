@@ -336,12 +336,7 @@ public:
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
-    ) const
-    {
-        return identify_files_impl(
-            std::filesystem::recursive_directory_iterator{directory, option}
-        );
-    }
+    ) const;
 
     /**
      * @brief Identify the types of all files in a directory, noexcept version.
@@ -356,18 +351,7 @@ public:
         std::nothrow_t,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
-    ) const noexcept
-    {
-        std::error_code error_code{};
-        return identify_files_impl(
-            std::filesystem::recursive_directory_iterator{
-                directory,
-                option,
-                error_code
-            },
-            std::nothrow
-        );
-    }
+    ) const noexcept;
 
     /**
      * @brief Identify the types of files.
@@ -383,10 +367,7 @@ public:
      */
     [[nodiscard]] types_of_files_t identify_files(
         const file_concepts::file_container auto& files
-    ) const
-    {
-        return identify_files_impl(files);
-    }
+    ) const;
 
     /**
      * @brief Identify the types of files, noexcept version.
@@ -398,10 +379,7 @@ public:
     [[nodiscard]] expected_types_of_files_t identify_files(
         const file_concepts::file_container auto& files,
         std::nothrow_t
-    ) const noexcept
-    {
-        return identify_files_impl(files, std::nothrow);
-    }
+    ) const noexcept;
 
     /**
      * @brief Used for testing whether magic is open or closed.
@@ -502,29 +480,6 @@ public:
 private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
-
-    [[nodiscard]] types_of_files_t identify_files_impl(
-        const std::ranges::range auto& files
-    ) const
-    {
-        types_of_files_t types_of_files;
-        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
-            types_of_files[file] = identify_file(file);
-        });
-        return types_of_files;
-    }
-
-    [[nodiscard]] expected_types_of_files_t identify_files_impl(
-        const std::ranges::range auto& files,
-        std::nothrow_t
-    ) const noexcept
-    {
-        expected_types_of_files_t expected_types_of_files;
-        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
-            expected_types_of_files[file] = identify_file(file, std::nothrow);
-        });
-        return expected_types_of_files;
-    }
 
     friend std::string to_string(flags);
     friend std::string to_string(parameters);

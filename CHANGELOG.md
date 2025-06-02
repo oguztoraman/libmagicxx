@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp, tests/*: Magicxx: API change – Add is_valid() to check if instance is valid for identification (open and database loaded); Make operator bool() a shortcut for is_valid().
+
 + [**ENHANCEMENT**] external/googletest: Tests: Update googletest version to v1.17.0.
 
 + [**BUGFIX**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp, tests/magic_identify_file_test.cpp: Magicxx: Add magic_database_not_loaded exception and update identify_file functions to handle database loading state.

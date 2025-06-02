@@ -13,6 +13,8 @@ TEST(magic_special_members_test, move_construct_magic_from_closed_magic)
     auto  m{std::move(other)};
     EXPECT_FALSE(m.is_open());
     EXPECT_FALSE(other.is_open());
+    EXPECT_FALSE(m.is_valid());
+    EXPECT_FALSE(other.is_valid());
 }
 
 TEST(magic_special_members_test, move_construct_magic_from_opened_magic)
@@ -22,6 +24,8 @@ TEST(magic_special_members_test, move_construct_magic_from_opened_magic)
     auto m{std::move(other)};
     EXPECT_TRUE(m.is_open());
     EXPECT_FALSE(other.is_open());
+    EXPECT_FALSE(m.is_valid());
+    EXPECT_FALSE(other.is_valid());
 }
 
 TEST(magic_special_members_test, move_assign_magic_from_closed_magic)
@@ -30,6 +34,8 @@ TEST(magic_special_members_test, move_assign_magic_from_closed_magic)
     auto  m = std::move(other);
     EXPECT_FALSE(m.is_open());
     EXPECT_FALSE(other.is_open());
+    EXPECT_FALSE(m.is_valid());
+    EXPECT_FALSE(other.is_valid());
 }
 
 TEST(magic_special_members_test, move_assign_magic_from_opened_magic)
@@ -39,4 +45,6 @@ TEST(magic_special_members_test, move_assign_magic_from_opened_magic)
     auto m = std::move(other);
     EXPECT_TRUE(m.is_open());
     EXPECT_FALSE(other.is_open());
+    EXPECT_FALSE(m.is_valid());
+    EXPECT_FALSE(other.is_valid());
 }

@@ -158,6 +158,11 @@ public:
         return m_cookie != nullptr;
     }
 
+    [[nodiscard]] bool is_valid() const noexcept
+    {
+        return is_open() && m_is_database_loaded;
+    }
+
     void load_database_file(const std::filesystem::path& database_file)
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
@@ -561,7 +566,7 @@ magic::~magic() = default;
 
 [[nodiscard]] magic::operator bool() const noexcept
 {
-    return is_open();
+    return is_valid();
 }
 
 bool magic::check(const std::filesystem::path& database_file) const noexcept
@@ -618,6 +623,11 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 [[nodiscard]] bool magic::is_open() const noexcept
 {
     return m_impl->is_open();
+}
+
+[[nodiscard]] bool magic::is_valid() const noexcept
+{
+    return m_impl->is_valid();
 }
 
 void magic::load_database_file(const std::filesystem::path& database_file)

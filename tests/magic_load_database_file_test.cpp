@@ -57,5 +57,7 @@ TEST_F(magic_load_database_file_test, opened_magic_load_invalid_database)
 
 TEST_F(magic_load_database_file_test, opened_magic_load_default_database)
 {
+    EXPECT_FALSE(opened_magic.is_valid());
     opened_magic.load_database_file(DEFAULT_DATABASE_FILE);
+    EXPECT_TRUE(opened_magic.is_valid());
 }

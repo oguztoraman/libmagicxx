@@ -22,9 +22,10 @@ namespace recognition {
  *
  * @brief The magic class provides a C++ wrapper over the Magic Number Recognition Library.
  *
- * @note  The magic class is used to identify the type of a file, if the following steps have been completed;
- *        1. magic must be opened.
- *        2. A magic database file must be loaded.
+ * @note  To use the magic class for file type identification, ensure the following:
+ *        1. The magic instance must be opened.
+ *        2. A magic database file must be successfully loaded.
+ *        Only after these steps is the instance considered valid for identifying file types.
  */
 class magic {
 public:
@@ -137,6 +138,9 @@ public:
 
     /**
      * @brief Construct magic without opening it.
+     * 
+     * @note This magic is not valid for identifying file types
+     *       until it is opened and a magic database file is loaded.
      */
     magic() noexcept;
 
@@ -177,7 +181,9 @@ public:
     /**
      * @brief Move construct magic.
      *
-     * @note other is valid as a default constructed magic.
+     * @note After move construction, the moved-from object (other) is closed.
+     *       It cannot be used for identifying file types until 
+     *       it is reopened and a magic database file is loaded.
      */
     magic(magic&& other) noexcept;
 
@@ -189,7 +195,9 @@ public:
     /**
      * @brief Move assign to this magic.
      *
-     * @note other is valid as a default constructed magic.
+     * @note After move construction, the moved-from object (other) is closed.
+     *       It cannot be used for identifying file types until
+     *       it is reopened and a magic database file is loaded.
      */
     magic& operator=(magic&& other) noexcept;
 
@@ -204,9 +212,12 @@ public:
     ~magic();
 
     /**
-     * @brief Used for testing whether magic is open or closed.
+     * @brief Used for testing whether magic is valid
+     *        for identifying file types or not.
      *
-     * @returns True if magic is open, false otherwise.
+     * @returns True if the magic is valid, i.e.,
+     *          it is open and a magic database file is loaded;
+     *          false otherwise.
      */
     [[nodiscard]] operator bool() const noexcept;
 
@@ -225,7 +236,8 @@ public:
     /**
      * @brief Close magic.
      *
-     * @note magic is valid as a default constructed magic.
+     * @note magic cannot be used for identifying file types until
+     *       it is reopened and a magic database file is loaded.
      */
     void close() noexcept;
 
@@ -397,6 +409,16 @@ public:
      * @returns True if magic is open, false otherwise.
      */
     [[nodiscard]] bool is_open() const noexcept;
+
+    /**
+     * @brief Used for testing whether magic is valid
+     *        for identifying file types or not.
+     *
+     * @returns True if the magic is valid, i.e.,
+     *          it is open and a magic database file is loaded;
+     *          false otherwise.
+     */
+    [[nodiscard]] bool is_valid() const noexcept;
 
     /**
      * @brief Load a magic database file.

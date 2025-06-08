@@ -8,6 +8,7 @@
 #include <expected>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string_view>
 #include <vector>
 
@@ -161,6 +162,21 @@ public:
     );
 
     /**
+     * @brief Construct magic, open it using the flags and load the magic database file, noexcept version.
+     *
+     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
+     * @param[in] tag               Tag for non-throwing overload.
+     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     *
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     */
+    magic(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path& database_file = default_database_file
+    ) noexcept;
+
+    /**
      * @brief Construct magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags_container   Flags.
@@ -176,6 +192,21 @@ public:
         const flags_container_t&     flags_container,
         const std::filesystem::path& database_file = default_database_file
     );
+
+    /**
+     * @brief Construct magic, open it using the flags and load the magic database file, noexcept version.
+     *
+     * @param[in] flags_container   Flags.
+     * @param[in] tag               Tag for non-throwing overload.
+     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     *
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     */
+    magic(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path& database_file = default_database_file
+    ) noexcept;
 
     /**
      * @brief Move construct magic.
@@ -265,6 +296,17 @@ public:
     [[nodiscard]] flags_container_t get_flags() const;
 
     /**
+     * @brief Get the flags of magic, noexcept version.
+     *
+     * @param[in] tag               Tag for non-throwing overload.
+     *
+     * @returns flags_container_t or std::nullopt if magic is closed.
+     */
+    [[nodiscard]] std::optional<flags_container_t> get_flags(
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept;
+
+    /**
      * @brief Get the value of a parameter of magic.
      *
      * @param[in] parameter         One of the parameters enum.
@@ -276,13 +318,37 @@ public:
     [[nodiscard]] std::size_t get_parameter(parameters parameter) const;
 
     /**
+     * @brief Get the value of a parameter of magic, noexcept version.
+     *
+     * @param[in] parameter         One of the parameters enum.
+     * @param[in] tag               Tag for non-throwing overload.
+     *
+     * @returns Value of the desired parameter or std::nullopt if magic is closed.
+     */
+    [[nodiscard]] std::optional<std::size_t> get_parameter(
+        parameters                             parameter,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept;
+
+    /**
      * @brief Get the values ​​of all parameters of magic.
      *
-     * @returns <parameters, value> map.
+     * @returns <parameter, value> map.
      *
      * @throws magic_is_closed      if magic is closed.
      */
     [[nodiscard]] parameter_value_map_t get_parameters() const;
+
+    /**
+     * @brief Get the values ​​of all parameters of magic, noexcept version.
+     *
+     * @param[in] tag               Tag for non-throwing overload.
+     *
+     * @returns <parameter, value> map or an empty map if magic is closed.
+     */
+    [[nodiscard]] parameter_value_map_t get_parameters(
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept;
 
     /**
      * @brief Get the version of the Magic Number Recognition Library.
@@ -310,12 +376,13 @@ public:
      * @brief Identify the type of a file, noexcept version.
      *
      * @param[in] path              The path of the file.
+     * @param[in] tag               Tag for non-throwing overload.
      *
      * @returns The type of the file or the error message.
      */
     [[nodiscard]] expected_file_type_t identify_file(
-        const std::filesystem::path& path,
-        std::nothrow_t
+        const std::filesystem::path&           path,
+        [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept;
 
     /**
@@ -341,14 +408,15 @@ public:
      * @brief Identify the types of all files in a directory, noexcept version.
      *
      * @param[in] directory         The path of the directory.
+     * @param[in] tag               Tag for non-throwing overload.
      * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
-        const std::filesystem::path& directory,
-        std::nothrow_t,
-        std::filesystem::directory_options option = std::filesystem::
+        const std::filesystem::path&           directory,
+        [[maybe_unused]] const std::nothrow_t& tag,
+        std::filesystem::directory_options     option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const noexcept;
 
@@ -372,12 +440,13 @@ public:
      * @brief Identify the types of files, noexcept version.
      *
      * @param[in] files             The container that holds the paths of the files.
+     * @param[in] tag               Tag for non-throwing overload.
      *
      * @returns The types of each file as a map.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
         const file_concepts::file_container auto& files,
-        std::nothrow_t
+        [[maybe_unused]] const std::nothrow_t&    tag
     ) const noexcept;
 
     /**
@@ -414,6 +483,21 @@ public:
     );
 
     /**
+     * @brief Load a magic database file, noexcept version.
+     *
+     * @param[in] tag               Tag for non-throwing overload.
+     * @param[in] database_file     The path of the magic database file, default is default_database_file.
+     *
+     * @returns True on success, false otherwise.
+     *
+     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     */
+    bool load_database_file(
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path& database_file = default_database_file
+    ) noexcept;
+
+    /**
      * @brief Open magic using the flags.
      *
      * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
@@ -421,8 +505,25 @@ public:
      * @throws magic_open_error     if opening magic fails.
      *
      * @note If magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening magic.
      */
     void open(flags_mask_t flags_mask);
+
+    /**
+     * @brief Open magic using the flags, noexcept version.
+     *
+     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
+     * @param[in] tag               Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     *
+     * @note If magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening magic.
+     */
+    bool open(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
 
     /**
      * @brief Open magic using the flags.
@@ -432,8 +533,25 @@ public:
      * @throws magic_open_error     if opening magic fails.
      *
      * @note If magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening magic.
      */
     void open(const flags_container_t& flags_container);
+
+    /**
+     * @brief Open magic using the flags, noexcept version.
+     *
+     * @param[in] flags_container   Flags.
+     * @param[in] tag               Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     *
+     * @note If magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening magic.
+     */
+    bool open(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
 
     /**
      * @brief Set the flags of magic.
@@ -446,6 +564,19 @@ public:
     void set_flags(flags_mask_t flags_mask);
 
     /**
+     * @brief Set the flags of magicü noexcept version.
+     *
+     * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.
+     * @param[in] tag                 Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     */
+    bool set_flags(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
+
+    /**
      * @brief Set the flags of magic.
      *
      * @param[in] flags_container     Flags.
@@ -454,6 +585,19 @@ public:
      * @throws magic_set_flags_error  if setting the flags of magic fails.
      */
     void set_flags(const flags_container_t& flags_container);
+
+    /**
+     * @brief Set the flags of magic, noexcept version.
+     *
+     * @param[in] flags_container     Flags.
+     * @param[in] tag                 Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     */
+    bool set_flags(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
 
     /**
      * @brief Set the value of a parameter of magic.
@@ -467,6 +611,21 @@ public:
     void set_parameter(parameters parameter, std::size_t value);
 
     /**
+     * @brief Set the value of a parameter of magic, noexcept version.
+     *
+     * @param[in] parameter           One of the parameters enum.
+     * @param[in] value               The value of the parameter.
+     * @param[in] tag                 Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     */
+    bool set_parameter(
+        parameters                             parameter,
+        std::size_t                            value,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
+
+    /**
      * @brief Set the values of the parameters of magic.
      *
      * @param[in] parameters          Parameters with corresponding values.
@@ -475,6 +634,19 @@ public:
      * @throws magic_set_param_error  if setting the parameter of magic fails.
      */
     void set_parameters(const parameter_value_map_t& parameters);
+
+    /**
+     * @brief Set the values of the parameters of magic, noexcept version.
+     *
+     * @param[in] parameters          Parameters with corresponding values.
+     * @param[in] tag                 Tag for non-throwing overload.
+     *
+     * @returns True on success, false otherwise.
+     */
+    bool set_parameters(
+        const parameter_value_map_t&           parameters,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept;
 
 private:
     class magic_private;

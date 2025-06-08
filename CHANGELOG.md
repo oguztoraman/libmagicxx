@@ -2,6 +2,9 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp,
+ tests/magic_load_database_file_test.cpp: Magicxx: Enhance magic class with noexcept versions of constructors and methods for improved error handling.
+
 + [**QUALITY**] include/magicxx/magic.hpp, sources/magic.cpp: Magicxx: Move implementation of identify_files functions from header to source file.
 
 + [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp, tests/*, examples/*: Magicxx: API change – Add is_valid() to check if instance is valid for identification (open and database loaded); Make operator bool() a shortcut for is_valid().

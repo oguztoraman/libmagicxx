@@ -29,12 +29,32 @@ public:
     }
 
     magic_private(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path&           database_file
+    ) noexcept
+    {
+        open(flags_mask, std::nothrow);
+        load_database_file(std::nothrow, database_file);
+    }
+
+    magic_private(
         const flags_container_t&     flags_container,
         const std::filesystem::path& database_file
     )
     {
         open(flags_container);
         load_database_file(database_file);
+    }
+
+    magic_private(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path&           database_file
+    ) noexcept
+    {
+        open(flags_container, std::nothrow);
+        load_database_file(std::nothrow, database_file);
     }
 
     magic_private(magic_private&&) noexcept = default;
@@ -84,6 +104,16 @@ public:
         return flags_converter(m_flags_mask);
     }
 
+    [[nodiscard]] std::optional<flags_container_t> get_flags(
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept
+    {
+        if (!is_open()) {
+            return std::nullopt;
+        }
+        return {flags_converter(m_flags_mask)};
+    }
+
     [[nodiscard]] std::size_t get_parameter(parameters parameter) const
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
@@ -98,9 +128,43 @@ public:
         return value;
     }
 
+    [[nodiscard]] std::optional<std::size_t> get_parameter(
+        parameters                             parameter,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept
+    {
+        if (!is_open()) {
+            return std::nullopt;
+        }
+        std::size_t value{};
+        detail::magic_getparam(
+            m_cookie.get(),
+            libmagic_pair_converter(
+                libmagic_parameters[std::to_underlying(parameter)]
+            ),
+            &value
+        );
+        return value;
+    }
+
     [[nodiscard]] parameter_value_map_t get_parameters() const
     {
         parameter_value_map_t parameter_value_map;
+        for (std::size_t i{}; i < libmagic_parameter_count; ++i) {
+            auto parameter                 = static_cast<parameters>(i);
+            parameter_value_map[parameter] = get_parameter(parameter);
+        }
+        return parameter_value_map;
+    }
+
+    [[nodiscard]] parameter_value_map_t get_parameters(
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) const noexcept
+    {
+        parameter_value_map_t parameter_value_map;
+        if (!is_open()) {
+            return parameter_value_map;
+        }
         for (std::size_t i{}; i < libmagic_parameter_count; ++i) {
             auto parameter                 = static_cast<parameters>(i);
             parameter_value_map[parameter] = get_parameter(parameter);
@@ -128,8 +192,8 @@ public:
     }
 
     [[nodiscard]] expected_file_type_t identify_file(
-        const std::filesystem::path& path,
-        std::nothrow_t
+        const std::filesystem::path&           path,
+        [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
         if (!is_open()) {
@@ -166,8 +230,8 @@ public:
     }
 
     [[nodiscard]] expected_types_of_files_t identify_files(
-        const std::ranges::range auto& files,
-        std::nothrow_t
+        const std::ranges::range auto&         files,
+        [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
         expected_types_of_files_t expected_types_of_files;
@@ -202,16 +266,62 @@ public:
         m_is_database_loaded = true;
     }
 
+    bool load_database_file(
+        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::filesystem::path&           database_file
+    ) noexcept
+    {
+        if (!is_open() || database_file.empty()) {
+            return false;
+        }
+        std::error_code error_code{};
+        if (!std::filesystem::is_regular_file(database_file, error_code)) {
+            return false;
+        }
+        m_is_database_loaded = detail::magic_load(
+                                   m_cookie.get(),
+                                   database_file.string().c_str()
+                               )
+                            != libmagic_error;
+        return m_is_database_loaded;
+    }
+
     void open(flags_mask_t flags_mask)
     {
+        m_is_database_loaded = false;
         m_cookie.reset(detail::magic_open(flags_converter(flags_mask)));
         throw_exception_on_failure<magic_open_error>(is_open());
         m_flags_mask = flags_mask;
     }
 
+    bool open(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        m_is_database_loaded = false;
+        m_cookie.reset(detail::magic_open(flags_converter(flags_mask)));
+        if (!is_open()) {
+            return false;
+        }
+        m_flags_mask = flags_mask;
+        return true;
+    }
+
     void open(const flags_container_t& flags_container)
     {
         open(flags_mask_t{flags_converter(flags_container)});
+    }
+
+    bool open(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        return open(
+            flags_mask_t{flags_converter(flags_container)},
+            std::nothrow
+        );
     }
 
     void set_flags(flags_mask_t flags_mask)
@@ -224,9 +334,40 @@ public:
         m_flags_mask = flags_mask;
     }
 
+    bool set_flags(
+        flags_mask_t                           flags_mask,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        if (is_open()) {
+            return false;
+        }
+        auto result = detail::magic_setflags(
+                          m_cookie.get(),
+                          flags_converter(flags_mask)
+                      )
+                   != libmagic_error;
+        if (!result) {
+            return false;
+        }
+        m_flags_mask = flags_mask;
+        return true;
+    }
+
     void set_flags(const flags_container_t& flags_container)
     {
         set_flags(flags_mask_t{flags_converter(flags_container)});
+    }
+
+    bool set_flags(
+        const flags_container_t&               flags_container,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        return set_flags(
+            flags_mask_t{flags_converter(flags_container)},
+            std::nothrow
+        );
     }
 
     void set_parameter(parameters parameter, std::size_t value)
@@ -246,6 +387,26 @@ public:
         );
     }
 
+    bool set_parameter(
+        parameters                             parameter,
+        std::size_t                            value,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        if (!is_open()) {
+            return false;
+        }
+        const auto& libmagic_parameter{
+            libmagic_parameters[std::to_underlying(parameter)]
+        };
+        return detail::magic_setparam(
+                   m_cookie.get(),
+                   libmagic_pair_converter(libmagic_parameter),
+                   &value
+               )
+            != libmagic_error;
+    }
+
     void set_parameters(const parameter_value_map_t& parameters)
     {
         std::ranges::for_each(
@@ -256,6 +417,22 @@ public:
                 set_parameter(parameter, value);
             }
         );
+    }
+
+    bool set_parameters(
+        const parameter_value_map_t&           parameters,
+        [[maybe_unused]] const std::nothrow_t& tag
+    ) noexcept
+    {
+        return std::ranges::find_if_not(
+                   parameters,
+                   [&](const auto& parameter_value_pair) {
+                       const auto& parameter = parameter_value_pair.first;
+                       const auto& value     = parameter_value_pair.second;
+                       return set_parameter(parameter, value, std::nothrow);
+                   }
+               )
+            == parameters.end();
     }
 
 private:
@@ -570,10 +747,32 @@ magic::magic(
 { }
 
 magic::magic(
+    flags_mask_t                           flags_mask,
+    [[maybe_unused]] const std::nothrow_t& tag,
+    const std::filesystem::path&           database_file
+) noexcept
+  : m_impl{
+        std::make_unique<magic_private>(flags_mask, std::nothrow, database_file)
+    }
+{ }
+
+magic::magic(
     const flags_container_t&     flags_container,
     const std::filesystem::path& database_file
 )
   : m_impl{std::make_unique<magic_private>(flags_container, database_file)}
+{ }
+
+magic::magic(
+    const flags_container_t&               flags_container,
+    [[maybe_unused]] const std::nothrow_t& tag,
+    const std::filesystem::path&           database_file
+) noexcept
+  : m_impl{std::make_unique<magic_private>(
+        flags_container,
+        std::nothrow,
+        database_file
+    )}
 { }
 
 magic::magic(magic&& other) noexcept
@@ -613,15 +812,37 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
     return m_impl->get_flags();
 }
 
+[[nodiscard]] std::optional<magic::flags_container_t> magic::get_flags(
+    [[maybe_unused]] const std::nothrow_t& tag
+) const noexcept
+{
+    return m_impl->get_flags(std::nothrow);
+}
+
 [[nodiscard]] std::size_t magic::get_parameter(magic::parameters parameter
 ) const
 {
     return m_impl->get_parameter(parameter);
 }
 
+[[nodiscard]] std::optional<std::size_t> magic::get_parameter(
+    parameters                             parameter,
+    [[maybe_unused]] const std::nothrow_t& tag
+) const noexcept
+{
+    return m_impl->get_parameter(parameter, std::nothrow);
+}
+
 [[nodiscard]] magic::parameter_value_map_t magic::get_parameters() const
 {
     return m_impl->get_parameters();
+}
+
+[[nodiscard]] magic::parameter_value_map_t magic::get_parameters(
+    [[maybe_unused]] const std::nothrow_t& tag
+) const noexcept
+{
+    return m_impl->get_parameters(std::nothrow);
 }
 
 [[nodiscard]] std::string magic::get_version() noexcept
@@ -637,8 +858,8 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 }
 
 [[nodiscard]] magic::expected_file_type_t magic::identify_file(
-    const std::filesystem::path& path,
-    std::nothrow_t
+    const std::filesystem::path&           path,
+    [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
 {
     return m_impl->identify_file(path, std::nothrow);
@@ -655,9 +876,9 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 }
 
 [[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
-    const std::filesystem::path& directory,
-    std::nothrow_t,
-    std::filesystem::directory_options option
+    const std::filesystem::path&           directory,
+    [[maybe_unused]] const std::nothrow_t& tag,
+    std::filesystem::directory_options     option
 ) const noexcept
 {
     std::error_code error_code{};
@@ -680,7 +901,7 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
 
 [[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
     const file_concepts::file_container auto& files,
-    std::nothrow_t
+    [[maybe_unused]] const std::nothrow_t&    tag
 ) const noexcept
 {
     return m_impl->identify_files(files, std::nothrow);
@@ -701,9 +922,25 @@ void magic::load_database_file(const std::filesystem::path& database_file)
     m_impl->load_database_file(database_file);
 }
 
+bool magic::load_database_file(
+    [[maybe_unused]] const std::nothrow_t& tag,
+    const std::filesystem::path&           database_file
+) noexcept
+{
+    return m_impl->load_database_file(std::nothrow, database_file);
+}
+
 void magic::open(flags_mask_t flags_mask)
 {
     m_impl->open(flags_mask);
+}
+
+bool magic::open(
+    flags_mask_t                           flags_mask,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->open(flags_mask, std::nothrow);
 }
 
 void magic::open(const flags_container_t& flags_container)
@@ -711,9 +948,25 @@ void magic::open(const flags_container_t& flags_container)
     m_impl->open(flags_container);
 }
 
+bool magic::open(
+    const flags_container_t&               flags_container,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->open(flags_container, std::nothrow);
+}
+
 void magic::set_flags(flags_mask_t flags_mask)
 {
     m_impl->set_flags(flags_mask);
+}
+
+bool magic::set_flags(
+    flags_mask_t                           flags_mask,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->set_flags(flags_mask, std::nothrow);
 }
 
 void magic::set_flags(const flags_container_t& flags_container)
@@ -721,14 +974,39 @@ void magic::set_flags(const flags_container_t& flags_container)
     m_impl->set_flags(flags_container);
 }
 
-void magic::set_parameter(magic::parameters parameter, std::size_t value)
+bool magic::set_flags(
+    const flags_container_t&               flags_container,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->set_flags(flags_container, std::nothrow);
+}
+
+void magic::set_parameter(parameters parameter, std::size_t value)
 {
     m_impl->set_parameter(parameter, value);
+}
+
+bool magic::set_parameter(
+    parameters                             parameter,
+    std::size_t                            value,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->set_parameter(parameter, value, std::nothrow);
 }
 
 void magic::set_parameters(const parameter_value_map_t& parameters)
 {
     m_impl->set_parameters(parameters);
+}
+
+bool magic::set_parameters(
+    const parameter_value_map_t&           parameters,
+    [[maybe_unused]] const std::nothrow_t& tag
+) noexcept
+{
+    return m_impl->set_parameters(parameters, std::nothrow);
 }
 
 } /* namespace recognition */

@@ -339,7 +339,7 @@ public:
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
-        if (is_open()) {
+        if (!is_open()) {
             return false;
         }
         auto result = detail::magic_setflags(

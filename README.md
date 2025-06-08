@@ -15,6 +15,7 @@
 + [Downloading Libmagicxx](#downloading-libmagicxx)
 + [Installing Libmagicxx](#installing-libmagicxx)
 + [Using Libmagicxx with CMake](#using-libmagicxx-with-cmake)
++ [Magic States](#magic-states)
 + [Libmagicxx CMake Package Variables](#libmagicxx-cmake-package-variables)
 + [Examples](#examples)
 + [Documentation](#documentation)
@@ -108,6 +109,44 @@ Libmagicxx is designed to be easily integrated into CMake-based projects. To use
         // possible output: text/x-file; charset=us-ascii
     }
     ```
+
+## Magic States
+
+Libmagicxx's `magic` class can be in several states, which affect its usability:
+
+### 1. Closed Magic
+
++ The magic is considered closed if it has not been opened or has been explicitly closed using the `close()` method.
+
++ In this state, it cannot be used for file type identification.
+
++ Methods that require an open magic (e.g., `identify_file`, `get_flags`, etc.) will throw or return errors if called.
+
++ `is_open()` returns false.
+
++ `is_valid()` returns false.
+
+### 2. Opened Magic Without Database
+
++ The magic is open (after `open()`), but no database file has been loaded via `load_database_file()`.
+
++ In this state, it is not valid for file type identification.
+
++ `is_open()` returns true.
+
++ `is_valid()` returns false.
+
++ Methods that require a loaded database (e.g., `identify_file`) will throw or return errors if called.
+
+### 3. Valid Magic
+
++ The magic is valid if it is open and a magic database file has been successfully loaded.
+
++ In this state, it can be used for file type identification.
+
++ `is_open()` returns true.
+
++ `is_valid()` returns true.
 
 ## Libmagicxx CMake Package Variables
 

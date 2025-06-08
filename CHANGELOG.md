@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] README.md; Docs: Add section on Magic States to README.md for better understanding of magic class usability.
+
 + [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp,
  tests/magic_load_database_file_test.cpp: Magicxx: Enhance magic class with noexcept versions of constructors and methods for improved error handling.
 

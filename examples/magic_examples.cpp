@@ -35,7 +35,11 @@ void example_load_database()
 void example_identify_file()
 {
     magic m{magic::flags::mime, magic::default_database_file};
-    auto  result = m.identify_file(magic::default_database_file);
+    if (!m.is_valid()) {
+        std::println(std::cerr, "Magic is not valid.");
+        return;
+    }
+    auto result = m.identify_file(magic::default_database_file);
     std::println(std::cout, "File type: {}", result);
 }
 

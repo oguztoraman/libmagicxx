@@ -348,9 +348,9 @@ public:
      *
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns <parameter, value> map or an empty map if magic is closed.
+     * @returns <parameter, value> map or std::nullopt if magic is closed.
      */
-    [[nodiscard]] parameter_value_map_t get_parameters(
+    [[nodiscard]] std::optional<parameter_value_map_t> get_parameters(
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept;
 

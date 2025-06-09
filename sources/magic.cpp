@@ -157,14 +157,14 @@ public:
         return parameter_value_map;
     }
 
-    [[nodiscard]] parameter_value_map_t get_parameters(
+    [[nodiscard]] std::optional<parameter_value_map_t> get_parameters(
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
-        parameter_value_map_t parameter_value_map;
         if (!is_open()) {
-            return parameter_value_map;
+            return std::nullopt;
         }
+        parameter_value_map_t parameter_value_map;
         for (std::size_t i{}; i < libmagic_parameter_count; ++i) {
             auto parameter                 = static_cast<parameters>(i);
             parameter_value_map[parameter] = get_parameter(parameter);
@@ -856,7 +856,7 @@ bool magic::compile(const std::filesystem::path& database_file) const noexcept
     return m_impl->get_parameters();
 }
 
-[[nodiscard]] magic::parameter_value_map_t magic::get_parameters(
+[[nodiscard]] std::optional<magic::parameter_value_map_t> magic::get_parameters(
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
 {

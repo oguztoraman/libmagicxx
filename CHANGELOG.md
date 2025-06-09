@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] CONTRIBUTING.md, PULL_REQUEST_TEMPLATE.md; Docs: Update pull request title template.
+
 + [**DOCUMENTATION**] README.md; Docs: Add downloads badge to README for better visibility of library usage statistics.
 
 + [**DOCUMENTATION**] include/magicxx/magic_exception.hpp; Docs: Add missing documentation for magic_exception classes.

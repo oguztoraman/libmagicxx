@@ -106,7 +106,7 @@ public:
 
     [[nodiscard]] flags_container_t get_flags() const
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
         return flags_converter(m_flags_mask);
     }
 
@@ -122,7 +122,7 @@ public:
 
     [[nodiscard]] std::size_t get_parameter(parameters parameter) const
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
         std::size_t value{};
         detail::magic_getparam(
             m_cookie.get(),
@@ -181,21 +181,21 @@ public:
     [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
     ) const
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
-        throw_exception_on_failure<empty_path>(!path.empty());
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<empty_path>(!path.empty());
         std::error_code error_code{};
-        throw_exception_on_failure<path_does_not_exist>(
+        magic_private::throw_exception_on_failure<path_does_not_exist>(
             std::filesystem::exists(path, error_code),
             path.string()
         );
-        throw_exception_on_failure<magic_database_not_loaded>(
+        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
             m_is_database_loaded
         );
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
             path.string().c_str()
         );
-        throw_exception_on_failure<magic_identify_file_error>(
+        magic_private::throw_exception_on_failure<magic_identify_file_error>(
             type_cstr != nullptr,
             get_error_message(),
             path.string()
@@ -269,19 +269,22 @@ public:
 
     void load_database_file(const std::filesystem::path& database_file)
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
-        throw_exception_on_failure<empty_path>(!database_file.empty());
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<empty_path>(
+            !database_file.empty()
+        );
         std::error_code error_code{};
-        throw_exception_on_failure<path_does_not_exist>(
+        magic_private::throw_exception_on_failure<path_does_not_exist>(
             std::filesystem::exists(database_file, error_code),
             database_file.string()
         );
-        throw_exception_on_failure<path_is_not_regular_file>(
+        magic_private::throw_exception_on_failure<path_is_not_regular_file>(
             std::filesystem::is_regular_file(database_file, error_code),
             database_file.string()
         );
         m_is_database_loaded = false;
-        throw_exception_on_failure<magic_load_database_file_error>(
+        magic_private::throw_exception_on_failure<
+            magic_load_database_file_error>(
             detail::magic_load(m_cookie.get(), database_file.string().c_str()),
             get_error_message(),
             database_file.string()
@@ -316,7 +319,7 @@ public:
     {
         m_is_database_loaded = false;
         m_cookie.reset(detail::magic_open(flags_converter(flags_mask)));
-        throw_exception_on_failure<magic_open_error>(
+        magic_private::throw_exception_on_failure<magic_open_error>(
             is_open(),
             get_error_message()
         );
@@ -355,8 +358,8 @@ public:
 
     void set_flags(flags_mask_t flags_mask)
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
-        throw_exception_on_failure<magic_set_flags_error>(
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_set_flags_error>(
             detail::magic_setflags(m_cookie.get(), flags_converter(flags_mask)),
             get_error_message(),
             flags_converter(flags_mask)
@@ -402,11 +405,11 @@ public:
 
     void set_parameter(parameters parameter, std::size_t value)
     {
-        throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
         const auto& libmagic_parameter{
             libmagic_parameters[std::to_underlying(parameter)]
         };
-        throw_exception_on_failure<magic_set_parameter_error>(
+        magic_private::throw_exception_on_failure<magic_set_parameter_error>(
             detail::magic_setparam(
                 m_cookie.get(),
                 libmagic_pair_converter(libmagic_parameter),
@@ -464,6 +467,32 @@ public:
                    }
                )
             == parameters.end();
+    }
+
+    /**
+     * @brief Throws an ExceptionType exception with ExceptionArgs
+     *        if the result is false or equal to libmagic_error.
+     */
+    template <
+        std::derived_from<magic_exception> ExceptionType,
+        typename ResultType,
+        typename... ExceptionArgs>
+    requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>
+    static void throw_exception_on_failure(
+        ResultType result,
+        ExceptionArgs&&... args
+    )
+    {
+        bool throw_exception = false;
+        if constexpr (std::same_as<int, ResultType>) {
+            throw_exception = result == libmagic_error;
+        } else if constexpr (std::same_as<ResultType, bool>) {
+            throw_exception = !result;
+        }
+        if (!throw_exception) {
+            return;
+        }
+        throw ExceptionType{std::forward<ExceptionArgs>(args)...};
     }
 
 private:
@@ -538,30 +567,6 @@ private:
         std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "elf_shsize_max"),
         std::make_pair(MAGIC_PARAM_MAGWARN_MAX, "mag_warn_max")
     };
-
-    /**
-     * @brief Throws an ExceptionType exception with ExceptionArgs
-     *        if the result is false or equal to libmagic_error.
-     */
-    template <
-        std::derived_from<magic_exception> ExceptionType,
-        typename ResultType,
-        typename... ExceptionArgs>
-    requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>
-    void throw_exception_on_failure(ResultType result, ExceptionArgs&&... args)
-        const
-    {
-        bool throw_exception = false;
-        if constexpr (std::same_as<int, ResultType>) {
-            throw_exception = result == libmagic_error;
-        } else if constexpr (std::same_as<ResultType, bool>) {
-            throw_exception = !result;
-        }
-        if (!throw_exception) {
-            return;
-        }
-        throw ExceptionType{std::forward<ExceptionArgs>(args)...};
-    }
 
     [[nodiscard]] std::string get_error_message() const noexcept
     {
@@ -895,6 +900,11 @@ magic::types_of_files_t magic::identify_files(
     std::filesystem::directory_options option
 ) const
 {
+    std::error_code error_code{};
+    magic_private::throw_exception_on_failure<path_is_not_directory>(
+        std::filesystem::is_directory(directory, error_code),
+        directory
+    );
     return m_impl->identify_files(
         std::filesystem::recursive_directory_iterator{directory, option}
     );

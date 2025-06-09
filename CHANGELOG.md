@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magicxx: API change - Throw path_is_not_directory from identify_files(directory) on the failure.
+
 + [**QUALITY**]**;** Magicxx: Add [[nodiscard]] attribute to several methods.
 
 + [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::compile static.

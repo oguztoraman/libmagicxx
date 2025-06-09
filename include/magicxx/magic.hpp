@@ -400,8 +400,9 @@ public:
      *
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file is empty.
-     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws empty_path                   if the path of the file or directory is empty.
+     * @throws path_does_not_exist          if the path of the file or directory does not exist.
+     * @throws path_is_not_directory        if the path of the directory is not a directory.
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(

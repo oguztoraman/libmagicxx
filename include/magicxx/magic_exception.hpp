@@ -111,10 +111,28 @@ public:
     { }
 };
 
-class magic_file_error final : public magic_exception {
+/**
+ * @class magic_identify_file_error
+ *
+ * @brief Exception thrown when magic::identify_file(s) fails.
+ */
+class magic_identify_file_error final : public magic_exception {
 public:
-    magic_file_error(const std::string& error, const std::string& file_path)
-      : magic_exception{std::format("magic_file({})", file_path), error}
+    /**
+     * @brief Construct magic_identify_file_error with an error message,
+     *        and the path of the file.
+     *
+     * @param[in] error_message         The description of the error.
+     * @param[in] file_path             The path of the file.
+     */
+    magic_identify_file_error(
+        const std::string& error_message,
+        const std::string& file_path
+    )
+      : magic_exception{
+            std::format("magic_identify_file({})", file_path),
+            error_message
+        }
     { }
 };
 

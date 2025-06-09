@@ -189,7 +189,7 @@ public:
             m_cookie.get(),
             path.string().c_str()
         );
-        throw_exception_on_failure<magic_file_error>(
+        throw_exception_on_failure<magic_identify_file_error>(
             type_cstr != nullptr,
             get_error_message(),
             path.string()
@@ -221,8 +221,8 @@ public:
         );
         if (!type_cstr) {
             return std::unexpected{
-                magic_file_error{get_error_message(), path.string()}
-                .what()
+                magic_identify_file_error{get_error_message(), path.string()}
+                    .what()
             };
         }
         return {type_cstr};

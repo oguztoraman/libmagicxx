@@ -400,7 +400,7 @@ public:
         const auto& libmagic_parameter{
             libmagic_parameters[std::to_underlying(parameter)]
         };
-        throw_exception_on_failure<magic_set_param_error>(
+        throw_exception_on_failure<magic_set_parameter_error>(
             detail::magic_setparam(
                 m_cookie.get(),
                 libmagic_pair_converter(libmagic_parameter),

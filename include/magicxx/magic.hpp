@@ -610,11 +610,11 @@ public:
     /**
      * @brief Set the value of a parameter of magic.
      *
-     * @param[in] parameter           One of the parameters enum.
-     * @param[in] value               The value of the parameter.
+     * @param[in] parameter                 One of the parameters enum.
+     * @param[in] value                     The value of the parameter.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_param_error  if setting the parameter of magic fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
      */
     void set_parameter(parameters parameter, std::size_t value);
 
@@ -636,10 +636,10 @@ public:
     /**
      * @brief Set the values of the parameters of magic.
      *
-     * @param[in] parameters          Parameters with corresponding values.
+     * @param[in] parameters                Parameters with corresponding values.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_param_error  if setting the parameter of magic fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
      */
     void set_parameters(const parameter_value_map_t& parameters);
 

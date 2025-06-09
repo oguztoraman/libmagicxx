@@ -270,8 +270,9 @@ public:
             std::filesystem::exists(database_file, error_code),
             database_file.string()
         );
-        throw_exception_on_failure<invalid_path>(
-            std::filesystem::is_regular_file(database_file)
+        throw_exception_on_failure<path_is_not_regular_file>(
+            std::filesystem::is_regular_file(database_file, error_code),
+            database_file.string()
         );
         m_is_database_loaded = false;
         throw_exception_on_failure<magic_load_error>(

@@ -41,10 +41,22 @@ public:
     { }
 };
 
-class invalid_path final : public magic_exception {
+/**
+ * @class path_is_not_regular_file
+ *
+ * @brief Exception thrown from magic::load_database_file
+ *        when the database file path is not a regular file.
+ */
+class path_is_not_regular_file final : public magic_exception {
 public:
-    invalid_path()
-      : magic_exception{"path is invalid."}
+    /**
+     * @brief Construct path_is_not_regular_file with
+     *        the database file path that is not a regular file.
+     *
+     * @param[in] database_file_path    The database file path that is not a regular file.
+     */
+    explicit path_is_not_regular_file(const std::string& path)
+      : magic_exception{std::format("'{}' is not a regular file.", path)}
     { }
 };
 

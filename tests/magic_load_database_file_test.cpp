@@ -45,7 +45,10 @@ TEST_F(magic_load_database_file_test, opened_magic_load_empty_path)
 
 TEST_F(magic_load_database_file_test, opened_magic_load_directory)
 {
-    EXPECT_THROW(m_opened_magic.load_database_file(m_test_dir), invalid_path);
+    EXPECT_THROW(
+        m_opened_magic.load_database_file(m_test_dir),
+        path_is_not_regular_file
+    );
 }
 
 TEST_F(magic_load_database_file_test, opened_magic_load_invalid_database)

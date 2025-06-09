@@ -822,9 +822,12 @@ void magic::close() noexcept
     m_impl->close();
 }
 
-bool magic::compile(const std::filesystem::path& database_file) const noexcept
+[[nodiscard]] bool magic::compile(const std::filesystem::path& database_file
+) noexcept
 {
-    return m_impl->compile(database_file);
+    magic_private magic_for_compile{};
+    magic_for_compile.open(magic::flags::none, std::nothrow);
+    return magic_for_compile.compile(database_file);
 }
 
 [[nodiscard]] magic::flags_container_t magic::get_flags() const

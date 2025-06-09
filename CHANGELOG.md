@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::compile static.
+
 + [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::check static.
 
 + [**ENHANCEMENT**]**;** Magicxx: API change - Rename magic_load_error to magic_load_database_file_error for consistency and clarity in exception handling.

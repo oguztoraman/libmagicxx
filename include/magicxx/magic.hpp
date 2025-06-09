@@ -286,9 +286,9 @@ public:
      * @note The compiled files created are named from the basename
      *       of each file argument with “.mgc” appended to it.
      */
-    bool compile(
+    [[nodiscard]] static bool compile(
         const std::filesystem::path& database_file = default_database_file
-    ) const noexcept;
+    ) noexcept;
 
     /**
      * @brief Get the flags of magic.

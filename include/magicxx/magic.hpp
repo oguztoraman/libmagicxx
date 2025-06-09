@@ -256,16 +256,16 @@ public:
     [[nodiscard]] operator bool() const noexcept;
 
     /**
-     * @brief check the validity of entries in the colon separated database
+     * @brief Check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
      * @param[in] database_file     The file to check, default is default_database_file.
      *
      * @returns True if the database_file has valid entries, false otherwise.
      */
-    bool check(
+    [[nodiscard]] static bool check(
         const std::filesystem::path& database_file = default_database_file
-    ) const noexcept;
+    ) noexcept;
 
     /**
      * @brief Close magic.

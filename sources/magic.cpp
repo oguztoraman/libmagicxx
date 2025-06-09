@@ -810,9 +810,11 @@ magic::~magic() = default;
     return is_valid();
 }
 
-bool magic::check(const std::filesystem::path& database_file) const noexcept
+bool magic::check(const std::filesystem::path& database_file) noexcept
 {
-    return m_impl->check(database_file);
+    magic_private magic_for_check{};
+    magic_for_check.open(magic::flags::none, std::nothrow);
+    return magic_for_check.check(database_file);
 }
 
 void magic::close() noexcept

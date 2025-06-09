@@ -7,21 +7,12 @@
 
 using namespace recognition;
 
-TEST(magic_check_test, closed_magic_check_default_database)
+TEST(magic_check_test, check_empty_path)
 {
-    EXPECT_FALSE(magic{}.check());
+    EXPECT_FALSE(magic::check({}));
 }
 
-TEST(magic_check_test, opened_magic_check_empty_path)
+TEST(magic_check_test, check_default_database)
 {
-    magic m;
-    m.open(magic::flags::mime);
-    EXPECT_FALSE(m.check({}));
-}
-
-TEST(magic_check_test, opened_magic_check_default_database)
-{
-    magic m;
-    m.open(magic::flags::mime);
-    EXPECT_TRUE(m.check(DEFAULT_DATABASE_FILE));
+    EXPECT_TRUE(magic::check(DEFAULT_DATABASE_FILE));
 }

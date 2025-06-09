@@ -70,7 +70,7 @@ void example_compile_check()
     } else {
         std::println(std::cerr, "Failed to compile.");
     }
-    if (m.check()) {
+    if (magic::check()) {
         std::println(std::cout, "Check passed.");
     } else {
         std::println(std::cerr, "Check failed.");

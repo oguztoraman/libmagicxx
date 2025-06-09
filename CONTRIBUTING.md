@@ -249,10 +249,10 @@ The current development environment is a container image built on top of the lat
 + Create a pull request to the `main` branch if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create a pull request to the supported release branch (e.g., `v5.2.x`) and also the `main` branch.
 
 + Use the following naming conventions for your pull request title:
-    + For bug fixes: `BUGFIX; Brief Description, Fixes issue #????.`
-    + For documentation changes: `DOCUMENTATION; Brief Description, Fixes issue #????.`
-    + For enhancements: `ENHANCEMENT; Brief Description, Fixes issue #????.`
-    + For code quality improvements: `QUALITY; Brief Description, Fixes issue #????.`
+    + For bug fixes: `[BUGFIX]; Brief Description, Fixes issue #????.`
+    + For documentation changes: `[DOCUMENTATION]; Brief Description, Fixes issue #????.`
+    + For enhancements: `[ENHANCEMENT]; Brief Description, Fixes issue #????.`
+    + For code quality improvements: `[QUALITY]; Brief Description, Fixes issue #????.`
 
 + Fill the [PULL_REQUEST_TEMPLATE.md](https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md).
 

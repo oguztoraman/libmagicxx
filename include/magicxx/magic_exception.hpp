@@ -73,6 +73,25 @@ public:
 };
 
 /**
+ * @class path_is_not_directory
+ *
+ * @brief Exception thrown from magic::identify_files(directory)
+ *        when the path is not a directory.
+ */
+class path_is_not_directory final : public magic_exception {
+public:
+    /**
+     * @brief Construct path_is_not_directory with
+     *        the path that is not a directory.
+     *
+     * @param[in] path                  The path that is not a regular file.
+     */
+    explicit path_is_not_directory(const std::string& path)
+      : magic_exception{std::format("'{}' is not a directory.", path)}
+    { }
+};
+
+/**
  * @class path_does_not_exist
  *
  * @brief Exception thrown when a path does not exist.

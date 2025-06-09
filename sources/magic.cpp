@@ -34,8 +34,10 @@ public:
         const std::filesystem::path&           database_file
     ) noexcept
     {
-        open(flags_mask, std::nothrow);
-        load_database_file(std::nothrow, database_file);
+        static_cast<void>(
+            open(flags_mask, std::nothrow)
+            && load_database_file(std::nothrow, database_file)
+        );
     }
 
     magic_private(
@@ -53,8 +55,10 @@ public:
         const std::filesystem::path&           database_file
     ) noexcept
     {
-        open(flags_container, std::nothrow);
-        load_database_file(std::nothrow, database_file);
+        static_cast<void>(
+            open(flags_container, std::nothrow)
+            && load_database_file(std::nothrow, database_file)
+        );
     }
 
     magic_private(magic_private&&) noexcept = default;
@@ -67,7 +71,8 @@ public:
 
     ~magic_private() = default;
 
-    bool check(const std::filesystem::path& database_file) const noexcept
+    [[nodiscard]] bool check(const std::filesystem::path& database_file
+    ) const noexcept
     {
         if (!is_open() || database_file.empty()) {
             return false;
@@ -85,7 +90,8 @@ public:
         m_cookie.reset(nullptr);
     }
 
-    bool compile(const std::filesystem::path& database_file) const noexcept
+    [[nodiscard]] bool compile(const std::filesystem::path& database_file
+    ) const noexcept
     {
         if (!is_open() || database_file.empty()) {
             return false;
@@ -283,7 +289,7 @@ public:
         m_is_database_loaded = true;
     }
 
-    bool load_database_file(
+    [[nodiscard]] bool load_database_file(
         [[maybe_unused]] const std::nothrow_t& tag,
         const std::filesystem::path&           database_file
     ) noexcept
@@ -317,7 +323,7 @@ public:
         m_flags_mask = flags_mask;
     }
 
-    bool open(
+    [[nodiscard]] bool open(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -336,7 +342,7 @@ public:
         open(flags_mask_t{flags_converter(flags_container)});
     }
 
-    bool open(
+    [[nodiscard]] bool open(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -358,7 +364,7 @@ public:
         m_flags_mask = flags_mask;
     }
 
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -383,7 +389,7 @@ public:
         set_flags(flags_mask_t{flags_converter(flags_container)});
     }
 
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -412,7 +418,7 @@ public:
         );
     }
 
-    bool set_parameter(
+    [[nodiscard]] bool set_parameter(
         parameters                             parameter,
         std::size_t                            value,
         [[maybe_unused]] const std::nothrow_t& tag
@@ -444,7 +450,7 @@ public:
         );
     }
 
-    bool set_parameters(
+    [[nodiscard]] bool set_parameters(
         const parameter_value_map_t&           parameters,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -805,7 +811,7 @@ magic& magic::operator=(magic&& other) noexcept
 
 magic::~magic() = default;
 
-[[nodiscard]] magic::operator bool() const noexcept
+magic::operator bool() const noexcept
 {
     return is_valid();
 }
@@ -813,8 +819,8 @@ magic::~magic() = default;
 bool magic::check(const std::filesystem::path& database_file) noexcept
 {
     magic_private magic_for_check{};
-    magic_for_check.open(magic::flags::none, std::nothrow);
-    return magic_for_check.check(database_file);
+    return magic_for_check.open(magic::flags::none, std::nothrow)
+        && magic_for_check.check(database_file);
 }
 
 void magic::close() noexcept
@@ -822,33 +828,31 @@ void magic::close() noexcept
     m_impl->close();
 }
 
-[[nodiscard]] bool magic::compile(const std::filesystem::path& database_file
-) noexcept
+bool magic::compile(const std::filesystem::path& database_file) noexcept
 {
     magic_private magic_for_compile{};
-    magic_for_compile.open(magic::flags::none, std::nothrow);
-    return magic_for_compile.compile(database_file);
+    return magic_for_compile.open(magic::flags::none, std::nothrow)
+        && magic_for_compile.compile(database_file);
 }
 
-[[nodiscard]] magic::flags_container_t magic::get_flags() const
+magic::flags_container_t magic::get_flags() const
 {
     return m_impl->get_flags();
 }
 
-[[nodiscard]] std::optional<magic::flags_container_t> magic::get_flags(
+std::optional<magic::flags_container_t> magic::get_flags(
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
 {
     return m_impl->get_flags(std::nothrow);
 }
 
-[[nodiscard]] std::size_t magic::get_parameter(magic::parameters parameter
-) const
+std::size_t magic::get_parameter(magic::parameters parameter) const
 {
     return m_impl->get_parameter(parameter);
 }
 
-[[nodiscard]] std::optional<std::size_t> magic::get_parameter(
+std::optional<std::size_t> magic::get_parameter(
     parameters                             parameter,
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
@@ -856,31 +860,29 @@ void magic::close() noexcept
     return m_impl->get_parameter(parameter, std::nothrow);
 }
 
-[[nodiscard]] magic::parameter_value_map_t magic::get_parameters() const
+magic::parameter_value_map_t magic::get_parameters() const
 {
     return m_impl->get_parameters();
 }
 
-[[nodiscard]] std::optional<magic::parameter_value_map_t> magic::get_parameters(
+std::optional<magic::parameter_value_map_t> magic::get_parameters(
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
 {
     return m_impl->get_parameters(std::nothrow);
 }
 
-[[nodiscard]] std::string magic::get_version() noexcept
+std::string magic::get_version() noexcept
 {
     return std::format("{:2}", detail::magic_version() / 100.);
 }
 
-[[nodiscard]] magic::file_type_t magic::identify_file(
-    const std::filesystem::path& path
-) const
+magic::file_type_t magic::identify_file(const std::filesystem::path& path) const
 {
     return m_impl->identify_file(path);
 }
 
-[[nodiscard]] magic::expected_file_type_t magic::identify_file(
+magic::expected_file_type_t magic::identify_file(
     const std::filesystem::path&           path,
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
@@ -888,7 +890,7 @@ void magic::close() noexcept
     return m_impl->identify_file(path, std::nothrow);
 }
 
-[[nodiscard]] magic::types_of_files_t magic::identify_files(
+magic::types_of_files_t magic::identify_files(
     const std::filesystem::path&       directory,
     std::filesystem::directory_options option
 ) const
@@ -898,7 +900,7 @@ void magic::close() noexcept
     );
 }
 
-[[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
+magic::expected_types_of_files_t magic::identify_files(
     const std::filesystem::path&           directory,
     [[maybe_unused]] const std::nothrow_t& tag,
     std::filesystem::directory_options     option
@@ -915,14 +917,14 @@ void magic::close() noexcept
     );
 }
 
-[[nodiscard]] magic::types_of_files_t magic::identify_files(
+magic::types_of_files_t magic::identify_files(
     const file_concepts::file_container auto& files
 ) const
 {
     return m_impl->identify_files(files);
 }
 
-[[nodiscard]] magic::expected_types_of_files_t magic::identify_files(
+magic::expected_types_of_files_t magic::identify_files(
     const file_concepts::file_container auto& files,
     [[maybe_unused]] const std::nothrow_t&    tag
 ) const noexcept
@@ -930,12 +932,12 @@ void magic::close() noexcept
     return m_impl->identify_files(files, std::nothrow);
 }
 
-[[nodiscard]] bool magic::is_open() const noexcept
+bool magic::is_open() const noexcept
 {
     return m_impl->is_open();
 }
 
-[[nodiscard]] bool magic::is_valid() const noexcept
+bool magic::is_valid() const noexcept
 {
     return m_impl->is_valid();
 }

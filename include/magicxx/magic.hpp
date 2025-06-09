@@ -500,7 +500,7 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    bool load_database_file(
+    [[nodiscard]] bool load_database_file(
         [[maybe_unused]] const std::nothrow_t& tag,
         const std::filesystem::path& database_file = default_database_file
     ) noexcept;
@@ -528,7 +528,7 @@ public:
      * @note If magic is open, it will be reopened using the flags after closing it.
      * @note A magic database file must be loaded after opening magic.
      */
-    bool open(
+    [[nodiscard]] bool open(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -556,7 +556,7 @@ public:
      * @note If magic is open, it will be reopened using the flags after closing it.
      * @note A magic database file must be loaded after opening magic.
      */
-    bool open(
+    [[nodiscard]] bool open(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -579,7 +579,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -602,7 +602,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -627,7 +627,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_parameter(
+    [[nodiscard]] bool set_parameter(
         parameters                             parameter,
         std::size_t                            value,
         [[maybe_unused]] const std::nothrow_t& tag
@@ -651,7 +651,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_parameters(
+    [[nodiscard]] bool set_parameters(
         const parameter_value_map_t&           parameters,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;

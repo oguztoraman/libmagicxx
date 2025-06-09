@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**]**;** Magicxx: Add [[nodiscard]] attribute to several methods.
+
 + [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::compile static.
 
 + [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::check static.

@@ -122,25 +122,25 @@ public:
 };
 
 /**
- * @class magic_load_error
+ * @class magic_load_database_file_error
  *
  * @brief Exception thrown when magic::load_database_file fails.
  */
-class magic_load_error final : public magic_exception {
+class magic_load_database_file_error final : public magic_exception {
 public:
     /**
-     * @brief Construct magic_load_error with an error message
+     * @brief Construct magic_load_database_file_error with an error message
      *        and the path of the database file.
      *
      * @param[in] error_message         The description of the error.
      * @param[in] database_file_path    The path of the magic database file.
      */
-    magic_load_error(
+    magic_load_database_file_error(
         const std::string& error_message,
         const std::string& database_file_path
     )
       : magic_exception{
-            std::format("magic_load({})", database_file_path),
+            std::format("magic_load_database_file({})", database_file_path),
             error_message
         }
     { }

@@ -55,7 +55,7 @@ TEST_F(magic_load_database_file_test, opened_magic_load_invalid_database)
 {
     EXPECT_THROW(
         m_opened_magic.load_database_file(m_invalid_database),
-        magic_load_error
+        magic_load_database_file_error
     );
 }
 

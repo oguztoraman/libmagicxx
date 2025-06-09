@@ -150,11 +150,11 @@ public:
      * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error             if opening magic fails.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
-     * @throws magic_load_error             if loading the magic database file fails.
+     * @throws magic_open_error                 if opening magic fails.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
+     * @throws magic_load_database_file_error   if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -184,11 +184,11 @@ public:
      * @param[in] flags_container   Flags.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error             if opening magic fails.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
-     * @throws magic_load_error             if loading the magic database file fails.
+     * @throws magic_open_error                 if opening magic fails.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
+     * @throws magic_load_database_file_error   if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -478,11 +478,11 @@ public:
      *
      * @param[in] database_file     The path of the magic database file, default is default_database_file.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the database file is not a file.
-     * @throws magic_load_error             if loading the database file fails.
+     * @throws magic_is_closed                  if magic is closed.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the database file is not a file.
+     * @throws magic_load_database_file_error   if loading the database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */

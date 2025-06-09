@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magicxx: API change - Rename magic_load_error to magic_load_database_file_error for consistency and clarity in exception handling.
+
 + [**DOCUMENTATION**]**;** Docs: Update pull request title template.
 
 + [**DOCUMENTATION**]**;** Docs: Add downloads badge to README for better visibility of library usage statistics.

@@ -140,7 +140,7 @@ public:
      *        the name of the parameter and its value.
      *
      * @param[in] error_message         The description of the error.
-     * @param[in] parameter_name        The names of the parameter.
+     * @param[in] parameter_name        The name of the parameter.
      * @param[in] value                 The value of the parameter.
      */
     magic_set_parameter_error(

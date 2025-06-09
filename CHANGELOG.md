@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Add path_does_not_exist exception and enhance error handling for file paths.
+
 + [**ENHANCEMENT**] include/magicxx/magic.hpp, sources/magic.cpp,
  tests/magic_load_database_file_test.cpp: Magicxx: Enhance magic class with noexcept versions of constructors and methods for improved error handling.
 

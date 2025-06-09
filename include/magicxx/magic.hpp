@@ -151,6 +151,8 @@ public:
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
      * @throws magic_open_error     if opening magic fails.
+     * @throws empty_path           if the path of the database file is empty.
+     * @throws path_does_not_exist  if the path of the database file does not exist.
      * @throws invalid_path         if the path of the magic database file is not a file.
      * @throws magic_load_error     if loading the magic database file fails.
      *
@@ -183,6 +185,8 @@ public:
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
      * @throws magic_open_error     if opening magic fails.
+     * @throws empty_path           if the path of the database file is empty.
+     * @throws path_does_not_exist  if the path of the database file does not exist.
      * @throws invalid_path         if the path of the magic database file is not a file.
      * @throws magic_load_error     if loading the magic database file fails.
      *
@@ -367,6 +371,7 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
+     * @throws path_does_not_exist          if the path of the file does not exist.
      * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
@@ -396,6 +401,7 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
+     * @throws path_does_not_exist          if the path of the file does not exist.
      * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
@@ -430,6 +436,7 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
+     * @throws path_does_not_exist          if the path of the file does not exist.
      * @throws magic_file_error             if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
@@ -473,6 +480,7 @@ public:
      *
      * @throws magic_is_closed      if magic is closed.
      * @throws empty_path           if the path of the database file is empty.
+     * @throws path_does_not_exist  if the path of the database file does not exist.
      * @throws invalid_path         if the path of the database file is not a file.
      * @throws magic_load_error     if loading the database file fails.
      *

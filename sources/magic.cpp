@@ -177,6 +177,11 @@ public:
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<empty_path>(!path.empty());
+        std::error_code error_code{};
+        throw_exception_on_failure<path_does_not_exist>(
+            std::filesystem::exists(path, error_code),
+            path.string()
+        );
         throw_exception_on_failure<magic_database_not_loaded>(
             m_is_database_loaded
         );
@@ -186,6 +191,7 @@ public:
         );
         throw_exception_on_failure<magic_file_error>(
             type_cstr != nullptr,
+            get_error_message(),
             path.string()
         );
         return type_cstr;
@@ -201,6 +207,10 @@ public:
         }
         if (path.empty()) {
             return std::unexpected{empty_path{}.what()};
+        }
+        std::error_code error_code{};
+        if (!std::filesystem::exists(path, error_code)) {
+            return std::unexpected{path_does_not_exist{path.string()}.what()};
         }
         if (!m_is_database_loaded) {
             return std::unexpected{magic_database_not_loaded{}.what()};
@@ -255,12 +265,18 @@ public:
     {
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<empty_path>(!database_file.empty());
+        std::error_code error_code{};
+        throw_exception_on_failure<path_does_not_exist>(
+            std::filesystem::exists(database_file, error_code),
+            database_file.string()
+        );
         throw_exception_on_failure<invalid_path>(
             std::filesystem::is_regular_file(database_file)
         );
         m_is_database_loaded = false;
         throw_exception_on_failure<magic_load_error>(
             detail::magic_load(m_cookie.get(), database_file.string().c_str()),
+            get_error_message(),
             database_file.string()
         );
         m_is_database_loaded = true;
@@ -275,6 +291,9 @@ public:
             return false;
         }
         std::error_code error_code{};
+        if (!std::filesystem::exists(database_file, error_code)) {
+            return false;
+        }
         if (!std::filesystem::is_regular_file(database_file, error_code)) {
             return false;
         }
@@ -290,7 +309,10 @@ public:
     {
         m_is_database_loaded = false;
         m_cookie.reset(detail::magic_open(flags_converter(flags_mask)));
-        throw_exception_on_failure<magic_open_error>(is_open());
+        throw_exception_on_failure<magic_open_error>(
+            is_open(),
+            get_error_message()
+        );
         m_flags_mask = flags_mask;
     }
 
@@ -329,6 +351,7 @@ public:
         throw_exception_on_failure<magic_is_closed>(is_open());
         throw_exception_on_failure<magic_set_flags_error>(
             detail::magic_setflags(m_cookie.get(), flags_converter(flags_mask)),
+            get_error_message(),
             flags_converter(flags_mask)
         );
         m_flags_mask = flags_mask;
@@ -382,6 +405,7 @@ public:
                 libmagic_pair_converter(libmagic_parameter),
                 &value
             ),
+            get_error_message(),
             libmagic_pair_converter(libmagic_parameter),
             value
         );
@@ -529,14 +553,7 @@ private:
         if (!throw_exception) {
             return;
         }
-        if constexpr (std::default_initializable<ExceptionType>) {
-            throw ExceptionType{};
-        } else {
-            throw ExceptionType{
-                get_error_message(),
-                std::forward<ExceptionArgs>(args)...
-            };
-        }
+        throw ExceptionType{std::forward<ExceptionArgs>(args)...};
     }
 
     [[nodiscard]] std::string get_error_message() const noexcept

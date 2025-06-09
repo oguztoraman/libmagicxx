@@ -48,6 +48,23 @@ public:
     { }
 };
 
+/**
+ * @class path_does_not_exist
+ *
+ * @brief Exception thrown when a path does not exist.
+ */
+class path_does_not_exist final : public magic_exception {
+public:
+    /**
+     * @brief Construct path_does_not_exist with the path that does not exist.
+     *
+     * @param[in] path                  The path that does not exist.
+     */
+    explicit path_does_not_exist(const std::string& path)
+      : magic_exception{std::format("'{}' does not exist.", path)}
+    { }
+};
+
 class magic_is_closed final : public magic_exception {
 public:
     magic_is_closed()

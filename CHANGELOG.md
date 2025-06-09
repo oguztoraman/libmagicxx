@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Rename magic_set_param_error to magic_set_parameter_error for consistency and clarity in exception handling.
+
 + [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp, tests/magic_load_database_file_test.cpp; Magicxx: API change - Replace invalid_path exception with path_is_not_regular_file for better clarity in error handling.
 
 + [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Add path_does_not_exist exception and enhance error handling for file paths.

@@ -128,16 +128,29 @@ public:
     { }
 };
 
-class magic_set_param_error final : public magic_exception {
+/**
+ * @class magic_set_parameter_error
+ *
+ * @brief Exception thrown when magic::set_parameter(s) fails.
+ */
+class magic_set_parameter_error final : public magic_exception {
 public:
-    magic_set_param_error(
-        const std::string& error,
+    /**
+     * @brief Construct magic_set_parameter_error with an error message,
+     *        the name of the parameter and its value.
+     *
+     * @param[in] error_message         The description of the error.
+     * @param[in] parameter_name        The names of the parameter.
+     * @param[in] value                 The value of the parameter.
+     */
+    magic_set_parameter_error(
+        const std::string& error_message,
         const std::string& parameter_name,
         std::size_t        value
     )
       : magic_exception{
-            std::format("magic_set_param({}, {})", parameter_name, value),
-            error
+            std::format("magic_set_parameter({}, {})", parameter_name, value),
+            error_message
         }
     { }
 };

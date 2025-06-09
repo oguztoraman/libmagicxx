@@ -23,19 +23,31 @@ public:
      * @brief Construct magic_exception with an error message
      *        and the name of the funtion where the error occurred.
      *
-     * @param[in] function  The name of the funtion.
-     * @param[in] error     The description of the error.
+     * @param[in] function              The name of the funtion.
+     * @param[in] error_message         The description of the error.
      */
-    magic_exception(const std::string& function, const std::string& error)
+    magic_exception(
+        const std::string& function,
+        const std::string& error_message
+    )
       : std::runtime_error{
-            error.empty() ? function + " failed."
-                          : function + " failed with " + error + "."
+            error_message.empty()
+                ? function + " failed."
+                : function + " failed with " + error_message + "."
         }
     { }
 };
 
+/**
+ * @class empty_path
+ *
+ * @brief Exception thrown when a path is empty.
+ */
 class empty_path final : public magic_exception {
 public:
+    /**
+     * @brief Construct empty_path.
+     */
     empty_path()
       : magic_exception{"path is empty."}
     { }
@@ -77,35 +89,73 @@ public:
     { }
 };
 
+/**
+ * @class magic_is_closed
+ *
+ * @brief Exception thrown when magic is closed.
+ */
 class magic_is_closed final : public magic_exception {
 public:
+    /**
+     * @brief Construct magic_is_closed.
+     */
     magic_is_closed()
       : magic_exception{"magic is closed."}
     { }
 };
 
+/**
+ * @class magic_open_error
+ *
+ * @brief Exception thrown when magic::open fails.
+ */
 class magic_open_error final : public magic_exception {
 public:
-    explicit magic_open_error(const std::string& error)
-      : magic_exception{"magic_open", error}
+    /**
+     * @brief Construct magic_open_error with an error message.
+     *
+     * @param[in] error_message         The description of the error.
+     */
+    explicit magic_open_error(const std::string& error_message)
+      : magic_exception{"magic_open", error_message}
     { }
 };
 
+/**
+ * @class magic_load_error
+ *
+ * @brief Exception thrown when magic::load_database_file fails.
+ */
 class magic_load_error final : public magic_exception {
 public:
+    /**
+     * @brief Construct magic_load_error with an error message
+     *        and the path of the database file.
+     *
+     * @param[in] error_message         The description of the error.
+     * @param[in] database_file_path    The path of the magic database file.
+     */
     magic_load_error(
-        const std::string& error,
+        const std::string& error_message,
         const std::string& database_file_path
     )
       : magic_exception{
             std::format("magic_load({})", database_file_path),
-            error
+            error_message
         }
     { }
 };
 
+/**
+ * @class magic_database_not_loaded
+ *
+ * @brief Exception thrown when magic database is not loaded.
+ */
 class magic_database_not_loaded final : public magic_exception {
 public:
+    /**
+     * @brief Construct magic_database_not_loaded.
+     */
     magic_database_not_loaded()
       : magic_exception{"magic database is not loaded."}
     { }
@@ -136,13 +186,28 @@ public:
     { }
 };
 
+/**
+ * @class magic_set_flags_error
+ *
+ * @brief Exception thrown when magic::set_flags fails.
+ */
 class magic_set_flags_error final : public magic_exception {
 public:
+    /**
+     * @brief Construct magic_set_flags_error with an error message
+     *        and the names of the flags.
+     *
+     * @param[in] error_message         The description of the error.
+     * @param[in] flag_names            The names of the flags.
+     */
     magic_set_flags_error(
-        const std::string& error,
+        const std::string& error_message,
         const std::string& flag_names
     )
-      : magic_exception{std::format("magic_set_flags({})", flag_names), error}
+      : magic_exception{
+            std::format("magic_set_flags({})", flag_names),
+            error_message
+        }
     { }
 };
 

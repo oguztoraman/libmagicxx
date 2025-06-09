@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] include/magicxx/magic_exception.hpp; Docs: Add missing documentation for magic_exception classes.
+
 + [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Rename magic_file_error to magic_identify_file_error for consistency and clarity in exception handling.
 
 + [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Rename magic_set_param_error to magic_set_parameter_error for consistency and clarity in exception handling.

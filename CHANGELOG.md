@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**DOCUMENTATION**] README.md; Docs: Add downloads badge to README for better visibility of library usage statistics.
+
 + [**DOCUMENTATION**] include/magicxx/magic_exception.hpp; Docs: Add missing documentation for magic_exception classes.
 
 + [**ENHANCEMENT**] include/magicxx/magic_exception.hpp, include/magicxx/magic.hpp, sources/magic.cpp; Magicxx: API change - Rename magic_file_error to magic_identify_file_error for consistency and clarity in exception handling.

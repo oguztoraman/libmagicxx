@@ -372,7 +372,7 @@ public:
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
      * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
     ) const;
@@ -402,7 +402,7 @@ public:
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
      * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const std::filesystem::path&       directory,
@@ -437,7 +437,7 @@ public:
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
      * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const file_concepts::file_container auto& files

@@ -275,7 +275,7 @@ public:
             database_file.string()
         );
         m_is_database_loaded = false;
-        throw_exception_on_failure<magic_load_error>(
+        throw_exception_on_failure<magic_load_database_file_error>(
             detail::magic_load(m_cookie.get(), database_file.string().c_str()),
             get_error_message(),
             database_file.string()

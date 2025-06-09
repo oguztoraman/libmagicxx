@@ -150,9 +150,11 @@ public:
      * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error     if opening magic fails.
-     * @throws invalid_path         if the path of the magic database file is not a file.
-     * @throws magic_load_error     if loading the magic database file fails.
+     * @throws magic_open_error             if opening magic fails.
+     * @throws empty_path                   if the path of the database file is empty.
+     * @throws path_does_not_exist          if the path of the database file does not exist.
+     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
+     * @throws magic_load_error             if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -182,9 +184,11 @@ public:
      * @param[in] flags_container   Flags.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error     if opening magic fails.
-     * @throws invalid_path         if the path of the magic database file is not a file.
-     * @throws magic_load_error     if loading the magic database file fails.
+     * @throws magic_open_error             if opening magic fails.
+     * @throws empty_path                   if the path of the database file is empty.
+     * @throws path_does_not_exist          if the path of the database file does not exist.
+     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
+     * @throws magic_load_error             if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -344,9 +348,9 @@ public:
      *
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns <parameter, value> map or an empty map if magic is closed.
+     * @returns <parameter, value> map or std::nullopt if magic is closed.
      */
-    [[nodiscard]] parameter_value_map_t get_parameters(
+    [[nodiscard]] std::optional<parameter_value_map_t> get_parameters(
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept;
 
@@ -367,7 +371,8 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
     ) const;
@@ -396,7 +401,8 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const std::filesystem::path&       directory,
@@ -430,7 +436,8 @@ public:
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
      * @throws empty_path                   if the path of the file is empty.
-     * @throws magic_file_error             if identifying the type of the file fails.
+     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
         const file_concepts::file_container auto& files
@@ -471,10 +478,11 @@ public:
      *
      * @param[in] database_file     The path of the magic database file, default is default_database_file.
      *
-     * @throws magic_is_closed      if magic is closed.
-     * @throws empty_path           if the path of the database file is empty.
-     * @throws invalid_path         if the path of the database file is not a file.
-     * @throws magic_load_error     if loading the database file fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws empty_path                   if the path of the database file is empty.
+     * @throws path_does_not_exist          if the path of the database file does not exist.
+     * @throws path_is_not_regular_file     if the path of the database file is not a file.
+     * @throws magic_load_error             if loading the database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -602,11 +610,11 @@ public:
     /**
      * @brief Set the value of a parameter of magic.
      *
-     * @param[in] parameter           One of the parameters enum.
-     * @param[in] value               The value of the parameter.
+     * @param[in] parameter                 One of the parameters enum.
+     * @param[in] value                     The value of the parameter.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_param_error  if setting the parameter of magic fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
      */
     void set_parameter(parameters parameter, std::size_t value);
 
@@ -628,10 +636,10 @@ public:
     /**
      * @brief Set the values of the parameters of magic.
      *
-     * @param[in] parameters          Parameters with corresponding values.
+     * @param[in] parameters                Parameters with corresponding values.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_param_error  if setting the parameter of magic fails.
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
      */
     void set_parameters(const parameter_value_map_t& parameters);
 

@@ -3,6 +3,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/oguztoraman/libmagicxx?label=release)](https://github.com/oguztoraman/libmagicxx/releases/latest)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![C++ Standard: C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
+[![Downloads](https://img.shields.io/github/downloads/oguztoraman/libmagicxx/total)](https://github.com/oguztoraman/libmagicxx/releases/latest)
 
 **Libmagicxx** is a C++ wrapper library over the [Magic Number Recognition Library](https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library). It provides an easy-to-use interface through the `magic` class, enabling the *identification of file types* based on their content rather than file extensions.
 

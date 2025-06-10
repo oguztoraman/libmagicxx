@@ -182,14 +182,14 @@ public:
     ) const
     {
         magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
+            m_is_database_loaded
+        );
         magic_private::throw_exception_on_failure<empty_path>(!path.empty());
         std::error_code error_code{};
         magic_private::throw_exception_on_failure<path_does_not_exist>(
             std::filesystem::exists(path, error_code),
             path.string()
-        );
-        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
-            m_is_database_loaded
         );
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
@@ -211,15 +211,15 @@ public:
         if (!is_open()) {
             return std::unexpected{magic_is_closed{}.what()};
         }
+        if (!m_is_database_loaded) {
+            return std::unexpected{magic_database_not_loaded{}.what()};
+        }
         if (path.empty()) {
             return std::unexpected{empty_path{}.what()};
         }
         std::error_code error_code{};
         if (!std::filesystem::exists(path, error_code)) {
             return std::unexpected{path_does_not_exist{path.string()}.what()};
-        }
-        if (!m_is_database_loaded) {
-            return std::unexpected{magic_database_not_loaded{}.what()};
         }
         auto type_cstr = detail::magic_file(
             m_cookie.get(),

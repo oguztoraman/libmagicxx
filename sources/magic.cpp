@@ -1036,6 +1036,11 @@ magic::expected_types_of_files_t magic::identify_files(
     );
 }
 
+bool magic::is_database_loaded() const noexcept
+{
+    return m_impl->is_database_loaded();
+}
+
 bool magic::is_open() const noexcept
 {
     return m_impl->is_open();

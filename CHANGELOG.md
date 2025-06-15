@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magicxx: Add is_database_loaded member function.
+
 + [**ENHANCEMENT**]**;** Magicxx: Throw filesystem_error from identify_files(directory) if the underlying std::filesystem OS API fails.
 
 + [**ENHANCEMENT**]**;** Magicxx: Add filesystem_error.

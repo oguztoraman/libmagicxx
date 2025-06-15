@@ -459,6 +459,13 @@ public:
     ) const noexcept;
 
     /**
+     * @brief Used for testing whether a magic database is loaded or not.
+     *
+     * @returns True if a magic database is loaded, false otherwise.
+     */
+    [[nodiscard]] bool is_database_loaded() const noexcept;
+
+    /**
      * @brief Used for testing whether magic is open or closed.
      *
      * @returns True if magic is open, false otherwise.

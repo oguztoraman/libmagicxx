@@ -17,6 +17,15 @@ namespace detail {
 
 class magic::magic_private {
 public:
+    using identify_file_options_mask_t = std::bitset<2uz>;
+
+    enum identify_file_options : unsigned long long {
+        check_nothing    = 0ULL,
+        check_is_valid   = 1ULL << 0,
+        check_path       = 1ULL << 1,
+        check_everything = check_is_valid | check_path
+    };
+
     magic_private() noexcept = default;
 
     magic_private(
@@ -178,19 +187,26 @@ public:
         return parameter_value_map;
     }
 
-    [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
+    [[nodiscard]] file_type_t identify_file(
+        const std::filesystem::path& path,
+        identify_file_options_mask_t options
     ) const
     {
-        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
-        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
-            m_is_database_loaded
-        );
-        magic_private::throw_exception_on_failure<empty_path>(!path.empty());
-        std::error_code error_code{};
-        magic_private::throw_exception_on_failure<path_does_not_exist>(
-            std::filesystem::exists(path, error_code),
-            path.string()
-        );
+        if ((options & check_is_valid_option) == check_is_valid_option) {
+            magic_private::throw_exception_on_failure<magic_is_closed>(is_open()
+            );
+            magic_private::throw_exception_on_failure<
+                magic_database_not_loaded>(is_database_loaded());
+        }
+        if ((options & check_path_option) == check_path_option) {
+            magic_private::throw_exception_on_failure<empty_path>(!path.empty()
+            );
+            std::error_code error_code{};
+            magic_private::throw_exception_on_failure<path_does_not_exist>(
+                std::filesystem::exists(path, error_code),
+                path.string()
+            );
+        }
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
             path.string().c_str()
@@ -205,21 +221,27 @@ public:
 
     [[nodiscard]] expected_file_type_t identify_file(
         const std::filesystem::path&           path,
+        identify_file_options_mask_t           options,
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
-        if (!is_open()) {
-            return std::unexpected{magic_is_closed{}.what()};
+        if ((options & check_is_valid_option) == check_is_valid_option) {
+            if (!is_open()) {
+                return std::unexpected{magic_is_closed{}.what()};
+            }
+            if (!is_database_loaded()) {
+                return std::unexpected{magic_database_not_loaded{}.what()};
+            }
         }
-        if (!m_is_database_loaded) {
-            return std::unexpected{magic_database_not_loaded{}.what()};
-        }
-        if (path.empty()) {
-            return std::unexpected{empty_path{}.what()};
-        }
-        std::error_code error_code{};
-        if (!std::filesystem::exists(path, error_code)) {
-            return std::unexpected{path_does_not_exist{path.string()}.what()};
+        if ((options & check_path_option) == check_path_option) {
+            if (path.empty()) {
+                return std::unexpected{empty_path{}.what()};
+            }
+            std::error_code error_code{};
+            if (!std::filesystem::exists(path, error_code)) {
+                return std::unexpected{path_does_not_exist{path.string()}.what()
+                };
+            }
         }
         auto type_cstr = detail::magic_file(
             m_cookie.get(),
@@ -235,26 +257,37 @@ public:
     }
 
     [[nodiscard]] types_of_files_t identify_files(
-        const std::ranges::range auto& files
+        const std::ranges::range auto& files,
+        identify_file_options_mask_t   option
     ) const
     {
         types_of_files_t types_of_files;
         std::ranges::for_each(files, [&](const std::filesystem::path& file) {
-            types_of_files[file] = identify_file(file);
+            types_of_files[file] = identify_file(file, option);
         });
         return types_of_files;
     }
 
     [[nodiscard]] expected_types_of_files_t identify_files(
         const std::ranges::range auto&         files,
+        identify_file_options_mask_t           option,
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
         expected_types_of_files_t expected_types_of_files;
         std::ranges::for_each(files, [&](const std::filesystem::path& file) {
-            expected_types_of_files[file] = identify_file(file, std::nothrow);
+            expected_types_of_files[file] = identify_file(
+                file,
+                option,
+                std::nothrow
+            );
         });
         return expected_types_of_files;
+    }
+
+    [[nodiscard]] bool is_database_loaded() const noexcept
+    {
+        return m_is_database_loaded;
     }
 
     [[nodiscard]] bool is_open() const noexcept
@@ -264,7 +297,7 @@ public:
 
     [[nodiscard]] bool is_valid() const noexcept
     {
-        return is_open() && m_is_database_loaded;
+        return is_open() && is_database_loaded();
     }
 
     void load_database_file(const std::filesystem::path& database_file)
@@ -312,7 +345,7 @@ public:
                                    database_file.string().c_str()
                                )
                             != libmagic_error;
-        return m_is_database_loaded;
+        return is_database_loaded();
     }
 
     void open(flags_mask_t flags_mask)
@@ -505,6 +538,13 @@ private:
     cookie_t     m_cookie{nullptr};
     flags_mask_t m_flags_mask{0};
     bool         m_is_database_loaded{false};
+
+    static constexpr identify_file_options_mask_t check_is_valid_option{
+        identify_file_options::check_is_valid
+    };
+    static constexpr identify_file_options_mask_t check_path_option{
+        identify_file_options::check_path
+    };
 
     static constexpr auto libmagic_error           = -1;
     static constexpr auto libmagic_flags_count     = flags_mask_t{}.size();
@@ -884,7 +924,10 @@ std::string magic::get_version() noexcept
 
 magic::file_type_t magic::identify_file(const std::filesystem::path& path) const
 {
-    return m_impl->identify_file(path);
+    return m_impl->identify_file(
+        path,
+        magic_private::identify_file_options::check_everything
+    );
 }
 
 magic::expected_file_type_t magic::identify_file(
@@ -892,7 +935,11 @@ magic::expected_file_type_t magic::identify_file(
     [[maybe_unused]] const std::nothrow_t& tag
 ) const noexcept
 {
-    return m_impl->identify_file(path, std::nothrow);
+    return m_impl->identify_file(
+        path,
+        magic_private::identify_file_options::check_everything,
+        std::nothrow
+    );
 }
 
 magic::types_of_files_t magic::identify_files(
@@ -900,13 +947,23 @@ magic::types_of_files_t magic::identify_files(
     std::filesystem::directory_options option
 ) const
 {
+    magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+    magic_private::throw_exception_on_failure<magic_database_not_loaded>(
+        m_impl->is_database_loaded()
+    );
+    magic_private::throw_exception_on_failure<empty_path>(!directory.empty());
     std::error_code error_code{};
+    magic_private::throw_exception_on_failure<path_does_not_exist>(
+        std::filesystem::exists(directory, error_code),
+        directory.string()
+    );
     magic_private::throw_exception_on_failure<path_is_not_directory>(
         std::filesystem::is_directory(directory, error_code),
-        directory
+        directory.string()
     );
     return m_impl->identify_files(
-        std::filesystem::recursive_directory_iterator{directory, option}
+        std::filesystem::recursive_directory_iterator{directory, option},
+        magic_private::identify_file_options::check_nothing
     );
 }
 
@@ -916,13 +973,30 @@ magic::expected_types_of_files_t magic::identify_files(
     std::filesystem::directory_options     option
 ) const noexcept
 {
+    if (!is_valid()) {
+        return {};
+    }
+    if (directory.empty()) {
+        return {};
+    }
     std::error_code error_code{};
+    if (!std::filesystem::exists(directory, error_code)) {
+        return {};
+    }
+    if (!std::filesystem::is_directory(directory, error_code)) {
+        return {};
+    }
+    std::filesystem::recursive_directory_iterator files{
+        directory,
+        option,
+        error_code
+    };
+    if (error_code) {
+        return {};
+    }
     return m_impl->identify_files(
-        std::filesystem::recursive_directory_iterator{
-            directory,
-            option,
-            error_code
-        },
+        files,
+        magic_private::identify_file_options::check_nothing,
         std::nothrow
     );
 }
@@ -931,7 +1005,10 @@ magic::types_of_files_t magic::identify_files(
     const file_concepts::file_container auto& files
 ) const
 {
-    return m_impl->identify_files(files);
+    return m_impl->identify_files(
+        files,
+        magic_private::identify_file_options::check_everything
+    );
 }
 
 magic::expected_types_of_files_t magic::identify_files(
@@ -939,7 +1016,14 @@ magic::expected_types_of_files_t magic::identify_files(
     [[maybe_unused]] const std::nothrow_t&    tag
 ) const noexcept
 {
-    return m_impl->identify_files(files, std::nothrow);
+    if (!is_valid()) {
+        return {};
+    }
+    return m_impl->identify_files(
+        files,
+        magic_private::identify_file_options::check_path,
+        std::nothrow
+    );
 }
 
 bool magic::is_open() const noexcept

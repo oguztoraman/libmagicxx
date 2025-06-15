@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**]**;** Magicxx: Refactor identify_file(s).
+
 + [**ENHANCEMENT**]**;** Magicxx: API change - Throw path_is_not_directory from identify_files(directory) on the failure.
 
 + [**QUALITY**]**;** Magicxx: Add [[nodiscard]] attribute to several methods.

@@ -400,8 +400,8 @@ public:
      *
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file or directory is empty.
-     * @throws path_does_not_exist          if the path of the file or directory does not exist.
+     * @throws empty_path                   if the path of the directory is empty.
+     * @throws path_does_not_exist          if the path of the directory does not exist.
      * @throws path_is_not_directory        if the path of the directory is not a directory.
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
@@ -418,7 +418,7 @@ public:
      * @param[in] tag               Tag for non-throwing overload.
      * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
-     * @returns The types of each file as a map.
+     * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
         const std::filesystem::path&           directory,
@@ -450,7 +450,7 @@ public:
      * @param[in] files             The container that holds the paths of the files.
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns The types of each file as a map.
+     * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
         const file_concepts::file_container auto& files,

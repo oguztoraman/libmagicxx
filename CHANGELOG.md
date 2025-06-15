@@ -1,6 +1,7 @@
 # Changelog
 
 ## Next Release
++ [**ENHANCEMENT**]**;** Magicxx: Add filesystem_error.
 
 + [**QUALITY**]**;** Magicxx: Refactor identify_file(s).
 

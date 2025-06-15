@@ -109,6 +109,24 @@ public:
 };
 
 /**
+ * @class filesystem_error
+ *
+ * @brief Exception thrown when the underlying std::filesystem OS API fails.
+ */
+class filesystem_error final : public magic_exception {
+public:
+    /**
+     * @brief Construct filesystem_error with a path and an error message.
+     *
+     * @param[in] path                  The path related to the error.
+     * @param[in] error_message         The description of the error.
+     */
+    filesystem_error(const std::string& path, const std::string& error_message)
+      : magic_exception{std::format("'{}': {}.", path, error_message)}
+    { }
+};
+
+/**
  * @class magic_is_closed
  *
  * @brief Exception thrown when magic is closed.

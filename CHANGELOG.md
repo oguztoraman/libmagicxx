@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**]**;** Utility: Replace std::views with std::ranges::fold_left pending Clang support for std::views::join_with.
+
 + [**ENHANCEMENT**]**;** Magicxx: Add is_database_loaded member function.
 
 + [**ENHANCEMENT**]**;** Magicxx: Throw filesystem_error from identify_files(directory) if the underlying std::filesystem OS API fails.

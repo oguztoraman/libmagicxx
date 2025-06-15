@@ -4,7 +4,9 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
+#include <algorithm>
 #include <concepts>
+#include <functional>
 #include <ranges>
 #include <string>
 
@@ -54,9 +56,18 @@ requires string_converter<
     StringConverterType  string_converter
 )
 {
-    return container | std::views::transform(string_converter)
-         | std::views::join_with(value_separator)
-         | std::ranges::to<std::string>();
+    if (container.empty()) {
+        return {};
+    }
+    return std::ranges::fold_left(
+        std::ranges::next(std::ranges::begin(container)),
+        std::ranges::end(container),
+        std::invoke(string_converter, *std::ranges::begin(container)),
+        [&](const auto& left, const auto& right) {
+            return left + value_separator
+                 + std::invoke(string_converter, right);
+        }
+    );
 }
 
 } /* namespace utility */

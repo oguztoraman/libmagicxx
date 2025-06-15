@@ -961,8 +961,18 @@ magic::types_of_files_t magic::identify_files(
         std::filesystem::is_directory(directory, error_code),
         directory.string()
     );
+    auto files = std::filesystem::recursive_directory_iterator{
+        directory,
+        option,
+        error_code
+    };
+    magic_private::throw_exception_on_failure<filesystem_error>(
+        !error_code,
+        directory.string(),
+        error_code.message()
+    );
     return m_impl->identify_files(
-        std::filesystem::recursive_directory_iterator{directory, option},
+        files,
         magic_private::identify_file_options::check_nothing
     );
 }

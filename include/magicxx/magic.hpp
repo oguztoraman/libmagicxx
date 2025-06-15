@@ -403,6 +403,7 @@ public:
      * @throws empty_path                   if the path of the directory is empty.
      * @throws path_does_not_exist          if the path of the directory does not exist.
      * @throws path_is_not_directory        if the path of the directory is not a directory.
+     * @throws filesystem_error             if the underlying std::filesystem OS API fails.
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(

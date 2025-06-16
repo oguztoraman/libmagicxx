@@ -150,11 +150,11 @@ public:
      * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error             if opening magic fails.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
-     * @throws magic_load_error             if loading the magic database file fails.
+     * @throws magic_open_error                 if opening magic fails.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
+     * @throws magic_load_database_file_error   if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -184,11 +184,11 @@ public:
      * @param[in] flags_container   Flags.
      * @param[in] database_file     The path of magic database file, default is default_database_file.
      *
-     * @throws magic_open_error             if opening magic fails.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the magic database file is not a file.
-     * @throws magic_load_error             if loading the magic database file fails.
+     * @throws magic_open_error                 if opening magic fails.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
+     * @throws magic_load_database_file_error   if loading the magic database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -256,16 +256,16 @@ public:
     [[nodiscard]] operator bool() const noexcept;
 
     /**
-     * @brief check the validity of entries in the colon separated database
+     * @brief Check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
      * @param[in] database_file     The file to check, default is default_database_file.
      *
      * @returns True if the database_file has valid entries, false otherwise.
      */
-    bool check(
+    [[nodiscard]] static bool check(
         const std::filesystem::path& database_file = default_database_file
-    ) const noexcept;
+    ) noexcept;
 
     /**
      * @brief Close magic.
@@ -286,9 +286,9 @@ public:
      * @note The compiled files created are named from the basename
      *       of each file argument with “.mgc” appended to it.
      */
-    bool compile(
+    [[nodiscard]] static bool compile(
         const std::filesystem::path& database_file = default_database_file
-    ) const noexcept;
+    ) noexcept;
 
     /**
      * @brief Get the flags of magic.
@@ -400,8 +400,10 @@ public:
      *
      * @throws magic_is_closed              if magic is closed.
      * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file is empty.
-     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws empty_path                   if the path of the directory is empty.
+     * @throws path_does_not_exist          if the path of the directory does not exist.
+     * @throws path_is_not_directory        if the path of the directory is not a directory.
+     * @throws filesystem_error             if the underlying std::filesystem OS API fails.
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
@@ -417,7 +419,7 @@ public:
      * @param[in] tag               Tag for non-throwing overload.
      * @param[in] option            The directory iteration option, default is follow_directory_symlink.
      *
-     * @returns The types of each file as a map.
+     * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
         const std::filesystem::path&           directory,
@@ -449,12 +451,19 @@ public:
      * @param[in] files             The container that holds the paths of the files.
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns The types of each file as a map.
+     * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
         const file_concepts::file_container auto& files,
         [[maybe_unused]] const std::nothrow_t&    tag
     ) const noexcept;
+
+    /**
+     * @brief Used for testing whether a magic database is loaded or not.
+     *
+     * @returns True if a magic database is loaded, false otherwise.
+     */
+    [[nodiscard]] bool is_database_loaded() const noexcept;
 
     /**
      * @brief Used for testing whether magic is open or closed.
@@ -478,11 +487,11 @@ public:
      *
      * @param[in] database_file     The path of the magic database file, default is default_database_file.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws empty_path                   if the path of the database file is empty.
-     * @throws path_does_not_exist          if the path of the database file does not exist.
-     * @throws path_is_not_regular_file     if the path of the database file is not a file.
-     * @throws magic_load_error             if loading the database file fails.
+     * @throws magic_is_closed                  if magic is closed.
+     * @throws empty_path                       if the path of the database file is empty.
+     * @throws path_does_not_exist              if the path of the database file does not exist.
+     * @throws path_is_not_regular_file         if the path of the database file is not a file.
+     * @throws magic_load_database_file_error   if loading the database file fails.
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
@@ -500,7 +509,7 @@ public:
      *
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
-    bool load_database_file(
+    [[nodiscard]] bool load_database_file(
         [[maybe_unused]] const std::nothrow_t& tag,
         const std::filesystem::path& database_file = default_database_file
     ) noexcept;
@@ -528,7 +537,7 @@ public:
      * @note If magic is open, it will be reopened using the flags after closing it.
      * @note A magic database file must be loaded after opening magic.
      */
-    bool open(
+    [[nodiscard]] bool open(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -556,7 +565,7 @@ public:
      * @note If magic is open, it will be reopened using the flags after closing it.
      * @note A magic database file must be loaded after opening magic.
      */
-    bool open(
+    [[nodiscard]] bool open(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -579,7 +588,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         flags_mask_t                           flags_mask,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -602,7 +611,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_flags(
+    [[nodiscard]] bool set_flags(
         const flags_container_t&               flags_container,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;
@@ -627,7 +636,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_parameter(
+    [[nodiscard]] bool set_parameter(
         parameters                             parameter,
         std::size_t                            value,
         [[maybe_unused]] const std::nothrow_t& tag
@@ -651,7 +660,7 @@ public:
      *
      * @returns True on success, false otherwise.
      */
-    bool set_parameters(
+    [[nodiscard]] bool set_parameters(
         const parameter_value_map_t&           parameters,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept;

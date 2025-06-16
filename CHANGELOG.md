@@ -4,6 +4,26 @@
 
 + [**DOCUMENTATION**]**;** Docs: Add section on Magic States to README.md for better understanding of magic class usability.
 
++ [**BUGFIX**]**;** Utility: Replace std::views with std::ranges::fold_left pending Clang support for std::views::join_with.
+
++ [**ENHANCEMENT**]**;** Magicxx: Add is_database_loaded member function.
+
++ [**ENHANCEMENT**]**;** Magicxx: Throw filesystem_error from identify_files(directory) if the underlying std::filesystem OS API fails.
+
++ [**ENHANCEMENT**]**;** Magicxx: Add filesystem_error.
+
++ [**QUALITY**]**;** Magicxx: Refactor identify_file(s).
+
++ [**ENHANCEMENT**]**;** Magicxx: API change - Throw path_is_not_directory from identify_files(directory) on the failure.
+
++ [**QUALITY**]**;** Magicxx: Add [[nodiscard]] attribute to several methods.
+
++ [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::compile static.
+
++ [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::check static.
+
++ [**ENHANCEMENT**]**;** Magicxx: API change - Rename magic_load_error to magic_load_database_file_error for consistency and clarity in exception handling.
+
 + [**ENHANCEMENT**]**;** Magicxx: Enhance magic class with noexcept versions of constructors and methods for improved error handling.
 
 + [**DOCUMENTATION**]**;** Docs: Update pull request title template.

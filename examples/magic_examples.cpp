@@ -63,14 +63,12 @@ void example_set_get_flags()
 
 void example_compile_check()
 {
-    magic m;
-    m.open(magic::flags::mime);
-    if (m.compile()) {
+    if (magic::compile()) {
         std::println(std::cout, "Compiled successfully.");
     } else {
         std::println(std::cerr, "Failed to compile.");
     }
-    if (m.check()) {
+    if (magic::check()) {
         std::println(std::cout, "Check passed.");
     } else {
         std::println(std::cerr, "Check failed.");

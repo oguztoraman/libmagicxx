@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**BUGFIX**]**;** Magic: Fix bugs identified during testing.
+
 + [**QUALITY**]**;** Tests & Examples: Refactor tests & examples.
 
 + [**DOCUMENTATION**]**;** Docs: Add section on Magic States to README.md for better understanding of magic class usability.

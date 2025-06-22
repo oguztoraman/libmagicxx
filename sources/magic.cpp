@@ -16,13 +16,15 @@ namespace detail {
 
 class magic::magic_private {
 public:
-    using identify_file_options_mask_t = std::bitset<2uz>;
+    using identify_file_options_mask_t = std::bitset<3uz>;
 
     enum identify_file_options : unsigned long long {
-        check_nothing    = 0ULL,
-        check_is_valid   = 1ULL << 0,
-        check_path       = 1ULL << 1,
-        check_everything = check_is_valid | check_path
+        check_nothing     = 0ULL,
+        check_is_valid    = 1ULL << 0,
+        check_path_empty  = 1ULL << 1,
+        check_path_exists = 1ULL << 2,
+        check_path        = check_path_empty | check_path_exists,
+        check_everything  = check_is_valid | check_path
     };
 
     magic_private() noexcept = default;
@@ -91,11 +93,6 @@ public:
             database_file.string().c_str()
         );
         return result != libmagic_error;
-    }
-
-    void close() noexcept
-    {
-        m_cookie.reset(nullptr);
     }
 
     [[nodiscard]] bool compile(const std::filesystem::path& database_file
@@ -197,9 +194,11 @@ public:
             magic_private::throw_exception_on_failure<
                 magic_database_not_loaded>(is_database_loaded());
         }
-        if ((options & check_path_option) == check_path_option) {
+        if ((options & check_path_empty_option) == check_path_empty_option) {
             magic_private::throw_exception_on_failure<empty_path>(!path.empty()
             );
+        }
+        if ((options & check_path_exists_option) == check_path_exists_option) {
             std::error_code error_code{};
             magic_private::throw_exception_on_failure<path_does_not_exist>(
                 std::filesystem::exists(path, error_code),
@@ -232,10 +231,12 @@ public:
                 return std::unexpected{magic_database_not_loaded{}.what()};
             }
         }
-        if ((options & check_path_option) == check_path_option) {
+        if ((options & check_path_empty_option) == check_path_empty_option) {
             if (path.empty()) {
                 return std::unexpected{empty_path{}.what()};
             }
+        }
+        if ((options & check_path_exists_option) == check_path_exists_option) {
             std::error_code error_code{};
             if (!std::filesystem::exists(path, error_code)) {
                 return std::unexpected{path_does_not_exist{path.string()}.what()
@@ -274,7 +275,11 @@ public:
     ) const noexcept
     {
         expected_types_of_files_t expected_types_of_files;
+        option &= ~check_path_empty_option;
         std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+            if (file.empty()) {
+                return;
+            }
             expected_types_of_files[file] = identify_file(
                 file,
                 option,
@@ -541,8 +546,11 @@ private:
     static constexpr identify_file_options_mask_t check_is_valid_option{
         identify_file_options::check_is_valid
     };
-    static constexpr identify_file_options_mask_t check_path_option{
-        identify_file_options::check_path
+    static constexpr identify_file_options_mask_t check_path_empty_option{
+        identify_file_options::check_path_empty
+    };
+    static constexpr identify_file_options_mask_t check_path_exists_option{
+        identify_file_options::check_path_exists
     };
 
     static constexpr auto libmagic_error           = -1;
@@ -808,7 +816,6 @@ std::string to_string(
     const std::string&                  parameter_separator
 )
 {
-    using value_t = magic::parameter_value_map_t::value_type;
     return utility::to_string(
         parameters,
         parameter_separator,
@@ -886,7 +893,7 @@ bool magic::check(const std::filesystem::path& database_file) noexcept
 
 void magic::close() noexcept
 {
-    m_impl->close();
+    m_impl = std::make_unique<magic_private>();
 }
 
 bool magic::compile(const std::filesystem::path& database_file) noexcept
@@ -1027,18 +1034,22 @@ magic::expected_types_of_files_t magic::identify_files(
     );
 }
 
-magic::types_of_files_t magic::identify_files(
-    const file_concepts::file_container auto& files
+magic::types_of_files_t magic::identify_file_container_impl(
+    const std::vector<std::filesystem::path>& files
 ) const
 {
+    magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+    magic_private::throw_exception_on_failure<magic_database_not_loaded>(
+        m_impl->is_database_loaded()
+    );
     return m_impl->identify_files(
         files,
-        magic_private::identify_file_options::check_everything
+        magic_private::identify_file_options::check_path
     );
 }
 
-magic::expected_types_of_files_t magic::identify_files(
-    const file_concepts::file_container auto& files,
+magic::expected_types_of_files_t magic::identify_file_container_impl(
+    const std::vector<std::filesystem::path>& files,
     [[maybe_unused]] const std::nothrow_t&    tag
 ) const noexcept
 {
@@ -1047,7 +1058,7 @@ magic::expected_types_of_files_t magic::identify_files(
     }
     return m_impl->identify_files(
         files,
-        magic_private::identify_file_options::check_path,
+        magic_private::identify_file_options::check_path_exists,
         std::nothrow
     );
 }

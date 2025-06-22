@@ -33,6 +33,7 @@ protected:
             1ULL << m_dist(m_eng)
         };
         std::ranges::sort(test_flags);
+        m_test_flags_container.clear();
         std::ranges::transform(
             test_flags,
             std::back_inserter(m_test_flags_container),

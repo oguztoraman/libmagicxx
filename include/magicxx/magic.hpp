@@ -55,11 +55,21 @@ public:
     using types_of_files_t = std::map<std::filesystem::path, file_type_t>;
 
     /**
+     * @brief The type_of_a_file_t typedef.
+     */
+    using type_of_a_file_t = types_of_files_t::value_type;
+
+    /**
      * @brief The expected_types_of_files_t typedef.
      */
     using expected_types_of_files_t = std::map<
         std::filesystem::path,
         expected_file_type_t>;
+
+    /**
+     * @brief The expected_type_of_file_t typedef.
+     */
+    using expected_type_of_a_file_t = expected_types_of_files_t::value_type;
 
     /**
      * @brief The flags enums are used for configuring the flags of a magic.
@@ -130,6 +140,11 @@ public:
      * @brief The parameter_value_map_t typedef.
      */
     using parameter_value_map_t = std::map<parameters, std::size_t>;
+
+    /**
+     * @brief The parameter_value_t typedef.
+     */
+    using parameter_value_t = parameter_value_map_t::value_type;
 
     /**
      * @brief The path of the default database file.
@@ -674,6 +689,19 @@ private:
 };
 
 /**
+ * @brief Convert the magic::type_of_a_file_t to string.
+ *
+ * @param[in] type_of_a_file            The type of a file.
+ * @param[in] type_separator            The separator between the file and its type, default is " -> ".
+ *
+ * @returns The type_of_a_file as a string.
+ */
+[[nodiscard]] std::string to_string(
+    const magic::type_of_a_file_t& type_of_a_file,
+    const std::string&             type_separator = " -> "
+);
+
+/**
  * @brief Convert the magic::types_of_files_t to string.
  *
  * @param[in] types_of_files            The types of each file.
@@ -697,6 +725,19 @@ private:
  */
 [[nodiscard]] std::string to_string(
     const magic::expected_file_type_t& expected_file_type
+);
+
+/**
+ * @brief Convert the magic::expected_type_of_a_file_t to string.
+ *
+ * @param[in] expected_type_of_a_file   The expected type of a file.
+ * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
+ *
+ * @returns The expected_type_of_a_file as a string.
+ */
+[[nodiscard]] std::string to_string(
+    const magic::expected_type_of_a_file_t& expected_type_of_a_file,
+    const std::string&                      type_separator = " -> "
 );
 
 /**
@@ -744,6 +785,19 @@ private:
  * @returns The parameter as a string.
  */
 [[nodiscard]] std::string to_string(magic::parameters parameter);
+
+/**
+ * @brief Convert the magic::parameter_value_t to string.
+ * 
+ * @param[in] parameter_value       The parameter with corresponding value.
+ * @param[in] value_separator       The separator between the parameter and its value, default is ": ".
+ *
+ * @returns The parameter_value as a string.
+ */
+[[nodiscard]] std::string to_string(
+    const magic::parameter_value_t& parameter_value,
+    const std::string&              value_separator = ": "
+);
 
 /**
  * @brief Convert the magic::parameter_value_map_t to string.

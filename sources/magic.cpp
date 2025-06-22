@@ -972,7 +972,7 @@ magic::types_of_files_t magic::identify_files(
 {
     magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
     magic_private::throw_exception_on_failure<magic_database_not_loaded>(
-        m_impl->is_database_loaded()
+        is_database_loaded()
     );
     magic_private::throw_exception_on_failure<empty_path>(!directory.empty());
     std::error_code error_code{};

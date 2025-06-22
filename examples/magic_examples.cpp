@@ -7,81 +7,103 @@
 
 using namespace recognition;
 
-void example_open_close()
+void example_basic_identify()
 {
-    magic m;
-    m.open(magic::flags::mime);
-    if (m.is_open()) {
-        std::println(std::cout, "Magic is open.");
-    } else {
+    try {
+        magic example_magic(magic::flags::mime, magic::default_database_file);
+        if (!example_magic.is_valid()) {
+            std::println(std::cerr, "Magic is not valid.");
+            return;
+        }
+        auto type = example_magic.identify_file(magic::default_database_file);
+        std::println(
+            std::cout,
+            "magic::default_database_file file type: {}",
+            type
+        );
+    } catch (const magic_exception& e) {
+        std::println(std::cerr, "Error: {}", e.what());
+    }
+}
+
+void example_noexcept_identify()
+{
+    magic example_magic;
+    if (!example_magic.open(magic::flags::mime, std::nothrow)) {
         std::println(std::cerr, "Failed to open magic.");
-    }
-    m.close();
-    if (!m.is_open()) {
-        std::println(std::cout, "Magic is closed.");
-    } else {
-        std::println(std::cerr, "Failed to close magic.");
-    }
-}
-
-void example_load_database()
-{
-    magic m;
-    m.open(magic::flags::mime);
-    m.load_database_file();
-    std::println(std::cout, "Loaded default database.");
-}
-
-void example_identify_file()
-{
-    magic m{magic::flags::mime, magic::default_database_file};
-    if (!m.is_valid()) {
-        std::println(std::cerr, "Magic is not valid.");
         return;
     }
-    auto result = m.identify_file(magic::default_database_file);
-    std::println(std::cout, "File type: {}", result);
+    if (example_magic.load_database_file(std::nothrow)) {
+        auto result = example_magic.identify_file(
+            magic::default_database_file,
+            std::nothrow
+        );
+        std::println(
+            std::cout,
+            "Noexcept magic::default_database_file file type: {}",
+            to_string(result)
+        );
+    } else {
+        std::println(std::cerr, "Failed to load database.");
+    }
 }
 
-void example_set_get_parameters()
+void example_identify_directory()
 {
-    magic m;
-    m.open(magic::flags::mime);
-    m.set_parameter(magic::parameters::bytes_max, 1'024);
-    auto value = m.get_parameter(magic::parameters::bytes_max);
+    try {
+        magic example_magic(magic::flags::mime, magic::default_database_file);
+        auto  results = example_magic.identify_files(
+            std::filesystem::temp_directory_path()
+        );
+        std::println(
+            std::cout,
+            "Types in the temp directory (showing up to 10):"
+        );
+        for (const auto& result : results | std::views::take(10)) {
+            std::println(std::cout, "{}", to_string(result));
+        }
+    } catch (const magic_exception& e) {
+        std::println(std::cerr, "Error: {}", e.what());
+    }
+}
+
+void example_custom_flags_parameters()
+{
+    magic example_magic;
+    example_magic.open({magic::flags::mime, magic::flags::compress});
+    example_magic.load_database_file();
+    example_magic.set_parameter(magic::parameters::bytes_max, 2'048);
+    auto value = example_magic.get_parameter(magic::parameters::bytes_max);
     std::println(std::cout, "Bytes_max: {}", value);
-}
-
-void example_set_get_flags()
-{
-    magic m;
-    m.open(magic::flags::none);
-    m.set_flags(magic::flags::mime | magic::flags::compress);
-    auto flags = m.get_flags();
+    auto flags = example_magic.get_flags();
     std::println(std::cout, "Flags: {}", to_string(flags));
 }
 
-void example_compile_check()
+void example_check_and_compile()
 {
-    if (magic::compile()) {
-        std::println(std::cout, "Compiled successfully.");
-    } else {
-        std::println(std::cerr, "Failed to compile.");
-    }
     if (magic::check()) {
-        std::println(std::cout, "Check passed.");
+        std::println(std::cout, "Database check passed.");
     } else {
-        std::println(std::cerr, "Check failed.");
+        std::println(std::cerr, "Database check failed.");
+    }
+    if (magic::compile()) {
+        std::println(std::cout, "Database compiled successfully.");
+    } else {
+        std::println(std::cerr, "Database compilation failed.");
     }
 }
 
-int main()
+auto main() -> int
 {
-    example_open_close();
-    example_load_database();
-    example_identify_file();
-    example_set_get_parameters();
-    example_set_get_flags();
-    example_compile_check();
+    std::println(std::cout, "--- Example 1: Basic Identify ---");
+    example_basic_identify();
+    std::println(std::cout, "\n--- Example 2: Noexcept Identify ---");
+    example_noexcept_identify();
+    std::println(std::cout, "\n--- Example 3: Directory Identify ---");
+    example_identify_directory();
+    std::println(std::cout, "\n--- Example 4: Custom Flags/Parameters ---");
+    example_custom_flags_parameters();
+    std::println(std::cout, "\n--- Example 5: Compile and Check ---");
+    example_check_and_compile();
     return 0;
 }

@@ -9,94 +9,173 @@
 
 using namespace recognition;
 
-TEST(magic_parameters_test, closed_magic_set_parameter_get_parameter)
-{
-    magic m;
-    EXPECT_THROW(
-        m.set_parameter(magic::parameters::bytes_max, 1),
-        magic_is_closed
-    );
-    EXPECT_THROW(
-        [[maybe_unused]] auto _ = m.get_parameter(magic::parameters::bytes_max),
-        magic_is_closed
-    );
-    EXPECT_THROW([[maybe_unused]] auto _ = m.get_parameters(), magic_is_closed);
-}
-
-TEST(magic_parameters_test, opened_magic_set_parameter_get_parameter)
-{
-    magic m;
-    m.open(magic::flags::mime);
-    std::mt19937                               eng{std::random_device{}()};
-    std::uniform_int_distribution<std::size_t> dist{0, 100};
-    using enum magic::parameters;
-    magic::parameter_value_map_t expected_parameters{
-        {indir_max,      dist(eng)},
-        {name_max,       dist(eng)},
-        {elf_phnum_max,  dist(eng)},
-        {elf_shnum_max,  dist(eng)},
-        {elf_notes_max,  dist(eng)},
-        {regex_max,      dist(eng)},
-        {bytes_max,      dist(eng)},
-        {encoding_max,   dist(eng)},
-        {elf_shsize_max, dist(eng)},
-        {mag_warn_max,   dist(eng)}
-    };
-    for (const auto& [parameter, value] : expected_parameters) {
-        m.set_parameter(parameter, value);
-        EXPECT_EQ(m.get_parameter(parameter), value);
+struct magic_parameters_test : testing::Test {
+protected:
+    magic_parameters_test()
+    {
+        EXPECT_TRUE(m_opened_magic_without_database
+                        .open(magic::flags::mime, std::nothrow));
+        EXPECT_TRUE(m_valid_magic.is_valid());
+        std::error_code error_code;
+        EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
     }
-    EXPECT_EQ(expected_parameters, m.get_parameters());
-    m.open(magic::flags::mime);
-    m.set_parameters(expected_parameters);
-    EXPECT_EQ(expected_parameters, m.get_parameters());
-}
 
-TEST(magic_parameters_test, parameter_to_string_conversion)
+    void SetUp() override
+    {
+        using enum magic::parameters;
+        m_test_parameters = {
+            {indir_max,      m_distribution(m_engine)},
+            {name_max,       m_distribution(m_engine)},
+            {elf_phnum_max,  m_distribution(m_engine)},
+            {elf_shnum_max,  m_distribution(m_engine)},
+            {elf_notes_max,  m_distribution(m_engine)},
+            {regex_max,      m_distribution(m_engine)},
+            {bytes_max,      m_distribution(m_engine)},
+            {encoding_max,   m_distribution(m_engine)},
+            {elf_shsize_max, m_distribution(m_engine)},
+            {mag_warn_max,   m_distribution(m_engine)}
+        };
+    }
+
+    std::filesystem::path m_valid_database{DEFAULT_DATABASE_FILE};
+    magic                 m_closed_magic{};
+    magic                 m_opened_magic_without_database;
+    magic m_valid_magic{magic::flags::mime, std::nothrow, m_valid_database};
+    magic::parameter_value_map_t               m_test_parameters{};
+    std::mt19937                               m_engine{std::random_device{}()};
+    std::uniform_int_distribution<std::size_t> m_distribution{0, 100};
+};
+
+TEST_F(magic_parameters_test, closed_magic_set_parameter)
 {
-    using enum magic::parameters;
-    std::vector magic_parameters_with_names{
-        std::make_pair(indir_max, "indir_max"),
-        std::make_pair(name_max, "name_max"),
-        std::make_pair(elf_phnum_max, "elf_phnum_max"),
-        std::make_pair(elf_shnum_max, "elf_shnum_max"),
-        std::make_pair(elf_notes_max, "elf_notes_max"),
-        std::make_pair(regex_max, "regex_max"),
-        std::make_pair(bytes_max, "bytes_max"),
-        std::make_pair(encoding_max, "encoding_max"),
-        std::make_pair(elf_shsize_max, "elf_shsize_max"),
-        std::make_pair(mag_warn_max, "mag_warn_max")
-    };
-    for (const auto& [parameter, parameter_str] : magic_parameters_with_names) {
-        EXPECT_EQ(to_string(parameter), parameter_str);
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        EXPECT_THROW(
+            m_closed_magic.set_parameter(parameter, parameter_value),
+            magic_is_closed
+        );
     }
 }
 
-TEST(magic_parameters_test, parameters_to_string_conversion)
+TEST_F(magic_parameters_test, closed_magic_set_parameter_noexcept)
 {
-    using enum magic::parameters;
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        EXPECT_FALSE(m_closed_magic.set_parameter(
+            parameter,
+            parameter_value,
+            std::nothrow
+        ));
+    }
+}
+
+TEST_F(magic_parameters_test, closed_magic_set_parameters)
+{
+    EXPECT_THROW(
+        m_closed_magic.set_parameters(m_test_parameters),
+        magic_is_closed
+    );
+}
+
+TEST_F(magic_parameters_test, closed_magic_set_parameters_noexcept)
+{
+    EXPECT_FALSE(m_closed_magic.set_parameters(m_test_parameters, std::nothrow)
+    );
+}
+
+TEST_F(magic_parameters_test, closed_magic_get_parameters)
+{
+    EXPECT_THROW(
+        static_cast<void>(m_closed_magic.get_parameters()),
+        magic_is_closed
+    );
+}
+
+TEST_F(magic_parameters_test, closed_magic_get_parameters_noexcept)
+{
+    EXPECT_FALSE(m_closed_magic.get_parameters(std::nothrow));
+}
+
+TEST_F(magic_parameters_test, opened_magic_without_database_set_parameter)
+{
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        m_opened_magic_without_database.set_parameter(
+            parameter,
+            parameter_value
+        );
+        EXPECT_EQ(
+            parameter_value,
+            m_opened_magic_without_database.get_parameter(parameter)
+        );
+    }
+}
+
+TEST_F(
+    magic_parameters_test,
+    opened_magic_without_database_set_parameter_noexcept
+)
+{
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        EXPECT_TRUE(m_opened_magic_without_database
+                        .set_parameter(parameter, parameter_value, std::nothrow)
+        );
+        EXPECT_EQ(
+            parameter_value,
+            m_opened_magic_without_database
+                .get_parameter(parameter, std::nothrow)
+        );
+    }
+}
+
+TEST_F(magic_parameters_test, opened_magic_without_database_set_parameters)
+{
+    m_opened_magic_without_database.set_parameters(m_test_parameters);
     EXPECT_EQ(
-        to_string(magic::parameter_value_map_t{
-            {indir_max,      1 },
-            {name_max,       2 },
-            {elf_phnum_max,  3 },
-            {elf_shnum_max,  4 },
-            {elf_notes_max,  5 },
-            {regex_max,      6 },
-            {bytes_max,      7 },
-            {encoding_max,   8 },
-            {elf_shsize_max, 9 },
-            {mag_warn_max,   10}
-    }),
-        "indir_max: 1, "
-        "name_max: 2, "
-        "elf_phnum_max: 3, "
-        "elf_shnum_max: 4, "
-        "elf_notes_max: 5, "
-        "regex_max: 6, "
-        "bytes_max: 7, "
-        "encoding_max: 8, "
-        "elf_shsize_max: 9, "
-        "mag_warn_max: 10"
+        m_test_parameters,
+        m_opened_magic_without_database.get_parameters()
     );
+}
+
+TEST_F(
+    magic_parameters_test,
+    opened_magic_without_database_set_parameters_noexcept
+)
+{
+    EXPECT_TRUE(m_opened_magic_without_database
+                    .set_parameters(m_test_parameters, std::nothrow));
+    EXPECT_EQ(
+        m_test_parameters,
+        m_opened_magic_without_database.get_parameters(std::nothrow)
+    );
+}
+
+TEST_F(magic_parameters_test, valid_magic_set_parameter)
+{
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        m_valid_magic.set_parameter(parameter, parameter_value);
+        EXPECT_EQ(parameter_value, m_valid_magic.get_parameter(parameter));
+    }
+}
+
+TEST_F(magic_parameters_test, valid_magic_set_parameter_noexcept)
+{
+    for (const auto& [parameter, parameter_value] : m_test_parameters) {
+        EXPECT_TRUE(m_valid_magic
+                        .set_parameter(parameter, parameter_value, std::nothrow)
+        );
+        EXPECT_EQ(
+            parameter_value,
+            m_valid_magic.get_parameter(parameter, std::nothrow)
+        );
+    }
+}
+
+TEST_F(magic_parameters_test, valid_magic_set_parameters)
+{
+    m_valid_magic.set_parameters(m_test_parameters);
+    EXPECT_EQ(m_test_parameters, m_valid_magic.get_parameters());
+}
+
+TEST_F(magic_parameters_test, valid_magic_set_parameters_noexcept)
+{
+    EXPECT_TRUE(m_valid_magic.set_parameters(m_test_parameters, std::nothrow));
+    EXPECT_EQ(m_test_parameters, m_valid_magic.get_parameters(std::nothrow));
 }

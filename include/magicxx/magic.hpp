@@ -458,7 +458,12 @@ public:
      */
     [[nodiscard]] types_of_files_t identify_files(
         const file_concepts::file_container auto& files
-    ) const;
+    ) const
+    {
+        return identify_file_container_impl(
+            {std::ranges::begin(files), std::ranges::end(files)}
+        );
+    }
 
     /**
      * @brief Identify the types of files, noexcept version.
@@ -471,7 +476,13 @@ public:
     [[nodiscard]] expected_types_of_files_t identify_files(
         const file_concepts::file_container auto& files,
         [[maybe_unused]] const std::nothrow_t&    tag
-    ) const noexcept;
+    ) const noexcept
+    {
+        return identify_file_container_impl(
+            {std::ranges::begin(files), std::ranges::end(files)},
+            std::nothrow
+        );
+    }
 
     /**
      * @brief Used for testing whether a magic database is loaded or not.
@@ -683,6 +694,15 @@ public:
 private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
+
+    [[nodiscard]] types_of_files_t identify_file_container_impl(
+        const std::vector<std::filesystem::path>& files
+    ) const;
+
+    [[nodiscard]] expected_types_of_files_t identify_file_container_impl(
+        const std::vector<std::filesystem::path>& files,
+        [[maybe_unused]] const std::nothrow_t&    tag
+    ) const noexcept;
 
     friend std::string to_string(flags);
     friend std::string to_string(parameters);

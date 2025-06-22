@@ -2,6 +2,12 @@
 
 ## Next Release
 
++ [**BUGFIX**]**;** Magic: Fix bugs identified during testing.
+
++ [**QUALITY**]**;** Tests & Examples: Refactor tests & examples.
+
++ [**DOCUMENTATION**]**;** Docs: Add section on Magic States to README.md for better understanding of magic class usability.
+
 + [**ENHANCEMENT**]**;** Magic: Add type_of_a_file_t, expected_type_of_a_file_t, parameter_value_t typedefs with to_string functions.
 
 + [**BUGFIX**]**;** Utility: Replace std::views with std::ranges::fold_left pending Clang support for std::views::join_with.
@@ -23,6 +29,8 @@
 + [**ENHANCEMENT**]**;** Magicxx: API change - Make magic::check static.
 
 + [**ENHANCEMENT**]**;** Magicxx: API change - Rename magic_load_error to magic_load_database_file_error for consistency and clarity in exception handling.
+
++ [**ENHANCEMENT**]**;** Magicxx: Enhance magic class with noexcept versions of constructors and methods for improved error handling.
 
 + [**DOCUMENTATION**]**;** Docs: Update pull request title template.
 

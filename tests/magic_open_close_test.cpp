@@ -3,75 +3,226 @@
 
 #include <gtest/gtest.h>
 
+#include <random>
+
 #include "magic.hpp"
 
 using namespace recognition;
 
-TEST(magic_open_close_test, closed_magic_is_open)
+struct magic_open_close_test : testing::Test {
+protected:
+    magic_open_close_test()
+    {
+        std::error_code error_code;
+        EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
+    }
+
+    void SetUp() override
+    {
+        std::vector<unsigned long long> test_flags{
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng)
+        };
+        std::ranges::sort(test_flags);
+        m_test_flags_container.clear();
+        std::ranges::transform(
+            test_flags,
+            std::back_inserter(m_test_flags_container),
+            [](unsigned long long value) {
+                return static_cast<magic::flags>(value);
+            }
+        );
+        m_test_flags_container.erase(
+            std::unique(
+                m_test_flags_container.begin(),
+                m_test_flags_container.end()
+            ),
+            m_test_flags_container.end()
+        );
+        m_test_flags_mask = std::ranges::fold_left(
+            test_flags.begin(),
+            test_flags.end(),
+            test_flags.front(),
+            std::bit_or<decltype(1ULL)>{}
+        );
+    }
+
+    std::filesystem::path    m_valid_database{DEFAULT_DATABASE_FILE};
+    magic::flags_container_t m_test_flags_container{};
+    magic::flags_mask_t      m_test_flags_mask{};
+    std::mt19937             m_eng{std::random_device{}()};
+    std::uniform_int_distribution<std::size_t> m_dist{
+        0,
+        magic::flags_mask_t{}.size() - 1
+    };
+    const std::size_t m_multiple_test_count{5uz};
+};
+
+TEST_F(magic_open_close_test, closed_magic)
 {
-    magic m;
-    EXPECT_FALSE(m);
-    EXPECT_FALSE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic closed_magic{};
+    EXPECT_FALSE(closed_magic.is_open());
+    EXPECT_FALSE(closed_magic.is_database_loaded());
+    EXPECT_FALSE(closed_magic.is_valid());
+    EXPECT_FALSE(closed_magic);
 }
 
-TEST(magic_open_close_test, closed_magic_close)
+TEST_F(magic_open_close_test, closed_magic_close)
 {
-    magic m;
-    m.close();
-    EXPECT_FALSE(m);
-    EXPECT_FALSE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic closed_magic{};
+    closed_magic.close();
+    EXPECT_FALSE(closed_magic.is_open());
+    EXPECT_FALSE(closed_magic.is_database_loaded());
+    EXPECT_FALSE(closed_magic.is_valid());
+    EXPECT_FALSE(closed_magic);
 }
 
-TEST(magic_open_close_test, opened_magic_is_open)
+TEST_F(magic_open_close_test, closed_magic_close_multiple_times)
 {
-    magic m;
-    m.open(magic::flags::mime);
-    EXPECT_FALSE(m);
-    EXPECT_TRUE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic closed_magic{};
+    for (std::size_t i{}; i < m_multiple_test_count; ++i) {
+        closed_magic.close();
+    }
+    EXPECT_FALSE(closed_magic.is_open());
+    EXPECT_FALSE(closed_magic.is_database_loaded());
+    EXPECT_FALSE(closed_magic.is_valid());
+    EXPECT_FALSE(closed_magic);
 }
 
-TEST(magic_open_close_test, opened_magic_close)
+TEST_F(magic_open_close_test, open_via_flags_container)
 {
-    magic m;
-    m.open(magic::flags::mime);
-    m.close();
-    EXPECT_FALSE(m);
-    EXPECT_FALSE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic test_magic{};
+    test_magic.open(m_test_flags_container);
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
 }
 
-TEST(magic_open_close_test, opened_magic_open_twice)
+TEST_F(magic_open_close_test, open_via_flags_container_noexcept)
 {
-    magic m;
-    m.open(magic::flags::mime);
-    m.open(magic::flags::mime_type);
-    EXPECT_FALSE(m);
-    EXPECT_TRUE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic test_magic{};
+    EXPECT_TRUE(test_magic.open(m_test_flags_container, std::nothrow));
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
 }
 
-TEST(magic_open_close_test, opened_magic_close_twice)
+TEST_F(magic_open_close_test, open_via_flags_mask)
 {
-    magic m;
-    m.open(magic::flags::mime);
-    m.close();
-    m.close();
-    EXPECT_FALSE(m);
-    EXPECT_FALSE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic test_magic{};
+    test_magic.open(m_test_flags_mask);
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
 }
 
-TEST(magic_open_close_test, open_magic_using_flags_container)
+TEST_F(magic_open_close_test, open_via_flags_mask_noexcept)
 {
-    magic m;
-    m.open(magic::flags_container_t{
-        magic::flags::mime,
-        magic::flags::continue_search
-    });
-    EXPECT_FALSE(m);
-    EXPECT_TRUE(m.is_open());
-    EXPECT_FALSE(m.is_valid());
+    magic test_magic{};
+    EXPECT_TRUE(test_magic.open(m_test_flags_mask, std::nothrow));
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
+}
+
+TEST_F(magic_open_close_test, open_multiple_times)
+{
+    magic test_magic{};
+    for (std::size_t i{}; i < m_multiple_test_count; ++i) {
+        EXPECT_TRUE(test_magic.open(m_test_flags_mask, std::nothrow));
+    }
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
+}
+
+TEST_F(magic_open_close_test, open_close_multiple_times)
+{
+    magic test_magic{};
+    for (std::size_t i{}; i < m_multiple_test_count; ++i) {
+        EXPECT_FALSE(test_magic.is_open());
+        EXPECT_FALSE(test_magic.is_database_loaded());
+        EXPECT_FALSE(test_magic.is_valid());
+        EXPECT_FALSE(test_magic);
+        EXPECT_TRUE(test_magic.open(m_test_flags_mask, std::nothrow));
+        EXPECT_TRUE(test_magic.is_open());
+        EXPECT_FALSE(test_magic.is_database_loaded());
+        EXPECT_FALSE(test_magic.is_valid());
+        EXPECT_FALSE(test_magic);
+        EXPECT_EQ(
+            m_test_flags_container,
+            test_magic.get_flags(std::nothrow).value()
+        );
+        test_magic.close();
+    }
+}
+
+TEST_F(magic_open_close_test, close_valid_magic)
+{
+    magic test_magic{m_test_flags_mask, std::nothrow, m_valid_database};
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_TRUE(test_magic.is_database_loaded());
+    EXPECT_TRUE(test_magic.is_valid());
+    EXPECT_TRUE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
+    test_magic.close();
+    EXPECT_FALSE(test_magic.is_open());
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
+}
+
+TEST_F(magic_open_close_test, open_valid_magic)
+{
+    magic test_magic{m_test_flags_mask, std::nothrow, m_valid_database};
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_TRUE(test_magic.is_database_loaded());
+    EXPECT_TRUE(test_magic.is_valid());
+    EXPECT_TRUE(test_magic);
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
+    EXPECT_TRUE(test_magic.open(m_test_flags_mask, std::nothrow));
+    EXPECT_TRUE(test_magic.is_open());
+    EXPECT_EQ(
+        m_test_flags_container,
+        test_magic.get_flags(std::nothrow).value()
+    );
+    EXPECT_FALSE(test_magic.is_database_loaded());
+    EXPECT_FALSE(test_magic.is_valid());
+    EXPECT_FALSE(test_magic);
 }

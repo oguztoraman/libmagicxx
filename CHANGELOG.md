@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magic: Add type_of_a_file_t, expected_type_of_a_file_t, parameter_value_t typedefs with to_string functions.
+
 + [**BUGFIX**]**;** Utility: Replace std::views with std::ranges::fold_left pending Clang support for std::views::join_with.
 
 + [**ENHANCEMENT**]**;** Magicxx: Add is_database_loaded member function.

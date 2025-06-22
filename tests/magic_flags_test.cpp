@@ -10,123 +10,168 @@
 
 using namespace recognition;
 
-TEST(magic_flags_test, closed_magic_set_flags_and_get_flags)
-{
-    magic m;
-    EXPECT_THROW(m.set_flags(magic::flags::mime), magic_is_closed);
-    EXPECT_THROW([[maybe_unused]] auto _ = m.get_flags(), magic_is_closed);
-}
+struct magic_flags_test : testing::Test {
+protected:
+    magic_flags_test()
+    {
+        EXPECT_TRUE(m_opened_magic_without_database
+                        .open(magic::flags::mime, std::nothrow));
+        EXPECT_TRUE(m_valid_magic.is_valid());
+        std::error_code error_code;
+        EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
+    }
 
-TEST(magic_flags_test, opened_magic_set_flags_and_get_flags)
-{
-    magic m;
-    m.open(magic::flags::none);
-    std::mt19937                               eng{std::random_device{}()};
-    std::uniform_int_distribution<std::size_t> dist{
+    void SetUp() override
+    {
+        std::vector<unsigned long long> test_flags{
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng),
+            1ULL << m_dist(m_eng)
+        };
+        std::ranges::sort(test_flags);
+        std::ranges::transform(
+            test_flags,
+            std::back_inserter(m_test_flags_container),
+            [](unsigned long long value) {
+                return static_cast<magic::flags>(value);
+            }
+        );
+        m_test_flags_container.erase(
+            std::unique(
+                m_test_flags_container.begin(),
+                m_test_flags_container.end()
+            ),
+            m_test_flags_container.end()
+        );
+        m_test_flags_mask = std::ranges::fold_left(
+            test_flags.begin(),
+            test_flags.end(),
+            test_flags.front(),
+            std::bit_or<decltype(1ULL)>{}
+        );
+    }
+
+    std::filesystem::path m_valid_database{DEFAULT_DATABASE_FILE};
+    magic                 m_closed_magic{};
+    magic                 m_opened_magic_without_database;
+    magic m_valid_magic{magic::flags::mime, std::nothrow, m_valid_database};
+    magic::flags_container_t                   m_test_flags_container{};
+    magic::flags_mask_t                        m_test_flags_mask{};
+    std::mt19937                               m_eng{std::random_device{}()};
+    std::uniform_int_distribution<std::size_t> m_dist{
         0,
         magic::flags_mask_t{}.size() - 1
     };
-    std::vector test_flags{
-        1ULL << dist(eng),
-        1ULL << dist(eng),
-        1ULL << dist(eng),
-        1ULL << dist(eng),
-        1ULL << dist(eng),
-        1ULL << dist(eng),
-        1ULL << dist(eng)
-    };
-    std::ranges::sort(test_flags);
-    magic::flags_container_t expected_magic_flags;
-    std::ranges::transform(
-        test_flags,
-        std::back_inserter(expected_magic_flags),
-        [](unsigned long long value) {
-            return static_cast<magic::flags>(value);
-        }
-    );
-    expected_magic_flags.erase(
-        std::unique(expected_magic_flags.begin(), expected_magic_flags.end()),
-        expected_magic_flags.end()
-    );
-    m.set_flags(std::ranges::fold_left(
-        test_flags.begin(),
-        test_flags.end(),
-        test_flags.front(),
-        std::bit_or<decltype(1ULL)>{}
-    ));
-    EXPECT_EQ(expected_magic_flags, m.get_flags());
-    m.open(magic::flags::none);
-    m.set_flags(expected_magic_flags);
-    EXPECT_EQ(expected_magic_flags, m.get_flags());
+};
+
+TEST_F(magic_flags_test, closed_magic_set_flags_mask)
+{
+    EXPECT_THROW(m_closed_magic.set_flags(m_test_flags_mask), magic_is_closed);
 }
 
-TEST(magic_flags_test, magic_flags_to_string_conversion)
+TEST_F(magic_flags_test, closed_magic_set_flags_mask_noexcept)
 {
-    using enum magic::flags;
+    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_mask, std::nothrow));
+}
+
+TEST_F(magic_flags_test, closed_magic_set_flags_container)
+{
+    EXPECT_THROW(
+        m_closed_magic.set_flags(m_test_flags_container),
+        magic_is_closed
+    );
+}
+
+TEST_F(magic_flags_test, closed_magic_set_flags_container_noexcept)
+{
+    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_container, std::nothrow)
+    );
+}
+
+TEST_F(magic_flags_test, closed_magic_get_flags)
+{
+    EXPECT_THROW(
+        static_cast<void>(m_closed_magic.get_flags()),
+        magic_is_closed
+    );
+}
+
+TEST_F(magic_flags_test, closed_magic_get_flags_noexcept)
+{
+    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_mask, std::nothrow));
+}
+
+TEST_F(magic_flags_test, opened_magic_without_database_flags_mask)
+{
+    EXPECT_NO_THROW(m_opened_magic_without_database.set_flags(m_test_flags_mask)
+    );
     EXPECT_EQ(
-        to_string(magic::flags_container_t{
-            none,
-            debug,
-            symlink,
-            compress,
-            devices,
-            mime_type,
-            continue_search,
-            check_database,
-            preserve_atime,
-            raw,
-            error,
-            mime_encoding,
-            mime,
-            apple,
-            extension,
-            compress_transp,
-            no_compress_fork,
-            nodesc,
-            no_check_compress,
-            no_check_tar,
-            no_check_soft,
-            no_check_apptype,
-            no_check_elf,
-            no_check_text,
-            no_check_cdf,
-            no_check_csv,
-            no_check_tokens,
-            no_check_encoding,
-            no_check_json,
-            no_check_simh,
-            no_check_builtin
-        }),
-        "none, "
-        "debug, "
-        "symlink, "
-        "compress, "
-        "devices, "
-        "mime_type, "
-        "continue_search, "
-        "check_database, "
-        "preserve_atime, "
-        "raw, "
-        "error, "
-        "mime_encoding, "
-        "mime, "
-        "apple, "
-        "extension, "
-        "compress_transp, "
-        "no_compress_fork, "
-        "nodesc, "
-        "no_check_compress, "
-        "no_check_tar, "
-        "no_check_soft, "
-        "no_check_apptype, "
-        "no_check_elf, "
-        "no_check_text, "
-        "no_check_cdf, "
-        "no_check_csv, "
-        "no_check_tokens, "
-        "no_check_encoding, "
-        "no_check_json, "
-        "no_check_simh, "
-        "no_check_builtin"
+        m_test_flags_container,
+        m_opened_magic_without_database.get_flags()
+    );
+}
+
+TEST_F(magic_flags_test, opened_magic_without_database_flags_mask_noexcept)
+{
+    EXPECT_TRUE(m_opened_magic_without_database
+                    .set_flags(m_test_flags_mask, std::nothrow));
+    EXPECT_EQ(
+        m_test_flags_container,
+        m_opened_magic_without_database.get_flags(std::nothrow).value()
+    );
+}
+
+TEST_F(magic_flags_test, opened_magic_without_database_flags_container)
+{
+    EXPECT_NO_THROW(
+        m_opened_magic_without_database.set_flags(m_test_flags_container)
+    );
+    EXPECT_EQ(
+        m_test_flags_container,
+        m_opened_magic_without_database.get_flags()
+    );
+}
+
+TEST_F(magic_flags_test, opened_magic_without_database_flags_container_noexcept)
+{
+    EXPECT_TRUE(m_opened_magic_without_database
+                    .set_flags(m_test_flags_container, std::nothrow));
+    EXPECT_EQ(
+        m_test_flags_container,
+        m_opened_magic_without_database.get_flags(std::nothrow).value()
+    );
+}
+
+TEST_F(magic_flags_test, valid_magic_flags_mask)
+{
+    EXPECT_NO_THROW(m_valid_magic.set_flags(m_test_flags_mask));
+    EXPECT_EQ(m_test_flags_container, m_valid_magic.get_flags());
+}
+
+TEST_F(magic_flags_test, valid_magic_flags_mask_noexcept)
+{
+    EXPECT_TRUE(m_valid_magic.set_flags(m_test_flags_mask, std::nothrow));
+    EXPECT_EQ(
+        m_test_flags_container,
+        m_valid_magic.get_flags(std::nothrow).value()
+    );
+}
+
+TEST_F(magic_flags_test, valid_magic_flags_container)
+{
+    EXPECT_NO_THROW(m_valid_magic.set_flags(m_test_flags_container));
+    EXPECT_EQ(m_test_flags_container, m_valid_magic.get_flags());
+}
+
+TEST_F(magic_flags_test, valid_magic_flags_container_noexcept)
+{
+    EXPECT_TRUE(m_valid_magic.set_flags(m_test_flags_container, std::nothrow));
+    EXPECT_EQ(
+        m_test_flags_container,
+        m_valid_magic.get_flags(std::nothrow).value()
     );
 }

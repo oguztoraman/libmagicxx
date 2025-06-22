@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**QUALITY**]**;** Tests & Examples: Refactor tests & examples.
+
 + [**DOCUMENTATION**]**;** Docs: Add section on Magic States to README.md for better understanding of magic class usability.
 
 + [**BUGFIX**]**;** Utility: Replace std::views with std::ranges::fold_left pending Clang support for std::views::join_with.

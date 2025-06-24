@@ -125,6 +125,8 @@ Libmagicxx's `magic` class can be in several states, which affect its usability:
 
 + `is_open()` returns false.
 
++ `is_database_loaded()` returns false.
+
 + `is_valid()` returns false.
 
 ### 2. Opened Magic Without Database
@@ -134,6 +136,8 @@ Libmagicxx's `magic` class can be in several states, which affect its usability:
 + In this state, it is not valid for file type identification.
 
 + `is_open()` returns true.
+
++ `is_database_loaded()` returns false.
 
 + `is_valid()` returns false.
 
@@ -146,6 +150,8 @@ Libmagicxx's `magic` class can be in several states, which affect its usability:
 + In this state, it can be used for file type identification.
 
 + `is_open()` returns true.
+
++ `is_database_loaded()` returns true.
 
 + `is_valid()` returns true.
 

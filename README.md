@@ -135,13 +135,13 @@ Libmagicxx's `magic` class can be in several states, which affect its usability:
 
 + In this state, it is not valid for file type identification.
 
++ Methods that require a loaded database (e.g., `identify_file`) will throw or return errors if called.
+
 + `is_open()` returns true.
 
 + `is_database_loaded()` returns false.
 
 + `is_valid()` returns false.
-
-+ Methods that require a loaded database (e.g., `identify_file`) will throw or return errors if called.
 
 ### 3. Valid Magic
 

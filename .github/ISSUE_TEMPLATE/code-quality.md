@@ -4,6 +4,7 @@ about: Report a code quality or style issue to help us improve maintainability.
 title: "[QUALITY]"
 labels: quality
 assignees: oguztoraman
+
 ---
 
 ## Confirmation

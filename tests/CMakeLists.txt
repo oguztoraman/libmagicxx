@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.30.8)
 project(magicxx_tests LANGUAGES CXX)
 
 set(magicxx_tests_SOURCE_FILES
+    main.cpp
     magic_check_test.cpp
     magic_compile_test.cpp
     magic_flags_test.cpp
@@ -42,7 +43,7 @@ if (BUILD_MAGICXX_SHARED_LIB)
 
     target_link_libraries(magicxx_tests
         PRIVATE
-            GTest::gtest_main
+            GTest::gtest
             recognition::magicxx
     )
 
@@ -70,7 +71,7 @@ if (BUILD_MAGICXX_STATIC_LIB)
 
     target_link_libraries(magicxx_tests_static
         PRIVATE
-            GTest::gtest_main
+            GTest::gtest
             recognition::magicxx_static
     )
 

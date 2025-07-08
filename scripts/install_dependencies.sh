@@ -9,7 +9,7 @@ sudo dnf install -y            \
      awk make autoconf libtool \
      cmake ninja-build         \
      rpm-build mingw32-nsis    \
-     g++ mold                  \
+     g++ mold gdb              \
      clang libcxx-devel        \
      mingw64-gcc-c++           \
      clang-tools-extra doxygen || {

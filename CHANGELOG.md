@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magic: Configure VSCode for debugging with GDB.
+
 + [**BUGFIX**]**;** Magic: Fix bugs identified during testing.
 
 + [**QUALITY**]**;** Tests & Examples: Refactor tests & examples.

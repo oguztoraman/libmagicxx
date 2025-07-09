@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v8.2.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -110,59 +110,93 @@ $(function(){initNavTree('namespacerecognition.html',''); initResizable(true); }
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition_1_1detail.html">detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition_1_1utility.html">utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1empty__path.html">empty_path</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when a path is empty.  <a href="classrecognition_1_1empty__path.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1invalid__path.html">invalid_path</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1filesystem__error.html">filesystem_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the underlying std::filesystem OS API fails.  <a href="classrecognition_1_1filesystem__error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic.html">magic</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The magic class provides a C++ wrapper over the Magic Number Recognition Library.  <a href="classrecognition_1_1magic.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__database__not__loaded.html">magic_database_not_loaded</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when magic database is not loaded.  <a href="classrecognition_1_1magic__database__not__loaded.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__exception.html">magic_exception</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base class for all exceptions thrown by the magic class.  <a href="classrecognition_1_1magic__exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__file__error.html">magic_file_error</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__identify__file__error.html">magic_identify_file_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when magic::identify_file(s) fails.  <a href="classrecognition_1_1magic__identify__file__error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__is__closed.html">magic_is_closed</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when magic is closed.  <a href="classrecognition_1_1magic__is__closed.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__load__error.html">magic_load_error</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__load__database__file__error.html">magic_load_database_file_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when <a class="el" href="classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63" title="Load a magic database file.">magic::load_database_file</a> fails.  <a href="classrecognition_1_1magic__load__database__file__error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__open__error.html">magic_open_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when <a class="el" href="classrecognition_1_1magic.html#a549ffb7995b83934c78b0f289a6df54a" title="Open magic using the flags.">magic::open</a> fails.  <a href="classrecognition_1_1magic__open__error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__set__flags__error.html">magic_set_flags_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when <a class="el" href="classrecognition_1_1magic.html#a10a1048294a6a5fb074835c7d4e3a0e5" title="Set the flags of magic.">magic::set_flags</a> fails.  <a href="classrecognition_1_1magic__set__flags__error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__set__param__error.html">magic_set_param_error</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1magic__set__parameter__error.html">magic_set_parameter_error</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when magic::set_parameter(s) fails.  <a href="classrecognition_1_1magic__set__parameter__error.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1null__tracker.html">null_tracker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when a shared progress_tracker is null.  <a href="classrecognition_1_1null__tracker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1path__does__not__exist.html">path_does_not_exist</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when a path does not exist.  <a href="classrecognition_1_1path__does__not__exist.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1path__is__not__directory.html">path_is_not_directory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown from magic::identify_files(directory) when the path is not a directory.  <a href="classrecognition_1_1path__is__not__directory.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrecognition_1_1path__is__not__regular__file.html">path_is_not_regular_file</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown from <a class="el" href="classrecognition_1_1magic.html#ab8e57aad5f00161dd5d06fdcfe1ddf63" title="Load a magic database file.">magic::load_database_file</a> when the database file path is not a regular file.  <a href="classrecognition_1_1path__is__not__regular__file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5a2a57afe98f2b0b69e98187b773c7c2" id="r_a5a2a57afe98f2b0b69e98187b773c7c2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a2a57afe98f2b0b69e98187b773c7c2">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1">magic::type_of_a_file_t</a> &amp;type_of_a_file, const std::string &amp;type_separator=&quot; -&gt; &quot;)</td></tr>
+<tr class="memdesc:a5a2a57afe98f2b0b69e98187b773c7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1" title="Key-value pair representing a single file and its detected type.">magic::type_of_a_file_t</a> to string.  <br /></td></tr>
+<tr class="separator:a5a2a57afe98f2b0b69e98187b773c7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9e6883efa0b741bb5340ae7a2d5c5f8" id="r_ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9e6883efa0b741bb5340ae7a2d5c5f8">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15">magic::types_of_files_t</a> &amp;types_of_files, const std::string &amp;type_separator=&quot; -&gt; &quot;, const std::string &amp;file_separator=&quot;\n&quot;)</td></tr>
-<tr class="memdesc:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="The types_of_files_t typedef.">magic::types_of_files_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="Map from file paths to their detected types.">magic::types_of_files_t</a> to string.  <br /></td></tr>
 <tr class="separator:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa689140982ff2a488dfbcef9f6e5203c" id="r_aa689140982ff2a488dfbcef9f6e5203c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa689140982ff2a488dfbcef9f6e5203c">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3">magic::expected_file_type_t</a> &amp;expected_file_type)</td></tr>
-<tr class="memdesc:aa689140982ff2a488dfbcef9f6e5203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="The expected_file_type_t typedef.">magic::expected_file_type_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:aa689140982ff2a488dfbcef9f6e5203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="Result type for file identification, containing either a file type or an error message.">magic::expected_file_type_t</a> to string.  <br /></td></tr>
 <tr class="separator:aa689140982ff2a488dfbcef9f6e5203c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cebe167ba9b03a2b2dae761b9e7de34" id="r_a9cebe167ba9b03a2b2dae761b9e7de34"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cebe167ba9b03a2b2dae761b9e7de34">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154">magic::expected_type_of_a_file_t</a> &amp;expected_type_of_a_file, const std::string &amp;type_separator=&quot; -&gt; &quot;)</td></tr>
+<tr class="memdesc:a9cebe167ba9b03a2b2dae761b9e7de34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154" title="Key-value pair representing a single file and its expected file type result.">magic::expected_type_of_a_file_t</a> to string.  <br /></td></tr>
+<tr class="separator:a9cebe167ba9b03a2b2dae761b9e7de34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a586ab67370af949f7a51af43e7a9c0af" id="r_a586ab67370af949f7a51af43e7a9c0af"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a586ab67370af949f7a51af43e7a9c0af">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510">magic::expected_types_of_files_t</a> &amp;expected_types_of_files, const std::string &amp;type_separator=&quot; -&gt; &quot;, const std::string &amp;file_separator=&quot;\n&quot;)</td></tr>
-<tr class="memdesc:a586ab67370af949f7a51af43e7a9c0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="The expected_types_of_files_t typedef.">magic::expected_types_of_files_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:a586ab67370af949f7a51af43e7a9c0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="Map from file paths to expected file type results (success or error).">magic::expected_types_of_files_t</a> to string.  <br /></td></tr>
 <tr class="separator:a586ab67370af949f7a51af43e7a9c0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6c22be326857f9e49d63e68d4716ef6" id="r_af6c22be326857f9e49d63e68d4716ef6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6c22be326857f9e49d63e68d4716ef6">to_string</a> (<a class="el" href="classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacde">magic::flags</a> flag)</td></tr>
 <tr class="memdesc:af6c22be326857f9e49d63e68d4716ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacde" title="The flags enums are used for configuring the flags of a magic.">magic::flags</a> to string.  <br /></td></tr>
 <tr class="separator:af6c22be326857f9e49d63e68d4716ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade0466243e6b97edd8b096dd226a6544" id="r_ade0466243e6b97edd8b096dd226a6544"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade0466243e6b97edd8b096dd226a6544">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2">magic::flags_container_t</a> &amp;flags, const std::string &amp;separator=&quot;, &quot;)</td></tr>
-<tr class="memdesc:ade0466243e6b97edd8b096dd226a6544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="The flags_container_t typedef.">magic::flags_container_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:ade0466243e6b97edd8b096dd226a6544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="Container type holding a collection of magic::flags.">magic::flags_container_t</a> to string.  <br /></td></tr>
 <tr class="separator:ade0466243e6b97edd8b096dd226a6544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b48d1f514e4de689e7c43577ff5f108" id="r_a7b48d1f514e4de689e7c43577ff5f108"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b48d1f514e4de689e7c43577ff5f108">to_string</a> (<a class="el" href="classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940">magic::parameters</a> parameter)</td></tr>
 <tr class="memdesc:a7b48d1f514e4de689e7c43577ff5f108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940" title="The parameters enums are used for displaying or modifying the parameters of a magic.">magic::parameters</a> to string.  <br /></td></tr>
 <tr class="separator:a7b48d1f514e4de689e7c43577ff5f108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74c81c581e61bed183b20228518d7e7" id="r_ab74c81c581e61bed183b20228518d7e7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab74c81c581e61bed183b20228518d7e7">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28">magic::parameter_value_t</a> &amp;parameter_value, const std::string &amp;value_separator=&quot;: &quot;)</td></tr>
+<tr class="memdesc:ab74c81c581e61bed183b20228518d7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28" title="Key-value pair representing a single parameter and its value.">magic::parameter_value_t</a> to string.  <br /></td></tr>
+<tr class="separator:ab74c81c581e61bed183b20228518d7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a742afb37d4cf9d70a24265e83ec08386" id="r_a742afb37d4cf9d70a24265e83ec08386"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a742afb37d4cf9d70a24265e83ec08386">to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f">magic::parameter_value_map_t</a> &amp;parameters, const std::string &amp;value_separator=&quot;: &quot;, const std::string &amp;parameter_separator=&quot;, &quot;)</td></tr>
-<tr class="memdesc:a742afb37d4cf9d70a24265e83ec08386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="The parameter_value_map_t typedef.">magic::parameter_value_map_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:a742afb37d4cf9d70a24265e83ec08386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="Map from magic::parameters to their corresponding values.">magic::parameter_value_map_t</a> to string.  <br /></td></tr>
 <tr class="separator:a742afb37d4cf9d70a24265e83ec08386"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aa689140982ff2a488dfbcef9f6e5203c" name="aa689140982ff2a488dfbcef9f6e5203c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa689140982ff2a488dfbcef9f6e5203c">&#9670;&#160;</a></span>to_string() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa689140982ff2a488dfbcef9f6e5203c">&#9670;&#160;</a></span>to_string() <span class="overload">[1/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -184,7 +218,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="The expected_file_type_t typedef.">magic::expected_file_type_t</a> to string. </p>
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="Result type for file identification, containing either a file type or an error message.">magic::expected_file_type_t</a> to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">expected_file_type</td><td>The expected type of the file.</td></tr>
@@ -195,8 +229,47 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a9cebe167ba9b03a2b2dae761b9e7de34" name="a9cebe167ba9b03a2b2dae761b9e7de34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cebe167ba9b03a2b2dae761b9e7de34">&#9670;&#160;</a></span>to_string() <span class="overload">[2/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string recognition::to_string </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154">magic::expected_type_of_a_file_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>expected_type_of_a_file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>type_separator</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&#160;-&gt;&#160;&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154" title="Key-value pair representing a single file and its expected file type result.">magic::expected_type_of_a_file_t</a> to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">expected_type_of_a_file</td><td>The expected type of a file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type_separator</td><td>The separator between the file and its expected type, default is " -&gt; ".</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The expected_type_of_a_file as a string. </dd></dl>
+
+</div>
+</div>
 <a id="a586ab67370af949f7a51af43e7a9c0af" name="a586ab67370af949f7a51af43e7a9c0af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a586ab67370af949f7a51af43e7a9c0af">&#9670;&#160;</a></span>to_string() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a586ab67370af949f7a51af43e7a9c0af">&#9670;&#160;</a></span>to_string() <span class="overload">[3/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +300,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="The expected_types_of_files_t typedef.">magic::expected_types_of_files_t</a> to string. </p>
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="Map from file paths to expected file type results (success or error).">magic::expected_types_of_files_t</a> to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">expected_types_of_files</td><td>The expected types of each file. </td></tr>
@@ -241,7 +314,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ade0466243e6b97edd8b096dd226a6544" name="ade0466243e6b97edd8b096dd226a6544"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade0466243e6b97edd8b096dd226a6544">&#9670;&#160;</a></span>to_string() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ade0466243e6b97edd8b096dd226a6544">&#9670;&#160;</a></span>to_string() <span class="overload">[4/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +340,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="The flags_container_t typedef.">magic::flags_container_t</a> to string. </p>
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="Container type holding a collection of magic::flags.">magic::flags_container_t</a> to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>The flags. </td></tr>
@@ -280,7 +353,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a742afb37d4cf9d70a24265e83ec08386" name="a742afb37d4cf9d70a24265e83ec08386"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a742afb37d4cf9d70a24265e83ec08386">&#9670;&#160;</a></span>to_string() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a742afb37d4cf9d70a24265e83ec08386">&#9670;&#160;</a></span>to_string() <span class="overload">[5/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +384,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="The parameter_value_map_t typedef.">magic::parameter_value_map_t</a> to string. </p>
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="Map from magic::parameters to their corresponding values.">magic::parameter_value_map_t</a> to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">parameters</td><td>The parameters with corresponding values. </td></tr>
@@ -324,8 +397,86 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab74c81c581e61bed183b20228518d7e7" name="ab74c81c581e61bed183b20228518d7e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74c81c581e61bed183b20228518d7e7">&#9670;&#160;</a></span>to_string() <span class="overload">[6/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string recognition::to_string </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28">magic::parameter_value_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>parameter_value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value_separator</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;:&#160;&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28" title="Key-value pair representing a single parameter and its value.">magic::parameter_value_t</a> to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">parameter_value</td><td>The parameter with corresponding value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value_separator</td><td>The separator between the parameter and its value, default is ": ".</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parameter_value as a string. </dd></dl>
+
+</div>
+</div>
+<a id="a5a2a57afe98f2b0b69e98187b773c7c2" name="a5a2a57afe98f2b0b69e98187b773c7c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a2a57afe98f2b0b69e98187b773c7c2">&#9670;&#160;</a></span>to_string() <span class="overload">[7/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string recognition::to_string </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1">magic::type_of_a_file_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>type_of_a_file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>type_separator</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&#160;-&gt;&#160;&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1" title="Key-value pair representing a single file and its detected type.">magic::type_of_a_file_t</a> to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">type_of_a_file</td><td>The type of a file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type_separator</td><td>The separator between the file and its type, default is " -&gt; ".</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The type_of_a_file as a string. </dd></dl>
+
+</div>
+</div>
 <a id="ac9e6883efa0b741bb5340ae7a2d5c5f8" name="ac9e6883efa0b741bb5340ae7a2d5c5f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9e6883efa0b741bb5340ae7a2d5c5f8">&#9670;&#160;</a></span>to_string() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9e6883efa0b741bb5340ae7a2d5c5f8">&#9670;&#160;</a></span>to_string() <span class="overload">[8/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,7 +507,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="The types_of_files_t typedef.">magic::types_of_files_t</a> to string. </p>
+<p>Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="Map from file paths to their detected types.">magic::types_of_files_t</a> to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">types_of_files</td><td>The types of each file. </td></tr>
@@ -370,7 +521,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="af6c22be326857f9e49d63e68d4716ef6" name="af6c22be326857f9e49d63e68d4716ef6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6c22be326857f9e49d63e68d4716ef6">&#9670;&#160;</a></span>to_string() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af6c22be326857f9e49d63e68d4716ef6">&#9670;&#160;</a></span>to_string() <span class="overload">[9/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +555,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7b48d1f514e4de689e7c43577ff5f108" name="a7b48d1f514e4de689e7c43577ff5f108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b48d1f514e4de689e7c43577ff5f108">&#9670;&#160;</a></span>to_string() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b48d1f514e4de689e7c43577ff5f108">&#9670;&#160;</a></span>to_string() <span class="overload">[10/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -443,7 +594,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerecognition.html">recognition</a></li>
-    <li class="footer">Generated on Thu May 22 2025 17:18:03 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Wed Jul 9 2025 22:26:18 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

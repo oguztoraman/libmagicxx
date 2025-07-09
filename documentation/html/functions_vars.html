@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v8.2.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -99,6 +99,9 @@ $(function(){initNavTree('functions_vars.html',''); initResizable(true); });
 
 <div class="contents">
 <div class="textblock">Here is a list of all variables with links to the classes they belong to:</div><ul>
+<li>check_is_valid_option&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#ac9e25dbc7251ad5a9bede8fa20cb4dca">recognition::magic::magic_private</a></li>
+<li>check_path_empty_option&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a3ba113556b13d44944eb69333631f076">recognition::magic::magic_private</a></li>
+<li>check_path_exists_option&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#ad16b2907fd65320e3afe9c8c809a4b2d">recognition::magic::magic_private</a></li>
 <li>default_database_file&#160;:&#160;<a class="el" href="classrecognition_1_1magic.html#a9bd11faed14ce4add011a66fe50e0b73">recognition::magic</a></li>
 <li>libmagic_error&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a42077466f38d199e708e560f60f66e9e">recognition::magic::magic_private</a></li>
 <li>libmagic_flag_none&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a328813065d405780b4206ada3cec60c5">recognition::magic::magic_private</a></li>
@@ -106,17 +109,25 @@ $(function(){initNavTree('functions_vars.html',''); initResizable(true); });
 <li>libmagic_flags_count&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a9f8aadf8079e0ed6c5a34e404ed37bdc">recognition::magic::magic_private</a></li>
 <li>libmagic_parameter_count&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a64098a62bcee8a27fe1c078cdd8f76fb">recognition::magic::magic_private</a></li>
 <li>libmagic_parameters&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#aed707041b459e47c1d1cec562ca5ecce">recognition::magic::magic_private</a></li>
+<li>m_completed_steps&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1progress__tracker.html#a043a9fa7b44b6c7855204c868cd78fae">recognition::utility::progress_tracker</a></li>
+<li>m_condition_variable&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1progress__tracker.html#a84d865a233f52868330711bd1389898d">recognition::utility::progress_tracker</a></li>
 <li>m_cookie&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#ad3160c4caee517f7afc510ea3deab0be">recognition::magic::magic_private</a></li>
 <li>m_flags_mask&#160;:&#160;<a class="el" href="structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#ae3b52406779062e6ea04165f2e3fb7a2">recognition::magic::magic_private::flags_converter</a>, <a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a801d654e958a7f96bd73c8de04931c79">recognition::magic::magic_private</a></li>
 <li>m_impl&#160;:&#160;<a class="el" href="classrecognition_1_1magic.html#a38636c1e6367f33ae1684c4255618548">recognition::magic</a></li>
+<li>m_is_database_loaded&#160;:&#160;<a class="el" href="classrecognition_1_1magic_1_1magic__private.html#a7c478eb0ea2ec2a59b673aa58855bb05">recognition::magic::magic_private</a></li>
+<li>m_mutex&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1progress__tracker.html#a5d1621af7c49a1d56c6e0f7521b20cc0">recognition::utility::progress_tracker</a></li>
 <li>m_pair&#160;:&#160;<a class="el" href="structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter.html#a8490c18dd18ec9e70083f0a93a29f9fd">recognition::magic::magic_private::libmagic_pair_converter</a></li>
+<li>m_percentage&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1percentage.html#afe757af0da5718ee305fef41b381bb31">recognition::utility::percentage</a></li>
+<li>m_shared_tracker&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1advance__tracker.html#a671221b636463ae32a172cd6a2b34ba9">recognition::utility::advance_tracker</a>, <a class="el" href="classrecognition_1_1utility_1_1mark__tracker__as__completed.html#a3392aa98a5242e7d217688e1704bce0f">recognition::utility::mark_tracker_as_completed</a></li>
+<li>m_step_count&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1advance__tracker.html#ac9547a449aa416a292c6fc031a0940a1">recognition::utility::advance_tracker</a></li>
+<li>m_total_steps&#160;:&#160;<a class="el" href="classrecognition_1_1utility_1_1progress__tracker.html#a154c905f956c749a3214f80ba444916c">recognition::utility::progress_tracker</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu May 22 2025 17:18:03 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Wed Jul 9 2025 22:26:18 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

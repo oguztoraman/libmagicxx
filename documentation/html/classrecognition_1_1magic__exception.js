@@ -1,4 +1,4 @@
 var classrecognition_1_1magic__exception =
 [
-    [ "magic_exception", "classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab", null ]
+    [ "magic_exception", "classrecognition_1_1magic__exception.html#aa79c23b1d52bcdf24509bf48369c4ae3", null ]
 ];

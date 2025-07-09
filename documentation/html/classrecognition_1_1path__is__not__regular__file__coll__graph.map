@@ -1,0 +1,7 @@
+<map id="recognition::path_is_not_regular_file" name="recognition::path_is_not_regular_file">
+<area shape="rect" id="Node000001" title="Exception thrown from magic::load_database_file when the database file path is not a regular file." alt="" coords="5,180,148,228"/>
+<area shape="rect" id="Node000002" href="$classrecognition_1_1magic__exception.html" title="The base class for all exceptions thrown by the magic class." alt="" coords="9,83,144,132"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,147,79,179,74,179,74,147"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="8,5,145,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,50,79,82,74,82,74,50"/>
+</map>

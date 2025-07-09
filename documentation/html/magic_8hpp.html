@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v8.2.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -105,54 +105,71 @@ $(function(){initNavTree('magic_8hpp.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">magic.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;bitset&gt;</code><br />
+<div class="textblock"><code>#include &lt;bitset&gt;</code><br />
 <code>#include &lt;expected&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="file__concepts_8hpp_source.html">file_concepts.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="magic__exception_8hpp_source.html">magic_exception.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="progress__tracker_8hpp_source.html">progress_tracker.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="utility_8hpp_source.html">utility.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for magic.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="magic_8hpp__incl.png" border="0" usemap="#amagic_8hpp" alt=""/></div>
 <map name="amagic_8hpp" id="amagic_8hpp">
-<area shape="rect" title=" " alt="" coords="362,5,447,35"/>
-<area shape="rect" title=" " alt="" coords="5,83,87,113"/>
-<area shape="poly" title=" " alt="" coords="362,32,103,85,102,80,361,27"/>
-<area shape="rect" title=" " alt="" coords="111,83,168,113"/>
-<area shape="poly" title=" " alt="" coords="362,35,183,85,182,80,361,30"/>
-<area shape="rect" title=" " alt="" coords="192,83,270,113"/>
-<area shape="poly" title=" " alt="" coords="373,38,279,79,277,74,371,33"/>
-<area shape="rect" title=" " alt="" coords="295,83,344,113"/>
-<area shape="poly" title=" " alt="" coords="390,38,348,74,345,70,387,34"/>
-<area shape="rect" title=" " alt="" coords="368,83,442,113"/>
-<area shape="poly" title=" " alt="" coords="407,36,407,67,402,67,402,36"/>
-<area shape="rect" title=" " alt="" coords="466,83,556,113"/>
-<area shape="poly" title=" " alt="" coords="426,33,481,72,478,76,423,38"/>
-<area shape="rect" title=" " alt="" coords="581,83,642,113"/>
-<area shape="poly" title=" " alt="" coords="444,33,567,77,565,82,443,38"/>
-<area shape="rect" href="file__concepts_8hpp.html" title=" " alt="" coords="667,83,796,113"/>
-<area shape="poly" title=" " alt="" coords="448,29,656,76,655,82,447,34"/>
-<area shape="rect" href="magic__exception_8hpp.html" title=" " alt="" coords="820,83,971,113"/>
-<area shape="poly" title=" " alt="" coords="448,25,805,80,804,85,447,31"/>
-<area shape="rect" title=" " alt="" coords="592,161,676,190"/>
-<area shape="poly" title=" " alt="" coords="715,115,666,153,663,149,711,111"/>
-<area shape="rect" href="utility_8hpp.html" title=" " alt="" coords="701,161,783,190"/>
-<area shape="poly" title=" " alt="" coords="736,113,741,145,735,146,731,114"/>
-<area shape="rect" title=" " alt="" coords="610,238,687,268"/>
-<area shape="poly" title=" " alt="" coords="726,193,680,230,676,226,723,189"/>
-<area shape="rect" title=" " alt="" coords="710,238,774,268"/>
-<area shape="poly" title=" " alt="" coords="745,191,745,223,739,223,739,191"/>
-<area shape="rect" title=" " alt="" coords="797,238,855,268"/>
-<area shape="poly" title=" " alt="" coords="760,189,801,226,797,230,756,193"/>
-<area shape="poly" title=" " alt="" coords="885,115,869,136,854,162,842,193,834,223,829,222,837,191,849,160,865,133,881,111"/>
-<area shape="rect" title=" " alt="" coords="863,161,928,190"/>
-<area shape="poly" title=" " alt="" coords="898,113,898,145,893,145,893,113"/>
-<area shape="rect" title=" " alt="" coords="952,161,1033,190"/>
-<area shape="poly" title=" " alt="" coords="915,111,964,149,961,153,912,115"/>
+<area shape="rect" title=" " alt="" coords="406,5,491,35"/>
+<area shape="rect" title=" " alt="" coords="5,83,62,113"/>
+<area shape="poly" title=" " alt="" coords="406,29,264,49,77,86,76,80,263,44,405,24"/>
+<area shape="rect" title=" " alt="" coords="86,83,165,113"/>
+<area shape="poly" title=" " alt="" coords="406,33,180,85,179,80,404,28"/>
+<area shape="rect" title=" " alt="" coords="189,83,238,113"/>
+<area shape="poly" title=" " alt="" coords="406,37,253,85,252,80,404,32"/>
+<area shape="rect" title=" " alt="" coords="262,83,336,113"/>
+<area shape="poly" title=" " alt="" coords="421,38,341,78,339,73,419,33"/>
+<area shape="rect" title=" " alt="" coords="360,83,432,113"/>
+<area shape="poly" title=" " alt="" coords="441,37,417,71,412,68,436,34"/>
+<area shape="rect" title=" " alt="" coords="456,83,547,113"/>
+<area shape="poly" title=" " alt="" coords="460,34,485,69,481,72,456,37"/>
+<area shape="rect" title=" " alt="" coords="571,83,632,113"/>
+<area shape="poly" title=" " alt="" coords="478,33,560,73,558,78,476,38"/>
+<area shape="rect" href="magic__exception_8hpp.html" title=" " alt="" coords="707,83,858,113"/>
+<area shape="poly" title=" " alt="" coords="492,29,706,77,705,82,491,34"/>
+<area shape="rect" href="progress__tracker_8hpp.html" title=" " alt="" coords="1009,83,1159,113"/>
+<area shape="poly" title=" " alt="" coords="492,24,994,83,993,88,491,29"/>
+<area shape="rect" href="utility_8hpp.html" title=" " alt="" coords="558,161,640,190"/>
+<area shape="poly" title=" " alt="" coords="492,19,530,23,573,33,613,51,631,65,646,82,653,99,650,118,640,135,628,151,624,148,636,132,644,116,647,100,642,84,628,69,611,56,571,38,529,28,491,24"/>
+<area shape="rect" title=" " alt="" coords="820,161,884,190"/>
+<area shape="poly" title=" " alt="" coords="798,111,831,147,827,151,794,115"/>
+<area shape="rect" title=" " alt="" coords="664,161,745,190"/>
+<area shape="poly" title=" " alt="" coords="770,115,732,152,728,148,766,111"/>
+<area shape="rect" title=" " alt="" coords="865,238,922,268"/>
+<area shape="poly" title=" " alt="" coords="786,112,793,149,800,170,810,189,830,210,854,228,851,232,827,214,806,192,795,172,788,150,781,113"/>
+<area shape="rect" title=" " alt="" coords="1052,161,1116,190"/>
+<area shape="poly" title=" " alt="" coords="1087,113,1087,145,1082,145,1082,113"/>
+<area shape="rect" title=" " alt="" coords="1140,161,1274,190"/>
+<area shape="poly" title=" " alt="" coords="1109,111,1173,150,1170,155,1106,116"/>
+<area shape="rect" title=" " alt="" coords="1298,161,1358,190"/>
+<area shape="poly" title=" " alt="" coords="1132,111,1284,157,1282,162,1130,116"/>
+<area shape="rect" href="percentage_8hpp.html" title=" " alt="" coords="908,161,1028,190"/>
+<area shape="poly" title=" " alt="" coords="1064,116,1004,154,1001,150,1061,111"/>
+<area shape="poly" title=" " alt="" coords="956,193,920,229,916,225,952,189"/>
+<area shape="rect" title=" " alt="" coords="760,238,841,268"/>
+<area shape="poly" title=" " alt="" coords="938,193,847,234,844,229,935,189"/>
+<area shape="rect" title=" " alt="" coords="946,238,1009,268"/>
+<area shape="poly" title=" " alt="" coords="973,191,977,223,971,223,967,191"/>
+<area shape="poly" title=" " alt="" coords="641,185,653,188,751,210,850,235,849,240,749,215,652,193,640,190"/>
+<area shape="poly" title=" " alt="" coords="638,188,749,230,747,235,636,193"/>
+<area shape="rect" title=" " alt="" coords="551,238,628,268"/>
+<area shape="poly" title=" " alt="" coords="600,191,596,223,590,223,594,191"/>
+<area shape="rect" title=" " alt="" coords="651,238,736,268"/>
+<area shape="poly" title=" " alt="" coords="618,189,666,226,662,231,615,193"/>
+<area shape="rect" title=" " alt="" coords="358,238,440,268"/>
+<area shape="poly" title=" " alt="" coords="562,193,451,235,449,230,560,188"/>
+<area shape="rect" title=" " alt="" coords="464,238,528,268"/>
+<area shape="poly" title=" " alt="" coords="581,193,529,231,526,227,578,189"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -181,26 +198,35 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5a2a57afe98f2b0b69e98187b773c7c2" id="r_a5a2a57afe98f2b0b69e98187b773c7c2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#a5a2a57afe98f2b0b69e98187b773c7c2">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1">magic::type_of_a_file_t</a> &amp;type_of_a_file, const std::string &amp;type_separator=&quot; -&gt; &quot;)</td></tr>
+<tr class="memdesc:a5a2a57afe98f2b0b69e98187b773c7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a9026efa2b81331df34451fd373eb52a1" title="Key-value pair representing a single file and its detected type.">magic::type_of_a_file_t</a> to string.  <br /></td></tr>
+<tr class="separator:a5a2a57afe98f2b0b69e98187b773c7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9e6883efa0b741bb5340ae7a2d5c5f8" id="r_ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#ac9e6883efa0b741bb5340ae7a2d5c5f8">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15">magic::types_of_files_t</a> &amp;types_of_files, const std::string &amp;type_separator=&quot; -&gt; &quot;, const std::string &amp;file_separator=&quot;\n&quot;)</td></tr>
-<tr class="memdesc:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="The types_of_files_t typedef.">magic::types_of_files_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#ab4bc466a96220d85e05c4544b6a21f15" title="Map from file paths to their detected types.">magic::types_of_files_t</a> to string.  <br /></td></tr>
 <tr class="separator:ac9e6883efa0b741bb5340ae7a2d5c5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa689140982ff2a488dfbcef9f6e5203c" id="r_aa689140982ff2a488dfbcef9f6e5203c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#aa689140982ff2a488dfbcef9f6e5203c">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3">magic::expected_file_type_t</a> &amp;expected_file_type)</td></tr>
-<tr class="memdesc:aa689140982ff2a488dfbcef9f6e5203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="The expected_file_type_t typedef.">magic::expected_file_type_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:aa689140982ff2a488dfbcef9f6e5203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3" title="Result type for file identification, containing either a file type or an error message.">magic::expected_file_type_t</a> to string.  <br /></td></tr>
 <tr class="separator:aa689140982ff2a488dfbcef9f6e5203c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cebe167ba9b03a2b2dae761b9e7de34" id="r_a9cebe167ba9b03a2b2dae761b9e7de34"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#a9cebe167ba9b03a2b2dae761b9e7de34">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154">magic::expected_type_of_a_file_t</a> &amp;expected_type_of_a_file, const std::string &amp;type_separator=&quot; -&gt; &quot;)</td></tr>
+<tr class="memdesc:a9cebe167ba9b03a2b2dae761b9e7de34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154" title="Key-value pair representing a single file and its expected file type result.">magic::expected_type_of_a_file_t</a> to string.  <br /></td></tr>
+<tr class="separator:a9cebe167ba9b03a2b2dae761b9e7de34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a586ab67370af949f7a51af43e7a9c0af" id="r_a586ab67370af949f7a51af43e7a9c0af"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#a586ab67370af949f7a51af43e7a9c0af">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510">magic::expected_types_of_files_t</a> &amp;expected_types_of_files, const std::string &amp;type_separator=&quot; -&gt; &quot;, const std::string &amp;file_separator=&quot;\n&quot;)</td></tr>
-<tr class="memdesc:a586ab67370af949f7a51af43e7a9c0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="The expected_types_of_files_t typedef.">magic::expected_types_of_files_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:a586ab67370af949f7a51af43e7a9c0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510" title="Map from file paths to expected file type results (success or error).">magic::expected_types_of_files_t</a> to string.  <br /></td></tr>
 <tr class="separator:a586ab67370af949f7a51af43e7a9c0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6c22be326857f9e49d63e68d4716ef6" id="r_af6c22be326857f9e49d63e68d4716ef6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#af6c22be326857f9e49d63e68d4716ef6">recognition::to_string</a> (<a class="el" href="classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacde">magic::flags</a> flag)</td></tr>
 <tr class="memdesc:af6c22be326857f9e49d63e68d4716ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacde" title="The flags enums are used for configuring the flags of a magic.">magic::flags</a> to string.  <br /></td></tr>
 <tr class="separator:af6c22be326857f9e49d63e68d4716ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade0466243e6b97edd8b096dd226a6544" id="r_ade0466243e6b97edd8b096dd226a6544"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#ade0466243e6b97edd8b096dd226a6544">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2">magic::flags_container_t</a> &amp;flags, const std::string &amp;separator=&quot;, &quot;)</td></tr>
-<tr class="memdesc:ade0466243e6b97edd8b096dd226a6544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="The flags_container_t typedef.">magic::flags_container_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:ade0466243e6b97edd8b096dd226a6544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2" title="Container type holding a collection of magic::flags.">magic::flags_container_t</a> to string.  <br /></td></tr>
 <tr class="separator:ade0466243e6b97edd8b096dd226a6544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b48d1f514e4de689e7c43577ff5f108" id="r_a7b48d1f514e4de689e7c43577ff5f108"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#a7b48d1f514e4de689e7c43577ff5f108">recognition::to_string</a> (<a class="el" href="classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940">magic::parameters</a> parameter)</td></tr>
 <tr class="memdesc:a7b48d1f514e4de689e7c43577ff5f108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940" title="The parameters enums are used for displaying or modifying the parameters of a magic.">magic::parameters</a> to string.  <br /></td></tr>
 <tr class="separator:a7b48d1f514e4de689e7c43577ff5f108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74c81c581e61bed183b20228518d7e7" id="r_ab74c81c581e61bed183b20228518d7e7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#ab74c81c581e61bed183b20228518d7e7">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28">magic::parameter_value_t</a> &amp;parameter_value, const std::string &amp;value_separator=&quot;: &quot;)</td></tr>
+<tr class="memdesc:ab74c81c581e61bed183b20228518d7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#a885cfcc9fb8696745695aecdd424ae28" title="Key-value pair representing a single parameter and its value.">magic::parameter_value_t</a> to string.  <br /></td></tr>
+<tr class="separator:ab74c81c581e61bed183b20228518d7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a742afb37d4cf9d70a24265e83ec08386" id="r_a742afb37d4cf9d70a24265e83ec08386"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerecognition.html#a742afb37d4cf9d70a24265e83ec08386">recognition::to_string</a> (const <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f">magic::parameter_value_map_t</a> &amp;parameters, const std::string &amp;value_separator=&quot;: &quot;, const std::string &amp;parameter_separator=&quot;, &quot;)</td></tr>
-<tr class="memdesc:a742afb37d4cf9d70a24265e83ec08386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="The parameter_value_map_t typedef.">magic::parameter_value_map_t</a> to string.  <br /></td></tr>
+<tr class="memdesc:a742afb37d4cf9d70a24265e83ec08386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the <a class="el" href="classrecognition_1_1magic.html#aa83f20ec1d8000f8f426d03a9a3eca9f" title="Map from magic::parameters to their corresponding values.">magic::parameter_value_map_t</a> to string.  <br /></td></tr>
 <tr class="separator:a742afb37d4cf9d70a24265e83ec08386"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
@@ -209,7 +235,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_a606896a86f6c3a01f18ce633d4419c0.html">magicxx</a></li><li class="navelem"><a class="el" href="magic_8hpp.html">magic.hpp</a></li>
-    <li class="footer">Generated on Thu May 22 2025 17:18:03 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Wed Jul 9 2025 22:26:18 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

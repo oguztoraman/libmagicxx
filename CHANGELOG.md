@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v9.0.0] - 09-07-2025
+
 + [**ENHANCEMENT**]**;** DevEnv: Clean up old containers and image & Run the container with --rm to avoid stale state and leftover containers.
 
 + [**ENHANCEMENT**]**;** Magic: Add progress feedback for identify_files functions via utility::progress_tracker.

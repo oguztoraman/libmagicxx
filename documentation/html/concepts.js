@@ -1,10 +1,10 @@
 var concepts =
 [
-    [ "file_concepts", "namespacefile__concepts.html", [
-      [ "file_container", "conceptfile__concepts_1_1file__container.html", null ]
-    ] ],
-    [ "utility", "namespaceutility.html", [
-      [ "range_container", "conceptutility_1_1range__container.html", null ],
-      [ "string_converter", "conceptutility_1_1string__converter.html", null ]
+    [ "recognition", "namespacerecognition.html", [
+      [ "utility", "namespacerecognition_1_1utility.html", [
+        [ "range_container", "conceptrecognition_1_1utility_1_1range__container.html", null ],
+        [ "string_converter", "conceptrecognition_1_1utility_1_1string__converter.html", null ],
+        [ "file_container", "conceptrecognition_1_1utility_1_1file__container.html", null ]
+      ] ]
     ] ]
 ];

@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v8.2.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.0</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -119,149 +119,227 @@ $(function(){initNavTree('magic__exception_8hpp_source.html',''); initResizable(
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">using </span>std::runtime_error::runtime_error;</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab">   29</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab">magic_exception</a>(<span class="keyword">const</span> std::string&amp; function, <span class="keyword">const</span> std::string&amp; error)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      : std::runtime_error{</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            error.empty() ? function + <span class="stringliteral">&quot; failed.&quot;</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                          : function + <span class="stringliteral">&quot; failed with &quot;</span> + error + <span class="stringliteral">&quot;.&quot;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        }</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    { }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__exception.html#aa79c23b1d52bcdf24509bf48369c4ae3">   29</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__exception.html#aa79c23b1d52bcdf24509bf48369c4ae3">magic_exception</a>(</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">const</span> std::string&amp; function,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keyword">const</span> std::string&amp; error_message</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    )</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      : std::runtime_error{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            error_message.empty()</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                ? function + <span class="stringliteral">&quot; failed.&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                : function + <span class="stringliteral">&quot; failed with &quot;</span> + error_message + <span class="stringliteral">&quot;.&quot;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    { }</div>
 </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
 </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="foldopen" id="foldopen00037" data-start="{" data-end="};">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classrecognition_1_1empty__path.html">   37</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1empty__path.html">empty_path</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">   39</a></span>    <a class="code hl_function" href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">empty_path</a>()</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;path is empty.&quot;</span>}</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    { }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classrecognition_1_1null__tracker.html">   46</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1null__tracker.html">null_tracker</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classrecognition_1_1null__tracker.html#a23a589315a7dc509c47d57d3d1e3c981">   51</a></span>    <a class="code hl_function" href="classrecognition_1_1null__tracker.html#a23a589315a7dc509c47d57d3d1e3c981">null_tracker</a>()</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;shared progress_tracker is null.&quot;</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    { }</div>
 </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>};</div>
 </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classrecognition_1_1invalid__path.html">   44</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1invalid__path.html">invalid_path</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classrecognition_1_1invalid__path.html#a02cc153aaa036dfafa21f888e730616c">   46</a></span>    <a class="code hl_function" href="classrecognition_1_1invalid__path.html#a02cc153aaa036dfafa21f888e730616c">invalid_path</a>()</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;path is invalid.&quot;</span>}</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    { }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="};">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classrecognition_1_1empty__path.html">   61</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1empty__path.html">empty_path</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">   66</a></span>    <a class="code hl_function" href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">empty_path</a>()</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;path is empty.&quot;</span>}</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    { }</div>
 </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>};</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
 </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__is__closed.html">   51</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__is__closed.html">magic_is_closed</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">   53</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">magic_is_closed</a>()</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;magic is closed.&quot;</span>}</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    { }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="};">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__is__not__regular__file.html">   77</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1path__is__not__regular__file.html">path_is_not_regular_file</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__is__not__regular__file.html#ad2153be62995779e8a15b5a4908e38be">   85</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrecognition_1_1path__is__not__regular__file.html#ad2153be62995779e8a15b5a4908e38be">path_is_not_regular_file</a>(<span class="keyword">const</span> std::string&amp; path)</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;&#39;{}&#39; is not a regular file.&quot;</span>, path)}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    { }</div>
 </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>};</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>};</div>
 </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="foldopen" id="foldopen00058" data-start="{" data-end="};">
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__open__error.html">   58</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__open__error.html">magic_open_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__open__error.html#a8f9678bd35cb51c3e308208e7fd73960">   60</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrecognition_1_1magic__open__error.html#a8f9678bd35cb51c3e308208e7fd73960">magic_open_error</a>(<span class="keyword">const</span> std::string&amp; error)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;magic_open&quot;</span>, error}</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    { }</div>
-</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
-</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="foldopen" id="foldopen00065" data-start="{" data-end="};">
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__load__error.html">   65</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__load__error.html">magic_load_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__load__error.html#ab434f9b28fb784d078ca6b64e8c59bcc">   67</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__load__error.html#ab434f9b28fb784d078ca6b64e8c59bcc">magic_load_error</a>(</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keyword">const</span> std::string&amp; error,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keyword">const</span> std::string&amp; database_file_path</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    )</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            std::format(<span class="stringliteral">&quot;magic_load({})&quot;</span>, database_file_path),</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            error</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    { }</div>
-</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
-</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="foldopen" id="foldopen00078" data-start="{" data-end="};">
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__file__error.html">   78</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__file__error.html">magic_file_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__file__error.html#aa685a891aacbc231f951a4ff1a0570aa">   80</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__file__error.html#aa685a891aacbc231f951a4ff1a0570aa">magic_file_error</a>(<span class="keyword">const</span> std::string&amp; error, <span class="keyword">const</span> std::string&amp; file_path)</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;magic_file({})&quot;</span>, file_path), error}</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    { }</div>
-</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>};</div>
-</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="};">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__flags__error.html">   85</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__set__flags__error.html">magic_set_flags_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__flags__error.html#a8329266e4d579231bfb7bb51f10dd506">   87</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__set__flags__error.html#a8329266e4d579231bfb7bb51f10dd506">magic_set_flags_error</a>(</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keyword">const</span> std::string&amp; error,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keyword">const</span> std::string&amp; flag_names</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    )</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;magic_set_flags({})&quot;</span>, flag_names), error}</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    { }</div>
-</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
-</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="foldopen" id="foldopen00095" data-start="{" data-end="};">
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__param__error.html">   95</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__set__param__error.html">magic_set_param_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__param__error.html#afe8a18e9c642914e6d3afdeada0b43e9">   97</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__set__param__error.html#afe8a18e9c642914e6d3afdeada0b43e9">magic_set_param_error</a>(</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keyword">const</span> std::string&amp; error,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keyword">const</span> std::string&amp; parameter_name,</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        std::size_t        value</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    )</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            std::format(<span class="stringliteral">&quot;magic_set_param({}, {})&quot;</span>, parameter_name, value),</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            error</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="foldopen" id="foldopen00096" data-start="{" data-end="};">
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__is__not__directory.html">   96</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1path__is__not__directory.html">path_is_not_directory</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__is__not__directory.html#a5ab6e69311da9b8039b361d70d7c1121">  104</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrecognition_1_1path__is__not__directory.html#a5ab6e69311da9b8039b361d70d7c1121">path_is_not_directory</a>(<span class="keyword">const</span> std::string&amp; path)</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;&#39;{}&#39; is not a directory.&quot;</span>, path)}</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    { }</div>
 </div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>};</div>
 </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>} <span class="comment">/* namespace recognition */</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">#endif </span><span class="comment">/* MAGIC_EXCEPTION_HPP */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aclassrecognition_1_1empty__path_html"><div class="ttname"><a href="classrecognition_1_1empty__path.html">recognition::empty_path</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:37</div></div>
-<div class="ttc" id="aclassrecognition_1_1empty__path_html_a6d44a4fffd8e7743b5d70726472da81a"><div class="ttname"><a href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">recognition::empty_path::empty_path</a></div><div class="ttdeci">empty_path()</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:39</div></div>
-<div class="ttc" id="aclassrecognition_1_1invalid__path_html"><div class="ttname"><a href="classrecognition_1_1invalid__path.html">recognition::invalid_path</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:44</div></div>
-<div class="ttc" id="aclassrecognition_1_1invalid__path_html_a02cc153aaa036dfafa21f888e730616c"><div class="ttname"><a href="classrecognition_1_1invalid__path.html#a02cc153aaa036dfafa21f888e730616c">recognition::invalid_path::invalid_path</a></div><div class="ttdeci">invalid_path()</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:46</div></div>
+<div class="foldopen" id="foldopen00114" data-start="{" data-end="};">
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__does__not__exist.html">  114</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1path__does__not__exist.html">path_does_not_exist</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classrecognition_1_1path__does__not__exist.html#abf6f4d93b03c19174e09d0dd23524f8d">  121</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrecognition_1_1path__does__not__exist.html#abf6f4d93b03c19174e09d0dd23524f8d">path_does_not_exist</a>(<span class="keyword">const</span> std::string&amp; path)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;&#39;{}&#39; does not exist.&quot;</span>, path)}</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    { }</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>};</div>
+</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="foldopen" id="foldopen00131" data-start="{" data-end="};">
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classrecognition_1_1filesystem__error.html">  131</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1filesystem__error.html">filesystem_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00139" data-start="{" data-end="}">
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="classrecognition_1_1filesystem__error.html#ad47bf06f1987cd1f1ed6f197d07a05a0">  139</a></span>    <a class="code hl_function" href="classrecognition_1_1filesystem__error.html#ad47bf06f1987cd1f1ed6f197d07a05a0">filesystem_error</a>(<span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> std::string&amp; error_message)</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{std::format(<span class="stringliteral">&quot;&#39;{}&#39;: {}.&quot;</span>, path, error_message)}</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    { }</div>
+</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>};</div>
+</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="foldopen" id="foldopen00149" data-start="{" data-end="};">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__is__closed.html">  149</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__is__closed.html">magic_is_closed</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00154" data-start="{" data-end="}">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">  154</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">magic_is_closed</a>()</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;magic is closed.&quot;</span>}</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    { }</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>};</div>
+</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="foldopen" id="foldopen00164" data-start="{" data-end="};">
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__open__error.html">  164</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__open__error.html">magic_open_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00171" data-start="{" data-end="}">
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__open__error.html#a483518fc260b4395526850b23085b4cc">  171</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrecognition_1_1magic__open__error.html#a483518fc260b4395526850b23085b4cc">magic_open_error</a>(<span class="keyword">const</span> std::string&amp; error_message)</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;magic_open&quot;</span>, error_message}</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    { }</div>
+</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>};</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="foldopen" id="foldopen00181" data-start="{" data-end="};">
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__load__database__file__error.html">  181</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__load__database__file__error.html">magic_load_database_file_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00190" data-start="{" data-end="}">
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__load__database__file__error.html#aa64262de922ef1d7567680674cf5c39a">  190</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__load__database__file__error.html#aa64262de922ef1d7567680674cf5c39a">magic_load_database_file_error</a>(</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keyword">const</span> std::string&amp; error_message,</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keyword">const</span> std::string&amp; database_file_path</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    )</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            std::format(<span class="stringliteral">&quot;magic_load_database_file({})&quot;</span>, database_file_path),</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            error_message</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        }</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    { }</div>
+</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>};</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="foldopen" id="foldopen00206" data-start="{" data-end="};">
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__database__not__loaded.html">  206</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__database__not__loaded.html">magic_database_not_loaded</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00211" data-start="{" data-end="}">
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__database__not__loaded.html#af95027fde8cc393b538963a39fa19dc2">  211</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__database__not__loaded.html#af95027fde8cc393b538963a39fa19dc2">magic_database_not_loaded</a>()</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{<span class="stringliteral">&quot;magic database is not loaded.&quot;</span>}</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    { }</div>
+</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>};</div>
+</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="foldopen" id="foldopen00221" data-start="{" data-end="};">
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__identify__file__error.html">  221</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__identify__file__error.html">magic_identify_file_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__identify__file__error.html#ae19e5a7f449718462054c31f611903f2">  230</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__identify__file__error.html#ae19e5a7f449718462054c31f611903f2">magic_identify_file_error</a>(</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        <span class="keyword">const</span> std::string&amp; error_message,</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keyword">const</span> std::string&amp; file_path</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    )</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            std::format(<span class="stringliteral">&quot;magic_identify_file({})&quot;</span>, file_path),</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            error_message</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        }</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    { }</div>
+</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>};</div>
+</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="foldopen" id="foldopen00246" data-start="{" data-end="};">
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__flags__error.html">  246</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__set__flags__error.html">magic_set_flags_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00255" data-start="{" data-end="}">
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__flags__error.html#acb31959c724e48cbff36c15e87862b12">  255</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__set__flags__error.html#acb31959c724e48cbff36c15e87862b12">magic_set_flags_error</a>(</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keyword">const</span> std::string&amp; error_message,</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        <span class="keyword">const</span> std::string&amp; flag_names</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    )</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            std::format(<span class="stringliteral">&quot;magic_set_flags({})&quot;</span>, flag_names),</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            error_message</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        }</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    { }</div>
+</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>};</div>
+</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="foldopen" id="foldopen00271" data-start="{" data-end="};">
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__parameter__error.html">  271</a></span><span class="keyword">class </span><a class="code hl_class" href="classrecognition_1_1magic__set__parameter__error.html">magic_set_parameter_error</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a> {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00281" data-start="{" data-end="}">
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="classrecognition_1_1magic__set__parameter__error.html#a02b09cf2b6ced2d12d7b0570db6d097d">  281</a></span>    <a class="code hl_function" href="classrecognition_1_1magic__set__parameter__error.html#a02b09cf2b6ced2d12d7b0570db6d097d">magic_set_parameter_error</a>(</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <span class="keyword">const</span> std::string&amp; error_message,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        <span class="keyword">const</span> std::string&amp; parameter_name,</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        std::size_t        value</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    )</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>      : <a class="code hl_class" href="classrecognition_1_1magic__exception.html">magic_exception</a>{</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>            std::format(<span class="stringliteral">&quot;magic_set_parameter({}, {})&quot;</span>, parameter_name, value),</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>            error_message</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        }</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    { }</div>
+</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>};</div>
+</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>} <span class="comment">/* namespace recognition */</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor">#endif </span><span class="comment">/* MAGIC_EXCEPTION_HPP */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aclassrecognition_1_1empty__path_html"><div class="ttname"><a href="classrecognition_1_1empty__path.html">recognition::empty_path</a></div><div class="ttdoc">Exception thrown when a path is empty.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:61</div></div>
+<div class="ttc" id="aclassrecognition_1_1empty__path_html_a6d44a4fffd8e7743b5d70726472da81a"><div class="ttname"><a href="classrecognition_1_1empty__path.html#a6d44a4fffd8e7743b5d70726472da81a">recognition::empty_path::empty_path</a></div><div class="ttdeci">empty_path()</div><div class="ttdoc">Construct empty_path.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:66</div></div>
+<div class="ttc" id="aclassrecognition_1_1filesystem__error_html"><div class="ttname"><a href="classrecognition_1_1filesystem__error.html">recognition::filesystem_error</a></div><div class="ttdoc">Exception thrown when the underlying std::filesystem OS API fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:131</div></div>
+<div class="ttc" id="aclassrecognition_1_1filesystem__error_html_ad47bf06f1987cd1f1ed6f197d07a05a0"><div class="ttname"><a href="classrecognition_1_1filesystem__error.html#ad47bf06f1987cd1f1ed6f197d07a05a0">recognition::filesystem_error::filesystem_error</a></div><div class="ttdeci">filesystem_error(const std::string &amp;path, const std::string &amp;error_message)</div><div class="ttdoc">Construct filesystem_error with a path and an error message.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:139</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__database__not__loaded_html"><div class="ttname"><a href="classrecognition_1_1magic__database__not__loaded.html">recognition::magic_database_not_loaded</a></div><div class="ttdoc">Exception thrown when magic database is not loaded.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:206</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__database__not__loaded_html_af95027fde8cc393b538963a39fa19dc2"><div class="ttname"><a href="classrecognition_1_1magic__database__not__loaded.html#af95027fde8cc393b538963a39fa19dc2">recognition::magic_database_not_loaded::magic_database_not_loaded</a></div><div class="ttdeci">magic_database_not_loaded()</div><div class="ttdoc">Construct magic_database_not_loaded.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:211</div></div>
 <div class="ttc" id="aclassrecognition_1_1magic__exception_html"><div class="ttname"><a href="classrecognition_1_1magic__exception.html">recognition::magic_exception</a></div><div class="ttdoc">The base class for all exceptions thrown by the magic class.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:18</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__exception_html_aa8a2bda827e355e50dd867f702ca92ab"><div class="ttname"><a href="classrecognition_1_1magic__exception.html#aa8a2bda827e355e50dd867f702ca92ab">recognition::magic_exception::magic_exception</a></div><div class="ttdeci">magic_exception(const std::string &amp;function, const std::string &amp;error)</div><div class="ttdoc">Construct magic_exception with an error message and the name of the funtion where the error occurred.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:29</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__file__error_html"><div class="ttname"><a href="classrecognition_1_1magic__file__error.html">recognition::magic_file_error</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:78</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__file__error_html_aa685a891aacbc231f951a4ff1a0570aa"><div class="ttname"><a href="classrecognition_1_1magic__file__error.html#aa685a891aacbc231f951a4ff1a0570aa">recognition::magic_file_error::magic_file_error</a></div><div class="ttdeci">magic_file_error(const std::string &amp;error, const std::string &amp;file_path)</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:80</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__is__closed_html"><div class="ttname"><a href="classrecognition_1_1magic__is__closed.html">recognition::magic_is_closed</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:51</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__is__closed_html_a83ebd1ee9ad13d548a1697361b8acb96"><div class="ttname"><a href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">recognition::magic_is_closed::magic_is_closed</a></div><div class="ttdeci">magic_is_closed()</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:53</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__load__error_html"><div class="ttname"><a href="classrecognition_1_1magic__load__error.html">recognition::magic_load_error</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:65</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__load__error_html_ab434f9b28fb784d078ca6b64e8c59bcc"><div class="ttname"><a href="classrecognition_1_1magic__load__error.html#ab434f9b28fb784d078ca6b64e8c59bcc">recognition::magic_load_error::magic_load_error</a></div><div class="ttdeci">magic_load_error(const std::string &amp;error, const std::string &amp;database_file_path)</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:67</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__open__error_html"><div class="ttname"><a href="classrecognition_1_1magic__open__error.html">recognition::magic_open_error</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:58</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__open__error_html_a8f9678bd35cb51c3e308208e7fd73960"><div class="ttname"><a href="classrecognition_1_1magic__open__error.html#a8f9678bd35cb51c3e308208e7fd73960">recognition::magic_open_error::magic_open_error</a></div><div class="ttdeci">magic_open_error(const std::string &amp;error)</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:60</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__set__flags__error_html"><div class="ttname"><a href="classrecognition_1_1magic__set__flags__error.html">recognition::magic_set_flags_error</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:85</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__set__flags__error_html_a8329266e4d579231bfb7bb51f10dd506"><div class="ttname"><a href="classrecognition_1_1magic__set__flags__error.html#a8329266e4d579231bfb7bb51f10dd506">recognition::magic_set_flags_error::magic_set_flags_error</a></div><div class="ttdeci">magic_set_flags_error(const std::string &amp;error, const std::string &amp;flag_names)</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:87</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__set__param__error_html"><div class="ttname"><a href="classrecognition_1_1magic__set__param__error.html">recognition::magic_set_param_error</a></div><div class="ttdef"><b>Definition</b> magic_exception.hpp:95</div></div>
-<div class="ttc" id="aclassrecognition_1_1magic__set__param__error_html_afe8a18e9c642914e6d3afdeada0b43e9"><div class="ttname"><a href="classrecognition_1_1magic__set__param__error.html#afe8a18e9c642914e6d3afdeada0b43e9">recognition::magic_set_param_error::magic_set_param_error</a></div><div class="ttdeci">magic_set_param_error(const std::string &amp;error, const std::string &amp;parameter_name, std::size_t value)</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:97</div></div>
-<div class="ttc" id="anamespacerecognition_html"><div class="ttname"><a href="namespacerecognition.html">recognition</a></div><div class="ttdef"><b>Definition</b> magic.hpp:18</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__exception_html_aa79c23b1d52bcdf24509bf48369c4ae3"><div class="ttname"><a href="classrecognition_1_1magic__exception.html#aa79c23b1d52bcdf24509bf48369c4ae3">recognition::magic_exception::magic_exception</a></div><div class="ttdeci">magic_exception(const std::string &amp;function, const std::string &amp;error_message)</div><div class="ttdoc">Construct magic_exception with an error message and the name of the funtion where the error occurred.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:29</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__identify__file__error_html"><div class="ttname"><a href="classrecognition_1_1magic__identify__file__error.html">recognition::magic_identify_file_error</a></div><div class="ttdoc">Exception thrown when magic::identify_file(s) fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:221</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__identify__file__error_html_ae19e5a7f449718462054c31f611903f2"><div class="ttname"><a href="classrecognition_1_1magic__identify__file__error.html#ae19e5a7f449718462054c31f611903f2">recognition::magic_identify_file_error::magic_identify_file_error</a></div><div class="ttdeci">magic_identify_file_error(const std::string &amp;error_message, const std::string &amp;file_path)</div><div class="ttdoc">Construct magic_identify_file_error with an error message, and the path of the file.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:230</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__is__closed_html"><div class="ttname"><a href="classrecognition_1_1magic__is__closed.html">recognition::magic_is_closed</a></div><div class="ttdoc">Exception thrown when magic is closed.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:149</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__is__closed_html_a83ebd1ee9ad13d548a1697361b8acb96"><div class="ttname"><a href="classrecognition_1_1magic__is__closed.html#a83ebd1ee9ad13d548a1697361b8acb96">recognition::magic_is_closed::magic_is_closed</a></div><div class="ttdeci">magic_is_closed()</div><div class="ttdoc">Construct magic_is_closed.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:154</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__load__database__file__error_html"><div class="ttname"><a href="classrecognition_1_1magic__load__database__file__error.html">recognition::magic_load_database_file_error</a></div><div class="ttdoc">Exception thrown when magic::load_database_file fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:181</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__load__database__file__error_html_aa64262de922ef1d7567680674cf5c39a"><div class="ttname"><a href="classrecognition_1_1magic__load__database__file__error.html#aa64262de922ef1d7567680674cf5c39a">recognition::magic_load_database_file_error::magic_load_database_file_error</a></div><div class="ttdeci">magic_load_database_file_error(const std::string &amp;error_message, const std::string &amp;database_file_path)</div><div class="ttdoc">Construct magic_load_database_file_error with an error message and the path of the database file.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:190</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__open__error_html"><div class="ttname"><a href="classrecognition_1_1magic__open__error.html">recognition::magic_open_error</a></div><div class="ttdoc">Exception thrown when magic::open fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:164</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__open__error_html_a483518fc260b4395526850b23085b4cc"><div class="ttname"><a href="classrecognition_1_1magic__open__error.html#a483518fc260b4395526850b23085b4cc">recognition::magic_open_error::magic_open_error</a></div><div class="ttdeci">magic_open_error(const std::string &amp;error_message)</div><div class="ttdoc">Construct magic_open_error with an error message.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:171</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__set__flags__error_html"><div class="ttname"><a href="classrecognition_1_1magic__set__flags__error.html">recognition::magic_set_flags_error</a></div><div class="ttdoc">Exception thrown when magic::set_flags fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:246</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__set__flags__error_html_acb31959c724e48cbff36c15e87862b12"><div class="ttname"><a href="classrecognition_1_1magic__set__flags__error.html#acb31959c724e48cbff36c15e87862b12">recognition::magic_set_flags_error::magic_set_flags_error</a></div><div class="ttdeci">magic_set_flags_error(const std::string &amp;error_message, const std::string &amp;flag_names)</div><div class="ttdoc">Construct magic_set_flags_error with an error message and the names of the flags.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:255</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__set__parameter__error_html"><div class="ttname"><a href="classrecognition_1_1magic__set__parameter__error.html">recognition::magic_set_parameter_error</a></div><div class="ttdoc">Exception thrown when magic::set_parameter(s) fails.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:271</div></div>
+<div class="ttc" id="aclassrecognition_1_1magic__set__parameter__error_html_a02b09cf2b6ced2d12d7b0570db6d097d"><div class="ttname"><a href="classrecognition_1_1magic__set__parameter__error.html#a02b09cf2b6ced2d12d7b0570db6d097d">recognition::magic_set_parameter_error::magic_set_parameter_error</a></div><div class="ttdeci">magic_set_parameter_error(const std::string &amp;error_message, const std::string &amp;parameter_name, std::size_t value)</div><div class="ttdoc">Construct magic_set_parameter_error with an error message, the name of the parameter and its value.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:281</div></div>
+<div class="ttc" id="aclassrecognition_1_1null__tracker_html"><div class="ttname"><a href="classrecognition_1_1null__tracker.html">recognition::null_tracker</a></div><div class="ttdoc">Exception thrown when a shared progress_tracker is null.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:46</div></div>
+<div class="ttc" id="aclassrecognition_1_1null__tracker_html_a23a589315a7dc509c47d57d3d1e3c981"><div class="ttname"><a href="classrecognition_1_1null__tracker.html#a23a589315a7dc509c47d57d3d1e3c981">recognition::null_tracker::null_tracker</a></div><div class="ttdeci">null_tracker()</div><div class="ttdoc">Construct null_tracker.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:51</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__does__not__exist_html"><div class="ttname"><a href="classrecognition_1_1path__does__not__exist.html">recognition::path_does_not_exist</a></div><div class="ttdoc">Exception thrown when a path does not exist.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:114</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__does__not__exist_html_abf6f4d93b03c19174e09d0dd23524f8d"><div class="ttname"><a href="classrecognition_1_1path__does__not__exist.html#abf6f4d93b03c19174e09d0dd23524f8d">recognition::path_does_not_exist::path_does_not_exist</a></div><div class="ttdeci">path_does_not_exist(const std::string &amp;path)</div><div class="ttdoc">Construct path_does_not_exist with the path that does not exist.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:121</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__is__not__directory_html"><div class="ttname"><a href="classrecognition_1_1path__is__not__directory.html">recognition::path_is_not_directory</a></div><div class="ttdoc">Exception thrown from magic::identify_files(directory) when the path is not a directory.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:96</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__is__not__directory_html_a5ab6e69311da9b8039b361d70d7c1121"><div class="ttname"><a href="classrecognition_1_1path__is__not__directory.html#a5ab6e69311da9b8039b361d70d7c1121">recognition::path_is_not_directory::path_is_not_directory</a></div><div class="ttdeci">path_is_not_directory(const std::string &amp;path)</div><div class="ttdoc">Construct path_is_not_directory with the path that is not a directory.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:104</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__is__not__regular__file_html"><div class="ttname"><a href="classrecognition_1_1path__is__not__regular__file.html">recognition::path_is_not_regular_file</a></div><div class="ttdoc">Exception thrown from magic::load_database_file when the database file path is not a regular file.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:77</div></div>
+<div class="ttc" id="aclassrecognition_1_1path__is__not__regular__file_html_ad2153be62995779e8a15b5a4908e38be"><div class="ttname"><a href="classrecognition_1_1path__is__not__regular__file.html#ad2153be62995779e8a15b5a4908e38be">recognition::path_is_not_regular_file::path_is_not_regular_file</a></div><div class="ttdeci">path_is_not_regular_file(const std::string &amp;path)</div><div class="ttdoc">Construct path_is_not_regular_file with the database file path that is not a regular file.</div><div class="ttdef"><b>Definition</b> magic_exception.hpp:85</div></div>
+<div class="ttc" id="anamespacerecognition_html"><div class="ttname"><a href="namespacerecognition.html">recognition</a></div><div class="ttdef"><b>Definition</b> magic.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_a606896a86f6c3a01f18ce633d4419c0.html">magicxx</a></li><li class="navelem"><a class="el" href="magic__exception_8hpp.html">magic_exception.hpp</a></li>
-    <li class="footer">Generated on Thu May 22 2025 17:18:03 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Wed Jul 9 2025 22:26:18 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

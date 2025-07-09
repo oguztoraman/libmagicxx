@@ -1,0 +1,31 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,435,143,464"/>
+<area shape="rect" id="Node000001" href="$classrecognition_1_1magic__exception.html" title="The base class for all exceptions thrown by the magic class." alt="" coords="191,425,326,474"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="158,447,191,447,191,452,158,452"/>
+<area shape="rect" id="Node000002" href="$classrecognition_1_1empty__path.html" title="Exception thrown when a path is empty." alt="" coords="377,5,550,35"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="256,410,261,333,277,236,292,184,312,134,338,87,372,45,387,33,391,38,376,49,343,90,317,136,297,186,282,237,266,334,262,410"/>
+<area shape="rect" id="Node000003" href="$classrecognition_1_1filesystem__error.html" title="Exception thrown when the underlying std::filesystem OS API fails." alt="" coords="382,58,545,107"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="260,409,270,347,290,270,304,229,323,190,345,152,372,118,387,106,391,110,376,122,349,155,327,192,309,231,295,271,275,348,266,410"/>
+<area shape="rect" id="Node000004" href="$classrecognition_1_1magic__database__not__loaded.html" title="Exception thrown when magic database is not loaded." alt="" coords="384,132,543,180"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="265,409,279,360,300,303,331,244,350,216,372,192,388,179,392,183,376,195,354,220,335,247,305,305,284,362,270,411"/>
+<area shape="rect" id="Node000005" href="$classrecognition_1_1magic__identify__file__error.html" title="Exception thrown when magic::identify_file(s) fails." alt="" coords="394,205,533,254"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="273,410,312,337,339,299,372,265,393,251,396,255,376,269,344,302,316,340,278,412"/>
+<area shape="rect" id="Node000006" href="$classrecognition_1_1magic__is__closed.html" title="Exception thrown when magic is closed." alt="" coords="396,278,531,327"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="289,412,327,374,373,338,395,325,397,330,375,342,330,378,292,416"/>
+<area shape="rect" id="Node000007" href="$classrecognition_1_1magic__load__database__file__error.html" title="Exception thrown when magic::load_database_file fails." alt="" coords="374,352,553,400"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="340,418,392,399,394,404,342,423"/>
+<area shape="rect" id="Node000008" href="$classrecognition_1_1magic__open__error.html" title="Exception thrown when magic::open fails." alt="" coords="396,425,531,474"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="341,447,395,447,395,452,341,452"/>
+<area shape="rect" id="Node000009" href="$classrecognition_1_1magic__set__flags__error.html" title="Exception thrown when magic::set_flags fails." alt="" coords="396,498,531,547"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="342,476,396,496,395,501,340,481"/>
+<area shape="rect" id="Node000010" href="$classrecognition_1_1magic__set__parameter__error.html" title="Exception thrown when magic::set_parameter(s) fails." alt="" coords="385,572,542,620"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="292,483,330,521,375,557,397,569,395,574,373,561,327,525,289,487"/>
+<area shape="rect" id="Node000011" href="$classrecognition_1_1null__tracker.html" title="Exception thrown when a shared progress_tracker is null." alt="" coords="378,644,549,674"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="277,487,293,522,315,560,342,598,376,630,395,641,392,646,372,634,338,601,310,563,288,524,272,489"/>
+<area shape="rect" id="Node000012" href="$classrecognition_1_1path__does__not__exist.html" title="Exception thrown when a path does not exist." alt="" coords="382,697,545,746"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="272,488,286,533,308,585,337,638,376,684,390,695,387,699,372,687,333,641,303,587,281,535,267,490"/>
+<area shape="rect" id="Node000013" href="$classrecognition_1_1path__is__not__directory.html" title="Exception thrown from magic::identify_files(directory) when the path is not a directory." alt="" coords="392,770,535,819"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="267,489,278,547,298,618,330,691,351,725,376,756,394,770,391,774,372,759,346,728,325,694,293,620,272,548,262,490"/>
+<area shape="rect" id="Node000014" href="$classrecognition_1_1path__is__not__regular__file.html" title="Exception thrown from magic::load_database_file when the database file path is not a regular file." alt="" coords="392,844,535,892"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="264,489,270,561,288,651,303,698,322,745,346,789,376,829,394,843,390,848,372,833,342,792,317,747,298,700,283,652,265,561,258,490"/>
+</map>

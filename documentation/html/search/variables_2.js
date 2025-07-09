@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['m_5fcookie_0',['m_cookie',['../classrecognition_1_1magic_1_1magic__private.html#ad3160c4caee517f7afc510ea3deab0be',1,'recognition::magic::magic_private']]],
-  ['m_5fflags_5fmask_1',['m_flags_mask',['../classrecognition_1_1magic_1_1magic__private.html#a801d654e958a7f96bd73c8de04931c79',1,'recognition::magic::magic_private::m_flags_mask'],['../structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html#ae3b52406779062e6ea04165f2e3fb7a2',1,'recognition::magic::magic_private::flags_converter::m_flags_mask']]],
-  ['m_5fimpl_2',['m_impl',['../classrecognition_1_1magic.html#a38636c1e6367f33ae1684c4255618548',1,'recognition::magic']]],
-  ['m_5fpair_3',['m_pair',['../structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter.html#a8490c18dd18ec9e70083f0a93a29f9fd',1,'recognition::magic::magic_private::libmagic_pair_converter']]]
+  ['libmagic_5ferror_0',['libmagic_error',['../classrecognition_1_1magic_1_1magic__private.html#a42077466f38d199e708e560f60f66e9e',1,'recognition::magic::magic_private']]],
+  ['libmagic_5fflag_5fnone_1',['libmagic_flag_none',['../classrecognition_1_1magic_1_1magic__private.html#a328813065d405780b4206ada3cec60c5',1,'recognition::magic::magic_private']]],
+  ['libmagic_5fflags_2',['libmagic_flags',['../classrecognition_1_1magic_1_1magic__private.html#a231be83324524f10b803f18f35595429',1,'recognition::magic::magic_private']]],
+  ['libmagic_5fflags_5fcount_3',['libmagic_flags_count',['../classrecognition_1_1magic_1_1magic__private.html#a9f8aadf8079e0ed6c5a34e404ed37bdc',1,'recognition::magic::magic_private']]],
+  ['libmagic_5fparameter_5fcount_4',['libmagic_parameter_count',['../classrecognition_1_1magic_1_1magic__private.html#a64098a62bcee8a27fe1c078cdd8f76fb',1,'recognition::magic::magic_private']]],
+  ['libmagic_5fparameters_5',['libmagic_parameters',['../classrecognition_1_1magic_1_1magic__private.html#aed707041b459e47c1d1cec562ca5ecce',1,'recognition::magic::magic_private']]]
 ];

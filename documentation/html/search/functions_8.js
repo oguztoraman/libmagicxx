@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['set_5fflags_0',['set_flags',['../classrecognition_1_1magic.html#a10a1048294a6a5fb074835c7d4e3a0e5',1,'recognition::magic::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic.html#a629b5d1efe7d275c32896805edb6ff5f',1,'recognition::magic::set_flags(const flags_container_t &amp;flags_container)'],['../classrecognition_1_1magic_1_1magic__private.html#a490d0f51a5b578ca83a96cbe9decb63b',1,'recognition::magic::magic_private::set_flags(flags_mask_t flags_mask)'],['../classrecognition_1_1magic_1_1magic__private.html#a7045e278d25be5c47d88268075a35044',1,'recognition::magic::magic_private::set_flags(const flags_container_t &amp;flags_container)']]],
-  ['set_5fparameter_1',['set_parameter',['../classrecognition_1_1magic.html#a974c60ca269f6b718af895977bba08ca',1,'recognition::magic::set_parameter()'],['../classrecognition_1_1magic_1_1magic__private.html#a31b89650aa7c24bd8c4be87c1a571846',1,'recognition::magic::magic_private::set_parameter()']]],
-  ['set_5fparameters_2',['set_parameters',['../classrecognition_1_1magic.html#a1e8985a4ad62b2dfdacfea763166572c',1,'recognition::magic::set_parameters()'],['../classrecognition_1_1magic_1_1magic__private.html#a4dcf6f5b61b24f56c760f186d0339bbf',1,'recognition::magic::magic_private::set_parameters()']]]
+  ['null_5ftracker_0',['null_tracker',['../classrecognition_1_1null__tracker.html#a23a589315a7dc509c47d57d3d1e3c981',1,'recognition::null_tracker']]]
 ];

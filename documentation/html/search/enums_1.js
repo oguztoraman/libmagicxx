@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parameters_0',['parameters',['../classrecognition_1_1magic.html#a85e5da0093fe0bc74bb1911a99e1a940',1,'recognition::magic']]]
+  ['identify_5ffile_5foptions_0',['identify_file_options',['../classrecognition_1_1magic_1_1magic__private.html#a60ca3e6b3dfc1a7133dd5097e3e3445b',1,'recognition::magic::magic_private']]]
 ];

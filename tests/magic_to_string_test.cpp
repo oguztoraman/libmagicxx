@@ -6,7 +6,7 @@
 #include "magic.hpp"
 
 using namespace recognition;
-using namespace file_concepts;
+using namespace utility;
 
 TEST(magic_to_string_test, type_of_a_file_t)
 {

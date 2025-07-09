@@ -39,6 +39,21 @@ public:
 };
 
 /**
+ * @class null_tracker
+ *
+ * @brief Exception thrown when a shared progress_tracker is null.
+ */
+class null_tracker final : public magic_exception {
+public:
+    /**
+     * @brief Construct null_tracker.
+     */
+    null_tracker()
+      : magic_exception{"shared progress_tracker is null."}
+    { }
+};
+
+/**
  * @class empty_path
  *
  * @brief Exception thrown when a path is empty.

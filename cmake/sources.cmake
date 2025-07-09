@@ -48,9 +48,10 @@ set(magic_SOURCE_FILES
 )
 
 set(magicxx_HEADER_FILES
-    ${magicxx_INCLUDE_DIR}/file_concepts.hpp
     ${magicxx_INCLUDE_DIR}/magic.hpp
     ${magicxx_INCLUDE_DIR}/magic_exception.hpp
+    ${magicxx_INCLUDE_DIR}/percentage.hpp
+    ${magicxx_INCLUDE_DIR}/progress_tracker.hpp
     ${magicxx_INCLUDE_DIR}/utility.hpp
 )
 

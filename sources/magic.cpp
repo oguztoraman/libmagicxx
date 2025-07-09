@@ -256,27 +256,128 @@ public:
         return {type_cstr};
     }
 
+    [[nodiscard]] default_file_container_t
+        identify_directory_preliminary_checks(
+            const std::filesystem::path&       directory,
+            std::filesystem::directory_options option,
+            tracker_t                          tracker
+        ) const
+    {
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
+            is_database_loaded()
+        );
+        magic_private::throw_exception_on_failure<empty_path>(!directory.empty()
+        );
+        std::error_code error_code{};
+        magic_private::throw_exception_on_failure<path_does_not_exist>(
+            std::filesystem::exists(directory, error_code),
+            directory.string()
+        );
+        magic_private::throw_exception_on_failure<path_is_not_directory>(
+            std::filesystem::is_directory(directory, error_code),
+            directory.string()
+        );
+        magic_private::throw_exception_on_failure<null_tracker>(
+            tracker != nullptr
+        );
+        auto files = std::filesystem::recursive_directory_iterator{
+            directory,
+            option,
+            error_code
+        };
+        magic_private::throw_exception_on_failure<filesystem_error>(
+            !error_code,
+            directory.string(),
+            error_code.message()
+        );
+        return {std::ranges::begin(files), std::ranges::end(files)};
+    }
+
+    [[nodiscard]] std::optional<default_file_container_t>
+        identify_directory_preliminary_checks(
+            const std::filesystem::path&           directory,
+            [[maybe_unused]] const std::nothrow_t& tag,
+            std::filesystem::directory_options     option,
+            tracker_t                              tracker
+        ) const noexcept
+    {
+        if (!is_valid()) {
+            return std::nullopt;
+        }
+        if (directory.empty()) {
+            return std::nullopt;
+        }
+        std::error_code error_code{};
+        if (!std::filesystem::exists(directory, error_code)) {
+            return std::nullopt;
+        }
+        if (!std::filesystem::is_directory(directory, error_code)) {
+            return std::nullopt;
+        }
+        if (!tracker) {
+            return std::nullopt;
+        }
+        std::filesystem::recursive_directory_iterator files{
+            directory,
+            option,
+            error_code
+        };
+        if (error_code) {
+            return std::nullopt;
+        }
+        return {
+            {std::ranges::begin(files), std::ranges::end(files)}
+        };
+    }
+
+    void identify_container_preliminary_checks(tracker_t tracker) const
+    {
+        magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
+        magic_private::throw_exception_on_failure<magic_database_not_loaded>(
+            is_database_loaded()
+        );
+        magic_private::throw_exception_on_failure<null_tracker>(
+            tracker != nullptr
+        );
+    }
+
+    bool identify_container_preliminary_checks(
+        [[maybe_unused]] const std::nothrow_t& tag,
+        tracker_t                              tracker
+    ) const noexcept
+    {
+        return is_valid() && tracker;
+    }
+
     [[nodiscard]] types_of_files_t identify_files(
-        const std::ranges::range auto& files,
-        identify_file_options_mask_t   option
+        const default_file_container_t& files,
+        identify_file_options_mask_t    option,
+        tracker_t                       tracker
     ) const
     {
         types_of_files_t types_of_files;
-        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+        tracker->reset(std::ranges::distance(files));
+        std::ranges::for_each(files, [&](const auto& file) {
+            utility::advance_tracker advance{tracker};
             types_of_files[file] = identify_file(file, option);
         });
+        tracker->mark_as_completed();
         return types_of_files;
     }
 
     [[nodiscard]] expected_types_of_files_t identify_files(
-        const std::ranges::range auto&         files,
+        const default_file_container_t&        files,
+        [[maybe_unused]] const std::nothrow_t& tag,
         identify_file_options_mask_t           option,
-        [[maybe_unused]] const std::nothrow_t& tag
+        tracker_t                              tracker
     ) const noexcept
     {
         expected_types_of_files_t expected_types_of_files;
         option &= ~check_path_empty_option;
-        std::ranges::for_each(files, [&](const std::filesystem::path& file) {
+        tracker->reset(std::ranges::distance(files));
+        std::ranges::for_each(files, [&](const auto& file) {
+            utility::advance_tracker advance{tracker};
             if (file.empty()) {
                 return;
             }
@@ -839,13 +940,11 @@ magic::magic(
 { }
 
 magic::magic(
-    flags_mask_t                           flags_mask,
-    [[maybe_unused]] const std::nothrow_t& tag,
-    const std::filesystem::path&           database_file
+    flags_mask_t                 flags_mask,
+    const std::nothrow_t&        tag,
+    const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{
-        std::make_unique<magic_private>(flags_mask, std::nothrow, database_file)
-    }
+  : m_impl{std::make_unique<magic_private>(flags_mask, tag, database_file)}
 { }
 
 magic::magic(
@@ -856,15 +955,11 @@ magic::magic(
 { }
 
 magic::magic(
-    const flags_container_t&               flags_container,
-    [[maybe_unused]] const std::nothrow_t& tag,
-    const std::filesystem::path&           database_file
+    const flags_container_t&     flags_container,
+    const std::nothrow_t&        tag,
+    const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{std::make_unique<magic_private>(
-        flags_container,
-        std::nothrow,
-        database_file
-    )}
+  : m_impl{std::make_unique<magic_private>(flags_container, tag, database_file)}
 { }
 
 magic::magic(magic&& other) noexcept
@@ -909,10 +1004,10 @@ magic::flags_container_t magic::get_flags() const
 }
 
 std::optional<magic::flags_container_t> magic::get_flags(
-    [[maybe_unused]] const std::nothrow_t& tag
+    const std::nothrow_t& tag
 ) const noexcept
 {
-    return m_impl->get_flags(std::nothrow);
+    return m_impl->get_flags(tag);
 }
 
 std::size_t magic::get_parameter(magic::parameters parameter) const
@@ -921,11 +1016,11 @@ std::size_t magic::get_parameter(magic::parameters parameter) const
 }
 
 std::optional<std::size_t> magic::get_parameter(
-    parameters                             parameter,
-    [[maybe_unused]] const std::nothrow_t& tag
+    parameters            parameter,
+    const std::nothrow_t& tag
 ) const noexcept
 {
-    return m_impl->get_parameter(parameter, std::nothrow);
+    return m_impl->get_parameter(parameter, tag);
 }
 
 magic::parameter_value_map_t magic::get_parameters() const
@@ -934,10 +1029,10 @@ magic::parameter_value_map_t magic::get_parameters() const
 }
 
 std::optional<magic::parameter_value_map_t> magic::get_parameters(
-    [[maybe_unused]] const std::nothrow_t& tag
+    const std::nothrow_t& tag
 ) const noexcept
 {
-    return m_impl->get_parameters(std::nothrow);
+    return m_impl->get_parameters(tag);
 }
 
 std::string magic::get_version() noexcept
@@ -954,112 +1049,84 @@ magic::file_type_t magic::identify_file(const std::filesystem::path& path) const
 }
 
 magic::expected_file_type_t magic::identify_file(
-    const std::filesystem::path&           path,
-    [[maybe_unused]] const std::nothrow_t& tag
+    const std::filesystem::path& path,
+    const std::nothrow_t&        tag
 ) const noexcept
 {
     return m_impl->identify_file(
         path,
         magic_private::identify_file_options::check_everything,
-        std::nothrow
+        tag
     );
 }
 
-magic::types_of_files_t magic::identify_files(
+magic::types_of_files_t magic::identify_directory_impl(
     const std::filesystem::path&       directory,
-    std::filesystem::directory_options option
+    std::filesystem::directory_options option,
+    tracker_t                          tracker
 ) const
 {
-    magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
-    magic_private::throw_exception_on_failure<magic_database_not_loaded>(
-        is_database_loaded()
-    );
-    magic_private::throw_exception_on_failure<empty_path>(!directory.empty());
-    std::error_code error_code{};
-    magic_private::throw_exception_on_failure<path_does_not_exist>(
-        std::filesystem::exists(directory, error_code),
-        directory.string()
-    );
-    magic_private::throw_exception_on_failure<path_is_not_directory>(
-        std::filesystem::is_directory(directory, error_code),
-        directory.string()
-    );
-    auto files = std::filesystem::recursive_directory_iterator{
-        directory,
-        option,
-        error_code
-    };
-    magic_private::throw_exception_on_failure<filesystem_error>(
-        !error_code,
-        directory.string(),
-        error_code.message()
-    );
     return m_impl->identify_files(
-        files,
-        magic_private::identify_file_options::check_nothing
-    );
-}
-
-magic::expected_types_of_files_t magic::identify_files(
-    const std::filesystem::path&           directory,
-    [[maybe_unused]] const std::nothrow_t& tag,
-    std::filesystem::directory_options     option
-) const noexcept
-{
-    if (!is_valid()) {
-        return {};
-    }
-    if (directory.empty()) {
-        return {};
-    }
-    std::error_code error_code{};
-    if (!std::filesystem::exists(directory, error_code)) {
-        return {};
-    }
-    if (!std::filesystem::is_directory(directory, error_code)) {
-        return {};
-    }
-    std::filesystem::recursive_directory_iterator files{
-        directory,
-        option,
-        error_code
-    };
-    if (error_code) {
-        return {};
-    }
-    return m_impl->identify_files(
-        files,
+        m_impl
+            ->identify_directory_preliminary_checks(directory, option, tracker),
         magic_private::identify_file_options::check_nothing,
-        std::nothrow
+        tracker
     );
 }
 
-magic::types_of_files_t magic::identify_file_container_impl(
-    const std::vector<std::filesystem::path>& files
-) const
-{
-    magic_private::throw_exception_on_failure<magic_is_closed>(is_open());
-    magic_private::throw_exception_on_failure<magic_database_not_loaded>(
-        m_impl->is_database_loaded()
-    );
-    return m_impl->identify_files(
-        files,
-        magic_private::identify_file_options::check_path
-    );
-}
-
-magic::expected_types_of_files_t magic::identify_file_container_impl(
-    const std::vector<std::filesystem::path>& files,
-    [[maybe_unused]] const std::nothrow_t&    tag
+magic::expected_types_of_files_t magic::identify_directory_impl(
+    const std::filesystem::path&       directory,
+    const std::nothrow_t&              tag,
+    std::filesystem::directory_options option,
+    tracker_t                          tracker
 ) const noexcept
 {
-    if (!is_valid()) {
+    auto files = m_impl->identify_directory_preliminary_checks(
+        directory,
+        tag,
+        option,
+        tracker
+    );
+    utility::mark_tracker_as_completed marker{tracker};
+    if (!files) {
+        return {};
+    }
+    return m_impl->identify_files(
+        files.value(),
+        tag,
+        magic_private::identify_file_options::check_nothing,
+        tracker
+    );
+}
+
+magic::types_of_files_t magic::identify_container_impl(
+    const default_file_container_t& files,
+    tracker_t                       tracker
+) const
+{
+    m_impl->identify_container_preliminary_checks(tracker);
+    return m_impl->identify_files(
+        files,
+        magic_private::identify_file_options::check_path,
+        tracker
+    );
+}
+
+magic::expected_types_of_files_t magic::identify_container_impl(
+    const default_file_container_t& files,
+    const std::nothrow_t&           tag,
+    tracker_t                       tracker
+) const noexcept
+{
+    utility::mark_tracker_as_completed marker{tracker};
+    if (!m_impl->identify_container_preliminary_checks(tag, tracker)) {
         return {};
     }
     return m_impl->identify_files(
         files,
+        tag,
         magic_private::identify_file_options::check_path_exists,
-        std::nothrow
+        tracker
     );
 }
 
@@ -1084,11 +1151,11 @@ void magic::load_database_file(const std::filesystem::path& database_file)
 }
 
 bool magic::load_database_file(
-    [[maybe_unused]] const std::nothrow_t& tag,
-    const std::filesystem::path&           database_file
+    const std::nothrow_t&        tag,
+    const std::filesystem::path& database_file
 ) noexcept
 {
-    return m_impl->load_database_file(std::nothrow, database_file);
+    return m_impl->load_database_file(tag, database_file);
 }
 
 void magic::open(flags_mask_t flags_mask)
@@ -1096,12 +1163,9 @@ void magic::open(flags_mask_t flags_mask)
     m_impl->open(flags_mask);
 }
 
-bool magic::open(
-    flags_mask_t                           flags_mask,
-    [[maybe_unused]] const std::nothrow_t& tag
-) noexcept
+bool magic::open(flags_mask_t flags_mask, const std::nothrow_t& tag) noexcept
 {
-    return m_impl->open(flags_mask, std::nothrow);
+    return m_impl->open(flags_mask, tag);
 }
 
 void magic::open(const flags_container_t& flags_container)
@@ -1110,11 +1174,11 @@ void magic::open(const flags_container_t& flags_container)
 }
 
 bool magic::open(
-    const flags_container_t&               flags_container,
-    [[maybe_unused]] const std::nothrow_t& tag
+    const flags_container_t& flags_container,
+    const std::nothrow_t&    tag
 ) noexcept
 {
-    return m_impl->open(flags_container, std::nothrow);
+    return m_impl->open(flags_container, tag);
 }
 
 void magic::set_flags(flags_mask_t flags_mask)
@@ -1123,11 +1187,11 @@ void magic::set_flags(flags_mask_t flags_mask)
 }
 
 bool magic::set_flags(
-    flags_mask_t                           flags_mask,
-    [[maybe_unused]] const std::nothrow_t& tag
+    flags_mask_t          flags_mask,
+    const std::nothrow_t& tag
 ) noexcept
 {
-    return m_impl->set_flags(flags_mask, std::nothrow);
+    return m_impl->set_flags(flags_mask, tag);
 }
 
 void magic::set_flags(const flags_container_t& flags_container)
@@ -1136,11 +1200,11 @@ void magic::set_flags(const flags_container_t& flags_container)
 }
 
 bool magic::set_flags(
-    const flags_container_t&               flags_container,
-    [[maybe_unused]] const std::nothrow_t& tag
+    const flags_container_t& flags_container,
+    const std::nothrow_t&    tag
 ) noexcept
 {
-    return m_impl->set_flags(flags_container, std::nothrow);
+    return m_impl->set_flags(flags_container, tag);
 }
 
 void magic::set_parameter(parameters parameter, std::size_t value)
@@ -1149,12 +1213,12 @@ void magic::set_parameter(parameters parameter, std::size_t value)
 }
 
 bool magic::set_parameter(
-    parameters                             parameter,
-    std::size_t                            value,
-    [[maybe_unused]] const std::nothrow_t& tag
+    parameters            parameter,
+    std::size_t           value,
+    const std::nothrow_t& tag
 ) noexcept
 {
-    return m_impl->set_parameter(parameter, value, std::nothrow);
+    return m_impl->set_parameter(parameter, value, tag);
 }
 
 void magic::set_parameters(const parameter_value_map_t& parameters)
@@ -1163,11 +1227,11 @@ void magic::set_parameters(const parameter_value_map_t& parameters)
 }
 
 bool magic::set_parameters(
-    const parameter_value_map_t&           parameters,
-    [[maybe_unused]] const std::nothrow_t& tag
+    const parameter_value_map_t& parameters,
+    const std::nothrow_t&        tag
 ) noexcept
 {
-    return m_impl->set_parameters(parameters, std::nothrow);
+    return m_impl->set_parameters(parameters, tag);
 }
 
 } /* namespace recognition */

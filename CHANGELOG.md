@@ -2,6 +2,16 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** Magic: Add progress feedback for identify_files functions via utility::progress_tracker.
+
++ [**ENHANCEMENT**]**;** Magic: Remove unnecessary maybe unused attributes.
+
++ [**ENHANCEMENT**]**;** Magic: Move the file_concepts header into the utility header.
+
++ [**DOCUMENTATION**]**;** Docs: Fix typos & Improve documentation.
+
++ [**ENHANCEMENT**]**;** Magic: Configure VSCode for debugging with GDB.
+
 + [**BUGFIX**]**;** Magic: Fix bugs identified during testing.
 
 + [**QUALITY**]**;** Tests & Examples: Refactor tests & examples.

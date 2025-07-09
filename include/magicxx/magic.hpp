@@ -12,8 +12,9 @@
 #include <string_view>
 #include <vector>
 
-#include "file_concepts.hpp"
 #include "magic_exception.hpp"
+#include "progress_tracker.hpp"
+#include "utility.hpp"
 
 namespace recognition {
 
@@ -30,46 +31,71 @@ namespace recognition {
 class magic {
 public:
     /**
-     * @brief The flags_mask_t typedef.
+     * @typedef flags_mask_t
+     *
+     * @brief Bitmask type representing a set of magic::flags used to configure the magic instance.
      */
     using flags_mask_t = std::bitset<30uz>;
 
     /**
-     * @brief The file_type_t typedef.
+     * @typedef file_type_t
+     *
+     * @brief String type representing the detected type of a file.
      */
     using file_type_t = std::string;
 
     /**
-     * @brief The error_message_t typedef.
+     * @typedef error_message_t
+     *
+     * @brief String type representing an error message from file identification.
      */
     using error_message_t = std::string;
 
     /**
-     * @brief The expected_file_type_t typedef.
+     * @typedef expected_file_type_t
+     *
+     * @brief Result type for file identification, containing either a file type or an error message.
      */
     using expected_file_type_t = std::expected<file_type_t, error_message_t>;
 
     /**
-     * @brief The types_of_files_t typedef.
+     * @typedef types_of_files_t
+     *
+     * @brief Map from file paths to their detected types.
      */
     using types_of_files_t = std::map<std::filesystem::path, file_type_t>;
 
     /**
-     * @brief The type_of_a_file_t typedef.
+     * @typedef type_of_a_file_t
+     *
+     * @brief Key-value pair representing a single file and its detected type.
      */
     using type_of_a_file_t = types_of_files_t::value_type;
 
     /**
-     * @brief The expected_types_of_files_t typedef.
+     * @typedef expected_types_of_files_t
+     *
+     * @brief Map from file paths to expected file type results (success or error).
      */
     using expected_types_of_files_t = std::map<
         std::filesystem::path,
         expected_file_type_t>;
 
     /**
-     * @brief The expected_type_of_file_t typedef.
+     * @typedef expected_type_of_a_file_t
+     *
+     * @brief Key-value pair representing a single file and its expected file type result.
      */
     using expected_type_of_a_file_t = expected_types_of_files_t::value_type;
+
+    /**
+     * @typedef tracker_t
+     *
+     * @brief Alias for a shared pointer to a progress tracker used for monitoring file identification progress.
+     *
+     * @see utility::progress_tracker
+     */
+    using tracker_t = utility::shared_progress_tracker_t;
 
     /**
      * @brief The flags enums are used for configuring the flags of a magic.
@@ -132,17 +158,23 @@ public:
     };
 
     /**
-     * @brief The flags_container_t typedef.
+     * @typedef flags_container_t
+     *
+     * @brief Container type holding a collection of magic::flags.
      */
     using flags_container_t = std::vector<flags>;
 
     /**
-     * @brief The parameter_value_map_t typedef.
+     * @typedef parameter_value_map_t
+     *
+     * @brief Map from magic::parameters to their corresponding values.
      */
     using parameter_value_map_t = std::map<parameters, std::size_t>;
 
     /**
-     * @brief The parameter_value_t typedef.
+     * @typedef parameter_value_t
+     *
+     * @brief Key-value pair representing a single parameter and its value.
      */
     using parameter_value_t = parameter_value_map_t::value_type;
 
@@ -188,8 +220,8 @@ public:
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
     magic(
-        flags_mask_t                           flags_mask,
-        [[maybe_unused]] const std::nothrow_t& tag,
+        flags_mask_t                 flags_mask,
+        const std::nothrow_t&        tag,
         const std::filesystem::path& database_file = default_database_file
     ) noexcept;
 
@@ -222,8 +254,8 @@ public:
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
     magic(
-        const flags_container_t&               flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag,
+        const flags_container_t&     flags_container,
+        const std::nothrow_t&        tag,
         const std::filesystem::path& database_file = default_database_file
     ) noexcept;
 
@@ -322,7 +354,7 @@ public:
      * @returns flags_container_t or std::nullopt if magic is closed.
      */
     [[nodiscard]] std::optional<flags_container_t> get_flags(
-        [[maybe_unused]] const std::nothrow_t& tag
+        const std::nothrow_t& tag
     ) const noexcept;
 
     /**
@@ -345,8 +377,8 @@ public:
      * @returns Value of the desired parameter or std::nullopt if magic is closed.
      */
     [[nodiscard]] std::optional<std::size_t> get_parameter(
-        parameters                             parameter,
-        [[maybe_unused]] const std::nothrow_t& tag
+        parameters            parameter,
+        const std::nothrow_t& tag
     ) const noexcept;
 
     /**
@@ -366,7 +398,7 @@ public:
      * @returns <parameter, value> map or std::nullopt if magic is closed.
      */
     [[nodiscard]] std::optional<parameter_value_map_t> get_parameters(
-        [[maybe_unused]] const std::nothrow_t& tag
+        const std::nothrow_t& tag
     ) const noexcept;
 
     /**
@@ -401,8 +433,8 @@ public:
      * @returns The type of the file or the error message.
      */
     [[nodiscard]] expected_file_type_t identify_file(
-        const std::filesystem::path&           path,
-        [[maybe_unused]] const std::nothrow_t& tag
+        const std::filesystem::path& path,
+        const std::nothrow_t&        tag
     ) const noexcept;
 
     /**
@@ -425,7 +457,38 @@ public:
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
-    ) const;
+    ) const
+    {
+        return identify_directory_impl(directory, option);
+    }
+
+    /**
+     * @brief Identify the types of all files in a directory with progress tracking.
+     *
+     * @param[in]  directory        The path of the directory.
+     * @param[out] tracker          The progress tracker to track the progress of the identification. Must not be null.
+     * @param[in]  option           The directory iteration option, default is follow_directory_symlink.
+     *
+     * @returns The types of each file as a map.
+     *
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_database_not_loaded    if the magic database is not loaded.
+     * @throws empty_path                   if the path of the directory is empty.
+     * @throws path_does_not_exist          if the path of the directory does not exist.
+     * @throws path_is_not_directory        if the path of the directory is not a directory.
+     * @throws null_tracker                 if the tracker is null.
+     * @throws filesystem_error             if the underlying std::filesystem OS API fails.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     */
+    [[nodiscard]] types_of_files_t identify_files(
+        const std::filesystem::path&       directory,
+        tracker_t                          tracker,
+        std::filesystem::directory_options option = std::filesystem::
+            directory_options::follow_directory_symlink
+    ) const
+    {
+        return identify_directory_impl(directory, option, tracker);
+    }
 
     /**
      * @brief Identify the types of all files in a directory, noexcept version.
@@ -437,11 +500,35 @@ public:
      * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
-        const std::filesystem::path&           directory,
-        [[maybe_unused]] const std::nothrow_t& tag,
-        std::filesystem::directory_options     option = std::filesystem::
+        const std::filesystem::path&       directory,
+        const std::nothrow_t&              tag,
+        std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
-    ) const noexcept;
+    ) const noexcept
+    {
+        return identify_directory_impl(directory, tag, option);
+    }
+
+    /**
+     * @brief Identify the types of all files in a directory with progress tracking, noexcept version.
+     *
+     * @param[in]  directory        The path of the directory.
+     * @param[in]  tag              Tag for non-throwing overload.
+     * @param[out] tracker          The progress tracker to track the progress of the identification. Must not be null.
+     * @param[in]  option           The directory iteration option, default is follow_directory_symlink.
+     *
+     * @returns The types of each file as a map or an empty map on failure.
+     */
+    [[nodiscard]] expected_types_of_files_t identify_files(
+        const std::filesystem::path&       directory,
+        const std::nothrow_t&              tag,
+        tracker_t                          tracker,
+        std::filesystem::directory_options option = std::filesystem::
+            directory_options::follow_directory_symlink
+    ) const noexcept
+    {
+        return identify_directory_impl(directory, tag, option, tracker);
+    }
 
     /**
      * @brief Identify the types of files.
@@ -457,11 +544,37 @@ public:
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
     [[nodiscard]] types_of_files_t identify_files(
-        const file_concepts::file_container auto& files
+        const utility::file_container auto& files
     ) const
     {
-        return identify_file_container_impl(
+        return identify_container_impl(
             {std::ranges::begin(files), std::ranges::end(files)}
+        );
+    }
+
+    /**
+     * @brief Identify the types of files with progress tracking.
+     *
+     * @param[in]  files            The container that holds the paths of the files.
+     * @param[out] tracker          The progress tracker to track the progress of the identification. 
+     *
+     * @returns The types of each file as a map.
+     *
+     * @throws magic_is_closed              if magic is closed.
+     * @throws magic_database_not_loaded    if the magic database is not loaded.
+     * @throws empty_path                   if the path of the file is empty.
+     * @throws path_does_not_exist          if the path of the file does not exist.
+     * @throws null_tracker                 if the tracker is null.
+     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     */
+    [[nodiscard]] types_of_files_t identify_files(
+        const utility::file_container auto& files,
+        tracker_t                           tracker
+    ) const
+    {
+        return identify_container_impl(
+            {std::ranges::begin(files), std::ranges::end(files)},
+            tracker
         );
     }
 
@@ -474,13 +587,35 @@ public:
      * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] expected_types_of_files_t identify_files(
-        const file_concepts::file_container auto& files,
-        [[maybe_unused]] const std::nothrow_t&    tag
+        const utility::file_container auto& files,
+        const std::nothrow_t&               tag
     ) const noexcept
     {
-        return identify_file_container_impl(
+        return identify_container_impl(
             {std::ranges::begin(files), std::ranges::end(files)},
-            std::nothrow
+            tag
+        );
+    }
+
+    /**
+     * @brief Identify the types of files with progress tracking, noexcept version.
+     *
+     * @param[in]  files            The container that holds the paths of the files.
+     * @param[in]  tag              Tag for non-throwing overload.
+     * @param[out] tracker          The progress tracker to track the progress of the identification. 
+     *
+     * @returns The types of each file as a map or an empty map on failure.
+     */
+    [[nodiscard]] expected_types_of_files_t identify_files(
+        const utility::file_container auto& files,
+        const std::nothrow_t&               tag,
+        tracker_t                           tracker
+    ) const noexcept
+    {
+        return identify_container_impl(
+            {std::ranges::begin(files), std::ranges::end(files)},
+            tag,
+            tracker
         );
     }
 
@@ -536,7 +671,7 @@ public:
      * @note load_database_file() adds “.mgc” to the database filename as appropriate.
      */
     [[nodiscard]] bool load_database_file(
-        [[maybe_unused]] const std::nothrow_t& tag,
+        const std::nothrow_t&        tag,
         const std::filesystem::path& database_file = default_database_file
     ) noexcept;
 
@@ -564,8 +699,8 @@ public:
      * @note A magic database file must be loaded after opening magic.
      */
     [[nodiscard]] bool open(
-        flags_mask_t                           flags_mask,
-        [[maybe_unused]] const std::nothrow_t& tag
+        flags_mask_t          flags_mask,
+        const std::nothrow_t& tag
     ) noexcept;
 
     /**
@@ -592,8 +727,8 @@ public:
      * @note A magic database file must be loaded after opening magic.
      */
     [[nodiscard]] bool open(
-        const flags_container_t&               flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag
+        const flags_container_t& flags_container,
+        const std::nothrow_t&    tag
     ) noexcept;
 
     /**
@@ -607,7 +742,7 @@ public:
     void set_flags(flags_mask_t flags_mask);
 
     /**
-     * @brief Set the flags of magicü noexcept version.
+     * @brief Set the flags of magic, noexcept version.
      *
      * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.
      * @param[in] tag                 Tag for non-throwing overload.
@@ -615,8 +750,8 @@ public:
      * @returns True on success, false otherwise.
      */
     [[nodiscard]] bool set_flags(
-        flags_mask_t                           flags_mask,
-        [[maybe_unused]] const std::nothrow_t& tag
+        flags_mask_t          flags_mask,
+        const std::nothrow_t& tag
     ) noexcept;
 
     /**
@@ -638,8 +773,8 @@ public:
      * @returns True on success, false otherwise.
      */
     [[nodiscard]] bool set_flags(
-        const flags_container_t&               flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag
+        const flags_container_t& flags_container,
+        const std::nothrow_t&    tag
     ) noexcept;
 
     /**
@@ -663,9 +798,9 @@ public:
      * @returns True on success, false otherwise.
      */
     [[nodiscard]] bool set_parameter(
-        parameters                             parameter,
-        std::size_t                            value,
-        [[maybe_unused]] const std::nothrow_t& tag
+        parameters            parameter,
+        std::size_t           value,
+        const std::nothrow_t& tag
     ) noexcept;
 
     /**
@@ -687,21 +822,38 @@ public:
      * @returns True on success, false otherwise.
      */
     [[nodiscard]] bool set_parameters(
-        const parameter_value_map_t&           parameters,
-        [[maybe_unused]] const std::nothrow_t& tag
+        const parameter_value_map_t& parameters,
+        const std::nothrow_t&        tag
     ) noexcept;
 
 private:
     class magic_private;
     std::unique_ptr<magic_private> m_impl;
 
-    [[nodiscard]] types_of_files_t identify_file_container_impl(
-        const std::vector<std::filesystem::path>& files
+    using default_file_container_t = std::vector<std::filesystem::path>;
+
+    [[nodiscard]] types_of_files_t identify_directory_impl(
+        const std::filesystem::path&       directory,
+        std::filesystem::directory_options option,
+        tracker_t tracker = utility::make_shared_progress_tracker()
     ) const;
 
-    [[nodiscard]] expected_types_of_files_t identify_file_container_impl(
-        const std::vector<std::filesystem::path>& files,
-        [[maybe_unused]] const std::nothrow_t&    tag
+    [[nodiscard]] expected_types_of_files_t identify_directory_impl(
+        const std::filesystem::path&       directory,
+        const std::nothrow_t&              tag,
+        std::filesystem::directory_options option,
+        tracker_t tracker = utility::make_shared_progress_tracker()
+    ) const noexcept;
+
+    [[nodiscard]] types_of_files_t identify_container_impl(
+        const default_file_container_t& files,
+        tracker_t tracker = utility::make_shared_progress_tracker()
+    ) const;
+
+    [[nodiscard]] expected_types_of_files_t identify_container_impl(
+        const default_file_container_t& files,
+        const std::nothrow_t&           tag,
+        tracker_t tracker = utility::make_shared_progress_tracker()
     ) const noexcept;
 
     friend std::string to_string(flags);

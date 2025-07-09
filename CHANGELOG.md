@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ [**ENHANCEMENT**]**;** DevEnv: Clean up old containers and image & Run the container with --rm to avoid stale state and leftover containers.
+
 + [**ENHANCEMENT**]**;** Magic: Add progress feedback for identify_files functions via utility::progress_tracker.
 
 + [**ENHANCEMENT**]**;** Magic: Remove unnecessary maybe unused attributes.

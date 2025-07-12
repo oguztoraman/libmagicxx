@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.0</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.1</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -104,7 +104,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
 <p><a href="https://github.com/oguztoraman/libmagicxx/releases/latest"><img src="https://img.shields.io/github/v/release/oguztoraman/libmagicxx?label=release" alt="Latest Release" class="inline"/></a> <a href="https://www.gnu.org/licenses/lgpl-3.0"><img src="https://img.shields.io/badge/License-LGPL%20v3-blue.svg" alt="License: LGPL v3" style="pointer-events: none;" class="inline"/></a> <a href="https://en.cppreference.com/w/cpp/23"><img src="https://img.shields.io/badge/C%2B%2B-23-blue.svg" alt="C++ Standard: C++23" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/oguztoraman/libmagicxx/releases/latest"><img src="https://img.shields.io/github/downloads/oguztoraman/libmagicxx/total" alt="Downloads" class="inline"/></a></p>
 <p><b>Libmagicxx</b> is a C++ wrapper library over the <a href="https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library">Magic Number Recognition Library</a>. It provides an easy-to-use interface through the <code>magic</code> class, enabling the <em>identification of file types</em> based on their content rather than file extensions.</p>
-<h1><a class="anchor" id="autotoc_md71"></a>
+<h1><a class="anchor" id="autotoc_md72"></a>
 Table of Contents</h1>
 <ul>
 <li>Key Features</li>
@@ -126,7 +126,7 @@ Table of Contents</h1>
 <li>License</li>
 <li>Disclaimer</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md72"></a>
+<h1><a class="anchor" id="autotoc_md73"></a>
 Key Features</h1>
 <ul>
 <li><b>Modern C++ (C++23)</b>: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.</li>
@@ -135,26 +135,26 @@ Key Features</h1>
 <li><b>Cross Platform</b>: Compatible with both Windows and Linux, ensuring broad usability and flexibility in various development environments.</li>
 <li><b>Comprehensive Documentation</b>: Detailed documentation and examples to help you get started quickly and effectively.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md73"></a>
+<h1><a class="anchor" id="autotoc_md74"></a>
 Supported Platforms</h1>
 <ul>
 <li>Linux (x86_64)</li>
 <li>Windows (x86_64)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md74"></a>
+<h1><a class="anchor" id="autotoc_md75"></a>
 Project Status</h1>
 <p><img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg" alt="Linux GCC" style="pointer-events: none;" class="inline"/> <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg" alt="Linux Clang" style="pointer-events: none;" class="inline"/> <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg" alt="Windows MinGW64" style="pointer-events: none;" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md75"></a>
+<h1><a class="anchor" id="autotoc_md76"></a>
 Code Quality</h1>
 <p><a href="https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&amp;utm_medium=referral&amp;utm_content=&amp;utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240" alt="Codacy Badge" class="inline"/></a> <a href="https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx"><img src="https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&amp;metric=alert_status" alt="Quality Gate Status" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md76"></a>
+<h1><a class="anchor" id="autotoc_md77"></a>
 Quick Start</h1>
 <ol type="1">
 <li>Download the latest release from the <a href="https://github.com/oguztoraman/libmagicxx/releases/latest">GitHub Releases page</a>.</li>
 <li>Install the package for your platform (see instructions below).</li>
 <li>Link Libmagicxx in your CMake project (see usage instructions below).</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md77"></a>
+<h1><a class="anchor" id="autotoc_md78"></a>
 Downloading Libmagicxx</h1>
 <p>You can download the latest release packages and source code directly from the <a href="https://github.com/oguztoraman/libmagicxx/releases">GitHub Releases page</a>.</p>
 <ul>
@@ -162,14 +162,14 @@ Downloading Libmagicxx</h1>
 <li><b><a href="https://github.com/oguztoraman/libmagicxx/releases">All Releases</a></b>: Browse and download previous versions.</li>
 </ul>
 <p>After downloading, follow the installation instructions below for your platform.</p>
-<h1><a class="anchor" id="autotoc_md78"></a>
+<h1><a class="anchor" id="autotoc_md79"></a>
 Installing Libmagicxx</h1>
 <p><b>For Debian-based Linux distributions</b>: Use the <code>apt</code> command to install the <code>.deb</code> package.</p>
 <div class="fragment"><div class="line">sudo apt install libmagicxx-&lt;version&gt;-linux-x86_64.deb</div>
 </div><!-- fragment --><p><b>For Red Hat-based Linux distributions</b>: Use the <code>dnf</code> command to install the <code>.rpm</code> package.</p>
 <div class="fragment"><div class="line">sudo dnf install libmagicxx-&lt;version&gt;-linux-x86_64.rpm</div>
 </div><!-- fragment --><p><b>For Windows</b>: Install the <code>libmagicxx-&lt;version&gt;-windows-x86_64.exe</code> package provided by the NSIS installer. Run the installer and follow the on-screen instructions to complete the installation.</p>
-<h1><a class="anchor" id="autotoc_md79"></a>
+<h1><a class="anchor" id="autotoc_md80"></a>
 Using Libmagicxx with CMake</h1>
 <p>Libmagicxx is designed to be easily integrated into CMake-based projects. To use Libmagicxx in your project after installation, follow these steps:</p>
 <ol type="1">
@@ -197,10 +197,10 @@ Using Libmagicxx with CMake</h1>
 <div class="ttc" id="anamespacerecognition_html"><div class="ttname"><a href="namespacerecognition.html">recognition</a></div><div class="ttdef"><b>Definition</b> magic.hpp:19</div></div>
 </div><!-- fragment --></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md80"></a>
+<h1><a class="anchor" id="autotoc_md81"></a>
 Magic States</h1>
 <p>Libmagicxx's <code>magic</code> class can be in several states, which affect its usability:</p>
-<h2><a class="anchor" id="autotoc_md81"></a>
+<h2><a class="anchor" id="autotoc_md82"></a>
 1. Closed Magic</h2>
 <ul>
 <li>The magic is considered closed if it has not been opened or has been explicitly closed using the <code>close()</code> method.</li>
@@ -210,7 +210,7 @@ Magic States</h1>
 <li><code>is_database_loaded()</code> returns false.</li>
 <li><code>is_valid()</code> returns false.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md82"></a>
+<h2><a class="anchor" id="autotoc_md83"></a>
 2. Opened Magic Without Database</h2>
 <ul>
 <li>The magic is open (after <code>open()</code>), but no database file has been loaded via <code>load_database_file()</code>.</li>
@@ -220,7 +220,7 @@ Magic States</h1>
 <li><code>is_database_loaded()</code> returns false.</li>
 <li><code>is_valid()</code> returns false.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md83"></a>
+<h2><a class="anchor" id="autotoc_md84"></a>
 3. Valid Magic</h2>
 <ul>
 <li>The magic is valid if it is open and a magic database file has been successfully loaded.</li>
@@ -229,7 +229,7 @@ Magic States</h1>
 <li><code>is_database_loaded()</code> returns true.</li>
 <li><code>is_valid()</code> returns true.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="autotoc_md85"></a>
 Libmagicxx CMake Package Variables</h1>
 <p>Below is a table describing the variables provided by Libmagicxx CMake package:</p>
 <table class="markdownTable">
@@ -257,39 +257,39 @@ Libmagicxx CMake Package Variables</h1>
 <td class="markdownTableBodyNone"><code>MAGICXX_DEFAULT_DATABASE_DIR</code>   </td><td class="markdownTableBodyNone">Path to the default database directory of Libmagicxx.   </td></tr>
 </table>
 <p>Note: <code>MAGICXX_DOC_DIR</code> may be empty if the documentation is not installed.</p>
-<h1><a class="anchor" id="autotoc_md85"></a>
+<h1><a class="anchor" id="autotoc_md86"></a>
 Examples</h1>
 <p>For more examples, refer to the <a href="https://github.com/oguztoraman/libmagicxx/tree/main/examples">examples directory</a>.</p>
-<h1><a class="anchor" id="autotoc_md86"></a>
+<h1><a class="anchor" id="autotoc_md87"></a>
 Documentation</h1>
 <p>For comprehensive guides, API references, and detailed information, visit the <a href="https://oguztoraman.github.io/libmagicxx/">Libmagicxx Documentation Site</a>. The source code for the documentation site is available in the <code>documentation/html</code> directory of the repository.</p>
-<h1><a class="anchor" id="autotoc_md87"></a>
+<h1><a class="anchor" id="autotoc_md88"></a>
 Uninstalling Libmagicxx</h1>
 <p><b>For Debian-based Linux distributions</b>: Use the <code>apt</code> command to remove the installed <code>.deb</code> package.</p>
 <div class="fragment"><div class="line">sudo apt remove libmagicxx</div>
 </div><!-- fragment --><p><b>For Red Hat-based Linux distributions</b>: Use the <code>dnf</code> command to remove the installed <code>.rpm</code> package.</p>
 <div class="fragment"><div class="line">sudo dnf remove libmagicxx</div>
 </div><!-- fragment --><p><b>For Windows</b>: Use the uninstaller provided by the NSIS installer. Navigate to the "Add or Remove Programs" section in the Control Panel, find <code>libmagicxx</code>, and click "Uninstall."</p>
-<h1><a class="anchor" id="autotoc_md88"></a>
+<h1><a class="anchor" id="autotoc_md89"></a>
 Contributing</h1>
 <p>We welcome contributions of all kinds, including bug fixes, feature requests, documentation improvements, and code enhancements. Please see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> file for detailed guidelines on how to contribute or build Libmagicxx from source.</p>
-<h1><a class="anchor" id="autotoc_md89"></a>
+<h1><a class="anchor" id="autotoc_md90"></a>
 Security</h1>
 <p>For information on reporting security vulnerabilities, please see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/SECURITY.md">SECURITY.md</a> file.</p>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md91"></a>
 Source Code</h1>
 <p>Explore the source code of Libmagicxx on <a href="https://github.com/oguztoraman/libmagicxx">GitHub</a>.</p>
-<h1><a class="anchor" id="autotoc_md91"></a>
+<h1><a class="anchor" id="autotoc_md92"></a>
 License</h1>
 <p>Libmagicxx is licensed under the GNU Lesser General Public License Version 3. For more details, see the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER">COPYING.LESSER</a> file.</p>
-<h2><a class="anchor" id="autotoc_md92"></a>
+<h2><a class="anchor" id="autotoc_md93"></a>
 Other Licenses</h2>
 <ul>
 <li>File and the Magic Number Recognition Library: See the <a href="https://github.com/file/file/blob/master/COPYING">COPYING</a> file.</li>
 <li>GoogleTest: See the <a href="https://github.com/google/googletest/blob/main/LICENSE">LICENSE</a> file.</li>
 <li>Libgnurx: See the <a href="https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB">LICENSE</a> file.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md93"></a>
+<h1><a class="anchor" id="autotoc_md94"></a>
 Disclaimer</h1>
 <p>This project is a personal hobby project developed in my own time and with my own resources. It is not affiliated with, endorsed by, or created on behalf of any employer, company, or organization. No proprietary or confidential information belonging to any employer or third party was used in its development. This project is not intended for any commercial purpose, income generation, or professional service. </p>
 </div></div><!-- PageDoc -->
@@ -299,7 +299,7 @@ Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 9 2025 22:26:18 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Sat Jul 12 2025 19:31:04 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

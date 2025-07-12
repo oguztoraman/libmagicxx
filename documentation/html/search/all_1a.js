@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['scope_0',['Scope',['../md_CODE__OF__CONDUCT.html#autotoc_md46',1,'']]],
-  ['security_1',['Security',['../index.html#autotoc_md89',1,'']]],
+  ['scope_0',['Scope',['../md_CODE__OF__CONDUCT.html#autotoc_md47',1,'']]],
+  ['security_1',['Security',['../index.html#autotoc_md90',1,'']]],
   ['security_20policy_2',['Security Policy',['../md_SECURITY.html',1,'']]],
   ['security_2emd_3',['SECURITY.md',['../SECURITY_8md.html',1,'']]],
   ['set_4',['set',['../classrecognition_1_1utility_1_1percentage.html#aa41da2cfad98fea2bcdef8079d391c8b',1,'recognition::utility::percentage']]],
@@ -9,14 +9,14 @@ var searchData=
   ['set_5fparameter_6',['set_parameter',['../classrecognition_1_1magic.html#a974c60ca269f6b718af895977bba08ca',1,'recognition::magic::set_parameter(parameters parameter, std::size_t value)'],['../classrecognition_1_1magic.html#a8961bd9915e08538b0ea0105aaebc120',1,'recognition::magic::set_parameter(parameters parameter, std::size_t value, const std::nothrow_t &amp;tag) noexcept'],['../classrecognition_1_1magic_1_1magic__private.html#a31b89650aa7c24bd8c4be87c1a571846',1,'recognition::magic::magic_private::set_parameter(parameters parameter, std::size_t value)'],['../classrecognition_1_1magic_1_1magic__private.html#a35effb2d846cf89602058dddc8f47649',1,'recognition::magic::magic_private::set_parameter(parameters parameter, std::size_t value, const std::nothrow_t &amp;tag) noexcept']]],
   ['set_5fparameters_7',['set_parameters',['../classrecognition_1_1magic.html#a1e8985a4ad62b2dfdacfea763166572c',1,'recognition::magic::set_parameters(const parameter_value_map_t &amp;parameters)'],['../classrecognition_1_1magic.html#ada9a887b64cd6a4d7c01faf8bef692b7',1,'recognition::magic::set_parameters(const parameter_value_map_t &amp;parameters, const std::nothrow_t &amp;tag) noexcept'],['../classrecognition_1_1magic_1_1magic__private.html#a4dcf6f5b61b24f56c760f186d0339bbf',1,'recognition::magic::magic_private::set_parameters(const parameter_value_map_t &amp;parameters)'],['../classrecognition_1_1magic_1_1magic__private.html#ae48ef401529088ad831f2cb1b1c21db7',1,'recognition::magic::magic_private::set_parameters(const parameter_value_map_t &amp;parameters, const std::nothrow_t &amp;tag) noexcept']]],
   ['shared_5fprogress_5ftracker_5ft_8',['shared_progress_tracker_t',['../namespacerecognition_1_1utility.html#aa8dc6b6119bb0743758bb6ff76f9e925',1,'recognition::utility']]],
-  ['source_20code_9',['Source Code',['../index.html#autotoc_md90',1,'']]],
-  ['standards_10',['Our Standards',['../md_CODE__OF__CONDUCT.html#autotoc_md44',1,'']]],
-  ['start_11',['Quick Start',['../index.html#autotoc_md76',1,'']]],
-  ['started_12',['Getting Started',['../md_CONTRIBUTING.html#autotoc_md62',1,'']]],
-  ['states_13',['Magic States',['../index.html#autotoc_md80',1,'']]],
-  ['status_14',['Project Status',['../index.html#autotoc_md74',1,'']]],
-  ['structure_15',['Project Structure',['../md_CONTRIBUTING.html#autotoc_md58',1,'']]],
-  ['supported_20platforms_16',['Supported Platforms',['../index.html#autotoc_md73',1,'']]],
-  ['supported_20versions_17',['Supported Versions',['../md_SECURITY.html#autotoc_md95',1,'']]],
+  ['source_20code_9',['Source Code',['../index.html#autotoc_md91',1,'']]],
+  ['standards_10',['Our Standards',['../md_CODE__OF__CONDUCT.html#autotoc_md45',1,'']]],
+  ['start_11',['Quick Start',['../index.html#autotoc_md77',1,'']]],
+  ['started_12',['Getting Started',['../md_CONTRIBUTING.html#autotoc_md63',1,'']]],
+  ['states_13',['Magic States',['../index.html#autotoc_md81',1,'']]],
+  ['status_14',['Project Status',['../index.html#autotoc_md75',1,'']]],
+  ['structure_15',['Project Structure',['../md_CONTRIBUTING.html#autotoc_md59',1,'']]],
+  ['supported_20platforms_16',['Supported Platforms',['../index.html#autotoc_md74',1,'']]],
+  ['supported_20versions_17',['Supported Versions',['../md_SECURITY.html#autotoc_md96',1,'']]],
   ['symlink_18',['symlink',['../classrecognition_1_1magic.html#a41764bcc1857661422a1b062c9cdacdea1955061241f5af767151c2580a89e330',1,'recognition::magic']]]
 ];

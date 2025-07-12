@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v9.0.1] - 12-07-2025
+
 + **[BUGFIX];** Docs: Fix typo in SECURITY.md.
 
 + **[BUGFIX];** Docs: Fix formatting issues in CHANGELOG.md.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v9.0.2] - 16-07-2025
+
 + **[DOCUMENTATION]** Docs: Update branch naming convention for documentation changes.
 
 + **[DOCUMENTATION]** Docs: Remove unnecessary ';' from the documentation.

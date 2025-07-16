@@ -28,7 +28,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.1</span>
+   <div id="projectname">Libmagicxx<span id="projectnumber">&#160;v9.0.2</span>
    </div>
    <div id="projectbrief">A C++ wrapper library over the Magic Number Recognition Library.</div>
   </td>
@@ -101,9 +101,9 @@ $(function(){initNavTree('md_CONTRIBUTING.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Contributing to Libmagicxx</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md55"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md56"></a></p>
 <p>Welcome to the Libmagicxx project! We appreciate your interest in contributing. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone.</p>
-<h1><a class="anchor" id="autotoc_md56"></a>
+<h1><a class="anchor" id="autotoc_md57"></a>
 Table of Contents</h1>
 <ul>
 <li>Code of Conduct</li>
@@ -120,17 +120,17 @@ Table of Contents</h1>
 <li>Review Process</li>
 <li>Thank You</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md57"></a>
+<h1><a class="anchor" id="autotoc_md58"></a>
 Code of Conduct</h1>
 <p>We expect all contributors to adhere to the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it to understand the standards of behavior we expect from our community.</p>
-<h1><a class="anchor" id="autotoc_md58"></a>
+<h1><a class="anchor" id="autotoc_md59"></a>
 Development</h1>
 <ul>
 <li>The <code>main</code> branch is the development branch for the next feature release. The <code>main</code> branch contains the tags of the feature releases (e.g., <code>v5.2.0</code>).</li>
 <li>Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., <code>v5.2.x</code>). These branches contain the tags of the bugfix releases, (e.g., <code>v5.2.1</code>).</li>
 <li>Each change for the bugfix release is merged to the <code>main</code> branch.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md59"></a>
+<h1><a class="anchor" id="autotoc_md60"></a>
 Project Structure</h1>
 <div class="fragment"><div class="line">libmagicxx/</div>
 <div class="line">├── .github/                   # Continuous Integration (CI)</div>
@@ -163,7 +163,7 @@ Project Structure</h1>
 <div class="line">├── README.md                  # Project details</div>
 <div class="line">├── RELEASE_PROCEDURE.md       # Release procedure</div>
 <div class="line">├── SECURITY.md                # Security policy</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md60"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md61"></a>
 Build Requirements for Libmagicxx</h1>
 <p>To build Libmagicxx, ensure you have the following tools and dependencies installed:</p>
 <ul>
@@ -182,7 +182,7 @@ Build Requirements for Libmagicxx</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md61"></a>
+<h1><a class="anchor" id="autotoc_md62"></a>
 CMake Options of Libmagicxx</h1>
 <p>Below is a table describing the CMake configuration options of Libmagicxx.</p>
 <table class="markdownTable">
@@ -201,12 +201,12 @@ CMake Options of Libmagicxx</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>BUILD_MAGICXX_DOCUMENTATION</code>   </td><td class="markdownTableBodyNone">OFF   </td><td class="markdownTableBodyNone">Build the documentation.   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md63"></a>
 Building Libmagicxx</h1>
 <p>The recommended way to build Libmagicxx is to use the provided development container, which ensures a consistent and fully supported build environment. To do this, follow the steps in the <b>Getting Started</b> section above. This will set up the container with all required dependencies and tools, allowing you to build, test, and develop Libmagicxx seamlessly.</p>
 <p>Alternatively, you may attempt to build Libmagicxx by manually installing all the required dependencies listed in the <b>Build Requirements for Libmagicxx</b> section. However, this method is <b>not tested or officially supported</b>, and you may encounter issues related to missing or incompatible dependencies.</p>
 <p>For best results, always use the development container workflow described in this guide.</p>
-<h1><a class="anchor" id="autotoc_md63"></a>
+<h1><a class="anchor" id="autotoc_md64"></a>
 Getting Started</h1>
 <p>The current development environment is a container image built on top of the latest stable release of <a href="https://fedoraproject.org/">Fedora</a>.</p>
 <ol type="1">
@@ -266,14 +266,14 @@ Getting Started</h1>
 <p class="startli">You can commit your changes, build the project, run tests, and execute scripts within the container. <b>However, you cannot perform <code>git push</code>, <code>git pull</code>, or <code>git fetch</code> operations directly from the container.</b> Once you are done, close the container connection and perform these <code>git</code> operations from your local machine (the host). This is necessary because authentication restrictions in the container environment prevent these operations from working correctly.</p>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md64"></a>
+<h1><a class="anchor" id="autotoc_md65"></a>
 Making Changes</h1>
 <ol type="1">
 <li><b>Create a New Branch</b>:<ul>
 <li>Create the branch from <code>main</code> if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., <code>v5.2.x</code>).</li>
 <li>Use the following naming conventions for your branches:<ul>
 <li>For bug fixes: <code>bugfix/brief_description</code></li>
-<li>For documentation changes: <code>document/brief_description</code></li>
+<li>For documentation changes: <code>documentation/brief_description</code></li>
 <li>For enhancements: <code>enhancement/brief_description</code></li>
 <li>For code quality improvements: <code>quality/brief_description</code></li>
 </ul>
@@ -307,33 +307,33 @@ Making Changes</h1>
 <p class="startli">Add a summary of your changes to the <code><a class="el" href="CHANGELOG_8md.html">CHANGELOG.md</a></code> file under the appropriate section (e.g., Next Release). This helps keep track of all improvements, bug fixes, and new features for each release.</p>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md65"></a>
+<h1><a class="anchor" id="autotoc_md66"></a>
 Creating a Pull Request</h1>
 <ul>
 <li>Each pull request must fix an existing issue. Please ensure that there is a linked issue or create a new issue before submitting your pull request.</li>
 <li>Create a pull request to the <code>main</code> branch if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create a pull request to the supported release branch (e.g., <code>v5.2.x</code>) and also the <code>main</code> branch.</li>
 <li>Use the following naming conventions for your pull request title:<ul>
-<li>For bug fixes: <code>[BUGFIX]; Brief Description, Fixes issue #????.</code></li>
-<li>For documentation changes: <code>[DOCUMENTATION]; Brief Description, Fixes issue #????.</code></li>
-<li>For enhancements: <code>[ENHANCEMENT]; Brief Description, Fixes issue #????.</code></li>
-<li>For code quality improvements: <code>[QUALITY]; Brief Description, Fixes issue #????.</code></li>
+<li>For bug fixes: <code>[BUGFIX] Brief Description, Fixes issue #????.</code></li>
+<li>For documentation changes: <code>[DOCUMENTATION] Brief Description, Fixes issue #????.</code></li>
+<li>For enhancements: <code>[ENHANCEMENT] Brief Description, Fixes issue #????.</code></li>
+<li>For code quality improvements: <code>[QUALITY] Brief Description, Fixes issue #????.</code></li>
 </ul>
 </li>
 <li>Fill the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md66"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 Reporting Issues</h1>
 <p>If you find a bug or have a feature request, please create an issue on the <a href="https://github.com/oguztoraman/libmagicxx/issues">GitHub Issues</a> page. Provide as much detail as possible to help us understand and address the issue.</p>
-<h1><a class="anchor" id="autotoc_md67"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 How to Create an Issue</h1>
 <ol type="1">
 <li>Add a title summarizing the issue.</li>
 <li>Fill the issue template.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md68"></a>
+<h1><a class="anchor" id="autotoc_md69"></a>
 Continuous Integration (CI)</h1>
 <p>Our CI pipeline runs automated tests and checks on each pull request to ensure code quality and correctness.</p>
-<h1><a class="anchor" id="autotoc_md69"></a>
+<h1><a class="anchor" id="autotoc_md70"></a>
 Review Process</h1>
 <ol type="1">
 <li><b>Initial Review</b>:<ul>
@@ -357,7 +357,7 @@ Review Process</h1>
 </ul>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md70"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 Thank You</h1>
 <p>Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone. </p>
 </div></div><!-- contents -->
@@ -366,7 +366,7 @@ Thank You</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Jul 12 2025 19:31:04 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
+    <li class="footer">Generated on Wed Jul 16 2025 21:32:28 for Libmagicxx by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

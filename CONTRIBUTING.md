@@ -195,7 +195,7 @@ The current development environment is a container image built on top of the lat
 
     + Use the following naming conventions for your branches:
         + For bug fixes: `bugfix/brief_description`
-        + For documentation changes: `document/brief_description`
+        + For documentation changes: `documentation/brief_description`
         + For enhancements: `enhancement/brief_description`
         + For code quality improvements: `quality/brief_description`
 

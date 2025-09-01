@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 41 to 42 in workflow files and Containerfile.
+
 ## [v9.0.2] - 16-07-2025
 
 + **[DOCUMENTATION]** Docs: Update branch naming convention for documentation changes.

@@ -13,7 +13,7 @@ jobs:
   mingw64_build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:41
+      image: fedora:42
     steps:
       - name: Install Dependencies.
         run: >

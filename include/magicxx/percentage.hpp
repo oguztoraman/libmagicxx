@@ -9,9 +9,7 @@
 #include <string>
 
 namespace recognition {
-
 namespace utility {
-
 /**
  * @class percentage
  * 
@@ -79,9 +77,7 @@ public:
 private:
     int m_percentage;
 };
-
 } /* namespace utility */
-
 } /* namespace recognition */
 
 #endif /* PERCENTAGE_HPP */

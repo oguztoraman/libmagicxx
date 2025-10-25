@@ -11,9 +11,7 @@
 #include "percentage.hpp"
 
 namespace recognition {
-
 namespace utility {
-
 /**
  * @class progress_tracker
  *
@@ -206,7 +204,8 @@ public:
      *
      * @param shared_tracker        The shared tracker to mark as completed.
      */
-    explicit mark_tracker_as_completed(shared_progress_tracker_t shared_tracker
+    explicit mark_tracker_as_completed(
+        shared_progress_tracker_t shared_tracker
     ) noexcept
       : m_shared_tracker(shared_tracker)
     { }
@@ -262,9 +261,7 @@ private:
     shared_progress_tracker_t m_shared_tracker;
     std::uint64_t             m_step_count;
 };
-
 } /* namespace utility */
-
 } /* namespace recognition */
 
 #endif /* PROGRESS_TRACKER_HPP */

@@ -12,9 +12,7 @@
 #include <string>
 
 namespace recognition {
-
 namespace utility {
-
 /**
  * @brief Define requirements for a range container.
  * 
@@ -67,7 +65,8 @@ requires string_converter<
         std::ranges::end(container),
         std::invoke(string_converter, *std::ranges::begin(container)),
         [&](const auto& left, const auto& right) {
-            return left + value_separator
+            return left
+                 + value_separator
                  + std::invoke(string_converter, right);
         }
     );
@@ -110,9 +109,7 @@ concept file_container = std::ranges::range<ContainerType>
         }
     );
 }
-
 } /* namespace utility */
-
 } /* namespace recognition */
 
 #endif /* UTILITY_HPP */

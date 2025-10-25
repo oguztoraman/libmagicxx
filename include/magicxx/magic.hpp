@@ -17,7 +17,6 @@
 #include "utility.hpp"
 
 namespace recognition {
-
 /**
  * @class magic
  *
@@ -421,7 +420,8 @@ public:
      * @throws path_does_not_exist          if the path of the file does not exist.
      * @throws magic_identify_file_error    if identifying the type of the file fails.
      */
-    [[nodiscard]] file_type_t identify_file(const std::filesystem::path& path
+    [[nodiscard]] file_type_t identify_file(
+        const std::filesystem::path& path
     ) const;
 
     /**
@@ -985,7 +985,6 @@ private:
     const std::string&                  value_separator     = ": ",
     const std::string&                  parameter_separator = ", "
 );
-
 } /* namespace recognition */
 
 #endif /* MAGIC_HPP */

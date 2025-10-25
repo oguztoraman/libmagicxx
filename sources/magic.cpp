@@ -9,7 +9,6 @@
 #include "magic.hpp"
 
 namespace recognition {
-
 namespace detail {
 #include <magic.h>
 } /* namespace detail */
@@ -81,7 +80,8 @@ public:
 
     ~magic_private() = default;
 
-    [[nodiscard]] bool check(const std::filesystem::path& database_file
+    [[nodiscard]] bool check(
+        const std::filesystem::path& database_file
     ) const noexcept
     {
         if (!is_open() || database_file.empty()) {
@@ -95,7 +95,8 @@ public:
         return result != libmagic_error;
     }
 
-    [[nodiscard]] bool compile(const std::filesystem::path& database_file
+    [[nodiscard]] bool compile(
+        const std::filesystem::path& database_file
     ) const noexcept
     {
         if (!is_open() || database_file.empty()) {
@@ -189,13 +190,15 @@ public:
     ) const
     {
         if ((options & check_is_valid_option) == check_is_valid_option) {
-            magic_private::throw_exception_on_failure<magic_is_closed>(is_open()
+            magic_private::throw_exception_on_failure<magic_is_closed>(
+                is_open()
             );
             magic_private::throw_exception_on_failure<
                 magic_database_not_loaded>(is_database_loaded());
         }
         if ((options & check_path_empty_option) == check_path_empty_option) {
-            magic_private::throw_exception_on_failure<empty_path>(!path.empty()
+            magic_private::throw_exception_on_failure<empty_path>(
+                !path.empty()
             );
         }
         if ((options & check_path_exists_option) == check_path_exists_option) {
@@ -239,7 +242,8 @@ public:
         if ((options & check_path_exists_option) == check_path_exists_option) {
             std::error_code error_code{};
             if (!std::filesystem::exists(path, error_code)) {
-                return std::unexpected{path_does_not_exist{path.string()}.what()
+                return std::unexpected{
+                    path_does_not_exist{path.string()}.what()
                 };
             }
         }
@@ -267,7 +271,8 @@ public:
         magic_private::throw_exception_on_failure<magic_database_not_loaded>(
             is_database_loaded()
         );
-        magic_private::throw_exception_on_failure<empty_path>(!directory.empty()
+        magic_private::throw_exception_on_failure<empty_path>(
+            !directory.empty()
         );
         std::error_code error_code{};
         magic_private::throw_exception_on_failure<path_does_not_exist>(
@@ -723,7 +728,8 @@ private:
     }
 
     struct flags_converter {
-        explicit flags_converter(const flags_container_t& flags_container
+        explicit flags_converter(
+            const flags_container_t& flags_container
         ) noexcept
           : m_flags_mask{std::ranges::fold_left(
                 flags_container,
@@ -738,7 +744,8 @@ private:
 
         operator libmagic_value_t() const noexcept
         {
-            libmagic_value_t flags = libmagic_pair_converter(libmagic_flag_none
+            libmagic_value_t flags = libmagic_pair_converter(
+                libmagic_flag_none
             );
             for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
                 if (m_flags_mask[i]) {
@@ -773,7 +780,8 @@ private:
             libmagic_value_name_t flags;
             for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
                 if (m_flags_mask[i]) {
-                    flags.append(libmagic_pair_converter(libmagic_flags[i])
+                    flags.append(
+                        libmagic_pair_converter(libmagic_flags[i])
                     ) += ",";
                 }
             }
@@ -790,7 +798,8 @@ private:
     };
 
     struct libmagic_pair_converter {
-        constexpr explicit libmagic_pair_converter(const libmagic_pair_t& pair
+        constexpr explicit libmagic_pair_converter(
+            const libmagic_pair_t& pair
         ) noexcept
           : m_pair{pair}
         { }
@@ -866,7 +875,8 @@ std::string to_string(
     return utility::to_string(
         expected_types_of_files,
         file_separator,
-        [&type_separator](const magic::expected_type_of_a_file_t& type_of_a_file
+        [&type_separator](
+            const magic::expected_type_of_a_file_t& type_of_a_file
         ) {
             return to_string(type_of_a_file, type_separator);
         }
@@ -896,7 +906,8 @@ std::string to_string(
 std::string to_string(magic::parameters parameter)
 {
     const auto& parameters = magic::magic_private::libmagic_parameters;
-    const auto& parameter_name{parameters[std::to_underlying(parameter)].second
+    const auto& parameter_name{
+        parameters[std::to_underlying(parameter)].second
     };
     return parameter_name;
 }
@@ -1067,8 +1078,11 @@ magic::types_of_files_t magic::identify_directory_impl(
 ) const
 {
     return m_impl->identify_files(
-        m_impl
-            ->identify_directory_preliminary_checks(directory, option, tracker),
+        m_impl->identify_directory_preliminary_checks(
+            directory,
+            option,
+            tracker
+        ),
         magic_private::identify_file_options::check_nothing,
         tracker
     );
@@ -1233,5 +1247,4 @@ bool magic::set_parameters(
 {
     return m_impl->set_parameters(parameters, tag);
 }
-
 } /* namespace recognition */

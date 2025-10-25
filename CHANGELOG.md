@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Format: Update .clang-format and format the source code.
+
 + **[ENHANCEMENT]** DevEnv: Update Fedora base image from 41 to 42 in workflow files and Containerfile.
 
 ## [v9.0.2] - 16-07-2025

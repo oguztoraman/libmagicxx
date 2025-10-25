@@ -9,7 +9,6 @@
 #include <string>
 
 namespace recognition {
-
 /**
  * @class magic_exception
  *
@@ -289,7 +288,6 @@ public:
         }
     { }
 };
-
 } /* namespace recognition */
 
 #endif /* MAGIC_EXCEPTION_HPP */

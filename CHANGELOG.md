@@ -2,6 +2,10 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Format: Update .clang-format to version 21 and format the source code.
+
++ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 42 to 43 in workflow files and Containerfile.
+
 + **[ENHANCEMENT]** Format: Update .clang-format and format the source code.
 
 + **[ENHANCEMENT]** DevEnv: Update Fedora base image from 41 to 42 in workflow files and Containerfile.

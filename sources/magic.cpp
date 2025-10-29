@@ -194,7 +194,8 @@ public:
                 is_open()
             );
             magic_private::throw_exception_on_failure<
-                magic_database_not_loaded>(is_database_loaded());
+                magic_database_not_loaded
+            >(is_database_loaded());
         }
         if ((options & check_path_empty_option) == check_path_empty_option) {
             magic_private::throw_exception_on_failure<empty_path>(
@@ -427,11 +428,10 @@ public:
         );
         m_is_database_loaded = false;
         magic_private::throw_exception_on_failure<
-            magic_load_database_file_error>(
-            detail::magic_load(m_cookie.get(), database_file.string().c_str()),
-            get_error_message(),
-            database_file.string()
-        );
+            magic_load_database_file_error
+        >(detail::magic_load(m_cookie.get(), database_file.string().c_str()),
+          get_error_message(),
+          database_file.string());
         m_is_database_loaded = true;
     }
 
@@ -619,7 +619,8 @@ public:
     template <
         std::derived_from<magic_exception> ExceptionType,
         typename ResultType,
-        typename... ExceptionArgs>
+        typename... ExceptionArgs
+    >
     requires std::same_as<ResultType, int> || std::same_as<ResultType, bool>
     static void throw_exception_on_failure(
         ResultType result,
@@ -643,7 +644,8 @@ private:
         detail::magic_set,
         decltype([](detail::magic_t cookie) noexcept {
             detail::magic_close(cookie);
-        })>;
+        })
+    >;
 
     cookie_t     m_cookie{nullptr};
     flags_mask_t m_flags_mask{0};
@@ -669,7 +671,8 @@ private:
     using libmagic_flags_t = std::array<libmagic_pair_t, libmagic_flags_count>;
     using libmagic_parameters_t = std::array<
         libmagic_pair_t,
-        libmagic_parameter_count>;
+        libmagic_parameter_count
+    >;
 
     static constexpr libmagic_pair_t libmagic_flag_none{
         std::make_pair(MAGIC_NONE, "none")

@@ -12,7 +12,7 @@ jobs:
   release_packages:
     runs-on: ubuntu-latest
     container:
-      image: fedora:42
+      image: fedora:43
     steps:
       - name: Install Git.
         run: dnf install -y git git-lfs

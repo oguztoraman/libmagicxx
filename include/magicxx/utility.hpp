@@ -33,7 +33,8 @@ concept range_container = std::ranges::range<ContainerType>
 template <typename ValueType, typename StringConverterType>
 concept string_converter = std::same_as<
     std::invoke_result_t<StringConverterType, ValueType>,
-    std::string>;
+    std::string
+>;
 
 /**
  * @brief Convert any container to string using the string_converter.
@@ -50,7 +51,8 @@ concept string_converter = std::same_as<
 template <range_container ContainerType, typename StringConverterType>
 requires string_converter<
     typename ContainerType::value_type,
-    StringConverterType>
+    StringConverterType
+>
 [[nodiscard]] inline std::string to_string(
     const ContainerType& container,
     const std::string&   value_separator,
@@ -81,7 +83,8 @@ concept file_container = std::ranges::range<ContainerType>
                       && std::default_initializable<ContainerType>
                       && std::same_as<
                              typename ContainerType::value_type,
-                             std::filesystem::path>
+                             std::filesystem::path
+                      >
                       && requires(ContainerType c, std::filesystem::path p) {
                              c.push_back(p);
                              c.empty();

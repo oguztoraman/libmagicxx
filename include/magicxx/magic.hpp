@@ -78,7 +78,8 @@ public:
      */
     using expected_types_of_files_t = std::map<
         std::filesystem::path,
-        expected_file_type_t>;
+        expected_file_type_t
+    >;
 
     /**
      * @typedef expected_type_of_a_file_t

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** Scripts: Update cache clearing logic in workflow script.
+
 + **[ENHANCEMENT]** Format: Update .clang-format to version 21 and format the source code.
 
 + **[ENHANCEMENT]** DevEnv: Update Fedora base image from 42 to 43 in workflow files and Containerfile.

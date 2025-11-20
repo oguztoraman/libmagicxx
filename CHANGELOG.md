@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.
+
 + **[ENHANCEMENT]** Magic: Configure VSCode for debugging with LLDB.
 
 + **[ENHANCEMENT]** Toolchains: Add Windows Clang toolchain support and update configurations.

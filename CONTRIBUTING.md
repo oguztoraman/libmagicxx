@@ -157,9 +157,13 @@ The current development environment is a container image built on top of the lat
     python .\scripts\launch_container.py
     ```
 
+    You can update the development container image by passing the `-u` argument to the script.
+
+    **Note**: You should update the development container image if there are changes to the `Containerfile` or the dependencies installed in the `scripts/install_dependencies.sh` script.
+
 8. **Attach to the Container**
 
-   Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
+    Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
 
 9. **Install Extensions in the Container**
 

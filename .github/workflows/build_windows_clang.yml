@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  mingw64_build:
+  clang_build:
     runs-on: ubuntu-latest
     container:
       image: fedora:43

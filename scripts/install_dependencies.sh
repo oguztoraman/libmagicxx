@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 echo "Installing the dependencies..."
-sudo dnf install -y            \
-     git git-lfs python        \
-     awk make autoconf libtool \
-     cmake ninja-build         \
-     rpm-build mingw32-nsis    \
-     g++ gdb mingw64-gcc-c++   \
-     clang libcxx-devel lld    \
+sudo dnf install -y              \
+     git git-lfs python          \
+     awk make autoconf libtool   \
+     cmake ninja-build           \
+     rpm-build mingw32-nsis      \
+     g++ gdb mingw64-gcc-c++     \
+     clang libcxx-devel lld lldb \
      clang-tools-extra doxygen || {
     exit 1
 }

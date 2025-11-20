@@ -172,6 +172,7 @@ The current development environment is a container image built on top of the lat
         + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
         + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
         + [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+        + [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap)
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 

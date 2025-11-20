@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "GDB Debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -19,6 +19,13 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "LLDB Debug",
+            "type": "lldb-dap",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "disableASLR": false
         }
     ]
 }

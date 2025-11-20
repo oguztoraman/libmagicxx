@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: Configure VSCode for debugging with LLDB.
+
 + **[ENHANCEMENT]** Toolchains: Add Windows Clang toolchain support and update configurations.
 
 + **[ENHANCEMENT]** Toolchains: Replace Mold with LLD.

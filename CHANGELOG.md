@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Toolchains: Replace Mold with LLD.
+
 + **[QUALITY]** Scripts: Update cache clearing logic in workflow script.
 
 + **[ENHANCEMENT]** Format: Update .clang-format to version 21 and format the source code.

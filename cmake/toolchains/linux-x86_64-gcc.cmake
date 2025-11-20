@@ -26,7 +26,7 @@ set(CMAKE_CXX_COMPILER
 )
 
 add_link_options(
-    -fuse-ld=mold
+    -fuse-ld=lld
 )
 
 add_compile_options(

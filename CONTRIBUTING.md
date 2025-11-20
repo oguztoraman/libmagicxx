@@ -77,10 +77,10 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
 + **Libtool**: Generic library support script.
 + **CMake**: Cross-platform build system.
 + **Ninja**: Small build system with a focus on speed.
-+ **Toolchains**: One of the following toolchains is required:
-    + **GCC**: GNU Compiler Collection (libstdc++, Mold Linker)
-    + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
-    + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
++ **Toolchains**: The following toolchains is required:
+    + **GCC**: GNU Compiler Collection.
+    + **Clang**: C language family frontend for LLVM.
+    + **MinGW64**: Minimalist GNU for Windows.
 
 ## CMake Options of Libmagicxx
 

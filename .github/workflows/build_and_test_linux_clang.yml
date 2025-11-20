@@ -20,7 +20,7 @@ jobs:
           dnf install -y git git-lfs      \
               awk make autoconf libtool   \
               cmake ninja-build rpm-build \
-              mold clang libcxx-devel     \
+              clang lld libcxx-devel      \
               clang-tools-extra
       - name: Checkout.
         uses: actions/checkout@v4

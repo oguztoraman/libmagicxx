@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Scripts: Use Clang to generate release packages.
+
 + **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.
 
 + **[ENHANCEMENT]** Magic: Configure VSCode for debugging with LLDB.

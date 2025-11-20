@@ -13,16 +13,52 @@ set(CPACK_SYSTEM_NAME
     linux-x86_64
 )
 
-set(FILE_HOST
+set(TARGET_OS
     x86_64-pc-linux-gnu
+)
+
+set(GNURX_TARGET
+    ${TARGET_OS}
+)
+
+set(GNURX_CFLAGS
+    --target=${TARGET_OS}
+)
+
+set(FILE_TARGET
+    ${TARGET_OS}
+)
+
+set(FILE_CFLAGS
+    --target=${FILE_TARGET}
 )
 
 set(CMAKE_C_COMPILER
     clang
 )
 
+set(CMAKE_C_COMPILER_TARGET
+    ${TARGET_OS}
+)
+
 set(CMAKE_CXX_COMPILER
     clang++
+)
+
+set(CMAKE_CXX_COMPILER_TARGET
+    ${TARGET_OS}
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM
+    NEVER
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY
+    ONLY
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE
+    ONLY
 )
 
 add_link_options(
@@ -31,5 +67,9 @@ add_link_options(
 )
 
 add_compile_options(
-    -Wall -Wextra -Wpedantic -Wfatal-errors -stdlib=libc++
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wfatal-errors
+    -stdlib=libc++
 )

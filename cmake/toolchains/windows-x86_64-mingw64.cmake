@@ -13,7 +13,15 @@ set(CPACK_SYSTEM_NAME
     windows-x86_64
 )
 
-set(FILE_HOST
+set(TARGET_OS
+    x86_64-w64-mingw32
+)
+
+set(GNURX_TARGET
+    ${TARGET_OS}
+)
+
+set(FILE_TARGET
     x86_64-pc-windows
 )
 
@@ -21,14 +29,37 @@ set(CMAKE_C_COMPILER
     x86_64-w64-mingw32-gcc
 )
 
+set(CMAKE_C_COMPILER_TARGET
+    ${TARGET_OS}
+)
+
 set(CMAKE_CXX_COMPILER
     x86_64-w64-mingw32-g++
 )
 
-add_compile_options(
-    -Wall -Wextra -Wpedantic -Wfatal-errors
+set(CMAKE_CXX_COMPILER_TARGET
+    ${TARGET_OS}
 )
 
-link_libraries(
-    stdc++exp
+set(CMAKE_CXX_COMPILER_TARGET
+    ${TARGET_OS}
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM
+    NEVER
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY
+    ONLY
+)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE
+    ONLY
+)
+
+add_compile_options(
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wfatal-errors
 )

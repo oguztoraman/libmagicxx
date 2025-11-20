@@ -3,9 +3,11 @@
 
 add_custom_target(configure_gnurx
     COMMAND
-        ./configure
-        --host=${FILE_HOST} --silent
         CC=${CMAKE_C_COMPILER}
+        ./configure
+        "CFLAGS=-std=c99 ${GNURX_CFLAGS}"
+        --host=${GNURX_TARGET}
+        --silent
     WORKING_DIRECTORY
         ${gnurx_DIR}
     COMMENT
@@ -17,13 +19,20 @@ add_custom_target(configure_file
     COMMAND
         autoreconf -f -i
     COMMAND
-        ./configure --enable-static=yes --enable-shared=yes
-        --disable-zlib --disable-bzlib
-        --disable-xzlib --disable-zstdlib
-        --disable-lzlib --disable-lrziplib
-        --enable-year2038
-        --host=${FILE_HOST} --silent
         CC=${CMAKE_C_COMPILER}
+        ./configure
+        "CFLAGS=-std=c99 ${FILE_CFLAGS}"
+        --enable-static=yes
+        --enable-shared=yes
+        --disable-zlib
+        --disable-bzlib
+        --disable-xzlib
+        --disable-zstdlib
+        --disable-lzlib
+        --disable-lrziplib
+        --enable-year2038
+        --host=${FILE_TARGET}
+        --silent
     COMMAND
         make -C ${magic_SOURCE_DIR} magic.h
     WORKING_DIRECTORY

@@ -62,6 +62,12 @@
             "hidden": true
         },
         {
+            "name": "windows-x86_64-clang-base-config",
+            "inherits": "base-config",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/windows-x86_64-clang.cmake",
+            "hidden": true
+        },
+        {
             "name": "documentation",
             "inherits": "base-config",
             "cacheVariables": {
@@ -102,6 +108,13 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang",
+            "inherits": [
+                "windows-x86_64-clang-base-config",
+                "release-config"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "inherits": [
                 "linux-x86_64-gcc-base-config",
@@ -119,6 +132,13 @@
             "name": "windows-x86_64-mingw64-debug",
             "inherits": [
                 "windows-x86_64-mingw64-base-config",
+                "debug-config"
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-debug",
+            "inherits": [
+                "windows-x86_64-clang-base-config",
                 "debug-config"
             ]
         },
@@ -144,6 +164,13 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang-tests",
+            "inherits": [
+                "windows-x86_64-clang",
+                "tests-config"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-tests-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
@@ -161,6 +188,13 @@
             "name": "windows-x86_64-mingw64-tests-debug",
             "inherits": [
                 "windows-x86_64-mingw64-debug",
+                "tests-config"
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-tests-debug",
+            "inherits": [
+                "windows-x86_64-clang-debug",
                 "tests-config"
             ]
         },
@@ -186,6 +220,13 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang-examples",
+            "inherits": [
+                "windows-x86_64-clang",
+                "examples-config"
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-examples-debug",
             "inherits": [
                 "linux-x86_64-gcc-debug",
@@ -203,6 +244,13 @@
             "name": "windows-x86_64-mingw64-examples-debug",
             "inherits": [
                 "windows-x86_64-mingw64-debug",
+                "examples-config"
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-examples-debug",
+            "inherits": [
+                "windows-x86_64-clang-debug",
                 "examples-config"
             ]
         }
@@ -261,6 +309,11 @@
             "configurePreset": "windows-x86_64-mingw64"
         },
         {
+            "name": "windows-x86_64-clang",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang"
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-debug"
@@ -274,6 +327,11 @@
             "name": "windows-x86_64-mingw64-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-debug"
+        },
+        {
+            "name": "windows-x86_64-clang-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-debug"
         },
         {
             "name": "linux-x86_64-gcc-tests",
@@ -291,6 +349,11 @@
             "configurePreset": "windows-x86_64-mingw64-tests"
         },
         {
+            "name": "windows-x86_64-clang-tests",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-tests"
+        },
+        {
             "name": "linux-x86_64-gcc-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-tests-debug"
@@ -304,6 +367,11 @@
             "name": "windows-x86_64-mingw64-tests-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-tests-debug"
+        },
+        {
+            "name": "windows-x86_64-clang-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-tests-debug"
         },
         {
             "name": "linux-x86_64-gcc-examples",
@@ -321,6 +389,11 @@
             "configurePreset": "windows-x86_64-mingw64-examples"
         },
         {
+            "name": "windows-x86_64-clang-examples",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-examples"
+        },
+        {
             "name": "linux-x86_64-gcc-examples-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-examples-debug"
@@ -334,6 +407,11 @@
             "name": "windows-x86_64-mingw64-examples-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-examples-debug"
+        },
+        {
+            "name": "windows-x86_64-clang-examples-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-examples-debug"
         }
     ],
     "testPresets": [
@@ -364,6 +442,11 @@
             "configurePreset": "windows-x86_64-mingw64-tests"
         },
         {
+            "name": "windows-x86_64-clang-tests",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-tests"
+        },
+        {
             "name": "linux-x86_64-gcc-tests-debug",
             "inherits": "base-config",
             "configurePreset": "linux-x86_64-gcc-tests-debug"
@@ -377,6 +460,11 @@
             "name": "windows-x86_64-mingw64-tests-debug",
             "inherits": "base-config",
             "configurePreset": "windows-x86_64-mingw64-tests-debug"
+        },
+        {
+            "name": "windows-x86_64-clang-tests-debug",
+            "inherits": "base-config",
+            "configurePreset": "windows-x86_64-clang-tests-debug"
         }
     ],
     "packagePresets": [
@@ -397,6 +485,13 @@
         {
             "name": "windows-x86_64-mingw64-packages",
             "configurePreset": "windows-x86_64-mingw64",
+            "configurations": [
+                "Release"
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-packages",
+            "configurePreset": "windows-x86_64-clang",
             "configurations": [
                 "Release"
             ]
@@ -502,6 +597,20 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang",
+            "displayName": "Build Libraries (Windows, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-debug",
             "displayName": "Build Libraries (Linux, x86_64, GCC toolchain, Debug config)",
             "steps": [
@@ -540,6 +649,20 @@
                 {
                     "type": "build",
                     "name": "windows-x86_64-mingw64-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-debug",
+            "displayName": "Build Libraries (Windows, x86_64, Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang-debug"
                 }
             ]
         },
@@ -598,6 +721,24 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang-tests",
+            "displayName": "Run Tests (Windows, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang-tests"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang-tests"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-clang-tests"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-tests-debug",
             "displayName": "Run Tests (Linux, x86_64, GCC toolchain, Debug config)",
             "steps": [
@@ -652,6 +793,24 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang-tests-debug",
+            "displayName": "Run Tests (Windows, x86_64, Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang-tests-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang-tests-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-x86_64-clang-tests-debug"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-examples",
             "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Release config)",
             "steps": [
@@ -694,6 +853,20 @@
             ]
         },
         {
+            "name": "windows-x86_64-clang-examples",
+            "displayName": "Build Examples (Windows, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang-examples"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang-examples"
+                }
+            ]
+        },
+        {
             "name": "linux-x86_64-gcc-examples-debug",
             "displayName": "Build Examples (Linux, x86_64, GCC toolchain, Debug config)",
             "steps": [
@@ -732,6 +905,20 @@
                 {
                     "type": "build",
                     "name": "windows-x86_64-mingw64-examples-debug"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-examples-debug",
+            "displayName": "Build Examples (Windows, x86_64, Clang toolchain, Debug config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang-examples-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang-examples-debug"
                 }
             ]
         },
@@ -786,6 +973,24 @@
                 {
                     "type": "package",
                     "name": "windows-x86_64-mingw64-packages"
+                }
+            ]
+        },
+        {
+            "name": "windows-x86_64-clang-packages",
+            "displayName": "Build Packages (Windows, x86_64, Clang toolchain, Release config)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-x86_64-clang"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-x86_64-clang"
+                },
+                {
+                    "type": "package",
+                    "name": "windows-x86_64-clang-packages"
                 }
             ]
         }

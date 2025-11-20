@@ -1,0 +1,33 @@
+name: Build (Windows x86_64 build, Clang Toolchain)
+
+on:
+  pull_request:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mingw64_build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - name: Install Dependencies.
+        run: >
+          dnf install -y git git-lfs         \
+              awk make autoconf libtool      \
+              cmake ninja-build mingw32-nsis \
+              clang lld mingw64-gcc-c++      \
+              clang-tools-extra
+      - name: Checkout.
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+      - name: Build.
+        run: ./scripts/workflows.sh -p windows-x86_64-clang -c
+      - name: Generate Packages.
+        run: ./scripts/workflows.sh -p windows-x86_64-clang-packages -c

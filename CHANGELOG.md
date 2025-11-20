@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Toolchains: Add Windows Clang toolchain support and update configurations.
+
 + **[ENHANCEMENT]** Toolchains: Replace Mold with LLD.
 
 + **[QUALITY]** Scripts: Update cache clearing logic in workflow script.

@@ -45,15 +45,15 @@ Target language standard: C++23. Formatting enforced by `.clang-format` via pres
 
 ## 6. Branch & PR Conventions (from CONTRIBUTING.md)
 Branch naming per human guidelines (agents must follow):
-* Bug fixes: `bugfix/<brief>`
-* Documentation: `documentation/<brief>`
-* Enhancements: `enhancement/<brief>`
-* Code quality: `quality/<brief>`
++ Bug fixes: `bugfix/<brief>`
++ Documentation: `documentation/<brief>`
++ Enhancements: `enhancement/<brief>`
++ Code quality: `quality/<brief>`
 For agent-specific work you may prefix role: e.g. `enhancement/agent-tests-flag-parser`.
 
 PR Titles (include agent tag):
-* `[DOCUMENTATION][agent:docs] Brief Description, Fixes issue #1234.`
-* `[BUGFIX][agent:tests] Brief Description, Fixes issue #5678.`
++ `[DOCUMENTATION][agent:docs] Brief Description, Fixes issue #1234.`
++ `[BUGFIX][agent:tests] Brief Description, Fixes issue #5678.`
 
 Each PR must link an existing issue or include newly created one (agents may draft issue text, humans approve).
 

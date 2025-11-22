@@ -42,7 +42,7 @@
 
 ## Project Status
 
-![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg)
+![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg) ![Windows Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml/badge.svg)
 
 ## Code Quality
 

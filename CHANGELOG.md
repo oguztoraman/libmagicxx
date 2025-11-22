@@ -2,6 +2,18 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Scripts: Use Clang to generate release packages.
+
++ **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.
+
++ **[ENHANCEMENT]** Magic: Configure VSCode for debugging with LLDB.
+
++ **[ENHANCEMENT]** Toolchains: Add Windows Clang toolchain support and update configurations.
+
++ **[ENHANCEMENT]** Toolchains: Replace Mold with LLD.
+
++ **[QUALITY]** Scripts: Update cache clearing logic in workflow script.
+
 + **[ENHANCEMENT]** Format: Update .clang-format to version 21 and format the source code.
 
 + **[ENHANCEMENT]** DevEnv: Update Fedora base image from 42 to 43 in workflow files and Containerfile.

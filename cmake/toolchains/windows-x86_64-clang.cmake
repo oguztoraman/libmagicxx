@@ -21,12 +21,20 @@ set(GNURX_TARGET
     ${TARGET_OS}
 )
 
+set(GNURX_CFLAGS
+    --target=${GNURX_TARGET}
+)
+
 set(FILE_TARGET
     x86_64-pc-windows
 )
 
+set(FILE_CFLAGS
+    --target=${TARGET_OS}
+)
+
 set(CMAKE_C_COMPILER
-    x86_64-w64-mingw32-gcc
+    clang
 )
 
 set(CMAKE_C_COMPILER_TARGET
@@ -34,7 +42,7 @@ set(CMAKE_C_COMPILER_TARGET
 )
 
 set(CMAKE_CXX_COMPILER
-    x86_64-w64-mingw32-g++
+    clang++
 )
 
 set(CMAKE_CXX_COMPILER_TARGET
@@ -53,9 +61,19 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE
     ONLY
 )
 
+add_link_options(
+    -fuse-ld=lld
+    -stdlib=libstdc++
+)
+
 add_compile_options(
     -Wall
     -Wextra
     -Wpedantic
     -Wfatal-errors
+    -stdlib=libstdc++
+)
+
+link_libraries(
+    pthread
 )

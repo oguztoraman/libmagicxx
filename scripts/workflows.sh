@@ -21,25 +21,16 @@ list_presets(){
 }
 
 PRESET=""
-CLEAR_CACHE=false
+CLEAR_CACHE=""
 
 while getopts 'lp:ch' OPTION; do
     case ${OPTION} in
         l) list_presets;;
         p) PRESET=$OPTARG;;
-        c) CLEAR_CACHE=true;;
+        c) CLEAR_CACHE="--fresh";;
         *) usage;;
     esac
 done
-
-if [ "$CLEAR_CACHE" = true ]; then
-    echo "Clearing CMake cache files..."
-    rm -rf build/CMakeCache.txt build/CMakeFiles || {
-        echo "Error: Failed to clear cache files."
-        exit 2
-    }
-    echo "CMake cache files cleared."
-fi
 
 if [ -z "$PRESET" ]; then
     echo "Error: No preset specified."
@@ -48,9 +39,9 @@ fi
 
 echo "Selected preset: ${PRESET}"
 
-cmake --workflow --preset ${PRESET} &&
+cmake --workflow --preset ${PRESET} ${CLEAR_CACHE} &&
 echo "Workflow completed with preset '${PRESET}'." || {
-    exit 3
+    exit 2
 }
 
 if [[ "$PRESET" == *"examples"* ]]; then
@@ -59,7 +50,7 @@ if [[ "$PRESET" == *"examples"* ]]; then
     if [[ -x ./magicxx_examples ]]; then
         echo "========== Shared Library Examples =========="
         ./magicxx_examples || {
-            exit 4
+            exit 3
         }
     else
         echo "Shared library examples not found."
@@ -68,7 +59,7 @@ if [[ "$PRESET" == *"examples"* ]]; then
     if [[ -x ./magicxx_examples_static ]]; then
         echo "========== Static Library Examples =========="
         ./magicxx_examples_static || {
-            exit 5
+            exit 4
         }
     else
         echo "Static library examples not found."

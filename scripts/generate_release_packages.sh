@@ -14,11 +14,11 @@ rm -rf packages/
     exit 1
 }
 
-./scripts/workflows.sh -p linux-x86_64-gcc-packages -c || {
+./scripts/workflows.sh -p linux-x86_64-clang-packages -c || {
     exit 2
 }
 
-./scripts/workflows.sh -p windows-x86_64-mingw64-packages -c || {
+./scripts/workflows.sh -p windows-x86_64-clang-packages -c || {
     exit 3
 }
 

@@ -77,10 +77,10 @@ To build Libmagicxx, ensure you have the following tools and dependencies instal
 + **Libtool**: Generic library support script.
 + **CMake**: Cross-platform build system.
 + **Ninja**: Small build system with a focus on speed.
-+ **Toolchains**: One of the following toolchains is required:
-    + **GCC**: GNU Compiler Collection (libstdc++, Mold Linker)
-    + **Clang**: C language family frontend for LLVM (libc++, Mold Linker)
-    + **MinGW64**: Minimalist GNU for Windows (libstdc++exp, LD Linker)
++ **Toolchains**: Compilers and linkers for building the project.
+    + **GCC**: GNU Compiler Collection.
+    + **Clang**: C language family frontend for LLVM.
+    + **MinGW64**: Minimalist GNU for Windows.
 
 ## CMake Options of Libmagicxx
 
@@ -157,9 +157,13 @@ The current development environment is a container image built on top of the lat
     python .\scripts\launch_container.py
     ```
 
+    You can update the development container image by passing the `-u` argument to the script.
+
+    **Note**: You should update the development container image if there are changes to the `Containerfile` or the dependencies installed in the `scripts/install_dependencies.sh` script.
+
 8. **Attach to the Container**
 
-   Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
+    Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
 
 9. **Install Extensions in the Container**
 
@@ -172,6 +176,7 @@ The current development environment is a container image built on top of the lat
         + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
         + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
         + [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+        + [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap)
 
     These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
 

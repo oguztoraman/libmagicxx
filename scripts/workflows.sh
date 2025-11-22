@@ -37,12 +37,13 @@ if [ -z "$PRESET" ]; then
     usage
 fi
 
-echo "Selected preset: ${PRESET}"
+echo "Selected preset: ${PRESET}."
 
-cmake --workflow --preset ${PRESET} ${CLEAR_CACHE} &&
-echo "Workflow completed with preset '${PRESET}'." || {
+cmake --workflow --preset ${PRESET} ${CLEAR_CACHE} || {
     exit 2
 }
+
+echo "Workflow completed with preset: '${PRESET}'." 
 
 if [[ "$PRESET" == *"examples"* ]]; then
     echo "    ========== Running Examples ==========   "

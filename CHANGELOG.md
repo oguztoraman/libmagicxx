@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** Scripts: Fix error prone issues.
+
 + **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md.
 
 + **[DOCUMENTATION]** Docs: Add AGENTS.md for AI agents usage and governance guidelines.

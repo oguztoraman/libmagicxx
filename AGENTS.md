@@ -175,6 +175,7 @@ Validation: All tests pass; no public header changes.
 ## 14. Large / Multi-File Changes Protocol
 
 For >400 LOC or cross-cutting refactors:
+
 1. Draft Issue / Design (rationale, risk assessment).
 
 2. Human approval before agent execution.

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Add AGENTS.md for AI agents usage and governance guidelines.
+
 + **[ENHANCEMENT]** Scripts: Use Clang to generate release packages.
 
 + **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.

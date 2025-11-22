@@ -3,8 +3,8 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
-cd ${SCRIPT_DIR}/..
+SCRIPT_DIR=$(dirname $(realpath "${BASH_SOURCE[0]}"))
+cd "${SCRIPT_DIR}"/..
 
 GIT_TAG=""
 
@@ -19,7 +19,7 @@ DISPLAY_USAGE=true
 
 while getopts 't:h' OPTION; do
     case ${OPTION} in
-        t) GIT_TAG=$OPTARG     DISPLAY_USAGE=false;;
+        t) GIT_TAG="${OPTARG}"     DISPLAY_USAGE=false;;
         *) usage;;
     esac
 done
@@ -28,33 +28,42 @@ if [ "$DISPLAY_USAGE" = true ] || [ $# -eq 0 ]; then
     usage
 fi
 
-echo "Committing with tag '${GIT_TAG}'..."
+echo "Committing with tag '"${GIT_TAG}"'..."
 
 DATE=$(date +%d-%m-%Y)
 CMAKE_FILE=CMakeLists.txt
 CHANGELOG_FILE=CHANGELOG.md
-VERSION=$(sed 's/^v//' <<< "$GIT_TAG")
-RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "$GIT_TAG")
+VERSION=$(sed 's/^v//' <<< "${GIT_TAG}")
+RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "${GIT_TAG}")
 
 ./scripts/workflows.sh -p format-source-code || {
     exit 2
 }
 
-sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "$CMAKE_FILE" &&
-sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "$CHANGELOG_FILE" || {
+sed -i "s/    VERSION.*\..*\..*/    VERSION "${VERSION}"/" "${CMAKE_FILE}" || {
     exit 3
 }
 
-./scripts/workflows.sh -p documentation || {
+sed -i "s/## Next Release.*/## Next Release\n\n## ["${GIT_TAG}"] - "${DATE}"/" "${CHANGELOG_FILE}" || {
     exit 4
 }
 
-git add $CMAKE_FILE $CHANGELOG_FILE documentation/html/* &&
-git commit -m "Update the project version to ${VERSION}" &&
-git tag -a $GIT_TAG -m "Version $VERSION" || {
+./scripts/workflows.sh -p documentation || {
     exit 5
 }
 
-git branch $RELEASE_BRANCH
+git add "${CMAKE_FILE}" "${CHANGELOG_FILE}" documentation/html/* || {
+    exit 6
+}
 
-echo "Committed '${GIT_TAG}'."
+git commit -m "Update the project version to "${VERSION}"" || {
+    exit 7
+}
+
+git tag -a "${GIT_TAG}" -m "Version "${VERSION}"" || {
+    exit 8
+}
+
+git branch "${RELEASE_BRANCH}"
+
+echo "Committed '"${GIT_TAG}"'."

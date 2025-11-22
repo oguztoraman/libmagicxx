@@ -199,10 +199,10 @@ The current development environment is a container image built on top of the lat
     + Create the branch from `main` if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., `v5.2.x`).
 
     + Use the following naming conventions for your branches:
-        + For bug fixes: `bugfix/brief_description`
-        + For documentation changes: `documentation/brief_description`
-        + For enhancements: `enhancement/brief_description`
-        + For code quality improvements: `quality/brief_description`
+        + For bug fixes: `bugfix/<brief_description>`
+        + For documentation changes: `documentation/<brief_description>`
+        + For enhancements: `enhancement/<brief_description>`
+        + For code quality improvements: `quality/<brief_description>`
 
 2. **Make Changes**:
 
@@ -219,7 +219,7 @@ The current development environment is a container image built on top of the lat
     Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
 
     ```bash
-    ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
+    ./scripts/workflows.sh -p linux-x86_64-clang-tests -c
     ```
 
     For more options, use:

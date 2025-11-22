@@ -3,8 +3,8 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-SCRIPT_DIR=$(dirname $(realpath "${BASH_SOURCE[0]}"))
-cd "${SCRIPT_DIR}"/..
+SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
+cd ${SCRIPT_DIR}/..
 
 usage(){
     echo "Usage: $0 [-l] [-p preset] [-c] [-h]"
@@ -24,26 +24,27 @@ PRESET=""
 CLEAR_CACHE=""
 
 while getopts 'lp:ch' OPTION; do
-    case "${OPTION}" in
+    case ${OPTION} in
         l) list_presets;;
-        p) PRESET="${OPTARG}";;
+        p) PRESET=$OPTARG;;
         c) CLEAR_CACHE="--fresh";;
         *) usage;;
     esac
 done
 
-if [ -z "${PRESET}" ]; then
+if [ -z "$PRESET" ]; then
     echo "Error: No preset specified."
     usage
 fi
 
-echo "Selected preset: '"${PRESET}"'."
-cmake --workflow --preset "${PRESET}" ${CLEAR_CACHE} || {
+echo "Selected preset: ${PRESET}"
+
+cmake --workflow --preset ${PRESET} ${CLEAR_CACHE} &&
+echo "Workflow completed with preset '${PRESET}'." || {
     exit 2
 }
-echo "Workflow completed with preset '"${PRESET}"'."
 
-if [[ "${PRESET}" == *"examples"* ]]; then
+if [[ "$PRESET" == *"examples"* ]]; then
     echo "    ========== Running Examples ==========   "
     cd build/examples
     if [[ -x ./magicxx_examples ]]; then

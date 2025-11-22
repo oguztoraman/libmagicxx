@@ -2,8 +2,6 @@
 
 ## Next Release
 
-+ **[QUALITY]** Scripts: Fix minor issues found by Codacy.
-
 + **[ENHANCEMENT]** Scripts: Use Clang to generate release packages.
 
 + **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.

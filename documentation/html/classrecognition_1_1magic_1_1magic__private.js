@@ -2,11 +2,11 @@ var classrecognition_1_1magic_1_1magic__private =
 [
     [ "flags_converter", "structrecognition_1_1magic_1_1magic__private_1_1flags__converter.html", "structrecognition_1_1magic_1_1magic__private_1_1flags__converter" ],
     [ "libmagic_pair_converter", "structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter.html", "structrecognition_1_1magic_1_1magic__private_1_1libmagic__pair__converter" ],
-    [ "cookie_t", "classrecognition_1_1magic_1_1magic__private.html#aa6bd4e0eeec34ed12dd2055353e7625d", null ],
+    [ "cookie_t", "classrecognition_1_1magic_1_1magic__private.html#a9a1e670e5e323c170013500b2da9e51f", null ],
     [ "identify_file_options_mask_t", "classrecognition_1_1magic_1_1magic__private.html#a9fe3f35dd386643d140595146a46ccc3", null ],
     [ "libmagic_flags_t", "classrecognition_1_1magic_1_1magic__private.html#a76f8aa0698ca5a99413729e310fb30eb", null ],
     [ "libmagic_pair_t", "classrecognition_1_1magic_1_1magic__private.html#a9aa00753320a44fa020594ae1a8cd2b9", null ],
-    [ "libmagic_parameters_t", "classrecognition_1_1magic_1_1magic__private.html#aecf4cf2634438ecdd3c8970794ec404e", null ],
+    [ "libmagic_parameters_t", "classrecognition_1_1magic_1_1magic__private.html#a499264a7a1689001051c55be6507eebf", null ],
     [ "libmagic_value_name_t", "classrecognition_1_1magic_1_1magic__private.html#aecf89e7759422eaf9d45db53b29bd192", null ],
     [ "libmagic_value_t", "classrecognition_1_1magic_1_1magic__private.html#a9434da1c955fccee60ac10d395302df3", null ],
     [ "identify_file_options", "classrecognition_1_1magic_1_1magic__private.html#a60ca3e6b3dfc1a7133dd5097e3e3445b", [

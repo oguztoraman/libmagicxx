@@ -5,7 +5,7 @@ var classrecognition_1_1magic =
     [ "error_message_t", "classrecognition_1_1magic.html#a3aae90ba7f77084f8cb9cf53e86d382e", null ],
     [ "expected_file_type_t", "classrecognition_1_1magic.html#aa88225eaed5da2f7b73a75f9709611e3", null ],
     [ "expected_type_of_a_file_t", "classrecognition_1_1magic.html#a4fb8be6166589e23d10cd15eeda1f154", null ],
-    [ "expected_types_of_files_t", "classrecognition_1_1magic.html#a555a382b4c970e12e1a06a9bc0607510", null ],
+    [ "expected_types_of_files_t", "classrecognition_1_1magic.html#ac7413d60b51b40d0f9d22bf996820b67", null ],
     [ "file_type_t", "classrecognition_1_1magic.html#aaba841e64ada719ef31a4de940840992", null ],
     [ "flags_container_t", "classrecognition_1_1magic.html#a79b2d07b0d1cb27e0f67d9f8f53838a2", null ],
     [ "flags_mask_t", "classrecognition_1_1magic.html#a674c3440b7c3b20248bb712898e88529", null ],

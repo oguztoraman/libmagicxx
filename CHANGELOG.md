@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v9.1.0] - 03-12-2025
+
 + **[QUALITY]** Scripts: Refactor scripts for improved readability and error handling.
 
 + **[QUALITY]** Scripts: Fix error prone issues.

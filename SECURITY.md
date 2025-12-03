@@ -4,7 +4,8 @@
 
 | Version | Supported |
 | ------- | ----------|
-|  9.0.x  |     +     |
+|  9.1.x  |     +     |
+|  9.0.x  |     -     |
 |  < 9    |     -     |
 
 ## Reporting a Vulnerability

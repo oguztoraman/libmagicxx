@@ -40,8 +40,8 @@ echo "Committing with tag '${GIT_TAG}'..."
 DATE="$(date +%d-%m-%Y)"
 CMAKE_FILE="CMakeLists.txt"
 CHANGELOG_FILE="CHANGELOG.md"
-VERSION=$(sed 's/^v//' <<< "${GIT_TAG}")
-RELEASE_BRANCH=$(sed 's/\(v[0-9]*\.[0-9]*\)\.[0-9]*/\1.x/' <<< "${GIT_TAG}")
+VERSION=${GIT_TAG//v/}
+RELEASE_BRANCH=${GIT_TAG%.*}.x
 
 if [[ ! "${GIT_TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "Error: Tag '${GIT_TAG}' is not in the form vMAJOR.MINOR.PATCH."

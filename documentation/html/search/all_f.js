@@ -10,6 +10,6 @@ var searchData=
   ['get_5fparameters_7',['get_parameters',['../classrecognition_1_1magic.html#ac7906ab455592c9d086ee236f7402eca',1,'recognition::magic::get_parameters() const'],['../classrecognition_1_1magic.html#a8f4098dd2ce40fb4e7547b694aec0da7',1,'recognition::magic::get_parameters(const std::nothrow_t &amp;tag) const noexcept'],['../classrecognition_1_1magic_1_1magic__private.html#a311441638277af2c0ec382a6e9b21e2a',1,'recognition::magic::magic_private::get_parameters() const'],['../classrecognition_1_1magic_1_1magic__private.html#ab7559f3065a487e2c0192a398cb82cb4',1,'recognition::magic::magic_private::get_parameters(const std::nothrow_t &amp;tag) const noexcept']]],
   ['get_5ftotal_5fsteps_8',['get_total_steps',['../classrecognition_1_1utility_1_1progress__tracker.html#a3a32f51b6135689a84e3e19e053c5b53',1,'recognition::utility::progress_tracker']]],
   ['get_5fversion_9',['get_version',['../classrecognition_1_1magic.html#adb745dc9cd5f6076475489a19e148922',1,'recognition::magic']]],
-  ['getting_20started_10',['Getting Started',['../md_CONTRIBUTING.html#autotoc_md65',1,'']]],
-  ['guidelines_11',['Enforcement Guidelines',['../md_CODE__OF__CONDUCT.html#autotoc_md51',1,'']]]
+  ['getting_20started_10',['Getting Started',['../md_CONTRIBUTING.html#autotoc_md66',1,'']]],
+  ['guidelines_11',['Enforcement Guidelines',['../md_CODE__OF__CONDUCT.html#autotoc_md52',1,'']]]
 ];

@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v9.1.1] - 03-12-2025
+
 + **[DOCUMENTATION]** Docs: Update supported versions to reflect the current state.
 
 ## [v9.1.0] - 03-12-2025

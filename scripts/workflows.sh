@@ -3,8 +3,8 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2025 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-SCRIPT_DIR=$(dirname $(realpath ${BASH_SOURCE[0]}))
-cd ${SCRIPT_DIR}/..
+SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
+cd -- "${SCRIPT_DIR}/.."
 
 usage(){
     echo "Usage: $0 [-l] [-p preset] [-c] [-h]"
@@ -21,47 +21,47 @@ list_presets(){
 }
 
 PRESET=""
-CLEAR_CACHE=""
+CLEAR_CACHE=false
 
 while getopts 'lp:ch' OPTION; do
-    case ${OPTION} in
-        l) list_presets;;
-        p) PRESET=$OPTARG;;
-        c) CLEAR_CACHE="--fresh";;
-        *) usage;;
+    case "${OPTION}" in
+        l) list_presets ;;
+        p) PRESET="${OPTARG}" ;;
+        c) CLEAR_CACHE=true ;;
+        *) usage ;;
     esac
 done
 
-if [ -z "$PRESET" ]; then
+if [[ -z "${PRESET}" ]]; then
     echo "Error: No preset specified."
     usage
 fi
 
-echo "Selected preset: ${PRESET}"
+echo "Selected preset: ${PRESET}."
 
-cmake --workflow --preset ${PRESET} ${CLEAR_CACHE} &&
-echo "Workflow completed with preset '${PRESET}'." || {
-    exit 2
-}
+args=(--workflow --preset "${PRESET}")
+if [[ "${CLEAR_CACHE}" == true ]]; then
+    args+=(--fresh)
+fi
+cmake "${args[@]}" || exit 2
 
-if [[ "$PRESET" == *"examples"* ]]; then
+echo "Workflow completed with preset: '${PRESET}'."
+
+if [[ "${PRESET}" == *"examples"* ]]; then
     echo "    ========== Running Examples ==========   "
-    cd build/examples
+    pushd build/examples > /dev/null || exit 3
     if [[ -x ./magicxx_examples ]]; then
         echo "========== Shared Library Examples =========="
-        ./magicxx_examples || {
-            exit 3
-        }
+        ./magicxx_examples || exit 4
     else
         echo "Shared library examples not found."
     fi
 
     if [[ -x ./magicxx_examples_static ]]; then
         echo "========== Static Library Examples =========="
-        ./magicxx_examples_static || {
-            exit 4
-        }
+        ./magicxx_examples_static || exit 5
     else
         echo "Static library examples not found."
     fi
+    popd > /dev/null || true
 fi

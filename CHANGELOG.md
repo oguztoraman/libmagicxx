@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Update release procedure.
+
 + **[ENHANCEMENT]** Scripts: Enhance version tagging validation and update SECURITY.md from the script.
 
 ## [v9.1.1] - 03-12-2025

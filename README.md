@@ -180,7 +180,7 @@ For more examples, refer to the [examples directory](https://github.com/oguztora
 
 ## Documentation
 
-For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/). The source code for the documentation site is available in the `documentation/html` directory of the repository.
+For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/).
 
 ## Uninstalling Libmagicxx
 

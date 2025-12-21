@@ -2,6 +2,10 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Update Doxygen deployment workflow and remove documentation site source code references.
+
++ **[DOCUMENTATION]** Docs: Remove documentation site source code.
+
 + **[DOCUMENTATION]** Docs: Update release procedure.
 
 + **[ENHANCEMENT]** Scripts: Enhance version tagging validation and update SECURITY.md from the script.

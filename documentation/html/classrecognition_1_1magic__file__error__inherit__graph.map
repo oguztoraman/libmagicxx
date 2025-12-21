@@ -1,7 +1,0 @@
-<map id="recognition::magic_file_error" name="recognition::magic_file_error">
-<area shape="rect" id="Node000001" title=" " alt="" coords="6,180,142,228"/>
-<area shape="rect" id="Node000002" href="$classrecognition_1_1magic__exception.html" title="The base class for all exceptions thrown by the magic class." alt="" coords="6,83,142,132"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,147,77,179,71,179,71,147"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,143,35"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,50,77,82,71,82,71,50"/>
-</map>

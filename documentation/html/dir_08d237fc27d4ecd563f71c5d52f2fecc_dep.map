@@ -1,9 +1,0 @@
-<map id="sources" name="sources">
-<area shape="rect" id="node1" href="dir_08d237fc27d4ecd563f71c5d52f2fecc.html" title="sources" alt="" coords="54,5,122,35"/>
-<area shape="rect" id="node2" href="dir_397d9aeee4af8edecac90968d93b57df.html" title="external" alt="" coords="5,83,78,113"/>
-<area shape="poly" id="edge1" href="dir_000004_000000.html" alt="" coords="82,37,61,71,56,68,77,34"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000004_000000.html" title="1" alt="" coords="63,62,71,81"/>
-<area shape="rect" id="node3" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="102,83,168,113"/>
-<area shape="poly" id="edge2" href="dir_000004_000002.html" alt="" coords="99,34,120,68,116,71,95,37"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000004_000002.html" title="1" alt="" coords="120,53,128,72"/>
-</map>

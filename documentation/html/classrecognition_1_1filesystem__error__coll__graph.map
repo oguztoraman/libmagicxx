@@ -1,7 +1,0 @@
-<map id="recognition::filesystem_error" name="recognition::filesystem_error">
-<area shape="rect" id="Node000001" title="Exception thrown when the underlying std::filesystem OS API fails." alt="" coords="5,180,168,228"/>
-<area shape="rect" id="Node000002" href="$classrecognition_1_1magic__exception.html" title="The base class for all exceptions thrown by the magic class." alt="" coords="19,83,154,132"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,147,89,179,84,179,84,147"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="18,5,155,35"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,50,89,82,84,82,84,50"/>
-</map>

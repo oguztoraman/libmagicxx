@@ -1,9 +1,0 @@
-<map id="percentage.hpp" name="percentage.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="82,5,202,35"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,83,87,113"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,38,77,75,74,71,122,34"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="111,83,173,113"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,36,145,67,139,67,139,36"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="197,83,255,113"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,34,201,70,197,74,156,38"/>
-</map>

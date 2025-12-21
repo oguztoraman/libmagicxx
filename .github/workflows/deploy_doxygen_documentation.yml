@@ -20,9 +20,19 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container:
+      image: fedora:43
     steps:
+      - name: Install Dependencies.
+        run: >
+              dnf install -y git      \
+              cmake ninja-build       \
+              clang clang-tools-extra \
+              doxygen
       - name: Checkout.
         uses: actions/checkout@v4
+      - name: Generate Doxygen Documentation.
+        run: ./scripts/workflows.sh -p documentation -c
       - name: Setup Pages.
         uses: actions/configure-pages@v5
       - name: Upload artifact.

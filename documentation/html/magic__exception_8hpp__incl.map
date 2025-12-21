@@ -1,9 +1,0 @@
-<map id="magic_exception.hpp" name="magic_exception.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="59,5,210,35"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,83,70,113"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,38,69,75,66,71,115,33"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="94,83,176,113"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,36,138,67,132,67,132,36"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="200,83,257,113"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,34,200,71,197,75,151,38"/>
-</map>

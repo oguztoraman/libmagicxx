@@ -101,8 +101,8 @@ if (INSTALL_MAGICXX)
     endif(BUILD_MAGICXX_STATIC_LIB)
 
     install(
-        DIRECTORY
-            documentation/html
+        FILES
+            ${PROJECT_SOURCE_DIR}/documentation/README.txt
         DESTINATION
             ${magicxx_INSTALL_DOC_DIR}
         COMPONENT

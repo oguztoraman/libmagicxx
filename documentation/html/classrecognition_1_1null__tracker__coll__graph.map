@@ -1,7 +1,0 @@
-<map id="recognition::null_tracker" name="recognition::null_tracker">
-<area shape="rect" id="Node000001" title="Exception thrown when a shared progress_tracker is null." alt="" coords="5,180,177,209"/>
-<area shape="rect" id="Node000002" href="$classrecognition_1_1magic__exception.html" title="The base class for all exceptions thrown by the magic class." alt="" coords="23,83,159,132"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,148,94,179,88,179,88,148"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="22,5,160,35"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,50,94,82,88,82,88,50"/>
-</map>

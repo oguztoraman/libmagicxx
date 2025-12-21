@@ -149,12 +149,10 @@ sed -i "s/    VERSION.*\..*\..*/    VERSION ${VERSION}/" "${CMAKE_FILE}" || exit
 
 sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "${CHANGELOG_FILE}" || exit 12
 
-./scripts/workflows.sh -p documentation || exit 13
+git add -- "${CMAKE_FILE}" "${CHANGELOG_FILE}" "${SECURITY_FILE}" || exit 13
 
-git add -- "${CMAKE_FILE}" "${CHANGELOG_FILE}" "${SECURITY_FILE}" documentation/html || exit 14
+git commit -m "Update the project version to ${VERSION}" || exit 14
 
-git commit -m "Update the project version to ${VERSION}" || exit 15
-
-git tag -a "${GIT_TAG}" -m "Version ${VERSION}" || exit 16
+git tag -a "${GIT_TAG}" -m "Version ${VERSION}" || exit 15
 
 echo "Committed '${GIT_TAG}'."

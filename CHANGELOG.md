@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Update copyright years to 2026.
+
 + **[QUALITY]** Scripts: Refactor launch_container.py script for improved structure and error handling.
 
 + **[DOCUMENTATION]** Docs: Update Doxygen deployment workflow and remove documentation site source code references.

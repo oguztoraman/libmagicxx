@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: Add C++ style guide and apply new naming conventions to codebase.
+
 + **[DOCUMENTATION]** Docs: Update copyright years to 2026.
 
 + **[QUALITY]** Scripts: Refactor launch_container.py script for improved structure and error handling.

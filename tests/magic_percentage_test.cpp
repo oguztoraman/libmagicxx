@@ -5,56 +5,56 @@
 
 #include "percentage.hpp"
 
-using recognition::utility::percentage;
+using Recognition::Utility::Percentage;
 
-TEST(magic_percentage_test, default_constructor)
+TEST(MagicPercentageTest, DefaultConstructor)
 {
-    EXPECT_EQ(percentage{}.get(), 0);
+    EXPECT_EQ(Percentage{}.Get(), 0);
 }
 
-TEST(magic_percentage_test, value_constructor_in_range)
+TEST(MagicPercentageTest, ValueConstructorInRange)
 {
-    EXPECT_EQ(percentage{42}.get(), 42);
-    EXPECT_EQ(percentage{100}.get(), 100);
-    EXPECT_EQ(percentage{0}.get(), 0);
+    EXPECT_EQ(Percentage{42}.Get(), 42);
+    EXPECT_EQ(Percentage{100}.Get(), 100);
+    EXPECT_EQ(Percentage{0}.Get(), 0);
 }
 
-TEST(magic_percentage_test, value_constructor_out_of_range)
+TEST(MagicPercentageTest, ValueConstructorOutOfRange)
 {
-    EXPECT_EQ(percentage{-10}.get(), 0);
-    EXPECT_EQ(percentage{150}.get(), 100);
+    EXPECT_EQ(Percentage{-10}.Get(), 0);
+    EXPECT_EQ(Percentage{150}.Get(), 100);
 }
 
-TEST(magic_percentage_test, set_in_range)
+TEST(MagicPercentageTest, SetInRange)
 {
-    percentage test_percentage;
-    test_percentage.set(55);
-    EXPECT_EQ(test_percentage.get(), 55);
+    Percentage test_percentage;
+    test_percentage.Set(55);
+    EXPECT_EQ(test_percentage.Get(), 55);
 }
 
-TEST(magic_percentage_test, set_out_of_range)
+TEST(MagicPercentageTest, SetOutOfRange)
 {
-    percentage test_percentage;
-    test_percentage.set(-5);
-    EXPECT_EQ(test_percentage.get(), 0);
-    test_percentage.set(200);
-    EXPECT_EQ(test_percentage.get(), 100);
+    Percentage test_percentage;
+    test_percentage.Set(-5);
+    EXPECT_EQ(test_percentage.Get(), 0);
+    test_percentage.Set(200);
+    EXPECT_EQ(test_percentage.Get(), 100);
 }
 
-TEST(magic_percentage_test, steps_contructor_normal)
+TEST(MagicPercentageTest, StepsContructorNormal)
 {
-    EXPECT_EQ((percentage{25, 100}.get()), 25);
-    EXPECT_EQ((percentage{50, 200}.get()), 25);
-    EXPECT_EQ((percentage{100, 100}.get()), 100);
+    EXPECT_EQ((Percentage{25, 100}.Get()), 25);
+    EXPECT_EQ((Percentage{50, 200}.Get()), 25);
+    EXPECT_EQ((Percentage{100, 100}.Get()), 100);
 }
 
-TEST(magic_percentage_test, steps_contructor_zero_total)
+TEST(MagicPercentageTest, StepsContructorZeroTotal)
 {
-    percentage{10, 0};
+    Percentage{10, 0};
     SUCCEED();
 }
 
-TEST(magic_percentage_test, to_string)
+TEST(MagicPercentageTest, ToStringTest)
 {
-    EXPECT_EQ(percentage{75}.to_string(), "75%");
+    EXPECT_EQ(Percentage{75}.ToString(), "75%");
 }

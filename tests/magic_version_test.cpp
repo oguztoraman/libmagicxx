@@ -5,9 +5,9 @@
 
 #include "magic.hpp"
 
-using namespace recognition;
+using namespace Recognition;
 
-TEST(magic_version_test, magic_get_version)
+TEST(MagicVersionTest, magic_get_version)
 {
-    EXPECT_EQ(magic::get_version(), "5.46");
+    EXPECT_EQ(Magic::GetVersion(), "5.46");
 }

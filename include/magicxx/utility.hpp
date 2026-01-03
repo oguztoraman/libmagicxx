@@ -11,36 +11,36 @@
 #include <ranges>
 #include <string>
 
-namespace recognition {
-namespace utility {
+namespace Recognition {
+namespace Utility {
 /**
  * @brief Define requirements for a range container.
  * 
- * @tparam ContainerType        The type of the container.
+ * @tparam ContainerT        The type of the container.
  */
-template <typename ContainerType>
-concept range_container = std::ranges::range<ContainerType>
-                       && requires(ContainerType c) {
-                              typename ContainerType::value_type;
-                          };
+template <typename ContainerT>
+concept RangeContainer = std::ranges::range<ContainerT>
+                      && requires(ContainerT c) {
+                             typename ContainerT::value_type;
+                         };
 
 /**
  * @brief Define requirements for a string converter.
  * 
- * @tparam ValueType            The type of the value.
- * @tparam StringConverterType  The type of the string converter callable.
+ * @tparam ValueT            The type of the value.
+ * @tparam StringConverterT  The type of the string converter callable.
  */
-template <typename ValueType, typename StringConverterType>
-concept string_converter = std::same_as<
-    std::invoke_result_t<StringConverterType, ValueType>,
+template <typename ValueT, typename StringConverterT>
+concept StringConverter = std::same_as<
+    std::invoke_result_t<StringConverterT, ValueT>,
     std::string
 >;
 
 /**
- * @brief Convert any container to string using the string_converter.
+ * @brief Convert any container to string using the StringConverter.
  *
- * @tparam ContainerType         The type of the container.
- * @tparam StringConverterType   The type of the string converter callable.
+ * @tparam ContainerT         The type of the container.
+ * @tparam StringConverterT   The type of the string converter callable.
  *
  * @param[in] container
  * @param[in] value_separator    The separator between the values of the container.
@@ -48,15 +48,12 @@ concept string_converter = std::same_as<
  * 
  * @returns The container as a string.
  */
-template <range_container ContainerType, typename StringConverterType>
-requires string_converter<
-    typename ContainerType::value_type,
-    StringConverterType
->
-[[nodiscard]] inline std::string to_string(
-    const ContainerType& container,
-    const std::string&   value_separator,
-    StringConverterType  string_converter
+template <RangeContainer ContainerT, typename StringConverterT>
+requires StringConverter<typename ContainerT::value_type, StringConverterT>
+[[nodiscard]] inline std::string ToString(
+    const ContainerT&  container,
+    const std::string& value_separator,
+    StringConverterT   string_converter
 )
 {
     if (container.empty()) {
@@ -75,21 +72,21 @@ requires string_converter<
 }
 
 /**
- * @brief The file_container concept specifies the requirements of
- *        a container which can be used as a file container by the magic class.
+ * @brief The FileContainer concept specifies the requirements of
+ *        a container which can be used as a file container by the Magic class.
  */
-template <typename ContainerType>
-concept file_container = std::ranges::range<ContainerType>
-                      && std::default_initializable<ContainerType>
-                      && std::same_as<
-                             typename ContainerType::value_type,
-                             std::filesystem::path
-                      >
-                      && requires(ContainerType c, std::filesystem::path p) {
-                             c.push_back(p);
-                             c.empty();
-                             typename ContainerType::value_type;
-                         };
+template <typename ContainerT>
+concept FileContainer = std::ranges::range<ContainerT>
+                     && std::default_initializable<ContainerT>
+                     && std::same_as<
+                            typename ContainerT::value_type,
+                            std::filesystem::path
+                     >
+                     && requires(ContainerT c, std::filesystem::path p) {
+                            c.push_back(p);
+                            c.empty();
+                            typename ContainerT::value_type;
+                        };
 
 /**
  * @brief Convert the file container to a string.
@@ -99,12 +96,12 @@ concept file_container = std::ranges::range<ContainerType>
  *
  * @returns The container as a string.
  */
-[[nodiscard]] inline std::string to_string(
-    const file_container auto& container,
-    const std::string&         separator = ", "
+[[nodiscard]] inline std::string ToString(
+    const FileContainer auto& container,
+    const std::string&        separator = ", "
 )
 {
-    return to_string(
+    return ToString(
         container,
         separator,
         [](const std::filesystem::path& path) {
@@ -112,7 +109,7 @@ concept file_container = std::ranges::range<ContainerType>
         }
     );
 }
-} /* namespace utility */
-} /* namespace recognition */
+} /* namespace Utility */
+} /* namespace Recognition */
 
 #endif /* UTILITY_HPP */

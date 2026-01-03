@@ -206,7 +206,28 @@ The current development environment is a container image built on top of the lat
 
 2. **Make Changes**:
 
-    + Use `snake_case` naming convention. The only exception is template parameters, which should use `PascalCase`.
+    + Follow the naming conventions and code style defined in [STYLE_GUIDE.md](STYLE_GUIDE.md). Key requirements:
+
+        + Classes, functions, namespaces, and enums: `PascalCase`
+
+        + Variables: `snake_case` (member variables: `m_snake_case`)
+
+        + Type Aliases: `PascalCase` ending with `T`
+
+        + Template type parameters: `PascalCase` ending with `T`
+
+        + Template non-type parameters: `PascalCase` ending with `V`
+
+        + Constants and macros: `SCREAMING_SNAKE_CASE`
+
+        + Files and directories: `snake_case`
+
+        + Test files: Suffix with `_test.cpp`
+
+        + Test fixture/group names: `PascalCase` ending with `Test`
+
+        + Test case names: `snake_case`
+
 
     + Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 

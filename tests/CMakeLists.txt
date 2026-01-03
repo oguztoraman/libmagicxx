@@ -41,7 +41,7 @@ if (BUILD_MAGICXX_SHARED_LIB)
 
     target_compile_definitions(magicxx_tests
         PRIVATE
-            DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
     )
 
     target_link_libraries(magicxx_tests
@@ -69,7 +69,7 @@ if (BUILD_MAGICXX_STATIC_LIB)
 
     target_compile_definitions(magicxx_tests_static
         PRIVATE
-            DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
+            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
     )
 
     target_link_libraries(magicxx_tests_static

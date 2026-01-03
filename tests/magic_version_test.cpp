@@ -7,7 +7,7 @@
 
 using namespace Recognition;
 
-TEST(MagicVersionTest, MagicGetVersion)
+TEST(MagicVersionTest, magic_get_version)
 {
     EXPECT_EQ(Magic::GetVersion(), "5.46");
 }

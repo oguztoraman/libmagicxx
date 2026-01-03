@@ -467,7 +467,7 @@ public:
      * @brief Identify the types of all files in a directory with progress tracking.
      *
      * @param[in]  directory        The path of the directory.
-     * @param[out] tracker          The progress tracker to track the progress of the identification. Must not be null.
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification. Must not be null.
      * @param[in]  option           The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map.
@@ -477,18 +477,18 @@ public:
      * @throws EmptyPath                  if the path of the directory is empty.
      * @throws PathDoesNotExist           if the path of the directory does not exist.
      * @throws PathIsNotDirectory         if the path of the directory is not a directory.
-     * @throws NullTracker                if the tracker is null.
+     * @throws NullTracker                if the progress tracker is null.
      * @throws FilesystemError            if the underlying std::filesystem OS API fails.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
     [[nodiscard]] FileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
-        ProgressTrackerT                   tracker,
+        ProgressTrackerT                   progress_tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const
     {
-        return IdentifyDirectoryImpl(directory, option, tracker);
+        return IdentifyDirectoryImpl(directory, option, progress_tracker);
     }
 
     /**
@@ -515,7 +515,7 @@ public:
      *
      * @param[in]  directory        The path of the directory.
      * @param[in]  tag              Tag for non-throwing overload.
-     * @param[out] tracker          The progress tracker to track the progress of the identification. Must not be null.
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification. Must not be null.
      * @param[in]  option           The directory iteration option, default is follow_directory_symlink.
      *
      * @returns The types of each file as a map or an empty map on failure.
@@ -523,12 +523,12 @@ public:
     [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
-        ProgressTrackerT                   tracker,
+        ProgressTrackerT                   progress_tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const noexcept
     {
-        return IdentifyDirectoryImpl(directory, tag, option, tracker);
+        return IdentifyDirectoryImpl(directory, tag, option, progress_tracker);
     }
 
     /**
@@ -557,7 +557,7 @@ public:
      * @brief Identify the types of files with progress tracking.
      *
      * @param[in]  files            The container that holds the paths of the files.
-     * @param[out] tracker          The progress tracker to track the progress of the identification. 
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification. 
      *
      * @returns The types of each file as a map.
      *
@@ -565,17 +565,17 @@ public:
      * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
      * @throws EmptyPath                  if the path of the file is empty.
      * @throws PathDoesNotExist           if the path of the file does not exist.
-     * @throws NullTracker                if the tracker is null.
+     * @throws NullTracker                if the progress tracker is null.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
     [[nodiscard]] FileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files,
-        ProgressTrackerT                   tracker
+        ProgressTrackerT                   progress_tracker
     ) const
     {
         return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)},
-            tracker
+            progress_tracker
         );
     }
 
@@ -603,20 +603,20 @@ public:
      *
      * @param[in]  files            The container that holds the paths of the files.
      * @param[in]  tag              Tag for non-throwing overload.
-     * @param[out] tracker          The progress tracker to track the progress of the identification. 
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification. 
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
     [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files,
         const std::nothrow_t&              tag,
-        ProgressTrackerT                   tracker
+        ProgressTrackerT                   progress_tracker
     ) const noexcept
     {
         return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)},
             tag,
-            tracker
+            progress_tracker
         );
     }
 
@@ -836,25 +836,25 @@ private:
     [[nodiscard]] FileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
-        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
     [[nodiscard]] ExpectedFileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
         std::filesystem::directory_options option,
-        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
     [[nodiscard]] FileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
-        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
     [[nodiscard]] ExpectedFileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         const std::nothrow_t&        tag,
-        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
     friend std::string ToString(Flags);

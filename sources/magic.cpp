@@ -258,7 +258,7 @@ public:
     [[nodiscard]] DefaultFileContainerT IdentifyDirectoryPreliminaryChecks(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
-        ProgressTrackerT                   tracker
+        ProgressTrackerT                   progress_tracker
     ) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
@@ -275,7 +275,9 @@ public:
             std::filesystem::is_directory(directory, error_code),
             directory.string()
         );
-        MagicPrivate::ThrowExceptionOnFailure<NullTracker>(tracker != nullptr);
+        MagicPrivate::ThrowExceptionOnFailure<NullTracker>(
+            progress_tracker != nullptr
+        );
         auto files = std::filesystem::recursive_directory_iterator{
             directory,
             option,
@@ -294,7 +296,7 @@ public:
             const std::filesystem::path&           directory,
             [[maybe_unused]] const std::nothrow_t& tag,
             std::filesystem::directory_options     option,
-            ProgressTrackerT                       tracker
+            ProgressTrackerT                       progress_tracker
         ) const noexcept
     {
         if (!IsValid()) {
@@ -310,7 +312,7 @@ public:
         if (!std::filesystem::is_directory(directory, error_code)) {
             return std::nullopt;
         }
-        if (!tracker) {
+        if (!progress_tracker) {
             return std::nullopt;
         }
         std::filesystem::recursive_directory_iterator files{
@@ -326,36 +328,40 @@ public:
         };
     }
 
-    void IdentifyContainerPreliminaryChecks(ProgressTrackerT tracker) const
+    void IdentifyContainerPreliminaryChecks(
+        ProgressTrackerT progress_tracker
+    ) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
         MagicPrivate::ThrowExceptionOnFailure<MagicDatabaseNotLoaded>(
             IsDatabaseLoaded()
         );
-        MagicPrivate::ThrowExceptionOnFailure<NullTracker>(tracker != nullptr);
+        MagicPrivate::ThrowExceptionOnFailure<NullTracker>(
+            progress_tracker != nullptr
+        );
     }
 
     bool IdentifyContainerPreliminaryChecks(
         [[maybe_unused]] const std::nothrow_t& tag,
-        ProgressTrackerT                       tracker
+        ProgressTrackerT                       progress_tracker
     ) const noexcept
     {
-        return IsValid() && tracker;
+        return IsValid() && progress_tracker;
     }
 
     [[nodiscard]] FileTypeMapT IdentifyFiles(
         const DefaultFileContainerT& files,
         IdentifyFileOptionsMaskT     option,
-        ProgressTrackerT             tracker
+        ProgressTrackerT             progress_tracker
     ) const
     {
         FileTypeMapT file_type_map;
-        tracker->Reset(std::ranges::distance(files));
+        progress_tracker->Reset(std::ranges::distance(files));
         std::ranges::for_each(files, [&](const auto& file) {
-            Utility::AdvanceTracker advance{tracker};
+            Utility::AdvanceTracker tracker_advancer{progress_tracker};
             file_type_map[file] = IdentifyFile(file, option);
         });
-        tracker->MarkAsCompleted();
+        progress_tracker->MarkAsCompleted();
         return file_type_map;
     }
 
@@ -363,14 +369,14 @@ public:
         const DefaultFileContainerT&           files,
         [[maybe_unused]] const std::nothrow_t& tag,
         IdentifyFileOptionsMaskT               option,
-        ProgressTrackerT                       tracker
+        ProgressTrackerT                       progress_tracker
     ) const noexcept
     {
         ExpectedFileTypeMapT expected_file_type_map;
         option &= ~CHECK_PATH_EMPTY_OPTION;
-        tracker->Reset(std::ranges::distance(files));
+        progress_tracker->Reset(std::ranges::distance(files));
         std::ranges::for_each(files, [&](const auto& file) {
-            Utility::AdvanceTracker advance{tracker};
+            Utility::AdvanceTracker tracker_advancer{progress_tracker};
             if (file.empty()) {
                 return;
             }
@@ -1054,13 +1060,17 @@ Magic::ExpectedFileTypeT Magic::IdentifyFile(
 Magic::FileTypeMapT Magic::IdentifyDirectoryImpl(
     const std::filesystem::path&       directory,
     std::filesystem::directory_options option,
-    ProgressTrackerT                   tracker
+    ProgressTrackerT                   progress_tracker
 ) const
 {
     return m_impl->IdentifyFiles(
-        m_impl->IdentifyDirectoryPreliminaryChecks(directory, option, tracker),
+        m_impl->IdentifyDirectoryPreliminaryChecks(
+            directory,
+            option,
+            progress_tracker
+        ),
         MagicPrivate::IdentifyFileOptions::CheckNothing,
-        tracker
+        progress_tracker
     );
 }
 
@@ -1068,16 +1078,16 @@ Magic::ExpectedFileTypeMapT Magic::IdentifyDirectoryImpl(
     const std::filesystem::path&       directory,
     const std::nothrow_t&              tag,
     std::filesystem::directory_options option,
-    ProgressTrackerT                   tracker
+    ProgressTrackerT                   progress_tracker
 ) const noexcept
 {
     auto files = m_impl->IdentifyDirectoryPreliminaryChecks(
         directory,
         tag,
         option,
-        tracker
+        progress_tracker
     );
-    Utility::MarkTrackerAsCompleted marker{tracker};
+    Utility::MarkTrackerAsCompleted completion_marker{progress_tracker};
     if (!files) {
         return {};
     }
@@ -1085,38 +1095,38 @@ Magic::ExpectedFileTypeMapT Magic::IdentifyDirectoryImpl(
         files.value(),
         tag,
         MagicPrivate::IdentifyFileOptions::CheckNothing,
-        tracker
+        progress_tracker
     );
 }
 
 Magic::FileTypeMapT Magic::IdentifyContainerImpl(
     const DefaultFileContainerT& files,
-    ProgressTrackerT             tracker
+    ProgressTrackerT             progress_tracker
 ) const
 {
-    m_impl->IdentifyContainerPreliminaryChecks(tracker);
+    m_impl->IdentifyContainerPreliminaryChecks(progress_tracker);
     return m_impl->IdentifyFiles(
         files,
         MagicPrivate::IdentifyFileOptions::CheckPath,
-        tracker
+        progress_tracker
     );
 }
 
 Magic::ExpectedFileTypeMapT Magic::IdentifyContainerImpl(
     const DefaultFileContainerT& files,
     const std::nothrow_t&        tag,
-    ProgressTrackerT             tracker
+    ProgressTrackerT             progress_tracker
 ) const noexcept
 {
-    Utility::MarkTrackerAsCompleted marker{tracker};
-    if (!m_impl->IdentifyContainerPreliminaryChecks(tag, tracker)) {
+    Utility::MarkTrackerAsCompleted completion_marker{progress_tracker};
+    if (!m_impl->IdentifyContainerPreliminaryChecks(tag, progress_tracker)) {
         return {};
     }
     return m_impl->IdentifyFiles(
         files,
         tag,
         MagicPrivate::IdentifyFileOptions::CheckPathExists,
-        tracker
+        progress_tracker
     );
 }
 

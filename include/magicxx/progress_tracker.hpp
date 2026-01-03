@@ -202,27 +202,27 @@ public:
     /**
      * @brief Construct MarkTrackerAsCompleted.
      *
-     * @param shared_tracker        The shared tracker to mark as completed.
+     * @param shared_progress_tracker The shared progress tracker to mark as completed.
      */
     explicit MarkTrackerAsCompleted(
-        SharedProgressTrackerT shared_tracker
+        SharedProgressTrackerT shared_progress_tracker
     ) noexcept
-      : m_shared_tracker(shared_tracker)
+      : m_shared_progress_tracker(shared_progress_tracker)
     { }
 
     /**
-     * @brief Mark the tracker as completed if it exists.
+     * @brief Mark the progress tracker as completed if it exists.
      */
     ~MarkTrackerAsCompleted()
     {
-        if (!m_shared_tracker) {
+        if (!m_shared_progress_tracker) {
             return;
         }
-        m_shared_tracker->MarkAsCompleted();
+        m_shared_progress_tracker->MarkAsCompleted();
     }
 
 private:
-    SharedProgressTrackerT m_shared_tracker;
+    SharedProgressTrackerT m_shared_progress_tracker;
 };
 
 /**
@@ -233,32 +233,32 @@ private:
 class AdvanceTracker {
 public:
     /**
-     * @brief Construct AdvanceTracker with a shared tracker and step count.
+     * @brief Construct AdvanceTracker with a shared progress tracker and step count.
      *
-     * @param shared_tracker        The shared tracker to advance.
-     * @param step_count            Number of steps to advance (default: 1).
+     * @param shared_progress_tracker The shared progress tracker to advance.
+     * @param step_count              Number of steps to advance (default: 1).
      */
     explicit AdvanceTracker(
-        SharedProgressTrackerT shared_tracker,
+        SharedProgressTrackerT shared_progress_tracker,
         std::uint64_t          step_count = 1u
     ) noexcept
-      : m_shared_tracker(shared_tracker)
+      : m_shared_progress_tracker(shared_progress_tracker)
       , m_step_count(step_count)
     { }
 
     /**
-     * @brief Advance the tracker by the step count if it exists.
+     * @brief Advance the progress tracker by the step count if it exists.
      */
     ~AdvanceTracker()
     {
-        if (!m_shared_tracker) {
+        if (!m_shared_progress_tracker) {
             return;
         }
-        m_shared_tracker->Advance(m_step_count);
+        m_shared_progress_tracker->Advance(m_step_count);
     }
 
 private:
-    SharedProgressTrackerT m_shared_tracker;
+    SharedProgressTrackerT m_shared_progress_tracker;
     std::uint64_t          m_step_count;
 };
 } /* namespace Utility */

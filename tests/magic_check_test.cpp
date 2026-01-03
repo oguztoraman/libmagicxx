@@ -40,27 +40,27 @@ protected:
     };
 };
 
-TEST_F(MagicCheckTest, CheckEmptyPath)
+TEST_F(MagicCheckTest, check_empty_path)
 {
     EXPECT_FALSE(Magic::Check(m_empty_path));
 }
 
-TEST_F(MagicCheckTest, CheckNonexistentDatabase)
+TEST_F(MagicCheckTest, check_nonexistent_database)
 {
     EXPECT_FALSE(Magic::Check(m_nonexistent_database));
 }
 
-TEST_F(MagicCheckTest, CheckDirectory)
+TEST_F(MagicCheckTest, check_directory)
 {
     EXPECT_FALSE(Magic::Check(m_test_dir));
 }
 
-TEST_F(MagicCheckTest, CheckInvalidDatabase)
+TEST_F(MagicCheckTest, check_invalid_database)
 {
     EXPECT_FALSE(Magic::Check(m_invalid_database));
 }
 
-TEST_F(MagicCheckTest, CheckValidDatabase)
+TEST_F(MagicCheckTest, check_valid_database)
 {
     EXPECT_TRUE(Magic::Check(m_valid_database));
 }

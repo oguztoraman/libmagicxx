@@ -69,17 +69,17 @@ protected:
     };
 };
 
-TEST_F(MagicFlagsTest, ClosedMagicSetFlagsMask)
+TEST_F(MagicFlagsTest, closed_magic_set_flags_mask)
 {
     EXPECT_THROW(m_closed_magic.SetFlags(m_test_flags_mask), MagicIsClosed);
 }
 
-TEST_F(MagicFlagsTest, ClosedMagicSetFlagsMaskNoexcept)
+TEST_F(MagicFlagsTest, closed_magic_set_flags_mask_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_mask, std::nothrow));
 }
 
-TEST_F(MagicFlagsTest, ClosedMagicSetFlagsContainer)
+TEST_F(MagicFlagsTest, closed_magic_set_flags_container)
 {
     EXPECT_THROW(
         m_closed_magic.SetFlags(m_test_flags_container),
@@ -87,13 +87,13 @@ TEST_F(MagicFlagsTest, ClosedMagicSetFlagsContainer)
     );
 }
 
-TEST_F(MagicFlagsTest, ClosedMagicSetFlagsContainerNoexcept)
+TEST_F(MagicFlagsTest, closed_magic_set_flags_container_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_container, std::nothrow)
     );
 }
 
-TEST_F(MagicFlagsTest, ClosedMagicGetFlags)
+TEST_F(MagicFlagsTest, closed_magic_get_flags)
 {
     EXPECT_THROW(
         static_cast<void>(m_closed_magic.GetFlags()),
@@ -101,12 +101,12 @@ TEST_F(MagicFlagsTest, ClosedMagicGetFlags)
     );
 }
 
-TEST_F(MagicFlagsTest, ClosedMagicGetFlagsNoexcept)
+TEST_F(MagicFlagsTest, closed_magic_get_flags_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_mask, std::nothrow));
 }
 
-TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMask)
+TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask)
 {
     EXPECT_NO_THROW(m_opened_magic_without_database.SetFlags(m_test_flags_mask)
     );
@@ -116,7 +116,7 @@ TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMask)
     );
 }
 
-TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMaskNoexcept)
+TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask_noexcept)
 {
     EXPECT_TRUE(m_opened_magic_without_database
                     .SetFlags(m_test_flags_mask, std::nothrow));
@@ -126,7 +126,7 @@ TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMaskNoexcept)
     );
 }
 
-TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainer)
+TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container)
 {
     EXPECT_NO_THROW(
         m_opened_magic_without_database.SetFlags(m_test_flags_container)
@@ -137,7 +137,7 @@ TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainer)
     );
 }
 
-TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainerNoexcept)
+TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container_noexcept)
 {
     EXPECT_TRUE(m_opened_magic_without_database
                     .SetFlags(m_test_flags_container, std::nothrow));
@@ -147,13 +147,13 @@ TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainerNoexcept)
     );
 }
 
-TEST_F(MagicFlagsTest, ValidMagicFlagsMask)
+TEST_F(MagicFlagsTest, valid_magic_flags_mask)
 {
     EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_mask));
     EXPECT_EQ(m_test_flags_container, m_valid_magic.GetFlags());
 }
 
-TEST_F(MagicFlagsTest, ValidMagicFlagsMaskNoexcept)
+TEST_F(MagicFlagsTest, valid_magic_flags_mask_noexcept)
 {
     EXPECT_TRUE(m_valid_magic.SetFlags(m_test_flags_mask, std::nothrow));
     EXPECT_EQ(
@@ -162,13 +162,13 @@ TEST_F(MagicFlagsTest, ValidMagicFlagsMaskNoexcept)
     );
 }
 
-TEST_F(MagicFlagsTest, ValidMagicFlagsContainer)
+TEST_F(MagicFlagsTest, valid_magic_flags_container)
 {
     EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_container));
     EXPECT_EQ(m_test_flags_container, m_valid_magic.GetFlags());
 }
 
-TEST_F(MagicFlagsTest, ValidMagicFlagsContainerNoexcept)
+TEST_F(MagicFlagsTest, valid_magic_flags_container_noexcept)
 {
     EXPECT_TRUE(m_valid_magic.SetFlags(m_test_flags_container, std::nothrow));
     EXPECT_EQ(

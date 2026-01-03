@@ -63,7 +63,7 @@ protected:
     const std::size_t m_multiple_test_count{5uz};
 };
 
-TEST_F(MagicOpenCloseTest, ClosedMagic)
+TEST_F(MagicOpenCloseTest, closed_magic)
 {
     Magic closed_magic{};
     EXPECT_FALSE(closed_magic.IsOpen());
@@ -72,7 +72,7 @@ TEST_F(MagicOpenCloseTest, ClosedMagic)
     EXPECT_FALSE(closed_magic);
 }
 
-TEST_F(MagicOpenCloseTest, ClosedMagicClose)
+TEST_F(MagicOpenCloseTest, closed_magic_close)
 {
     Magic closed_magic{};
     closed_magic.Close();
@@ -82,7 +82,7 @@ TEST_F(MagicOpenCloseTest, ClosedMagicClose)
     EXPECT_FALSE(closed_magic);
 }
 
-TEST_F(MagicOpenCloseTest, ClosedMagicCloseMultipleTimes)
+TEST_F(MagicOpenCloseTest, closed_magic_close_multiple_times)
 {
     Magic closed_magic{};
     for (std::size_t i{}; i < m_multiple_test_count; ++i) {
@@ -94,7 +94,7 @@ TEST_F(MagicOpenCloseTest, ClosedMagicCloseMultipleTimes)
     EXPECT_FALSE(closed_magic);
 }
 
-TEST_F(MagicOpenCloseTest, OpenViaFlagsContainer)
+TEST_F(MagicOpenCloseTest, open_via_flags_container)
 {
     Magic test_magic{};
     test_magic.Open(m_test_flags_container);
@@ -108,7 +108,7 @@ TEST_F(MagicOpenCloseTest, OpenViaFlagsContainer)
     );
 }
 
-TEST_F(MagicOpenCloseTest, OpenViaFlagsContainerNoexcept)
+TEST_F(MagicOpenCloseTest, open_via_flags_container_noexcept)
 {
     Magic test_magic{};
     EXPECT_TRUE(test_magic.Open(m_test_flags_container, std::nothrow));
@@ -122,7 +122,7 @@ TEST_F(MagicOpenCloseTest, OpenViaFlagsContainerNoexcept)
     );
 }
 
-TEST_F(MagicOpenCloseTest, OpenViaFlagsMask)
+TEST_F(MagicOpenCloseTest, open_via_flags_mask)
 {
     Magic test_magic{};
     test_magic.Open(m_test_flags_mask);
@@ -136,7 +136,7 @@ TEST_F(MagicOpenCloseTest, OpenViaFlagsMask)
     );
 }
 
-TEST_F(MagicOpenCloseTest, OpenViaFlagsMaskNoexcept)
+TEST_F(MagicOpenCloseTest, open_via_flags_mask_noexcept)
 {
     Magic test_magic{};
     EXPECT_TRUE(test_magic.Open(m_test_flags_mask, std::nothrow));
@@ -150,7 +150,7 @@ TEST_F(MagicOpenCloseTest, OpenViaFlagsMaskNoexcept)
     );
 }
 
-TEST_F(MagicOpenCloseTest, OpenMultipleTimes)
+TEST_F(MagicOpenCloseTest, open_multiple_times)
 {
     Magic test_magic{};
     for (std::size_t i{}; i < m_multiple_test_count; ++i) {
@@ -166,7 +166,7 @@ TEST_F(MagicOpenCloseTest, OpenMultipleTimes)
     );
 }
 
-TEST_F(MagicOpenCloseTest, OpenCloseMultipleTimes)
+TEST_F(MagicOpenCloseTest, open_close_multiple_times)
 {
     Magic test_magic{};
     for (std::size_t i{}; i < m_multiple_test_count; ++i) {
@@ -187,7 +187,7 @@ TEST_F(MagicOpenCloseTest, OpenCloseMultipleTimes)
     }
 }
 
-TEST_F(MagicOpenCloseTest, CloseValidMagic)
+TEST_F(MagicOpenCloseTest, close_valid_magic)
 {
     Magic test_magic{m_test_flags_mask, std::nothrow, m_valid_database};
     EXPECT_TRUE(test_magic.IsOpen());
@@ -205,7 +205,7 @@ TEST_F(MagicOpenCloseTest, CloseValidMagic)
     EXPECT_FALSE(test_magic);
 }
 
-TEST_F(MagicOpenCloseTest, OpenValidMagic)
+TEST_F(MagicOpenCloseTest, open_valid_magic)
 {
     Magic test_magic{m_test_flags_mask, std::nothrow, m_valid_database};
     EXPECT_TRUE(test_magic.IsOpen());

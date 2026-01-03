@@ -182,10 +182,11 @@ Use **PascalCase** ending with **`T`** for all type aliases and typedefs.
 
 ```cpp
 using FlagsMaskT = unsigned long long;
-using TrackerT = std::shared_ptr<ProgressTracker>;
+using ProgressTrackerT = std::shared_ptr<ProgressTracker>;
 using FileTypeT = std::string;
 using ExpectedFileTypeT = std::expected<FileTypeT, std::string>;
-using TypesOfFilesT = std::unordered_map<std::filesystem::path, FileTypeT>;
+using FileTypeMapT = std::map<std::filesystem::path, FileTypeT>;
+using FileTypeEntryT = FileTypeMapT::value_type;
 using ParameterValueMapT = std::map<Parameters, std::size_t>;
 ```
 

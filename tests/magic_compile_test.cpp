@@ -40,27 +40,27 @@ protected:
     };
 };
 
-TEST_F(MagicCompileTest, CompileEmptyPath)
+TEST_F(MagicCompileTest, compile_empty_path)
 {
     EXPECT_FALSE(Magic::Compile(m_empty_path));
 }
 
-TEST_F(MagicCompileTest, CompileNonexistentDatabase)
+TEST_F(MagicCompileTest, compile_nonexistent_database)
 {
     EXPECT_FALSE(Magic::Compile(m_nonexistent_database));
 }
 
-TEST_F(MagicCompileTest, CompileDirectory)
+TEST_F(MagicCompileTest, compile_directory)
 {
     EXPECT_FALSE(Magic::Compile(m_test_dir));
 }
 
-TEST_F(MagicCompileTest, CompileInvalidDatabase)
+TEST_F(MagicCompileTest, compile_invalid_database)
 {
     EXPECT_FALSE(Magic::Compile(m_invalid_database));
 }
 
-TEST_F(MagicCompileTest, CompileValidDatabase)
+TEST_F(MagicCompileTest, compile_valid_database)
 {
     EXPECT_TRUE(Magic::Compile(m_valid_database));
 }

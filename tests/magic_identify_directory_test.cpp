@@ -43,7 +43,7 @@ protected:
 
     void SetUp() override
     {
-        m_tracker->Reset(1);
+        m_progress_tracker->Reset(1);
     }
 
     std::error_code       m_error_code{};
@@ -56,12 +56,12 @@ protected:
     std::filesystem::path   m_nonexistent_path{m_test_dir / "nonexistent_path"};
     std::filesystem::path   m_text_file   = m_test_dir / "text.txt";
     std::filesystem::path   m_binary_file = m_test_dir / "binary.txt";
-    Magic::TypesOfFilesT m_types_of_valid_files{
+    Magic::FileTypeMapT m_types_of_valid_files{
         {m_text_file,   "text/plain; charset=us-ascii"            },
         {m_empty_dir,   "inode/directory; charset=binary"         },
         {m_binary_file, "application/octet-stream; charset=binary"}
     };
-    Magic::ExpectedTypesOfFilesT m_expected_types_of_valid_files{
+    Magic::ExpectedFileTypeMapT m_expected_types_of_valid_files{
         {m_text_file,   "text/plain; charset=us-ascii"            },
         {m_empty_dir,   "inode/directory; charset=binary"         },
         {m_binary_file, "application/octet-stream; charset=binary"}
@@ -69,8 +69,8 @@ protected:
     Magic m_closed_magic{};
     Magic m_opened_magic_without_database;
     Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
-    Magic::TrackerT m_null_tracker{nullptr};
-    Magic::TrackerT m_tracker{MakeSharedProgressTracker()};
+    Magic::ProgressTrackerT m_null_progress_tracker{nullptr};
+    Magic::ProgressTrackerT m_progress_tracker{MakeSharedProgressTracker()};
 };
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_path)
@@ -85,7 +85,7 @@ TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_path_with_null_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_empty_path, m_null_tracker)
+            m_closed_magic.IdentifyFiles(m_empty_path, m_null_progress_tracker)
         ),
         MagicIsClosed
     );
@@ -94,11 +94,11 @@ TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_path_with_null_tracker)
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_path_with_tracker)
 {
     EXPECT_THROW(
-        static_cast<void>(m_closed_magic.IdentifyFiles(m_empty_path, m_tracker)
+        static_cast<void>(m_closed_magic.IdentifyFiles(m_empty_path, m_progress_tracker)
         ),
         MagicIsClosed
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_path_noexcept)
@@ -114,7 +114,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -124,9 +124,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_nonexistent_path)
@@ -144,7 +144,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_nonexistent_path, m_null_tracker)
+            m_closed_magic.IdentifyFiles(m_nonexistent_path, m_null_progress_tracker)
         ),
         MagicIsClosed
     );
@@ -157,11 +157,11 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_nonexistent_path, m_tracker)
+            m_closed_magic.IdentifyFiles(m_nonexistent_path, m_progress_tracker)
         ),
         MagicIsClosed
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_nonexistent_path_noexcept)
@@ -178,7 +178,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_closed_magic
-            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -189,9 +189,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_file)
@@ -206,7 +206,7 @@ TEST_F(MagicIdentifyDirectoryTest, closed_magic_file_with_null_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_valid_database, m_null_tracker)
+            m_closed_magic.IdentifyFiles(m_valid_database, m_null_progress_tracker)
         ),
         MagicIsClosed
     );
@@ -216,11 +216,11 @@ TEST_F(MagicIdentifyDirectoryTest, closed_magic_file_with_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_valid_database, m_tracker)
+            m_closed_magic.IdentifyFiles(m_valid_database, m_progress_tracker)
         ),
         MagicIsClosed
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_file_noexcept)
@@ -237,7 +237,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_closed_magic
-            .IdentifyFiles(m_valid_database, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_valid_database, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -245,9 +245,9 @@ TEST_F(
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_file_noexcept_with_tracker)
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_valid_database, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_valid_database, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_directory)
@@ -265,7 +265,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_empty_dir, m_null_tracker)
+            m_closed_magic.IdentifyFiles(m_empty_dir, m_null_progress_tracker)
         ),
         MagicIsClosed
     );
@@ -274,11 +274,11 @@ TEST_F(
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_directory_with_tracker)
 {
     EXPECT_THROW(
-        static_cast<void>(m_closed_magic.IdentifyFiles(m_empty_dir, m_tracker)
+        static_cast<void>(m_closed_magic.IdentifyFiles(m_empty_dir, m_progress_tracker)
         ),
         MagicIsClosed
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_empty_directory_noexcept)
@@ -293,7 +293,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -303,9 +303,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_valid_directory)
@@ -323,7 +323,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_closed_magic.IdentifyFiles(m_test_dir, m_null_tracker)
+            m_closed_magic.IdentifyFiles(m_test_dir, m_null_progress_tracker)
         ),
         MagicIsClosed
     );
@@ -332,10 +332,10 @@ TEST_F(
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_valid_directory_with_tracker)
 {
     EXPECT_THROW(
-        static_cast<void>(m_closed_magic.IdentifyFiles(m_test_dir, m_tracker)),
+        static_cast<void>(m_closed_magic.IdentifyFiles(m_test_dir, m_progress_tracker)),
         MagicIsClosed
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, closed_magic_valid_directory_noexcept)
@@ -350,7 +350,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -360,9 +360,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_closed_magic
-                    .IdentifyFiles(m_test_dir, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_test_dir, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, opened_magic_without_database_empty_path)
@@ -382,7 +382,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_empty_path, m_null_tracker)),
+                              .IdentifyFiles(m_empty_path, m_null_progress_tracker)),
         MagicDatabaseNotLoaded
     );
 }
@@ -394,10 +394,10 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_empty_path, m_tracker)),
+                              .IdentifyFiles(m_empty_path, m_progress_tracker)),
         MagicDatabaseNotLoaded
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -416,7 +416,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -426,9 +426,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -452,7 +452,7 @@ TEST_F(
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database.IdentifyFiles(
             m_nonexistent_path,
-            m_null_tracker
+            m_null_progress_tracker
         )),
         MagicDatabaseNotLoaded
     );
@@ -465,10 +465,10 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_nonexistent_path, m_tracker)),
+                              .IdentifyFiles(m_nonexistent_path, m_progress_tracker)),
         MagicDatabaseNotLoaded
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -488,7 +488,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_opened_magic_without_database
-            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -499,9 +499,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, opened_magic_without_database_file)
@@ -522,7 +522,7 @@ TEST_F(
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database.IdentifyFiles(
             m_valid_database,
-            m_null_tracker
+            m_null_progress_tracker
         )),
         MagicDatabaseNotLoaded
     );
@@ -535,10 +535,10 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_valid_database, m_tracker)),
+                              .IdentifyFiles(m_valid_database, m_progress_tracker)),
         MagicDatabaseNotLoaded
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -558,7 +558,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_opened_magic_without_database
-            .IdentifyFiles(m_valid_database, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_valid_database, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -569,9 +569,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_valid_database, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_valid_database, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -594,7 +594,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_empty_dir, m_null_tracker)),
+                              .IdentifyFiles(m_empty_dir, m_null_progress_tracker)),
         MagicDatabaseNotLoaded
     );
 }
@@ -606,10 +606,10 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_empty_dir, m_tracker)),
+                              .IdentifyFiles(m_empty_dir, m_progress_tracker)),
         MagicDatabaseNotLoaded
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -628,7 +628,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -638,9 +638,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -663,7 +663,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_test_dir, m_null_tracker)),
+                              .IdentifyFiles(m_test_dir, m_null_progress_tracker)),
         MagicDatabaseNotLoaded
     );
 }
@@ -675,10 +675,10 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(m_opened_magic_without_database
-                              .IdentifyFiles(m_test_dir, m_tracker)),
+                              .IdentifyFiles(m_test_dir, m_progress_tracker)),
         MagicDatabaseNotLoaded
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(
@@ -697,7 +697,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -707,9 +707,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .IdentifyFiles(m_test_dir, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_test_dir, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_path)
@@ -724,7 +724,7 @@ TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_path_with_null_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_empty_path, m_null_tracker)
+            m_valid_magic.IdentifyFiles(m_empty_path, m_null_progress_tracker)
         ),
         EmptyPath
     );
@@ -733,11 +733,11 @@ TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_path_with_null_tracker)
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_path_with_tracker)
 {
     EXPECT_THROW(
-        static_cast<void>(m_valid_magic.IdentifyFiles(m_empty_path, m_tracker)
+        static_cast<void>(m_valid_magic.IdentifyFiles(m_empty_path, m_progress_tracker)
         ),
         EmptyPath
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_path_noexcept)
@@ -752,7 +752,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -762,9 +762,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_empty_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_nonexistent_path)
@@ -782,7 +782,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_nonexistent_path, m_null_tracker)
+            m_valid_magic.IdentifyFiles(m_nonexistent_path, m_null_progress_tracker)
         ),
         PathDoesNotExist
     );
@@ -792,11 +792,11 @@ TEST_F(MagicIdentifyDirectoryTest, valid_magic_nonexistent_path_with_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_nonexistent_path, m_tracker)
+            m_valid_magic.IdentifyFiles(m_nonexistent_path, m_progress_tracker)
         ),
         PathDoesNotExist
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_nonexistent_path_noexcept)
@@ -813,7 +813,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_valid_magic
-            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_nonexistent_path, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -824,9 +824,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_nonexistent_path, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_file)
@@ -841,7 +841,7 @@ TEST_F(MagicIdentifyDirectoryTest, valid_magic_file_with_null_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_valid_database, m_null_tracker)
+            m_valid_magic.IdentifyFiles(m_valid_database, m_null_progress_tracker)
         ),
         PathIsNotDirectory
     );
@@ -851,11 +851,11 @@ TEST_F(MagicIdentifyDirectoryTest, valid_magic_file_with_tracker)
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_valid_database, m_tracker)
+            m_valid_magic.IdentifyFiles(m_valid_database, m_progress_tracker)
         ),
         PathIsNotDirectory
     );
-    EXPECT_FALSE(m_tracker->IsCompleted());
+    EXPECT_FALSE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_file_noexcept)
@@ -872,7 +872,7 @@ TEST_F(
 {
     EXPECT_TRUE(
         m_valid_magic
-            .IdentifyFiles(m_valid_database, std::nothrow, m_null_tracker)
+            .IdentifyFiles(m_valid_database, std::nothrow, m_null_progress_tracker)
             .empty()
     );
 }
@@ -880,9 +880,9 @@ TEST_F(
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_file_noexcept_with_tracker)
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_valid_database, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_valid_database, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_directory)
@@ -897,7 +897,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_empty_dir, m_null_tracker)
+            m_valid_magic.IdentifyFiles(m_empty_dir, m_null_progress_tracker)
         ),
         NullTracker
     );
@@ -905,8 +905,8 @@ TEST_F(
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_directory_with_tracker)
 {
-    EXPECT_TRUE(m_valid_magic.IdentifyFiles(m_empty_dir, m_tracker).empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_valid_magic.IdentifyFiles(m_empty_dir, m_progress_tracker).empty());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_empty_directory_noexcept)
@@ -921,7 +921,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -931,9 +931,9 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_empty_dir, std::nothrow, m_tracker)
+                    .IdentifyFiles(m_empty_dir, std::nothrow, m_progress_tracker)
                     .empty());
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_valid_directory)
@@ -948,7 +948,7 @@ TEST_F(
 {
     EXPECT_THROW(
         static_cast<void>(
-            m_valid_magic.IdentifyFiles(m_test_dir, m_null_tracker)
+            m_valid_magic.IdentifyFiles(m_test_dir, m_null_progress_tracker)
         ),
         NullTracker
     );
@@ -957,10 +957,10 @@ TEST_F(
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_valid_directory_with_tracker)
 {
     EXPECT_EQ(
-        m_valid_magic.IdentifyFiles(m_test_dir, m_tracker),
+        m_valid_magic.IdentifyFiles(m_test_dir, m_progress_tracker),
         m_types_of_valid_files
     );
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }
 
 TEST_F(MagicIdentifyDirectoryTest, valid_magic_valid_directory_noexcept)
@@ -977,7 +977,7 @@ TEST_F(
 )
 {
     EXPECT_TRUE(m_valid_magic
-                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_tracker)
+                    .IdentifyFiles(m_test_dir, std::nothrow, m_null_progress_tracker)
                     .empty());
 }
 
@@ -987,8 +987,8 @@ TEST_F(
 )
 {
     EXPECT_EQ(
-        m_valid_magic.IdentifyFiles(m_test_dir, std::nothrow, m_tracker),
+        m_valid_magic.IdentifyFiles(m_test_dir, std::nothrow, m_progress_tracker),
         m_expected_types_of_valid_files
     );
-    EXPECT_TRUE(m_tracker->IsCompleted());
+    EXPECT_TRUE(m_progress_tracker->IsCompleted());
 }

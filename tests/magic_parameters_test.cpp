@@ -46,7 +46,7 @@ protected:
     std::uniform_int_distribution<std::size_t> m_distribution{0, 100};
 };
 
-TEST_F(MagicParametersTest, ClosedMagicSetParameter)
+TEST_F(MagicParametersTest, closed_magic_set_parameter)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_THROW(
@@ -56,7 +56,7 @@ TEST_F(MagicParametersTest, ClosedMagicSetParameter)
     }
 }
 
-TEST_F(MagicParametersTest, ClosedMagicSetParameterNoexcept)
+TEST_F(MagicParametersTest, closed_magic_set_parameter_noexcept)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_FALSE(m_closed_magic.SetParameter(
@@ -67,7 +67,7 @@ TEST_F(MagicParametersTest, ClosedMagicSetParameterNoexcept)
     }
 }
 
-TEST_F(MagicParametersTest, ClosedMagicSetParameters)
+TEST_F(MagicParametersTest, closed_magic_set_parameters)
 {
     EXPECT_THROW(
         m_closed_magic.SetParameters(m_test_parameters),
@@ -75,13 +75,13 @@ TEST_F(MagicParametersTest, ClosedMagicSetParameters)
     );
 }
 
-TEST_F(MagicParametersTest, ClosedMagicSetParametersNoexcept)
+TEST_F(MagicParametersTest, closed_magic_set_parameters_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.SetParameters(m_test_parameters, std::nothrow)
     );
 }
 
-TEST_F(MagicParametersTest, ClosedMagicGetParameters)
+TEST_F(MagicParametersTest, closed_magic_get_parameters)
 {
     EXPECT_THROW(
         static_cast<void>(m_closed_magic.GetParameters()),
@@ -89,12 +89,12 @@ TEST_F(MagicParametersTest, ClosedMagicGetParameters)
     );
 }
 
-TEST_F(MagicParametersTest, ClosedMagicGetParametersNoexcept)
+TEST_F(MagicParametersTest, closed_magic_get_parameters_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.GetParameters(std::nothrow));
 }
 
-TEST_F(MagicParametersTest, OpenedMagicWithoutDatabaseSetParameter)
+TEST_F(MagicParametersTest, opened_magic_without_database_set_parameter)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         m_opened_magic_without_database.SetParameter(
@@ -110,7 +110,7 @@ TEST_F(MagicParametersTest, OpenedMagicWithoutDatabaseSetParameter)
 
 TEST_F(
     MagicParametersTest,
-    OpenedMagicWithoutDatabaseSetParameterNoexcept
+    opened_magic_without_database_set_parameter_noexcept
 )
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
@@ -125,7 +125,7 @@ TEST_F(
     }
 }
 
-TEST_F(MagicParametersTest, OpenedMagicWithoutDatabaseSetParameters)
+TEST_F(MagicParametersTest, opened_magic_without_database_set_parameters)
 {
     m_opened_magic_without_database.SetParameters(m_test_parameters);
     EXPECT_EQ(
@@ -136,7 +136,7 @@ TEST_F(MagicParametersTest, OpenedMagicWithoutDatabaseSetParameters)
 
 TEST_F(
     MagicParametersTest,
-    OpenedMagicWithoutDatabaseSetParametersNoexcept
+    opened_magic_without_database_set_parameters_noexcept
 )
 {
     EXPECT_TRUE(m_opened_magic_without_database
@@ -147,7 +147,7 @@ TEST_F(
     );
 }
 
-TEST_F(MagicParametersTest, ValidMagicSetParameter)
+TEST_F(MagicParametersTest, valid_magic_set_parameter)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         m_valid_magic.SetParameter(parameter, parameter_value);
@@ -155,7 +155,7 @@ TEST_F(MagicParametersTest, ValidMagicSetParameter)
     }
 }
 
-TEST_F(MagicParametersTest, ValidMagicSetParameterNoexcept)
+TEST_F(MagicParametersTest, valid_magic_set_parameter_noexcept)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_TRUE(m_valid_magic
@@ -168,13 +168,13 @@ TEST_F(MagicParametersTest, ValidMagicSetParameterNoexcept)
     }
 }
 
-TEST_F(MagicParametersTest, ValidMagicSetParameters)
+TEST_F(MagicParametersTest, valid_magic_set_parameters)
 {
     m_valid_magic.SetParameters(m_test_parameters);
     EXPECT_EQ(m_test_parameters, m_valid_magic.GetParameters());
 }
 
-TEST_F(MagicParametersTest, ValidMagicSetParametersNoexcept)
+TEST_F(MagicParametersTest, valid_magic_set_parameters_noexcept)
 {
     EXPECT_TRUE(m_valid_magic.SetParameters(m_test_parameters, std::nothrow));
     EXPECT_EQ(m_test_parameters, m_valid_magic.GetParameters(std::nothrow));

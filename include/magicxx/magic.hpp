@@ -603,7 +603,7 @@ public:
      *
      * @param[in]  files            The container that holds the paths of the files.
      * @param[in]  tag              Tag for non-throwing overload.
-     * @param[out] progress_tracker The progress tracker to track the progress of the identification. 
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification.
      *
      * @returns The types of each file as a map or an empty map on failure.
      */

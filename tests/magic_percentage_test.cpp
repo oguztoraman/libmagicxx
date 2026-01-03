@@ -7,32 +7,32 @@
 
 using Recognition::Utility::Percentage;
 
-TEST(MagicPercentageTest, DefaultConstructor)
+TEST(MagicPercentageTest, default_constructor)
 {
     EXPECT_EQ(Percentage{}.Get(), 0);
 }
 
-TEST(MagicPercentageTest, ValueConstructorInRange)
+TEST(MagicPercentageTest, value_constructor_in_range)
 {
     EXPECT_EQ(Percentage{42}.Get(), 42);
     EXPECT_EQ(Percentage{100}.Get(), 100);
     EXPECT_EQ(Percentage{0}.Get(), 0);
 }
 
-TEST(MagicPercentageTest, ValueConstructorOutOfRange)
+TEST(MagicPercentageTest, value_constructor_out_of_range)
 {
     EXPECT_EQ(Percentage{-10}.Get(), 0);
     EXPECT_EQ(Percentage{150}.Get(), 100);
 }
 
-TEST(MagicPercentageTest, SetInRange)
+TEST(MagicPercentageTest, set_in_range)
 {
     Percentage test_percentage;
     test_percentage.Set(55);
     EXPECT_EQ(test_percentage.Get(), 55);
 }
 
-TEST(MagicPercentageTest, SetOutOfRange)
+TEST(MagicPercentageTest, set_out_of_range)
 {
     Percentage test_percentage;
     test_percentage.Set(-5);
@@ -41,20 +41,20 @@ TEST(MagicPercentageTest, SetOutOfRange)
     EXPECT_EQ(test_percentage.Get(), 100);
 }
 
-TEST(MagicPercentageTest, StepsContructorNormal)
+TEST(MagicPercentageTest, steps_constructor_normal)
 {
     EXPECT_EQ((Percentage{25, 100}.Get()), 25);
     EXPECT_EQ((Percentage{50, 200}.Get()), 25);
     EXPECT_EQ((Percentage{100, 100}.Get()), 100);
 }
 
-TEST(MagicPercentageTest, StepsContructorZeroTotal)
+TEST(MagicPercentageTest, steps_constructor_zero_total)
 {
     Percentage{10, 0};
     SUCCEED();
 }
 
-TEST(MagicPercentageTest, ToStringTest)
+TEST(MagicPercentageTest, to_string)
 {
     EXPECT_EQ(Percentage{75}.ToString(), "75%");
 }

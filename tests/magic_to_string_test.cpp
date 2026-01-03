@@ -58,7 +58,7 @@ TEST(MagicToStringTest, expected_file_type_map_t)
     );
 }
 
-TEST(MagicToStringTest, FlagsTest)
+TEST(MagicToStringTest, flags)
 {
     using enum Magic::Flags;
     EXPECT_EQ(ToString(None), "None");
@@ -94,7 +94,7 @@ TEST(MagicToStringTest, FlagsTest)
     EXPECT_EQ(ToString(NoCheckBuiltin), "NoCheckBuiltin");
 }
 
-TEST(MagicToStringTest, FlagsContainerT)
+TEST(MagicToStringTest, flags_container_t)
 {
     using enum Magic::Flags;
     EXPECT_EQ(
@@ -165,7 +165,7 @@ TEST(MagicToStringTest, FlagsContainerT)
     );
 }
 
-TEST(MagicToStringTest, ParametersTest)
+TEST(MagicToStringTest, parameters)
 {
     using enum Magic::Parameters;
     EXPECT_EQ(ToString(IndirMax), "IndirMax");
@@ -180,7 +180,7 @@ TEST(MagicToStringTest, ParametersTest)
     EXPECT_EQ(ToString(MagWarnMax), "MagWarnMax");
 }
 
-TEST(MagicToStringTest, ParameterValueT)
+TEST(MagicToStringTest, parameter_value_t)
 {
     using enum Magic::Parameters;
     EXPECT_EQ(
@@ -189,7 +189,7 @@ TEST(MagicToStringTest, ParameterValueT)
     );
 }
 
-TEST(MagicToStringTest, ParameterValueMapT)
+TEST(MagicToStringTest, parameter_value_map_t)
 {
     using enum Magic::Parameters;
     EXPECT_EQ(
@@ -218,24 +218,24 @@ TEST(MagicToStringTest, ParameterValueMapT)
     );
 }
 
-TEST(MagicToStringTest, EmptyFileContainer)
+TEST(MagicToStringTest, empty_file_container)
 {
     EXPECT_TRUE(ToString(std::vector<std::filesystem::path>{}).empty());
 }
 
-TEST(MagicToStringTest, OneFile)
+TEST(MagicToStringTest, one_file)
 {
     std::vector<std::filesystem::path> file{"/dev/null"};
     EXPECT_EQ(ToString(file), "/dev/null");
 }
 
-TEST(MagicToStringTest, TwoFiles)
+TEST(MagicToStringTest, two_files)
 {
     std::vector<std::filesystem::path> file{"/dev/null", "/media"};
     EXPECT_EQ(ToString(file), "/dev/null, /media");
 }
 
-TEST(MagicToStringTest, MultipleFiles)
+TEST(MagicToStringTest, multiple_files)
 {
     std::vector<std::filesystem::path> files{
         "/tmp",

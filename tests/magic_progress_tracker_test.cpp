@@ -10,7 +10,7 @@
 
 using namespace Recognition::Utility;
 
-TEST(MagicProgressTrackerTest, DefaultConstructor)
+TEST(MagicProgressTrackerTest, default_constructor)
 {
     ProgressTracker tracker;
     EXPECT_FALSE(tracker.IsCompleted());
@@ -19,7 +19,7 @@ TEST(MagicProgressTrackerTest, DefaultConstructor)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 0);
 }
 
-TEST(MagicProgressTrackerTest, ConstructorWithStepCount)
+TEST(MagicProgressTrackerTest, constructor_with_step_count)
 {
     ProgressTracker tracker{10};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -28,7 +28,7 @@ TEST(MagicProgressTrackerTest, ConstructorWithStepCount)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 0);
 }
 
-TEST(MagicProgressTrackerTest, AdvanceIncrements)
+TEST(MagicProgressTrackerTest, advance_increments)
 {
     ProgressTracker tracker{5};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -46,7 +46,7 @@ TEST(MagicProgressTrackerTest, AdvanceIncrements)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 60);
 }
 
-TEST(MagicProgressTrackerTest, AdvanceDoesNotExceedTotal)
+TEST(MagicProgressTrackerTest, advance_does_not_exceed_total)
 {
     ProgressTracker tracker{3};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -59,7 +59,7 @@ TEST(MagicProgressTrackerTest, AdvanceDoesNotExceedTotal)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 100);
 }
 
-TEST(MagicProgressTrackerTest, GetIncompletedSteps)
+TEST(MagicProgressTrackerTest, get_incompleted_steps)
 {
     ProgressTracker tracker{10};
     EXPECT_EQ(tracker.GetIncompletedSteps(), 10);
@@ -71,7 +71,7 @@ TEST(MagicProgressTrackerTest, GetIncompletedSteps)
     EXPECT_EQ(tracker.GetIncompletedSteps(), 0);
 }
 
-TEST(MagicProgressTrackerTest, MarkAsCompletedSetsTo100)
+TEST(MagicProgressTrackerTest, mark_as_completed_sets_to_100)
 {
     ProgressTracker tracker{7};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -88,7 +88,7 @@ TEST(MagicProgressTrackerTest, MarkAsCompletedSetsTo100)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 100);
 }
 
-TEST(MagicProgressTrackerTest, ResetStepCountProgress)
+TEST(MagicProgressTrackerTest, reset_step_count_progress)
 {
     ProgressTracker tracker{5};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -111,7 +111,7 @@ TEST(MagicProgressTrackerTest, ResetStepCountProgress)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 40);
 }
 
-TEST(MagicProgressTrackerTest, ResetStepCountToZero)
+TEST(MagicProgressTrackerTest, reset_step_count_to_zero)
 {
     ProgressTracker tracker{5};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -133,7 +133,7 @@ TEST(MagicProgressTrackerTest, ResetStepCountToZero)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 0);
 }
 
-TEST(MagicProgressTrackerTest, ResetStepCountMultipleTimes)
+TEST(MagicProgressTrackerTest, reset_step_count_multiple_times)
 {
     ProgressTracker tracker{2};
     EXPECT_FALSE(tracker.IsCompleted());
@@ -159,7 +159,7 @@ TEST(MagicProgressTrackerTest, ResetStepCountMultipleTimes)
     EXPECT_EQ(tracker.GetCompletionPercentage().Get(), 0);
 }
 
-TEST(MagicProgressTrackerTest, ThreadSafety)
+TEST(MagicProgressTrackerTest, thread_safety)
 {
     ProgressTracker tracker{100};
     constexpr auto   number_threads   = 10;
@@ -181,7 +181,7 @@ TEST(MagicProgressTrackerTest, ThreadSafety)
     SUCCEED();
 }
 
-TEST(MagicProgressTrackerTest, WaitForCompletion)
+TEST(MagicProgressTrackerTest, wait_for_completion)
 {
     ProgressTracker tracker{5};
 
@@ -195,7 +195,7 @@ TEST(MagicProgressTrackerTest, WaitForCompletion)
     worker.join();
 }
 
-TEST(MagicProgressTrackerTest, TryWaitForCompletionSuccess)
+TEST(MagicProgressTrackerTest, try_wait_for_completion_success)
 {
     ProgressTracker tracker{3};
 
@@ -213,7 +213,7 @@ TEST(MagicProgressTrackerTest, TryWaitForCompletionSuccess)
     worker.join();
 }
 
-TEST(MagicProgressTrackerTest, TryWaitForCompletionTimeout)
+TEST(MagicProgressTrackerTest, try_wait_for_completion_timeout)
 {
     ProgressTracker tracker{3};
 
@@ -231,7 +231,7 @@ TEST(MagicProgressTrackerTest, TryWaitForCompletionTimeout)
     worker.join();
 }
 
-TEST(MagicProgressTrackerTest, TryWaitUntilSuccess)
+TEST(MagicProgressTrackerTest, try_wait_until_success)
 {
     ProgressTracker tracker{2};
 
@@ -249,7 +249,7 @@ TEST(MagicProgressTrackerTest, TryWaitUntilSuccess)
     worker.join();
 }
 
-TEST(MagicProgressTrackerTest, TryWaitUntilTimeout)
+TEST(MagicProgressTrackerTest, try_wait_until_timeout)
 {
     ProgressTracker tracker{2};
 
@@ -267,7 +267,7 @@ TEST(MagicProgressTrackerTest, TryWaitUntilTimeout)
     worker.join();
 }
 
-TEST(MagicProgressTrackerTest, MakeSharedProgressTrackerCreatesTracker)
+TEST(MagicProgressTrackerTest, make_shared_progress_tracker_creates_tracker)
 {
     auto tracker = MakeSharedProgressTracker(5);
     EXPECT_TRUE(tracker);
@@ -276,7 +276,7 @@ TEST(MagicProgressTrackerTest, MakeSharedProgressTrackerCreatesTracker)
     EXPECT_FALSE(tracker->IsCompleted());
 }
 
-TEST(MagicProgressTrackerTest, MarkTrackerAsCompletedMarksOnScopeExit)
+TEST(MagicProgressTrackerTest, mark_tracker_as_completed_marks_on_scope_exit)
 {
     auto tracker = MakeSharedProgressTracker(3);
     {
@@ -288,7 +288,7 @@ TEST(MagicProgressTrackerTest, MarkTrackerAsCompletedMarksOnScopeExit)
     EXPECT_EQ(tracker->GetCompletedSteps(), 3);
 }
 
-TEST(MagicProgressTrackerTest, AdvanceTrackerAdvancesOnScopeExit)
+TEST(MagicProgressTrackerTest, advance_tracker_advances_on_scope_exit)
 {
     auto tracker = MakeSharedProgressTracker(4);
     {

@@ -2,7 +2,7 @@
 
 ## Next Release
 
-+ **[ENHANCEMENT]** Magic: Add C++ style guide and apply new naming conventions to codebase.
++ **[ENHANCEMENT]** Magic: API change - Add C++ style guide and apply new naming conventions to codebase.
 
 + **[DOCUMENTATION]** Docs: Update copyright years to 2026.
 

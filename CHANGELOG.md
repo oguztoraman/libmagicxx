@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: API change - Improve type alias naming for better API clarity.
+
 + **[ENHANCEMENT]** Magic: API change - Add C++ style guide and apply new naming conventions to codebase.
 
 + **[DOCUMENTATION]** Docs: Update copyright years to 2026.

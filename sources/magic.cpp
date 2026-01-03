@@ -258,7 +258,7 @@ public:
     [[nodiscard]] DefaultFileContainerT IdentifyDirectoryPreliminaryChecks(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
-        TrackerT                           tracker
+        ProgressTrackerT                   tracker
     ) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
@@ -294,7 +294,7 @@ public:
             const std::filesystem::path&           directory,
             [[maybe_unused]] const std::nothrow_t& tag,
             std::filesystem::directory_options     option,
-            TrackerT                               tracker
+            ProgressTrackerT                       tracker
         ) const noexcept
     {
         if (!IsValid()) {
@@ -326,7 +326,7 @@ public:
         };
     }
 
-    void IdentifyContainerPreliminaryChecks(TrackerT tracker) const
+    void IdentifyContainerPreliminaryChecks(ProgressTrackerT tracker) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
         MagicPrivate::ThrowExceptionOnFailure<MagicDatabaseNotLoaded>(
@@ -337,36 +337,36 @@ public:
 
     bool IdentifyContainerPreliminaryChecks(
         [[maybe_unused]] const std::nothrow_t& tag,
-        TrackerT                               tracker
+        ProgressTrackerT                       tracker
     ) const noexcept
     {
         return IsValid() && tracker;
     }
 
-    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+    [[nodiscard]] FileTypeMapT IdentifyFiles(
         const DefaultFileContainerT& files,
         IdentifyFileOptionsMaskT     option,
-        TrackerT                     tracker
+        ProgressTrackerT             tracker
     ) const
     {
-        TypesOfFilesT types_of_files;
+        FileTypeMapT file_type_map;
         tracker->Reset(std::ranges::distance(files));
         std::ranges::for_each(files, [&](const auto& file) {
             Utility::AdvanceTracker advance{tracker};
-            types_of_files[file] = IdentifyFile(file, option);
+            file_type_map[file] = IdentifyFile(file, option);
         });
         tracker->MarkAsCompleted();
-        return types_of_files;
+        return file_type_map;
     }
 
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const DefaultFileContainerT&           files,
         [[maybe_unused]] const std::nothrow_t& tag,
         IdentifyFileOptionsMaskT               option,
-        TrackerT                               tracker
+        ProgressTrackerT                       tracker
     ) const noexcept
     {
-        ExpectedTypesOfFilesT expected_types_of_files;
+        ExpectedFileTypeMapT expected_file_type_map;
         option &= ~CHECK_PATH_EMPTY_OPTION;
         tracker->Reset(std::ranges::distance(files));
         std::ranges::for_each(files, [&](const auto& file) {
@@ -374,13 +374,13 @@ public:
             if (file.empty()) {
                 return;
             }
-            expected_types_of_files[file] = IdentifyFile(
+            expected_file_type_map[file] = IdentifyFile(
                 file,
                 option,
                 std::nothrow
             );
         });
-        return expected_types_of_files;
+        return expected_file_type_map;
     }
 
     [[nodiscard]] bool IsDatabaseLoaded() const noexcept
@@ -805,26 +805,26 @@ private:
 };
 
 std::string ToString(
-    const Magic::TypeOfAFileT& type_of_a_file,
-    const std::string&         type_separator
+    const Magic::FileTypeEntryT& file_type_entry,
+    const std::string&           type_separator
 )
 {
-    const auto& file      = type_of_a_file.first;
-    const auto& file_type = type_of_a_file.second;
+    const auto& file      = file_type_entry.first;
+    const auto& file_type = file_type_entry.second;
     return file.string() + type_separator + file_type;
 }
 
 std::string ToString(
-    const Magic::TypesOfFilesT& types_of_files,
-    const std::string&          type_separator,
-    const std::string&          file_separator
+    const Magic::FileTypeMapT& file_type_map,
+    const std::string&         type_separator,
+    const std::string&         file_separator
 )
 {
     return Utility::ToString(
-        types_of_files,
+        file_type_map,
         file_separator,
-        [&type_separator](const Magic::TypeOfAFileT& type_of_a_file) {
-            return ToString(type_of_a_file, type_separator);
+        [&type_separator](const Magic::FileTypeEntryT& file_type_entry) {
+            return ToString(file_type_entry, type_separator);
         }
     );
 }
@@ -835,12 +835,12 @@ std::string ToString(const Magic::ExpectedFileTypeT& expected_file_type)
 }
 
 std::string ToString(
-    const Magic::ExpectedTypeOfAFileT& expected_type_of_a_file,
-    const std::string&                 type_separator
+    const Magic::ExpectedFileTypeEntryT& expected_file_type_entry,
+    const std::string&                   type_separator
 )
 {
-    const auto& file               = expected_type_of_a_file.first;
-    const auto& expected_file_type = expected_type_of_a_file.second;
+    const auto& file               = expected_file_type_entry.first;
+    const auto& expected_file_type = expected_file_type_entry.second;
     return std::format(
         "{}{}{}",
         file.string(),
@@ -850,16 +850,18 @@ std::string ToString(
 }
 
 std::string ToString(
-    const Magic::ExpectedTypesOfFilesT& expected_types_of_files,
-    const std::string&                  type_separator,
-    const std::string&                  file_separator
+    const Magic::ExpectedFileTypeMapT& expected_file_type_map,
+    const std::string&                 type_separator,
+    const std::string&                 file_separator
 )
 {
     return Utility::ToString(
-        expected_types_of_files,
+        expected_file_type_map,
         file_separator,
-        [&type_separator](const Magic::ExpectedTypeOfAFileT& type_of_a_file) {
-            return ToString(type_of_a_file, type_separator);
+        [&type_separator](
+            const Magic::ExpectedFileTypeEntryT& file_type_entry
+        ) {
+            return ToString(file_type_entry, type_separator);
         }
     );
 }
@@ -1049,10 +1051,10 @@ Magic::ExpectedFileTypeT Magic::IdentifyFile(
     );
 }
 
-Magic::TypesOfFilesT Magic::IdentifyDirectoryImpl(
+Magic::FileTypeMapT Magic::IdentifyDirectoryImpl(
     const std::filesystem::path&       directory,
     std::filesystem::directory_options option,
-    TrackerT                           tracker
+    ProgressTrackerT                   tracker
 ) const
 {
     return m_impl->IdentifyFiles(
@@ -1062,11 +1064,11 @@ Magic::TypesOfFilesT Magic::IdentifyDirectoryImpl(
     );
 }
 
-Magic::ExpectedTypesOfFilesT Magic::IdentifyDirectoryImpl(
+Magic::ExpectedFileTypeMapT Magic::IdentifyDirectoryImpl(
     const std::filesystem::path&       directory,
     const std::nothrow_t&              tag,
     std::filesystem::directory_options option,
-    TrackerT                           tracker
+    ProgressTrackerT                   tracker
 ) const noexcept
 {
     auto files = m_impl->IdentifyDirectoryPreliminaryChecks(
@@ -1087,9 +1089,9 @@ Magic::ExpectedTypesOfFilesT Magic::IdentifyDirectoryImpl(
     );
 }
 
-Magic::TypesOfFilesT Magic::IdentifyContainerImpl(
+Magic::FileTypeMapT Magic::IdentifyContainerImpl(
     const DefaultFileContainerT& files,
-    TrackerT                     tracker
+    ProgressTrackerT             tracker
 ) const
 {
     m_impl->IdentifyContainerPreliminaryChecks(tracker);
@@ -1100,10 +1102,10 @@ Magic::TypesOfFilesT Magic::IdentifyContainerImpl(
     );
 }
 
-Magic::ExpectedTypesOfFilesT Magic::IdentifyContainerImpl(
+Magic::ExpectedFileTypeMapT Magic::IdentifyContainerImpl(
     const DefaultFileContainerT& files,
     const std::nothrow_t&        tag,
-    TrackerT                     tracker
+    ProgressTrackerT             tracker
 ) const noexcept
 {
     Utility::MarkTrackerAsCompleted marker{tracker};

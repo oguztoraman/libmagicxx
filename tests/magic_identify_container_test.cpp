@@ -52,11 +52,11 @@ protected:
     std::filesystem::path   m_nonexistent_path{m_test_dir / "nonexistent_path"};
     std::filesystem::path   m_text_file   = m_test_dir / "text.txt";
     std::filesystem::path   m_binary_file = m_test_dir / "binary.txt";
-    Magic::TypesOfFilesT m_types_of_valid_files{
+    Magic::FileTypeMapT m_types_of_valid_files{
         {m_text_file,   "text/plain; charset=us-ascii"            },
         {m_binary_file, "application/octet-stream; charset=binary"}
     };
-    Magic::ExpectedTypesOfFilesT m_expected_types_of_valid_files{
+    Magic::ExpectedFileTypeMapT m_expected_types_of_valid_files{
         {m_text_file,   "text/plain; charset=us-ascii"            },
         {m_binary_file, "application/octet-stream; charset=binary"}
     };
@@ -66,7 +66,7 @@ protected:
         m_nonexistent_path,
         m_nonexistent_path
     };
-    Magic::ExpectedTypesOfFilesT
+    Magic::ExpectedFileTypeMapT
         m_expected_types_of_nonexistent_path_container{
             {m_nonexistent_path,
              std::unexpected{PathDoesNotExist{m_nonexistent_path}.what()}}
@@ -78,8 +78,8 @@ protected:
     Magic m_closed_magic{};
     Magic m_opened_magic_without_database;
     Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
-    Magic::TrackerT m_null_tracker{nullptr};
-    Magic::TrackerT m_tracker{MakeSharedProgressTracker()};
+    Magic::ProgressTrackerT m_null_tracker{nullptr};
+    Magic::ProgressTrackerT m_tracker{MakeSharedProgressTracker()};
 };
 
 TEST_F(MagicIdentifyContainerTest, closed_magic_empty_container)

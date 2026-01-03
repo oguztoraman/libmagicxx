@@ -58,44 +58,44 @@ public:
     using ExpectedFileTypeT = std::expected<FileTypeT, ErrorMessageT>;
 
     /**
-     * @typedef TypesOfFilesT
+     * @typedef FileTypeMapT
      *
      * @brief Map from file paths to their detected types.
      */
-    using TypesOfFilesT = std::map<std::filesystem::path, FileTypeT>;
+    using FileTypeMapT = std::map<std::filesystem::path, FileTypeT>;
 
     /**
-     * @typedef TypeOfAFileT
+     * @typedef FileTypeEntryT
      *
      * @brief Key-value pair representing a single file and its detected type.
      */
-    using TypeOfAFileT = TypesOfFilesT::value_type;
+    using FileTypeEntryT = FileTypeMapT::value_type;
 
     /**
-     * @typedef ExpectedTypesOfFilesT
+     * @typedef ExpectedFileTypeMapT
      *
      * @brief Map from file paths to expected file type results (success or error).
      */
-    using ExpectedTypesOfFilesT = std::map<
+    using ExpectedFileTypeMapT = std::map<
         std::filesystem::path,
         ExpectedFileTypeT
     >;
 
     /**
-     * @typedef ExpectedTypeOfAFileT
+     * @typedef ExpectedFileTypeEntryT
      *
      * @brief Key-value pair representing a single file and its expected file type result.
      */
-    using ExpectedTypeOfAFileT = ExpectedTypesOfFilesT::value_type;
+    using ExpectedFileTypeEntryT = ExpectedFileTypeMapT::value_type;
 
     /**
-     * @typedef TrackerT
+     * @typedef ProgressTrackerT
      *
      * @brief Alias for a shared pointer to a progress tracker used for monitoring file identification progress.
      *
      * @see Utility::ProgressTracker
      */
-    using TrackerT = Utility::SharedProgressTrackerT;
+    using ProgressTrackerT = Utility::SharedProgressTrackerT;
 
     /**
      * @brief The Flags enums are used for configuring the flags of a Magic.
@@ -454,7 +454,7 @@ public:
      * @throws FilesystemError            if the underlying std::filesystem OS API fails.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+    [[nodiscard]] FileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
@@ -481,9 +481,9 @@ public:
      * @throws FilesystemError            if the underlying std::filesystem OS API fails.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+    [[nodiscard]] FileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
-        TrackerT                           tracker,
+        ProgressTrackerT                   tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const
@@ -500,7 +500,7 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
         std::filesystem::directory_options option = std::filesystem::
@@ -520,10 +520,10 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
-        TrackerT                           tracker,
+        ProgressTrackerT                   tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const noexcept
@@ -544,7 +544,7 @@ public:
      * @throws PathDoesNotExist           if the path of the file does not exist.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+    [[nodiscard]] FileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files
     ) const
     {
@@ -568,9 +568,9 @@ public:
      * @throws NullTracker                if the tracker is null.
      * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+    [[nodiscard]] FileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files,
-        TrackerT                           tracker
+        ProgressTrackerT                   tracker
     ) const
     {
         return IdentifyContainerImpl(
@@ -587,7 +587,7 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files,
         const std::nothrow_t&              tag
     ) const noexcept
@@ -607,10 +607,10 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyFiles(
         const Utility::FileContainer auto& files,
         const std::nothrow_t&              tag,
-        TrackerT                           tracker
+        ProgressTrackerT                   tracker
     ) const noexcept
     {
         return IdentifyContainerImpl(
@@ -833,28 +833,28 @@ private:
 
     using DefaultFileContainerT = std::vector<std::filesystem::path>;
 
-    [[nodiscard]] TypesOfFilesT IdentifyDirectoryImpl(
+    [[nodiscard]] FileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
-        TrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyDirectoryImpl(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
         std::filesystem::directory_options option,
-        TrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    [[nodiscard]] TypesOfFilesT IdentifyContainerImpl(
+    [[nodiscard]] FileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
-        TrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    [[nodiscard]] ExpectedTypesOfFilesT IdentifyContainerImpl(
+    [[nodiscard]] ExpectedFileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         const std::nothrow_t&        tag,
-        TrackerT tracker = Utility::MakeSharedProgressTracker()
+        ProgressTrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
     friend std::string ToString(Flags);
@@ -862,31 +862,31 @@ private:
 };
 
 /**
- * @brief Convert the Magic::TypeOfAFileT to string.
+ * @brief Convert the Magic::FileTypeEntryT to string.
  *
- * @param[in] type_of_a_file            The type of a file.
+ * @param[in] file_type_entry           The file type entry.
  * @param[in] type_separator            The separator between the file and its type, default is " -> ".
  *
- * @returns The type_of_a_file as a string.
+ * @returns The file_type_entry as a string.
  */
 [[nodiscard]] std::string ToString(
-    const Magic::TypeOfAFileT& type_of_a_file,
-    const std::string&         type_separator = " -> "
+    const Magic::FileTypeEntryT& file_type_entry,
+    const std::string&           type_separator = " -> "
 );
 
 /**
- * @brief Convert the Magic::TypesOfFilesT to string.
+ * @brief Convert the Magic::FileTypeMapT to string.
  *
- * @param[in] types_of_files            The types of each file.
+ * @param[in] file_type_map             The file type map.
  * @param[in] type_separator            The separator between the file and its type, default is " -> ".
  * @param[in] file_separator            The separator between the files, default is "\n".
  *
- * @returns The types_of_files as a string.
+ * @returns The file_type_map as a string.
  */
 [[nodiscard]] std::string ToString(
-    const Magic::TypesOfFilesT& types_of_files,
-    const std::string&          type_separator = " -> ",
-    const std::string&          file_separator = "\n"
+    const Magic::FileTypeMapT& file_type_map,
+    const std::string&         type_separator = " -> ",
+    const std::string&         file_separator = "\n"
 );
 
 /**
@@ -901,31 +901,31 @@ private:
 );
 
 /**
- * @brief Convert the Magic::ExpectedTypeOfAFileT to string.
+ * @brief Convert the Magic::ExpectedFileTypeEntryT to string.
  *
- * @param[in] expected_type_of_a_file   The expected type of a file.
+ * @param[in] expected_file_type_entry  The expected file type entry.
  * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
  *
- * @returns The expected_type_of_a_file as a string.
+ * @returns The expected_file_type_entry as a string.
  */
 [[nodiscard]] std::string ToString(
-    const Magic::ExpectedTypeOfAFileT& expected_type_of_a_file,
-    const std::string&                 type_separator = " -> "
+    const Magic::ExpectedFileTypeEntryT& expected_file_type_entry,
+    const std::string&                   type_separator = " -> "
 );
 
 /**
- * @brief Convert the Magic::ExpectedTypesOfFilesT to string.
+ * @brief Convert the Magic::ExpectedFileTypeMapT to string.
  *
- * @param[in] expected_types_of_files   The expected types of each file.
+ * @param[in] expected_file_type_map    The expected file type map.
  * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
  * @param[in] file_separator            The separator between the files, default is "\n".
  *
- * @returns The expected_types_of_files as a string.
+ * @returns The expected_file_type_map as a string.
  */
 [[nodiscard]] std::string ToString(
-    const Magic::ExpectedTypesOfFilesT& expected_types_of_files,
-    const std::string&                  type_separator = " -> ",
-    const std::string&                  file_separator = "\n"
+    const Magic::ExpectedFileTypeMapT& expected_file_type_map,
+    const std::string&                 type_separator = " -> ",
+    const std::string&                 file_separator = "\n"
 );
 
 /**

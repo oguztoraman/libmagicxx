@@ -8,18 +8,18 @@
 using namespace Recognition;
 using namespace Utility;
 
-TEST(MagicToStringTest, TypeOfAFileT)
+TEST(MagicToStringTest, file_type_entry_t)
 {
     EXPECT_EQ(
-        ToString(Magic::TypeOfAFileT{"path1", "type1"}),
+        ToString(Magic::FileTypeEntryT{"path1", "type1"}),
         "path1 -> type1"
     );
 }
 
-TEST(MagicToStringTest, TypesOfFilesT)
+TEST(MagicToStringTest, file_type_map_t)
 {
     EXPECT_EQ(
-        ToString(Magic::TypesOfFilesT{
+        ToString(Magic::FileTypeMapT{
             {"path1", "type1"},
             {"path2", "type2"},
             {"path3", "type3"}
@@ -30,24 +30,24 @@ TEST(MagicToStringTest, TypesOfFilesT)
     );
 }
 
-TEST(MagicToStringTest, ExpectedTypeOfAFileT)
+TEST(MagicToStringTest, expected_file_type_entry_t)
 {
     EXPECT_EQ(
-        ToString(Magic::ExpectedTypeOfAFileT{"path1", "type1"}),
+        ToString(Magic::ExpectedFileTypeEntryT{"path1", "type1"}),
         "path1 -> type1"
     );
     EXPECT_EQ(
         ToString(
-            Magic::ExpectedTypeOfAFileT{"path1", std::unexpected{"error1"}}
+            Magic::ExpectedFileTypeEntryT{"path1", std::unexpected{"error1"}}
         ),
         "path1 -> error1"
     );
 }
 
-TEST(MagicToStringTest, ExpectedTypesOfFilesT)
+TEST(MagicToStringTest, expected_file_type_map_t)
 {
     EXPECT_EQ(
-        ToString(Magic::ExpectedTypesOfFilesT{
+        ToString(Magic::ExpectedFileTypeMapT{
             {"path1", "type1"                  },
             {"path2", std::unexpected{"error1"}},
             {"path3", "type2"                  }

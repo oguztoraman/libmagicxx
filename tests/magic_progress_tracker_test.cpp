@@ -162,8 +162,8 @@ TEST(MagicProgressTrackerTest, reset_step_count_multiple_times)
 TEST(MagicProgressTrackerTest, thread_safety)
 {
     ProgressTracker progress_tracker{100};
-    constexpr auto   number_of_threads   = 10;
-    constexpr auto   steps_per_thread = 10;
+    constexpr auto number_of_threads = 10;
+    constexpr auto steps_per_thread = 10;
 
     std::vector<std::thread> threads;
     for (int thread_index = 0; thread_index < number_of_threads; ++thread_index) {

@@ -7,11 +7,11 @@
 
 #include "magic.hpp"
 
-using namespace recognition;
+using namespace Recognition;
 
-struct magic_special_members_test : testing::Test {
+struct MagicSpecialMembersTest : testing::Test {
 protected:
-    magic_special_members_test()
+    MagicSpecialMembersTest()
     {
         std::filesystem::create_directory(m_test_dir, m_error_code);
         EXPECT_TRUE(std::filesystem::exists(m_test_dir, m_error_code));
@@ -22,7 +22,7 @@ protected:
         EXPECT_TRUE(std::filesystem::exists(m_valid_database, m_error_code));
     }
 
-    ~magic_special_members_test()
+    ~MagicSpecialMembersTest()
     {
         std::filesystem::remove(m_invalid_database, m_error_code);
         std::filesystem::remove(m_test_dir, m_error_code);
@@ -30,9 +30,9 @@ protected:
 
     std::error_code       m_error_code{};
     std::filesystem::path m_empty_path{};
-    std::filesystem::path m_valid_database{DEFAULT_DATABASE_FILE};
+    std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     std::filesystem::path m_test_dir{
-        std::filesystem::temp_directory_path() / "magic_special_members_test"
+        std::filesystem::temp_directory_path() / "MagicSpecialMembersTest"
     };
     std::filesystem::path m_invalid_database{m_test_dir / "invalid_database"};
     std::filesystem::path m_nonexistent_database{
@@ -40,226 +40,226 @@ protected:
     };
 };
 
-TEST_F(magic_special_members_test, default_construct_magic)
+TEST_F(MagicSpecialMembersTest, DefaultConstructMagic)
 {
-    magic default_magic;
-    EXPECT_FALSE(default_magic.is_open());
-    EXPECT_FALSE(default_magic.is_database_loaded());
-    EXPECT_FALSE(default_magic.is_valid());
+    Magic default_magic;
+    EXPECT_FALSE(default_magic.IsOpen());
+    EXPECT_FALSE(default_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(default_magic.IsValid());
     EXPECT_FALSE(default_magic);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_empty_path)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromEmptyPath)
 {
-    EXPECT_THROW(magic(magic::flags::mime, m_empty_path), empty_path);
+    EXPECT_THROW(Magic(Magic::Flags::Mime, m_empty_path), EmptyPath);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_empty_path_noexcept)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromEmptyPathNoexcept)
 {
-    magic opened_magic_without_database{
-        magic::flags::mime,
+    Magic opened_magic_without_database{
+        Magic::Flags::Mime,
         std::nothrow,
         m_empty_path
     };
-    EXPECT_TRUE(opened_magic_without_database.is_open());
-    EXPECT_FALSE(opened_magic_without_database.is_database_loaded());
-    EXPECT_FALSE(opened_magic_without_database.is_valid());
+    EXPECT_TRUE(opened_magic_without_database.IsOpen());
+    EXPECT_FALSE(opened_magic_without_database.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic_without_database.IsValid());
     EXPECT_FALSE(opened_magic_without_database);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_nonexisting_database)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromNonexistingDatabase)
 {
     EXPECT_THROW(
-        magic(magic::flags::mime, m_nonexistent_database),
-        path_does_not_exist
+        Magic(Magic::Flags::Mime, m_nonexistent_database),
+        PathDoesNotExist
     );
 }
 
 TEST_F(
-    magic_special_members_test,
-    construct_magic_from_nonexisting_database_noexcept
+    MagicSpecialMembersTest,
+    ConstructMagicFromNonexistingDatabaseNoexcept
 )
 {
-    magic opened_magic_without_database{
-        magic::flags::mime,
+    Magic opened_magic_without_database{
+        Magic::Flags::Mime,
         std::nothrow,
         m_nonexistent_database
     };
-    EXPECT_TRUE(opened_magic_without_database.is_open());
-    EXPECT_FALSE(opened_magic_without_database.is_database_loaded());
-    EXPECT_FALSE(opened_magic_without_database.is_valid());
+    EXPECT_TRUE(opened_magic_without_database.IsOpen());
+    EXPECT_FALSE(opened_magic_without_database.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic_without_database.IsValid());
     EXPECT_FALSE(opened_magic_without_database);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_directory)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromDirectory)
 {
     EXPECT_THROW(
-        magic(magic::flags::mime, m_test_dir),
-        path_is_not_regular_file
+        Magic(Magic::Flags::Mime, m_test_dir),
+        PathIsNotRegularFile
     );
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_directory_noexcept)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromDirectoryNoexcept)
 {
-    magic opened_magic_without_database{
-        magic::flags::mime,
+    Magic opened_magic_without_database{
+        Magic::Flags::Mime,
         std::nothrow,
         m_test_dir
     };
-    EXPECT_TRUE(opened_magic_without_database.is_open());
-    EXPECT_FALSE(opened_magic_without_database.is_database_loaded());
-    EXPECT_FALSE(opened_magic_without_database.is_valid());
+    EXPECT_TRUE(opened_magic_without_database.IsOpen());
+    EXPECT_FALSE(opened_magic_without_database.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic_without_database.IsValid());
     EXPECT_FALSE(opened_magic_without_database);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_invalid_database)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromInvalidDatabase)
 {
     EXPECT_THROW(
-        magic(magic::flags::mime, m_invalid_database),
-        magic_load_database_file_error
+        Magic(Magic::Flags::Mime, m_invalid_database),
+        MagicLoadDatabaseFileError
     );
 }
 
 TEST_F(
-    magic_special_members_test,
-    construct_magic_from_invalid_database_noexcept
+    MagicSpecialMembersTest,
+    ConstructMagicFromInvalidDatabaseNoexcept
 )
 {
-    magic opened_magic_without_database{
-        magic::flags::mime,
+    Magic opened_magic_without_database{
+        Magic::Flags::Mime,
         std::nothrow,
         m_invalid_database
     };
-    EXPECT_TRUE(opened_magic_without_database.is_open());
-    EXPECT_FALSE(opened_magic_without_database.is_database_loaded());
-    EXPECT_FALSE(opened_magic_without_database.is_valid());
+    EXPECT_TRUE(opened_magic_without_database.IsOpen());
+    EXPECT_FALSE(opened_magic_without_database.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic_without_database.IsValid());
     EXPECT_FALSE(opened_magic_without_database);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_valid_database)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromValidDatabase)
 {
-    magic valid_magic{magic::flags::mime, std::nothrow, m_valid_database};
-    EXPECT_TRUE(valid_magic.is_open());
-    EXPECT_TRUE(valid_magic.is_database_loaded());
-    EXPECT_TRUE(valid_magic.is_valid());
+    Magic valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    EXPECT_TRUE(valid_magic.IsOpen());
+    EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(valid_magic.IsValid());
     EXPECT_TRUE(valid_magic);
 }
 
-TEST_F(magic_special_members_test, construct_magic_from_valid_database_noexcept)
+TEST_F(MagicSpecialMembersTest, ConstructMagicFromValidDatabaseNoexcept)
 {
-    magic valid_magic{magic::flags::mime, std::nothrow, m_valid_database};
-    EXPECT_TRUE(valid_magic.is_open());
-    EXPECT_TRUE(valid_magic.is_database_loaded());
-    EXPECT_TRUE(valid_magic.is_valid());
+    Magic valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    EXPECT_TRUE(valid_magic.IsOpen());
+    EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(valid_magic.IsValid());
     EXPECT_TRUE(valid_magic);
 }
 
-TEST_F(magic_special_members_test, move_construct_magic_from_closed_magic)
+TEST_F(MagicSpecialMembersTest, MoveConstructMagicFromClosedMagic)
 {
-    magic closed_magic;
-    EXPECT_FALSE(closed_magic.is_open());
-    EXPECT_FALSE(closed_magic.is_database_loaded());
-    EXPECT_FALSE(closed_magic.is_valid());
+    Magic closed_magic;
+    EXPECT_FALSE(closed_magic.IsOpen());
+    EXPECT_FALSE(closed_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(closed_magic.IsValid());
     EXPECT_FALSE(closed_magic);
     auto new_magic{std::move(closed_magic)};
-    EXPECT_FALSE(new_magic.is_open());
-    EXPECT_FALSE(new_magic.is_database_loaded());
-    EXPECT_FALSE(new_magic.is_valid());
+    EXPECT_FALSE(new_magic.IsOpen());
+    EXPECT_FALSE(new_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(new_magic.IsValid());
     EXPECT_FALSE(new_magic);
-    EXPECT_FALSE(closed_magic.is_open());
-    EXPECT_FALSE(closed_magic.is_database_loaded());
-    EXPECT_FALSE(closed_magic.is_valid());
+    EXPECT_FALSE(closed_magic.IsOpen());
+    EXPECT_FALSE(closed_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(closed_magic.IsValid());
     EXPECT_FALSE(closed_magic);
 }
 
-TEST_F(magic_special_members_test, move_construct_magic_from_opened_magic)
+TEST_F(MagicSpecialMembersTest, MoveConstructMagicFromOpenedMagic)
 {
-    magic opened_magic;
-    EXPECT_TRUE(opened_magic.open(magic::flags::mime, std::nothrow));
-    EXPECT_TRUE(opened_magic.is_open());
-    EXPECT_FALSE(opened_magic.is_database_loaded());
-    EXPECT_FALSE(opened_magic.is_valid());
+    Magic opened_magic;
+    EXPECT_TRUE(opened_magic.Open(Magic::Flags::Mime, std::nothrow));
+    EXPECT_TRUE(opened_magic.IsOpen());
+    EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic.IsValid());
     EXPECT_FALSE(opened_magic);
     auto new_magic{std::move(opened_magic)};
-    EXPECT_TRUE(new_magic.is_open());
-    EXPECT_FALSE(new_magic.is_database_loaded());
-    EXPECT_FALSE(new_magic.is_valid());
+    EXPECT_TRUE(new_magic.IsOpen());
+    EXPECT_FALSE(new_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(new_magic.IsValid());
     EXPECT_FALSE(new_magic);
-    EXPECT_FALSE(opened_magic.is_open());
-    EXPECT_FALSE(opened_magic.is_database_loaded());
-    EXPECT_FALSE(opened_magic.is_valid());
+    EXPECT_FALSE(opened_magic.IsOpen());
+    EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic.IsValid());
     EXPECT_FALSE(opened_magic);
 }
 
-TEST_F(magic_special_members_test, move_construct_magic_from_valid_magic)
+TEST_F(MagicSpecialMembersTest, MoveConstructMagicFromValidMagic)
 {
-    magic valid_magic(magic::flags::mime, std::nothrow, m_valid_database);
-    EXPECT_TRUE(valid_magic.is_open());
-    EXPECT_TRUE(valid_magic.is_database_loaded());
-    EXPECT_TRUE(valid_magic.is_valid());
+    Magic valid_magic(Magic::Flags::Mime, std::nothrow, m_valid_database);
+    EXPECT_TRUE(valid_magic.IsOpen());
+    EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(valid_magic.IsValid());
     EXPECT_TRUE(valid_magic);
     auto new_magic{std::move(valid_magic)};
-    EXPECT_TRUE(new_magic.is_open());
-    EXPECT_TRUE(new_magic.is_database_loaded());
-    EXPECT_TRUE(new_magic.is_valid());
+    EXPECT_TRUE(new_magic.IsOpen());
+    EXPECT_TRUE(new_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(new_magic.IsValid());
     EXPECT_TRUE(new_magic);
-    EXPECT_FALSE(valid_magic.is_open());
-    EXPECT_FALSE(valid_magic.is_database_loaded());
-    EXPECT_FALSE(valid_magic.is_valid());
+    EXPECT_FALSE(valid_magic.IsOpen());
+    EXPECT_FALSE(valid_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(valid_magic.IsValid());
     EXPECT_FALSE(valid_magic);
 }
 
-TEST_F(magic_special_members_test, move_assign_magic_from_closed_magic)
+TEST_F(MagicSpecialMembersTest, MoveAssignMagicFromClosedMagic)
 {
-    magic closed_magic;
-    EXPECT_FALSE(closed_magic.is_open());
-    EXPECT_FALSE(closed_magic.is_database_loaded());
-    EXPECT_FALSE(closed_magic.is_valid());
+    Magic closed_magic;
+    EXPECT_FALSE(closed_magic.IsOpen());
+    EXPECT_FALSE(closed_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(closed_magic.IsValid());
     EXPECT_FALSE(closed_magic);
     auto new_magic = std::move(closed_magic);
-    EXPECT_FALSE(new_magic.is_open());
-    EXPECT_FALSE(new_magic.is_database_loaded());
-    EXPECT_FALSE(new_magic.is_valid());
+    EXPECT_FALSE(new_magic.IsOpen());
+    EXPECT_FALSE(new_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(new_magic.IsValid());
     EXPECT_FALSE(new_magic);
-    EXPECT_FALSE(closed_magic.is_open());
-    EXPECT_FALSE(closed_magic.is_database_loaded());
-    EXPECT_FALSE(closed_magic.is_valid());
+    EXPECT_FALSE(closed_magic.IsOpen());
+    EXPECT_FALSE(closed_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(closed_magic.IsValid());
     EXPECT_FALSE(closed_magic);
 }
 
-TEST_F(magic_special_members_test, move_assign_magic_from_opened_magic)
+TEST_F(MagicSpecialMembersTest, MoveAssignMagicFromOpenedMagic)
 {
-    magic opened_magic;
-    EXPECT_TRUE(opened_magic.open(magic::flags::mime, std::nothrow));
-    EXPECT_TRUE(opened_magic.is_open());
-    EXPECT_FALSE(opened_magic.is_database_loaded());
-    EXPECT_FALSE(opened_magic.is_valid());
+    Magic opened_magic;
+    EXPECT_TRUE(opened_magic.Open(Magic::Flags::Mime, std::nothrow));
+    EXPECT_TRUE(opened_magic.IsOpen());
+    EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic.IsValid());
     EXPECT_FALSE(opened_magic);
     auto new_magic = std::move(opened_magic);
-    EXPECT_TRUE(new_magic.is_open());
-    EXPECT_FALSE(new_magic.is_database_loaded());
-    EXPECT_FALSE(new_magic.is_valid());
+    EXPECT_TRUE(new_magic.IsOpen());
+    EXPECT_FALSE(new_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(new_magic.IsValid());
     EXPECT_FALSE(new_magic);
-    EXPECT_FALSE(opened_magic.is_open());
-    EXPECT_FALSE(opened_magic.is_database_loaded());
-    EXPECT_FALSE(opened_magic.is_valid());
+    EXPECT_FALSE(opened_magic.IsOpen());
+    EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(opened_magic.IsValid());
     EXPECT_FALSE(opened_magic);
 }
 
-TEST_F(magic_special_members_test, move_assign_magic_from_valid_magic)
+TEST_F(MagicSpecialMembersTest, MoveAssignMagicFromValidMagic)
 {
-    magic valid_magic(magic::flags::mime, std::nothrow, m_valid_database);
-    EXPECT_TRUE(valid_magic.is_open());
-    EXPECT_TRUE(valid_magic.is_database_loaded());
-    EXPECT_TRUE(valid_magic.is_valid());
+    Magic valid_magic(Magic::Flags::Mime, std::nothrow, m_valid_database);
+    EXPECT_TRUE(valid_magic.IsOpen());
+    EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(valid_magic.IsValid());
     EXPECT_TRUE(valid_magic);
     auto new_magic = std::move(valid_magic);
-    EXPECT_TRUE(new_magic.is_open());
-    EXPECT_TRUE(new_magic.is_database_loaded());
-    EXPECT_TRUE(new_magic.is_valid());
+    EXPECT_TRUE(new_magic.IsOpen());
+    EXPECT_TRUE(new_magic.IsDatabaseLoaded());
+    EXPECT_TRUE(new_magic.IsValid());
     EXPECT_TRUE(new_magic);
-    EXPECT_FALSE(valid_magic.is_open());
-    EXPECT_FALSE(valid_magic.is_database_loaded());
-    EXPECT_FALSE(valid_magic.is_valid());
+    EXPECT_FALSE(valid_magic.IsOpen());
+    EXPECT_FALSE(valid_magic.IsDatabaseLoaded());
+    EXPECT_FALSE(valid_magic.IsValid());
     EXPECT_FALSE(valid_magic);
 }

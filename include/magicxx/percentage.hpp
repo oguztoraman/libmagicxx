@@ -8,31 +8,31 @@
 #include <cstdint>
 #include <string>
 
-namespace recognition {
-namespace utility {
+namespace Recognition {
+namespace Utility {
 /**
- * @class percentage
+ * @class Percentage
  * 
  * @brief Represents a value in the range [0, 100].
  */
-class percentage {
+class Percentage {
 public:
     /**
-     * @brief Construct percentage with a given value.
+     * @brief Construct Percentage with a given value.
      * 
      * @param percentage            Value in range [0, 100]. Clamped if out of range. Default is 0.
      */
-    explicit percentage(int percentage = 0) noexcept
+    explicit Percentage(int percentage = 0) noexcept
       : m_percentage{std::clamp(percentage, 0, 100)}
     { }
 
     /**
-     * @brief Construct percentage from completed and total steps.
+     * @brief Construct Percentage from completed and total steps.
      *
      * @param completed_steps       Number of steps completed.
      * @param total_steps           Total number of steps.
      */
-    percentage(
+    Percentage(
         std::uint64_t completed_steps,
         std::uint64_t total_steps
     ) noexcept
@@ -49,7 +49,7 @@ public:
     /**
      * @returns The percentage value.
      */
-    [[nodiscard]] int get() const noexcept
+    [[nodiscard]] int Get() const noexcept
     {
         return m_percentage;
     }
@@ -59,17 +59,17 @@ public:
      * 
      * @param percentage            New value in range [0, 100]. Clamped if out of range.
      */
-    void set(int percentage) noexcept
+    void Set(int percentage) noexcept
     {
         m_percentage = std::clamp(percentage, 0, 100);
     }
 
     /**
-     * @brief Convert percentage to string.
+     * @brief Convert Percentage to string.
      * 
      * @returns String representation of the percentage, in the format "???%".
      */
-    [[nodiscard]] std::string to_string() const noexcept
+    [[nodiscard]] std::string ToString() const noexcept
     {
         return std::to_string(m_percentage) + "%";
     }
@@ -77,7 +77,7 @@ public:
 private:
     int m_percentage;
 };
-} /* namespace utility */
-} /* namespace recognition */
+} /* namespace Utility */
+} /* namespace Recognition */
 
 #endif /* PERCENTAGE_HPP */

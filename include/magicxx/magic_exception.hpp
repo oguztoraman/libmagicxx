@@ -8,24 +8,24 @@
 #include <stdexcept>
 #include <string>
 
-namespace recognition {
+namespace Recognition {
 /**
- * @class magic_exception
+ * @class MagicException
  *
- * @brief The base class for all exceptions thrown by the magic class.
+ * @brief The base class for all exceptions thrown by the Magic class.
  */
-class magic_exception : public std::runtime_error {
+class MagicException : public std::runtime_error {
 public:
     using std::runtime_error::runtime_error;
 
     /**
-     * @brief Construct magic_exception with an error message
+     * @brief Construct MagicException with an error message
      *        and the name of the funtion where the error occurred.
      *
      * @param[in] function              The name of the funtion.
      * @param[in] error_message         The description of the error.
      */
-    magic_exception(
+    MagicException(
         const std::string& function,
         const std::string& error_message
     )
@@ -38,256 +38,256 @@ public:
 };
 
 /**
- * @class null_tracker
+ * @class NullTracker
  *
- * @brief Exception thrown when a shared progress_tracker is null.
+ * @brief Exception thrown when a shared ProgressTracker is null.
  */
-class null_tracker final : public magic_exception {
+class NullTracker final : public MagicException {
 public:
     /**
-     * @brief Construct null_tracker.
+     * @brief Construct NullTracker.
      */
-    null_tracker()
-      : magic_exception{"shared progress_tracker is null."}
+    NullTracker()
+      : MagicException{"shared ProgressTracker is null."}
     { }
 };
 
 /**
- * @class empty_path
+ * @class EmptyPath
  *
  * @brief Exception thrown when a path is empty.
  */
-class empty_path final : public magic_exception {
+class EmptyPath final : public MagicException {
 public:
     /**
-     * @brief Construct empty_path.
+     * @brief Construct EmptyPath.
      */
-    empty_path()
-      : magic_exception{"path is empty."}
+    EmptyPath()
+      : MagicException{"path is empty."}
     { }
 };
 
 /**
- * @class path_is_not_regular_file
+ * @class PathIsNotRegularFile
  *
- * @brief Exception thrown from magic::load_database_file
+ * @brief Exception thrown from Magic::LoadDatabaseFile
  *        when the database file path is not a regular file.
  */
-class path_is_not_regular_file final : public magic_exception {
+class PathIsNotRegularFile final : public MagicException {
 public:
     /**
-     * @brief Construct path_is_not_regular_file with
+     * @brief Construct PathIsNotRegularFile with
      *        the database file path that is not a regular file.
      *
      * @param[in] database_file_path    The database file path that is not a regular file.
      */
-    explicit path_is_not_regular_file(const std::string& path)
-      : magic_exception{std::format("'{}' is not a regular file.", path)}
+    explicit PathIsNotRegularFile(const std::string& path)
+      : MagicException{std::format("'{}' is not a regular file.", path)}
     { }
 };
 
 /**
- * @class path_is_not_directory
+ * @class PathIsNotDirectory
  *
- * @brief Exception thrown from magic::identify_files(directory)
+ * @brief Exception thrown from Magic::IdentifyFiles(directory)
  *        when the path is not a directory.
  */
-class path_is_not_directory final : public magic_exception {
+class PathIsNotDirectory final : public MagicException {
 public:
     /**
-     * @brief Construct path_is_not_directory with
+     * @brief Construct PathIsNotDirectory with
      *        the path that is not a directory.
      *
      * @param[in] path                  The path that is not a regular file.
      */
-    explicit path_is_not_directory(const std::string& path)
-      : magic_exception{std::format("'{}' is not a directory.", path)}
+    explicit PathIsNotDirectory(const std::string& path)
+      : MagicException{std::format("'{}' is not a directory.", path)}
     { }
 };
 
 /**
- * @class path_does_not_exist
+ * @class PathDoesNotExist
  *
  * @brief Exception thrown when a path does not exist.
  */
-class path_does_not_exist final : public magic_exception {
+class PathDoesNotExist final : public MagicException {
 public:
     /**
-     * @brief Construct path_does_not_exist with the path that does not exist.
+     * @brief Construct PathDoesNotExist with the path that does not exist.
      *
      * @param[in] path                  The path that does not exist.
      */
-    explicit path_does_not_exist(const std::string& path)
-      : magic_exception{std::format("'{}' does not exist.", path)}
+    explicit PathDoesNotExist(const std::string& path)
+      : MagicException{std::format("'{}' does not exist.", path)}
     { }
 };
 
 /**
- * @class filesystem_error
+ * @class FilesystemError
  *
  * @brief Exception thrown when the underlying std::filesystem OS API fails.
  */
-class filesystem_error final : public magic_exception {
+class FilesystemError final : public MagicException {
 public:
     /**
-     * @brief Construct filesystem_error with a path and an error message.
+     * @brief Construct FilesystemError with a path and an error message.
      *
      * @param[in] path                  The path related to the error.
      * @param[in] error_message         The description of the error.
      */
-    filesystem_error(const std::string& path, const std::string& error_message)
-      : magic_exception{std::format("'{}': {}.", path, error_message)}
+    FilesystemError(const std::string& path, const std::string& error_message)
+      : MagicException{std::format("'{}': {}.", path, error_message)}
     { }
 };
 
 /**
- * @class magic_is_closed
+ * @class MagicIsClosed
  *
- * @brief Exception thrown when magic is closed.
+ * @brief Exception thrown when Magic is closed.
  */
-class magic_is_closed final : public magic_exception {
+class MagicIsClosed final : public MagicException {
 public:
     /**
-     * @brief Construct magic_is_closed.
+     * @brief Construct MagicIsClosed.
      */
-    magic_is_closed()
-      : magic_exception{"magic is closed."}
+    MagicIsClosed()
+      : MagicException{"Magic is closed."}
     { }
 };
 
 /**
- * @class magic_open_error
+ * @class MagicOpenError
  *
- * @brief Exception thrown when magic::open fails.
+ * @brief Exception thrown when Magic::Open fails.
  */
-class magic_open_error final : public magic_exception {
+class MagicOpenError final : public MagicException {
 public:
     /**
-     * @brief Construct magic_open_error with an error message.
+     * @brief Construct MagicOpenError with an error message.
      *
      * @param[in] error_message         The description of the error.
      */
-    explicit magic_open_error(const std::string& error_message)
-      : magic_exception{"magic_open", error_message}
+    explicit MagicOpenError(const std::string& error_message)
+      : MagicException{"magic_open", error_message}
     { }
 };
 
 /**
- * @class magic_load_database_file_error
+ * @class MagicLoadDatabaseFileError
  *
- * @brief Exception thrown when magic::load_database_file fails.
+ * @brief Exception thrown when Magic::LoadDatabaseFile fails.
  */
-class magic_load_database_file_error final : public magic_exception {
+class MagicLoadDatabaseFileError final : public MagicException {
 public:
     /**
-     * @brief Construct magic_load_database_file_error with an error message
+     * @brief Construct MagicLoadDatabaseFileError with an error message
      *        and the path of the database file.
      *
      * @param[in] error_message         The description of the error.
      * @param[in] database_file_path    The path of the magic database file.
      */
-    magic_load_database_file_error(
+    MagicLoadDatabaseFileError(
         const std::string& error_message,
         const std::string& database_file_path
     )
-      : magic_exception{
-            std::format("magic_load_database_file({})", database_file_path),
+      : MagicException{
+            std::format("Magic::LoadDatabaseFile({})", database_file_path),
             error_message
         }
     { }
 };
 
 /**
- * @class magic_database_not_loaded
+ * @class MagicDatabaseNotLoaded
  *
  * @brief Exception thrown when magic database is not loaded.
  */
-class magic_database_not_loaded final : public magic_exception {
+class MagicDatabaseNotLoaded final : public MagicException {
 public:
     /**
-     * @brief Construct magic_database_not_loaded.
+     * @brief Construct MagicDatabaseNotLoaded.
      */
-    magic_database_not_loaded()
-      : magic_exception{"magic database is not loaded."}
+    MagicDatabaseNotLoaded()
+      : MagicException{"magic database is not loaded."}
     { }
 };
 
 /**
- * @class magic_identify_file_error
+ * @class MagicIdentifyFileError
  *
- * @brief Exception thrown when magic::identify_file(s) fails.
+ * @brief Exception thrown when Magic::IdentifyFile(s) fails.
  */
-class magic_identify_file_error final : public magic_exception {
+class MagicIdentifyFileError final : public MagicException {
 public:
     /**
-     * @brief Construct magic_identify_file_error with an error message,
+     * @brief Construct MagicIdentifyFileError with an error message,
      *        and the path of the file.
      *
      * @param[in] error_message         The description of the error.
      * @param[in] file_path             The path of the file.
      */
-    magic_identify_file_error(
+    MagicIdentifyFileError(
         const std::string& error_message,
         const std::string& file_path
     )
-      : magic_exception{
-            std::format("magic_identify_file({})", file_path),
+      : MagicException{
+            std::format("Magic::IdentifyFile({})", file_path),
             error_message
         }
     { }
 };
 
 /**
- * @class magic_set_flags_error
+ * @class MagicSetFlagsError
  *
- * @brief Exception thrown when magic::set_flags fails.
+ * @brief Exception thrown when Magic::SetFlags fails.
  */
-class magic_set_flags_error final : public magic_exception {
+class MagicSetFlagsError final : public MagicException {
 public:
     /**
-     * @brief Construct magic_set_flags_error with an error message
+     * @brief Construct MagicSetFlagsError with an error message
      *        and the names of the flags.
      *
      * @param[in] error_message         The description of the error.
      * @param[in] flag_names            The names of the flags.
      */
-    magic_set_flags_error(
+    MagicSetFlagsError(
         const std::string& error_message,
         const std::string& flag_names
     )
-      : magic_exception{
-            std::format("magic_set_flags({})", flag_names),
+      : MagicException{
+            std::format("Magic::SetFlags({})", flag_names),
             error_message
         }
     { }
 };
 
 /**
- * @class magic_set_parameter_error
+ * @class MagicSetParameterError
  *
- * @brief Exception thrown when magic::set_parameter(s) fails.
+ * @brief Exception thrown when Magic::SetParameter(s) fails.
  */
-class magic_set_parameter_error final : public magic_exception {
+class MagicSetParameterError final : public MagicException {
 public:
     /**
-     * @brief Construct magic_set_parameter_error with an error message,
+     * @brief Construct MagicSetParameterError with an error message,
      *        the name of the parameter and its value.
      *
      * @param[in] error_message         The description of the error.
      * @param[in] parameter_name        The name of the parameter.
      * @param[in] value                 The value of the parameter.
      */
-    magic_set_parameter_error(
+    MagicSetParameterError(
         const std::string& error_message,
         const std::string& parameter_name,
         std::size_t        value
     )
-      : magic_exception{
-            std::format("magic_set_parameter({}, {})", parameter_name, value),
+      : MagicException{
+            std::format("Magic::SetParameter({}, {})", parameter_name, value),
             error_message
         }
     { }
 };
-} /* namespace recognition */
+} /* namespace Recognition */
 
 #endif /* MAGIC_EXCEPTION_HPP */

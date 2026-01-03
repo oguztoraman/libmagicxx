@@ -10,21 +10,21 @@
 
 #include "percentage.hpp"
 
-namespace recognition {
-namespace utility {
+namespace Recognition {
+namespace Utility {
 /**
- * @class progress_tracker
+ * @class ProgressTracker
  *
  * @brief Thread-safe tracker for monitoring the progress of a job composed of multiple steps.
  */
-class progress_tracker {
+class ProgressTracker {
 public:
     /**
-     * @brief Construct progress_tracker with a given total number of steps.
+     * @brief Construct ProgressTracker with a given total number of steps.
      * 
      * @param total_steps           Total number of steps (must be >= 1). Defaults to 1.
      */
-    explicit progress_tracker(std::uint64_t total_steps = 1u) noexcept
+    explicit ProgressTracker(std::uint64_t total_steps = 1u) noexcept
       : m_total_steps{std::max<std::uint64_t>(total_steps, 1u)}
     { }
 
@@ -33,7 +33,7 @@ public:
      * 
      * @param step_count            Number of steps to mark as completed. Defaults to 1.
      */
-    void advance(std::uint64_t step_count = 1u) noexcept
+    void Advance(std::uint64_t step_count = 1u) noexcept
     {
         std::lock_guard lock{m_mutex};
         m_completed_steps = std::min(
@@ -46,7 +46,7 @@ public:
     /**
      * @returns The number of completed steps.
      */
-    [[nodiscard]] std::uint64_t get_completed_steps() const noexcept
+    [[nodiscard]] std::uint64_t GetCompletedSteps() const noexcept
     {
         std::lock_guard lock{m_mutex};
         return m_completed_steps;
@@ -55,16 +55,16 @@ public:
     /**
      * @returns The completion percentage of the job.
      */
-    [[nodiscard]] percentage get_completion_percentage() const noexcept
+    [[nodiscard]] Percentage GetCompletionPercentage() const noexcept
     {
         std::lock_guard lock{m_mutex};
-        return percentage{m_completed_steps, m_total_steps};
+        return Percentage{m_completed_steps, m_total_steps};
     }
 
     /**
      * @returns The number of steps that are yet to be completed.
      */
-    [[nodiscard]] std::uint64_t get_incompleted_steps() const noexcept
+    [[nodiscard]] std::uint64_t GetIncompletedSteps() const noexcept
     {
         std::lock_guard lock{m_mutex};
         return m_total_steps - m_completed_steps;
@@ -73,7 +73,7 @@ public:
     /**
      * @returns The total number of steps.
      */
-    [[nodiscard]] std::uint64_t get_total_steps() const noexcept
+    [[nodiscard]] std::uint64_t GetTotalSteps() const noexcept
     {
         std::lock_guard lock{m_mutex};
         return m_total_steps;
@@ -82,7 +82,7 @@ public:
     /**
      * @returns True if the job has completed all steps, false otherwise.
      */
-    [[nodiscard]] bool is_completed() const noexcept
+    [[nodiscard]] bool IsCompleted() const noexcept
     {
         std::lock_guard lock{m_mutex};
         return m_completed_steps >= m_total_steps;
@@ -91,7 +91,7 @@ public:
     /**
      * @brief Marks the job as fully completed.
      */
-    void mark_as_completed() noexcept
+    void MarkAsCompleted() noexcept
     {
         std::lock_guard lock{m_mutex};
         m_completed_steps = m_total_steps;
@@ -103,7 +103,7 @@ public:
      *
      * @param total_steps           New total number of steps (must be >= 1).
      */
-    void reset(std::uint64_t total_steps) noexcept
+    void Reset(std::uint64_t total_steps) noexcept
     {
         std::lock_guard lock{m_mutex};
         m_total_steps     = std::max<std::uint64_t>(total_steps, 1u);
@@ -114,16 +114,16 @@ public:
     /**
      * @brief Wait for the job to complete, or until the specified timeout duration elapses.
      *
-     * @tparam RepresentationType   A representation type for the duration.
-     * @tparam PeriodType           A ratio type representing the duration's tick period.
+     * @tparam RepresentationT   A representation type for the duration.
+     * @tparam PeriodT           A ratio type representing the duration's tick period.
      *
      * @param timeout               Maximum duration to wait.
      *
      * @returns True if the job completed before the timeout, false otherwise.
      */
-    template <typename RepresentationType, typename PeriodType>
-    [[nodiscard]] bool try_wait_for_completion(
-        std::chrono::duration<RepresentationType, PeriodType> timeout
+    template <typename RepresentationT, typename PeriodT>
+    [[nodiscard]] bool TryWaitForCompletion(
+        std::chrono::duration<RepresentationT, PeriodT> timeout
     ) const
     {
         std::unique_lock lock{m_mutex};
@@ -135,16 +135,16 @@ public:
     /**
      * @brief Wait until the job is complete or the specified deadline is reached.
      *
-     * @tparam ClockType            A clock type used for time points.
-     * @tparam DurationType         A duration type representing the clock's precision or resolution.
+     * @tparam ClockT            A clock type used for time points.
+     * @tparam DurationT         A duration type representing the clock's precision or resolution.
      *
      * @param deadline              The absolute time point to wait until.
      *
      * @returns True if the job completed before the deadline, false otherwise.
      */
-    template <typename ClockType, typename DurationType>
-    [[nodiscard]] bool try_wait_for_completion_until(
-        std::chrono::time_point<ClockType, DurationType> deadline
+    template <typename ClockT, typename DurationT>
+    [[nodiscard]] bool TryWaitForCompletionUntil(
+        std::chrono::time_point<ClockT, DurationT> deadline
     ) const
     {
         std::unique_lock lock{m_mutex};
@@ -156,7 +156,7 @@ public:
     /**
      * @brief Wait until all steps are completed.
      */
-    void wait_for_completion() const
+    void WaitForCompletion() const
     {
         std::unique_lock lock{m_mutex};
         m_condition_variable.wait(lock, [this] {
@@ -172,40 +172,40 @@ private:
 };
 
 /**
- * @typedef shared_progress_tracker_t
+ * @typedef SharedProgressTrackerT
  *
- * @brief Alias for a shared pointer to progress_tracker.
+ * @brief Alias for a shared pointer to ProgressTracker.
  */
-using shared_progress_tracker_t = std::shared_ptr<progress_tracker>;
+using SharedProgressTrackerT = std::shared_ptr<ProgressTracker>;
 
 /**
- * @brief Create a shared pointer to a progress_tracker.
+ * @brief Create a shared pointer to a ProgressTracker.
  *
  * @param total_steps               Total number of steps (must be >= 1). Defaults to 1.
  *
- * @return A shared pointer to the newly created progress_tracker.
+ * @return A shared pointer to the newly created ProgressTracker.
  */
-inline shared_progress_tracker_t make_shared_progress_tracker(
+inline SharedProgressTrackerT MakeSharedProgressTracker(
     std::uint64_t total_steps = 1u
 ) noexcept
 {
-    return std::make_shared<progress_tracker>(total_steps);
+    return std::make_shared<ProgressTracker>(total_steps);
 }
 
 /**
- * @class mark_tracker_as_completed
+ * @class MarkTrackerAsCompleted
  *
- * @brief RAII helper that marks a shared progress_tracker as completed upon destruction.
+ * @brief RAII helper that marks a shared ProgressTracker as completed upon destruction.
  */
-class mark_tracker_as_completed {
+class MarkTrackerAsCompleted {
 public:
     /**
-     * @brief Construct mark_tracker_as_completed.
+     * @brief Construct MarkTrackerAsCompleted.
      *
      * @param shared_tracker        The shared tracker to mark as completed.
      */
-    explicit mark_tracker_as_completed(
-        shared_progress_tracker_t shared_tracker
+    explicit MarkTrackerAsCompleted(
+        SharedProgressTrackerT shared_tracker
     ) noexcept
       : m_shared_tracker(shared_tracker)
     { }
@@ -213,34 +213,34 @@ public:
     /**
      * @brief Mark the tracker as completed if it exists.
      */
-    ~mark_tracker_as_completed()
+    ~MarkTrackerAsCompleted()
     {
         if (!m_shared_tracker) {
             return;
         }
-        m_shared_tracker->mark_as_completed();
+        m_shared_tracker->MarkAsCompleted();
     }
 
 private:
-    shared_progress_tracker_t m_shared_tracker;
+    SharedProgressTrackerT m_shared_tracker;
 };
 
 /**
- * @class advance_tracker
+ * @class AdvanceTracker
  *
- * @brief RAII helper that advances a shared progress_tracker by a given step count upon destruction.
+ * @brief RAII helper that advances a shared ProgressTracker by a given step count upon destruction.
  */
-class advance_tracker {
+class AdvanceTracker {
 public:
     /**
-     * @brief Construct advance_tracker with a shared tracker and step count.
+     * @brief Construct AdvanceTracker with a shared tracker and step count.
      *
      * @param shared_tracker        The shared tracker to advance.
      * @param step_count            Number of steps to advance (default: 1).
      */
-    explicit advance_tracker(
-        shared_progress_tracker_t shared_tracker,
-        std::uint64_t             step_count = 1u
+    explicit AdvanceTracker(
+        SharedProgressTrackerT shared_tracker,
+        std::uint64_t          step_count = 1u
     ) noexcept
       : m_shared_tracker(shared_tracker)
       , m_step_count(step_count)
@@ -249,19 +249,19 @@ public:
     /**
      * @brief Advance the tracker by the step count if it exists.
      */
-    ~advance_tracker()
+    ~AdvanceTracker()
     {
         if (!m_shared_tracker) {
             return;
         }
-        m_shared_tracker->advance(m_step_count);
+        m_shared_tracker->Advance(m_step_count);
     }
 
 private:
-    shared_progress_tracker_t m_shared_tracker;
-    std::uint64_t             m_step_count;
+    SharedProgressTrackerT m_shared_tracker;
+    std::uint64_t          m_step_count;
 };
-} /* namespace utility */
-} /* namespace recognition */
+} /* namespace Utility */
+} /* namespace Recognition */
 
 #endif /* PROGRESS_TRACKER_HPP */

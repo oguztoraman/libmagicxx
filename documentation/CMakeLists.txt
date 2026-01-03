@@ -103,6 +103,7 @@ doxygen_add_docs(
         CONTRIBUTING.md
         README.md
         SECURITY.md
+        STYLE_GUIDE.md
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT

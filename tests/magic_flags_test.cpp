@@ -8,15 +8,15 @@
 
 #include "magic.hpp"
 
-using namespace recognition;
+using namespace Recognition;
 
-struct magic_flags_test : testing::Test {
+struct MagicFlagsTest : testing::Test {
 protected:
-    magic_flags_test()
+    MagicFlagsTest()
     {
         EXPECT_TRUE(m_opened_magic_without_database
-                        .open(magic::flags::mime, std::nothrow));
-        EXPECT_TRUE(m_valid_magic.is_valid());
+                        .Open(Magic::Flags::Mime, std::nothrow));
+        EXPECT_TRUE(m_valid_magic.IsValid());
         std::error_code error_code;
         EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
     }
@@ -38,7 +38,7 @@ protected:
             test_flags,
             std::back_inserter(m_test_flags_container),
             [](unsigned long long value) {
-                return static_cast<magic::flags>(value);
+                return static_cast<Magic::Flags>(value);
             }
         );
         m_test_flags_container.erase(
@@ -56,123 +56,123 @@ protected:
         );
     }
 
-    std::filesystem::path m_valid_database{DEFAULT_DATABASE_FILE};
-    magic                 m_closed_magic{};
-    magic                 m_opened_magic_without_database;
-    magic m_valid_magic{magic::flags::mime, std::nothrow, m_valid_database};
-    magic::flags_container_t                   m_test_flags_container{};
-    magic::flags_mask_t                        m_test_flags_mask{};
+    std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
+    Magic                 m_closed_magic{};
+    Magic                 m_opened_magic_without_database;
+    Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    Magic::FlagsContainerT                   m_test_flags_container{};
+    Magic::FlagsMaskT                        m_test_flags_mask{};
     std::mt19937                               m_eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_dist{
         0,
-        magic::flags_mask_t{}.size() - 1
+        Magic::FlagsMaskT{}.size() - 1
     };
 };
 
-TEST_F(magic_flags_test, closed_magic_set_flags_mask)
+TEST_F(MagicFlagsTest, ClosedMagicSetFlagsMask)
 {
-    EXPECT_THROW(m_closed_magic.set_flags(m_test_flags_mask), magic_is_closed);
+    EXPECT_THROW(m_closed_magic.SetFlags(m_test_flags_mask), MagicIsClosed);
 }
 
-TEST_F(magic_flags_test, closed_magic_set_flags_mask_noexcept)
+TEST_F(MagicFlagsTest, ClosedMagicSetFlagsMaskNoexcept)
 {
-    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_mask, std::nothrow));
+    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_mask, std::nothrow));
 }
 
-TEST_F(magic_flags_test, closed_magic_set_flags_container)
+TEST_F(MagicFlagsTest, ClosedMagicSetFlagsContainer)
 {
     EXPECT_THROW(
-        m_closed_magic.set_flags(m_test_flags_container),
-        magic_is_closed
+        m_closed_magic.SetFlags(m_test_flags_container),
+        MagicIsClosed
     );
 }
 
-TEST_F(magic_flags_test, closed_magic_set_flags_container_noexcept)
+TEST_F(MagicFlagsTest, ClosedMagicSetFlagsContainerNoexcept)
 {
-    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_container, std::nothrow)
+    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_container, std::nothrow)
     );
 }
 
-TEST_F(magic_flags_test, closed_magic_get_flags)
+TEST_F(MagicFlagsTest, ClosedMagicGetFlags)
 {
     EXPECT_THROW(
-        static_cast<void>(m_closed_magic.get_flags()),
-        magic_is_closed
+        static_cast<void>(m_closed_magic.GetFlags()),
+        MagicIsClosed
     );
 }
 
-TEST_F(magic_flags_test, closed_magic_get_flags_noexcept)
+TEST_F(MagicFlagsTest, ClosedMagicGetFlagsNoexcept)
 {
-    EXPECT_FALSE(m_closed_magic.set_flags(m_test_flags_mask, std::nothrow));
+    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_mask, std::nothrow));
 }
 
-TEST_F(magic_flags_test, opened_magic_without_database_flags_mask)
+TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMask)
 {
-    EXPECT_NO_THROW(m_opened_magic_without_database.set_flags(m_test_flags_mask)
+    EXPECT_NO_THROW(m_opened_magic_without_database.SetFlags(m_test_flags_mask)
     );
     EXPECT_EQ(
         m_test_flags_container,
-        m_opened_magic_without_database.get_flags()
+        m_opened_magic_without_database.GetFlags()
     );
 }
 
-TEST_F(magic_flags_test, opened_magic_without_database_flags_mask_noexcept)
+TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsMaskNoexcept)
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .set_flags(m_test_flags_mask, std::nothrow));
+                    .SetFlags(m_test_flags_mask, std::nothrow));
     EXPECT_EQ(
         m_test_flags_container,
-        m_opened_magic_without_database.get_flags(std::nothrow).value()
+        m_opened_magic_without_database.GetFlags(std::nothrow).value()
     );
 }
 
-TEST_F(magic_flags_test, opened_magic_without_database_flags_container)
+TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainer)
 {
     EXPECT_NO_THROW(
-        m_opened_magic_without_database.set_flags(m_test_flags_container)
+        m_opened_magic_without_database.SetFlags(m_test_flags_container)
     );
     EXPECT_EQ(
         m_test_flags_container,
-        m_opened_magic_without_database.get_flags()
+        m_opened_magic_without_database.GetFlags()
     );
 }
 
-TEST_F(magic_flags_test, opened_magic_without_database_flags_container_noexcept)
+TEST_F(MagicFlagsTest, OpenedMagicWithoutDatabaseFlagsContainerNoexcept)
 {
     EXPECT_TRUE(m_opened_magic_without_database
-                    .set_flags(m_test_flags_container, std::nothrow));
+                    .SetFlags(m_test_flags_container, std::nothrow));
     EXPECT_EQ(
         m_test_flags_container,
-        m_opened_magic_without_database.get_flags(std::nothrow).value()
+        m_opened_magic_without_database.GetFlags(std::nothrow).value()
     );
 }
 
-TEST_F(magic_flags_test, valid_magic_flags_mask)
+TEST_F(MagicFlagsTest, ValidMagicFlagsMask)
 {
-    EXPECT_NO_THROW(m_valid_magic.set_flags(m_test_flags_mask));
-    EXPECT_EQ(m_test_flags_container, m_valid_magic.get_flags());
+    EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_mask));
+    EXPECT_EQ(m_test_flags_container, m_valid_magic.GetFlags());
 }
 
-TEST_F(magic_flags_test, valid_magic_flags_mask_noexcept)
+TEST_F(MagicFlagsTest, ValidMagicFlagsMaskNoexcept)
 {
-    EXPECT_TRUE(m_valid_magic.set_flags(m_test_flags_mask, std::nothrow));
+    EXPECT_TRUE(m_valid_magic.SetFlags(m_test_flags_mask, std::nothrow));
     EXPECT_EQ(
         m_test_flags_container,
-        m_valid_magic.get_flags(std::nothrow).value()
+        m_valid_magic.GetFlags(std::nothrow).value()
     );
 }
 
-TEST_F(magic_flags_test, valid_magic_flags_container)
+TEST_F(MagicFlagsTest, ValidMagicFlagsContainer)
 {
-    EXPECT_NO_THROW(m_valid_magic.set_flags(m_test_flags_container));
-    EXPECT_EQ(m_test_flags_container, m_valid_magic.get_flags());
+    EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_container));
+    EXPECT_EQ(m_test_flags_container, m_valid_magic.GetFlags());
 }
 
-TEST_F(magic_flags_test, valid_magic_flags_container_noexcept)
+TEST_F(MagicFlagsTest, ValidMagicFlagsContainerNoexcept)
 {
-    EXPECT_TRUE(m_valid_magic.set_flags(m_test_flags_container, std::nothrow));
+    EXPECT_TRUE(m_valid_magic.SetFlags(m_test_flags_container, std::nothrow));
     EXPECT_EQ(
         m_test_flags_container,
-        m_valid_magic.get_flags(std::nothrow).value()
+        m_valid_magic.GetFlags(std::nothrow).value()
     );
 }

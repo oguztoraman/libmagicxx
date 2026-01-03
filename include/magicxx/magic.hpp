@@ -16,287 +16,287 @@
 #include "progress_tracker.hpp"
 #include "utility.hpp"
 
-namespace recognition {
+namespace Recognition {
 /**
- * @class magic
+ * @class Magic
  *
- * @brief The magic class provides a C++ wrapper over the Magic Number Recognition Library.
+ * @brief The Magic class provides a C++ wrapper over the Magic Number Recognition Library.
  *
- * @note  To use the magic class for file type identification, ensure the following:
- *        1. The magic instance must be opened.
+ * @note  To use the Magic class for file type identification, ensure the following:
+ *        1. The Magic instance must be opened.
  *        2. A magic database file must be successfully loaded.
  *        Only after these steps is the instance considered valid for identifying file types.
  */
-class magic {
+class Magic {
 public:
     /**
-     * @typedef flags_mask_t
+     * @typedef FlagsMaskT
      *
-     * @brief Bitmask type representing a set of magic::flags used to configure the magic instance.
+     * @brief Bitmask type representing a set of Magic::Flags used to configure the Magic instance.
      */
-    using flags_mask_t = std::bitset<30uz>;
+    using FlagsMaskT = std::bitset<30uz>;
 
     /**
-     * @typedef file_type_t
+     * @typedef FileTypeT
      *
      * @brief String type representing the detected type of a file.
      */
-    using file_type_t = std::string;
+    using FileTypeT = std::string;
 
     /**
-     * @typedef error_message_t
+     * @typedef ErrorMessageT
      *
      * @brief String type representing an error message from file identification.
      */
-    using error_message_t = std::string;
+    using ErrorMessageT = std::string;
 
     /**
-     * @typedef expected_file_type_t
+     * @typedef ExpectedFileTypeT
      *
      * @brief Result type for file identification, containing either a file type or an error message.
      */
-    using expected_file_type_t = std::expected<file_type_t, error_message_t>;
+    using ExpectedFileTypeT = std::expected<FileTypeT, ErrorMessageT>;
 
     /**
-     * @typedef types_of_files_t
+     * @typedef TypesOfFilesT
      *
      * @brief Map from file paths to their detected types.
      */
-    using types_of_files_t = std::map<std::filesystem::path, file_type_t>;
+    using TypesOfFilesT = std::map<std::filesystem::path, FileTypeT>;
 
     /**
-     * @typedef type_of_a_file_t
+     * @typedef TypeOfAFileT
      *
      * @brief Key-value pair representing a single file and its detected type.
      */
-    using type_of_a_file_t = types_of_files_t::value_type;
+    using TypeOfAFileT = TypesOfFilesT::value_type;
 
     /**
-     * @typedef expected_types_of_files_t
+     * @typedef ExpectedTypesOfFilesT
      *
      * @brief Map from file paths to expected file type results (success or error).
      */
-    using expected_types_of_files_t = std::map<
+    using ExpectedTypesOfFilesT = std::map<
         std::filesystem::path,
-        expected_file_type_t
+        ExpectedFileTypeT
     >;
 
     /**
-     * @typedef expected_type_of_a_file_t
+     * @typedef ExpectedTypeOfAFileT
      *
      * @brief Key-value pair representing a single file and its expected file type result.
      */
-    using expected_type_of_a_file_t = expected_types_of_files_t::value_type;
+    using ExpectedTypeOfAFileT = ExpectedTypesOfFilesT::value_type;
 
     /**
-     * @typedef tracker_t
+     * @typedef TrackerT
      *
      * @brief Alias for a shared pointer to a progress tracker used for monitoring file identification progress.
      *
-     * @see utility::progress_tracker
+     * @see Utility::ProgressTracker
      */
-    using tracker_t = utility::shared_progress_tracker_t;
+    using TrackerT = Utility::SharedProgressTrackerT;
 
     /**
-     * @brief The flags enums are used for configuring the flags of a magic.
+     * @brief The Flags enums are used for configuring the flags of a Magic.
      *
-     * @note The flags enums are suitable for bitwise or operations.
+     * @note The Flags enums are suitable for bitwise or operations.
      */
-    enum flags : unsigned long long {
+    enum Flags : unsigned long long {
         /* clang-format off */
-        none              = 0ULL,       /**< No special handling. */
-        debug             = 1ULL << 0,  /**< Print debugging messages to stderr. */
-        symlink           = 1ULL << 1,  /**< If the file queried is a symlink, follow it. */
-        compress          = 1ULL << 2,  /**< If the file is compressed, unpack it and look at the  contents. */
-        devices           = 1ULL << 3,  /**< If the file is a block or character special device, then open the device and try to look in its contents. */
-        mime_type         = 1ULL << 4,  /**< Return a MIME type string, instead of a  textual  description. */
-        continue_search   = 1ULL << 5,  /**< Return all matches, not just the first. */
-        check_database    = 1ULL << 6,  /**< Check the magic database for consistency and print warnings to stderr. */
-        preserve_atime    = 1ULL << 7,  /**< On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed. */
-        raw               = 1ULL << 8,  /**< Don't translate unprintable characters to a \ooo octal representation. */
-        error             = 1ULL << 9,  /**< Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer. */
-        mime_encoding     = 1ULL << 10, /**< Return a MIME encoding, instead of a textual description. */
-        mime              = 1ULL << 11, /**< A shorthand for mime_type|mime_encoding. */
-        apple             = 1ULL << 12, /**< Return the Apple creator and type. */
-        extension         = 1ULL << 13, /**< Return a slash-separated list of extensions for this file type. */
-        compress_transp   = 1ULL << 14, /**< Don't report on compression, only report about the uncompressed data. */
-        no_compress_fork  = 1ULL << 15, /**< Don't allow decompressors that use fork. */
-        nodesc            = 1ULL << 16, /**< A shorthand for extension|mime|apple */
-        no_check_compress = 1ULL << 17, /**< Don't look inside compressed files. */
-        no_check_tar      = 1ULL << 18, /**< Don't examine tar files. */
-        no_check_soft     = 1ULL << 19, /**< Don't consult magic files. */
-        no_check_apptype  = 1ULL << 20, /**< Don't check for EMX application type (only on EMX). */
-        no_check_elf      = 1ULL << 21, /**< Don't print ELF details. */
-        no_check_text     = 1ULL << 22, /**< Don't check for various types of text files. */
-        no_check_cdf      = 1ULL << 23, /**< Don't get extra information on MS Composite Document Files. */
-        no_check_csv      = 1ULL << 24, /**< Don't examine CSV files. */
-        no_check_tokens   = 1ULL << 25, /**< Don't look for known tokens inside ascii files. */
-        no_check_encoding = 1ULL << 26, /**< Don't check text encodings. */
-        no_check_json     = 1ULL << 27, /**< Don't examine JSON files. */
-        no_check_simh     = 1ULL << 28, /**< Don't examine SIMH tape files. */
-        no_check_builtin  = 1ULL << 29  /**< No built-in tests; only consult the magic file. */
+        None             = 0ULL,       /**< No special handling. */
+        Debug            = 1ULL << 0,  /**< Print debugging messages to stderr. */
+        Symlink          = 1ULL << 1,  /**< If the file queried is a symlink, follow it. */
+        Compress         = 1ULL << 2,  /**< If the file is compressed, unpack it and look at the  contents. */
+        Devices          = 1ULL << 3,  /**< If the file is a block or character special device, then open the device and try to look in its contents. */
+        MimeType         = 1ULL << 4,  /**< Return a MIME type string, instead of a  textual  description. */
+        ContinueSearch   = 1ULL << 5,  /**< Return all matches, not just the first. */
+        CheckDatabase    = 1ULL << 6,  /**< Check the magic database for consistency and print warnings to stderr. */
+        PreserveAtime    = 1ULL << 7,  /**< On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analysed. */
+        Raw              = 1ULL << 8,  /**< Don't translate unprintable characters to a \ooo octal representation. */
+        Error            = 1ULL << 9,  /**< Treat operating system errors while trying to open files and follow symlinks as real errors, instead of printing them in the magic buffer. */
+        MimeEncoding     = 1ULL << 10, /**< Return a MIME encoding, instead of a textual description. */
+        Mime             = 1ULL << 11, /**< A shorthand for MimeType|MimeEncoding. */
+        Apple            = 1ULL << 12, /**< Return the Apple creator and type. */
+        Extension        = 1ULL << 13, /**< Return a slash-separated list of extensions for this file type. */
+        CompressTransp   = 1ULL << 14, /**< Don't report on compression, only report about the uncompressed data. */
+        NoCompressFork   = 1ULL << 15, /**< Don't allow decompressors that use fork. */
+        Nodesc           = 1ULL << 16, /**< A shorthand for Extension|Mime|Apple */
+        NoCheckCompress  = 1ULL << 17, /**< Don't look inside compressed files. */
+        NoCheckTar       = 1ULL << 18, /**< Don't examine tar files. */
+        NoCheckSoft      = 1ULL << 19, /**< Don't consult magic files. */
+        NoCheckApptype   = 1ULL << 20, /**< Don't check for EMX application type (only on EMX). */
+        NoCheckElf       = 1ULL << 21, /**< Don't print ELF details. */
+        NoCheckText      = 1ULL << 22, /**< Don't check for various types of text files. */
+        NoCheckCdf       = 1ULL << 23, /**< Don't get extra information on MS Composite Document Files. */
+        NoCheckCsv       = 1ULL << 24, /**< Don't examine CSV files. */
+        NoCheckTokens    = 1ULL << 25, /**< Don't look for known tokens inside ascii files. */
+        NoCheckEncoding  = 1ULL << 26, /**< Don't check text encodings. */
+        NoCheckJson      = 1ULL << 27, /**< Don't examine JSON files. */
+        NoCheckSimh      = 1ULL << 28, /**< Don't examine SIMH tape files. */
+        NoCheckBuiltin   = 1ULL << 29  /**< No built-in tests; only consult the magic file. */
         /* clang-format on */
     };
 
     /**
-     * @brief The parameters enums are used for displaying or
-     *        modifying the parameters of a magic.
+     * @brief The Parameters enums are used for displaying or
+     *        modifying the parameters of a Magic.
      */
-    enum class parameters : std::size_t {
+    enum class Parameters : std::size_t {
         /* clang-format off */
-        indir_max      = 0uz, /**< Recursion limit for indirection (default is 15). */
-        name_max       = 1uz, /**< Use limit for name/use magic (default is 30). */
-        elf_phnum_max  = 2uz, /**< Max ELF program sections processed (default is 128). */
-        elf_shnum_max  = 3uz, /**< Max ELF sections processed (default is 32768). */
-        elf_notes_max  = 4uz, /**< Max ELF notes processed (default is 256). */
-        regex_max      = 5uz, /**< Max length limit for REGEX searches (default is 8192). */
-        bytes_max      = 6uz, /**< Max bytes to look inside file (default is 7340032). */
-        encoding_max   = 7uz, /**< Max bytes to scan for encoding (default is 1048576). */
-        elf_shsize_max = 8uz, /**< Max ELF section size (default is 134217728). */
-        mag_warn_max   = 9uz  /**< Max warnings to tolerate in a magic file (default is 64). */
+        IndirMax     = 0uz, /**< Recursion limit for indirection (default is 15). */
+        NameMax      = 1uz, /**< Use limit for name/use magic (default is 30). */
+        ElfPhnumMax  = 2uz, /**< Max ELF program sections processed (default is 128). */
+        ElfShnumMax  = 3uz, /**< Max ELF sections processed (default is 32768). */
+        ElfNotesMax  = 4uz, /**< Max ELF notes processed (default is 256). */
+        RegexMax     = 5uz, /**< Max length limit for REGEX searches (default is 8192). */
+        BytesMax     = 6uz, /**< Max bytes to look inside file (default is 7340032). */
+        EncodingMax  = 7uz, /**< Max bytes to scan for encoding (default is 1048576). */
+        ElfShsizeMax = 8uz, /**< Max ELF section size (default is 134217728). */
+        MagWarnMax   = 9uz  /**< Max warnings to tolerate in a magic file (default is 64). */
         /* clang-format on */
     };
 
     /**
-     * @typedef flags_container_t
+     * @typedef FlagsContainerT
      *
-     * @brief Container type holding a collection of magic::flags.
+     * @brief Container type holding a collection of Magic::Flags.
      */
-    using flags_container_t = std::vector<flags>;
+    using FlagsContainerT = std::vector<Flags>;
 
     /**
-     * @typedef parameter_value_map_t
+     * @typedef ParameterValueMapT
      *
-     * @brief Map from magic::parameters to their corresponding values.
+     * @brief Map from Magic::Parameters to their corresponding values.
      */
-    using parameter_value_map_t = std::map<parameters, std::size_t>;
+    using ParameterValueMapT = std::map<Parameters, std::size_t>;
 
     /**
-     * @typedef parameter_value_t
+     * @typedef ParameterValueT
      *
      * @brief Key-value pair representing a single parameter and its value.
      */
-    using parameter_value_t = parameter_value_map_t::value_type;
+    using ParameterValueT = ParameterValueMapT::value_type;
 
     /**
      * @brief The path of the default database file.
      */
-    static std::string_view default_database_file;
+    static std::string_view DEFAULT_DATABASE_FILE;
 
     /**
-     * @brief Construct magic without opening it.
+     * @brief Construct Magic without opening it.
      * 
-     * @note This magic is not valid for identifying file types
+     * @note This Magic is not valid for identifying file types
      *       until it is opened and a magic database file is loaded.
      */
-    magic() noexcept;
+    Magic() noexcept;
 
     /**
-     * @brief Construct magic, open it using the flags and load the magic database file.
+     * @brief Construct Magic, open it using the flags and load the magic database file.
      *
-     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
-     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     * @param[in] flags_mask        One of the Flags enums or bitwise or of the Flags enums.
+     * @param[in] database_file     The path of magic database file, default is DEFAULT_DATABASE_FILE.
      *
-     * @throws magic_open_error                 if opening magic fails.
-     * @throws empty_path                       if the path of the database file is empty.
-     * @throws path_does_not_exist              if the path of the database file does not exist.
-     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
-     * @throws magic_load_database_file_error   if loading the magic database file fails.
+     * @throws MagicOpenError                 if opening Magic fails.
+     * @throws EmptyPath                      if the path of the database file is empty.
+     * @throws PathDoesNotExist               if the path of the database file does not exist.
+     * @throws PathIsNotRegularFile           if the path of the magic database file is not a file.
+     * @throws MagicLoadDatabaseFileError     if loading the magic database file fails.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    explicit magic(
-        flags_mask_t                 flags_mask,
-        const std::filesystem::path& database_file = default_database_file
+    explicit Magic(
+        FlagsMaskT                   flags_mask,
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     );
 
     /**
-     * @brief Construct magic, open it using the flags and load the magic database file, noexcept version.
+     * @brief Construct Magic, open it using the flags and load the magic database file, noexcept version.
      *
-     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
+     * @param[in] flags_mask        One of the Flags enums or bitwise or of the Flags enums.
      * @param[in] tag               Tag for non-throwing overload.
-     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     * @param[in] database_file     The path of magic database file, default is DEFAULT_DATABASE_FILE.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    magic(
-        flags_mask_t                 flags_mask,
+    Magic(
+        FlagsMaskT                   flags_mask,
         const std::nothrow_t&        tag,
-        const std::filesystem::path& database_file = default_database_file
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
     /**
-     * @brief Construct magic, open it using the flags and load the magic database file.
+     * @brief Construct Magic, open it using the flags and load the magic database file.
      *
      * @param[in] flags_container   Flags.
-     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     * @param[in] database_file     The path of magic database file, default is DEFAULT_DATABASE_FILE.
      *
-     * @throws magic_open_error                 if opening magic fails.
-     * @throws empty_path                       if the path of the database file is empty.
-     * @throws path_does_not_exist              if the path of the database file does not exist.
-     * @throws path_is_not_regular_file         if the path of the magic database file is not a file.
-     * @throws magic_load_database_file_error   if loading the magic database file fails.
+     * @throws MagicOpenError                 if opening Magic fails.
+     * @throws EmptyPath                      if the path of the database file is empty.
+     * @throws PathDoesNotExist               if the path of the database file does not exist.
+     * @throws PathIsNotRegularFile           if the path of the magic database file is not a file.
+     * @throws MagicLoadDatabaseFileError     if loading the magic database file fails.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    explicit magic(
-        const flags_container_t&     flags_container,
-        const std::filesystem::path& database_file = default_database_file
+    explicit Magic(
+        const FlagsContainerT&       flags_container,
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     );
 
     /**
-     * @brief Construct magic, open it using the flags and load the magic database file, noexcept version.
+     * @brief Construct Magic, open it using the flags and load the magic database file, noexcept version.
      *
      * @param[in] flags_container   Flags.
      * @param[in] tag               Tag for non-throwing overload.
-     * @param[in] database_file     The path of magic database file, default is default_database_file.
+     * @param[in] database_file     The path of magic database file, default is DEFAULT_DATABASE_FILE.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    magic(
-        const flags_container_t&     flags_container,
+    Magic(
+        const FlagsContainerT&       flags_container,
         const std::nothrow_t&        tag,
-        const std::filesystem::path& database_file = default_database_file
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
     /**
-     * @brief Move construct magic.
+     * @brief Move construct Magic.
      *
      * @note After move construction, the moved-from object (other) is closed.
      *       It cannot be used for identifying file types until 
      *       it is reopened and a magic database file is loaded.
      */
-    magic(magic&& other) noexcept;
+    Magic(Magic&& other) noexcept;
 
     /**
      * @brief Deleted copy constructor.
      */
-    magic(const magic&) = delete;
+    Magic(const Magic&) = delete;
 
     /**
-     * @brief Move assign to this magic.
+     * @brief Move assign to this Magic.
      *
      * @note After move construction, the moved-from object (other) is closed.
      *       It cannot be used for identifying file types until
      *       it is reopened and a magic database file is loaded.
      */
-    magic& operator=(magic&& other) noexcept;
+    Magic& operator=(Magic&& other) noexcept;
 
     /**
      * @brief Deleted copy assignment.
      */
-    magic& operator=(const magic&) = delete;
+    Magic& operator=(const Magic&) = delete;
 
     /**
-     * @brief Destruct magic.
+     * @brief Destruct Magic.
      */
-    ~magic();
+    ~Magic();
 
     /**
-     * @brief Used for testing whether magic is valid
+     * @brief Used for testing whether Magic is valid
      *        for identifying file types or not.
      *
-     * @returns True if the magic is valid, i.e.,
+     * @returns True if the Magic is valid, i.e.,
      *          it is open and a magic database file is loaded;
      *          false otherwise.
      */
@@ -306,98 +306,98 @@ public:
      * @brief Check the validity of entries in the colon separated database
      *        files passed in as database_file.
      *
-     * @param[in] database_file     The file to check, default is default_database_file.
+     * @param[in] database_file     The file to check, default is DEFAULT_DATABASE_FILE.
      *
      * @returns True if the database_file has valid entries, false otherwise.
      */
-    [[nodiscard]] static bool check(
-        const std::filesystem::path& database_file = default_database_file
+    [[nodiscard]] static bool Check(
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
     /**
-     * @brief Close magic.
+     * @brief Close Magic.
      *
-     * @note magic cannot be used for identifying file types until
+     * @note Magic cannot be used for identifying file types until
      *       it is reopened and a magic database file is loaded.
      */
-    void close() noexcept;
+    void Close() noexcept;
 
     /**
      * @brief Compile the colon separated list of database files
      *        passed in as database_file.
      *
-     * @param[in] database_file     The file to compile, default is default_database_file.
+     * @param[in] database_file     The file to compile, default is DEFAULT_DATABASE_FILE.
      *
      * @returns True on success, false otherwise.
 
      * @note The compiled files created are named from the basename
-     *       of each file argument with “.mgc” appended to it.
+     *       of each file argument with ".mgc" appended to it.
      */
-    [[nodiscard]] static bool compile(
-        const std::filesystem::path& database_file = default_database_file
+    [[nodiscard]] static bool Compile(
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
     /**
-     * @brief Get the flags of magic.
+     * @brief Get the flags of Magic.
      *
-     * @returns flags_container_t
+     * @returns FlagsContainerT
      *
-     * @throws magic_is_closed      if magic is closed.
+     * @throws MagicIsClosed      if Magic is closed.
      */
-    [[nodiscard]] flags_container_t get_flags() const;
+    [[nodiscard]] FlagsContainerT GetFlags() const;
 
     /**
-     * @brief Get the flags of magic, noexcept version.
+     * @brief Get the flags of Magic, noexcept version.
      *
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns flags_container_t or std::nullopt if magic is closed.
+     * @returns FlagsContainerT or std::nullopt if Magic is closed.
      */
-    [[nodiscard]] std::optional<flags_container_t> get_flags(
+    [[nodiscard]] std::optional<FlagsContainerT> GetFlags(
         const std::nothrow_t& tag
     ) const noexcept;
 
     /**
-     * @brief Get the value of a parameter of magic.
+     * @brief Get the value of a parameter of Magic.
      *
-     * @param[in] parameter         One of the parameters enum.
+     * @param[in] parameter         One of the Parameters enum.
      *
      * @returns Value of the desired parameter.
      *
-     * @throws magic_is_closed      if magic is closed.
+     * @throws MagicIsClosed      if Magic is closed.
      */
-    [[nodiscard]] std::size_t get_parameter(parameters parameter) const;
+    [[nodiscard]] std::size_t GetParameter(Parameters parameter) const;
 
     /**
-     * @brief Get the value of a parameter of magic, noexcept version.
+     * @brief Get the value of a parameter of Magic, noexcept version.
      *
-     * @param[in] parameter         One of the parameters enum.
+     * @param[in] parameter         One of the Parameters enum.
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns Value of the desired parameter or std::nullopt if magic is closed.
+     * @returns Value of the desired parameter or std::nullopt if Magic is closed.
      */
-    [[nodiscard]] std::optional<std::size_t> get_parameter(
-        parameters            parameter,
+    [[nodiscard]] std::optional<std::size_t> GetParameter(
+        Parameters            parameter,
         const std::nothrow_t& tag
     ) const noexcept;
 
     /**
-     * @brief Get the values ​​of all parameters of magic.
+     * @brief Get the values ​​of all parameters of Magic.
      *
      * @returns <parameter, value> map.
      *
-     * @throws magic_is_closed      if magic is closed.
+     * @throws MagicIsClosed      if Magic is closed.
      */
-    [[nodiscard]] parameter_value_map_t get_parameters() const;
+    [[nodiscard]] ParameterValueMapT GetParameters() const;
 
     /**
-     * @brief Get the values ​​of all parameters of magic, noexcept version.
+     * @brief Get the values ​​of all parameters of Magic, noexcept version.
      *
      * @param[in] tag               Tag for non-throwing overload.
      *
-     * @returns <parameter, value> map or std::nullopt if magic is closed.
+     * @returns <parameter, value> map or std::nullopt if Magic is closed.
      */
-    [[nodiscard]] std::optional<parameter_value_map_t> get_parameters(
+    [[nodiscard]] std::optional<ParameterValueMapT> GetParameters(
         const std::nothrow_t& tag
     ) const noexcept;
 
@@ -406,7 +406,7 @@ public:
      *
      * @returns The version number as a string.
      */
-    [[nodiscard]] static std::string get_version() noexcept;
+    [[nodiscard]] static std::string GetVersion() noexcept;
 
     /**
      * @brief Identify the type of a file.
@@ -415,13 +415,13 @@ public:
      *
      * @returns The type of the file as a string.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file is empty.
-     * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
+     * @throws EmptyPath                  if the path of the file is empty.
+     * @throws PathDoesNotExist           if the path of the file does not exist.
+     * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] file_type_t identify_file(
+    [[nodiscard]] FileTypeT IdentifyFile(
         const std::filesystem::path& path
     ) const;
 
@@ -433,7 +433,7 @@ public:
      *
      * @returns The type of the file or the error message.
      */
-    [[nodiscard]] expected_file_type_t identify_file(
+    [[nodiscard]] ExpectedFileTypeT IdentifyFile(
         const std::filesystem::path& path,
         const std::nothrow_t&        tag
     ) const noexcept;
@@ -446,21 +446,21 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the directory is empty.
-     * @throws path_does_not_exist          if the path of the directory does not exist.
-     * @throws path_is_not_directory        if the path of the directory is not a directory.
-     * @throws filesystem_error             if the underlying std::filesystem OS API fails.
-     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
+     * @throws EmptyPath                  if the path of the directory is empty.
+     * @throws PathDoesNotExist           if the path of the directory does not exist.
+     * @throws PathIsNotDirectory         if the path of the directory is not a directory.
+     * @throws FilesystemError            if the underlying std::filesystem OS API fails.
+     * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] types_of_files_t identify_files(
+    [[nodiscard]] TypesOfFilesT IdentifyFiles(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const
     {
-        return identify_directory_impl(directory, option);
+        return IdentifyDirectoryImpl(directory, option);
     }
 
     /**
@@ -472,23 +472,23 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the directory is empty.
-     * @throws path_does_not_exist          if the path of the directory does not exist.
-     * @throws path_is_not_directory        if the path of the directory is not a directory.
-     * @throws null_tracker                 if the tracker is null.
-     * @throws filesystem_error             if the underlying std::filesystem OS API fails.
-     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
+     * @throws EmptyPath                  if the path of the directory is empty.
+     * @throws PathDoesNotExist           if the path of the directory does not exist.
+     * @throws PathIsNotDirectory         if the path of the directory is not a directory.
+     * @throws NullTracker                if the tracker is null.
+     * @throws FilesystemError            if the underlying std::filesystem OS API fails.
+     * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] types_of_files_t identify_files(
+    [[nodiscard]] TypesOfFilesT IdentifyFiles(
         const std::filesystem::path&       directory,
-        tracker_t                          tracker,
+        TrackerT                           tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const
     {
-        return identify_directory_impl(directory, option, tracker);
+        return IdentifyDirectoryImpl(directory, option, tracker);
     }
 
     /**
@@ -500,14 +500,14 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] expected_types_of_files_t identify_files(
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const noexcept
     {
-        return identify_directory_impl(directory, tag, option);
+        return IdentifyDirectoryImpl(directory, tag, option);
     }
 
     /**
@@ -520,15 +520,15 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] expected_types_of_files_t identify_files(
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
-        tracker_t                          tracker,
+        TrackerT                           tracker,
         std::filesystem::directory_options option = std::filesystem::
             directory_options::follow_directory_symlink
     ) const noexcept
     {
-        return identify_directory_impl(directory, tag, option, tracker);
+        return IdentifyDirectoryImpl(directory, tag, option, tracker);
     }
 
     /**
@@ -538,17 +538,17 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file is empty.
-     * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
+     * @throws EmptyPath                  if the path of the file is empty.
+     * @throws PathDoesNotExist           if the path of the file does not exist.
+     * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] types_of_files_t identify_files(
-        const utility::file_container auto& files
+    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+        const Utility::FileContainer auto& files
     ) const
     {
-        return identify_container_impl(
+        return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)}
         );
     }
@@ -561,19 +561,19 @@ public:
      *
      * @returns The types of each file as a map.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_database_not_loaded    if the magic database is not loaded.
-     * @throws empty_path                   if the path of the file is empty.
-     * @throws path_does_not_exist          if the path of the file does not exist.
-     * @throws null_tracker                 if the tracker is null.
-     * @throws magic_identify_file_error    if identifying the type of the file fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicDatabaseNotLoaded     if the magic database is not loaded.
+     * @throws EmptyPath                  if the path of the file is empty.
+     * @throws PathDoesNotExist           if the path of the file does not exist.
+     * @throws NullTracker                if the tracker is null.
+     * @throws MagicIdentifyFileError     if identifying the type of the file fails.
      */
-    [[nodiscard]] types_of_files_t identify_files(
-        const utility::file_container auto& files,
-        tracker_t                           tracker
+    [[nodiscard]] TypesOfFilesT IdentifyFiles(
+        const Utility::FileContainer auto& files,
+        TrackerT                           tracker
     ) const
     {
-        return identify_container_impl(
+        return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)},
             tracker
         );
@@ -587,12 +587,12 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] expected_types_of_files_t identify_files(
-        const utility::file_container auto& files,
-        const std::nothrow_t&               tag
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+        const Utility::FileContainer auto& files,
+        const std::nothrow_t&              tag
     ) const noexcept
     {
-        return identify_container_impl(
+        return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)},
             tag
         );
@@ -607,13 +607,13 @@ public:
      *
      * @returns The types of each file as a map or an empty map on failure.
      */
-    [[nodiscard]] expected_types_of_files_t identify_files(
-        const utility::file_container auto& files,
-        const std::nothrow_t&               tag,
-        tracker_t                           tracker
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyFiles(
+        const Utility::FileContainer auto& files,
+        const std::nothrow_t&              tag,
+        TrackerT                           tracker
     ) const noexcept
     {
-        return identify_container_impl(
+        return IdentifyContainerImpl(
             {std::ranges::begin(files), std::ranges::end(files)},
             tag,
             tracker
@@ -625,257 +625,257 @@ public:
      *
      * @returns True if a magic database is loaded, false otherwise.
      */
-    [[nodiscard]] bool is_database_loaded() const noexcept;
+    [[nodiscard]] bool IsDatabaseLoaded() const noexcept;
 
     /**
-     * @brief Used for testing whether magic is open or closed.
+     * @brief Used for testing whether Magic is open or closed.
      *
-     * @returns True if magic is open, false otherwise.
+     * @returns True if Magic is open, false otherwise.
      */
-    [[nodiscard]] bool is_open() const noexcept;
+    [[nodiscard]] bool IsOpen() const noexcept;
 
     /**
-     * @brief Used for testing whether magic is valid
+     * @brief Used for testing whether Magic is valid
      *        for identifying file types or not.
      *
-     * @returns True if the magic is valid, i.e.,
+     * @returns True if the Magic is valid, i.e.,
      *          it is open and a magic database file is loaded;
      *          false otherwise.
      */
-    [[nodiscard]] bool is_valid() const noexcept;
+    [[nodiscard]] bool IsValid() const noexcept;
 
     /**
      * @brief Load a magic database file.
      *
-     * @param[in] database_file     The path of the magic database file, default is default_database_file.
+     * @param[in] database_file     The path of the magic database file, default is DEFAULT_DATABASE_FILE.
      *
-     * @throws magic_is_closed                  if magic is closed.
-     * @throws empty_path                       if the path of the database file is empty.
-     * @throws path_does_not_exist              if the path of the database file does not exist.
-     * @throws path_is_not_regular_file         if the path of the database file is not a file.
-     * @throws magic_load_database_file_error   if loading the database file fails.
+     * @throws MagicIsClosed                  if Magic is closed.
+     * @throws EmptyPath                      if the path of the database file is empty.
+     * @throws PathDoesNotExist               if the path of the database file does not exist.
+     * @throws PathIsNotRegularFile           if the path of the database file is not a file.
+     * @throws MagicLoadDatabaseFileError     if loading the database file fails.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    void load_database_file(
-        const std::filesystem::path& database_file = default_database_file
+    void LoadDatabaseFile(
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     );
 
     /**
      * @brief Load a magic database file, noexcept version.
      *
      * @param[in] tag               Tag for non-throwing overload.
-     * @param[in] database_file     The path of the magic database file, default is default_database_file.
+     * @param[in] database_file     The path of the magic database file, default is DEFAULT_DATABASE_FILE.
      *
      * @returns True on success, false otherwise.
      *
-     * @note load_database_file() adds “.mgc” to the database filename as appropriate.
+     * @note LoadDatabaseFile() adds ".mgc" to the database filename as appropriate.
      */
-    [[nodiscard]] bool load_database_file(
+    [[nodiscard]] bool LoadDatabaseFile(
         const std::nothrow_t&        tag,
-        const std::filesystem::path& database_file = default_database_file
+        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
     /**
-     * @brief Open magic using the flags.
+     * @brief Open Magic using the flags.
      *
-     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
+     * @param[in] flags_mask        One of the Flags enums or bitwise or of the Flags enums.
      *
-     * @throws magic_open_error     if opening magic fails.
+     * @throws MagicOpenError     if opening Magic fails.
      *
-     * @note If magic is open, it will be reopened using the flags after closing it.
-     * @note A magic database file must be loaded after opening magic.
+     * @note If Magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening Magic.
      */
-    void open(flags_mask_t flags_mask);
+    void Open(FlagsMaskT flags_mask);
 
     /**
-     * @brief Open magic using the flags, noexcept version.
+     * @brief Open Magic using the flags, noexcept version.
      *
-     * @param[in] flags_mask        One of the flags enums or bitwise or of the flags enums.
+     * @param[in] flags_mask        One of the Flags enums or bitwise or of the Flags enums.
      * @param[in] tag               Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      *
-     * @note If magic is open, it will be reopened using the flags after closing it.
-     * @note A magic database file must be loaded after opening magic.
+     * @note If Magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening Magic.
      */
-    [[nodiscard]] bool open(
-        flags_mask_t          flags_mask,
+    [[nodiscard]] bool Open(
+        FlagsMaskT            flags_mask,
         const std::nothrow_t& tag
     ) noexcept;
 
     /**
-     * @brief Open magic using the flags.
+     * @brief Open Magic using the flags.
      *
      * @param[in] flags_container   Flags.
      *
-     * @throws magic_open_error     if opening magic fails.
+     * @throws MagicOpenError     if opening Magic fails.
      *
-     * @note If magic is open, it will be reopened using the flags after closing it.
-     * @note A magic database file must be loaded after opening magic.
+     * @note If Magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening Magic.
      */
-    void open(const flags_container_t& flags_container);
+    void Open(const FlagsContainerT& flags_container);
 
     /**
-     * @brief Open magic using the flags, noexcept version.
+     * @brief Open Magic using the flags, noexcept version.
      *
      * @param[in] flags_container   Flags.
      * @param[in] tag               Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      *
-     * @note If magic is open, it will be reopened using the flags after closing it.
-     * @note A magic database file must be loaded after opening magic.
+     * @note If Magic is open, it will be reopened using the flags after closing it.
+     * @note A magic database file must be loaded after opening Magic.
      */
-    [[nodiscard]] bool open(
-        const flags_container_t& flags_container,
-        const std::nothrow_t&    tag
+    [[nodiscard]] bool Open(
+        const FlagsContainerT& flags_container,
+        const std::nothrow_t&  tag
     ) noexcept;
 
     /**
-     * @brief Set the flags of magic.
+     * @brief Set the flags of Magic.
      *
-     * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.
+     * @param[in] flags_mask          One of the Flags enums or bitwise or of the Flags enums.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_flags_error  if setting the flags of magic fails.
+     * @throws MagicIsClosed        if Magic is closed.
+     * @throws MagicSetFlagsError   if setting the flags of Magic fails.
      */
-    void set_flags(flags_mask_t flags_mask);
+    void SetFlags(FlagsMaskT flags_mask);
 
     /**
-     * @brief Set the flags of magic, noexcept version.
+     * @brief Set the flags of Magic, noexcept version.
      *
-     * @param[in] flags_mask          One of the flags enums or bitwise or of the flags enums.
+     * @param[in] flags_mask          One of the Flags enums or bitwise or of the Flags enums.
      * @param[in] tag                 Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      */
-    [[nodiscard]] bool set_flags(
-        flags_mask_t          flags_mask,
+    [[nodiscard]] bool SetFlags(
+        FlagsMaskT            flags_mask,
         const std::nothrow_t& tag
     ) noexcept;
 
     /**
-     * @brief Set the flags of magic.
+     * @brief Set the flags of Magic.
      *
      * @param[in] flags_container     Flags.
      *
-     * @throws magic_is_closed        if magic is closed.
-     * @throws magic_set_flags_error  if setting the flags of magic fails.
+     * @throws MagicIsClosed        if Magic is closed.
+     * @throws MagicSetFlagsError   if setting the flags of Magic fails.
      */
-    void set_flags(const flags_container_t& flags_container);
+    void SetFlags(const FlagsContainerT& flags_container);
 
     /**
-     * @brief Set the flags of magic, noexcept version.
+     * @brief Set the flags of Magic, noexcept version.
      *
      * @param[in] flags_container     Flags.
      * @param[in] tag                 Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      */
-    [[nodiscard]] bool set_flags(
-        const flags_container_t& flags_container,
-        const std::nothrow_t&    tag
+    [[nodiscard]] bool SetFlags(
+        const FlagsContainerT& flags_container,
+        const std::nothrow_t&  tag
     ) noexcept;
 
     /**
-     * @brief Set the value of a parameter of magic.
+     * @brief Set the value of a parameter of Magic.
      *
-     * @param[in] parameter                 One of the parameters enum.
+     * @param[in] parameter                 One of the Parameters enum.
      * @param[in] value                     The value of the parameter.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicSetParameterError     if setting the parameter of Magic fails.
      */
-    void set_parameter(parameters parameter, std::size_t value);
+    void SetParameter(Parameters parameter, std::size_t value);
 
     /**
-     * @brief Set the value of a parameter of magic, noexcept version.
+     * @brief Set the value of a parameter of Magic, noexcept version.
      *
-     * @param[in] parameter           One of the parameters enum.
+     * @param[in] parameter           One of the Parameters enum.
      * @param[in] value               The value of the parameter.
      * @param[in] tag                 Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      */
-    [[nodiscard]] bool set_parameter(
-        parameters            parameter,
+    [[nodiscard]] bool SetParameter(
+        Parameters            parameter,
         std::size_t           value,
         const std::nothrow_t& tag
     ) noexcept;
 
     /**
-     * @brief Set the values of the parameters of magic.
+     * @brief Set the values of the parameters of Magic.
      *
      * @param[in] parameters                Parameters with corresponding values.
      *
-     * @throws magic_is_closed              if magic is closed.
-     * @throws magic_set_parameter_error    if setting the parameter of magic fails.
+     * @throws MagicIsClosed              if Magic is closed.
+     * @throws MagicSetParameterError     if setting the parameter of Magic fails.
      */
-    void set_parameters(const parameter_value_map_t& parameters);
+    void SetParameters(const ParameterValueMapT& parameters);
 
     /**
-     * @brief Set the values of the parameters of magic, noexcept version.
+     * @brief Set the values of the parameters of Magic, noexcept version.
      *
      * @param[in] parameters          Parameters with corresponding values.
      * @param[in] tag                 Tag for non-throwing overload.
      *
      * @returns True on success, false otherwise.
      */
-    [[nodiscard]] bool set_parameters(
-        const parameter_value_map_t& parameters,
-        const std::nothrow_t&        tag
+    [[nodiscard]] bool SetParameters(
+        const ParameterValueMapT& parameters,
+        const std::nothrow_t&     tag
     ) noexcept;
 
 private:
-    class magic_private;
-    std::unique_ptr<magic_private> m_impl;
+    class MagicPrivate;
+    std::unique_ptr<MagicPrivate> m_impl;
 
-    using default_file_container_t = std::vector<std::filesystem::path>;
+    using DefaultFileContainerT = std::vector<std::filesystem::path>;
 
-    [[nodiscard]] types_of_files_t identify_directory_impl(
+    [[nodiscard]] TypesOfFilesT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
-        tracker_t tracker = utility::make_shared_progress_tracker()
+        TrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    [[nodiscard]] expected_types_of_files_t identify_directory_impl(
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
         std::filesystem::directory_options option,
-        tracker_t tracker = utility::make_shared_progress_tracker()
+        TrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    [[nodiscard]] types_of_files_t identify_container_impl(
-        const default_file_container_t& files,
-        tracker_t tracker = utility::make_shared_progress_tracker()
+    [[nodiscard]] TypesOfFilesT IdentifyContainerImpl(
+        const DefaultFileContainerT& files,
+        TrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    [[nodiscard]] expected_types_of_files_t identify_container_impl(
-        const default_file_container_t& files,
-        const std::nothrow_t&           tag,
-        tracker_t tracker = utility::make_shared_progress_tracker()
+    [[nodiscard]] ExpectedTypesOfFilesT IdentifyContainerImpl(
+        const DefaultFileContainerT& files,
+        const std::nothrow_t&        tag,
+        TrackerT tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    friend std::string to_string(flags);
-    friend std::string to_string(parameters);
+    friend std::string ToString(Flags);
+    friend std::string ToString(Parameters);
 };
 
 /**
- * @brief Convert the magic::type_of_a_file_t to string.
+ * @brief Convert the Magic::TypeOfAFileT to string.
  *
  * @param[in] type_of_a_file            The type of a file.
  * @param[in] type_separator            The separator between the file and its type, default is " -> ".
  *
  * @returns The type_of_a_file as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::type_of_a_file_t& type_of_a_file,
-    const std::string&             type_separator = " -> "
+[[nodiscard]] std::string ToString(
+    const Magic::TypeOfAFileT& type_of_a_file,
+    const std::string&         type_separator = " -> "
 );
 
 /**
- * @brief Convert the magic::types_of_files_t to string.
+ * @brief Convert the Magic::TypesOfFilesT to string.
  *
  * @param[in] types_of_files            The types of each file.
  * @param[in] type_separator            The separator between the file and its type, default is " -> ".
@@ -883,38 +883,38 @@ private:
  *
  * @returns The types_of_files as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::types_of_files_t& types_of_files,
-    const std::string&             type_separator = " -> ",
-    const std::string&             file_separator = "\n"
+[[nodiscard]] std::string ToString(
+    const Magic::TypesOfFilesT& types_of_files,
+    const std::string&          type_separator = " -> ",
+    const std::string&          file_separator = "\n"
 );
 
 /**
- * @brief Convert the magic::expected_file_type_t to string.
+ * @brief Convert the Magic::ExpectedFileTypeT to string.
  *
  * @param[in] expected_file_type        The expected type of the file.
  *
  * @returns The expected_file_type as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::expected_file_type_t& expected_file_type
+[[nodiscard]] std::string ToString(
+    const Magic::ExpectedFileTypeT& expected_file_type
 );
 
 /**
- * @brief Convert the magic::expected_type_of_a_file_t to string.
+ * @brief Convert the Magic::ExpectedTypeOfAFileT to string.
  *
  * @param[in] expected_type_of_a_file   The expected type of a file.
  * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
  *
  * @returns The expected_type_of_a_file as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::expected_type_of_a_file_t& expected_type_of_a_file,
-    const std::string&                      type_separator = " -> "
+[[nodiscard]] std::string ToString(
+    const Magic::ExpectedTypeOfAFileT& expected_type_of_a_file,
+    const std::string&                 type_separator = " -> "
 );
 
 /**
- * @brief Convert the magic::expected_types_of_files_t to string.
+ * @brief Convert the Magic::ExpectedTypesOfFilesT to string.
  *
  * @param[in] expected_types_of_files   The expected types of each file.
  * @param[in] type_separator            The separator between the file and its expected type, default is " -> ".
@@ -922,58 +922,58 @@ private:
  *
  * @returns The expected_types_of_files as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::expected_types_of_files_t& expected_types_of_files,
-    const std::string&                      type_separator = " -> ",
-    const std::string&                      file_separator = "\n"
+[[nodiscard]] std::string ToString(
+    const Magic::ExpectedTypesOfFilesT& expected_types_of_files,
+    const std::string&                  type_separator = " -> ",
+    const std::string&                  file_separator = "\n"
 );
 
 /**
- * @brief Convert the magic::flags to string.
+ * @brief Convert the Magic::Flags to string.
  * 
  * @param[in] flag                  The flag.
  *
  * @returns The flag as a string.
  */
-[[nodiscard]] std::string to_string(magic::flags flag);
+[[nodiscard]] std::string ToString(Magic::Flags flag);
 
 /**
- * @brief Convert the magic::flags_container_t to string.
+ * @brief Convert the Magic::FlagsContainerT to string.
  * 
  * @param[in] flags                 The flags.
  * @param[in] separator             The separator between the flags, default is ", ".
  *
  * @returns The flags as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::flags_container_t& flags,
-    const std::string&              separator = ", "
+[[nodiscard]] std::string ToString(
+    const Magic::FlagsContainerT& flags,
+    const std::string&            separator = ", "
 );
 
 /**
- * @brief Convert the magic::parameters to string.
+ * @brief Convert the Magic::Parameters to string.
  * 
  * @param[in] parameter             The parameter.
  *
  * @returns The parameter as a string.
  */
-[[nodiscard]] std::string to_string(magic::parameters parameter);
+[[nodiscard]] std::string ToString(Magic::Parameters parameter);
 
 /**
- * @brief Convert the magic::parameter_value_t to string.
+ * @brief Convert the Magic::ParameterValueT to string.
  * 
  * @param[in] parameter_value       The parameter with corresponding value.
  * @param[in] value_separator       The separator between the parameter and its value, default is ": ".
  *
  * @returns The parameter_value as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::parameter_value_t& parameter_value,
-    const std::string&              value_separator = ": "
+[[nodiscard]] std::string ToString(
+    const Magic::ParameterValueT& parameter_value,
+    const std::string&            value_separator = ": "
 );
 
 /**
- * @brief Convert the magic::parameter_value_map_t to string.
+ * @brief Convert the Magic::ParameterValueMapT to string.
  * 
  * @param[in] parameters            The parameters with corresponding values.
  * @param[in] value_separator       The separator between the parameter and its value, default is ": ".
@@ -981,11 +981,11 @@ private:
  *
  * @returns The parameters as a string.
  */
-[[nodiscard]] std::string to_string(
-    const magic::parameter_value_map_t& parameters,
-    const std::string&                  value_separator     = ": ",
-    const std::string&                  parameter_separator = ", "
+[[nodiscard]] std::string ToString(
+    const Magic::ParameterValueMapT& parameters,
+    const std::string&               value_separator     = ": ",
+    const std::string&               parameter_separator = ", "
 );
-} /* namespace recognition */
+} /* namespace Recognition */
 
 #endif /* MAGIC_HPP */

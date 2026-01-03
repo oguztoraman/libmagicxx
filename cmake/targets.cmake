@@ -35,7 +35,7 @@ if (BUILD_MAGICXX_SHARED_LIB)
         PRIVATE
             HAVE_CONFIG_H
             HAVE_STDINT_H
-            DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
+            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
     )
 
     target_include_directories(magicxx
@@ -80,7 +80,7 @@ if (BUILD_MAGICXX_STATIC_LIB)
         PRIVATE
             HAVE_CONFIG_H
             HAVE_STDINT_H
-            DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
+            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
     )
 
     target_include_directories(magicxx_static

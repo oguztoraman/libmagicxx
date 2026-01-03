@@ -7,11 +7,11 @@
 
 #include "magic.hpp"
 
-using namespace recognition;
+using namespace Recognition;
 
-struct magic_check_test : testing::Test {
+struct MagicCheckTest : testing::Test {
 protected:
-    magic_check_test()
+    MagicCheckTest()
     {
         std::filesystem::create_directory(m_test_dir, m_error_code);
         EXPECT_TRUE(std::filesystem::exists(m_test_dir, m_error_code));
@@ -22,7 +22,7 @@ protected:
         EXPECT_TRUE(std::filesystem::exists(m_valid_database, m_error_code));
     }
 
-    ~magic_check_test()
+    ~MagicCheckTest()
     {
         std::filesystem::remove(m_invalid_database, m_error_code);
         std::filesystem::remove(m_test_dir, m_error_code);
@@ -30,9 +30,9 @@ protected:
 
     std::error_code       m_error_code{};
     std::filesystem::path m_empty_path{};
-    std::filesystem::path m_valid_database{DEFAULT_DATABASE_FILE};
+    std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     std::filesystem::path m_test_dir{
-        std::filesystem::temp_directory_path() / "magic_check_test"
+        std::filesystem::temp_directory_path() / "MagicCheckTest"
     };
     std::filesystem::path m_invalid_database{m_test_dir / "invalid_database"};
     std::filesystem::path m_nonexistent_database{
@@ -40,27 +40,27 @@ protected:
     };
 };
 
-TEST_F(magic_check_test, check_empty_path)
+TEST_F(MagicCheckTest, CheckEmptyPath)
 {
-    EXPECT_FALSE(magic::check(m_empty_path));
+    EXPECT_FALSE(Magic::Check(m_empty_path));
 }
 
-TEST_F(magic_check_test, check_nonexistent_database)
+TEST_F(MagicCheckTest, CheckNonexistentDatabase)
 {
-    EXPECT_FALSE(magic::check(m_nonexistent_database));
+    EXPECT_FALSE(Magic::Check(m_nonexistent_database));
 }
 
-TEST_F(magic_check_test, check_directory)
+TEST_F(MagicCheckTest, CheckDirectory)
 {
-    EXPECT_FALSE(magic::check(m_test_dir));
+    EXPECT_FALSE(Magic::Check(m_test_dir));
 }
 
-TEST_F(magic_check_test, check_invalid_database)
+TEST_F(MagicCheckTest, CheckInvalidDatabase)
 {
-    EXPECT_FALSE(magic::check(m_invalid_database));
+    EXPECT_FALSE(Magic::Check(m_invalid_database));
 }
 
-TEST_F(magic_check_test, check_valid_database)
+TEST_F(MagicCheckTest, CheckValidDatabase)
 {
-    EXPECT_TRUE(magic::check(m_valid_database));
+    EXPECT_TRUE(Magic::Check(m_valid_database));
 }

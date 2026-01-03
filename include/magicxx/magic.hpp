@@ -557,7 +557,7 @@ public:
      * @brief Identify the types of files with progress tracking.
      *
      * @param[in]  files            The container that holds the paths of the files.
-     * @param[out] progress_tracker The progress tracker to track the progress of the identification. 
+     * @param[out] progress_tracker The progress tracker to track the progress of the identification.
      *
      * @returns The types of each file as a map.
      *

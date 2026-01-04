@@ -1,8 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-include(CMakeDependentOption)
-
 include(FeatureSummary)
 
 # -----------------------------------------------------------------------------

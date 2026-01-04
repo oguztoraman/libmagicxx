@@ -83,7 +83,7 @@ set(magicxx_CMAKE_INSTALL_LIB_DIR
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(magicxx_INSTALL_DEFAULT_DATABASES_DIR
-        "C:\\Program Files\\magicxx\\databases"
+        "C:/Program Files/magicxx/databases"
     )
 else()
     set(magicxx_INSTALL_DEFAULT_DATABASES_DIR

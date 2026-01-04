@@ -6,7 +6,7 @@
 # Generates API documentation for libmagicxx using Doxygen.
 # -----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.30.8)
+cmake_minimum_required(VERSION 3.31.6)
 
 project(magicxx_documentation
     DESCRIPTION "Doxygen documentation for Libmagicxx."

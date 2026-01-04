@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** CMake: Fix MAGICXX_FOUND logic and set export name for targets.
+
 + **[ENHANCEMENT]** CMake: Add CMake style guide and apply consistent documentation, formatting, and modern target naming (Recognition::Magicxx) across all CMake files.
 
 + **[ENHANCEMENT]** Magic: Rename tracker variables to progress_tracker for improved clarity.

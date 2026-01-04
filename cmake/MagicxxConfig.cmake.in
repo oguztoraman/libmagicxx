@@ -55,9 +55,15 @@ if(TARGET Recognition::MagicxxStatic)
     )
 endif()
 
-set(MAGICXX_FOUND
-    TRUE
-)
+if(MAGICXX_SHARED_LIB_AVAILABLE OR MAGICXX_STATIC_LIB_AVAILABLE)
+    set(MAGICXX_FOUND
+        TRUE
+    )
+else()
+    set(MAGICXX_FOUND
+        FALSE
+    )
+endif()
 
 set(MAGICXX_VERSION
     @magicxx_VERSION@

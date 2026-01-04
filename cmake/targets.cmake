@@ -9,6 +9,10 @@ function(configure_magicxx_target target_name alias_name library_type)
 
     add_library(Recognition::${alias_name} ALIAS ${target_name})
 
+    set_target_properties(${target_name} PROPERTIES
+        EXPORT_NAME ${alias_name}
+    )
+
     add_dependencies(${target_name} configure_file)
 
     set_target_properties(${target_name} PROPERTIES

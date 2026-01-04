@@ -88,10 +88,10 @@ Libmagicxx is designed to be easily integrated into CMake-based projects. To use
 1. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link Libmagicxx.
 
     ```cmake
-    find_package(magicxx REQUIRED)
+    find_package(Magicxx REQUIRED)
 
     target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> <recognition::magicxx or recognition::magicxx_static>
+        <PUBLIC or PRIVATE or INTERFACE> <Recognition::Magicxx or Recognition::MagicxxStatic>
     )
     ```
 

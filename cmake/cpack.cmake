@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
+# -----------------------------------------------------------------------------
+# General CPack settings
+# -----------------------------------------------------------------------------
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CPACK_STRIP_FILES ON)
 endif()
 
@@ -13,6 +16,9 @@ set(CPACK_PACKAGE_CHECKSUM
     SHA256
 )
 
+# -----------------------------------------------------------------------------
+# Package metadata
+# -----------------------------------------------------------------------------
 set(CPACK_PACKAGE_NAME
     libmagicxx
 )
@@ -47,13 +53,16 @@ set(CPACK_MONOLITHIC_INSTALL
 
 include(cmake/cpack_source.cmake)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+# -----------------------------------------------------------------------------
+# Platform-specific generators
+# -----------------------------------------------------------------------------
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CPACK_GENERATOR "DEB;RPM;ZIP")
     include(cmake/cpack_linux_deb.cmake)
     include(cmake/cpack_linux_rpm.cmake)
 endif()
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CPACK_GENERATOR "NSIS64;ZIP")
     include(cmake/cpack_windows.cmake)
 endif()

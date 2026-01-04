@@ -3,7 +3,7 @@
 
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/magicxxTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/MagicxxTargets.cmake")
 
 set_and_check(MAGICXX_INCLUDE_DIR
     "@PACKAGE_magicxx_INSTALL_INCLUDE_DIR@"
@@ -17,7 +17,7 @@ set_and_check(MAGICXX_LICENSE_DIR
     "@PACKAGE_magicxx_INSTALL_LICENSE_DIR@"
 )
 
-if (EXISTS "@PACKAGE_magicxx_INSTALL_DOC_DIR@")
+if(EXISTS "@PACKAGE_magicxx_INSTALL_DOC_DIR@")
     set(MAGICXX_DOC_DIR
         "@PACKAGE_magicxx_INSTALL_DOC_DIR@"
     )
@@ -43,13 +43,13 @@ set(MAGICXX_STATIC_LIB_AVAILABLE
     FALSE
 )
 
-if (TARGET recognition::magicxx)
+if(TARGET Recognition::Magicxx)
     set(MAGICXX_SHARED_LIB_AVAILABLE
         TRUE
     )
 endif()
 
-if (TARGET recognition::magicxx_static)
+if(TARGET Recognition::MagicxxStatic)
     set(MAGICXX_STATIC_LIB_AVAILABLE
         TRUE
     )
@@ -63,4 +63,4 @@ set(MAGICXX_VERSION
     @magicxx_VERSION@
 )
 
-check_required_components(magicxx)
+check_required_components(Magicxx)

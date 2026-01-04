@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# Configure gnurx library (Windows only)
+# -----------------------------------------------------------------------------
 add_custom_target(configure_gnurx
     COMMAND
         CC=${CMAKE_C_COMPILER}
@@ -15,6 +18,9 @@ add_custom_target(configure_gnurx
     VERBATIM
 )
 
+# -----------------------------------------------------------------------------
+# Configure file library
+# -----------------------------------------------------------------------------
 add_custom_target(configure_file
     COMMAND
         autoreconf -f -i
@@ -42,6 +48,9 @@ add_custom_target(configure_file
     VERBATIM
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+# -----------------------------------------------------------------------------
+# Platform-specific dependencies
+# -----------------------------------------------------------------------------
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_dependencies(configure_file configure_gnurx)
 endif()

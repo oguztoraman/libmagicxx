@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# Generate default database files target
+# -----------------------------------------------------------------------------
 add_custom_target(generate_default_database_files
     COMMAND
         autoreconf -f -i

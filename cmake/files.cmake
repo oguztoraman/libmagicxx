@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# External dependency files
+# -----------------------------------------------------------------------------
 set(magic_DEFAULT_DATABASE_FILE
     ${magic_DEFAULT_DATABASE_DIR}/magic
 )
@@ -17,6 +20,9 @@ set(gnurx_LICENSE_FILE
     ${gnurx_DIR}/COPYING.LIB
 )
 
+# -----------------------------------------------------------------------------
+# Project files
+# -----------------------------------------------------------------------------
 set(magicxx_LICENSE_FILE
     ${magicxx_SOURCE_DIR}/COPYING.LESSER
 )
@@ -46,6 +52,9 @@ set(magicxx_INSTALLED_DEFAULT_DATABASE_FILE
     ${magicxx_INSTALL_DEFAULT_DATABASES_DIR}/magic
 )
 
+# -----------------------------------------------------------------------------
+# Source files for formatting
+# -----------------------------------------------------------------------------
 set(magicxx_SOURCE_FILES_TO_FORMAT
     ${magicxx_HEADER_FILES}
     ${magicxx_SOURCE_FILES}

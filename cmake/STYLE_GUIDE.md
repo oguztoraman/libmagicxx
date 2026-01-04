@@ -16,9 +16,9 @@ This document defines the coding conventions and best practices for CMake files 
 
 + [Commands and Functions](#commands-and-functions)
 
-+ [Targets](#targets)
++ [Target Configuration](#target-configuration)
 
-+ [Variables](#variables)
++ [Variable Usage](#variable-usage)
 
 + [Options](#options)
 
@@ -240,7 +240,7 @@ target_sources(${target_name}
 )
 ```
 
-## Targets
+## Target Configuration
 
 ### Target Properties
 
@@ -270,7 +270,7 @@ target_include_directories(magicxx
 )
 ```
 
-## Variables
+## Variable Usage
 
 ### Setting Variables
 

@@ -7,7 +7,7 @@
 # library variants.
 # -----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.30.8)
+cmake_minimum_required(VERSION 3.31.6)
 
 project(magicxx_examples
     DESCRIPTION "Example applications for Libmagicxx."

@@ -6,19 +6,16 @@
 # -----------------------------------------------------------------------------
 function(configure_magicxx_target target_name alias_name library_type)
     add_library(${target_name} ${library_type})
+
     add_library(Recognition::${alias_name} ALIAS ${target_name})
+
     add_dependencies(${target_name} configure_file)
 
-    target_compile_features(${target_name}
-        PUBLIC
-            cxx_std_23
-        PRIVATE
-            c_std_99
-    )
-
     set_target_properties(${target_name} PROPERTIES
+        CXX_STANDARD 23
         CXX_EXTENSIONS OFF
         CXX_STANDARD_REQUIRED ON
+        C_STANDARD 99
         C_EXTENSIONS OFF
         C_STANDARD_REQUIRED ON
         POSITION_INDEPENDENT_CODE ON
@@ -29,10 +26,9 @@ function(configure_magicxx_target target_name alias_name library_type)
             VERSION ${magicxx_VERSION}
             SOVERSION ${magicxx_VERSION_MAJOR}
         )
-        set(file_set_name ${target_name}Headers)
-    else()
-        set(file_set_name ${target_name}Headers)
     endif()
+
+    set(file_set_name ${target_name}Headers)
 
     target_sources(${target_name}
         PUBLIC

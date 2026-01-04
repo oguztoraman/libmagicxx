@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# Source package configuration
+# -----------------------------------------------------------------------------
 set(CPACK_SOURCE_GENERATOR
     ZIP
 )
@@ -16,6 +19,9 @@ set(CPACK_SOURCE_IGNORE_FILES
     "/packages/"
 )
 
+# -----------------------------------------------------------------------------
+# Source package generation target
+# -----------------------------------------------------------------------------
 add_custom_target(generate_source_package
     COMMAND
         make -C ${gnurx_DIR} clean || true

@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# RPM package configuration
+# -----------------------------------------------------------------------------
 set(CPACK_RPM_COMPONENT_INSTALL
     OFF
 )

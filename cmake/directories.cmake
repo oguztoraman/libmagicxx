@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# External dependency directories
+# -----------------------------------------------------------------------------
 set(magic_DIR
     ${magicxx_SOURCE_DIR}/external/file
 )
@@ -26,6 +29,9 @@ set(gnurx_INCLUDE_DIR
     ${gnurx_DIR}
 )
 
+# -----------------------------------------------------------------------------
+# Project directories
+# -----------------------------------------------------------------------------
 set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases
 )
@@ -42,6 +48,9 @@ set(magicxx_SOURCES_DIR
     ${magicxx_SOURCE_DIR}/sources
 )
 
+# -----------------------------------------------------------------------------
+# Installation directories
+# -----------------------------------------------------------------------------
 include(GNUInstallDirs)
 
 set(magicxx_INSTALL_INCLUDE_DIR
@@ -72,9 +81,9 @@ set(magicxx_CMAKE_INSTALL_LIB_DIR
     ${CMAKE_INSTALL_LIBDIR}/cmake/magicxx
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(magicxx_INSTALL_DEFAULT_DATABASES_DIR
-        "C:\\Program Files\\magicxx\\databases"
+        "C:/Program Files/magicxx/databases"
     )
 else()
     set(magicxx_INSTALL_DEFAULT_DATABASES_DIR

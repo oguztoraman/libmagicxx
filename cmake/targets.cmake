@@ -1,29 +1,40 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-if (BUILD_MAGICXX_SHARED_LIB)
-    add_library(magicxx SHARED)
+# -----------------------------------------------------------------------------
+# Helper function to configure a magicxx library target
+# -----------------------------------------------------------------------------
+function(configure_magicxx_target target_name alias_name library_type)
+    add_library(${target_name} ${library_type})
 
-    add_library(recognition::magicxx ALIAS magicxx)
+    add_library(Recognition::${alias_name} ALIAS ${target_name})
 
-    add_dependencies(magicxx configure_file)
+    add_dependencies(${target_name} configure_file)
 
-    set_target_properties(magicxx PROPERTIES
-        C_STANDARD 99
-        C_EXTENSIONS OFF
-        C_STANDARD_REQUIRED ON
+    set_target_properties(${target_name} PROPERTIES
         CXX_STANDARD 23
         CXX_EXTENSIONS OFF
         CXX_STANDARD_REQUIRED ON
-        VERSION ${magicxx_VERSION}
-        SOVERSION ${magicxx_VERSION_MAJOR}
+        C_STANDARD 99
+        C_EXTENSIONS OFF
+        C_STANDARD_REQUIRED ON
+        POSITION_INDEPENDENT_CODE ON
     )
 
-    target_sources(magicxx
+    if(library_type STREQUAL "SHARED")
+        set_target_properties(${target_name} PROPERTIES
+            VERSION ${magicxx_VERSION}
+            SOVERSION ${magicxx_VERSION_MAJOR}
+        )
+    endif()
+
+    set(file_set_name ${target_name}Headers)
+
+    target_sources(${target_name}
         PUBLIC
-            FILE_SET magicxxHeaders
+            FILE_SET ${file_set_name}
             TYPE HEADERS
-            BASE_DIRS ./include
+            BASE_DIRS ${magicxx_SOURCE_DIR}/include
             FILES ${magicxx_HEADER_FILES}
         PRIVATE
             ${gnurx_SOURCE_FILES}
@@ -31,14 +42,14 @@ if (BUILD_MAGICXX_SHARED_LIB)
             ${magicxx_SOURCE_FILES}
     )
 
-    target_compile_definitions(magicxx
+    target_compile_definitions(${target_name}
         PRIVATE
             HAVE_CONFIG_H
             HAVE_STDINT_H
             MAGIC_DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
     )
 
-    target_include_directories(magicxx
+    target_include_directories(${target_name}
         PRIVATE
             ${gnurx_INCLUDE_DIR}
             ${magic_INCLUDE_DIR}
@@ -46,49 +57,18 @@ if (BUILD_MAGICXX_SHARED_LIB)
             $<BUILD_INTERFACE:${magicxx_INCLUDE_DIR}>
             $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDE_DIR}>
     )
-endif(BUILD_MAGICXX_SHARED_LIB)
+endfunction()
 
-if (BUILD_MAGICXX_STATIC_LIB)
-    add_library(magicxx_static STATIC)
+# -----------------------------------------------------------------------------
+# Build shared library
+# -----------------------------------------------------------------------------
+if(BUILD_MAGICXX_SHARED_LIB)
+    configure_magicxx_target(magicxx Magicxx SHARED)
+endif()
 
-    add_library(recognition::magicxx_static ALIAS magicxx_static)
-
-    add_dependencies(magicxx_static configure_file)
-
-    set_target_properties(magicxx_static PROPERTIES
-        C_STANDARD 99
-        C_EXTENSIONS OFF
-        C_STANDARD_REQUIRED ON
-        CXX_STANDARD 23
-        CXX_EXTENSIONS OFF
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    target_sources(magicxx_static
-        PUBLIC
-            FILE_SET magicxx_staticHeaders
-            TYPE HEADERS
-            BASE_DIRS ./include
-            FILES ${magicxx_HEADER_FILES}
-        PRIVATE
-            ${gnurx_SOURCE_FILES}
-            ${magic_SOURCE_FILES}
-            ${magicxx_SOURCE_FILES}
-    )
-
-    target_compile_definitions(magicxx_static
-        PRIVATE
-            HAVE_CONFIG_H
-            HAVE_STDINT_H
-            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_INSTALLED_DEFAULT_DATABASE_FILE}"
-    )
-
-    target_include_directories(magicxx_static
-        PRIVATE
-            ${gnurx_INCLUDE_DIR}
-            ${magic_INCLUDE_DIR}
-        PUBLIC
-            $<BUILD_INTERFACE:${magicxx_INCLUDE_DIR}>
-            $<INSTALL_INTERFACE:${magicxx_INSTALL_INCLUDE_DIR}>
-    )
-endif(BUILD_MAGICXX_STATIC_LIB)
+# -----------------------------------------------------------------------------
+# Build static library
+# -----------------------------------------------------------------------------
+if(BUILD_MAGICXX_STATIC_LIB)
+    configure_magicxx_target(magicxx_static MagicxxStatic STATIC)
+endif()

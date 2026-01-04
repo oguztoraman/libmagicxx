@@ -89,8 +89,8 @@ Below is a table describing the CMake configuration options of Libmagicxx.
 | Option                        | Default | Description                                |
 |-------------------------------|---------|--------------------------------------------|
 | `INSTALL_MAGICXX`             | ON      | Enable installation of Libmagicxx.         |
-| `BUILD_MAGICXX_SHARED_LIB`    | ON      | Build recognition::magicxx shared library. |
-| `BUILD_MAGICXX_STATIC_LIB`    | ON      | Build recognition::magicxx_static library. |
+| `BUILD_MAGICXX_SHARED_LIB`    | ON      | Build Recognition::Magicxx shared library. |
+| `BUILD_MAGICXX_STATIC_LIB`    | ON      | Build Recognition::MagicxxStatic library.  |
 | `BUILD_MAGICXX_TESTS`         | OFF     | Build the tests.                           |
 | `BUILD_MAGICXX_EXAMPLES`      | OFF     | Build the examples.                        |
 | `BUILD_MAGICXX_DOCUMENTATION` | OFF     | Build the documentation.                   |
@@ -228,12 +228,35 @@ The current development environment is a container image built on top of the lat
 
         + Test case names: `snake_case`
 
-
     + Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 
     + To maintain high-quality documentation, ensure that all public APIs are 100% documented using `Doxygen`. For more information on how to write Doxygen comments, refer to the [Doxygen Manual](http://www.doxygen.nl/manual/docblocks.html).
 
     + If your changes introduce new features or significant modifications, add an example to demonstrate the usage.
+
+    + When modifying CMake files, follow the conventions defined in [cmake/STYLE_GUIDE.md](cmake/STYLE_GUIDE.md). Key requirements:
+
+        + Project variables: `project_SUFFIX` (e.g., `magicxx_SOURCE_DIR`)
+
+        + External dependency variables: `dependency_SUFFIX` (e.g., `magic_INCLUDE_DIR`)
+
+        + Cache options: `SCREAMING_SNAKE_CASE` (e.g., `BUILD_MAGICXX_TESTS`)
+
+        + Exported variables: `SCREAMING_SNAKE_CASE` (e.g., `MAGICXX_FOUND`)
+
+        + Functions and macros: `snake_case` (e.g., `configure_magicxx_target()`)
+
+        + Exported targets: `Namespace::Target` (e.g., `Recognition::Magicxx`)
+
+        + Commands: **lowercase** (e.g., `add_library()`, `target_link_libraries()`)
+
+        + Keywords: **UPPERCASE** (e.g., `PUBLIC`, `PRIVATE`, `INTERFACE`)
+
+        + Indentation: **4 spaces** (no tabs)
+
+        + Parentheses: no space (e.g., `if(VAR)` not `if ( VAR )`)
+
+        + `endif()`: no arguments (e.g., `endif()` not `endif(VAR)`)
 
 3. **Build and Test**:
 

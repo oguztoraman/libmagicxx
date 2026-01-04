@@ -1,67 +1,84 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-cmake_minimum_required(VERSION 3.30.8)
+# -----------------------------------------------------------------------------
+# Example applications for Libmagicxx
+# Demonstrates usage of the libmagicxx library with both shared and static
+# library variants.
+# -----------------------------------------------------------------------------
 
-project(magicxx_examples LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.31.6)
 
-find_package(magicxx REQUIRED)
+project(magicxx_examples
+    DESCRIPTION "Example applications for Libmagicxx."
+    LANGUAGES CXX
+)
 
-if (NOT MAGICXX_FOUND)
+# -----------------------------------------------------------------------------
+# Dependencies
+# -----------------------------------------------------------------------------
+
+find_package(Magicxx REQUIRED)
+
+if(NOT MAGICXX_FOUND)
     message(FATAL_ERROR "Libmagicxx not found. Please install it first.")
-else()
-    message(STATUS "Libmagicxx found.")
-    message(STATUS "Libmagicxx version: ${MAGICXX_VERSION}")
-    message(STATUS "Libmagicxx shared library available: ${MAGICXX_SHARED_LIB_AVAILABLE}")
-    message(STATUS "Libmagicxx static library available: ${MAGICXX_STATIC_LIB_AVAILABLE}")
-    message(STATUS "Libmagicxx include directory: ${MAGICXX_INCLUDE_DIR}")
-    message(STATUS "Libmagicxx library directory: ${MAGICXX_LIB_DIR}")
-    message(STATUS "Libmagicxx license directory: ${MAGICXX_LICENSE_DIR}")
-    message(STATUS "Libmagicxx documentation directory: ${MAGICXX_DOC_DIR}")
-    message(STATUS "Libmagicxx CMake directory: ${MAGICXX_CMAKE_DIR}")
-    message(STATUS "Libmagicxx default database directory: ${MAGICXX_DEFAULT_DATABASE_DIR}")
 endif()
+
+message(STATUS "")
+message(STATUS "Libmagicxx Configuration:")
+message(STATUS "  Version:          ${MAGICXX_VERSION}")
+message(STATUS "  Shared library:   ${MAGICXX_SHARED_LIB_AVAILABLE}")
+message(STATUS "  Static library:   ${MAGICXX_STATIC_LIB_AVAILABLE}")
+message(STATUS "  Include dir:      ${MAGICXX_INCLUDE_DIR}")
+message(STATUS "  Library dir:      ${MAGICXX_LIB_DIR}")
+message(STATUS "  License dir:      ${MAGICXX_LICENSE_DIR}")
+message(STATUS "  Documentation:    ${MAGICXX_DOC_DIR}")
+message(STATUS "  CMake dir:        ${MAGICXX_CMAKE_DIR}")
+message(STATUS "  Database dir:     ${MAGICXX_DEFAULT_DATABASE_DIR}")
+message(STATUS "")
+
+# -----------------------------------------------------------------------------
+# Source files
+# -----------------------------------------------------------------------------
 
 set(magicxx_examples_SOURCE_FILES
     magic_examples.cpp
 )
 
-if (MAGICXX_SHARED_LIB_AVAILABLE)
-    add_executable(magicxx_examples)
+# -----------------------------------------------------------------------------
+# Helper function to configure an example executable
+# -----------------------------------------------------------------------------
+function(configure_example_executable target_name library_target)
+    add_executable(${target_name})
 
-    set_target_properties(magicxx_examples PROPERTIES
-        CXX_STANDARD 23
-        CXX_EXTENSIONS OFF
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    target_sources(magicxx_examples
+    target_sources(${target_name}
         PRIVATE
             ${magicxx_examples_SOURCE_FILES}
     )
 
-    target_link_libraries(magicxx_examples
+    target_compile_features(${target_name}
         PRIVATE
-            recognition::magicxx
+            cxx_std_23
     )
-endif(MAGICXX_SHARED_LIB_AVAILABLE)
 
-if (MAGICXX_STATIC_LIB_AVAILABLE)
-    add_executable(magicxx_examples_static)
-
-    set_target_properties(magicxx_examples_static PROPERTIES
-        CXX_STANDARD 23
+    set_target_properties(${target_name} PROPERTIES
         CXX_EXTENSIONS OFF
         CXX_STANDARD_REQUIRED ON
     )
 
-    target_sources(magicxx_examples_static
+    target_link_libraries(${target_name}
         PRIVATE
-            ${magicxx_examples_SOURCE_FILES}
+            ${library_target}
     )
+endfunction()
 
-    target_link_libraries(magicxx_examples_static
-        PRIVATE
-            recognition::magicxx_static
-    )
-endif(MAGICXX_STATIC_LIB_AVAILABLE)
+# -----------------------------------------------------------------------------
+# Build example executables
+# -----------------------------------------------------------------------------
+if(MAGICXX_SHARED_LIB_AVAILABLE)
+    configure_example_executable(magicxx_examples Recognition::Magicxx)
+endif()
+
+if(MAGICXX_STATIC_LIB_AVAILABLE)
+    configure_example_executable(magicxx_examples_static Recognition::MagicxxStatic)
+endif()

@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+# -----------------------------------------------------------------------------
+# Windows-specific source files
+# -----------------------------------------------------------------------------
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(gnurx_SOURCE_FILES
         ${gnurx_DIR}/regex.c
     )
@@ -18,6 +21,9 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 endif()
 
+# -----------------------------------------------------------------------------
+# Magic library source files
+# -----------------------------------------------------------------------------
 set(magic_HEADER_FILES
     ${magic_SOURCE_DIR}/magic.h
 )
@@ -47,6 +53,9 @@ set(magic_SOURCE_FILES
     ${magic_OS_REPLACEMENT_SOURCE_FILES}
 )
 
+# -----------------------------------------------------------------------------
+# Magicxx library source files
+# -----------------------------------------------------------------------------
 set(magicxx_HEADER_FILES
     ${magicxx_INCLUDE_DIR}/magic.hpp
     ${magicxx_INCLUDE_DIR}/magic_exception.hpp

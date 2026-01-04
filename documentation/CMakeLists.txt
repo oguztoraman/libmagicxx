@@ -1,11 +1,26 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-cmake_minimum_required(VERSION 3.30.8)
+# -----------------------------------------------------------------------------
+# Doxygen documentation configuration
+# Generates API documentation for libmagicxx using Doxygen.
+# -----------------------------------------------------------------------------
 
-project(magicxx_documentation)
+cmake_minimum_required(VERSION 3.31.6)
+
+project(magicxx_documentation
+    DESCRIPTION "Doxygen documentation for Libmagicxx."
+)
+
+# -----------------------------------------------------------------------------
+# Dependencies
+# -----------------------------------------------------------------------------
 
 find_package(Doxygen REQUIRED dot)
+
+# -----------------------------------------------------------------------------
+# Doxygen settings
+# -----------------------------------------------------------------------------
 
 set(DOXYGEN_PROJECT_NAME
     Libmagicxx
@@ -82,6 +97,10 @@ set(DOXYGEN_GENERATE_LATEX
 set(DOXYGEN_OUTPUT_DIRECTORY
     ${magicxx_SOURCE_DIR}/documentation
 )
+
+# -----------------------------------------------------------------------------
+# Documentation targets
+# -----------------------------------------------------------------------------
 
 add_custom_target(delete_old_docs
     COMMAND

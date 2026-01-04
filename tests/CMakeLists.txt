@@ -1,9 +1,21 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
-cmake_minimum_required(VERSION 3.30.8)
+# -----------------------------------------------------------------------------
+# Unit tests for Libmagicxx
+# GoogleTest-based test suite for verifying library functionality.
+# -----------------------------------------------------------------------------
 
-project(magicxx_tests LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.31.6)
+
+project(magicxx_tests
+    DESCRIPTION "Unit tests for Libmagicxx."
+    LANGUAGES CXX
+)
+
+# -----------------------------------------------------------------------------
+# Source files
+# -----------------------------------------------------------------------------
 
 set(magicxx_tests_SOURCE_FILES
     magic_check_test.cpp
@@ -23,60 +35,54 @@ set(magicxx_tests_SOURCE_FILES
     main.cpp
 )
 
+# -----------------------------------------------------------------------------
+# Dependencies
+# -----------------------------------------------------------------------------
+
 include(GoogleTest)
 
-if (BUILD_MAGICXX_SHARED_LIB)
-    add_executable(magicxx_tests)
+# -----------------------------------------------------------------------------
+# Helper function to configure a test executable
+# -----------------------------------------------------------------------------
+function(configure_test_executable target_name library_target)
+    add_executable(${target_name})
 
-    set_target_properties(magicxx_tests PROPERTIES
-        CXX_STANDARD 23
-        CXX_EXTENSIONS OFF
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    target_sources(magicxx_tests
+    target_sources(${target_name}
         PRIVATE
             ${magicxx_tests_SOURCE_FILES}
     )
 
-    target_compile_definitions(magicxx_tests
+    target_compile_features(${target_name}
+        PRIVATE
+            cxx_std_23
+    )
+
+    set_target_properties(${target_name} PROPERTIES
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    target_compile_definitions(${target_name}
         PRIVATE
             MAGIC_DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
     )
 
-    target_link_libraries(magicxx_tests
+    target_link_libraries(${target_name}
         PRIVATE
             GTest::gtest
-            recognition::magicxx
+            ${library_target}
     )
 
-    gtest_discover_tests(magicxx_tests)
+    gtest_discover_tests(${target_name})
+endfunction()
+
+# -----------------------------------------------------------------------------
+# Build test executables
+# -----------------------------------------------------------------------------
+if(BUILD_MAGICXX_SHARED_LIB)
+    configure_test_executable(magicxx_tests Recognition::Magicxx)
 endif()
 
-if (BUILD_MAGICXX_STATIC_LIB)
-    add_executable(magicxx_tests_static)
-
-    set_target_properties(magicxx_tests_static PROPERTIES
-        CXX_STANDARD 23
-        CXX_EXTENSIONS OFF
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    target_sources(magicxx_tests_static
-        PRIVATE
-            ${magicxx_tests_SOURCE_FILES}
-    )
-
-    target_compile_definitions(magicxx_tests_static
-        PRIVATE
-            MAGIC_DEFAULT_DATABASE_FILE="${magicxx_DEFAULT_DATABASE_FILE}"
-    )
-
-    target_link_libraries(magicxx_tests_static
-        PRIVATE
-            GTest::gtest
-            recognition::magicxx_static
-    )
-
-    gtest_discover_tests(magicxx_tests_static)
-endif(BUILD_MAGICXX_STATIC_LIB)
+if(BUILD_MAGICXX_STATIC_LIB)
+    configure_test_executable(magicxx_tests_static Recognition::MagicxxStatic)
+endif()

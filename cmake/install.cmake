@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 
+# -----------------------------------------------------------------------------
+# License file installation
+# -----------------------------------------------------------------------------
 install(
     FILES
         ${magicxx_LICENSE_FILE}
@@ -19,7 +22,7 @@ install(
         License
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     install(
         FILES
             ${gnurx_LICENSE_FILE}
@@ -30,7 +33,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 endif()
 
-if (INSTALL_MAGICXX)
+# -----------------------------------------------------------------------------
+# Main installation
+# -----------------------------------------------------------------------------
+if(INSTALL_MAGICXX)
     install(
         FILES
             ${magicxx_DEFAULT_DATABASE_FILES}
@@ -51,9 +57,9 @@ if (INSTALL_MAGICXX)
 
     install(
         EXPORT
-            magicxxTargets
+            MagicxxTargets
         NAMESPACE
-            recognition::
+            Recognition::
         DESTINATION
             ${magicxx_CMAKE_INSTALL_LIB_DIR}
         COMPONENT
@@ -70,12 +76,12 @@ if (INSTALL_MAGICXX)
             Development
     )
 
-    if (BUILD_MAGICXX_SHARED_LIB)
+    if(BUILD_MAGICXX_SHARED_LIB)
         install(
             TARGETS
                 magicxx
             EXPORT
-                magicxxTargets
+                MagicxxTargets
             FILE_SET
                 magicxxHeaders
             LIBRARY DESTINATION
@@ -83,14 +89,14 @@ if (INSTALL_MAGICXX)
             COMPONENT
                 Library
         )
-    endif(BUILD_MAGICXX_SHARED_LIB)
+    endif()
 
-    if (BUILD_MAGICXX_STATIC_LIB)
+    if(BUILD_MAGICXX_STATIC_LIB)
         install(
             TARGETS
                 magicxx_static
             EXPORT
-                magicxxTargets
+                MagicxxTargets
             FILE_SET
                 magicxx_staticHeaders
             ARCHIVE DESTINATION
@@ -98,7 +104,7 @@ if (INSTALL_MAGICXX)
             COMPONENT
                 Archive
         )
-    endif(BUILD_MAGICXX_STATIC_LIB)
+    endif()
 
     install(
         FILES
@@ -108,4 +114,4 @@ if (INSTALL_MAGICXX)
         COMPONENT
             Documentation
     )
-endif(INSTALL_MAGICXX)
+endif()

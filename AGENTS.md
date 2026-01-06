@@ -1,4 +1,4 @@
-# AGENTS.md — AI Agents Usage & Governance
+# AI Agents Usage & Governance
 
 ## 1. Purpose
 
@@ -111,7 +111,7 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 
 ## 8. Development Container Usage
 
-Environment is a Fedora-based dev container. Agents should not assume ability to run `git push/pull` inside container (per CONTRIBUTING). Provide host-side instructions when needed.
+Environment is a Fedora-based dev container. Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
 
 Preset tips:
 
@@ -154,7 +154,17 @@ Agents must avoid: leaking paths, embedding credentials, adding network download
 
 ## 12. Code Style & Conventions Recap
 
-+ Identifiers: `snake_case`; template parameters: `PascalCase`.
+See [STYLE_GUIDE.md](STYLE_GUIDE.md) for C++ conventions and [cmake/STYLE_GUIDE.md](cmake/STYLE_GUIDE.md) for CMake conventions.
+
+Key rules:
+
++ Classes, functions, namespaces, enums: `PascalCase`
+
++ Variables: `snake_case`; member variables: `m_` prefix (e.g., `m_handle`)
+
++ Template parameters: `PascalCase` with `T` suffix (types) or `V` suffix (non-types)
+
++ Constants: `SCREAMING_SNAKE_CASE`
 
 + C++23 features allowed; prefer clarity over cleverness.
 

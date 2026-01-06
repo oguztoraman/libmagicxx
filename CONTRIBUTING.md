@@ -2,349 +2,833 @@
 
 Welcome to the Libmagicxx project! We appreciate your interest in contributing. Whether you are fixing bugs, adding features, improving documentation, or suggesting enhancements, your contributions are valuable and help make Libmagicxx better for everyone.
 
+This guide provides everything you need to contribute successfully.
+
+---
+
 ## Table of Contents
+
++ [Quick Reference](#quick-reference)
+
 + [Code of Conduct](#code-of-conduct)
-+ [Development](#development)
+
++ [Types of Contributions](#types-of-contributions)
+
++ [Development Workflow](#development-workflow)
+
 + [Project Structure](#project-structure)
-+ [Build Requirements for Libmagicxx](#build-requirements-for-libmagicxx)
-+ [CMake Options of Libmagicxx](#cmake-options-of-libmagicxx)
-+ [Building Libmagicxx](#building-libmagicxx)
+
 + [Getting Started](#getting-started)
+
 + [Making Changes](#making-changes)
+
++ [Writing Tests](#writing-tests)
+
++ [Writing Documentation](#writing-documentation)
+
++ [Build and Test Commands](#build-and-test-commands)
+
++ [Debugging](#debugging)
+
 + [Creating a Pull Request](#creating-a-pull-request)
+
 + [Reporting Issues](#reporting-issues)
-+ [Continuous Integration (CI)](#continuous-integration-ci)
+
 + [Review Process](#review-process)
+
++ [Troubleshooting](#troubleshooting)
+
++ [FAQ](#faq)
+
 + [Thank You](#thank-you)
+
+
+---
+
+## Quick Reference
+
+| Task | Command |
+|------|---------|
+| Build &amp; test (Clang) | `./scripts/workflows.sh -p linux-x86_64-clang-tests -c` |
+| Build &amp; test (GCC) | `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c` |
+| Format code | `./scripts/workflows.sh -p format-source-code` |
+| Build examples | `./scripts/workflows.sh -p linux-x86_64-clang-examples` |
+| Build documentation | `./scripts/workflows.sh -p documentation` |
+| List all presets | `./scripts/workflows.sh -l` |
+| Run specific test | `./build/tests/magicxx_tests --gtest_filter="TestName.*"` |
+| Initialize project | `./scripts/initialize.sh` |
+
+---
 
 ## Code of Conduct
 
-We expect all contributors to adhere to the [Code of Conduct](https://github.com/oguztoraman/libmagicxx/blob/main/CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
+We expect all contributors to adhere to the [Code of Conduct](CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
 
-## Development
+---
 
-+ The `main` branch is the development branch for the next feature release. The `main` branch contains the tags of the feature releases (e.g., `v5.2.0`).
+## Types of Contributions
 
-+ Each release is supported until the next feature release. The maintenance of the release is done in its own branch, (e.g., `v5.2.x`). These branches contain the tags of the bugfix releases, (e.g., `v5.2.1`).
+| Type | Branch Prefix | PR Title Prefix | Description |
+|------|---------------|-----------------|-------------|
+| 🐛 **Bug Fix** | `bugfix/` | `[BUGFIX]` | Fix a bug in existing functionality |
+| ✨ **Enhancement** | `enhancement/` | `[ENHANCEMENT]` | Add new feature or improve existing one |
+| 📚 **Documentation** | `documentation/` | `[DOCUMENTATION]` | Improve docs, comments, or examples |
+| 🧹 **Code Quality** | `quality/` | `[QUALITY]` | Refactoring, formatting, style improvements |
 
-+ Each change for the bugfix release is merged to the `main` branch.
+---
+
+## Development Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        Contribution Workflow                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. SETUP                     2. DEVELOP                                │
+│  ┌──────────────────┐         ┌──────────────────┐                      │
+│  │ Fork repository  │────────>│ Create branch    │                      │
+│  │ Clone locally    │         │ (from main)      │                      │
+│  │ Start container  │         │                  │                      │
+│  │ Run initialize.sh│         │ bugfix/my-fix    │                      │
+│  └──────────────────┘         └────────┬─────────┘                      │
+│                                        │                                │
+│                                        ▼                                │
+│  4. VALIDATE                   3. CODE                                  │
+│  ┌──────────────────┐         ┌──────────────────┐                      │
+│  │ Build & test     │<────────│ Make changes     │                      │
+│  │ Format code      │         │ Add/update tests │                      │
+│  │ Update CHANGELOG │         │ Update docs      │                      │
+│  │                  │         │ Commit often     │                      │
+│  └────────┬─────────┘         └──────────────────┘                      │
+│           │                                                             │
+│           ▼                                                             │
+│  5. SUBMIT                    6. REVIEW                                 │
+│  ┌──────────────────┐         ┌──────────────────┐                      │
+│  │ Push to fork     │────────>│ Maintainer review│                      │
+│  │ (from host, not  │         │ Address feedback │                      │
+│  │  container)      │         │ CI must pass     │                      │
+│  │ Create PR        │         │ Merge!           │                      │
+│  └──────────────────┘         └──────────────────┘                      │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Branch Strategy
+
++ **`main`**: Development branch for next feature release. Tags: `v9.0.0`, `v9.1.0`, etc.
++ **`vX.Y.x`**: Maintenance branches for supported releases. Tags: `v9.0.1`, `v9.0.2`, etc.
++ All bugfix changes are also merged to `main`.
+
+---
 
 ## Project Structure
 
 ```
 libmagicxx/
-├── .github/                   # Continuous Integration (CI)
-├── build/                     # Build directory (Git ignored)
-├── cmake/                     # CMake configuration files, custom CMake targets
-├── databases/                 # Default database files
-├── documentation/             # Documentation files
-├── examples/                  # Examples
-├── external/                  # External projects
-    ├── file/                  # File and the Magic Number Recognition Library
-    ├── googletest/            # GoogleTest
-    ├── libgnurx/              # Regex library
-├── include/                   # Header files
-├── packages                   # DEB/RPM/NSIS/ZIP/SOURCE Packages (Git ignored)
-├── scripts/                   # Utility scripts
-├── sources/                   # Source files
-├── tests/                     # Test files
-├── .clang-format              # Clang format configuration
-├── .gitattributes             # Git attributes file
-├── .gitignore                 # Git ignore file
-├── .gitmodules                # Git submodules configuration
-├── CHANGELOG.md               # Changelog
-├── CMakeLists.txt             # Top-level CMake file
-├── CMakePresets.json          # CMake presets
-├── CODE_OF_CONDUCT.md         # Code of Conduct
-├── Containerfile              # Container image configuration
-├── CONTRIBUTING.md            # Contribution guidelines
-├── COPYING.LESSER             # License file
-├── PULL_REQUEST_TEMPLATE.md   # Pull request template
-├── README.md                  # Project details
-├── RELEASE_PROCEDURE.md       # Release procedure
-├── SECURITY.md                # Security policy
+├── include/magicxx/           # 📦 PUBLIC API - Header files
+│   └── magic.hpp              #    The main header (Recognition::Magic class)
+│
+├── sources/                   # 🔧 IMPLEMENTATION
+│   └── magic.cpp              #    Implementation of magic.hpp
+│
+├── tests/                     # 🧪 UNIT TESTS (GoogleTest)
+│   ├── CMakeLists.txt         #    Test build configuration
+│   ├── main.cpp               #    Test runner entry point
+│   └── magic_*_test.cpp       #    Test files (one per feature area)
+│
+├── examples/                  # 💡 EXAMPLES
+│   ├── CMakeLists.txt         #    Examples build configuration
+│   └── magic_examples.cpp     #    Runnable usage examples
+│
+├── cmake/                     # ⚙️ CMAKE CONFIGURATION
+│   ├── STYLE_GUIDE.md         #    CMake coding conventions
+│   ├── options.cmake          #    CMake option definitions
+│   ├── targets.cmake          #    Library target definitions
+│   └── ...                    #    Other CMake modules
+│
+├── scripts/                   # 🛠️ UTILITY SCRIPTS
+│   ├── workflows.sh           #    Main build/test script
+│   ├── initialize.sh          #    Project initialization
+│   ├── launch_container.py    #    Development container launcher
+│   └── ...                    #    Other scripts
+│
+├── databases/                 # 🗃️ MAGIC DATABASE FILES
+│   ├── magic                  #    Source magic definitions
+│   └── magic.mgc              #    Compiled magic database
+│
+├── external/                  # 📚 EXTERNAL DEPENDENCIES (Git submodules)
+│   ├── file/                  #    libmagic (file command library)
+│   ├── googletest/            #    GoogleTest framework
+│   └── libgnurx/              #    Regex library for Windows
+│
+├── documentation/             # 📖 DOXYGEN DOCUMENTATION
+├── .github/                   # 🔄 CI/CD WORKFLOWS
+├── CMakeLists.txt             # 📋 Top-level CMake configuration
+├── CMakePresets.json          # 🎯 CMake workflow presets
+├── STYLE_GUIDE.md             # 📝 C++ coding conventions
+├── CHANGELOG.md               # 📜 Version history
+└── Containerfile              # 🐳 Development container definition
 ```
 
-## Build Requirements for Libmagicxx
+### Key Files for Contributors
 
-To build Libmagicxx, ensure you have the following tools and dependencies installed:
+| What You're Changing | Files to Modify |
+|---------------------|-----------------|
+| Public API | `include/magicxx/magic.hpp` |
+| Implementation | `sources/magic.cpp` |
+| Add a test | `tests/magic_*_test.cpp` (existing) or create new `tests/magic_yourfeature_test.cpp` |
+| Add an example | `examples/magic_examples.cpp` |
+| Fix a build issue | `cmake/*.cmake` or `CMakeLists.txt` |
+| Update docs | `README.md`, `documentation/`, or Doxygen comments in `.hpp` |
 
-+ **Git**: Version control system.
-+ **Git LFS**: Git extension for versioning large files.
-+ **Awk**: Text processing tool.
-+ **Autoconf**: Tool for generating configuration scripts.
-+ **GNU Make**: Build automation tool.
-+ **Libtool**: Generic library support script.
-+ **CMake**: Cross-platform build system.
-+ **Ninja**: Small build system with a focus on speed.
-+ **Toolchains**: Compilers and linkers for building the project.
-    + **GCC**: GNU Compiler Collection.
-    + **Clang**: C language family frontend for LLVM.
-    + **MinGW64**: Minimalist GNU for Windows.
-
-## CMake Options of Libmagicxx
-
-Below is a table describing the CMake configuration options of Libmagicxx.
-
-| Option                        | Default | Description                                |
-|-------------------------------|---------|--------------------------------------------|
-| `INSTALL_MAGICXX`             | ON      | Enable installation of Libmagicxx.         |
-| `BUILD_MAGICXX_SHARED_LIB`    | ON      | Build Recognition::Magicxx shared library. |
-| `BUILD_MAGICXX_STATIC_LIB`    | ON      | Build Recognition::MagicxxStatic library.  |
-| `BUILD_MAGICXX_TESTS`         | OFF     | Build the tests.                           |
-| `BUILD_MAGICXX_EXAMPLES`      | OFF     | Build the examples.                        |
-| `BUILD_MAGICXX_DOCUMENTATION` | OFF     | Build the documentation.                   |
-
-## Building Libmagicxx
-
-The recommended way to build Libmagicxx is to use the provided development container, which ensures a consistent and fully supported build environment. To do this, follow the steps in the **Getting Started** section above. This will set up the container with all required dependencies and tools, allowing you to build, test, and develop Libmagicxx seamlessly.
-
-Alternatively, you may attempt to build Libmagicxx by manually installing all the required dependencies listed in the **Build Requirements for Libmagicxx** section. However, this method is **not tested or officially supported**, and you may encounter issues related to missing or incompatible dependencies.
-
-For best results, always use the development container workflow described in this guide.
+---
 
 ## Getting Started
 
-The current development environment is a container image built on top of the latest stable release of [Fedora](https://fedoraproject.org/).
+### Prerequisites (Host Machine)
 
-1. **Install Visual Studio Code**
+Install these on your **host machine** (not the container):
 
-    Download and install Visual Studio Code from the [official website](https://code.visualstudio.com/).
+| Tool | Purpose | Installation |
+|------|---------|--------------|
+| **Git** | Version control | [git-scm.com](https://git-scm.com/) |
+| **Git LFS** | Large file storage | [git-lfs.com](https://git-lfs.com/) |
+| **Python 3** | Container launcher script | [python.org](https://www.python.org/) |
+| **Podman** | Container runtime | [podman.io](https://podman.io/getting-started/installation) |
+| **VS Code** | Code Editor  | [code.visualstudio.com](https://code.visualstudio.com/) |
+| **Dev Containers** | VS Code extension | Search "Dev Containers" in VS Code extensions |
 
-2. **Install the Dev Containers Extension**
+### Step-by-Step Setup
 
-    + Open Visual Studio Code.
-    + Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
-    + Search for `Dev Containers`.
-    + Click `Install` on the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
+#### Step 1: Fork and Clone
 
-3. **Install Podman**
+```bash
+# Fork on GitHub, then clone your fork
+git clone https://github.com/YOUR-USERNAME/libmagicxx.git
+cd libmagicxx
+```
 
-    Follow the [installation guide](https://podman.io/getting-started/installation) to install Podman.
+#### Step 2: Launch Development Container
 
-4. **Install Git & Git Large File Storage**
+```bash
+# Linux/macOS
+python ./scripts/launch_container.py
 
-    Download and install Git from the [official website](https://git-scm.com/).
-    Download and install Git Large File Storage from the [official website](https://git-lfs.com/).
+# Windows
+python .\scripts\launch_container.py
 
-5. **Install Python**
+# To update the container image (after Containerfile changes)
+python ./scripts/launch_container.py -u
+```
 
-    Download and install Python from the [official website](https://www.python.org/).
+#### Step 3: Attach VS Code to Container
 
-6. **Fork & Clone the Repository**
+1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
 
-    Fork the repository on GitHub and clone it to your local machine:
+2. Select **"Dev Containers: Attach to Running Container..."**
 
-    ```bash
-    git clone https://github.com/your-username/libmagicxx.git
+3. Choose **`libmagicxx_dev_env`**
 
-    cd libmagicxx
-    ```
+#### Step 4: Install VS Code Extensions (Inside Container)
 
-7. **Run the Launch Container Script**
+Install these extensions in the container for best experience:
 
-    Open the project in Visual Studio Code and run the following script in a terminal to launch the development container:
++ [C/C++ Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
 
-    On Linux/MacOS;
++ [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
 
-    ```bash
-    python ./scripts/launch_container.py
-    ```
++ [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap)
 
-    On Windows;
++ [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
 
-    ```powershell
-    python .\scripts\launch_container.py
-    ```
+#### Step 5: Initialize the Project
 
-    You can update the development container image by passing the `-u` argument to the script.
+```bash
+# Inside the container terminal
+./scripts/initialize.sh
+```
 
-    **Note**: You should update the development container image if there are changes to the `Containerfile` or the dependencies installed in the `scripts/install_dependencies.sh` script.
+This builds external dependencies (libmagic, GoogleTest) and prepares the build environment.
 
-8. **Attach to the Container**
+#### Step 6: Verify Setup
 
-    Press `Ctrl+Shift+P` in Visual Studio Code, then select `Remote-Containers: Attach to Running Container...` and choose the container `libmagicxx_dev_env` you just launched.
+```bash
+# Build and run all tests to verify everything works
+./scripts/workflows.sh -p linux-x86_64-clang-tests -c
+```
 
-9. **Install Extensions in the Container**
+Expected output: All tests should pass.
 
-    Once you have attached to the container, you need to install the necessary Visual Studio Code extensions within the container environment as well. Follow these steps:
-
-    + Open the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
-
-    + Search for and install the following extensions:
-        + [C/C++ Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
-        + [Clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
-        + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-        + [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-        + [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap)
-
-    These extensions will enhance your development experience within the container by providing features like code completion, debugging, and CMake integration.
-
-10. **Initialize the Project**
-
-    Open a new terminal initialize the project using the `initialize.sh` bash script;
-    
-    ```
-    ./scripts/initialize.sh 
-    ```
-
-11. **Now You Are Ready for Your Changes**
-
-    You can commit your changes, build the project, run tests, and execute scripts within the container. **However, you cannot perform `git push`, `git pull`, or `git fetch` operations directly from the container.** Once you are done, close the container connection and perform these `git` operations from your local machine (the host). This is necessary because authentication restrictions in the container environment prevent these operations from working correctly.
+---
 
 ## Making Changes
 
-1. **Create a New Branch**:
+### Step 1: Create a Branch
 
-    + Create the branch from `main` if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create your branch from the supported release branch (e.g., `v5.2.x`).
+```bash
+# For a bug fix
+git checkout -b bugfix/fix-null-pointer-crash
 
-    + Use the following naming conventions for your branches:
-        + For bug fixes: `bugfix/<brief_description>`
-        + For documentation changes: `documentation/<brief_description>`
-        + For enhancements: `enhancement/<brief_description>`
-        + For code quality improvements: `quality/<brief_description>`
+# For a new feature
+git checkout -b enhancement/add-buffer-identification
 
-2. **Make Changes**:
+# For documentation
+git checkout -b documentation/improve-readme
 
-    + Follow the naming conventions and code style defined in [STYLE_GUIDE.md](STYLE_GUIDE.md). Key requirements:
+# For code quality
+git checkout -b quality/refactor-error-handling
+```
 
-        + Classes, functions, namespaces, and enums: `PascalCase`
+### Step 2: Understand the Code Style
 
-        + Variables: `snake_case` (member variables: `m_snake_case`)
+All code must follow [STYLE_GUIDE.md](STYLE_GUIDE.md). Key rules:
 
-        + Type Aliases: `PascalCase` ending with `T`
+#### Naming Conventions
 
-        + Template type parameters: `PascalCase` ending with `T`
+```cpp
+namespace Recognition {              // PascalCase
 
-        + Template non-type parameters: `PascalCase` ending with `V`
+class Magic {                        // PascalCase
+public:
+    using FileTypeT = std::string;   // PascalCase + T suffix for types
+    
+    template <typename ContainerT>   // PascalCase + T for type params
+    void SetFlags(ContainerT flags); // PascalCase for functions
+    
+    static constexpr int MAX_SIZE = 100;  // SCREAMING_SNAKE_CASE for constants
+    
+private:
+    magic_t m_handle;                // snake_case with m_ prefix for members
+    int m_flag_count;
+};
 
-        + Constants and macros: `SCREAMING_SNAKE_CASE`
+}  // namespace Recognition
+```
 
-        + Files and directories: `snake_case`
+#### File Naming
 
-        + Test files: Suffix with `_test.cpp`
+```
+magic_feature.cpp          # snake_case for source files
+magic_feature_test.cpp     # _test.cpp suffix for test files
+```
 
-        + Test fixture/group names: `PascalCase` ending with `Test`
+### Step 3: Make Your Changes
 
-        + Test case names: `snake_case`
+1. **Edit the appropriate files** (see [Key Files for Contributors](#key-files-for-contributors))
 
-    + Ensure that your code follows the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
+2. **Add/update tests** for any behavior changes
 
-    + To maintain high-quality documentation, ensure that all public APIs are 100% documented using `Doxygen`. For more information on how to write Doxygen comments, refer to the [Doxygen Manual](http://www.doxygen.nl/manual/docblocks.html).
+3. **Update documentation** (Doxygen comments for API changes)
 
-    + If your changes introduce new features or significant modifications, add an example to demonstrate the usage.
+4. **Commit frequently** with descriptive messages
 
-    + When modifying CMake files, follow the conventions defined in [cmake/STYLE_GUIDE.md](cmake/STYLE_GUIDE.md). Key requirements:
+### Step 4: Build and Test
 
-        + Project variables: `project_SUFFIX` (e.g., `magicxx_SOURCE_DIR`)
+```bash
+# Build and run all tests
+./scripts/workflows.sh -p linux-x86_64-clang-tests -c
 
-        + External dependency variables: `dependency_SUFFIX` (e.g., `magic_INCLUDE_DIR`)
+# Or with GCC
+./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
+```
 
-        + Cache options: `SCREAMING_SNAKE_CASE` (e.g., `BUILD_MAGICXX_TESTS`)
+### Step 5: Format Your Code
 
-        + Exported variables: `SCREAMING_SNAKE_CASE` (e.g., `MAGICXX_FOUND`)
+```bash
+./scripts/workflows.sh -p format-source-code
+```
 
-        + Functions and macros: `snake_case` (e.g., `configure_magicxx_target()`)
+### Step 6: Update CHANGELOG.md
 
-        + Exported targets: `Namespace::Target` (e.g., `Recognition::Magicxx`)
+Add your changes under the "Next Release" section:
 
-        + Commands: **lowercase** (e.g., `add_library()`, `target_link_libraries()`)
+```markdown
+## Next Release
 
-        + Keywords: **UPPERCASE** (e.g., `PUBLIC`, `PRIVATE`, `INTERFACE`)
++ **[ENHANCEMENT]** Magic: Add buffer identification support.
 
-        + Indentation: **4 spaces** (no tabs)
++ **[BUGFIX]** Magic: Fix null pointer crash when database not loaded.
 
-        + Parentheses: no space (e.g., `if(VAR)` not `if ( VAR )`)
++ **[DOCUMENTATION]** Docs: Improve README examples.
 
-        + `endif()`: no arguments (e.g., `endif()` not `endif(VAR)`)
++ **[QUALITY]** Magic: Refactor error handling for consistency.
+```
 
-3. **Build and Test**:
+---
 
-    Use the `workflows.sh` script to configure, build and test the project via CMake workflow presets:
+## Writing Tests
 
-    ```bash
-    ./scripts/workflows.sh -p linux-x86_64-clang-tests -c
-    ```
+### Test File Organization
 
-    For more options, use:
+Each feature area has its own test file:
 
-    ```bash
-    ./scripts/workflows.sh -h
-    Usage: ./scripts/workflows.sh [-l] [-p preset] [-c] [-h]
-      -l              List available CMake workflow presets.
-      -p preset       Specify the CMake workflow preset to use.
-      -c              Clear the CMake cache before running the selected preset.
-      -h              Display this message.
-    ```
+| Test File | What It Tests |
+|-----------|---------------|
+| `magic_open_close_test.cpp` | Open(), Close(), IsOpen() |
+| `magic_flags_test.cpp` | GetFlags(), SetFlags() |
+| `magic_identify_file_test.cpp` | IdentifyFile() |
+| `magic_identify_directory_test.cpp` | IdentifyFiles() with directories |
+| `magic_identify_container_test.cpp` | IdentifyFiles() with containers |
+| `magic_load_database_file_test.cpp` | LoadDatabaseFile() |
+| `magic_parameters_test.cpp` | GetParameter(), SetParameter() |
+| `magic_compile_test.cpp` | Compile() |
+| `magic_check_test.cpp` | Check() |
+| `magic_version_test.cpp` | GetVersion() |
+| `magic_special_members_test.cpp` | Copy, move, assignment |
+| `magic_progress_tracker_test.cpp` | ProgressTracker |
+| `magic_percentage_test.cpp` | Percentage utility class |
+| `magic_to_string_test.cpp` | ToString() functions |
 
-    Ensure that your changes do not break any existing tests. If you are adding new features or fixing bugs, add the necessary unit tests to cover your changes.
+### Test Structure Template
 
-4. **Format Code**:
+```cpp
+/* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
+/* SPDX-License-Identifier: LGPL-3.0-only */
 
-    Ensure your code is properly formatted using the CMake workflow preset `format-source-code`:
+/**
+ * @file magic_yourfeature_test.cpp
+ * @brief Unit tests for YourFeature functionality.
+ *
+ * Tests cover:
+ * - Normal operation scenarios
+ * - Error handling (exceptions and noexcept variants)
+ * - Edge cases
+ *
+ * @see Magic::YourFeature()
+ */
 
-    ```bash
-    ./scripts/workflows.sh -p format-source-code
-    ```
+#include <gtest/gtest.h>
+#include "magic.hpp"
 
-5. **Update the Changelog**:
+using namespace Recognition;
 
-    Add a summary of your changes to the `CHANGELOG.md` file under the appropriate section (e.g., Next Release). This helps keep track of all improvements, bug fixes, and new features for each release.
+/**
+ * @brief Test fixture for YourFeature tests.
+ */
+struct MagicYourFeatureTest : testing::Test {
+protected:
+    // Setup code runs before each test
+    MagicYourFeatureTest()
+    {
+        // Initialize test fixtures
+    }
+    
+    // Members available to all tests
+    Magic m_valid_magic{Magic::Flags::Mime};
+    Magic m_closed_magic;  // Default-constructed = closed
+};
+
+// Test naming: snake_case describing the scenario
+TEST_F(MagicYourFeatureTest, returns_expected_value_for_valid_input)
+{
+    // Arrange
+    auto input = /* ... */;
+    
+    // Act
+    auto result = m_valid_magic.YourFeature(input);
+    
+    // Assert
+    EXPECT_EQ(result, expected_value);
+}
+
+TEST_F(MagicYourFeatureTest, throws_exception_when_magic_is_closed)
+{
+    EXPECT_THROW(m_closed_magic.YourFeature(), MagicException);
+}
+
+TEST_F(MagicYourFeatureTest, noexcept_variant_returns_nullopt_when_closed)
+{
+    auto result = m_closed_magic.YourFeature(std::nothrow);
+    EXPECT_FALSE(result.has_value());
+}
+```
+
+### Running Specific Tests
+
+```bash
+# Run all tests
+./build/tests/magicxx_tests
+
+# Run tests matching a pattern
+./build/tests/magicxx_tests --gtest_filter="MagicFlagsTest.*"
+
+# Run a specific test
+./build/tests/magicxx_tests --gtest_filter="MagicFlagsTest.set_flags_returns_true_for_valid_magic"
+
+# List all tests without running
+./build/tests/magicxx_tests --gtest_list_tests
+```
+
+---
+
+## Writing Documentation
+
+### Doxygen Comments for Public API
+
+Every public class, method, and type must have Doxygen documentation:
+
+```cpp
+/**
+ * @brief Identify the type of a file by examining its contents.
+ *
+ * Uses the magic database to determine the file type based on
+ * content analysis rather than file extension.
+ *
+ * @param[in] file Path to the file to identify.
+ *
+ * @return The identified file type as a string (format depends on flags).
+ *
+ * @throws MagicException If magic is not valid or file cannot be read.
+ * @throws std::filesystem::filesystem_error If path is invalid.
+ *
+ * @pre IsValid() returns true.
+ * @post Return value is non-empty on success.
+ *
+ * @code{.cpp}
+ * Magic magic{Magic::Flags::Mime};
+ * auto type = magic.IdentifyFile("/path/to/file");
+ * std::println("Type: {}", type);  // "application/pdf; charset=binary"
+ * @endcode
+ *
+ * @see IdentifyFiles() for batch identification.
+ * @see Flags::Mime, Flags::MimeType, Flags::MimeEncoding
+ *
+ * @since 10.0.0
+ */
+[[nodiscard]] FileTypeT IdentifyFile(const std::filesystem::path& file) const;
+```
+
+### The `@since` Tag
+
+The `@since` tag documents which version introduced the **exact symbol name**. This is important because users looking at documentation should be able to find the same symbol in the specified version.
+
+**Rules for `@since` tags:**
+
+1. **New API**: Use the upcoming release version (e.g., `@since 10.0.0`)
+
+2. **Renamed API (breaking change)**: Update to the new version. If you rename `identify_file()` to `IdentifyFile()`, change `@since 5.0.0` to `@since 10.0.0` because a user going back to v5.0.0 won't find `IdentifyFile()`.
+
+3. **Unchanged API**: Keep the original `@since` tag.
+
+**Example — Renaming a method:**
+
+```cpp
+// Before (v9.x): @since 5.0.0 for identify_file()
+// After (v10.0.0): @since 10.0.0 for IdentifyFile()
+
+/**
+ * @brief Identify the type of a file.
+ * @since 10.0.0
+ */
+[[nodiscard]] FileTypeT IdentifyFile(const std::filesystem::path& file) const;
+```
+
+### Building Documentation
+
+```bash
+./scripts/workflows.sh -p documentation
+```
+
+The generated documentation site is located at `./build/documentation/html/index.html`. Open this file in your web browser to view the API documentation.
+
+---
+
+## Build and Test Commands
+
+### Available Workflow Presets
+
+Use `./scripts/workflows.sh -l` to see the full list. Key presets for contributors:
+
+#### Utility Presets
+
+| Preset | Description |
+|--------|-------------|
+| **`documentation`** | Generate Doxygen documentation |
+| **`format-source-code`** | Format all source files |
+| **`generate-source-package`** | Generate source package |
+| **`generate-default-database-files`** | Generate default database files |
+
+#### Linux Build Presets (Development Container)
+
+| Preset | Description |
+|--------|-------------|
+| **`linux-x86_64-clang`** | Build libraries (Clang, Release) |
+| **`linux-x86_64-gcc`** | Build libraries (GCC, Release) |
+| **`linux-x86_64-clang-debug`** | Build libraries (Clang, Debug) |
+| **`linux-x86_64-gcc-debug`** | Build libraries (GCC, Debug) |
+| **`linux-x86_64-clang-tests`** | Build + run tests (Clang, Release) |
+| **`linux-x86_64-gcc-tests`** | Build + run tests (GCC, Release) |
+| **`linux-x86_64-clang-tests-debug`** | Build + run tests (Clang, Debug) |
+| **`linux-x86_64-gcc-tests-debug`** | Build + run tests (GCC, Debug) |
+| **`linux-x86_64-clang-examples`** | Build examples (Clang, Release) |
+| **`linux-x86_64-gcc-examples`** | Build examples (GCC, Release) |
+| **`linux-x86_64-clang-examples-debug`** | Build examples (Clang, Debug) |
+| **`linux-x86_64-gcc-examples-debug`** | Build examples (GCC, Debug) |
+| **`linux-x86_64-clang-packages`** | Build packages (Clang, Release) |
+| **`linux-x86_64-gcc-packages`** | Build packages (GCC, Release) |
+
+#### Windows Build Presets (Cross-compilation)
+
+| Preset | Description |
+|--------|-------------|
+| **`windows-x86_64-clang`** | Build libraries (Clang, Release) |
+| **`windows-x86_64-mingw64`** | Build libraries (MinGW64, Release) |
+| **`windows-x86_64-clang-debug`** | Build libraries (Clang, Debug) |
+| **`windows-x86_64-mingw64-debug`** | Build libraries (MinGW64, Debug) |
+| **`windows-x86_64-clang-tests`** | Build + run tests (Clang, Release) |
+| **`windows-x86_64-mingw64-tests`** | Build + run tests (MinGW64, Release) |
+| **`windows-x86_64-clang-tests-debug`** | Build + run tests (Clang, Debug) |
+| **`windows-x86_64-mingw64-tests-debug`** | Build + run tests (MinGW64, Debug) |
+| **`windows-x86_64-clang-examples`** | Build examples (Clang, Release) |
+| **`windows-x86_64-mingw64-examples`** | Build examples (MinGW64, Release) |
+| **`windows-x86_64-clang-examples-debug`** | Build examples (Clang, Debug) |
+| **`windows-x86_64-mingw64-examples-debug`** | Build examples (MinGW64, Debug) |
+| **`windows-x86_64-clang-packages`** | Build packages (Clang, Release) |
+| **`windows-x86_64-mingw64-packages`** | Build packages (MinGW64, Release) |
+
+### Common Commands
+
+```bash
+# List all available presets
+./scripts/workflows.sh -l
+
+# Build and test with cache clearing (recommended for clean builds)
+./scripts/workflows.sh -p linux-x86_64-clang-tests -c
+
+# Build and test without clearing cache (faster incremental builds)
+./scripts/workflows.sh -p linux-x86_64-clang-tests
+
+# Build and run examples (examples are executed automatically)
+./scripts/workflows.sh -p linux-x86_64-clang-examples
+
+# Direct CMake workflow (alternative to scripts/workflows.sh)
+cmake --workflow --preset linux-x86_64-clang-tests
+```
+
+---
+
+## Debugging
+
+### Debug Build
+
+```bash
+# Build with debug symbols
+./scripts/workflows.sh -p linux-x86_64-clang-tests-debug -c
+```
+
+### Using VS Code Debugger
+
+The project includes pre-configured debug launchers in `.vscode/launch.json`:
+
+1. Install the **LLDB DAP** extension (for LLDB) or **C/C++ Extension Pack** (for GDB)
+2. Build with debug symbols: `./scripts/workflows.sh -p linux-x86_64-clang-tests-debug -c`
+3. Open the **Run and Debug** panel (`Ctrl+Shift+D`)
+4. Select a launch configuration:
+   - **GDB Debug** — Debug using GDB
+   - **LLDB Debug** — Debug using LLDB
+5. Set breakpoints in your code
+6. Press **F5** to start debugging
+
+> 💡 **Tip**: The debugger uses CMake's launch target. Select your target (e.g., `magicxx_tests`) from the CMake Tools status bar before debugging.
+
+---
 
 ## Creating a Pull Request
 
-+ Each pull request must fix an existing issue. Please ensure that there is a linked issue or create a new issue before submitting your pull request.
+### Before Submitting
 
-+ Create a pull request to the `main` branch if your change is scheduled for the next feature release. If you are fixing an issue for a supported release, create a pull request to the supported release branch (e.g., `v5.2.x`) and also the `main` branch.
+Complete this checklist:
 
-+ Use the following naming conventions for your pull request title:
-    + For bug fixes: `[BUGFIX] Brief Description, Fixes issue #????.`
-    + For documentation changes: `[DOCUMENTATION] Brief Description, Fixes issue #????.`
-    + For enhancements: `[ENHANCEMENT] Brief Description, Fixes issue #????.`
-    + For code quality improvements: `[QUALITY] Brief Description, Fixes issue #????.`
+- [ ] Branch created from `main` (or release branch for bugfix)
+- [ ] Code follows [STYLE_GUIDE.md](STYLE_GUIDE.md)
+- [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
+- [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
+- [ ] New tests added for new functionality
+- [ ] Doxygen comments added for new public APIs
+- [ ] CHANGELOG.md updated
+- [ ] Linked to an existing issue (or created one)
 
-+ Fill the [PULL_REQUEST_TEMPLATE.md](https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md).
+### Push Your Changes
+
+⚠️ **Important**: Git operations (`push`, `pull`, `fetch`) don't work inside the container. Use your **host VS Code window** for git operations.
+
+> **Why?** The container doesn't have access to your SSH keys or git credentials configured on your host machine. These are intentionally not shared for security reasons.
+
+**Recommended workflow:**
+
+1. **Keep your original VS Code window open** (the one you used before attaching to the container)
+2. **Develop** in the container-connected VS Code window
+3. **When ready to push**, switch back to your original VS Code window (host)
+4. **Push from the host** using VS Code's **Source Control panel** (Ctrl+Shift+G) or the integrated terminal
+
+```bash
+# Or use the terminal in the host VS Code window:
+cd libmagicxx
+git add .
+git commit -m "Brief description of changes"
+git push origin your-branch-name
+```
+
+### Create the Pull Request
+
+1. Go to your fork on GitHub
+2. Click **"Compare & pull request"**
+3. Fill in the [PR template](PULL_REQUEST_TEMPLATE.md) — it includes a checklist and description section
+
+### PR Title Format
+
+```
+[BUGFIX] Fix null pointer crash in IdentifyFile, Fixes issue #123.
+[ENHANCEMENT] Add buffer identification support, Fixes issue #456.
+[DOCUMENTATION] Improve README examples, Fixes issue #789.
+[QUALITY] Refactor error handling for consistency, Fixes issue #012.
+```
+
+---
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please create an issue on the [GitHub Issues](https://github.com/oguztoraman/libmagicxx/issues) page. Provide as much detail as possible to help us understand and address the issue.
+### Before Creating an Issue
 
-## How to Create an Issue
+1. Search existing issues to avoid duplicates
+2. Check if it's already fixed in `main` branch
 
-1. Add a title summarizing the issue.
+### Issue Templates
 
-2. Fill the issue template.
+When creating an issue, use the appropriate template:
 
-## Continuous Integration (CI)
+- **Bug Report**: For reporting bugs
+- **Feature Request**: For suggesting new features
+- **Documentation**: For documentation improvements
+- **Code Quality**: For code quality or style issues
 
-Our CI pipeline runs automated tests and checks on each pull request to ensure code quality and correctness.
+### Tips for Good Reports
+
+- **Be specific**: Include exact steps to reproduce, error messages, and system information
+- **Provide context**: Explain what you were trying to accomplish
+- **Include versions**: Libmagicxx version, compiler, OS
+- **Attach logs**: Stack traces, build output, or screenshots if relevant
+
+The issue templates will guide you through providing all necessary information.
+
+---
 
 ## Review Process
 
-1. **Initial Review**:
+### What Reviewers Look For
 
-    + Once you submit a pull request, it will be reviewed by one or more project maintainers.
+1. **Correctness**: Does the code work as intended?
+2. **Tests**: Are there adequate tests?
+3. **Style**: Does it follow STYLE_GUIDE.md?
+4. **Documentation**: Are public APIs documented?
+5. **ABI Stability**: Do changes break binary compatibility?
 
-    + The maintainers will check if the pull request follows the contribution guidelines, including coding standards, documentation, and testing.
+### Responding to Feedback
 
-2. **Feedback and Revisions**:
+1. Address each comment
+2. Push new commits (don't force-push during review)
+3. Reply to comments explaining your changes
+4. Request re-review when ready
 
-    + If the maintainers find any issues or have suggestions, they will provide feedback on the pull request.
+### After Merge
 
-    + You are expected to address the feedback by making the necessary changes and updating the pull request.
+- The CI will run final checks
+- Your changes appear in the next release
+- You'll be credited in the release notes
 
-3. **Approval and Merging**:
+---
 
-    + Once the maintainers are satisfied with the changes, they will approve the pull request.
+## Troubleshooting
 
-    + The pull request will then be merged into the appropriate branch (`main` or a supported release branch).
+### Container Won't Start
 
-4. **Post-Merge**:
+```bash
+# Check if Podman is running
+podman ps
 
-    + After merging, the CI pipeline will run automated tests to ensure that the changes do not introduce any new issues.
+# Remove old container and rebuild
+podman rm -f libmagicxx_dev_env
+python ./scripts/launch_container.py -u
+```
 
-    + If any issues are found, they will be addressed promptly.
+### Build Fails with "No such file"
+
+```bash
+# Reinitialize the project (rebuilds external dependencies)
+./scripts/initialize.sh
+```
+
+### Tests Fail After Pulling Latest Changes
+
+```bash
+# Clean build from scratch
+./scripts/workflows.sh -p linux-x86_64-clang-tests -c
+```
+
+### Git Push Fails from Container
+
+Git operations (`push`, `pull`, `fetch`) don't work inside the container. **Exit the container first**, then run git commands on your host machine.
+
+### Clangd Shows Wrong Errors
+
+```bash
+# Regenerate compile_commands.json
+./scripts/workflows.sh -p linux-x86_64-clang -c
+```
+
+### Code Formatting Changes Unexpected Files
+
+Only your changes should be formatted. If formatting touches many files, someone may have committed unformatted code. Format and commit separately:
+
+```bash
+./scripts/workflows.sh -p format-source-code
+git add .
+git commit -m "Format code"
+```
+
+---
+
+## FAQ
+
+### Q: Do I need to sign a CLA?
+
+No, we don't require a Contributor License Agreement. By submitting a PR, you agree your contributions are licensed under LGPL v3.
+
+### Q: Can I work on multiple issues at once?
+
+Yes, create separate branches for each issue.
+
+### Q: How long until my PR is reviewed?
+
+We aim to review PRs within a few days. Complex changes may take longer.
+
+### Q: What if CI fails?
+
+Check the CI logs on GitHub. Common issues:
+- Formatting: Run `./scripts/workflows.sh -p format-source-code`
+- Test failures: Run tests locally and fix
+- Build errors: Check compiler output
+
+### Q: What C++ standard is required?
+
+C++23. All code must compile with GCC 14+ and Clang 19+.
+
+### Q: How do I add a new CMake option?
+
+1. Add to `cmake/options.cmake`
+2. Follow conventions in `cmake/STYLE_GUIDE.md`
+3. Document in README.md
+
+### Q: What if I need help?
+
+- Check existing issues and discussions
+- Create a new issue with the "question" label
+- Be specific about what you're trying to do
+
+---
 
 ## Thank You
 
-Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone.
+Thank you for contributing to Libmagicxx! Your efforts help improve the project for everyone. Every contribution, no matter how small, is appreciated.
+
+Happy coding! 🎉

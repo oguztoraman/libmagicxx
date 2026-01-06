@@ -1,6 +1,27 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_identify_file_test.cpp
+ * @brief Unit tests for Magic::IdentifyFile() method.
+ *
+ * Tests single file identification functionality including:
+ * - Throwing and noexcept overloads
+ * - Various Magic states (closed, opened without database, valid)
+ * - Error conditions (empty path, non-existent path, etc.)
+ *
+ * @section identify_file_test_states Magic States Tested
+ *
+ * | State | Description |
+ * |-------|-------------|
+ * | Closed | Default-constructed, not opened |
+ * | Opened without database | Open() called but not LoadDatabaseFile() |
+ * | Valid | Both Open() and LoadDatabaseFile() successful |
+ *
+ * @see Magic::IdentifyFile()
+ * @see Magic::ExpectedFileTypeT
+ */
+
 #include <gtest/gtest.h>
 
 #include "magic.hpp"

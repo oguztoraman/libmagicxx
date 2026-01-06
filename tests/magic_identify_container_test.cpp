@@ -1,6 +1,34 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_identify_container_test.cpp
+ * @brief Unit tests for Magic::IdentifyFiles() with file containers.
+ *
+ * Tests container-based file identification functionality where
+ * a collection of file paths is passed for batch identification.
+ *
+ * @section identify_container_test_fixtures Test Fixture Setup
+ *
+ * The test fixture creates:
+ * - A temporary directory
+ * - Test files (text and binary)
+ * - Various container types (empty, with empty paths, with valid paths)
+ *
+ * @section identify_container_test_cases Test Case Categories
+ *
+ * | Category | Description |
+ * |----------|-------------|
+ * | Empty container | No files to identify |
+ * | Empty paths | Container with empty path entries |
+ * | Non-existent paths | Container with paths that don't exist |
+ * | Valid container | Container with existing, readable files |
+ * | Progress tracking | Container identification with tracker |
+ *
+ * @see Magic::IdentifyFiles()
+ * @see Utility::FileContainer concept
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

@@ -1,6 +1,29 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_percentage_test.cpp
+ * @brief Unit tests for Utility::Percentage class.
+ *
+ * Tests the Percentage value type that represents clamped
+ * percentage values in the range [0, 100].
+ *
+ * @section percentage_test_cases Test Cases
+ *
+ * | Test Case | Description |
+ * |-----------|-------------|
+ * | default_constructor | Default constructs to 0% |
+ * | value_constructor_in_range | Values 0-100 are preserved |
+ * | value_constructor_out_of_range | Values are clamped to [0, 100] |
+ * | set_in_range | Set() with valid values |
+ * | set_out_of_range | Set() clamps out-of-range values |
+ * | steps_constructor_normal | Construction from completed/total |
+ * | steps_constructor_zero_total | Division by zero is handled |
+ * | to_string | ToString() returns "N%" format |
+ *
+ * @see Utility::Percentage
+ */
+
 #include <gtest/gtest.h>
 
 #include "percentage.hpp"

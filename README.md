@@ -1,230 +1,471 @@
-# Libmagicxx
+<p align="center">
+  <h1 align="center">✨ Libmagicxx ✨</h1>
+  <p align="center">
+    <strong>A Modern C++23 Wrapper for libmagic</strong>
+  </p>
+  <p align="center">
+    <em>Bringing the power of the Unix <code>file</code> command to modern C++</em>
+  </p>
+</p>
 
-[![Latest Release](https://img.shields.io/github/v/release/oguztoraman/libmagicxx?label=release)](https://github.com/oguztoraman/libmagicxx/releases/latest)
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-[![C++ Standard: C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
-[![Downloads](https://img.shields.io/github/downloads/oguztoraman/libmagicxx/total)](https://github.com/oguztoraman/libmagicxx/releases/latest)
+<p align="center">
+  <a href="https://github.com/oguztoraman/libmagicxx/releases/latest">
+    <img src="https://img.shields.io/github/v/release/oguztoraman/libmagicxx?label=release&style=for-the-badge&color=success" alt="Latest Release">
+  </a>
+  <a href="https://www.gnu.org/licenses/lgpl-3.0">
+    <img src="https://img.shields.io/badge/License-LGPL%20v3-blue.svg?style=for-the-badge" alt="License: LGPL v3">
+  </a>
+  <a href="https://en.cppreference.com/w/cpp/23">
+    <img src="https://img.shields.io/badge/C%2B%2B-23-blue.svg?style=for-the-badge" alt="C++ Standard: C++23">
+  </a>
+  <a href="https://github.com/oguztoraman/libmagicxx/releases/latest">
+    <img src="https://img.shields.io/github/downloads/oguztoraman/libmagicxx/total?style=for-the-badge&color=blueviolet" alt="Downloads">
+  </a>
+</p>
 
-**Libmagicxx** is a C++ wrapper library over the [Magic Number Recognition Library](https://github.com/file/file#readme-for-file1-command-and-the-libmagic3-library). It provides an easy-to-use interface through the `magic` class, enabling the *identification of file types* based on their content rather than file extensions.
+<p align="center">
+  <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml">
+    <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg" alt="Linux GCC">
+  </a>
+  <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml">
+    <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg" alt="Linux Clang">
+  </a>
+  <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml">
+    <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg" alt="Windows MinGW64">
+  </a>
+  <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml">
+    <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml/badge.svg" alt="Windows Clang">
+  </a>
+</p>
 
-## Table of Contents
-+ [Key Features](#key-features)
-+ [Supported Platforms](#supported-platforms)
-+ [Project Status](#project-status)
-+ [Code Quality](#code-quality)
-+ [Quick Start](#quick-start)
-+ [Downloading Libmagicxx](#downloading-libmagicxx)
-+ [Installing Libmagicxx](#installing-libmagicxx)
-+ [Using Libmagicxx with CMake](#using-libmagicxx-with-cmake)
-+ [Magic States](#magic-states)
-+ [Libmagicxx CMake Package Variables](#libmagicxx-cmake-package-variables)
-+ [Examples](#examples)
-+ [Documentation](#documentation)
-+ [Uninstalling Libmagicxx](#uninstalling-libmagicxx)
-+ [Contributing](#contributing)
-+ [Security](#security)
-+ [Source Code](#source-code)
-+ [License](#license)
-+ [Disclaimer](#disclaimer)
+<p align="center">
+  <a href="https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard">
+    <img src="https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240" alt="Codacy Badge">
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status" alt="Quality Gate Status">
+  </a>
+</p>
 
-## Key Features
+---
 
-+ **Modern C++ (C++23)**: Utilizes modern C++ standards and features, ensuring clean, efficient, and maintainable code.
-+ **High-Level API**: Provides a simple and intuitive high-level API for easy integration and use.
-+ **Simple Integration with CMake**: Easily integrate file type recognition into your CMake-based C++ projects.
-+ **Cross Platform**: Compatible with both Windows and Linux, ensuring broad usability and flexibility in various development environments.
-+ **Comprehensive Documentation**: Detailed documentation and examples to help you get started quickly and effectively.
+**Libmagicxx** is a modern C++23 wrapper library for the battle-tested [libmagic](https://github.com/file/file) — the same library that powers the Unix `file` command used by millions of developers worldwide. Rather than reinventing the wheel, libmagicxx brings libmagic's decades of file type detection expertise into the modern C++ ecosystem with an elegant, type-safe interface.
 
-## Supported Platforms
+### What libmagicxx adds to libmagic:
 
-+ Linux (x86_64)
-+ Windows (x86_64)
+| libmagic (C API) | libmagicxx (C++23 Wrapper) |
+|------------------|----------------------------|
+| Manual resource management | RAII with automatic cleanup |
+| Error codes and global state | `std::expected` and exceptions |
+| Raw C strings | `std::string` and `std::string_view` |
+| Procedural API | Object-oriented `Magic` class |
+| No type safety | Strong typing with concepts |
+| Manual flag handling | Type-safe `Flags` and `Parameters` enums |
+| Single file identification | Batch directory and container identification |
+| No progress feedback | Built-in progress tracking for batch operations |
+| Manual state checking | `IsOpen()`, `IsDatabaseLoaded()`, `IsValid()` queries |
+| One parameter at a time | Bulk `GetParameters()` / `SetParameters()` |
 
-## Project Status
+> 🔍 **Why a wrapper?** libmagic is the gold standard for content-based file detection, maintained for decades and used in countless production systems. Libmagicxx doesn't replace it—it makes it accessible to modern C++ developers with the safety and ergonomics they expect.
 
-![Linux GCC](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_gcc.yml/badge.svg) ![Linux Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_and_test_linux_clang.yml/badge.svg) ![Windows MinGW64](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_mingw64.yml/badge.svg) ![Windows Clang](https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml/badge.svg)
+---
 
-## Code Quality
+## 📋 Table of Contents
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e7067c7f0a87475c8f0ceda254b9a240)](https://app.codacy.com/gh/oguztoraman/libmagicxx/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oguztoraman_libmagicxx)
+- [Why Use Libmagicxx?](#-why-use-libmagicxx)
+- [What Libmagicxx Adds](#-what-libmagicxx-adds)
+- [Supported Platforms](#-supported-platforms)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Usage with CMake](#-usage-with-cmake)
+- [Magic States](#-magic-states)
+- [CMake Package Variables](#-cmake-package-variables)
+- [Examples](#-examples)
+- [Documentation](#-documentation)
+- [Contributing](#-contributing)
+- [Security](#-security)
+- [License](#-license)
 
-## Quick Start
+---
 
-1. Download the latest release from the [GitHub Releases page](https://github.com/oguztoraman/libmagicxx/releases/latest).
+## 🎯 Why Use Libmagicxx?
 
-2. Install the package for your platform (see instructions below).
+**You need libmagic's capabilities, but want modern C++:**
 
-3. Link Libmagicxx in your CMake project (see usage instructions below).
+| Your Need | Libmagicxx Solution |
+|-----------|----------|
+| 🔒 **Security** | Use libmagic's proven detection to validate file uploads |
+| 🎨 **Media Processing** | Route files to correct handlers based on true content type |
+| 📁 **File Management** | Leverage decades of magic database refinements |
+| ⚡ **Developer Experience** | Write idiomatic C++23 instead of C-style code |
+| 🛡️ **Safety** | Automatic resource management prevents leaks and errors |
 
-## Downloading Libmagicxx
+---
 
-You can download the latest release packages and source code directly from the [GitHub Releases page](https://github.com/oguztoraman/libmagicxx/releases).
+## ✨ What Libmagicxx Adds
 
-+ **[Latest Release](https://github.com/oguztoraman/libmagicxx/releases/latest)**: Download the most recent version of Libmagicxx, including pre-built packages for Linux and Windows, as well as the source code archive.
-+ **[All Releases](https://github.com/oguztoraman/libmagicxx/releases)**: Browse and download previous versions.
+<table>
+<tr>
+<td width="50%">
 
-After downloading, follow the installation instructions below for your platform.
+### 🚀 Modern C++23 Interface
+Wraps libmagic's C API with modern features:
+- `std::expected` for elegant error handling
+- Concepts and constraints for type safety
+- RAII for automatic resource management
 
-## Installing Libmagicxx
+</td>
+<td width="50%">
 
-**For Debian-based Linux distributions**: Use the `apt` command to install the `.deb` package.
-
-```bash
-sudo apt install libmagicxx-<version>-linux-x86_64.deb
+### 🎯 High-Level API
+Clean, intuitive interface:
+```cpp
+Magic magic{Magic::Flags::Mime};
+auto type = magic.IdentifyFile("document.pdf");
+// Returns: "application/pdf"
 ```
 
-**For Red Hat-based Linux distributions**: Use the `dnf` command to install the `.rpm` package.
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-```bash
-sudo dnf install libmagicxx-<version>-linux-x86_64.rpm
+### 📦 CMake Integration
+First-class CMake support:
+```cmake
+find_package(Magicxx REQUIRED)
+target_link_libraries(app Recognition::Magicxx)
 ```
 
-**For Windows**: Install the `libmagicxx-<version>-windows-x86_64.exe` package provided by the NSIS installer. Run the installer and follow the on-screen instructions to complete the installation.
+</td>
+<td width="50%">
 
-## Using Libmagicxx with CMake
+### 🌍 Cross-Platform
+- ✅ Linux (x86_64) — GCC & Clang
+- ✅ Windows (x86_64) — MinGW & Clang
+- 📦 DEB, RPM, and NSIS installers
 
-Libmagicxx is designed to be easily integrated into CMake-based projects. To use Libmagicxx in your project after installation, follow these steps:
+</td>
+</tr>
+</table>
 
-1. Add the following lines to the top level `CMakeLists.txt` file of your project to include and link Libmagicxx.
+### Why Use the Wrapper?
 
-    ```cmake
-    find_package(Magicxx REQUIRED)
+- 📚 **libmagic Power** — Access libmagic features through a clean C++ interface
+- 🛡️ **Memory Safe** — No manual `magic_open`/`magic_close` calls to forget
+- 🧪 **Extensively Tested** — 600+ unit tests (shared and static libs tested independently)
+- 🔧 **Flexible Configuration** — All 30 libmagic flags exposed as type-safe enums
+- 📊 **Progress Tracking** — Shared progress tracker for monitoring batch operations
+- 🗃️ **Database Support** — Easy loading of custom magic definition files
 
-    target_link_libraries(<name of your project>
-        <PUBLIC or PRIVATE or INTERFACE> <Recognition::Magicxx or Recognition::MagicxxStatic>
-    )
-    ```
+---
 
-2. Include the `magic.hpp` header file in your source files. Below is an example code snippet that demonstrates how to print the MIME type of the default database file using the `magic` class.
+## �� Supported Platforms
 
-    ```cpp
-    #include <print>
-    #include <iostream>
-    #include <magic.hpp>
+| Platform | Architecture | Compilers | Package Formats |
+|----------|--------------|-----------|-----------------|
+| 🐧 **Linux** | x86_64 | GCC 14+, Clang 19+ | `.deb`, `.rpm` |
+| 🪟 **Windows** | x86_64 | MinGW-w64, Clang | `.exe` (NSIS) |
 
-    auto main(int, char**) -> int
-    {
-        using namespace recognition;
-        magic m{magic::flags::mime};
-        std::println(std::cout, "{}", m.identify_file(magic::default_database_file));
-        // possible output: text/x-file; charset=us-ascii
-    }
-    ```
+---
 
-## Magic States
+## 🚀 Quick Start
 
-Libmagicxx's `magic` class can be in several states, which affect its usability:
-
-### 1. Closed Magic
-
-+ The magic is considered closed if it has not been opened or has been explicitly closed using the `close()` method.
-
-+ In this state, it cannot be used for file type identification.
-
-+ Methods that require an open magic (e.g., `identify_file`, `get_flags`, etc.) will throw or return errors if called.
-
-+ `is_open()` returns false.
-
-+ `is_database_loaded()` returns false.
-
-+ `is_valid()` returns false.
-
-### 2. Opened Magic Without Database
-
-+ The magic is open (after `open()`), but no database file has been loaded via `load_database_file()`.
-
-+ In this state, it is not valid for file type identification.
-
-+ Methods that require a loaded database (e.g., `identify_file`) will throw or return errors if called.
-
-+ `is_open()` returns true.
-
-+ `is_database_loaded()` returns false.
-
-+ `is_valid()` returns false.
-
-### 3. Valid Magic
-
-+ The magic is valid if it is open and a magic database file has been successfully loaded.
-
-+ In this state, it can be used for file type identification.
-
-+ `is_open()` returns true.
-
-+ `is_database_loaded()` returns true.
-
-+ `is_valid()` returns true.
-
-## Libmagicxx CMake Package Variables
-
-Below is a table describing the variables provided by Libmagicxx CMake package:
-
-| Variable                        | Description                                           |
-|---------------------------------|-------------------------------------------------------|
-| `MAGICXX_FOUND`                 | Indicates if Libmagicxx was found by CMake.           |
-| `MAGICXX_VERSION`               | The version of the installed Libmagicxx package.      |
-| `MAGICXX_SHARED_LIB_AVAILABLE`  | Whether the shared library is available.              |
-| `MAGICXX_STATIC_LIB_AVAILABLE`  | Whether the static library is available.              |
-| `MAGICXX_INCLUDE_DIR`           | Path to the Libmagicxx include directory.             |
-| `MAGICXX_LIB_DIR`               | Path to the Libmagicxx library directory.             |
-| `MAGICXX_LICENSE_DIR`           | Path to the Libmagicxx license directory.             |
-| `MAGICXX_DOC_DIR`               | Path to the Libmagicxx documentation directory.       |
-| `MAGICXX_CMAKE_DIR`             | Path to the Libmagicxx CMake configuration directory. |
-| `MAGICXX_DEFAULT_DATABASE_DIR`  | Path to the default database directory of Libmagicxx. |
-
-Note: `MAGICXX_DOC_DIR` may be empty if the documentation is not installed.
-
-## Examples
-
-For more examples, refer to the [examples directory](https://github.com/oguztoraman/libmagicxx/tree/main/examples).
-
-## Documentation
-
-For comprehensive guides, API references, and detailed information, visit the [Libmagicxx Documentation Site](https://oguztoraman.github.io/libmagicxx/).
-
-## Uninstalling Libmagicxx
-
-**For Debian-based Linux distributions**: Use the `apt` command to remove the installed `.deb` package.
+Get up and running in under a minute:
 
 ```bash
-sudo apt remove libmagicxx
+# 1. Download the latest release for your platform
+#    → https://github.com/oguztoraman/libmagicxx/releases/latest
+
+# 2. Install (Linux example)
+sudo apt install ./libmagicxx-*-linux-x86_64.deb   # Debian/Ubuntu
+sudo dnf install ./libmagicxx-*-linux-x86_64.rpm   # Fedora/RHEL
+
+# 3. Use in your project (see CMake integration below)
 ```
 
-**For Red Hat-based Linux distributions**: Use the `dnf` command to remove the installed `.rpm` package.
+---
+
+## 📥 Installation
+
+<details>
+<summary><b>🐧 Debian/Ubuntu (APT)</b></summary>
 
 ```bash
-sudo dnf remove libmagicxx
+sudo apt install ./libmagicxx-<version>-linux-x86_64.deb
 ```
 
-**For Windows**: Use the uninstaller provided by the NSIS installer. Navigate to the "Add or Remove Programs" section in the Control Panel, find `libmagicxx`, and click "Uninstall."
+</details>
 
-## Contributing
+<details>
+<summary><b>🐧 Fedora/RHEL (DNF)</b></summary>
 
-We welcome contributions of all kinds, including bug fixes, feature requests, documentation improvements, and code enhancements. Please see the [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md) file for detailed guidelines on how to contribute or build Libmagicxx from source.
+```bash
+sudo dnf install ./libmagicxx-<version>-linux-x86_64.rpm
+```
 
-## Security
+</details>
 
-For information on reporting security vulnerabilities, please see the [SECURITY.md](https://github.com/oguztoraman/libmagicxx/blob/main/SECURITY.md) file.
+<details>
+<summary><b>🪟 Windows (NSIS Installer)</b></summary>
 
-## Source Code
+1. Download `libmagicxx-<version>-windows-x86_64.exe`
+2. Run the installer
+3. Follow the on-screen instructions
+4. Add the installation directory to your `PATH` if needed
 
-Explore the source code of Libmagicxx on [GitHub](https://github.com/oguztoraman/libmagicxx).
+</details>
 
-## License
+<details>
+<summary><b>🔧 Build from Source</b></summary>
 
-Libmagicxx is licensed under the GNU Lesser General Public License Version 3. For more details, see the [COPYING.LESSER](https://github.com/oguztoraman/libmagicxx/blob/main/COPYING.LESSER) file.
+```bash
+git clone https://github.com/oguztoraman/libmagicxx.git
+cd libmagicxx
+python ./scripts/launch_container.py
+./scripts/initialize.sh
+./scripts/workflows.sh -p linux-x86_64-clang -c
+```
 
-### Other Licenses
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
-+ File and the Magic Number Recognition Library: See the [COPYING](https://github.com/file/file/blob/master/COPYING) file.
+</details>
 
-+ GoogleTest: See the [LICENSE](https://github.com/google/googletest/blob/main/LICENSE) file.
+📦 **Download:** [Latest Release](https://github.com/oguztoraman/libmagicxx/releases/latest) | [All Releases](https://github.com/oguztoraman/libmagicxx/releases)
 
-+ Libgnurx: See the [LICENSE](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) file.
+---
 
-## Disclaimer
+## 🔧 Usage with CMake
 
-This project is a personal hobby project developed in my own time and with my own resources.
-It is not affiliated with, endorsed by, or created on behalf of any employer, company, or organization.
-No proprietary or confidential information belonging to any employer or third party was used in its development.
-This project is not intended for any commercial purpose, income generation, or professional service.
+### Step 1: Link the Library
+
+Add to your `CMakeLists.txt`:
+
+```cmake
+find_package(Magicxx REQUIRED)
+
+target_link_libraries(your_project
+    PRIVATE Recognition::Magicxx        # Shared library
+    # or
+    PRIVATE Recognition::MagicxxStatic  # Static library
+)
+```
+
+### Step 2: Identify Files
+
+```cpp
+#include <print>
+#include <iostream>
+#include <magic.hpp>
+
+int main()
+{
+    using namespace Recognition;
+
+    // Create a Magic instance with MIME type detection
+    Magic magic{Magic::Flags::Mime};
+
+    // Identify a file's type
+    auto result = magic.IdentifyFile("mystery_file");
+    std::println(std::cout, "File type: {}", result);
+    // Example output: "application/pdf; charset=binary"
+}
+```
+
+### Step 3: Advanced Usage
+
+```cpp
+#include <magic.hpp>
+#include <future>
+#include <thread>
+
+using namespace Recognition;
+using namespace std::chrono_literals;
+
+// Combine multiple flags for detailed output
+Magic detailed{
+    Magic::Flags::MimeType |
+    Magic::Flags::MimeEncoding |
+    Magic::Flags::ContinueSearch
+};
+
+// Use custom database
+Magic custom{Magic::Flags::None};
+custom.LoadDatabaseFile("/path/to/custom.mgc");
+
+// Track progress for batch file identification
+Magic magic{Magic::Flags::Mime};
+auto tracker = Utility::MakeSharedProgressTracker();
+
+// Start identification in background thread
+auto future = std::async([&magic, tracker] {
+    return magic.IdentifyFiles("/large/directory", tracker);
+});
+
+// Monitor progress in main thread
+while (!tracker->IsCompleted()) {
+    std::println("Progress: {}", tracker->GetCompletionPercentage().ToString());
+    std::this_thread::sleep_for(100ms);
+}
+
+auto results = future.get();
+```
+
+---
+
+## 🔄 Magic States
+
+The `Magic` class follows a clear state machine model:
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                        Magic State Diagram                       │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│    ┌──────────┐     Open()      ┌──────────┐  LoadDatabaseFile() │
+│    │  CLOSED  │ ───────────────>│  OPENED  │ ─────────────────>  │
+│    │          │                 │          │                     │
+│    │ IsOpen   │                 │ IsOpen   │      ┌─────────┐    │
+│    │ = false  │                 │ = true   │      │  VALID  │    │
+│    └──────────┘                 │          │      │         │    │
+│         ^                       │ IsValid  │      │ IsOpen  │    │
+│         │                       │ = false  │      │ = true  │    │
+│         │       Close()         └──────────┘      │         │    │
+│         └─────────────────────────────────────────│ IsValid │    │
+│         │                                         │ = true  │    │
+│         │                       Close()           └────┬────┘    │
+│         └──────────────────────────────────────────────┘         │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+| State | `IsOpen()` | `IsDatabaseLoaded()` | `IsValid()` | Can Identify Files? |
+|-------|-------------|------------------------|--------------|---------------------|
+| **Closed** | ❌ `false` | ❌ `false` | ❌ `false` | ❌ No |
+| **Opened** | ✅ `true` | ❌ `false` | ❌ `false` | ❌ No |
+| **Valid** | ✅ `true` | ✅ `true` | ✅ `true` | ✅ Yes |
+
+> 💡 **Tip:** Use the convenience constructors—they automatically open and load the default database, putting you directly in the Valid state!
+
+---
+
+## 📊 CMake Package Variables
+
+After `find_package(Magicxx)`, these variables are available:
+
+| Variable | Description |
+|----------|-------------|
+| `MAGICXX_FOUND` | ✅ `TRUE` if Libmagicxx was found |
+| `MAGICXX_VERSION` | Version string (e.g., `"9.1.1"`) |
+| `MAGICXX_SHARED_LIB_AVAILABLE` | Shared library availability |
+| `MAGICXX_STATIC_LIB_AVAILABLE` | Static library availability |
+| `MAGICXX_INCLUDE_DIR` | Path to headers |
+| `MAGICXX_LIB_DIR` | Path to libraries |
+| `MAGICXX_LICENSE_DIR` | Path to license files |
+| `MAGICXX_DOC_DIR` | Path to documentation |
+| `MAGICXX_CMAKE_DIR` | Path to CMake config |
+| `MAGICXX_DEFAULT_DATABASE_DIR` | Path to magic database |
+
+---
+
+## 📚 Examples
+
+Explore real-world usage patterns in the [examples directory](https://github.com/oguztoraman/libmagicxx/tree/main/examples):
+
+| Example | Description |
+|---------|-------------|
+| Basic Identify | File identification with exception handling |
+| Noexcept Identify | Non-throwing API with `std::expected` |
+| Directory Identify | Batch identification of files in a directory |
+| Custom Flags/Parameters | Configuring flags and tuning parameters |
+| Check and Compile | Database validation and compilation |
+| Progress Tracking | Monitoring batch operations with progress tracker |
+| Container Identify | Identify specific files from a container |
+| Lifecycle Management | Manual state transitions and queries |
+| Version and All Parameters | Get version and bulk parameter operations |
+
+---
+
+## 📖 Documentation
+
+<p align="center">
+  <a href="https://oguztoraman.github.io/libmagicxx/">
+    <img src="https://img.shields.io/badge/📚_API_Documentation-Visit_Site-blue?style=for-the-badge" alt="Documentation">
+  </a>
+</p>
+
+The comprehensive documentation includes:
+
+| Section | Description |
+|---------|-------------|
+| **Modules** | Core API, Exceptions, Utility, String Conversions |
+| **Classes** | `Magic`, `MagicException`, `Percentage`, `ProgressTracker` |
+| **Examples** | 9 runnable examples with detailed explanations |
+| **Style Guides** | C++ and CMake coding conventions |
+| **Project Docs** | Contributing, Security, Code of Conduct, Changelog |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions of all kinds! Whether you're fixing bugs, adding features, improving documentation, or suggesting enhancements—your help makes Libmagicxx better for everyone.
+
+<p align="center">
+  <a href="CONTRIBUTING.md">
+    <img src="https://img.shields.io/badge/Read-Contributing_Guide-green?style=for-the-badge" alt="Contributing Guide">
+  </a>
+</p>
+
+---
+
+## 🔒 Security
+
+Found a security vulnerability? Please report it responsibly.
+
+<p align="center">
+  <a href="SECURITY.md">
+    <img src="https://img.shields.io/badge/Read-Security_Policy-red?style=for-the-badge" alt="Security Policy">
+  </a>
+</p>
+
+---
+
+## ⚖️ License
+
+Libmagicxx is licensed under the **GNU Lesser General Public License v3.0**.
+
+This means you can:
+- ✅ Use it in commercial projects
+- ✅ Link to it from proprietary software
+- ✅ Modify and distribute it (under LGPL terms)
+
+See [COPYING.LESSER](COPYING.LESSER) for the full license text.
+
+<details>
+<summary><b>Third-Party Licenses</b></summary>
+
+| Component | License |
+|-----------|---------|
+| [file/libmagic](https://github.com/file/file) | [BSD-2-Clause](https://github.com/file/file/blob/master/COPYING) |
+| [GoogleTest](https://github.com/google/googletest) | [BSD-3-Clause](https://github.com/google/googletest/blob/main/LICENSE) |
+| [libgnurx](https://github.com/TimothyGu/libgnurx) | [LGPL](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) |
+
+</details>
+
+---
+
+## 📜 Disclaimer
+
+This project is a personal hobby project developed independently. It is not affiliated with, endorsed by, or created on behalf of any employer, company, or organization. No proprietary or confidential information was used in its development.
+
+---
+
+<p align="center">
+  <sub>Made with ❤️ for the C++ community</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/oguztoraman/libmagicxx">
+    <img src="https://img.shields.io/badge/⭐_Star_on_GitHub-black?style=for-the-badge&logo=github" alt="Star on GitHub">
+  </a>
+</p>

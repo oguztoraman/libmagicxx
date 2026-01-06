@@ -10,7 +10,7 @@ assignees: oguztoraman
 ## Confirmation
 
 + [ ] This issue is not a duplicate.
-+ [ ] I have read [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md).
++ [ ] I have read [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## Version Information
 

@@ -32,6 +32,18 @@ set(gnurx_INCLUDE_DIR
 # -----------------------------------------------------------------------------
 # Project directories
 # -----------------------------------------------------------------------------
+set(magicxx_CMAKE_DIR
+    ${magicxx_SOURCE_DIR}/cmake
+)
+
+set(magicxx_DOCUMENTATION_DIR
+    ${magicxx_SOURCE_DIR}/documentation
+)
+
+set(magicxx_EXAMPLES_DIR
+    ${magicxx_SOURCE_DIR}/examples
+)
+
 set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases
 )

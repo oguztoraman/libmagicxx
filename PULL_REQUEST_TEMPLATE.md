@@ -8,11 +8,14 @@ Fixes issue #????.
 
 ## Checklist
 
-+ [ ] I have read the [CONTRIBUTING.md](https://github.com/oguztoraman/libmagicxx/blob/main/CONTRIBUTING.md).
-+ [ ] Changes follow the project's coding style.
-+ [ ] Changes pass all new and existing unit tests.
-+ [ ] Changes are documented with Doxygen.
-+ [ ] Related documentation is updated.
+- [ ] Branch created from `main` (or release branch for bugfix)
+- [ ] Code follows [STYLE_GUIDE.md](STYLE_GUIDE.md)
+- [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
+- [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
+- [ ] New tests added for new functionality
+- [ ] Doxygen comments added for new public APIs
+- [ ] CHANGELOG.md updated
+- [ ] Linked to an existing issue (or created one)
 
 ### Title Format Guidelines
 

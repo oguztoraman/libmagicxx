@@ -1,6 +1,37 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_open_close_test.cpp
+ * @brief Unit tests for Magic::Open() and Magic::Close() methods.
+ *
+ * Tests the Magic instance lifecycle including:
+ * - Opening with flag masks and flag containers
+ * - Closing and reopening instances
+ * - State queries (IsOpen, IsValid, IsDatabaseLoaded)
+ * - Throwing and noexcept variants
+ *
+ * @section open_close_test_strategy Test Strategy
+ *
+ * Tests use randomly generated flag combinations to verify:
+ * - Opening succeeds with arbitrary valid flags
+ * - Close() is idempotent (can be called multiple times)
+ * - State transitions are consistent
+ *
+ * @section open_close_test_lifecycle Magic Lifecycle
+ *
+ * @code
+ * [Closed] --Open()--> [Opened] --LoadDatabaseFile()--> [Valid]
+ *    ^                    |                                |
+ *    |                    v                                v
+ *    +<-----Close()-------+<-----------Close()--------------+
+ * @endcode
+ *
+ * @see Magic::Open()
+ * @see Magic::Close()
+ * @see Magic::IsOpen()
+ */
+
 #include <gtest/gtest.h>
 
 #include <random>

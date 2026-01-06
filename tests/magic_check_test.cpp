@@ -1,6 +1,26 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_check_test.cpp
+ * @brief Unit tests for Magic::Check() static method.
+ *
+ * Tests the database validation functionality that checks whether
+ * a magic database file is valid and can be used for file identification.
+ *
+ * @section check_test_cases Test Cases
+ *
+ * | Test Case | Description |
+ * |-----------|-------------|
+ * | check_empty_path | Empty path returns false |
+ * | check_nonexistent_database | Non-existent file returns false |
+ * | check_directory | Directory path returns false |
+ * | check_invalid_database | Invalid database content returns false |
+ * | check_valid_database | Valid database returns true |
+ *
+ * @see Magic::Check()
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

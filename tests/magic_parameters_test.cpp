@@ -1,6 +1,35 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_parameters_test.cpp
+ * @brief Unit tests for Magic parameter operations.
+ *
+ * Tests the parameter getting and setting functionality including:
+ * - SetParameter() for individual parameters
+ * - SetParameters() for bulk parameter setting
+ * - GetParameter() and GetParameters() retrieval
+ * - Both throwing and noexcept overloads
+ *
+ * @section params_test_strategy Test Strategy
+ *
+ * Tests use randomly generated parameter values to verify:
+ * - Parameters can be set on opened Magic instances
+ * - Closed Magic throws appropriate exceptions
+ * - Round-trip consistency (set then get)
+ *
+ * @section params_test_parameters Parameters Tested
+ *
+ * All Magic::Parameters enum values are tested:
+ * - IndirMax, NameMax, ElfPhnumMax, ElfShnumMax
+ * - ElfNotesMax, RegexMax, BytesMax, EncodingMax
+ * - ElfShsizeMax, MagWarnMax
+ *
+ * @see Magic::Parameters
+ * @see Magic::SetParameter()
+ * @see Magic::GetParameter()
+ */
+
 #include <gtest/gtest.h>
 
 #include <random>

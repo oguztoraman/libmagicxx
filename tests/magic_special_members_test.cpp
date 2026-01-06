@@ -1,6 +1,37 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_special_members_test.cpp
+ * @brief Unit tests for Magic class special member functions.
+ *
+ * Tests constructors, destructor, and move operations including:
+ * - Default construction
+ * - Parameterized constructors (with flags and database path)
+ * - Move constructor and move assignment
+ * - Throwing and noexcept constructor variants
+ *
+ * @section special_members_test_constructors Constructor Variants
+ *
+ * | Variant | Description |
+ * |---------|-------------|
+ * | Default | Creates closed, invalid Magic |
+ * | Flags only | Opens with flags, loads default database |
+ * | Flags + path | Opens with flags, loads specified database |
+ * | Flags + nothrow | Opens, attempts to load, returns invalid on failure |
+ * | Flags + nothrow + path | Full noexcept construction |
+ * | Container variants | Same patterns with FlagsContainerT |
+ *
+ * @section special_members_test_move Move Semantics
+ *
+ * Move operations transfer ownership of the underlying magic cookie:
+ * - Moved-from instance becomes closed/invalid
+ * - Moved-to instance takes over the resource
+ *
+ * @see Magic::Magic()
+ * @see Magic::~Magic()
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

@@ -1,6 +1,37 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_identify_directory_test.cpp
+ * @brief Unit tests for Magic::IdentifyFiles() directory scanning.
+ *
+ * Tests recursive directory scanning functionality including:
+ * - Throwing and noexcept overloads
+ * - Progress tracker integration (null, valid trackers)
+ * - Various Magic states (closed, opened without database, valid)
+ * - Error conditions (empty path, non-existent directory, etc.)
+ *
+ * @section identify_dir_test_fixtures Test Fixture Setup
+ *
+ * The test fixture creates a temporary directory structure with:
+ * - An empty subdirectory
+ * - A text file (ASCII content)
+ * - A binary file (octet-stream content)
+ *
+ * @section identify_dir_test_variants API Variants Tested
+ *
+ * | Variant | Description |
+ * |---------|-------------|
+ * | Basic | IdentifyFiles(directory) |
+ * | With tracker | IdentifyFiles(directory, tracker) |
+ * | Noexcept | IdentifyFiles(directory, nothrow) |
+ * | Noexcept with tracker | IdentifyFiles(directory, nothrow, tracker) |
+ *
+ * @see Magic::IdentifyFiles()
+ * @see Magic::FileTypeMapT
+ * @see Utility::ProgressTracker
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

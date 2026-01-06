@@ -1,6 +1,37 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_load_database_file_test.cpp
+ * @brief Unit tests for Magic::LoadDatabaseFile() method.
+ *
+ * Tests database loading functionality including:
+ * - Throwing and noexcept overloads
+ * - Various error conditions (closed, empty path, non-existent, invalid)
+ * - Successful loading from valid database files
+ * - State transitions (IsDatabaseLoaded, IsValid)
+ *
+ * @section load_db_test_fixture Test Fixture Setup
+ *
+ * The test fixture creates:
+ * - A temporary test directory
+ * - An invalid database file (plain text content)
+ * - References to valid database and non-existent paths
+ *
+ * @section load_db_test_errors Error Conditions Tested
+ *
+ * | Condition | Exception |
+ * |-----------|-----------|
+ * | Magic is closed | MagicIsClosed |
+ * | Empty path | EmptyPath |
+ * | Path doesn't exist | PathDoesNotExist |
+ * | Path is a directory | PathIsNotRegularFile |
+ * | Invalid database content | MagicLoadDatabaseFileError |
+ *
+ * @see Magic::LoadDatabaseFile()
+ * @see Magic::IsDatabaseLoaded()
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

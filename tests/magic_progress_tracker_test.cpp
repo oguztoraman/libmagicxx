@@ -1,6 +1,33 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_progress_tracker_test.cpp
+ * @brief Unit tests for Utility::ProgressTracker class.
+ *
+ * Tests the thread-safe progress tracking utility including:
+ * - Construction with various step counts
+ * - Advance() increments and clamping
+ * - MarkAsCompleted() behavior
+ * - Reset() for reuse
+ * - Wait operations with timeouts
+ * - Thread safety with concurrent access
+ *
+ * @section tracker_test_categories Test Categories
+ *
+ * | Category | Description |
+ * |----------|-------------|
+ * | Construction | Default and parameterized constructors |
+ * | Advancement | Advance(), step counting, overflow prevention |
+ * | Completion | MarkAsCompleted(), IsCompleted() |
+ * | Reset | Reset() with new step counts |
+ * | Waiting | TryWaitForCompletion(), WaitForCompletion() |
+ * | Threading | Concurrent access from multiple threads |
+ *
+ * @see Utility::ProgressTracker
+ * @see Utility::MakeSharedProgressTracker()
+ */
+
 #include <gtest/gtest.h>
 
 #include <thread>

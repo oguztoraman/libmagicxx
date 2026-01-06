@@ -2,6 +2,38 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
+#
+# @file workflows.sh
+# @brief CMake workflow preset runner with build cache management.
+#
+# This script provides a convenient wrapper around CMake's workflow preset
+# system. It simplifies the process of running predefined build, test, and
+# packaging workflows for the libmagicxx project.
+#
+# @section wf_features Features
+# - List all available workflow presets from CMakePresets.json
+# - Execute workflow presets by name
+# - Optionally clear the build cache before running
+# - Automatic execution of example binaries after examples preset
+#
+# @section wf_usage Usage
+#     ./scripts/workflows.sh -l                              # List presets
+#     ./scripts/workflows.sh -p linux-x86_64-clang-tests     # Run preset
+#     ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c    # Clear + run
+#     ./scripts/workflows.sh -h                              # Show help
+#
+# @section wf_exit Exit Codes
+# - 0: Success
+# - 1: Missing required -p argument
+# - Non-zero: CMake or example execution failure
+#
+# @section wf_environment Environment
+# - Requires CMake 3.21+ with workflow preset support
+# - Expects CMakePresets.json in project root
+# - Build directory: ./build/ (relative to project root)
+#
+# @see CMakePresets.json for complete preset definitions
+# @see AGENTS.md for workflow usage guidelines
 
 SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
 cd -- "${SCRIPT_DIR}/.."

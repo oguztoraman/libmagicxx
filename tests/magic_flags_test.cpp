@@ -1,6 +1,29 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_flags_test.cpp
+ * @brief Unit tests for Magic flag operations.
+ *
+ * Tests the flag getting and setting functionality including:
+ * - SetFlags() with bitmask and container variants
+ * - GetFlags() retrieval
+ * - Both throwing and noexcept overloads
+ * - Behavior on closed, opened, and valid Magic instances
+ *
+ * @section flags_test_strategy Test Strategy
+ *
+ * Tests use randomly generated flag combinations to ensure
+ * robust coverage of the flag space. Each test verifies:
+ * - Correct exception throwing for closed Magic
+ * - Proper return values for noexcept variants
+ * - Round-trip consistency (set then get)
+ *
+ * @see Magic::Flags
+ * @see Magic::SetFlags()
+ * @see Magic::GetFlags()
+ */
+
 #include <gtest/gtest.h>
 
 #include <algorithm>

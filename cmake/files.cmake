@@ -52,6 +52,38 @@ set(magicxx_INSTALLED_DEFAULT_DATABASE_FILE
     ${magicxx_INSTALL_DEFAULT_DATABASES_DIR}/magic
 )
 
+set(magicxx_README_FILE
+    ${magicxx_SOURCE_DIR}/README.md
+)
+
+set(magicxx_CODE_OF_CONDUCT_FILE
+    ${magicxx_SOURCE_DIR}/CODE_OF_CONDUCT.md
+)
+
+set(magicxx_CONTRIBUTING_FILE
+    ${magicxx_SOURCE_DIR}/CONTRIBUTING.md
+)
+
+set(magicxx_SECURITY_FILE
+    ${magicxx_SOURCE_DIR}/SECURITY.md
+)
+
+set(magicxx_CXX_STYLE_GUIDE_FILE
+    ${magicxx_SOURCE_DIR}/STYLE_GUIDE.md
+)
+
+set(magicxx_CMAKE_STYLE_GUIDE_FILE
+    ${magicxx_CMAKE_DIR}/STYLE_GUIDE.md
+)
+
+set(magicxx_AGENTS_FILE
+    ${magicxx_SOURCE_DIR}/AGENTS.md
+)
+
+set(magicxx_EXAMPLES_FILE
+    ${magicxx_EXAMPLES_DIR}/magic_examples.cpp
+)
+
 # -----------------------------------------------------------------------------
 # Source files for formatting
 # -----------------------------------------------------------------------------

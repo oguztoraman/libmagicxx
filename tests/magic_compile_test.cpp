@@ -1,6 +1,26 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_compile_test.cpp
+ * @brief Unit tests for Magic::Compile() static method.
+ *
+ * Tests the database compilation functionality that compiles
+ * a magic source file into a binary .mgc database file.
+ *
+ * @section compile_test_cases Test Cases
+ *
+ * | Test Case | Description |
+ * |-----------|-------------|
+ * | compile_empty_path | Empty path returns false |
+ * | compile_nonexistent_database | Non-existent file returns false |
+ * | compile_directory | Directory path returns false |
+ * | compile_invalid_database | Invalid source returns false |
+ * | compile_valid_database | Valid source compiles successfully |
+ *
+ * @see Magic::Compile()
+ */
+
 #include <gtest/gtest.h>
 
 #include <fstream>

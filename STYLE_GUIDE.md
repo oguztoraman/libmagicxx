@@ -78,7 +78,7 @@ Use **PascalCase** for all functions and methods, including member functions.
 void LoadDatabaseFile(const std::filesystem::path& database_file);
 bool IsValid() const noexcept;
 std::string IdentifyFile(const std::filesystem::path& file_path);
-auto GetFileType() -> expected_file_type_t;
+auto GetFileType() -> ExpectedFileTypeT;
 ```
 
 ### Static Member Functions

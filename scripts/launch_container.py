@@ -10,6 +10,67 @@ Launch and manage the libmagicxx development container.
 This script provides functionality to build, update, and run the development
 container using Podman. It handles image lifecycle management including
 building new images, updating existing ones, and cleaning up old containers.
+
+Features
+--------
+- Build container image from Containerfile on first run
+- Update/rebuild existing images with --update flag
+- Automatic cleanup of stopped containers before rebuild
+- Project directory mounted with SELinux context (:Z)
+- Verbose logging mode for troubleshooting
+
+Usage
+-----
+From the host system (not inside a container)::
+
+    python ./scripts/launch_container.py              # Build if needed, launch
+    python ./scripts/launch_container.py --update     # Rebuild and launch
+    python ./scripts/launch_container.py -v           # Verbose output
+
+Container Lifecycle
+-------------------
+1. Check if image exists locally
+2. If missing, build from Containerfile
+3. If --update, stop containers and rebuild image
+4. Run container interactively with project mounted
+5. Container removed automatically on exit (--rm)
+
+Mount Configuration
+-------------------
+- Host: Project root directory (auto-detected)
+- Container: /libmagicxx
+- SELinux: Relabeling enabled (:Z suffix)
+
+Exit Codes
+----------
+- 0: Container exited normally
+- 1-125: Command execution failures (see ContainerError.return_code)
+- 130: Operation cancelled by user (Ctrl+C)
+
+Prerequisites
+-------------
+- Podman installed and configured (rootless mode supported)
+- Containerfile present in project root
+- Sufficient disk space for container image (~2GB)
+
+Post-Launch Setup
+-----------------
+After launching the container, run::
+
+    ./scripts/initialize.sh
+
+This initializes git submodules and pulls LFS files.
+
+Warning
+-------
+Do not run git push/pull commands inside the container.
+Use the host terminal for git operations requiring network access.
+
+See Also
+--------
+- Containerfile: Container image definition
+- CONTRIBUTING.md: Development environment setup guide
+- AGENTS.md: Agent workflow guidelines
 """
 
 from __future__ import annotations

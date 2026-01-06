@@ -2,6 +2,73 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
+#
+# @file commit_release.sh
+# @brief Automated release commit and tagging script for libmagicxx.
+#
+# This script automates the release process by validating semantic version
+# tags, updating version information across project files, creating release
+# commits, and tagging the repository. It follows strict validation to ensure
+# release integrity.
+#
+# @section cr_features Features
+# - Semantic version tag validation (vMAJOR.MINOR.PATCH format)
+# - Automatic CMakeLists.txt version update
+# - CHANGELOG.md release section creation with date
+# - SECURITY.md supported versions table update
+# - Git release branch and tag creation
+# - Source code formatting before commit
+#
+# @section cr_usage Usage
+#     ./scripts/commit_release.sh -t v1.0.0      # Create release v1.0.0
+#     ./scripts/commit_release.sh -t v2.1.3 -y   # Skip confirmation prompt
+#     ./scripts/commit_release.sh -h             # Show help message
+#
+# @section cr_workflow Workflow
+# 1. Validate git tag format (vMAJOR.MINOR.PATCH)
+# 2. Check for uncommitted changes
+# 3. Verify tag does not already exist
+# 4. Prompt for confirmation (unless -y flag)
+# 5. Update version in CMakeLists.txt
+# 6. Update CHANGELOG.md with release date
+# 7. Update SECURITY.md supported versions table
+# 8. Run source code formatting
+# 9. Create release commit and annotated tag
+#
+# @section cr_files Files Modified
+# - CMakeLists.txt: VERSION field updated
+# - CHANGELOG.md: "Next Release" converted to version header
+# - SECURITY.md: Supported versions table regenerated
+#
+# @section cr_exit Exit Codes
+# - 0:  Success
+# - 1:  Usage error or missing argument
+# - 2:  Invalid git tag format
+# - 3:  Not in a git repository
+# - 4:  Uncommitted changes present
+# - 5:  Git tag already exists
+# - 6:  User cancelled operation
+# - 7:  Failed to update CHANGELOG.md
+# - 8:  Failed to update SECURITY.md
+# - 9:  Failed to switch/create release branch
+# - 10: Formatting preset failed
+# - 11: Failed to update CMakeLists.txt
+# - 12: Failed to update CHANGELOG.md date
+# - 13: Git add failed
+# - 14: Git commit failed
+# - 15: Git tag creation failed
+#
+# @section cr_prereq Prerequisites
+# - Git repository with clean working tree
+# - CHANGELOG.md with "## Next Release" section
+# - SECURITY.md with "## Supported Versions" section
+# - CMakeLists.txt with VERSION field
+#
+# @warning Run only on clean main branch
+# @warning Do not use for pre-release or beta versions
+#
+# @see RELEASE_PROCEDURE.md for complete release documentation
+# @see AGENTS.md Section 18 FAQ about release tagging restrictions
 
 SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
 cd -- "${SCRIPT_DIR}/.."

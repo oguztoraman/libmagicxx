@@ -67,7 +67,7 @@ set(DOXYGEN_EXTRACT_ANON_NSPACES
 )
 
 set(DOXYGEN_USE_MDFILE_AS_MAINPAGE
-    ${magicxx_SOURCE_DIR}/README.md
+    ${magicxx_README_FILE}
 )
 
 set(DOXYGEN_HTML_COLORSTYLE
@@ -95,7 +95,11 @@ set(DOXYGEN_GENERATE_LATEX
 )
 
 set(DOXYGEN_OUTPUT_DIRECTORY
-    ${magicxx_SOURCE_DIR}/documentation
+    ${magicxx_DOCUMENTATION_DIR}
+)
+
+set(DOXYGEN_EXAMPLE_PATH
+    ${magicxx_EXAMPLES_DIR}
 )
 
 # -----------------------------------------------------------------------------
@@ -106,7 +110,7 @@ add_custom_target(delete_old_docs
     COMMAND
         rm -rf html/*
     WORKING_DIRECTORY
-        ${magicxx_SOURCE_DIR}/documentation
+        ${magicxx_DOCUMENTATION_DIR}
     COMMENT
         "Deleting old documentation..."
     VERBATIM
@@ -117,12 +121,15 @@ doxygen_add_docs(
         ${magic_HEADER_FILES}
         ${magicxx_HEADER_FILES}
         ${magicxx_SOURCE_FILES}
-        CHANGELOG.md
-        CODE_OF_CONDUCT.md
-        CONTRIBUTING.md
-        README.md
-        SECURITY.md
-        STYLE_GUIDE.md
+        ${magicxx_EXAMPLES_FILE}
+        ${magicxx_CHANGELOG_FILE}
+        ${magicxx_CODE_OF_CONDUCT_FILE}
+        ${magicxx_CONTRIBUTING_FILE}
+        ${magicxx_README_FILE}
+        ${magicxx_SECURITY_FILE}
+        ${magicxx_CXX_STYLE_GUIDE_FILE}
+        ${magicxx_CMAKE_STYLE_GUIDE_FILE}
+        ${magicxx_AGENTS_FILE}
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT

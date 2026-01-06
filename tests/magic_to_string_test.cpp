@@ -1,6 +1,33 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com> */
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
+/**
+ * @file magic_to_string_test.cpp
+ * @brief Unit tests for ToString() free functions.
+ *
+ * Tests string conversion functions for all Magic types including:
+ * - FileTypeEntryT and FileTypeMapT
+ * - ExpectedFileTypeEntryT and ExpectedFileTypeMapT
+ * - Flags enum and FlagsContainerT
+ * - Parameters enum and ParameterValueMapT
+ *
+ * @section to_string_test_types Types Tested
+ *
+ * | Type | Format |
+ * |------|--------|
+ * | FileTypeEntryT | "path -> type" |
+ * | FileTypeMapT | Entries separated by newlines |
+ * | ExpectedFileTypeEntryT | "path -> type" or "path -> error" |
+ * | Flags | Enum name (e.g., "Mime") |
+ * | FlagsContainerT | Comma-separated names |
+ * | Parameters | Enum name (e.g., "BytesMax") |
+ * | ParameterValueT | "name: value" |
+ *
+ * @see ToString(Magic::FileTypeEntryT)
+ * @see ToString(Magic::Flags)
+ * @see ToString(Magic::Parameters)
+ */
+
 #include <gtest/gtest.h>
 
 #include "magic.hpp"

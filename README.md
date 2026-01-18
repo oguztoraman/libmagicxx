@@ -164,7 +164,7 @@ target_link_libraries(app Recognition::Magicxx)
 
 | Platform | Architecture | Compilers | Package Formats |
 |----------|--------------|-----------|-----------------|
-| 🐧 **Linux** | x86_64 | GCC 14+, Clang 19+ | `.deb`, `.rpm` |
+| 🐧 **Linux** | x86_64 | GCC, Clang | `.deb`, `.rpm` |
 | 🪟 **Windows** | x86_64 | MinGW-w64, Clang | `.exe` (NSIS) |
 
 ---

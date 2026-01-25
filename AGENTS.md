@@ -192,15 +192,19 @@ Use component prefixes for all commit messages:
 
 | Prefix | Use For |
 |--------|---------|
-| `Magic:` | Changes to Magic class, core library functionality |
-| `Docs:` | Documentation, README, Doxygen comments |
-| `CMake:` | Build system, CMakeLists.txt, presets |
-| `Tests:` | Test files, test infrastructure |
 | `CI/CD:` | GitHub Actions workflows, CI/CD pipelines, automation |
-| `DevEnv:` | Container, scripts, development environment |
-| `Examples:` | Example code changes |
+| `CMake:` | Build system, CMakeLists.txt, presets |
 | `Deps:` | External dependencies updates |
+| `DevEnv:` | Container, development environment setup |
+| `Docs:` | Documentation, README, Doxygen comments |
+| `Examples:` | Example code changes |
+| `Format:` | Clang tools (.clang-format, .clang-tidy), code formatting |
+| `Magic:` | Changes to Magic class, core library functionality |
 | `Release:` | Version bumps, changelog, release preparation |
+| `Scripts:` | Shell and Python scripts in scripts/ directory |
+| `Tests:` | Test files, test infrastructure |
+| `Toolchains:` | CMake toolchain files, compiler configurations |
+| `Utility:` | Utility classes (ProgressTracker, Percentage) |
 
 **Examples:**
 

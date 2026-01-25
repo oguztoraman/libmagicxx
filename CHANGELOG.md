@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** CMake: Update documentation directory structure and cleanup target.
+
 + **[QUALITY]** CMake: Refactor commands to use CMake built-in commands.
 
 + **[QUALITY]** CI/CD: Trigger build workflows on push to main branch.

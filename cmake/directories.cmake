@@ -40,6 +40,10 @@ set(magicxx_DOCUMENTATION_DIR
     ${magicxx_SOURCE_DIR}/documentation
 )
 
+set(magicxx_DOCUMENTATION_SITE_DIR
+    ${magicxx_DOCUMENTATION_DIR}/html
+)
+
 set(magicxx_EXAMPLES_DIR
     ${magicxx_SOURCE_DIR}/examples
 )

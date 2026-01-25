@@ -115,14 +115,16 @@ set(DOXYGEN_EXTENSION_MAPPING
 # -----------------------------------------------------------------------------
 
 add_custom_target(delete_old_docs
-    COMMAND
-        rm -rf html/*
-    WORKING_DIRECTORY
-        ${magicxx_DOCUMENTATION_DIR}
+    COMMAND ${CMAKE_COMMAND} -E rm -rf
+        ${magicxx_DOCUMENTATION_SITE_DIR}
     COMMENT
         "Deleting old documentation..."
     VERBATIM
 )
+
+#-----------------------------------------------------------------------------
+# Doxygen documentation generation
+#-----------------------------------------------------------------------------
 
 doxygen_add_docs(
     magicxx_documentation

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** CMake: Refactor commands to use CMake built-in commands.
+
 + **[QUALITY]** CI/CD: Trigger build workflows on push to main branch.
 
 + **[DOCUMENTATION]** Docs: Improve overall documentation.

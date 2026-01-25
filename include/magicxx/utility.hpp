@@ -175,7 +175,7 @@ concept StringConverter = std::same_as<
  * @param[in] value_separator  Separator string between elements.
  * @param[in] string_converter Callable that converts each element to string.
  *
- * @return All elements joined as a string, or empty string if container is empty.
+ * @returns All elements joined as a string, or empty string if container is empty.
  *
  * @code{.cpp}
  * std::vector<int> numbers = {1, 2, 3};
@@ -269,7 +269,7 @@ concept FileContainer = std::ranges::range<ContainerT>
  * @param[in] container The container of file paths to convert.
  * @param[in] separator Separator string between paths (default: ", ").
  *
- * @return All paths joined as a string, or empty string if container is empty.
+ * @returns All paths joined as a string, or empty string if container is empty.
  *
  * @code{.cpp}
  * std::vector<std::filesystem::path> files = {

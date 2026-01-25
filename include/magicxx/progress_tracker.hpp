@@ -159,7 +159,7 @@ public:
     /**
      * @brief Get the number of completed steps.
      *
-     * @return Number of steps completed so far.
+     * @returns Number of steps completed so far.
      *
      * @note Thread-safe: protected by mutex.
      *
@@ -174,7 +174,7 @@ public:
     /**
      * @brief Get the completion percentage.
      *
-     * @return Percentage object representing completion (0% to 100%).
+     * @returns Percentage object representing completion (0% to 100%).
      *
      * @note Thread-safe: protected by mutex.
      *
@@ -196,7 +196,7 @@ public:
     /**
      * @brief Get the number of remaining (incomplete) steps.
      *
-     * @return Number of steps yet to be completed.
+     * @returns Number of steps yet to be completed.
      *
      * @note Thread-safe: protected by mutex.
      *
@@ -211,7 +211,7 @@ public:
     /**
      * @brief Get the total number of steps.
      *
-     * @return Total number of steps for the job.
+     * @returns Total number of steps for the job.
      *
      * @note Thread-safe: protected by mutex.
      *
@@ -226,7 +226,7 @@ public:
     /**
      * @brief Check if the job is complete.
      *
-     * @return `true` if completed_steps >= total_steps, `false` otherwise.
+     * @returns `true` if completed_steps >= total_steps, `false` otherwise.
      *
      * @note Thread-safe: protected by mutex.
      *
@@ -294,7 +294,7 @@ public:
      *
      * @param[in] timeout Maximum duration to wait.
      *
-     * @return `true` if the job completed before the timeout,
+     * @returns `true` if the job completed before the timeout,
      *         `false` if the timeout expired.
      *
      * @code{.cpp}
@@ -329,7 +329,7 @@ public:
      *
      * @param[in] deadline Absolute time point to wait until.
      *
-     * @return `true` if the job completed before the deadline,
+     * @returns `true` if the job completed before the deadline,
      *         `false` if the deadline passed.
      *
      * @code{.cpp}
@@ -381,11 +381,11 @@ public:
     }
 
 private:
-    mutable std::mutex m_mutex{}; ///< Mutex for thread-safe access.
+    mutable std::mutex m_mutex{}; /**< Mutex for thread-safe access. */
     mutable std::condition_variable
-                  m_condition_variable{}; ///< For wait operations.
-    std::uint64_t m_total_steps;          ///< Total steps in the job.
-    std::uint64_t m_completed_steps{0u};  ///< Steps completed so far.
+                  m_condition_variable{}; /**< For wait operations. */
+    std::uint64_t m_total_steps;          /**< Total steps in the job. */
+    std::uint64_t m_completed_steps{0u};  /**< Steps completed so far. */
 };
 
 /**
@@ -413,7 +413,7 @@ using SharedProgressTrackerT = std::shared_ptr<ProgressTracker>;
  *
  * @param[in] total_steps Total number of steps (minimum 1, default 1).
  *
- * @return A shared pointer to the newly created ProgressTracker.
+ * @returns A shared pointer to the newly created ProgressTracker.
  *
  * @code{.cpp}
  * auto tracker = MakeSharedProgressTracker(100);
@@ -503,7 +503,7 @@ public:
 
 private:
     SharedProgressTrackerT
-        m_shared_progress_tracker; ///< Tracker to complete on destruction.
+        m_shared_progress_tracker; /**< Tracker to complete on destruction. */
 };
 
 /**
@@ -568,8 +568,8 @@ public:
 
 private:
     SharedProgressTrackerT
-        m_shared_progress_tracker; ///< Tracker to advance on destruction.
-    std::uint64_t m_step_count;    ///< Steps to advance.
+        m_shared_progress_tracker; /**< Tracker to advance on destruction. */
+    std::uint64_t m_step_count;    /**< Steps to advance. */
 };
 } /* namespace Utility */
 } /* namespace Recognition */

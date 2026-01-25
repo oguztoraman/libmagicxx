@@ -38,10 +38,7 @@
 namespace Recognition {
 namespace Utility {
 /**
- * @defgroup magic_utility Utility Classes
- * @ingroup magic_core
- * @brief Utility types used throughout the Magic library.
- *
+ * @addtogroup magic_utility
  * @{
  */
 
@@ -137,7 +134,7 @@ public:
     /**
      * @brief Get the percentage value.
      *
-     * @return The percentage value in the range [0, 100].
+     * @returns The percentage value in the range [0, 100].
      *
      * @code{.cpp}
      * Percentage p{75};
@@ -174,7 +171,7 @@ public:
     /**
      * @brief Convert percentage to a human-readable string.
      *
-     * @return String in the format "X%" where X is the percentage value.
+     * @returns String in the format "X%" where X is the percentage value.
      *
      * @code{.cpp}
      * Percentage p{42};
@@ -189,10 +186,10 @@ public:
     }
 
 private:
-    int m_percentage; ///< The percentage value, always in range [0, 100].
+    int m_percentage; /**< The percentage value, always in range [0, 100]. */
 };
 
-/** @} */ // End of magic_utility group
+/** @} magic_utility */
 } /* namespace Utility */
 } /* namespace Recognition */
 

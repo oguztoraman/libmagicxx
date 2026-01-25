@@ -58,7 +58,7 @@
  * @param[in] argc Argument count from command line.
  * @param[in] argv Argument values from command line.
  *
- * @return 0 if all tests pass, non-zero otherwise.
+ * @returns 0 if all tests pass, non-zero otherwise.
  */
 auto main(int argc, char** argv) -> int
 {

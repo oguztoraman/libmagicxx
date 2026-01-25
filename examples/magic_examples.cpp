@@ -397,7 +397,7 @@ void ExampleVersionAndAllParameters()
  * Runs all example functions sequentially, demonstrating
  * various features of the libmagicxx library.
  *
- * @return 0 on successful completion.
+ * @returns 0 on successful completion.
  */
 auto main() -> int
 {

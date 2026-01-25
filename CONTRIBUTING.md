@@ -62,7 +62,7 @@ This guide provides everything you need to contribute successfully.
 
 ## Code of Conduct
 
-We expect all contributors to adhere to the [Code of Conduct](CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from our community.
+We expect all contributors to adhere to the [Code of Conduct](md_CODE__OF__CONDUCT.html). Please read it to understand the standards of behavior we expect from our community.
 
 ---
 
@@ -281,7 +281,7 @@ git checkout -b quality/refactor-error-handling
 
 ### Step 2: Understand the Code Style
 
-All code must follow [STYLE_GUIDE.md](STYLE_GUIDE.md). Key rules:
+All code must follow [STYLE_GUIDE.md](md_STYLE__GUIDE.html). Key rules:
 
 #### Naming Conventions
 
@@ -476,7 +476,7 @@ Every public class, method, and type must have Doxygen documentation:
  *
  * @param[in] file Path to the file to identify.
  *
- * @return The identified file type as a string (format depends on flags).
+ * @returns The identified file type as a string (format depends on flags).
  *
  * @throws MagicException If magic is not valid or file cannot be read.
  * @throws std::filesystem::filesystem_error If path is invalid.
@@ -640,7 +640,7 @@ The project includes pre-configured debug launchers in `.vscode/launch.json`:
 Complete this checklist:
 
 - [ ] Branch created from `main` (or release branch for bugfix)
-- [ ] Code follows [STYLE_GUIDE.md](STYLE_GUIDE.md)
+- [ ] Code follows [STYLE_GUIDE.md](md_STYLE__GUIDE.html)
 - [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
 - [ ] New tests added for new functionality
@@ -673,7 +673,7 @@ git push origin your-branch-name
 
 1. Go to your fork on GitHub
 2. Click **"Compare & pull request"**
-3. Fill in the [PR template](PULL_REQUEST_TEMPLATE.md) — it includes a checklist and description section
+3. Fill in the <a href="https://github.com/oguztoraman/libmagicxx/blob/main/PULL_REQUEST_TEMPLATE.md">PR template</a> — it includes a checklist and description section
 
 ### PR Title Format
 

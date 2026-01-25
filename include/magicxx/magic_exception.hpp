@@ -101,7 +101,7 @@ namespace Recognition {
  */
 class MagicException : public std::runtime_error {
 public:
-    /// @brief Inherit constructors from std::runtime_error.
+    /** @brief Inherit constructors from std::runtime_error. */
     using std::runtime_error::runtime_error;
 
     /**
@@ -516,7 +516,7 @@ public:
     { }
 };
 
-/** @} */ // End of magic_exceptions group
+/** @} magic_exceptions */
 } /* namespace Recognition */
 
 #endif /* MAGIC_EXCEPTION_HPP */

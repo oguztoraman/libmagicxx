@@ -102,6 +102,14 @@ set(DOXYGEN_EXAMPLE_PATH
     ${magicxx_EXAMPLES_DIR}
 )
 
+set(DOXYGEN_MARKDOWN_ID_STYLE
+    GITHUB
+)
+
+set(DOXYGEN_EXTENSION_MAPPING
+    LESSER=md
+)
+
 # -----------------------------------------------------------------------------
 # Documentation targets
 # -----------------------------------------------------------------------------
@@ -121,15 +129,7 @@ doxygen_add_docs(
         ${magic_HEADER_FILES}
         ${magicxx_HEADER_FILES}
         ${magicxx_SOURCE_FILES}
-        ${magicxx_EXAMPLES_FILE}
-        ${magicxx_CHANGELOG_FILE}
-        ${magicxx_CODE_OF_CONDUCT_FILE}
-        ${magicxx_CONTRIBUTING_FILE}
-        ${magicxx_README_FILE}
-        ${magicxx_SECURITY_FILE}
-        ${magicxx_CXX_STYLE_GUIDE_FILE}
-        ${magicxx_CMAKE_STYLE_GUIDE_FILE}
-        ${magicxx_AGENTS_FILE}
+        ${magicxx_DOCUMENTATION_FILES}
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT

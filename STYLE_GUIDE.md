@@ -129,6 +129,40 @@ TEST(MagicVersionTest, get_version_returns_non_empty_string)
 }
 ```
 
+### Doxygen Identifiers
+
+All Doxygen identifiers (`@defgroup`, `@ingroup`, `@section`, etc.) must use **snake_case** for the identifier, followed by a **Title Case** description. End group comments should use the format `/** @} identifier */`.
+
+```cpp
+/**
+ * @defgroup magic_core Core Magic API
+ * @brief Core file type identification functionality.
+ *
+ * @{
+ */
+
+/**
+ * @class Magic
+ * @ingroup magic_core
+ */
+
+/**
+ * @defgroup constructors Constructors
+ * @ingroup magic_core
+ * @{
+ */
+
+/** @} constructors */
+
+/** @} magic_core */
+
+/**
+ * @section exception_hierarchy Exception Hierarchy
+ *
+ * All exceptions derive from MagicException.
+ */
+```
+
 **Test file naming:**
 ```
 tests/magic_open_close_test.cpp
@@ -208,7 +242,7 @@ inline constexpr std::string_view DEFAULT_DATABASE_PATH = "/usr/share/misc/magic
 
 ### Files and Directories
 
-Use **snake_case** for all source code files and directory names.
+Use **snake_case** for all source code files and directory names. Source files must end with **`.cpp`** and header files must end with **`.hpp`**.
 
 ```
 include/magicxx/magic.hpp
@@ -249,7 +283,7 @@ All code must be formatted using the project's `.clang-format` configuration. Ru
 
 ### Doxygen Comments
 
-All public APIs **must** be documented with Doxygen comments. Use `/** ... */` style for documentation blocks.
+All APIs **must** be documented with Doxygen comments. Use `/** ... */` style for documentation blocks. Use `/**< ... */` for single-line trailing documentation comments after variable declarations.
 
 ```cpp
 /**
@@ -280,6 +314,74 @@ public:
 
 ### Comment Style
 
-+ Use `/* ... */` for comments.
++ Use `/* ... */` for multi-line comments.
 
-+ Use `/** ... */` for documentation comments.
++ Use `/** ... */` for multi-line documentation comments and single-line documentation comments before declarations.
+
++ Use `/**< ... */` for single-line trailing documentation comments after variable declarations.
+
+**Examples:**
+
+```cpp
+/* Multi-line comment explaining complex logic */
+void ProcessComplexAlgorithm()
+{
+    /* Step 1: Initialize variables */
+    int counter = 0;
+    
+    /* Step 2: Process data */
+    DoSomething();
+}
+
+/** @brief Multi-line documentation comment for a function. */
+void LoadDatabaseFile(const std::filesystem::path& database_file);
+
+/**
+ * @brief Detailed multi-line documentation.
+ *
+ * This provides extensive information about the class
+ * and its purpose.
+ */
+class Magic {
+public:
+    /** @brief Single-line documentation before declaration. */
+    void Open(FlagsMaskT flags_mask);
+    
+private:
+    CookieT m_cookie{nullptr};        /**< Trailing comment for member variable. */
+    FlagsMaskT m_flags_mask{0};       /**< Current configuration flags. */
+    bool m_is_database_loaded{false}; /**< True when database loaded successfully. */
+};
+
+enum class Parameters : std::size_t {
+    IndirMax    = 0uz, /**< Maximum recursion depth for indirect magic. */
+    NameMax     = 1uz, /**< Maximum use count for name/use magic entries. */
+    BytesMax    = 6uz  /**< Maximum bytes to read from file. */
+};
+```
+
+**Exception - Example Code in Documentation:**
+
+When documentation blocks contain example code (e.g., within `@code` blocks), use standard C++ comment style (`//`) for comments within the example code to show realistic usage:
+
+```cpp
+/**
+ * @brief Identify files with progress tracking.
+ *
+ * @code{.cpp}
+ * auto tracker = MakeSharedProgressTracker(100);
+ *
+ * // Start identification in background thread
+ * auto future = std::async([tracker] {
+ *     Magic magic{Magic::Flags::Mime};
+ *     return magic.IdentifyFiles("/path/to/dir", tracker);
+ * });
+ *
+ * // Monitor progress in main thread
+ * while (!tracker->IsCompleted()) {
+ *     std::println("Progress: {}", tracker->GetCompletionPercentage().ToString());
+ * }
+ * @endcode
+ */
+void SomeFunction();
+```

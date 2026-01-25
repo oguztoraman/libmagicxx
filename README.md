@@ -1,3 +1,4 @@
+@htmlonly
 <p align="center">
   <h1 align="center">✨ Libmagicxx ✨</h1>
   <p align="center">
@@ -46,6 +47,12 @@
     <img src="https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status" alt="Quality Gate Status">
   </a>
 </p>
+@endhtmlonly
+
+@latexonly
+\section*{Libmagicxx}
+A Modern C++23 Wrapper for libmagic
+@endlatexonly
 
 ---
 
@@ -84,7 +91,7 @@
 - [Documentation](#-documentation)
 - [Contributing](#-contributing)
 - [Security](#-security)
-- [License](#-license)
+- [License](#license)
 
 ---
 
@@ -104,20 +111,15 @@
 
 ## ✨ What Libmagicxx Adds
 
-<table>
-<tr>
-<td width="50%">
-
 ### 🚀 Modern C++23 Interface
+
 Wraps libmagic's C API with modern features:
 - `std::expected` for elegant error handling
 - Concepts and constraints for type safety
 - RAII for automatic resource management
 
-</td>
-<td width="50%">
-
 ### 🎯 High-Level API
+
 Clean, intuitive interface:
 ```cpp
 Magic magic{Magic::Flags::Mime};
@@ -125,29 +127,19 @@ auto type = magic.IdentifyFile("document.pdf");
 // Returns: "application/pdf"
 ```
 
-</td>
-</tr>
-<tr>
-<td width="50%">
-
 ### 📦 CMake Integration
+
 First-class CMake support:
 ```cmake
 find_package(Magicxx REQUIRED)
 target_link_libraries(app Recognition::Magicxx)
 ```
 
-</td>
-<td width="50%">
-
 ### 🌍 Cross-Platform
+
 - ✅ Linux (x86_64) — GCC & Clang
 - ✅ Windows (x86_64) — MinGW & Clang
 - 📦 DEB, RPM, and NSIS installers
-
-</td>
-</tr>
-</table>
 
 ### Why Use the Wrapper?
 
@@ -227,7 +219,7 @@ python ./scripts/launch_container.py
 ./scripts/workflows.sh -p linux-x86_64-clang -c
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
+See [CONTRIBUTING.md](md_CONTRIBUTING.html) for detailed build instructions.
 
 </details>
 
@@ -318,25 +310,27 @@ auto results = future.get();
 The `Magic` class follows a clear state machine model:
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                        Magic State Diagram                       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│    ┌──────────┐     Open()      ┌──────────┐  LoadDatabaseFile() │
-│    │  CLOSED  │ ───────────────>│  OPENED  │ ─────────────────>  │
-│    │          │                 │          │                     │
-│    │ IsOpen   │                 │ IsOpen   │      ┌─────────┐    │
-│    │ = false  │                 │ = true   │      │  VALID  │    │
-│    └──────────┘                 │          │      │         │    │
-│         ^                       │ IsValid  │      │ IsOpen  │    │
-│         │                       │ = false  │      │ = true  │    │
-│         │       Close()         └──────────┘      │         │    │
-│         └─────────────────────────────────────────│ IsValid │    │
-│         │                                         │ = true  │    │
-│         │                       Close()           └────┬────┘    │
-│         └──────────────────────────────────────────────┘         │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                              Magic State Diagram                                  │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                   │
+│  Constructor()                                       Constructor(flags)           │
+│       │                                                     │                     │
+│       ▼                                                     ▼                     │
+│   ┌────────────┐  Open(flags)  ┌────────────┐         ┌────────────┐              │
+│   │   CLOSED   │──────────────>│   OPENED   │<────────│   VALID    │              │
+│   └──┬─────────┘               └──┬──────┬──┘  Open   └─────────┬──┘              │
+│      │    ▲   ▲                   │  ▲   │     (flags)    ▲     │                 │
+│      └────┘   │                   │  └───┘                │     │                 │
+│      Close()  │                   │  Open(flags)          │     │                 │
+│               │                   │                       │     │                 │
+│               │                   └───────────────────────┘     │                 │
+│               │                       LoadDatabaseFile()        │                 │
+│               │                                                 │                 │
+│               └─────────────────────────────────────────────────┘                 │
+│                                     Close()                                       │
+│                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 | State | `IsOpen()` | `IsDatabaseLoaded()` | `IsValid()` | Can Identify Files? |
@@ -411,7 +405,7 @@ The comprehensive documentation includes:
 We welcome contributions of all kinds! Whether you're fixing bugs, adding features, improving documentation, or suggesting enhancements—your help makes Libmagicxx better for everyone.
 
 <p align="center">
-  <a href="CONTRIBUTING.md">
+  <a href="md_CONTRIBUTING.html">
     <img src="https://img.shields.io/badge/Read-Contributing_Guide-green?style=for-the-badge" alt="Contributing Guide">
   </a>
 </p>
@@ -423,14 +417,14 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding featur
 Found a security vulnerability? Please report it responsibly.
 
 <p align="center">
-  <a href="SECURITY.md">
+  <a href="md_SECURITY.html">
     <img src="https://img.shields.io/badge/Read-Security_Policy-red?style=for-the-badge" alt="Security Policy">
   </a>
 </p>
 
 ---
 
-## ⚖️ License
+## ⚖️ License {#license}
 
 Libmagicxx is licensed under the **GNU Lesser General Public License v3.0**.
 
@@ -439,7 +433,7 @@ This means you can:
 - ✅ Link to it from proprietary software
 - ✅ Modify and distribute it (under LGPL terms)
 
-See [COPYING.LESSER](COPYING.LESSER) for the full license text.
+See <a href="md_COPYING.html">COPYING.LESSER</a> for the full license text.
 
 <details>
 <summary><b>Third-Party Licenses</b></summary>
@@ -448,7 +442,7 @@ See [COPYING.LESSER](COPYING.LESSER) for the full license text.
 |-----------|---------|
 | [file/libmagic](https://github.com/file/file) | [BSD-2-Clause](https://github.com/file/file/blob/master/COPYING) |
 | [GoogleTest](https://github.com/google/googletest) | [BSD-3-Clause](https://github.com/google/googletest/blob/main/LICENSE) |
-| [libgnurx](https://github.com/TimothyGu/libgnurx) | [LGPL](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) |
+| [libgnurx](https://github.com/TimothyGu/libgnurx) | [LGPL-2.1-or-later](https://github.com/TimothyGu/libgnurx/blob/master/COPYING.LIB) |
 
 </details>
 

@@ -10,8 +10,7 @@
  * identification based on file content rather than file extensions.
  *
  * @author Oğuz Toraman
- * @copyright Copyright (c) 2022-2026 Oğuz Toraman
- * @license LGPL-3.0-only
+ * @copyright Copyright (c) 2022-2026 Oğuz Toraman. LGPL-3.0-only.
  *
  * @see https://github.com/oguztoraman/libmagicxx
  * @see https://github.com/file/file (underlying libmagic)
@@ -124,33 +123,27 @@ namespace Recognition {
  * A Magic instance follows a three-state lifecycle:
  *
  * @verbatim
- *                     +-------------------------------------------+
- *                     |              State Diagram                |
- *                     +-------------------------------------------+
- *
- *                             +----------+
- *              Constructor()  |          |  Close()
- *           +---------------->|  Closed  |<----------------+
- *           |                 |          |                 |
- *           |                 +----+-----+                 |
- *           |                      |                       |
- *           |                      | Open(flags)           |
- *           |                      v                       |
- *           |                 +----------+                 |
- *           |                 |          |  Close()        |
- *           |                 |  Opened  |-----------------+
- *           |                 |          |                 |
- *           |                 +----+-----+                 |
- *           |                      |                       |
- *           |                      | LoadDatabaseFile()    |
- *           |                      v                       |
- *           |                 +----------+                 |
- *           |                 |          |  Close()        |
- *           |                 |  Valid   |-----------------+
- *           |                 |          |
- *      Destructor             +----------+
- *  (releases resources)
- *
+ * +-----------------------------------------------------------------------------------+
+ * |                              Magic State Diagram                                  |
+ * +-----------------------------------------------------------------------------------+
+ * |                                                                                   |
+ * |  Constructor()                                       Constructor(flags)           |
+ * |       |                                                     |                     |
+ * |       V                                                     V                     |
+ * |   +------------+  Open(flags)  +------------+         +------------+              |
+ * |   |   CLOSED   |-------------->|   OPENED   |<--------|   VALID    |              |
+ * |   +--+---------+               +--+------+--+  Open   +---------+--+              |
+ * |      |    ^   ^                   |  ^   |     (flags)    ^     |                 |
+ * |      +----+   |                   |  +---+                |     |                 |
+ * |      Close()  |                   |  Open(flags)          |     |                 |
+ * |               |                   |                       |     |                 |
+ * |               |                   +-----------------------+     |                 |
+ * |               |                       LoadDatabaseFile()        |                 |
+ * |               |                                                 |                 |
+ * |               +-------------------------------------------------+                 |
+ * |                                     Close()                                       |
+ * |                                                                                   |
+ * +-----------------------------------------------------------------------------------+
  * @endverbatim
  *
  * #### State Descriptions
@@ -160,19 +153,6 @@ namespace Recognition {
  * | **Closed** | `false` | `false` | `false` | No |
  * | **Opened** | `true` | `false` | `false` | No |
  * | **Valid** | `true` | `true` | `true` | Yes |
- *
- * #### State Transitions
- *
- * | From | Action | To |
- * |------|--------|-----|
- * | Closed | `Open(flags)` | Opened |
- * | Closed | `Constructor(flags)` | Valid (opens + loads) |
- * | Opened | `LoadDatabaseFile()` | Valid |
- * | Opened | `Close()` | Closed |
- * | Opened | `Open(flags)` | Opened (reopens with new flags) |
- * | Valid | `Close()` | Closed |
- * | Valid | `Open(flags)` | Opened (reopens, database unloaded) |
- * | Any | Destructor | Resources released |
  *
  * #### Usage Patterns
  *
@@ -451,7 +431,12 @@ public:
     static std::string_view DEFAULT_DATABASE_FILE;
 
     /**
-     * @name Constructors
+     * @defgroup constructors Constructors
+     * @ingroup magic_core
+     * @brief Magic construction methods.
+     *
+     * Constructors for creating Magic instances in various initial states.
+     *
      * @{
      */
 
@@ -596,10 +581,15 @@ public:
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
-    /** @} */ // End of Constructors group
+    /** @} constructors */
 
     /**
-     * @name Special Member Functions
+     * @defgroup special_member_functions Special Member Functions
+     * @ingroup magic_core
+     * @brief Move, copy, and destruction operations.
+     *
+     * Special member functions controlling Magic lifetime and resource ownership.
+     *
      * @{
      */
 
@@ -638,7 +628,7 @@ public:
      * After the move, `other` is left in a closed state.
      *
      * @param[in,out] other The Magic instance to move from. Left closed after move.
-     * @return Reference to this object.
+     * @returns Reference to this object.
      *
      * @since 10.0.0
      */
@@ -661,10 +651,15 @@ public:
      */
     ~Magic();
 
-    /** @} */ // End of Special Member Functions group
+    /** @} special_member_functions */
 
     /**
-     * @name Validity Checking
+     * @defgroup validity_checking Validity Checking
+     * @ingroup magic_core
+     * @brief Instance and database validation methods.
+     *
+     * Methods for checking instance validity and database file integrity.
+     *
      * @{
      */
 
@@ -675,7 +670,7 @@ public:
      * Returns true if the instance is valid for file identification
      * (opened and database loaded).
      *
-     * @return `true` if valid (opened and database loaded), `false` otherwise.
+     * @returns `true` if valid (opened and database loaded), `false` otherwise.
      *
      * @code{.cpp}
      * Magic magic{Magic::Flags::Mime, std::nothrow};
@@ -700,7 +695,7 @@ public:
      *
      * @param[in] database_file Path to database file to check (default: DEFAULT_DATABASE_FILE).
      *
-     * @return `true` if the database has valid entries, `false` otherwise.
+     * @returns `true` if the database has valid entries, `false` otherwise.
      *
      * @code{.cpp}
      * if (Magic::Check("/path/to/custom.mgc")) {
@@ -718,10 +713,15 @@ public:
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
-    /** @} */ // End of Validity Checking group
+    /** @} validity_checking */
 
     /**
-     * @name Instance Control
+     * @defgroup instance_control Instance Control
+     * @ingroup magic_core
+     * @brief Instance lifecycle management.
+     *
+     * Methods for closing instances and compiling databases.
+     *
      * @{
      */
 
@@ -741,7 +741,7 @@ public:
      * @note Safe to call multiple times (idempotent). Automatically called
      *       by the destructor.
      *
-     * @see @ref magic_core "Magic Lifecycle" for state diagram
+     * @see @ref Magic Core "Magic Lifecycle" for state diagram
      * @see Open()
      * @see IsOpen()
      *
@@ -757,7 +757,7 @@ public:
      *
      * @param[in] database_file Path to database file to compile (default: DEFAULT_DATABASE_FILE).
      *
-     * @return `true` on successful compilation, `false` otherwise.
+     * @returns `true` on successful compilation, `false` otherwise.
      *
      * @code{.cpp}
      * if (Magic::Compile("/path/to/magic")) {
@@ -776,10 +776,15 @@ public:
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
-    /** @} */ // End of Instance Control group
+    /** @} instance_control */
 
     /**
-     * @name Flag Management
+     * @defgroup flag_management Flag Management
+     * @ingroup magic_core
+     * @brief Flag retrieval methods.
+     *
+     * Methods for querying current configuration flags.
+     *
      * @{
      */
 
@@ -788,7 +793,7 @@ public:
      *
      * Retrieves the flags currently configured for this Magic instance.
      *
-     * @return Container of active Flags values.
+     * @returns Container of active Flags values.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
@@ -809,7 +814,7 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @return Container of active Flags values, or `std::nullopt` if closed.
+     * @returns Container of active Flags values, or `std::nullopt` if closed.
      *
      * @since 10.0.0
      */
@@ -817,10 +822,15 @@ public:
         const std::nothrow_t& tag
     ) const noexcept;
 
-    /** @} */ // End of Flag Management group
+    /** @} flag_management */
 
     /**
-     * @name Parameter Management
+     * @defgroup parameter_management Parameter Management
+     * @ingroup magic_core
+     * @brief Parameter retrieval methods.
+     *
+     * Methods for querying libmagic parameter values.
+     *
      * @{
      */
 
@@ -831,7 +841,7 @@ public:
      *
      * @param[in] parameter The parameter to query.
      *
-     * @return Current value of the parameter.
+     * @returns Current value of the parameter.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
@@ -853,7 +863,7 @@ public:
      * @param[in] parameter The parameter to query.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @return Current value of the parameter, or `std::nullopt` if closed.
+     * @returns Current value of the parameter, or `std::nullopt` if closed.
      *
      * @since 10.0.0
      */
@@ -867,7 +877,7 @@ public:
      *
      * Retrieves a map of all parameters and their current values.
      *
-     * @return Map from Parameters enum values to their current values.
+     * @returns Map from Parameters enum values to their current values.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
@@ -890,7 +900,7 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @return Map from Parameters to values, or `std::nullopt` if closed.
+     * @returns Map from Parameters to values, or `std::nullopt` if closed.
      *
      * @since 10.0.0
      */
@@ -898,10 +908,15 @@ public:
         const std::nothrow_t& tag
     ) const noexcept;
 
-    /** @} */ // End of Parameter Management group
+    /** @} parameter_management */
 
     /**
-     * @name Static Utilities
+     * @defgroup static_utilities Static Utilities
+     * @ingroup magic_core
+     * @brief Static utility methods.
+     *
+     * Class-level methods that don't require an instance.
+     *
      * @{
      */
 
@@ -910,7 +925,7 @@ public:
      *
      * Returns the version number of the underlying Magic Number Recognition Library.
      *
-     * @return Version string in format "X.YY" (e.g., "5.45").
+     * @returns Version string in format "X.YY" (e.g., "5.45").
      *
      * @code{.cpp}
      * std::println("libmagic version: {}", Magic::GetVersion());
@@ -922,10 +937,15 @@ public:
      */
     [[nodiscard]] static std::string GetVersion() noexcept;
 
-    /** @} */ // End of Static Utilities group
+    /** @} static_utilities */
 
     /**
-     * @name File Identification
+     * @defgroup file_identification File Identification
+     * @ingroup magic_core
+     * @brief Core file type detection methods.
+     *
+     * Methods for identifying file types using magic number analysis.
+     *
      * @{
      */
 
@@ -937,7 +957,7 @@ public:
      *
      * @param[in] path Path to the file to identify.
      *
-     * @return File type string (format depends on configured Flags).
+     * @returns File type string (format depends on configured Flags).
      *
      * @throws MagicIsClosed          If the Magic instance is closed.
      * @throws MagicDatabaseNotLoaded If no database is loaded.
@@ -965,7 +985,7 @@ public:
      * @param[in] path Path to the file to identify.
      * @param[in] tag  Pass `std::nothrow` to select this overload.
      *
-     * @return ExpectedFileTypeT containing the file type or error message.
+     * @returns ExpectedFileTypeT containing the file type or error message.
      *
      * @code{.cpp}
      * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
@@ -993,7 +1013,7 @@ public:
      * @param[in] directory Path to the directory to scan.
      * @param[in] option    Directory iteration options (default: follow_directory_symlink).
      *
-     * @return Map from file paths to their identified types.
+     * @returns Map from file paths to their identified types.
      *
      * @throws MagicIsClosed          If the Magic instance is closed.
      * @throws MagicDatabaseNotLoaded If no database is loaded.
@@ -1032,7 +1052,7 @@ public:
      * @param[out] progress_tracker Shared progress tracker (must not be null).
      * @param[in]  option           Directory iteration options.
      *
-     * @return Map from file paths to their identified types.
+     * @returns Map from file paths to their identified types.
      *
      * @throws NullTracker If progress_tracker is null.
      * @throws ... Same exceptions as IdentifyFiles(directory, option).
@@ -1076,7 +1096,7 @@ public:
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      * @param[in] option    Directory iteration options.
      *
-     * @return Map from file paths to expected results (type or error per file).
+     * @returns Map from file paths to expected results (type or error per file).
      *
      * @see ExpectedFileTypeMapT
      *
@@ -1100,7 +1120,7 @@ public:
      * @param[out] progress_tracker Shared progress tracker (must not be null).
      * @param[in]  option           Directory iteration options.
      *
-     * @return Map from file paths to expected results (type or error per file).
+     * @returns Map from file paths to expected results (type or error per file).
      *
      * @since 10.0.0
      */
@@ -1124,7 +1144,7 @@ public:
      *
      * @param[in] files Container of file paths to identify.
      *
-     * @return Map from file paths to their identified types.
+     * @returns Map from file paths to their identified types.
      *
      * @throws MagicIsClosed          If the Magic instance is closed.
      * @throws MagicDatabaseNotLoaded If no database is loaded.
@@ -1159,7 +1179,7 @@ public:
      * @param[in]  files            Container of file paths to identify.
      * @param[out] progress_tracker Shared progress tracker (must not be null).
      *
-     * @return Map from file paths to their identified types.
+     * @returns Map from file paths to their identified types.
      *
      * @throws NullTracker If progress_tracker is null.
      * @throws ... Same exceptions as IdentifyFiles(files).
@@ -1183,7 +1203,7 @@ public:
      * @param[in] files Container of file paths to identify.
      * @param[in] tag   Pass `std::nothrow` to select this overload.
      *
-     * @return Map from file paths to expected results (type or error per file).
+     * @returns Map from file paths to expected results (type or error per file).
      *
      * @since 10.0.0
      */
@@ -1205,7 +1225,7 @@ public:
      * @param[in]  tag              Pass `std::nothrow` to select this overload.
      * @param[out] progress_tracker Shared progress tracker (must not be null).
      *
-     * @return Map from file paths to expected results (type or error per file).
+     * @returns Map from file paths to expected results (type or error per file).
      *
      * @since 10.0.0
      */
@@ -1222,17 +1242,22 @@ public:
         );
     }
 
-    /** @} */ // End of File Identification group
+    /** @} file_identification */
 
     /**
-     * @name State Queries
+     * @defgroup state_queries State Queries
+     * @ingroup magic_core
+     * @brief Instance state inspection methods.
+     *
+     * Methods for querying the current lifecycle state.
+     *
      * @{
      */
 
     /**
      * @brief Check if a magic database is loaded.
      *
-     * @return `true` if a database is loaded (instance in **Valid** state),
+     * @returns `true` if a database is loaded (instance in **Valid** state),
      *         `false` otherwise (**Closed** or **Opened** state).
      *
      * @par Lifecycle State Check
@@ -1242,7 +1267,7 @@ public:
      * | Opened | `false` |
      * | Valid | `true` |
      *
-     * @see @ref magic_core "Magic Lifecycle" for state diagram
+     * @see @ref Magic Core "Magic Lifecycle" for state diagram
      * @see LoadDatabaseFile()
      * @see IsOpen()
      * @see IsValid()
@@ -1254,7 +1279,7 @@ public:
     /**
      * @brief Check if the Magic instance is open.
      *
-     * @return `true` if open (**Opened** or **Valid** state),
+     * @returns `true` if open (**Opened** or **Valid** state),
      *         `false` if **Closed**.
      *
      * @par Lifecycle State Check
@@ -1267,7 +1292,7 @@ public:
      * @note An open instance may still not be valid for identification
      *       if no database is loaded. Use IsValid() to check both.
      *
-     * @see @ref magic_core "Magic Lifecycle" for state diagram
+     * @see @ref Magic Core "Magic Lifecycle" for state diagram
      * @see Open()
      * @see Close()
      * @see IsValid()
@@ -1282,7 +1307,7 @@ public:
      * An instance is valid if it is both open and has a database loaded,
      * i.e., it is in the **Valid** state.
      *
-     * @return `true` if in **Valid** state (open and database loaded),
+     * @returns `true` if in **Valid** state (open and database loaded),
      *         `false` if in **Closed** or **Opened** state.
      *
      * @par Lifecycle State Check
@@ -1299,7 +1324,7 @@ public:
      * }
      * @endcode
      *
-     * @see @ref magic_core "Magic Lifecycle" for state diagram
+     * @see @ref Magic Core "Magic Lifecycle" for state diagram
      * @see IsOpen()
      * @see IsDatabaseLoaded()
      * @see operator bool()
@@ -1308,10 +1333,15 @@ public:
      */
     [[nodiscard]] bool IsValid() const noexcept;
 
-    /** @} */ // End of State Queries group
+    /** @} state_queries */
 
     /**
-     * @name Database Loading
+     * @defgroup database_loading Database Loading
+     * @ingroup magic_core
+     * @brief Magic database loading methods.
+     *
+     * Methods for loading magic database files to enable identification.
+     *
      * @{
      */
 
@@ -1355,7 +1385,7 @@ public:
      * @param[in] tag           Pass `std::nothrow` to select this overload.
      * @param[in] database_file Path to the database file (default: DEFAULT_DATABASE_FILE).
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @note The ".mgc" extension is automatically appended if appropriate.
      *
@@ -1366,10 +1396,15 @@ public:
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
 
-    /** @} */ // End of Database Loading group
+    /** @} database_loading */
 
     /**
-     * @name Open/Reopen
+     * @defgroup open_reopen Open Reopen
+     * @ingroup magic_core
+     * @brief Instance initialization methods.
+     *
+     * Methods for opening and reopening the Magic instance.
+     *
      * @{
      */
 
@@ -1398,7 +1433,7 @@ public:
      * @warning Calling Open() on a **Valid** instance unloads the database.
      *          You must call LoadDatabaseFile() again.
      *
-     * @see @ref magic_core "Magic Lifecycle" for state diagram
+     * @see @ref Magic Core "Magic Lifecycle" for state diagram
      * @see Close()
      * @see LoadDatabaseFile()
      *
@@ -1412,7 +1447,7 @@ public:
      * @param[in] flags_mask Configuration flags.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1438,7 +1473,7 @@ public:
      * @param[in] flags_container Container of Flags values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1447,10 +1482,15 @@ public:
         const std::nothrow_t&  tag
     ) noexcept;
 
-    /** @} */ // End of Open/Reopen group
+    /** @} open_reopen */
 
     /**
-     * @name Flag Modification
+     * @defgroup flag_modification Flag Modification
+     * @ingroup magic_core
+     * @brief Flag modification methods.
+     *
+     * Methods for changing configuration flags after opening.
+     *
      * @{
      */
 
@@ -1480,7 +1520,7 @@ public:
      * @param[in] flags_mask New configuration flags.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1507,7 +1547,7 @@ public:
      * @param[in] flags_container Container of Flags values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1516,10 +1556,15 @@ public:
         const std::nothrow_t&  tag
     ) noexcept;
 
-    /** @} */ // End of Flag Modification group
+    /** @} flag_modification */
 
     /**
-     * @name Parameter Modification
+     * @defgroup parameter_modification Parameter Modification
+     * @ingroup magic_core
+     * @brief Parameter modification methods.
+     *
+     * Methods for changing libmagic parameter values.
+     *
      * @{
      */
 
@@ -1551,7 +1596,7 @@ public:
      * @param[in] value     The new value for the parameter.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1589,7 +1634,7 @@ public:
      * @param[in] parameters Map of parameters to their new values.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
-     * @return `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure.
      *
      * @since 10.0.0
      */
@@ -1598,26 +1643,26 @@ public:
         const std::nothrow_t&     tag
     ) noexcept;
 
-    /** @} */ // End of Parameter Modification group
+    /** @} parameter_modification */
 
 private:
-    /// @brief Forward declaration of the implementation class (Pimpl idiom).
+    /** @brief Forward declaration of the implementation class (Pimpl idiom). */
     class MagicPrivate;
 
-    /// @brief Pointer to the implementation (Pimpl idiom).
+    /** @brief Pointer to the implementation (Pimpl idiom). */
     std::unique_ptr<MagicPrivate> m_impl;
 
-    /// @brief Default container type for file paths used in implementation.
+    /** @brief Default container type for file paths used in implementation. */
     using DefaultFileContainerT = std::vector<std::filesystem::path>;
 
-    /// @brief Implementation for directory identification (throwing version).
+    /** @brief Implementation for directory identification (throwing version). */
     [[nodiscard]] FileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    /// @brief Implementation for directory identification (noexcept version).
+    /** @brief Implementation for directory identification (noexcept version). */
     [[nodiscard]] ExpectedFileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
@@ -1625,27 +1670,25 @@ private:
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    /// @brief Implementation for container identification (throwing version).
+    /** @brief Implementation for container identification (throwing version). */
     [[nodiscard]] FileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    /// @brief Implementation for container identification (noexcept version).
+    /** @brief Implementation for container identification (noexcept version). */
     [[nodiscard]] ExpectedFileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         const std::nothrow_t&        tag,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    /// @brief Friend declaration for ToString(Flags) free function.
+    /** @brief Friend declaration for ToString(Flags) free function. */
     friend std::string ToString(Flags);
 
-    /// @brief Friend declaration for ToString(Parameters) free function.
+    /** @brief Friend declaration for ToString(Parameters) free function. */
     friend std::string ToString(Parameters);
 };
-
-/** @} */ // End of magic_core group
 
 /**
  * @defgroup magic_to_string String Conversion Functions
@@ -1667,7 +1710,7 @@ private:
  * @param[in] file_type_entry The file type entry (path -> type pair).
  * @param[in] type_separator  Separator between path and type (default: " -> ").
  *
- * @return Formatted string: "path -> type".
+ * @returns Formatted string: "path -> type".
  *
  * @code{.cpp}
  * Magic::FileTypeEntryT entry = {"/path/to/file.txt", "text/plain"};
@@ -1694,7 +1737,7 @@ private:
  * @param[in] type_separator  Separator between path and type (default: " -> ").
  * @param[in] file_separator  Separator between entries (default: "\\n").
  *
- * @return Formatted string with all entries.
+ * @returns Formatted string with all entries.
  *
  * @code{.cpp}
  * auto results = magic.IdentifyFiles(files);
@@ -1722,7 +1765,7 @@ private:
  *
  * @param[in] expected_file_type The expected result from noexcept identification.
  *
- * @return The file type string on success, or error message on failure.
+ * @returns The file type string on success, or error message on failure.
  *
  * @code{.cpp}
  * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
@@ -1746,7 +1789,7 @@ private:
  * @param[in] expected_file_type_entry The file path and expected result pair.
  * @param[in] type_separator           Separator between path and result (default: " -> ").
  *
- * @return Formatted string: "path -> type" or "path -> [error message]".
+ * @returns Formatted string: "path -> type" or "path -> [error message]".
  *
  * @see Magic::ExpectedFileTypeEntryT
  *
@@ -1767,7 +1810,7 @@ private:
  * @param[in] type_separator         Separator between path and result (default: " -> ").
  * @param[in] file_separator         Separator between entries (default: "\\n").
  *
- * @return Formatted string with all entries.
+ * @returns Formatted string with all entries.
  *
  * @see Magic::ExpectedFileTypeMapT
  *
@@ -1787,7 +1830,7 @@ private:
  *
  * @param[in] flag The flag to convert.
  *
- * @return String name of the flag (e.g., "Mime", "MimeType").
+ * @returns String name of the flag (e.g., "Mime", "MimeType").
  *
  * @code{.cpp}
  * std::println("{}", ToString(Magic::Flags::Mime));
@@ -1809,7 +1852,7 @@ private:
  * @param[in] flags     Container of flags to convert.
  * @param[in] separator Separator between flags (default: ", ").
  *
- * @return Formatted string of flag names.
+ * @returns Formatted string of flag names.
  *
  * @code{.cpp}
  * Magic::FlagsContainerT flags = {Magic::Flags::Mime, Magic::Flags::Compress};
@@ -1834,7 +1877,7 @@ private:
  *
  * @param[in] parameter The parameter to convert.
  *
- * @return String name of the parameter (e.g., "BytesMax", "RegexMax").
+ * @returns String name of the parameter (e.g., "BytesMax", "RegexMax").
  *
  * @code{.cpp}
  * std::println("{}", ToString(Magic::Parameters::BytesMax));
@@ -1856,7 +1899,7 @@ private:
  * @param[in] parameter_value The parameter and its value.
  * @param[in] value_separator Separator between name and value (default: ": ").
  *
- * @return Formatted string: "ParameterName: value".
+ * @returns Formatted string: "ParameterName: value".
  *
  * @code{.cpp}
  * Magic::ParameterValueT pv = {Magic::Parameters::BytesMax, 1048576};
@@ -1883,7 +1926,7 @@ private:
  * @param[in] value_separator     Separator between name and value (default: ": ").
  * @param[in] parameter_separator Separator between entries (default: ", ").
  *
- * @return Formatted string of all parameter-value pairs.
+ * @returns Formatted string of all parameter-value pairs.
  *
  * @code{.cpp}
  * auto params = magic.GetParameters();
@@ -1902,7 +1945,7 @@ private:
     const std::string&               parameter_separator = ", "
 );
 
-/** @} */ // End of magic_to_string group
+/** @} magic_to_string */
 } /* namespace Recognition */
 
 #endif /* MAGIC_HPP */

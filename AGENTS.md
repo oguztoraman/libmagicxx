@@ -154,7 +154,7 @@ Agents must avoid: leaking paths, embedding credentials, adding network download
 
 ## 12. Code Style & Conventions Recap
 
-See [STYLE_GUIDE.md](STYLE_GUIDE.md) for C++ conventions and [cmake/STYLE_GUIDE.md](cmake/STYLE_GUIDE.md) for CMake conventions.
+See STYLE_GUIDE.md for C++ conventions and cmake/STYLE_GUIDE.md for CMake conventions.
 
 Key rules:
 
@@ -164,7 +164,13 @@ Key rules:
 
 + Template parameters: `PascalCase` with `T` suffix (types) or `V` suffix (non-types)
 
++ Type aliases: `PascalCase` ending with `T` (e.g., `FlagsMaskT`, `FileTypeT`)
+
 + Constants: `SCREAMING_SNAKE_CASE`
+
++ Files: `snake_case`; source files end with `.cpp`, headers end with `.hpp`
+
++ Doxygen identifiers: `snake_case` identifier + Title Case description (e.g., `@defgroup magic_core Core Magic API`)
 
 + C++23 features allowed; prefer clarity over cleverness.
 

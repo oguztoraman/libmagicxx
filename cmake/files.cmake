@@ -52,8 +52,12 @@ set(magicxx_INSTALLED_DEFAULT_DATABASE_FILE
     ${magicxx_INSTALL_DEFAULT_DATABASES_DIR}/magic
 )
 
-set(magicxx_README_FILE
-    ${magicxx_SOURCE_DIR}/README.md
+set(magicxx_AGENTS_FILE
+    ${magicxx_SOURCE_DIR}/AGENTS.md
+)
+
+set(magicxx_CMAKE_STYLE_GUIDE_FILE
+    ${magicxx_CMAKE_DIR}/STYLE_GUIDE.md
 )
 
 set(magicxx_CODE_OF_CONDUCT_FILE
@@ -64,24 +68,41 @@ set(magicxx_CONTRIBUTING_FILE
     ${magicxx_SOURCE_DIR}/CONTRIBUTING.md
 )
 
-set(magicxx_SECURITY_FILE
-    ${magicxx_SOURCE_DIR}/SECURITY.md
-)
-
 set(magicxx_CXX_STYLE_GUIDE_FILE
     ${magicxx_SOURCE_DIR}/STYLE_GUIDE.md
 )
 
-set(magicxx_CMAKE_STYLE_GUIDE_FILE
-    ${magicxx_CMAKE_DIR}/STYLE_GUIDE.md
-)
-
-set(magicxx_AGENTS_FILE
-    ${magicxx_SOURCE_DIR}/AGENTS.md
-)
-
 set(magicxx_EXAMPLES_FILE
     ${magicxx_EXAMPLES_DIR}/magic_examples.cpp
+)
+
+set(magicxx_PULL_REQUEST_TEMPLATE_FILE
+    ${magicxx_SOURCE_DIR}/PULL_REQUEST_TEMPLATE.md
+)
+
+set(magicxx_README_FILE
+    ${magicxx_SOURCE_DIR}/README.md
+)
+
+set(magicxx_SECURITY_FILE
+    ${magicxx_SOURCE_DIR}/SECURITY.md
+)
+
+# -----------------------------------------------------------------------------
+# Documentation files
+# -----------------------------------------------------------------------------
+set(magicxx_DOCUMENTATION_FILES
+    ${magicxx_AGENTS_FILE}
+    ${magicxx_CHANGELOG_FILE}
+    ${magicxx_CMAKE_STYLE_GUIDE_FILE}
+    ${magicxx_CODE_OF_CONDUCT_FILE}
+    ${magicxx_CONTRIBUTING_FILE}
+    ${magicxx_CXX_STYLE_GUIDE_FILE}
+    ${magicxx_EXAMPLES_FILE}
+    ${magicxx_LICENSE_FILE}
+    ${magicxx_PULL_REQUEST_TEMPLATE_FILE}
+    ${magicxx_README_FILE}
+    ${magicxx_SECURITY_FILE}
 )
 
 # -----------------------------------------------------------------------------

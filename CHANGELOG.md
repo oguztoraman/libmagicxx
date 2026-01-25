@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** CI/CD: Trigger build workflows on push to main branch.
+
 + **[DOCUMENTATION]** Docs: Improve overall documentation.
 
 + **[BUGFIX]** CMake: Fix MAGICXX_FOUND logic and set export name for targets.

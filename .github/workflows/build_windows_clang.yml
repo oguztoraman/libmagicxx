@@ -3,6 +3,7 @@ name: Build (Windows x86_64 build, Clang Toolchain)
 on:
   pull_request:
   push:
+    branches: [main]
     tags: ['v*']
   workflow_dispatch:
 

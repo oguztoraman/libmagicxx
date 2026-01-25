@@ -3,6 +3,7 @@ name: Build and Test (Linux x86_64 build, GCC Toolchain)
 on:
   pull_request:
   push:
+    branches: [main]
     tags: ['v*']
   workflow_dispatch:
 

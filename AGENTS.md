@@ -113,6 +113,8 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 
 Environment is a Fedora-based dev container. Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
 
+**Important:** Do not change the working directory when running terminal commands. Always use absolute paths or run commands from the repository root (`/libmagicxx`). Changing directories can cause subsequent commands to fail if they assume the original working directory.
+
 Preset tips:
 
 + Run `python ./scripts/launch_container.py` from the host and attach with VS Code Dev Containers.

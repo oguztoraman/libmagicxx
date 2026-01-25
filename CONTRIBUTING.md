@@ -320,7 +320,44 @@ magic_feature_test.cpp     # _test.cpp suffix for test files
 
 3. **Update documentation** (Doxygen comments for API changes)
 
-4. **Commit frequently** with descriptive messages
+4. **Commit frequently** with descriptive messages using component prefixes:
+
+#### Commit Message Format
+
+```
+<Component>: <Brief description>
+```
+
+**Component prefixes:**
+
+| Prefix | Use For |
+|--------|---------|
+| `Magic:` | Changes to Magic class, core library functionality |
+| `Docs:` | Documentation, README, Doxygen comments |
+| `CMake:` | Build system, CMakeLists.txt, presets |
+| `Tests:` | Test files, test infrastructure |
+| `CI/CD:` | GitHub Actions workflows, CI/CD pipelines, automation |
+| `DevEnv:` | Container, scripts, development environment |
+| `Examples:` | Example code changes |
+| `Deps:` | External dependencies updates |
+| `Release:` | Version bumps, changelog, release preparation |
+
+**Examples:**
+
+```bash
+git commit -m "Magic: Add buffer identification support"
+git commit -m "Docs: Fix rendering issues in README"
+git commit -m "CMake: Add new test preset for coverage"
+git commit -m "Tests: Add regression test for empty path handling"
+git commit -m "CI/CD: Trigger builds on push to main branch"
+git commit -m "DevEnv: Update container to Fedora 43"
+```
+
+For multi-component changes, use the primary component or combine:
+
+```bash
+git commit -m "Magic, Tests: Add IdentifyBuffer with unit tests"
+```
 
 ### Step 4: Build and Test
 
@@ -665,7 +702,7 @@ Complete this checklist:
 # Or use the terminal in the host VS Code window:
 cd libmagicxx
 git add .
-git commit -m "Brief description of changes"
+git commit -m "Magic: Brief description of changes"
 git push origin your-branch-name
 ```
 

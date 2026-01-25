@@ -218,7 +218,7 @@ sed -i "s/## Next Release.*/## Next Release\n\n## [${GIT_TAG}] - ${DATE}/" "${CH
 
 git add -- "${CMAKE_FILE}" "${CHANGELOG_FILE}" "${SECURITY_FILE}" || exit 13
 
-git commit -m "Update the project version to ${VERSION}" || exit 14
+git commit -m "Release: Update project version to ${VERSION}" || exit 14
 
 git tag -a "${GIT_TAG}" -m "Version ${VERSION}" || exit 15
 

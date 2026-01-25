@@ -180,7 +180,39 @@ Key rules:
 
 + Tests: follow existing GoogleTest naming and fixture patterns.
 
-## 13. Artifact Attribution (Commit Footer Template)
+## 13. Commit Message Format
+
+Use component prefixes for all commit messages:
+
+```
+<Component>: <Brief description>
+```
+
+**Component prefixes:**
+
+| Prefix | Use For |
+|--------|---------|
+| `Magic:` | Changes to Magic class, core library functionality |
+| `Docs:` | Documentation, README, Doxygen comments |
+| `CMake:` | Build system, CMakeLists.txt, presets |
+| `Tests:` | Test files, test infrastructure |
+| `CI/CD:` | GitHub Actions workflows, CI/CD pipelines, automation |
+| `DevEnv:` | Container, scripts, development environment |
+| `Examples:` | Example code changes |
+| `Deps:` | External dependencies updates |
+| `Release:` | Version bumps, changelog, release preparation |
+
+**Examples:**
+
+```bash
+git commit -m "Magic: Add buffer identification support"
+git commit -m "Docs: Fix rendering issues in README"
+git commit -m "Tests: Add regression test for empty path handling"
+```
+
+For multi-component changes: `Magic, Tests: Add IdentifyBuffer with unit tests`
+
+## 14. Artifact Attribution (Commit Footer Template)
 
 ```
 Agent-Role: tests
@@ -190,7 +222,7 @@ Presets-Used: linux-x86_64-clang-tests
 Validation: All tests pass; no public header changes.
 ```
 
-## 14. Large / Multi-File Changes Protocol
+## 15. Large / Multi-File Changes Protocol
 
 For >400 LOC or cross-cutting refactors:
 
@@ -202,7 +234,7 @@ For >400 LOC or cross-cutting refactors:
 
 4. Track progress via checklist in PR description.
 
-## 15. Example Agent Workflow
+## 16. Example Agent Workflow
 
 ```
 Issue #321 opened: Improve error reporting for load_database_file failures.
@@ -213,7 +245,7 @@ Agent (docs) updates README example -> PR #324.
 Human reviews ABI + formatting; merges sequentially.
 ```
 
-## 16. Prohibited Actions Without Prior Approval
+## 17. Prohibited Actions Without Prior Approval
 
 + Modifying licensing files (<a href="COPYING.LESSER">COPYING.LESSER</a>).
 
@@ -225,7 +257,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 + Deleting tests.
 
-## 17. Adding a New Agent Role
+## 18. Adding a New Agent Role
 
 1. Open issue describing function & boundaries.
 
@@ -237,7 +269,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 5. Reference change in <a href="CHANGELOG.md">CHANGELOG.md</a>.
 
-## 18. FAQ
+## 19. FAQ
 
 **Can an agent perform release tagging?** No; use `scripts/commit_release.sh` under maintainer supervision.  
 
@@ -245,7 +277,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 **What if formatting differs?** Re-run `./scripts/workflows.sh -p format-source-code` and amend.
 
-## 19. Quick Start (Agent Contribution)
+## 20. Quick Start (Agent Contribution)
 
 1. Create/confirm issue describing task.
 

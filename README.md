@@ -1,4 +1,3 @@
-@htmlonly
 <p align="center">
   <h1 align="center">✨ Libmagicxx ✨</h1>
   <p align="center">
@@ -47,12 +46,6 @@
     <img src="https://sonarcloud.io/api/project_badges/measure?project=oguztoraman_libmagicxx&metric=alert_status" alt="Quality Gate Status">
   </a>
 </p>
-@endhtmlonly
-
-@latexonly
-\section*{Libmagicxx}
-A Modern C++23 Wrapper for libmagic
-@endlatexonly
 
 ---
 
@@ -91,7 +84,7 @@ A Modern C++23 Wrapper for libmagic
 - [Documentation](#-documentation)
 - [Contributing](#-contributing)
 - [Security](#-security)
-- [License](#license)
+- [License](#%EF%B8%8F-license)
 
 ---
 
@@ -219,7 +212,7 @@ python ./scripts/launch_container.py
 ./scripts/workflows.sh -p linux-x86_64-clang -c
 ```
 
-See [CONTRIBUTING.md](md_CONTRIBUTING.html) for detailed build instructions.
+See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed build instructions.
 
 </details>
 
@@ -405,7 +398,7 @@ The comprehensive documentation includes:
 We welcome contributions of all kinds! Whether you're fixing bugs, adding features, improving documentation, or suggesting enhancements—your help makes Libmagicxx better for everyone.
 
 <p align="center">
-  <a href="md_CONTRIBUTING.html">
+  <a href="CONTRIBUTING.md">
     <img src="https://img.shields.io/badge/Read-Contributing_Guide-green?style=for-the-badge" alt="Contributing Guide">
   </a>
 </p>
@@ -417,14 +410,14 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding featur
 Found a security vulnerability? Please report it responsibly.
 
 <p align="center">
-  <a href="md_SECURITY.html">
+  <a href="SECURITY.md">
     <img src="https://img.shields.io/badge/Read-Security_Policy-red?style=for-the-badge" alt="Security Policy">
   </a>
 </p>
 
 ---
 
-## ⚖️ License {#license}
+## ⚖️ License
 
 Libmagicxx is licensed under the **GNU Lesser General Public License v3.0**.
 
@@ -433,7 +426,7 @@ This means you can:
 - ✅ Link to it from proprietary software
 - ✅ Modify and distribute it (under LGPL terms)
 
-See <a href="md_COPYING.html">COPYING.LESSER</a> for the full license text.
+See <a href="COPYING.LESSER">COPYING.LESSER</a> for the full license text.
 
 <details>
 <summary><b>Third-Party Licenses</b></summary>

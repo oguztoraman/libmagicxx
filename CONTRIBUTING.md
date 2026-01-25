@@ -62,7 +62,7 @@ This guide provides everything you need to contribute successfully.
 
 ## Code of Conduct
 
-We expect all contributors to adhere to the [Code of Conduct](md_CODE__OF__CONDUCT.html). Please read it to understand the standards of behavior we expect from our community.
+We expect all contributors to adhere to the <a href="CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it to understand the standards of behavior we expect from our community.
 
 ---
 
@@ -281,7 +281,7 @@ git checkout -b quality/refactor-error-handling
 
 ### Step 2: Understand the Code Style
 
-All code must follow [STYLE_GUIDE.md](md_STYLE__GUIDE.html). Key rules:
+All code must follow <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>. Key rules:
 
 #### Naming Conventions
 
@@ -640,7 +640,7 @@ The project includes pre-configured debug launchers in `.vscode/launch.json`:
 Complete this checklist:
 
 - [ ] Branch created from `main` (or release branch for bugfix)
-- [ ] Code follows [STYLE_GUIDE.md](md_STYLE__GUIDE.html)
+- [ ] Code follows <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>
 - [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
 - [ ] New tests added for new functionality

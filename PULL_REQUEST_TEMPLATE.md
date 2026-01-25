@@ -11,7 +11,7 @@ Fixes issue #????.
 ## Checklist
 
 - [ ] Branch created from `main` (or release branch for bugfix)
-- [ ] Code follows [STYLE_GUIDE.md](md_STYLE__GUIDE.html)
+- [ ] Code follows <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>
 - [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
 - [ ] New tests added for new functionality

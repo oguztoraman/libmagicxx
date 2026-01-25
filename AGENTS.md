@@ -62,7 +62,7 @@ Target language standard: C++23. Formatting enforced by `.clang-format` via pres
 | enhancement | Small feature addition behind clear issue | Must create tests + docs; branch from `main` |
 | quality | Formatting / static improvements | Use presets; do not reflow unrelated logic |
 
-## 6. Branch & PR Conventions (from CONTRIBUTING.md)
+## 6. Branch & PR Conventions (from <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>)
 
 Branch naming per human guidelines (agents must follow):
 
@@ -156,7 +156,7 @@ Agents must avoid: leaking paths, embedding credentials, adding network download
 
 ## 12. Code Style & Conventions Recap
 
-See STYLE_GUIDE.md for C++ conventions and cmake/STYLE_GUIDE.md for CMake conventions.
+See <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a> for C++ conventions and <a href="cmake/STYLE_GUIDE.md">cmake/STYLE_GUIDE.md</a> for CMake conventions.
 
 Key rules:
 
@@ -215,7 +215,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 ## 16. Prohibited Actions Without Prior Approval
 
-+ Modifying licensing files (`COPYING.LESSER`).
++ Modifying licensing files (<a href="COPYING.LESSER">COPYING.LESSER</a>).
 
 + Changing container base or dependency install scripts drastically.
 
@@ -235,7 +235,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 4. Update this file.
 
-5. Reference change in `CHANGELOG.md`.
+5. Reference change in <a href="CHANGELOG.md">CHANGELOG.md</a>.
 
 ## 18. FAQ
 

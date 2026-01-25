@@ -139,3 +139,18 @@ doxygen_add_docs(
 )
 
 add_dependencies(magicxx_documentation delete_old_docs)
+
+# -----------------------------------------------------------------------------
+# Copy 404.html for GitHub Pages redirect support
+# When users click .md links on the docs site, the 404 page redirects them
+# to the correct Doxygen-generated HTML page.
+# -----------------------------------------------------------------------------
+
+add_custom_command(TARGET magicxx_documentation POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${magicxx_DOCUMENTATION_DIR}/404.html
+        ${magicxx_DOCUMENTATION_SITE_DIR}/404.html
+    COMMENT
+        "Copying 404.html for redirect support..."
+    VERBATIM
+)

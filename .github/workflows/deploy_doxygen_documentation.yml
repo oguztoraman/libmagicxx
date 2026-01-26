@@ -25,10 +25,9 @@ jobs:
     steps:
       - name: Install Dependencies.
         run: >
-              dnf -y update &&        \
-              dnf install -y git      \
-              cmake ninja-build       \
-              clang clang-tools-extra \
+              dnf install -y --refresh git \
+              cmake ninja-build            \
+              clang clang-tools-extra      \
               doxygen
       - name: Checkout.
         uses: actions/checkout@v4

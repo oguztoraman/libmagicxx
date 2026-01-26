@@ -18,11 +18,10 @@ jobs:
     steps:
       - name: Install Dependencies.
         run: >
-          dnf -y update &&                \
-          dnf install -y git git-lfs      \
-              awk make autoconf libtool   \
-              cmake ninja-build rpm-build \
-              clang lld libcxx-devel      \
+          dnf install -y --refresh git git-lfs \
+              awk make autoconf libtool        \
+              cmake ninja-build rpm-build      \
+              clang lld libcxx-devel           \
               clang-tools-extra
       - name: Checkout.
         uses: actions/checkout@v4

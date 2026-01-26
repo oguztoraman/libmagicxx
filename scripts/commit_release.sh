@@ -180,15 +180,15 @@ BEGIN {
         if ($0 ~ /^##[[:space:]]+/) {
             print "";
             print "| Version | Supported |";
-            print "| ------- | ----------|";
-            if (minor == 0) {
-                printf("| %d.0.x  |     +     |\n", major);
-                printf("|  < %d  |     -     |\n", major);
-            } else {
-                printf("| %d.%d.x  |     +     |\n", major, minor);
-                printf("| %d.0.x  |     -     |\n", major);
-                printf("|  < %d   |     -     |\n", major);
+            print "| ------- | --------- |";
+            # Print current version as supported
+            printf("| %d.%d.x   |     +     |\n", major, minor);
+            # Print all previous minor versions as not supported
+            for (i = minor - 1; i >= 0; i--) {
+                printf("| %d.%d.x   |     -     |\n", major, i);
             }
+            # Print previous major versions as not supported
+            printf("| < %d     |     -     |\n", major);
             print "";
             print $0;
             in_block = 2;

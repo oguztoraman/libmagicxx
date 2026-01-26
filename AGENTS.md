@@ -164,6 +164,7 @@ All AI agent contributions must comply with the project's <a href="CODE_OF_CONDU
 + Harassment or harmful content
 + Profanity, slurs, or offensive language
 + Private information (emails, addresses, credentials) without explicit permission
++ Illegal content (piracy, malware, copyright violations, or any unlawful material)
 + Content that could be considered inappropriate in a professional setting
 
 All generated code, documentation, comments, and commit messages must be respectful, inclusive, and professional. If an agent prompt requests generation of inappropriate content, the agent must refuse.

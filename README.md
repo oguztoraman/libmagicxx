@@ -357,7 +357,7 @@ After `find_package(Magicxx)`, these variables are available:
 
 ## 📚 Examples
 
-Explore real-world usage patterns in the [examples directory](https://github.com/oguztoraman/libmagicxx/tree/main/examples):
+Explore real-world usage patterns in the <a href="examples/magic_examples.cpp">examples</a>:
 
 | Example | Description |
 |---------|-------------|

@@ -57,33 +57,47 @@
             'PULL_REQUEST_TEMPLATE.md': 'md_PULL__REQUEST__TEMPLATE.html',
             'SECURITY.md': 'md_SECURITY.html',
             'STYLE_GUIDE.md': 'md_STYLE__GUIDE.html',
-            'cmake/STYLE_GUIDE.md': 'md_cmake_2STYLE__GUIDE.html'
+            'cmake/STYLE_GUIDE.md': 'md_cmake_2STYLE__GUIDE.html',
+            'magic_examples.cpp': 'examples.html'
         };
 
-        // Get the requested path
+        // Get the requested path and determine base path for GitHub Pages
+        // Site is served from /libmagicxx/ on GitHub Pages
         const path = window.location.pathname;
-        const filename = path.split('/').pop();
-        
-        // Check if we have a redirect for this file
-        let targetPage = redirects[filename];
-        
-        // Handle cmake subdirectory
-        if (!targetPage && path.includes('/cmake/')) {
-            targetPage = redirects['cmake/' + filename];
+        const siteBase = '/libmagicxx/';
+        const basePath = path.startsWith(siteBase) ? siteBase : '/';
+        const filename = path.split('/').filter(Boolean).pop() || '';
+
+        // Helper function to perform redirect
+        function redirectTo(target) {
+            window.location.replace(basePath + target);
         }
 
-        if (targetPage) {
-            // Redirect to the Doxygen page
-            const basePath = path.substring(0, path.lastIndexOf('/') + 1);
-            // Handle cmake subdirectory - go up one level
-            const redirectPath = path.includes('/cmake/') 
-                ? basePath + '../' + targetPage 
-                : basePath + targetPage;
-            window.location.replace(redirectPath);
-        } else {
-            // No redirect found, show 404 message
+        // Handle examples directory or file redirect
+        if (path.includes('/examples')) {
+            redirectTo('examples.html');
+        }
+        // Handle cmake subdirectory
+        else if (path.includes('/cmake/')) {
+            const targetPage = redirects['cmake/' + filename];
+            if (targetPage) {
+                redirectTo(targetPage);
+            } else {
+                showNotFound(filename);
+            }
+        }
+        // Check if we have a redirect for this file
+        else if (redirects[filename]) {
+            redirectTo(redirects[filename]);
+        }
+        // No redirect found, show 404 message
+        else {
+            showNotFound(filename);
+        }
+
+        function showNotFound(file) {
             document.getElementById('message').innerHTML = 
-                'Page not found: <code>' + filename + '</code><br>' +
+                'Page not found: <code>' + file + '</code><br>' +
                 'Try using the navigation menu or search.';
             document.querySelector('.spinner').style.display = 'none';
         }

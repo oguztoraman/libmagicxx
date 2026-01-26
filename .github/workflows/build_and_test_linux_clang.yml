@@ -18,6 +18,7 @@ jobs:
     steps:
       - name: Install Dependencies.
         run: >
+          dnf -y update &&                \
           dnf install -y git git-lfs      \
               awk make autoconf libtool   \
               cmake ninja-build rpm-build \

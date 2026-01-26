@@ -154,7 +154,21 @@ Output: Unified diff + run instructions.
 
 Agents must avoid: leaking paths, embedding credentials, adding network downloads at build/test time. Use standard error handling, prefer exceptions or error codes consistent with existing code. Highlight risky file I/O additions for reviewer scrutiny.
 
-## 12. Code Style & Conventions Recap
+## 12. Code of Conduct Compliance
+
+All AI agent contributions must comply with the project's <a href="CODE_OF_CONDUCT.md">Code of Conduct</a>. Agents must never generate:
+
++ Sexualized language or imagery
++ Insulting, derogatory, or discriminatory comments
++ Trolling or personal/political attacks
++ Harassment or harmful content
++ Profanity, slurs, or offensive language
++ Private information (emails, addresses, credentials) without explicit permission
++ Content that could be considered inappropriate in a professional setting
+
+All generated code, documentation, comments, and commit messages must be respectful, inclusive, and professional. If an agent prompt requests generation of inappropriate content, the agent must refuse.
+
+## 13. Code Style & Conventions Recap
 
 See <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a> for C++ conventions and <a href="cmake/STYLE_GUIDE.md">cmake/STYLE_GUIDE.md</a> for CMake conventions.
 
@@ -180,7 +194,7 @@ Key rules:
 
 + Tests: follow existing GoogleTest naming and fixture patterns.
 
-## 13. Commit Message Format
+## 14. Commit Message Format
 
 Use component prefixes for all commit messages:
 
@@ -216,7 +230,7 @@ git commit -m "Tests: Add regression test for empty path handling"
 
 For multi-component changes: `Magic, Tests: Add IdentifyBuffer with unit tests`
 
-## 14. Artifact Attribution (Commit Footer Template)
+## 15. Artifact Attribution (Commit Footer Template)
 
 ```
 Agent-Role: tests
@@ -226,7 +240,7 @@ Presets-Used: linux-x86_64-clang-tests
 Validation: All tests pass; no public header changes.
 ```
 
-## 15. Large / Multi-File Changes Protocol
+## 16. Large / Multi-File Changes Protocol
 
 For >400 LOC or cross-cutting refactors:
 
@@ -238,7 +252,7 @@ For >400 LOC or cross-cutting refactors:
 
 4. Track progress via checklist in PR description.
 
-## 16. Example Agent Workflow
+## 17. Example Agent Workflow
 
 ```
 Issue #321 opened: Improve error reporting for load_database_file failures.
@@ -249,7 +263,7 @@ Agent (docs) updates README example -> PR #324.
 Human reviews ABI + formatting; merges sequentially.
 ```
 
-## 17. Prohibited Actions Without Prior Approval
+## 18. Prohibited Actions Without Prior Approval
 
 + Modifying licensing files (<a href="COPYING.LESSER">COPYING.LESSER</a>).
 
@@ -261,7 +275,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 + Deleting tests.
 
-## 18. Adding a New Agent Role
+## 19. Adding a New Agent Role
 
 1. Open issue describing function & boundaries.
 
@@ -273,7 +287,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 5. Reference change in <a href="CHANGELOG.md">CHANGELOG.md</a>.
 
-## 19. FAQ
+## 20. FAQ
 
 **Can an agent perform release tagging?** No; use `scripts/commit_release.sh` under maintainer supervision.  
 
@@ -281,7 +295,7 @@ Human reviews ABI + formatting; merges sequentially.
 
 **What if formatting differs?** Re-run `./scripts/workflows.sh -p format-source-code` and amend.
 
-## 20. Quick Start (Agent Contribution)
+## 21. Quick Start (Agent Contribution)
 
 1. Create/confirm issue describing task.
 

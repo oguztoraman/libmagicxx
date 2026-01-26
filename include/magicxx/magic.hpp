@@ -5,9 +5,9 @@
  * @file magic.hpp
  * @brief Main header file for the libmagicxx library.
  *
- * This file contains the Magic class, which provides a modern C++23 wrapper
- * around the Magic Number Recognition Library (libmagic). It enables file type
- * identification based on file content rather than file extensions.
+ * This file contains the Magic class, a modern C++23 wrapper for libmagic —
+ * the library that powers the Unix file command. It provides type-safe,
+ * RAII-based file type identification based on content rather than file extensions.
  *
  * @author Oğuz Toraman
  * @copyright Copyright (c) 2022-2026 Oğuz Toraman. LGPL-3.0-only.
@@ -103,7 +103,7 @@ namespace Recognition {
  * @class Magic
  * @ingroup magic_core
  *
- * @brief A modern C++23 wrapper for the Magic Number Recognition Library.
+ * @brief A modern C++23 wrapper for libmagic — the library that powers the Unix file command.
  *
  * The Magic class provides a high-level, type-safe interface for identifying
  * file types based on their content (magic numbers) rather than file extensions.
@@ -923,7 +923,7 @@ public:
     /**
      * @brief Get the libmagic library version.
      *
-     * Returns the version number of the underlying Magic Number Recognition Library.
+     * Returns the version number of the underlying libmagic library.
      *
      * @returns Version string in format "X.YY" (e.g., "5.45").
      *

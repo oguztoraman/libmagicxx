@@ -289,7 +289,7 @@ All APIs **must** be documented with Doxygen comments. Use `/** ... */` style fo
 /**
  * @class Magic
  *
- * @brief Provides a C++ wrapper over the Magic Number Recognition Library.
+ * @brief A modern C++23 wrapper for libmagic — the library that powers the Unix file command.
  *
  * @note To use the Magic class for file type identification, ensure:
  *       1. The Magic instance must be opened.

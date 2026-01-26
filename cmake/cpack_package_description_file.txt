@@ -1,3 +1,2 @@
-Libmagicxx is a C++ wrapper library over the Magic Number Recognition Library.
-It provides an easy-to-use interface through the magic class,
-enabling the identification of file types based on their content rather than file extensions.
+Libmagicxx is a modern C++23 wrapper library for libmagic — the library that powers the Unix file command.
+It provides a type-safe, RAII-based interface for identifying file types based on their content rather than file extensions.

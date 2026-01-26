@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 # -----------------------------------------------------------------------------
-# Libmagicxx - C++ wrapper library for file type recognition
+# Libmagicxx - A modern C++23 wrapper for libmagic
 #
 # This is the main build configuration for libmagicxx.
 #
@@ -33,7 +33,7 @@ endif()
 
 project(magicxx
     VERSION 9.1.1
-    DESCRIPTION "A C++ wrapper library over the Magic Number Recognition Library."
+    DESCRIPTION "A modern C++23 wrapper for libmagic — the library that powers the Unix file command."
     HOMEPAGE_URL "https://github.com/oguztoraman/libmagicxx"
     LANGUAGES C CXX
 )

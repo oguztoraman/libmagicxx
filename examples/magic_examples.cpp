@@ -5,9 +5,9 @@
  * @file magic_examples.cpp
  * @brief Comprehensive examples demonstrating libmagicxx usage.
  *
- * This file contains practical examples showing how to use the libmagicxx
- * library for file type identification. Each example demonstrates a different
- * aspect of the library's functionality.
+ * This file contains practical examples showing how to use libmagicxx —
+ * a modern C++23 wrapper for libmagic, the library that powers the Unix file command.
+ * Each example demonstrates a different aspect of the library's functionality.
  *
  * @section examples_overview Examples Overview
  *

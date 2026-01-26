@@ -3,8 +3,7 @@
 
 # -----------------------------------------------------------------------------
 # Example applications for Libmagicxx
-# Demonstrates usage of the libmagicxx library with both shared and static
-# library variants.
+# Demonstrates usage of libmagicxx — a modern C++23 wrapper for libmagic.
 # -----------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.31.6)

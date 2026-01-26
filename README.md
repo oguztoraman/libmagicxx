@@ -84,7 +84,8 @@
 - [Documentation](#-documentation)
 - [Contributing](#-contributing)
 - [Security](#-security)
-- [License](#%EF%B8%8F-license)
+- [License](#-license)
+- [Disclaimer](#-disclaimer)
 
 ---
 
@@ -417,7 +418,7 @@ Found a security vulnerability? Please report it responsibly.
 
 ---
 
-## ⚖️ License
+## 📃 License
 
 Libmagicxx is licensed under the **GNU Lesser General Public License v3.0**.
 

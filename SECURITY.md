@@ -3,10 +3,9 @@
 ## Supported Versions
 
 | Version | Supported |
-| ------- | ----------|
-|  9.1.x  |     +     |
-|  9.0.x  |     -     |
-|  < 9    |     -     |
+| ------- | --------- |
+| 10.0.x   |     +     |
+| < 10     |     -     |
 
 ## Reporting a Vulnerability
 

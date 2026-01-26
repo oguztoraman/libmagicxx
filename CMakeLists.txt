@@ -32,7 +32,7 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 endif()
 
 project(magicxx
-    VERSION 9.1.1
+    VERSION 10.0.0
     DESCRIPTION "A modern C++23 wrapper for libmagic — the library that powers the Unix file command."
     HOMEPAGE_URL "https://github.com/oguztoraman/libmagicxx"
     LANGUAGES C CXX

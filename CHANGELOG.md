@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v10.0.0] - 26-01-2026
+
 + **[QUALITY]** CMake: Update documentation directory structure and cleanup target.
 
 + **[QUALITY]** CMake: Refactor commands to use CMake built-in commands.

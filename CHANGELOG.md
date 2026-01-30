@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** CI/CD: Update Doxygen deployment workflow to ensure submodules are checked out.
+
 + **[BUGFIX]** CI/CD: Fix dnf install indentation in documentation workflow.
 
 ## [v10.0.0] - 26-01-2026

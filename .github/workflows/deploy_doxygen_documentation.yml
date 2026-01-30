@@ -31,6 +31,8 @@ jobs:
               doxygen
       - name: Checkout.
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Generate Doxygen Documentation.
         run: ./scripts/workflows.sh -p documentation -c
       - name: Setup Pages.

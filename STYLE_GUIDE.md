@@ -255,10 +255,11 @@ scripts/workflows.sh
 
 ### Documentation Files
 
-Use **SCREAMING_SNAKE_CASE** for all documentation markdown files at the root level.
+Use **SCREAMING_SNAKE_CASE** for all documentation files (markdown, text, etc.) regardless of location.
 
 ```
 README.md
+README.txt
 CONTRIBUTING.md
 CHANGELOG.md
 STYLE_GUIDE.md

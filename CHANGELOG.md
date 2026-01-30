@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** CI/CD: Fix dnf install indentation in documentation workflow.
+
 ## [v10.0.0] - 26-01-2026
 
 + **[QUALITY]** CMake: Update documentation directory structure and cleanup target.

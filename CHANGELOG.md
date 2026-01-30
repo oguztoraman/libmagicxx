@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## [v10.0.1] - 30-01-2026
+
 + **[DOCUMENTATION]** Docs: Update contributing and style guide for clarity on branch strategy and documentation file naming conventions.
 
 + **[BUGFIX]** CI/CD: Update Doxygen deployment workflow to ensure submodules are checked out.

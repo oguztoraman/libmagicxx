@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Update contributing and style guide for clarity on branch strategy and documentation file naming conventions.
+
 + **[BUGFIX]** CI/CD: Update Doxygen deployment workflow to ensure submodules are checked out.
 
 + **[BUGFIX]** CI/CD: Fix dnf install indentation in documentation workflow.

@@ -115,8 +115,10 @@ We expect all contributors to adhere to the <a href="CODE_OF_CONDUCT.md">Code of
 
 ### Branch Strategy
 
-+ **`main`**: Development branch for next feature release. Tags: `v9.0.0`, `v9.1.0`, etc.
-+ **`vX.Y.x`**: Maintenance branches for supported releases. Tags: `v9.0.1`, `v9.0.2`, etc.
++ **`main`**: Development branch for next feature release.
++ **`vX.Y.x`**: Stable release branches. All release tags (`vX.Y.0`, `vX.Y.1`, etc.) are created on these branches.
++ Major/minor releases (`vX.0.0`, `vX.Y.0`) create a new `vX.Y.x` branch from `main`.
++ Patch releases (`vX.Y.Z`) are tagged on existing `vX.Y.x` branches.
 + All bugfix changes are also merged to `main`.
 
 ---
@@ -286,30 +288,38 @@ All code must follow <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>. Key rules:
 #### Naming Conventions
 
 ```cpp
-namespace Recognition {              // PascalCase
+namespace Recognition {              /* PascalCase for namespaces */
 
-class Magic {                        // PascalCase
+class Magic {                        /* PascalCase for classes */
 public:
-    using FileTypeT = std::string;   // PascalCase + T suffix for types
+    using FileTypeT = std::string;   /* PascalCase + T suffix for type aliases */
     
-    template <typename ContainerT>   // PascalCase + T for type params
-    void SetFlags(ContainerT flags); // PascalCase for functions
+    template <typename ContainerT>   /* PascalCase + T suffix for type params */
+    void SetFlags(ContainerT flags); /* PascalCase for functions */
     
-    static constexpr int MAX_SIZE = 100;  // SCREAMING_SNAKE_CASE for constants
+    static constexpr int MAX_SIZE = 100;  /* SCREAMING_SNAKE_CASE for constants */
     
 private:
-    magic_t m_handle;                // snake_case with m_ prefix for members
-    int m_flag_count;
+    magic_t m_handle;                /* snake_case with m_ prefix for members */
+    int m_flag_count;                /* snake_case for variables */
 };
 
-}  // namespace Recognition
+}  /* namespace Recognition */
+
+/* Test fixture - PascalCase ending with Test */
+struct MagicFlagsTest : testing::Test { };
+
+/* Test cases - snake_case */
+TEST_F(MagicFlagsTest, set_flags_returns_true_for_valid_magic) { }
 ```
 
 #### File Naming
 
 ```
-magic_feature.cpp          # snake_case for source files
+magic_feature.hpp          # snake_case, .hpp for headers
+magic_feature.cpp          # snake_case, .cpp for source files
 magic_feature_test.cpp     # _test.cpp suffix for test files
+CHANGELOG.md               # SCREAMING_SNAKE_CASE for documentation files
 ```
 
 ### Step 3: Make Your Changes

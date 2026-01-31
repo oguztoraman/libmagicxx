@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Disable Doxygen autolink support in CMakeLists.txt.
+
 ## [v10.0.2] - 31-01-2026
 
 + **[DOCUMENTATION]** Docs: Escape file names in CHANGELOG.md to prevent broken Doxygen links.

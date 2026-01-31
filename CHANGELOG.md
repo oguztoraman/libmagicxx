@@ -2,6 +2,10 @@
 
 ## Next Release
 
+## [v10.0.2] - 31-01-2026
+
++ **[DOCUMENTATION]** Docs: Escape file names in CHANGELOG.md to prevent broken Doxygen links.
+
 ## [v10.0.1] - 30-01-2026
 
 + **[DOCUMENTATION]** Docs: Update contributing and style guide for clarity on branch strategy and documentation file naming conventions.
@@ -32,7 +36,7 @@
 
 + **[DOCUMENTATION]** Docs: Update copyright years to 2026.
 
-+ **[QUALITY]** Scripts: Refactor launch_container.py script for improved structure and error handling.
++ **[QUALITY]** Scripts: Refactor `launch_container.py` script for improved structure and error handling.
 
 + **[DOCUMENTATION]** Docs: Update Doxygen deployment workflow and remove documentation site source code references.
 
@@ -40,7 +44,7 @@
 
 + **[DOCUMENTATION]** Docs: Update release procedure.
 
-+ **[ENHANCEMENT]** Scripts: Enhance version tagging validation and update SECURITY.md from the script.
++ **[ENHANCEMENT]** Scripts: Enhance version tagging validation and update `SECURITY.md` from the script.
 
 ## [v9.1.1] - 03-12-2025
 
@@ -52,13 +56,13 @@
 
 + **[QUALITY]** Scripts: Fix error prone issues.
 
-+ **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md.
++ **[DOCUMENTATION]** Docs: Update `CONTRIBUTING.md`.
 
-+ **[DOCUMENTATION]** Docs: Add AGENTS.md for AI agents usage and governance guidelines.
++ **[DOCUMENTATION]** Docs: Add `AGENTS.md` for AI agents usage and governance guidelines.
 
 + **[ENHANCEMENT]** Scripts: Use Clang to generate release packages.
 
-+ **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md to include instructions for updating the development container image.
++ **[DOCUMENTATION]** Docs: Update `CONTRIBUTING.md` to include instructions for updating the development container image.
 
 + **[ENHANCEMENT]** Magic: Configure VSCode for debugging with LLDB.
 
@@ -68,13 +72,13 @@
 
 + **[QUALITY]** Scripts: Update cache clearing logic in workflow script.
 
-+ **[ENHANCEMENT]** Format: Update .clang-format to version 21 and format the source code.
++ **[ENHANCEMENT]** Format: Update `.clang-format` to version 21 and format the source code.
 
-+ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 42 to 43 in workflow files and Containerfile.
++ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 42 to 43 in workflow files and `Containerfile`.
 
-+ **[ENHANCEMENT]** Format: Update .clang-format and format the source code.
++ **[ENHANCEMENT]** Format: Update `.clang-format` and format the source code.
 
-+ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 41 to 42 in workflow files and Containerfile.
++ **[ENHANCEMENT]** DevEnv: Update Fedora base image from 41 to 42 in workflow files and `Containerfile`.
 
 ## [v9.0.2] - 16-07-2025
 
@@ -84,9 +88,9 @@
 
 ## [v9.0.1] - 12-07-2025
 
-+ **[BUGFIX]** Docs: Fix typo in SECURITY.md.
++ **[BUGFIX]** Docs: Fix typo in `SECURITY.md`.
 
-+ **[BUGFIX]** Docs: Fix formatting issues in CHANGELOG.md.
++ **[BUGFIX]** Docs: Fix formatting issues in `CHANGELOG.md`.
 
 ## [v9.0.0] - 09-07-2025
 
@@ -106,7 +110,7 @@
 
 + **[QUALITY]** Tests & Examples: Refactor tests & examples.
 
-+ **[DOCUMENTATION]** Docs: Add section on Magic States to README.md for better understanding of magic class usability.
++ **[DOCUMENTATION]** Docs: Add section on Magic States to `README.md` for better understanding of magic class usability.
 
 + **[ENHANCEMENT]** Magic: Add type_of_a_file_t, expected_type_of_a_file_t, parameter_value_t typedefs with to_string functions.
 
@@ -156,7 +160,7 @@
 
 + **[BUGFIX]** Magicxx: Add magic_database_not_loaded exception and update identify_file functions to handle database loading state.
 
-+ **[DOCUMENTATION]** Docs: Add C++ standard badge to README.md.
++ **[DOCUMENTATION]** Docs: Add C++ standard badge to `README.md`.
 
 + **[QUALITY]** Tests: Refactor magic_load_database_file_test with using test fixture.
 
@@ -164,7 +168,7 @@
 
 + **[BUGFIX]** Magicxx: Do not throw exceptions while constructing std::filesystem::recursive_directory_iterator in a noexcept function.
 
-+ **[DOCUMENTATION]** Docs: Update CONTRIBUTING.md and README.md to include CMake options and package variables.
++ **[DOCUMENTATION]** Docs: Update `CONTRIBUTING.md` and `README.md` to include CMake options and package variables.
 
 + **[ENHANCEMENT]** CMake: Add options to build shared and static libraries independently.
 
@@ -172,7 +176,7 @@
 
 ## [v8.2.1] - 22-05-2025
 
-+ **[DOCUMENTATION]** Update supported versions in SECURITY.md to reflect version 8.2.x.
++ **[DOCUMENTATION]** Update supported versions in `SECURITY.md` to reflect version 8.2.x.
 
 + **[BUGFIX]** Fix release title in workflow to use correct reference name.
 
@@ -182,7 +186,7 @@
 
 + **[QUALITY]** Refactor installation directory variables for consistency in CMake files.
 
-+ **[DOCUMENTATION]** Add disclaimer section to README.md clarifying project status and affiliations.
++ **[DOCUMENTATION]** Add disclaimer section to `README.md` clarifying project status and affiliations.
 
 + **[BUGFIX]** Include all required license files in binary distributions.
 
@@ -192,11 +196,11 @@
 
 + **[ENHANCEMENT]** Add project name to the release title when deploying release packages.
 
-+ **[DOCUMENTATION]** Enhance documentation in README.md and CONTRIBUTING.md with detailed sections.
++ **[DOCUMENTATION]** Enhance documentation in `README.md` and `CONTRIBUTING.md` with detailed sections.
 
-+ **[ENHANCEMENT]** Add downloading instructions for Libmagicxx in README.md.
++ **[ENHANCEMENT]** Add downloading instructions for Libmagicxx in `README.md`.
 
-+ **[DOCUMENTATION]** Clarify git operations restrictions within the container environment in CONTRIBUTING.md.
++ **[DOCUMENTATION]** Clarify git operations restrictions within the container environment in `CONTRIBUTING.md`.
 
 + **[ENHANCEMENT]** Add release procedure documentation.
 
@@ -218,7 +222,7 @@
 
 + **[BUGFIX]** Clean existing build files before generating source package.
 
-+ **[BUGFIX]** Update supported versions in SECURITY.md to reflect version 8.0.x.
++ **[BUGFIX]** Update supported versions in `SECURITY.md` to reflect version 8.0.x.
 
 ## [v8.0.0] - 21-05-2025
 
@@ -280,7 +284,7 @@
 
 + **[ENHANCEMENT]** Remove 'cleanFirst' option from base-config build preset.
 
-+ **[DOCUMENTATION]** Update CONTRIBUTING.md to correct directory structure and remove TODO.md reference
++ **[DOCUMENTATION]** Update `CONTRIBUTING.md` to correct directory structure and remove `TODO.md` reference
 
 + **[ENHANCEMENT]** Merge launch_container scripts into one Python script.
 
@@ -292,7 +296,7 @@
 
 + **[BUGFIX]** Add missing magic header files to Doxygen documentation generation.
 
-+ **[BUGFIX]** Fix script execution path in Containerfile.
++ **[BUGFIX]** Fix script execution path in `Containerfile`.
 
 + **[BUGFIX]** Export compile commands to a location easily accessible by Clangd.
 
@@ -322,15 +326,15 @@
 
 + **[BUGFIX]** Fix CI workflows.
 
-+ **[BUGFIX]** Bring back the install_dependencies.sh script.
++ **[BUGFIX]** Bring back the `install_dependencies.sh` script.
 
-+ **[BUGFIX]** Add missing development tools installation to Containerfile.
++ **[BUGFIX]** Add missing development tools installation to `Containerfile`.
 
-+ **[ENHANCEMENT]** Embed the install_dependencies.sh script to the CMake workflows && Add new CMake workflow presets install-dependencies, initialize-and-update-git-submodules and initialize.
++ **[ENHANCEMENT]** Embed the `install_dependencies.sh` script to the CMake workflows && Add new CMake workflow presets install-dependencies, initialize-and-update-git-submodules and initialize.
 
 + **[ENHANCEMENT]** Embed the magic_header target into the configure_file target..
 
-+ **[DOCUMENTATION]** Update CONTRIBUTING.md to clarify project structure.
++ **[DOCUMENTATION]** Update `CONTRIBUTING.md` to clarify project structure.
 
 + **[ENHANCEMENT]** Replace format script with CMake workflow for source code formatting.
 
@@ -340,11 +344,11 @@
 
 + **[ENHANCEMENT]** Rename BUILD_AS_STATIC build option to BUILD_MAGICXX_AS_STATIC.
 
-+ **[ENHANCEMENT]** Add support for building documentation from CMake and remove generate_documentation.sh script.
++ **[ENHANCEMENT]** Add support for building documentation from CMake and remove `generate_documentation.sh` script.
 
 ## [v5.6.3] - 16-03-2025
 
-+ **[BUGFIX]** Update CONTRIBUTING.md to include CMakePresets.json and clarify CMake configuration.
++ **[BUGFIX]** Update `CONTRIBUTING.md` to include `CMakePresets.json` and clarify CMake configuration.
 
 ## [v5.6.2] - 16-03-2025
 
@@ -352,7 +356,7 @@
 
 ## [v5.6.1] - 16-03-2025
 
-+ **[BUGFIX]** Update SECURITY.md to reflect support status for version 5.6.x.
++ **[BUGFIX]** Update `SECURITY.md` to reflect support status for version 5.6.x.
 
 ## [v5.6.0] - 16-03-2025
 
@@ -364,13 +368,13 @@
 
 ## [v5.5.1] - 06-03-2025
 
-+ **[BUGFIX]** Update PULL_REQUEST_TEMPLATE.md to include title format guidelines.
++ **[BUGFIX]** Update `PULL_REQUEST_TEMPLATE.md` to include title format guidelines.
 
 + **[BUGFIX]** Add issue templates for bug reports, documentation, and feature requests.
 
 ## [v5.5.0] - 23-02-2025
 
-+ **[ENHANCEMENT]** Update CONTRIBUTING.md to specify naming conventions.
++ **[ENHANCEMENT]** Update `CONTRIBUTING.md` to specify naming conventions.
 
 + **[ENHANCEMENT]** Add concepts for range containers and string converters to improve maintainability.
 
@@ -380,9 +384,9 @@
 
 + **[ENHANCEMENT]** Use std::format instead of concatenating pieces manually.
 
-+ **[ENHANCEMENT]** Update .clang-format to adjust line breaking penalties and compound requirement settings.
++ **[ENHANCEMENT]** Update `.clang-format` to adjust line breaking penalties and compound requirement settings.
 
-+ **[ENHANCEMENT]** Add SPDX license information and clang-format version to .clang-format.
++ **[ENHANCEMENT]** Add SPDX license information and clang-format version to `.clang-format`.
 
 ## [v5.4.1] - 17-02-2025
 
@@ -410,13 +414,13 @@
 
 ## [v5.2.0] - 13-02-2025
 
-+ **[DOCUMENTATION]** Add CONTRIBUTING.md
++ **[DOCUMENTATION]** Add `CONTRIBUTING.md`
 
 + **[DOCUMENTATION]** Add examples.
 
-+ **[DOCUMENTATION]** Add PULL_REQUEST_TEMPLATE.md
++ **[DOCUMENTATION]** Add `PULL_REQUEST_TEMPLATE.md`
 
-+ **[DOCUMENTATION]** Add ISSUE_TEMPLATE.md
++ **[DOCUMENTATION]** Add `ISSUE_TEMPLATE.md`
 
 + **[ENHANCEMENT]** Add rebuild the libmagic option.
 
@@ -436,19 +440,19 @@
 
 + **[DOCUMENTATION]** Update documentation.
 
-+ **[ENHANCEMENT]** Add SECURITY.md
++ **[ENHANCEMENT]** Add `SECURITY.md`
 
 ## [v5.1.1] - 25-06-2024
 
 + **[DOCUMENTATION]** Add missing documentation for flags and parameters.
 
-+ **[DOCUMENTATION]** Fix typo in CHANGELOG.md.
++ **[DOCUMENTATION]** Fix typo in `CHANGELOG.md`.
 
-+ **[DOCUMENTATION]** Update README.md presentation for better readability.
++ **[DOCUMENTATION]** Update `README.md` presentation for better readability.
 
 ## [v5.1.0] - 23-06-2024
 
-+ **[ENHANCEMENT]** Add commit_release.sh.
++ **[ENHANCEMENT]** Add `commit_release.sh`.
 
 + **[ENHANCEMENT]** Add Github Actions.
 
@@ -556,7 +560,7 @@
 
 + **[ENHANCEMENT]** Add the missing parameters and flags.
 
-+ **[ENHANCEMENT]** Add setup.sh.
++ **[ENHANCEMENT]** Add `setup.sh`.
 
 + **[BUGFIX]** Fix the SPDX-License-Identifier.
 

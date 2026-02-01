@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Format: Add clangd configuration file.
+
 + **[ENHANCEMENT]** CI/CD: Update workflows to use pre-built development container from GitHub Container Registry.
 
 + **[ENHANCEMENT]** CI/CD: Add workflow to check source code formatting.

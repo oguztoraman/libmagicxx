@@ -1,0 +1,37 @@
+name: Check Source Code Formatting
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check_format:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - name: Install Dependencies.
+        run: >
+          dnf install -y git          \
+              cmake ninja-build       \
+              clang clang-tools-extra
+      - name: Checkout.
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run Formatter.
+        run: ./scripts/workflows.sh -p format-source-code -c
+      - name: Check for Formatting Changes.
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::Source code is not properly formatted. Please run './scripts/workflows.sh -p format-source-code' locally and commit the changes."
+            git diff --stat
+            git diff
+            exit 1
+          fi
+          echo "Source code is properly formatted."

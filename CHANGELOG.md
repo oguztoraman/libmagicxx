@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** CI/CD: Add workflow to check source code formatting.
+
 ## [v10.0.3] - 31-01-2026
 
 + **[DOCUMENTATION]** Docs: Disable Doxygen autolink support in CMakeLists.txt.

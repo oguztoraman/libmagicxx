@@ -28,6 +28,7 @@ jobs:
         run: ./scripts/workflows.sh -p format-source-code -c
       - name: Check for Formatting Changes.
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           if ! git diff --quiet; then
             echo "::error::Source code is not properly formatted. Please run './scripts/workflows.sh -p format-source-code' locally and commit the changes."
             git diff --stat

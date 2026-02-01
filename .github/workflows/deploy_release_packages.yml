@@ -12,17 +12,13 @@ jobs:
   release_packages:
     runs-on: ubuntu-latest
     container:
-      image: fedora:43
+      image: ghcr.io/oguztoraman/libmagicxx-dev:latest
     steps:
-      - name: Install Git.
-        run: dnf install -y git git-lfs
       - name: Checkout.
         uses: actions/checkout@v4
         with:
           submodules: recursive
           lfs: true
-      - name: Install Dependencies.
-        run: ./scripts/install_dependencies.sh
       - name: Generate Release Packages.
         run: ./scripts/generate_release_packages.sh
       - name: Create Release

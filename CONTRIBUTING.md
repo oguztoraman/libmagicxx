@@ -212,15 +212,20 @@ cd libmagicxx
 
 #### Step 2: Launch Development Container
 
+The development container is pre-built and hosted on GitHub Container Registry for fast startup:
+
 ```bash
-# Linux/macOS
+# Pull from GHCR and launch (recommended, fastest)
 python ./scripts/launch_container.py
 
-# Windows
-python .\scripts\launch_container.py
-
-# To update the container image (after Containerfile changes)
+# To update to the latest container image
 python ./scripts/launch_container.py -u
+
+# To build locally from Containerfile (for container development)
+python ./scripts/launch_container.py --local
+
+# To rebuild local image
+python ./scripts/launch_container.py -l -u
 ```
 
 #### Step 3: Attach VS Code to Container
@@ -229,7 +234,9 @@ python ./scripts/launch_container.py -u
 
 2. Select **"Dev Containers: Attach to Running Container..."**
 
-3. Choose **`libmagicxx_dev_env`**
+3. Choose the running container (name depends on launch method):
+   - From GHCR: `ghcr.io/oguztoraman/libmagicxx-dev:latest`
+   - From local build: `libmagicxx_dev_env`
 
 #### Step 4: Install VS Code Extensions (Inside Container)
 
@@ -797,9 +804,19 @@ The issue templates will guide you through providing all necessary information.
 # Check if Podman is running
 podman ps
 
-# Remove old container and rebuild
-podman rm -f libmagicxx_dev_env
+# Re-pull the latest image from GHCR
 python ./scripts/launch_container.py -u
+
+# Or if using local build, rebuild the container
+python ./scripts/launch_container.py -l -u
+```
+
+### Container Image Pull Fails
+
+If you can't pull from GHCR, build locally instead:
+
+```bash
+python ./scripts/launch_container.py --local
 ```
 
 ### Build Fails with "No such file"

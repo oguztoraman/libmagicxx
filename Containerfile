@@ -20,14 +20,18 @@
 #
 # Usage
 # -----
-# Build the image:
+# The pre-built image is available on GitHub Container Registry:
+#     podman pull ghcr.io/oguztoraman/libmagicxx-dev:latest
+#
+# Or build the image locally:
 #     podman build -t libmagicxx_dev_env -f Containerfile .
 #
 # Run interactively with project mounted:
-#     podman run -it --rm -v $(pwd):/libmagicxx:Z libmagicxx_dev_env
+#     podman run -it --rm -v $(pwd):/libmagicxx:Z ghcr.io/oguztoraman/libmagicxx-dev:latest
 #
 # Or use the launch script (recommended):
-#     python ./scripts/launch_container.py
+#     python ./scripts/launch_container.py           # Pull from GHCR (fastest)
+#     python ./scripts/launch_container.py --local   # Build locally
 #
 # Post-Launch Setup
 # -----------------
@@ -51,7 +55,7 @@
 # Security Notes
 # --------------
 # - Uses :Z suffix for SELinux relabeling on bind mounts
-# - Runs as root inside container (standard for dev containers)
+# - Runs as root inside container (standard for development containers)
 # - No network operations during build except package downloads
 #
 # See Also

@@ -14,15 +14,8 @@ jobs:
   gcc_build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:43
+      image: ghcr.io/oguztoraman/libmagicxx-dev:latest
     steps:
-      - name: Install Dependencies.
-        run: >
-          dnf install -y git git-lfs      \
-              awk make autoconf libtool   \
-              cmake ninja-build rpm-build \
-              g++ lld                     \
-              clang-tools-extra
       - name: Checkout.
         uses: actions/checkout@v4
         with:

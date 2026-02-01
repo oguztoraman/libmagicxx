@@ -41,7 +41,7 @@
 # - After container rebuild (via launch_container.py)
 # - After switching to a branch with submodule updates
 #
-# @note This script is automatically run inside the dev container
+# @note This script is automatically run inside the development container
 # @see CONTRIBUTING.md for development environment setup
 # @see launch_container.py for container-based development
 

@@ -7,14 +7,16 @@
 """
 Launch and manage the libmagicxx development container.
 
-This script provides functionality to build, update, and run the development
-container using Podman. It handles image lifecycle management including
-building new images, updating existing ones, and cleaning up old containers.
+This script provides functionality to pull, build, and run the development
+container using Podman. By default, it uses the pre-built image from GitHub
+Container Registry for faster startup. Optionally, you can build locally
+from the Containerfile.
 
 Features
 --------
-- Build container image from Containerfile on first run
-- Update/rebuild existing images with --update flag
+- Pull pre-built image from GHCR (default, fastest)
+- Build locally from Containerfile with --local flag
+- Update/rebuild images with --update flag
 - Automatic cleanup of stopped containers before rebuild
 - Project directory mounted with SELinux context (:Z)
 - Verbose logging mode for troubleshooting
@@ -23,15 +25,17 @@ Usage
 -----
 From the host system (not inside a container)::
 
-    python ./scripts/launch_container.py              # Build if needed, launch
-    python ./scripts/launch_container.py --update     # Rebuild and launch
+    python ./scripts/launch_container.py              # Pull from GHCR, launch
+    python ./scripts/launch_container.py --update     # Re-pull latest, launch
+    python ./scripts/launch_container.py --local      # Build locally, launch
+    python ./scripts/launch_container.py -l -u        # Rebuild locally, launch
     python ./scripts/launch_container.py -v           # Verbose output
 
 Container Lifecycle
 -------------------
 1. Check if image exists locally
-2. If missing, build from Containerfile
-3. If --update, stop containers and rebuild image
+2. If missing, pull from GHCR (or build if --local)
+3. If --update, stop containers and re-pull/rebuild image
 4. Run container interactively with project mounted
 5. Container removed automatically on exit (--rm)
 
@@ -50,7 +54,7 @@ Exit Codes
 Prerequisites
 -------------
 - Podman installed and configured (rootless mode supported)
-- Containerfile present in project root
+- Network access to ghcr.io (or Containerfile for --local)
 - Sufficient disk space for container image (~2GB)
 
 Post-Launch Setup
@@ -85,7 +89,8 @@ from pathlib import Path
 from typing import NoReturn
 
 # Container configuration constants
-IMAGE_NAME = "libmagicxx_dev_env"
+GHCR_IMAGE = "ghcr.io/oguztoraman/libmagicxx-dev:latest"
+LOCAL_IMAGE_NAME = "libmagicxx_dev_env"
 CONTAINER_FILE = "Containerfile"
 MOUNT_TARGET = "/libmagicxx"
 
@@ -105,6 +110,7 @@ class ContainerConfig:
     container_file: str
     mount_target: str
     project_root: Path
+    use_local: bool = False
 
 
 class ContainerError(Exception):
@@ -212,6 +218,17 @@ def remove_image(image_name: str) -> None:
     run_command(["podman", "rmi", image_name], check=False)
 
 
+def pull_image(image_name: str) -> None:
+    """
+    Pull a container image from a registry.
+
+    Args:
+        image_name: Name of the image to pull.
+    """
+    logger.info("Pulling image '%s'...", image_name)
+    run_command(["podman", "pull", image_name])
+
+
 def build_image(config: ContainerConfig) -> None:
     """
     Build the container image from the Containerfile.
@@ -247,10 +264,11 @@ def run_container(config: ContainerConfig) -> None:
 
 def update_image(config: ContainerConfig) -> None:
     """
-    Update an existing container image by rebuilding it.
+    Update an existing container image.
 
-    This will stop and remove any running containers based on the image,
-    remove the old image, and build a fresh one.
+    For local builds, this stops and removes any running containers,
+    removes the old image, and builds a fresh one.
+    For GHCR images, this pulls the latest version.
 
     Args:
         config: Container configuration.
@@ -260,23 +278,30 @@ def update_image(config: ContainerConfig) -> None:
     container_ids = get_container_ids(config.image_name)
     cleanup_containers(container_ids)
     remove_image(config.image_name)
-    build_image(config)
+
+    if config.use_local:
+        build_image(config)
+    else:
+        pull_image(config.image_name)
 
 
 def ensure_image_exists(config: ContainerConfig, *, force_update: bool) -> None:
     """
-    Ensure the container image exists, building or updating as needed.
+    Ensure the container image exists, pulling/building or updating as needed.
 
     Args:
         config: Container configuration.
-        force_update: If True, rebuild the image even if it exists.
+        force_update: If True, re-pull/rebuild the image even if it exists.
     """
     exists = image_exists(config.image_name)
 
     if exists and force_update:
         update_image(config)
     elif not exists:
-        build_image(config)
+        if config.use_local:
+            build_image(config)
+        else:
+            pull_image(config.image_name)
     else:
         logger.info("Image '%s' already exists.", config.image_name)
 
@@ -304,15 +329,22 @@ def parse_arguments() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s              Launch the container (build if needed)
-  %(prog)s --update     Rebuild the container image before launching
+  %(prog)s              Pull from GHCR and launch (fastest)
+  %(prog)s --update     Re-pull latest image before launching
+  %(prog)s --local      Build from local Containerfile
+  %(prog)s -l -u        Rebuild local image before launching
   %(prog)s -v           Enable verbose output
         """,
     )
     parser.add_argument(
+        "-l", "--local",
+        action="store_true",
+        help="build from local Containerfile instead of pulling from GHCR",
+    )
+    parser.add_argument(
         "-u", "--update",
         action="store_true",
-        help="rebuild the container image before launching",
+        help="re-pull or rebuild the container image before launching",
     )
     parser.add_argument(
         "-v", "--verbose",
@@ -336,11 +368,15 @@ def main() -> NoReturn:
 
     project_root = get_project_root()
 
+    # Use local image name when building locally, GHCR image otherwise
+    image_name = LOCAL_IMAGE_NAME if args.local else GHCR_IMAGE
+
     config = ContainerConfig(
-        image_name=IMAGE_NAME,
+        image_name=image_name,
         container_file=CONTAINER_FILE,
         mount_target=MOUNT_TARGET,
         project_root=project_root,
+        use_local=args.local,
     )
 
     # Change to project root for Containerfile context

@@ -21,14 +21,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     container:
-      image: fedora:43
+      image: ghcr.io/oguztoraman/libmagicxx-dev:latest
     steps:
-      - name: Install Dependencies.
-        run: >
-          dnf install -y git          \
-              cmake ninja-build       \
-              clang clang-tools-extra \
-              doxygen
       - name: Checkout.
         uses: actions/checkout@v4
         with:

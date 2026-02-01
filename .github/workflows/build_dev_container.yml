@@ -3,6 +3,7 @@ name: Build Development Container
 on:
   push:
     branches: [main]
+    tags: ['v*']
     paths:
       - 'Containerfile'
       - 'scripts/install_dependencies.sh'
@@ -35,7 +36,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=sha,prefix=
+            type=semver,pattern={{version}}
       - name: Build and Push Container Image.
         uses: docker/build-push-action@v6
         with:

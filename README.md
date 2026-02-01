@@ -208,10 +208,12 @@ sudo dnf install ./libmagicxx-<version>-linux-x86_64.rpm
 ```bash
 git clone https://github.com/oguztoraman/libmagicxx.git
 cd libmagicxx
-python ./scripts/launch_container.py
+python ./scripts/launch_container.py      # Pulls pre-built container from GHCR
 ./scripts/initialize.sh
 ./scripts/workflows.sh -p linux-x86_64-clang -c
 ```
+
+To build the container locally instead: `python ./scripts/launch_container.py --local`
 
 See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed build instructions.
 

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** CI/CD: Update workflows to use pre-built development container from GitHub Container Registry.
+
 + **[ENHANCEMENT]** CI/CD: Add workflow to check source code formatting.
 
 ## [v10.0.3] - 31-01-2026

@@ -111,13 +111,15 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 
 ## 8. Development Container Usage
 
-Environment is a Fedora-based dev container. Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
+Environment is a Fedora-based development container, pre-built and hosted on GitHub Container Registry (`ghcr.io/oguztoraman/libmagicxx-dev:latest`). Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
 
 **Important:** Do not change the working directory when running terminal commands. Always use absolute paths or run commands from the repository root (`/libmagicxx`). Changing directories can cause subsequent commands to fail if they assume the original working directory.
 
 Preset tips:
 
-+ Run `python ./scripts/launch_container.py` from the host and attach with VS Code Dev Containers.
++ Run `python ./scripts/launch_container.py` from the host to pull from GHCR (fastest) and attach with VS Code Dev Containers.
+
++ Use `python ./scripts/launch_container.py --local` to build from local Containerfile instead.
 
 + After attaching, initialize once via `./scripts/initialize.sh`.
 

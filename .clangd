@@ -7,7 +7,8 @@ If:
   PathMatch:
   - .*\.hpp
   - .*\.cpp
-  PathExclude: external/.*
+  PathExclude:
+  - external/.*
 Completion:
   AllScopes: Yes
   ArgumentLists: FullPlaceholders

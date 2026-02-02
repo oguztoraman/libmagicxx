@@ -221,6 +221,9 @@ python ./scripts/launch_container.py
 # To update to the latest container image
 python ./scripts/launch_container.py -u
 
+# For release branches (e.g., v10.0.x), use the versioned container
+python ./scripts/launch_container.py --tag v10.0.x
+
 # To build locally from Containerfile (for container development)
 python ./scripts/launch_container.py --local
 
@@ -228,15 +231,30 @@ python ./scripts/launch_container.py --local
 python ./scripts/launch_container.py -l -u
 ```
 
+**Container Versioning:**
+
++ `latest` — used for `main` branch development
++ `vX.Y.x` — used for `vX.Y.x` stable branches (e.g., `v10.0.x` for branch `v10.0.x`)
+
+CI workflows automatically select the appropriate container tag based on the target branch. When a new minor release (`vX.Y.0`) is tagged, the container is also tagged with the `vX.Y.x` format.
+
+> ⚠️ **Important: Development Container Changes**
+>
+> If your contribution requires changes to the development container (`Containerfile` or `scripts/install_dependencies.sh`):
+>
+> 1. **Submit container changes as a separate PR first** — do not bundle them with other changes
+> 2. **Wait for the container PR to be merged** before submitting dependent changes
+> 3. All CI workflows run on the dev container, so container updates must be merged and published before other PRs can use them
+
 #### Step 3: Attach VS Code to Container
 
 1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
 
 2. Select **"Dev Containers: Attach to Running Container..."**
 
-3. Choose the running container (name depends on launch method):
-   - From GHCR: `ghcr.io/oguztoraman/libmagicxx-dev:latest`
-   - From local build: `libmagicxx_dev_env`
+3. Choose the running container that was started by `launch_container.py`:
+   - If you used the GHCR image (default or with `--tag`), select the container whose **Image** field matches `ghcr.io/oguztoraman/libmagicxx-dev:<tag>` (e.g., `latest` or `v10.0.x`).
+   - If you built the image locally, select the container named `libmagicxx-dev-local`.
 
 #### Step 4: Install VS Code Extensions (Inside Container)
 

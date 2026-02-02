@@ -1,0 +1,21 @@
+name: Check Development Container
+
+on:
+  pull_request:
+    paths:
+      - 'Containerfile'
+      - 'scripts/install_dependencies.sh'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout.
+        uses: actions/checkout@v4
+      - name: Build Container Image.
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Containerfile
+          push: false

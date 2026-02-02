@@ -9,10 +9,19 @@ permissions:
   contents: write
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      container: ${{ steps.set.outputs.container }}
+    steps:
+      - name: Determine Container Tag.
+        id: set
+        run: echo "container=ghcr.io/oguztoraman/libmagicxx-dev:${GITHUB_REF_NAME%.*}.x" >> $GITHUB_OUTPUT
   release_packages:
+    needs: setup
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/oguztoraman/libmagicxx-dev:latest
+      image: ${{ needs.setup.outputs.container }}
     steps:
       - name: Checkout.
         uses: actions/checkout@v4

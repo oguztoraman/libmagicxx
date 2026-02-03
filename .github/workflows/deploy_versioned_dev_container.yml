@@ -27,7 +27,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract Version Tag.
         id: version
-        run: echo "tag=${GITHUB_REF_NAME%.*}.x" >> $GITHUB_OUTPUT
+        run: |
+          if [[ ! "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.0$ ]]; then
+            echo "::error::Expected a version tag like vX.Y.0, got '${GITHUB_REF_NAME}'."
+            exit 1
+          fi
+          echo "tag=${GITHUB_REF_NAME%.*}.x" >> $GITHUB_OUTPUT
       - name: Build and Push Container Image.
         uses: docker/build-push-action@v6
         with:

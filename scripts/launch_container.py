@@ -376,6 +376,13 @@ def main() -> NoReturn:
 
     project_root = get_project_root()
 
+    if args.local and args.tag != DEFAULT_TAG:
+        logger.warning(
+            "Ignoring --tag '%s' because --local builds use '%s'.",
+            args.tag,
+            LOCAL_IMAGE_NAME,
+        )
+
     # Use local image name when building locally, GHCR image with tag otherwise
     image_name = LOCAL_IMAGE_NAME if args.local else f"{GHCR_IMAGE_BASE}:{args.tag}"
 

@@ -22,7 +22,14 @@ jobs:
     steps:
       - name: Determine Container Tag.
         id: set
-        run: echo "container=ghcr.io/oguztoraman/libmagicxx-dev:${GITHUB_REF_NAME%.*}.x" >> $GITHUB_OUTPUT
+        run: |
+          REF="${{ github.ref_name }}"
+          if [[ "$REF" =~ ^v([0-9]+)\.([0-9]+)\.0$ ]]; then
+            TAG=latest
+          else
+            TAG="${REF%.*}.x"
+          fi
+          echo "container=ghcr.io/oguztoraman/libmagicxx-dev:$TAG" >> $GITHUB_OUTPUT
   doxygen_documentation:
     needs: setup
     environment:

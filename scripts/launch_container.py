@@ -25,11 +25,12 @@ Usage
 -----
 From the host system (not inside a container)::
 
-    python ./scripts/launch_container.py              # Pull from GHCR, launch
-    python ./scripts/launch_container.py --update     # Re-pull latest, launch
-    python ./scripts/launch_container.py --local      # Build locally, launch
-    python ./scripts/launch_container.py -l -u        # Rebuild locally, launch
-    python ./scripts/launch_container.py -v           # Verbose output
+    python ./scripts/launch_container.py                # Pull from GHCR, launch
+    python ./scripts/launch_container.py --update       # Re-pull latest, launch
+    python ./scripts/launch_container.py --tag v10.0.x  # Use versioned container
+    python ./scripts/launch_container.py --local        # Build locally, launch
+    python ./scripts/launch_container.py -l -u          # Rebuild locally, launch
+    python ./scripts/launch_container.py -v             # Verbose output
 
 Container Lifecycle
 -------------------
@@ -89,8 +90,9 @@ from pathlib import Path
 from typing import NoReturn
 
 # Container configuration constants
-GHCR_IMAGE = "ghcr.io/oguztoraman/libmagicxx-dev:latest"
-LOCAL_IMAGE_NAME = "libmagicxx_dev_env"
+GHCR_IMAGE_BASE = "ghcr.io/oguztoraman/libmagicxx-dev"
+DEFAULT_TAG = "latest"
+LOCAL_IMAGE_NAME = "libmagicxx-dev-local"
 CONTAINER_FILE = "Containerfile"
 MOUNT_TARGET = "/libmagicxx"
 
@@ -329,12 +331,18 @@ def parse_arguments() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s              Pull from GHCR and launch (fastest)
-  %(prog)s --update     Re-pull latest image before launching
-  %(prog)s --local      Build from local Containerfile
-  %(prog)s -l -u        Rebuild local image before launching
-  %(prog)s -v           Enable verbose output
+  %(prog)s                Pull from GHCR and launch (fastest)
+  %(prog)s --update       Re-pull latest image before launching
+  %(prog)s --tag v10.0.x  Use versioned container for release branch
+  %(prog)s --local        Build from local Containerfile
+  %(prog)s -l -u          Rebuild local image before launching
+  %(prog)s -v             Enable verbose output
         """,
+    )
+    parser.add_argument(
+        "-t", "--tag",
+        default=DEFAULT_TAG,
+        help="container image tag to use (default: latest, e.g., v10.0.x for release branches)",
     )
     parser.add_argument(
         "-l", "--local",
@@ -368,8 +376,15 @@ def main() -> NoReturn:
 
     project_root = get_project_root()
 
-    # Use local image name when building locally, GHCR image otherwise
-    image_name = LOCAL_IMAGE_NAME if args.local else GHCR_IMAGE
+    if args.local and args.tag != DEFAULT_TAG:
+        logger.warning(
+            "Ignoring --tag '%s' because --local builds use '%s'.",
+            args.tag,
+            LOCAL_IMAGE_NAME,
+        )
+
+    # Use local image name when building locally, GHCR image with tag otherwise
+    image_name = LOCAL_IMAGE_NAME if args.local else f"{GHCR_IMAGE_BASE}:{args.tag}"
 
     config = ContainerConfig(
         image_name=image_name,

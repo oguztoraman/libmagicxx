@@ -111,13 +111,28 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 
 ## 8. Development Container Usage
 
-Environment is a Fedora-based development container, pre-built and hosted on GitHub Container Registry (`ghcr.io/oguztoraman/libmagicxx-dev:latest`). Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
+Environment is a Fedora-based development container, pre-built and hosted on GitHub Container Registry (`ghcr.io/oguztoraman/libmagicxx-dev`). Agents should not assume ability to run `git push/pull` inside container—the container doesn't have access to SSH keys or git credentials from the host machine (intentionally not shared for security). Provide host-side instructions when needed.
 
 **Important:** Do not change the working directory when running terminal commands. Always use absolute paths or run commands from the repository root (`/libmagicxx`). Changing directories can cause subsequent commands to fail if they assume the original working directory.
+
+**Container Versioning:**
+
++ `latest` — used for `main` branch development
++ `vX.Y.x` — used for `vX.Y.x` stable branches (e.g., `v10.0.x` for branch `v10.0.x`)
+
+CI workflows automatically select the appropriate container tag based on the target branch. When a new minor release (`vX.Y.0`) is tagged, the container is also tagged with the `vX.Y.x` format.
+
+**Container Change Policy:** Changes to the development container (`Containerfile` or `scripts/install_dependencies.sh`) must be:
+
+1. **Developed first** — container changes take priority over dependent work
+2. **Submitted as a separate PR** — never bundle container changes with other modifications
+3. **Merged before dependent PRs** — all CI workflows run on the latest published container image, so container updates must be merged and published before other changes that rely on them can pass CI
 
 Preset tips:
 
 + Run `python ./scripts/launch_container.py` from the host to pull from GHCR (fastest) and attach with VS Code Dev Containers.
+
++ Use `python ./scripts/launch_container.py -t v10.0.x` to use a specific container version for stable branch work.
 
 + Use `python ./scripts/launch_container.py --local` to build from local Containerfile instead.
 

@@ -3,7 +3,7 @@ name: Build (Windows x86_64 build, MinGW64 Toolchain)
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, 'v*.*.x']
     tags: ['v*']
   workflow_dispatch:
 
@@ -11,10 +11,28 @@ permissions:
   contents: read
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      container: ${{ steps.set.outputs.container }}
+    steps:
+      - name: Determine Container Tag.
+        id: set
+        run: |
+          REF="${{ github.base_ref || github.ref_name }}"
+          if [[ "$REF" == "main" ]]; then
+            TAG=latest
+          elif [[ "$REF" =~ ^v([0-9]+)\.([0-9]+)\.0$ ]]; then
+            TAG=latest
+          else
+            TAG="${REF%.*}.x"
+          fi
+          echo "container=ghcr.io/oguztoraman/libmagicxx-dev:$TAG" >> $GITHUB_OUTPUT
   mingw64_build:
+    needs: setup
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/oguztoraman/libmagicxx-dev:latest
+      image: ${{ needs.setup.outputs.container }}
     steps:
       - name: Checkout.
         uses: actions/checkout@v4

@@ -398,23 +398,23 @@ For multi-component changes, use the primary component or combine:
 git commit -m "Magic, Tests: Add IdentifyBuffer with unit tests"
 ```
 
-### Step 4: Build and Test
+### Step 4: Validate Your Changes
+
+Before committing, run the following workflows **in order**. All must pass cleanly:
 
 ```bash
-# Build and run all tests
+# 1. Build and run tests (both toolchains are required)
 ./scripts/workflows.sh -p linux-x86_64-clang-tests -c
-
-# Or with GCC
 ./scripts/workflows.sh -p linux-x86_64-gcc-tests -c
-```
 
-### Step 5: Format Your Code
-
-```bash
+# 2. Format your code
 ./scripts/workflows.sh -p format-source-code
+
+# 3. Generate documentation
+./scripts/workflows.sh -p documentation
 ```
 
-### Step 6: Update CHANGELOG.md
+### Step 5: Update CHANGELOG.md
 
 Add your changes under the "Next Release" section:
 
@@ -717,8 +717,10 @@ Complete this checklist:
 
 - [ ] Branch created from `main` (or release branch for bugfix)
 - [ ] Code follows <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>
-- [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests`
+- [ ] Clang tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
+- [ ] GCC tests pass: `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
+- [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
 - [ ] Doxygen comments added for new public APIs
 - [ ] CHANGELOG.md updated

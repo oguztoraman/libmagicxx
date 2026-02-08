@@ -93,6 +93,7 @@ Examples:
 ```bash
 ./scripts/workflows.sh -p linux-x86_64-clang-tests -c    # Clear cache + build + test
 ./scripts/workflows.sh -p format-source-code             # Format code
+./scripts/workflows.sh -p documentation                  # Generate Doxygen documentation
 ./scripts/workflows.sh -p linux-x86_64-clang-examples    # Build examples
 cmake --workflow --preset linux-x86_64-clang-tests       # Direct CMake workflow alternative
 ```
@@ -108,6 +109,16 @@ Helpful:
 ```
 
 Note: Prefer presets to toggling CMake options manually. If you must, ensure `BUILD_MAGICXX_TESTS=ON` when adding tests, and run the formatter via the `format-source-code` preset.
+
+**Required Validation Order:** Agents must run and pass the following workflows **in order** before submitting a PR:
+
+1. **Tests** — run **both** test presets:
+   - `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
+   - `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
+2. **Formatting** — `./scripts/workflows.sh -p format-source-code`
+3. **Documentation** — `./scripts/workflows.sh -p documentation`
+
+All of the above workflows (both test presets, formatting, and documentation) must pass cleanly.
 
 ## 8. Development Container Usage
 

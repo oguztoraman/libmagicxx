@@ -327,9 +327,7 @@ public:
         constexpr FlagsMask operator|(const FlagsMask& other) const noexcept
         {
             FlagsMask result;
-            result.m_mask = std::bitset<30uz>{
-                m_mask.to_ullong() | other.m_mask.to_ullong()
-            };
+            result.m_mask = m_mask | other.m_mask;
             return result;
         }
 

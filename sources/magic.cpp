@@ -1917,8 +1917,8 @@ private:
      *
      * @{
      */
-    CookieT m_cookie{nullptr};  /**< libmagic handle (nullptr = Closed state) */
-    FlagsMaskT m_flags_mask{0}; /**< Current configuration flags bitmask */
+    CookieT m_cookie{nullptr}; /**< libmagic handle (nullptr = Closed state) */
+    FlagsMaskT m_flags_mask{}; /**< Current configuration flags bitmask */
     bool       m_is_database_loaded{
         false
     }; /**< True only after successful LoadDatabaseFile() */
@@ -2130,8 +2130,10 @@ private:
         explicit FlagsConverter(const FlagsContainerT& flags_container) noexcept
           : m_flags_mask{std::ranges::fold_left(
                 flags_container,
-                flags_container.empty() ? Flags::None : flags_container.front(),
-                std::bit_or<decltype(1ULL)>{}
+                FlagsMask{},
+                [](const FlagsMask& acc, Flags f) {
+                    return acc | f;
+                }
             )}
         { }
 

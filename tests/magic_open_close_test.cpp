@@ -34,7 +34,10 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
+#include <numeric>
 #include <random>
+#include <utility>
 
 #include "magic.hpp"
 
@@ -50,24 +53,23 @@ protected:
 
     void SetUp() override
     {
-        std::vector<unsigned long long> test_flags{
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng),
-            1ULL << m_dist(m_eng)
+        std::vector<Magic::Flags> test_flags{
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
+            static_cast<Magic::Flags>(1ULL << m_dist(m_eng))
         };
-        std::ranges::sort(test_flags);
-        m_test_flags_container.clear();
-        std::ranges::transform(
+        std::ranges::sort(
             test_flags,
-            std::back_inserter(m_test_flags_container),
-            [](unsigned long long value) {
-                return static_cast<Magic::Flags>(value);
+            [](Magic::Flags a, Magic::Flags b) {
+                return std::to_underlying(a) < std::to_underlying(b);
             }
         );
+        m_test_flags_container.clear();
+        m_test_flags_container.assign(test_flags.begin(), test_flags.end());
         m_test_flags_container.erase(
             std::unique(
                 m_test_flags_container.begin(),
@@ -76,10 +78,9 @@ protected:
             m_test_flags_container.end()
         );
         m_test_flags_mask = std::ranges::fold_left(
-            test_flags.begin(),
-            test_flags.end(),
-            test_flags.front(),
-            std::bit_or<decltype(1ULL)>{}
+            m_test_flags_container,
+            Magic::FlagsMaskT{},
+            [](Magic::FlagsMaskT acc, Magic::Flags f) { return acc | f; }
         );
     }
 

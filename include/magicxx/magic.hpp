@@ -216,13 +216,236 @@ namespace Recognition {
 class Magic {
 public:
     /**
+     * @brief Flags for configuring Magic behavior.
+     * @ingroup magic_core
+     *
+     * The Flags enum controls how Magic identifies files and formats output.
+     * Flags can be combined using bitwise OR operations.
+     *
+     * ### Common Flag Combinations
+     *
+     * @code{.cpp}
+     * // Get MIME type only
+     * Magic magic1{Magic::Flags::MimeType};
+     *
+     * // Get full MIME with encoding
+     * Magic magic2{Magic::Flags::Mime};
+     *
+     * // Follow symlinks and decompress files
+     * Magic magic3{Magic::Flags::Symlink | Magic::Flags::Compress};
+     *
+     * // Using a container of flags
+     * Magic magic4{{Magic::Flags::Mime, Magic::Flags::Debug}};
+     * @endcode
+     *
+     * @see SetFlags() to change flags after construction
+     * @see GetFlags() to retrieve current flags
+     *
+     * @since 10.0.0
+     */
+    enum class Flags : unsigned long long {
+        /* clang-format off */
+        None             = 0ULL,       /**< No special handling. Default textual output. */
+        Debug            = 1ULL << 0,  /**< Print debugging messages to stderr. Useful for troubleshooting. */
+        Symlink          = 1ULL << 1,  /**< If the file is a symlink, follow it and identify the target. */
+        Compress         = 1ULL << 2,  /**< If the file is compressed, decompress and identify contents. */
+        Devices          = 1ULL << 3,  /**< Open block/character devices and examine their contents. */
+        MimeType         = 1ULL << 4,  /**< Return MIME type (e.g., "text/plain") instead of description. */
+        ContinueSearch   = 1ULL << 5,  /**< Return all matches, not just the first one. */
+        CheckDatabase    = 1ULL << 6,  /**< Check database consistency and print warnings to stderr. */
+        PreserveAtime    = 1ULL << 7,  /**< Preserve access time of analyzed files (if supported by OS). */
+        Raw              = 1ULL << 8,  /**< Don't convert unprintable characters to \\ooo octal. */
+        Error            = 1ULL << 9,  /**< Treat OS errors as real errors instead of printing in buffer. */
+        MimeEncoding     = 1ULL << 10, /**< Return MIME encoding (e.g., "us-ascii") instead of description. */
+        Mime             = 1ULL << 11, /**< Shorthand for MimeType | MimeEncoding. Returns full MIME. */
+        Apple            = 1ULL << 12, /**< Return Apple creator and type codes. */
+        Extension        = 1ULL << 13, /**< Return slash-separated list of file extensions. */
+        CompressTransp   = 1ULL << 14, /**< Report on uncompressed data only, hide compression layer. */
+        NoCompressFork   = 1ULL << 15, /**< Don't use decompressors that require fork(). */
+        Nodesc           = 1ULL << 16, /**< Shorthand for Extension | Mime | Apple. */
+        NoCheckCompress  = 1ULL << 17, /**< Skip compressed file inspection. */
+        NoCheckTar       = 1ULL << 18, /**< Skip tar archive examination. */
+        NoCheckSoft      = 1ULL << 19, /**< Skip magic file consultation. */
+        NoCheckApptype   = 1ULL << 20, /**< Skip EMX application type check (EMX only). */
+        NoCheckElf       = 1ULL << 21, /**< Skip ELF details printing. */
+        NoCheckText      = 1ULL << 22, /**< Skip text file type detection. */
+        NoCheckCdf       = 1ULL << 23, /**< Skip MS Compound Document inspection. */
+        NoCheckCsv       = 1ULL << 24, /**< Skip CSV file examination. */
+        NoCheckTokens    = 1ULL << 25, /**< Skip known token search in ASCII files. */
+        NoCheckEncoding  = 1ULL << 26, /**< Skip text encoding detection. */
+        NoCheckJson      = 1ULL << 27, /**< Skip JSON file examination. */
+        NoCheckSimh      = 1ULL << 28, /**< Skip SIMH tape file examination. */
+        NoCheckBuiltin   = 1ULL << 29  /**< Use only magic file, skip all built-in tests. */
+        /* clang-format on */
+    };
+
+private:
+    /**
+     * @class FlagsMask
+     *
+     * @brief Bridge class between Flags enum class and the internal bitmask.
+     *
+     * Provides implicit conversion from individual Flags values and supports
+     * bitwise OR for combining flags. This allows Flags to be used directly
+     * wherever a FlagsMaskT is expected, without requiring explicit conversion.
+     *
+     * @code{.cpp}
+     * // Single flag converts implicitly
+     * Magic magic1{Magic::Flags::Mime};
+     *
+     * // Combined flags via operator|
+     * Magic magic2{Magic::Flags::Mime | Magic::Flags::Compress};
+     * @endcode
+     *
+     * @since 11.0.0
+     */
+    class FlagsMask {
+    public:
+        /**
+         * @brief Default constructor. Creates an empty flags mask.
+         *
+         * @since 11.0.0
+         */
+        constexpr FlagsMask() noexcept = default;
+
+        /**
+         * @brief Implicit constructor from a single flag.
+         *
+         * This is the key bridge that allows Flags values to be used
+         * wherever FlagsMaskT is expected, without explicit conversion.
+         *
+         * @param[in] flag The flag to set in the mask.
+         *
+         * @since 11.0.0
+         */
+        constexpr FlagsMask(Flags flag) noexcept
+          : m_mask{static_cast<unsigned long long>(flag)}
+        { }
+
+        /**
+         * @brief Combine this mask with another mask.
+         *
+         * @param[in] other The other mask to combine.
+         *
+         * @returns A new FlagsMask with all bits from both masks set.
+         *
+         * @since 11.0.0
+         */
+        constexpr FlagsMask operator|(const FlagsMask& other) const noexcept
+        {
+            FlagsMask result;
+            result.m_mask = m_mask | other.m_mask;
+            return result;
+        }
+
+        /**
+         * @brief Test whether a specific bit is set.
+         *
+         * @param[in] pos Bit position to test.
+         *
+         * @returns true if the bit at the given position is set.
+         *
+         * @since 11.0.0
+         */
+        constexpr bool operator[](std::size_t pos) const
+        {
+            return m_mask[pos];
+        }
+
+        /**
+         * @brief Get the number of bits in the mask.
+         *
+         * @returns The size of the underlying bitmask (30).
+         *
+         * @since 11.0.0
+         */
+        constexpr std::size_t size() const noexcept
+        {
+            return m_mask.size();
+        }
+
+        /**
+         * @brief Test whether no bits are set.
+         *
+         * @returns true if no bits are set, false otherwise.
+         *
+         * @since 11.0.0
+         */
+        constexpr bool none() const noexcept
+        {
+            return m_mask.none();
+        }
+
+    private:
+        std::bitset<30uz>
+            m_mask{}; /**< Internal bitmask storing combined flag values. */
+    };
+
+    /**
+     * @brief Combine two Flags values into a FlagsMask.
+     *
+     * @param[in] lhs Left-hand side flag.
+     * @param[in] rhs Right-hand side flag.
+     *
+     * @returns A FlagsMask with both flags set.
+     *
+     * @since 11.0.0
+     */
+    friend constexpr FlagsMask operator|(Flags lhs, Flags rhs) noexcept
+    {
+        return FlagsMask{lhs} | FlagsMask{rhs};
+    }
+
+    /**
+     * @brief Combine a Flags value with a FlagsMask.
+     *
+     * Enables expressions like `Flags::A | (Flags::B | Flags::C)`.
+     *
+     * @param[in] lhs Left-hand side flag.
+     * @param[in] rhs Right-hand side mask.
+     *
+     * @returns A FlagsMask with all bits from both operands set.
+     *
+     * @since 11.0.0
+     */
+    friend constexpr FlagsMask operator|(
+        Flags            lhs,
+        const FlagsMask& rhs
+    ) noexcept
+    {
+        return FlagsMask{lhs} | rhs;
+    }
+
+    /**
+     * @brief Combine a FlagsMask with a Flags value (non-member symmetric overload).
+     *
+     * Enables expressions like `(Flags::A | Flags::B) | Flags::C`
+     * without relying on member lookup.
+     *
+     * @param[in] lhs Left-hand side mask.
+     * @param[in] rhs Right-hand side flag.
+     *
+     * @returns A FlagsMask with all bits from both operands set.
+     *
+     * @since 11.0.0
+     */
+    friend constexpr FlagsMask operator|(
+        const FlagsMask& lhs,
+        Flags            rhs
+    ) noexcept
+    {
+        return lhs | FlagsMask{rhs};
+    }
+
+public:
+    /**
      * @typedef FlagsMaskT
      *
      * @brief Bitmask type representing a set of Magic::Flags used to configure the Magic instance.
      *
      * @since 10.0.0
      */
-    using FlagsMaskT = std::bitset<30uz>;
+    using FlagsMaskT = FlagsMask;
 
     /**
      * @typedef FileTypeT
@@ -300,70 +523,6 @@ public:
      * @since 10.0.0
      */
     using ProgressTrackerT = Utility::SharedProgressTrackerT;
-
-    /**
-     * @brief Flags for configuring Magic behavior.
-     * @ingroup magic_core
-     *
-     * The Flags enum controls how Magic identifies files and formats output.
-     * Flags can be combined using bitwise OR operations.
-     *
-     * ### Common Flag Combinations
-     *
-     * @code{.cpp}
-     * // Get MIME type only
-     * Magic magic1{Magic::Flags::MimeType};
-     *
-     * // Get full MIME with encoding
-     * Magic magic2{Magic::Flags::Mime};
-     *
-     * // Follow symlinks and decompress files
-     * Magic magic3{Magic::Flags::Symlink | Magic::Flags::Compress};
-     *
-     * // Using a container of flags
-     * Magic magic4{{Magic::Flags::Mime, Magic::Flags::Debug}};
-     * @endcode
-     *
-     * @see SetFlags() to change flags after construction
-     * @see GetFlags() to retrieve current flags
-     *
-     * @since 10.0.0
-     */
-    enum Flags : unsigned long long {
-        /* clang-format off */
-        None             = 0ULL,       /**< No special handling. Default textual output. */
-        Debug            = 1ULL << 0,  /**< Print debugging messages to stderr. Useful for troubleshooting. */
-        Symlink          = 1ULL << 1,  /**< If the file is a symlink, follow it and identify the target. */
-        Compress         = 1ULL << 2,  /**< If the file is compressed, decompress and identify contents. */
-        Devices          = 1ULL << 3,  /**< Open block/character devices and examine their contents. */
-        MimeType         = 1ULL << 4,  /**< Return MIME type (e.g., "text/plain") instead of description. */
-        ContinueSearch   = 1ULL << 5,  /**< Return all matches, not just the first one. */
-        CheckDatabase    = 1ULL << 6,  /**< Check database consistency and print warnings to stderr. */
-        PreserveAtime    = 1ULL << 7,  /**< Preserve access time of analyzed files (if supported by OS). */
-        Raw              = 1ULL << 8,  /**< Don't convert unprintable characters to \\ooo octal. */
-        Error            = 1ULL << 9,  /**< Treat OS errors as real errors instead of printing in buffer. */
-        MimeEncoding     = 1ULL << 10, /**< Return MIME encoding (e.g., "us-ascii") instead of description. */
-        Mime             = 1ULL << 11, /**< Shorthand for MimeType | MimeEncoding. Returns full MIME. */
-        Apple            = 1ULL << 12, /**< Return Apple creator and type codes. */
-        Extension        = 1ULL << 13, /**< Return slash-separated list of file extensions. */
-        CompressTransp   = 1ULL << 14, /**< Report on uncompressed data only, hide compression layer. */
-        NoCompressFork   = 1ULL << 15, /**< Don't use decompressors that require fork(). */
-        Nodesc           = 1ULL << 16, /**< Shorthand for Extension | Mime | Apple. */
-        NoCheckCompress  = 1ULL << 17, /**< Skip compressed file inspection. */
-        NoCheckTar       = 1ULL << 18, /**< Skip tar archive examination. */
-        NoCheckSoft      = 1ULL << 19, /**< Skip magic file consultation. */
-        NoCheckApptype   = 1ULL << 20, /**< Skip EMX application type check (EMX only). */
-        NoCheckElf       = 1ULL << 21, /**< Skip ELF details printing. */
-        NoCheckText      = 1ULL << 22, /**< Skip text file type detection. */
-        NoCheckCdf       = 1ULL << 23, /**< Skip MS Compound Document inspection. */
-        NoCheckCsv       = 1ULL << 24, /**< Skip CSV file examination. */
-        NoCheckTokens    = 1ULL << 25, /**< Skip known token search in ASCII files. */
-        NoCheckEncoding  = 1ULL << 26, /**< Skip text encoding detection. */
-        NoCheckJson      = 1ULL << 27, /**< Skip JSON file examination. */
-        NoCheckSimh      = 1ULL << 28, /**< Skip SIMH tape file examination. */
-        NoCheckBuiltin   = 1ULL << 29  /**< Use only magic file, skip all built-in tests. */
-        /* clang-format on */
-    };
 
     /**
      * @brief Parameters for tuning Magic behavior limits.

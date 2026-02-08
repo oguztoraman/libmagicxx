@@ -20,6 +20,7 @@ project(magicxx_tests
 set(magicxx_tests_SOURCE_FILES
     magic_check_test.cpp
     magic_compile_test.cpp
+    magic_flags_mask_test.cpp
     magic_flags_test.cpp
     magic_identify_container_test.cpp
     magic_identify_directory_test.cpp

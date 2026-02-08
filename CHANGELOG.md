@@ -2,7 +2,7 @@
 
 ## Next Release
 
-+ **[ENHANCEMENT]** Magic, Tests: Convert Flags to scoped enum class with FlagsMask bridge.
++ **[ENHANCEMENT]** Magic, Tests: API CHANGE - Convert Flags to scoped enum class with FlagsMask bridge.
 
 + **[DOCUMENTATION]** Docs: Fix Doxygen warnings.
 

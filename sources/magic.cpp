@@ -2130,11 +2130,8 @@ private:
         explicit FlagsConverter(const FlagsContainerT& flags_container) noexcept
           : m_flags_mask{std::ranges::fold_left(
                 flags_container,
-                FlagsMask{
-                    flags_container.empty() ? Flags::None
-                                            : flags_container.front()
-                },
-                [](FlagsMask acc, Flags f) {
+                FlagsMask{},
+                [](const FlagsMask& acc, Flags f) {
                     return acc | f;
                 }
             )}

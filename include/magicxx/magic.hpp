@@ -324,7 +324,7 @@ public:
          *
          * @returns A new FlagsMask with all bits from both masks set.
          */
-        constexpr FlagsMask operator|(FlagsMask other) const noexcept
+        constexpr FlagsMask operator|(const FlagsMask& other) const noexcept
         {
             FlagsMask result;
             result.m_mask = std::bitset<30uz>{

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic, Tests: Convert Flags to scoped enum class with FlagsMask bridge.
+
 + **[DOCUMENTATION]** Docs: Fix Doxygen warnings.
 
 + **[ENHANCEMENT]** CI/CD: Add workflow to check Doxygen documentation and update CMake settings for warnings.

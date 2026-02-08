@@ -118,7 +118,7 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 2. **Formatting** — `./scripts/workflows.sh -p format-source-code`
 3. **Documentation** — `./scripts/workflows.sh -p documentation`
 
-All four workflows must pass cleanly.
+All of the above workflows (both test presets, formatting, and documentation) must pass cleanly.
 
 ## 8. Development Container Usage
 

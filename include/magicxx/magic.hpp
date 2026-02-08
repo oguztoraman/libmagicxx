@@ -219,6 +219,8 @@ public:
      * @typedef FlagsMaskT
      *
      * @brief Bitmask type representing a set of Magic::Flags used to configure the Magic instance.
+     *
+     * @since 10.0.0
      */
     using FlagsMaskT = std::bitset<30uz>;
 
@@ -226,6 +228,8 @@ public:
      * @typedef FileTypeT
      *
      * @brief String type representing the detected type of a file.
+     *
+     * @since 10.0.0
      */
     using FileTypeT = std::string;
 
@@ -233,6 +237,8 @@ public:
      * @typedef ErrorMessageT
      *
      * @brief String type representing an error message from file identification.
+     *
+     * @since 10.0.0
      */
     using ErrorMessageT = std::string;
 
@@ -240,6 +246,8 @@ public:
      * @typedef ExpectedFileTypeT
      *
      * @brief Result type for file identification, containing either a file type or an error message.
+     *
+     * @since 10.0.0
      */
     using ExpectedFileTypeT = std::expected<FileTypeT, ErrorMessageT>;
 
@@ -247,6 +255,8 @@ public:
      * @typedef FileTypeMapT
      *
      * @brief Map from file paths to their detected types.
+     *
+     * @since 10.0.0
      */
     using FileTypeMapT = std::map<std::filesystem::path, FileTypeT>;
 
@@ -254,6 +264,8 @@ public:
      * @typedef FileTypeEntryT
      *
      * @brief Key-value pair representing a single file and its detected type.
+     *
+     * @since 10.0.0
      */
     using FileTypeEntryT = FileTypeMapT::value_type;
 
@@ -261,6 +273,8 @@ public:
      * @typedef ExpectedFileTypeMapT
      *
      * @brief Map from file paths to expected file type results (success or error).
+     *
+     * @since 10.0.0
      */
     using ExpectedFileTypeMapT = std::map<
         std::filesystem::path,
@@ -271,6 +285,8 @@ public:
      * @typedef ExpectedFileTypeEntryT
      *
      * @brief Key-value pair representing a single file and its expected file type result.
+     *
+     * @since 10.0.0
      */
     using ExpectedFileTypeEntryT = ExpectedFileTypeMapT::value_type;
 
@@ -280,6 +296,8 @@ public:
      * @brief Alias for a shared pointer to a progress tracker used for monitoring file identification progress.
      *
      * @see Utility::ProgressTracker
+     *
+     * @since 10.0.0
      */
     using ProgressTrackerT = Utility::SharedProgressTrackerT;
 
@@ -397,6 +415,8 @@ public:
      * @typedef FlagsContainerT
      *
      * @brief Container type holding a collection of Magic::Flags.
+     *
+     * @since 10.0.0
      */
     using FlagsContainerT = std::vector<Flags>;
 
@@ -404,6 +424,8 @@ public:
      * @typedef ParameterValueMapT
      *
      * @brief Map from Magic::Parameters to their corresponding values.
+     *
+     * @since 10.0.0
      */
     using ParameterValueMapT = std::map<Parameters, std::size_t>;
 
@@ -411,6 +433,8 @@ public:
      * @typedef ParameterValueT
      *
      * @brief Key-value pair representing a single parameter and its value.
+     *
+     * @since 10.0.0
      */
     using ParameterValueT = ParameterValueMapT::value_type;
 
@@ -617,6 +641,8 @@ public:
      *
      * Magic instances cannot be copied because they own unique libmagic resources.
      * Use move semantics instead.
+     *
+     * @since 10.0.0
      */
     Magic(const Magic&) = delete;
 
@@ -639,6 +665,8 @@ public:
      *
      * Magic instances cannot be copied because they own unique libmagic resources.
      * Use move semantics instead.
+     *
+     * @since 10.0.0
      */
     Magic& operator=(const Magic&) = delete;
 
@@ -1140,9 +1168,7 @@ public:
      *
      * Identifies the type of each file in the provided container.
      *
-     * @tparam Container type satisfying Utility::FileContainer concept.
-     *
-     * @param[in] files Container of file paths to identify.
+     * @param[in] files Container of file paths to identify (must satisfy Utility::FileContainer concept).
      *
      * @returns Map from file paths to their identified types.
      *
@@ -1655,14 +1681,31 @@ private:
     /** @brief Default container type for file paths used in implementation. */
     using DefaultFileContainerT = std::vector<std::filesystem::path>;
 
-    /** @brief Implementation for directory identification (throwing version). */
+    /**
+     * @brief Implementation for directory identification (throwing version).
+     *
+     * @param[in] directory         Path to the directory to identify.
+     * @param[in] option            Directory iteration options.
+     * @param[in] progress_tracker  Optional tracker for reporting progress.
+     *
+     * @returns Map of file paths to their identified types.
+     */
     [[nodiscard]] FileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         std::filesystem::directory_options option,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    /** @brief Implementation for directory identification (noexcept version). */
+    /**
+     * @brief Implementation for directory identification (noexcept version).
+     *
+     * @param[in] directory         Path to the directory to identify.
+     * @param[in] tag               Tag to select the noexcept overload.
+     * @param[in] option            Directory iteration options.
+     * @param[in] progress_tracker  Optional tracker for reporting progress.
+     *
+     * @returns Expected map of file paths to their identified types, or error.
+     */
     [[nodiscard]] ExpectedFileTypeMapT IdentifyDirectoryImpl(
         const std::filesystem::path&       directory,
         const std::nothrow_t&              tag,
@@ -1670,13 +1713,28 @@ private:
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
 
-    /** @brief Implementation for container identification (throwing version). */
+    /**
+     * @brief Implementation for container identification (throwing version).
+     *
+     * @param[in] files             Container of file paths to identify.
+     * @param[in] progress_tracker  Optional tracker for reporting progress.
+     *
+     * @returns Map of file paths to their identified types.
+     */
     [[nodiscard]] FileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const;
 
-    /** @brief Implementation for container identification (noexcept version). */
+    /**
+     * @brief Implementation for container identification (noexcept version).
+     *
+     * @param[in] files             Container of file paths to identify.
+     * @param[in] tag               Tag to select the noexcept overload.
+     * @param[in] progress_tracker  Optional tracker for reporting progress.
+     *
+     * @returns Expected map of file paths to their identified types, or error.
+     */
     [[nodiscard]] ExpectedFileTypeMapT IdentifyContainerImpl(
         const DefaultFileContainerT& files,
         const std::nothrow_t&        tag,

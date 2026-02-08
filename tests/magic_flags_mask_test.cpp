@@ -16,9 +16,9 @@
  *
  * @section flags_mask_test_strategy Test Strategy
  *
- * Tests verify both compile-time (constexpr) and runtime behavior
- * of the FlagsMask class to ensure type-safe flag combination works
- * correctly in all supported expression forms.
+ * Tests verify the runtime behavior of the FlagsMask class to ensure
+ * type-safe flag combination works correctly in all supported
+ * expression forms.
  *
  * @see Magic::FlagsMask
  * @see Magic::Flags

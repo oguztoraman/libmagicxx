@@ -313,9 +313,7 @@ public:
          *
          * @param[in] flag The flag to set in the mask.
          */
-        constexpr FlagsMask(
-            Flags flag
-        ) noexcept // NOLINT(google-explicit-constructor)
+        constexpr FlagsMask(Flags flag) noexcept
           : m_mask{static_cast<unsigned long long>(flag)}
         { }
 
@@ -351,6 +349,7 @@ public:
          * @brief Test whether a specific bit is set.
          *
          * @param[in] pos Bit position to test.
+         *
          * @returns true if the bit at the given position is set.
          */
         constexpr bool operator[](std::size_t pos) const

@@ -20,7 +20,7 @@
  * type-safe flag combination works correctly in all supported
  * expression forms.
  *
- * @see Magic::FlagsMask
+ * @see Magic::FlagsMaskT
  * @see Magic::Flags
  */
 

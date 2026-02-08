@@ -1934,13 +1934,13 @@ private:
     /** @{ */
     static constexpr IdentifyFileOptionsMaskT CHECK_IS_VALID_OPTION{
         IdentifyFileOptions::CheckIsValid
-    };
+    }; /**< Bitmask for the CheckIsValid option. */
     static constexpr IdentifyFileOptionsMaskT CHECK_PATH_EMPTY_OPTION{
         IdentifyFileOptions::CheckPathEmpty
-    };
+    }; /**< Bitmask for the CheckPathEmpty option. */
     static constexpr IdentifyFileOptionsMaskT CHECK_PATH_EXISTS_OPTION{
         IdentifyFileOptions::CheckPathExists
-    };
+    }; /**< Bitmask for the CheckPathExists option. */
     /** @} impl_validation_option_masks */
 
     /**
@@ -1976,19 +1976,36 @@ private:
              LibmagicValueT,
              const char*
          >; /**< Value-name pair */
-    using LibmagicFlagsT      = std::array<LibmagicPairT, LIBMAGIC_FLAGS_COUNT>;
+    using LibmagicFlagsT = std::array<
+        LibmagicPairT,
+        LIBMAGIC_FLAGS_COUNT
+    >; /**< Array type mapping all libmagic flag values to names. */
     using LibmagicParametersT = std::array<
         LibmagicPairT,
         LIBMAGIC_PARAMETER_COUNT
-    >;
+    >; /**< Array type mapping all libmagic parameter values to names. */
     /** @} impl_libmagic_type_aliases */
 
-    /** @brief The MAGIC_NONE flag pair for default output. */
+    /**
+     * @brief The MAGIC_NONE flag pair for default output.
+     *
+     * @see Flags::None
+     */
     static constexpr LibmagicPairT LIBMAGIC_FLAG_NONE{
         std::make_pair(MAGIC_NONE, "None")
     };
 
-    /** @brief Mapping from Magic::Flags bit positions to libmagic constants. */
+    /**
+     * @brief Mapping from Magic::Flags bit positions to libmagic constants.
+     *
+     * Static lookup table mapping each Flags enum bit position to
+     * the corresponding libmagic MAGIC_* constant and its
+     * human-readable name.
+     *
+     * @see Flags
+     * @see GetFlags()
+     * @see SetFlags()
+     */
     static constexpr LibmagicFlagsT LIBMAGIC_FLAGS{
         std::make_pair(MAGIC_DEBUG, "Debug"),
         std::make_pair(MAGIC_SYMLINK, "Symlink"),

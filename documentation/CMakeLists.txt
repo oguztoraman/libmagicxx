@@ -43,6 +43,22 @@ set(DOXYGEN_TIMESTAMP
 )
 
 set(DOXYGEN_EXTRACT_ALL
+    NO
+)
+
+set(DOXYGEN_WARN_IF_UNDOCUMENTED
+    YES
+)
+
+set(DOXYGEN_WARN_IF_DOC_ERROR
+    YES
+)
+
+set(DOXYGEN_WARN_NO_PARAMDOC
+    YES
+)
+
+set(DOXYGEN_WARN_IF_UNDOC_ENUM_VAL
     YES
 )
 
@@ -98,6 +114,10 @@ set(DOXYGEN_OUTPUT_DIRECTORY
     ${magicxx_DOCUMENTATION_DIR}
 )
 
+set(DOXYGEN_WARN_AS_ERROR
+    FAIL_ON_WARNINGS
+)
+
 set(DOXYGEN_EXAMPLE_PATH
     ${magicxx_EXAMPLES_DIR}
 )
@@ -132,7 +152,6 @@ add_custom_target(delete_old_docs
 
 doxygen_add_docs(
     magicxx_documentation
-        ${magic_HEADER_FILES}
         ${magicxx_HEADER_FILES}
         ${magicxx_SOURCE_FILES}
         ${magicxx_DOCUMENTATION_FILES}

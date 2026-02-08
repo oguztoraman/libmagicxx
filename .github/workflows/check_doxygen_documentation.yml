@@ -1,0 +1,39 @@
+name: Check Doxygen Documentation
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'v*.*.x']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      container: ${{ steps.set.outputs.container }}
+    steps:
+      - name: Determine Container Tag.
+        id: set
+        run: |
+          REF="${{ github.base_ref || github.ref_name }}"
+          if [[ "$REF" == "main" ]]; then
+            TAG=latest
+          else
+            TAG="${REF%.*}.x"
+          fi
+          echo "container=ghcr.io/oguztoraman/libmagicxx-dev:$TAG" >> $GITHUB_OUTPUT
+  check_doxygen:
+    needs: setup
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.setup.outputs.container }}
+    steps:
+      - name: Checkout.
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Check Doxygen Documentation for Warnings.
+        run: ./scripts/workflows.sh -p documentation -c

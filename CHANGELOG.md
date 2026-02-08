@@ -2,6 +2,10 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Fix Doxygen warnings.
+
++ **[ENHANCEMENT]** CI/CD: Add workflow to check Doxygen documentation and update CMake settings for warnings.
+
 + **[ENHANCEMENT]** Format: Add `.clangd` configuration file.
 
 + **[ENHANCEMENT]** CI/CD: Update workflows to use pre-built development container from GitHub Container Registry.

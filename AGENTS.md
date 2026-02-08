@@ -112,14 +112,13 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
 
 **Required Validation Order:** Agents must run and pass the following workflows **in order** before submitting a PR:
 
-1. **Tests** — run **at least one** of the following presets:
+1. **Tests** — run **both** test presets:
    - `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
    - `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
-   Running both presets is optional but allowed; choose the one(s) that match the toolchains affected by the change.
 2. **Formatting** — `./scripts/workflows.sh -p format-source-code`
 3. **Documentation** — `./scripts/workflows.sh -p documentation`
 
-All required workflows (including at least one of the test presets above) must pass cleanly.
+All four workflows must pass cleanly.
 
 ## 8. Development Container Usage
 

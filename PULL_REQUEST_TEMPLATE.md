@@ -12,7 +12,8 @@ Fixes issue #????.
 
 - [ ] Branch created from `main` (or release branch for bugfix)
 - [ ] Code follows <a href="STYLE_GUIDE.md">STYLE_GUIDE.md</a>
-- [ ] All tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
+- [ ] Clang tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
+- [ ] GCC tests pass: `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality

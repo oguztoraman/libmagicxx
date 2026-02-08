@@ -46,6 +46,14 @@ set(DOXYGEN_EXTRACT_ALL
     NO
 )
 
+set(DOXYGEN_WARN_IF_UNDOCUMENTED
+    YES
+)
+
+set(DOXYGEN_WARN_IF_DOC_ERROR
+    YES
+)
+
 set(DOXYGEN_WARN_NO_PARAMDOC
     YES
 )
@@ -72,10 +80,6 @@ set(DOXYGEN_EXTRACT_STATIC
 
 set(DOXYGEN_EXTRACT_ANON_NSPACES
     YES
-)
-
-set(DOXYGEN_EXCLUDE
-    ${magic_SOURCE_DIR}
 )
 
 set(DOXYGEN_USE_MDFILE_AS_MAINPAGE
@@ -148,7 +152,6 @@ add_custom_target(delete_old_docs
 
 doxygen_add_docs(
     magicxx_documentation
-        ${magic_HEADER_FILES}
         ${magicxx_HEADER_FILES}
         ${magicxx_SOURCE_FILES}
         ${magicxx_DOCUMENTATION_FILES}

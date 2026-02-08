@@ -332,17 +332,6 @@ public:
         }
 
         /**
-         * @brief Combine this mask with a single flag.
-         *
-         * @param[in] flag The flag to add.
-         *
-         * @returns A new FlagsMask with the flag added.
-         */
-        constexpr FlagsMask operator|(Flags flag) const noexcept
-        {
-            return *this | FlagsMask{flag};
-        }
-
         /**
          * @brief Test whether a specific bit is set.
          *
@@ -391,6 +380,43 @@ public:
     friend constexpr FlagsMask operator|(Flags lhs, Flags rhs) noexcept
     {
         return FlagsMask{lhs} | FlagsMask{rhs};
+    }
+
+    /**
+     * @brief Combine a Flags value with a FlagsMask.
+     *
+     * Enables expressions like `Flags::A | (Flags::B | Flags::C)`.
+     *
+     * @param[in] lhs Left-hand side flag.
+     * @param[in] rhs Right-hand side mask.
+     *
+     * @returns A FlagsMask with all bits from both operands set.
+     */
+    friend constexpr FlagsMask operator|(
+        Flags            lhs,
+        const FlagsMask& rhs
+    ) noexcept
+    {
+        return FlagsMask{lhs} | rhs;
+    }
+
+    /**
+     * @brief Combine a FlagsMask with a Flags value (non-member symmetric overload).
+     *
+     * Enables expressions like `(Flags::A | Flags::B) | Flags::C`
+     * without relying on member lookup.
+     *
+     * @param[in] lhs Left-hand side mask.
+     * @param[in] rhs Right-hand side flag.
+     *
+     * @returns A FlagsMask with all bits from both operands set.
+     */
+    friend constexpr FlagsMask operator|(
+        const FlagsMask& lhs,
+        Flags            rhs
+    ) noexcept
+    {
+        return lhs | FlagsMask{rhs};
     }
 
     /**

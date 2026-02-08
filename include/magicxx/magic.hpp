@@ -332,7 +332,6 @@ public:
         }
 
         /**
-        /**
          * @brief Test whether a specific bit is set.
          *
          * @param[in] pos Bit position to test.

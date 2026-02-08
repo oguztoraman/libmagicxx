@@ -79,8 +79,8 @@ protected:
         );
         m_test_flags_mask = std::ranges::fold_left(
             m_test_flags_container,
-            Magic::FlagsMask{},
-            [](Magic::FlagsMask acc, Magic::Flags f) { return acc | f; }
+            Magic::FlagsMaskT{},
+            [](Magic::FlagsMaskT acc, Magic::Flags f) { return acc | f; }
         );
     }
 

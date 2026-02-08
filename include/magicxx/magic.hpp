@@ -279,6 +279,7 @@ public:
         /* clang-format on */
     };
 
+private:
     /**
      * @class FlagsMask
      *
@@ -302,6 +303,8 @@ public:
     public:
         /**
          * @brief Default constructor. Creates an empty flags mask.
+         *
+         * @since 11.0.0
          */
         constexpr FlagsMask() noexcept = default;
 
@@ -312,6 +315,8 @@ public:
          * wherever FlagsMaskT is expected, without explicit conversion.
          *
          * @param[in] flag The flag to set in the mask.
+         *
+         * @since 11.0.0
          */
         constexpr FlagsMask(Flags flag) noexcept
           : m_mask{static_cast<unsigned long long>(flag)}
@@ -323,6 +328,8 @@ public:
          * @param[in] other The other mask to combine.
          *
          * @returns A new FlagsMask with all bits from both masks set.
+         *
+         * @since 11.0.0
          */
         constexpr FlagsMask operator|(const FlagsMask& other) const noexcept
         {
@@ -337,6 +344,8 @@ public:
          * @param[in] pos Bit position to test.
          *
          * @returns true if the bit at the given position is set.
+         *
+         * @since 11.0.0
          */
         constexpr bool operator[](std::size_t pos) const
         {
@@ -347,6 +356,8 @@ public:
          * @brief Get the number of bits in the mask.
          *
          * @returns The size of the underlying bitmask (30).
+         *
+         * @since 11.0.0
          */
         constexpr std::size_t size() const noexcept
         {
@@ -357,6 +368,8 @@ public:
          * @brief Test whether no bits are set.
          *
          * @returns true if no bits are set, false otherwise.
+         *
+         * @since 11.0.0
          */
         constexpr bool none() const noexcept
         {
@@ -375,6 +388,8 @@ public:
      * @param[in] rhs Right-hand side flag.
      *
      * @returns A FlagsMask with both flags set.
+     *
+     * @since 11.0.0
      */
     friend constexpr FlagsMask operator|(Flags lhs, Flags rhs) noexcept
     {
@@ -390,6 +405,8 @@ public:
      * @param[in] rhs Right-hand side mask.
      *
      * @returns A FlagsMask with all bits from both operands set.
+     *
+     * @since 11.0.0
      */
     friend constexpr FlagsMask operator|(
         Flags            lhs,
@@ -409,6 +426,8 @@ public:
      * @param[in] rhs Right-hand side flag.
      *
      * @returns A FlagsMask with all bits from both operands set.
+     *
+     * @since 11.0.0
      */
     friend constexpr FlagsMask operator|(
         const FlagsMask& lhs,
@@ -418,6 +437,7 @@ public:
         return lhs | FlagsMask{rhs};
     }
 
+public:
     /**
      * @typedef FlagsMaskT
      *

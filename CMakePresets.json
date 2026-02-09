@@ -85,6 +85,8 @@
                 "release-config"
             ],
             "cacheVariables": {
+                "BUILD_MAGICXX_TESTS":"ON",
+                "BUILD_MAGICXX_EXAMPLES":"ON",
                 "BUILD_MAGICXX_STATIC_LIB":"OFF"
             }
         },

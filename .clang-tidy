@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
+# SPDX-License-Identifier: LGPL-3.0-only
+#
+# clang-tidy version: 21
+
+Checks:
+  -*,
+  bugprone-*,
+  cert-*-cpp,
+  cert-flp30-c,
+  clang-analyzer-*,
+  clang-diagnostic-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  fuchsia-statically-constructed-objects,
+  fuchsia-trailing-return,
+  google-explicit-constructor,
+  google-readability-casting,
+  google-readability-todo,
+  google-runtime-int,
+  hicpp-exception-baseclass,
+  hicpp-multiway-paths-covered,
+  hicpp-no-assembler,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-convert-member-functions-to-static
+CheckOptions:
+  readability-function-size.LineThreshold: '50'
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.AbstractClassCase: CamelCase
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.ScopedEnumConstantCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: CamelCase
+  readability-identifier-naming.NamespaceCase: CamelCase
+  readability-identifier-naming.InlineNamespaceCase: CamelCase
+  readability-identifier-naming.FunctionCase: CamelCase
+  readability-identifier-naming.GlobalFunctionCase: CamelCase
+  readability-identifier-naming.ConstexprFunctionCase: CamelCase
+  readability-identifier-naming.MethodCase: CamelCase
+  readability-identifier-naming.ClassMethodCase: CamelCase
+  readability-identifier-naming.ConstexprMethodCase: CamelCase
+  readability-identifier-naming.VirtualMethodCase: CamelCase
+  readability-identifier-naming.PrivateMethodCase: CamelCase
+  readability-identifier-naming.ProtectedMethodCase: CamelCase
+  readability-identifier-naming.PublicMethodCase: CamelCase
+  readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.LocalVariableCase: lower_case
+  readability-identifier-naming.StaticVariableCase: lower_case
+  readability-identifier-naming.GlobalVariableCase: lower_case
+  readability-identifier-naming.LocalPointerCase: lower_case
+  readability-identifier-naming.GlobalPointerCase: lower_case
+  readability-identifier-naming.MemberCase: lower_case
+  readability-identifier-naming.MemberPrefix: m_
+  readability-identifier-naming.ClassMemberCase: lower_case
+  readability-identifier-naming.ClassMemberPrefix: m_
+  readability-identifier-naming.PrivateMemberCase: lower_case
+  readability-identifier-naming.PrivateMemberPrefix: m_
+  readability-identifier-naming.ProtectedMemberCase: lower_case
+  readability-identifier-naming.ProtectedMemberPrefix: m_
+  readability-identifier-naming.PublicMemberCase: lower_case
+  readability-identifier-naming.PublicMemberPrefix: m_
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.ConstantParameterCase: lower_case
+  readability-identifier-naming.PointerParameterCase: lower_case
+  readability-identifier-naming.ConstantPointerParameterCase: lower_case
+  readability-identifier-naming.ParameterPackCase: lower_case
+  readability-identifier-naming.LocalConstantCase: lower_case
+  readability-identifier-naming.LocalConstantPointerCase: lower_case
+  readability-identifier-naming.TypeTemplateParameterCase: CamelCase
+  readability-identifier-naming.TypeTemplateParameterSuffix: T
+  readability-identifier-naming.TemplateTemplateParameterCase: CamelCase
+  readability-identifier-naming.TemplateTemplateParameterSuffix: T
+  readability-identifier-naming.ValueTemplateParameterCase: CamelCase
+  readability-identifier-naming.ValueTemplateParameterSuffix: V
+  readability-identifier-naming.TemplateParameterCase: CamelCase
+  readability-identifier-naming.TypeAliasCase: CamelCase
+  readability-identifier-naming.TypeAliasSuffix: T
+  readability-identifier-naming.TypedefCase: CamelCase
+  readability-identifier-naming.TypedefSuffix: T
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+  readability-identifier-naming.ConstexprVariableCase: UPPER_CASE
+  readability-identifier-naming.StaticConstantCase: UPPER_CASE
+  readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+  readability-identifier-naming.GlobalConstantPointerCase: UPPER_CASE
+  readability-identifier-naming.ClassConstantCase: UPPER_CASE
+  readability-identifier-naming.ConstantMemberCase: UPPER_CASE
+  readability-identifier-naming.ConceptCase: CamelCase
+  readability-identifier-naming.UnionCase: CamelCase
+  performance-unnecessary-value-param.AllowedTypes: 'ProgressTrackerT'
+ExcludeHeaderFilterRegex: 'external/.*'
+FormatStyle: file
+HeaderFileExtensions: ['hpp']
+HeaderFilterRegex: '.*\.hpp'
+ImplementationFileExtensions: ['cpp']
+SystemHeaders: false
+WarningsAsErrors: '*'

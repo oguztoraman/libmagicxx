@@ -36,6 +36,9 @@
   <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml">
     <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/build_windows_clang.yml/badge.svg" alt="Windows Clang">
   </a>
+  <a href="https://github.com/oguztoraman/libmagicxx/actions/workflows/check_clang_tidy.yml">
+    <img src="https://github.com/oguztoraman/libmagicxx/actions/workflows/check_clang_tidy.yml/badge.svg" alt="Clang-Tidy Checks">
+  </a>
 </p>
 
 <p align="center">

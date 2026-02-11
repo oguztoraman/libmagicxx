@@ -52,6 +52,7 @@ This guide provides everything you need to contribute successfully.
 | Build &amp; test (Clang) | `./scripts/workflows.sh -p linux-x86_64-clang-tests -c` |
 | Build &amp; test (GCC) | `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c` |
 | Format code | `./scripts/workflows.sh -p format-source-code` |
+| Run clang-tidy | `./scripts/workflows.sh -p clang-tidy-checks -c` |
 | Build examples | `./scripts/workflows.sh -p linux-x86_64-clang-examples` |
 | Build documentation | `./scripts/workflows.sh -p documentation` |
 | List all presets | `./scripts/workflows.sh -l` |
@@ -621,6 +622,7 @@ Use `./scripts/workflows.sh -l` to see the full list. Key presets for contributo
 |--------|-------------|
 | **`documentation`** | Generate Doxygen documentation |
 | **`format-source-code`** | Format all source files |
+| **`clang-tidy-checks`** | Run clang-tidy static analysis |
 | **`generate-source-package`** | Generate source package |
 | **`generate-default-database-files`** | Generate default database files |
 
@@ -720,6 +722,7 @@ Complete this checklist:
 - [ ] Clang tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
 - [ ] GCC tests pass: `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
+- [ ] Clang-tidy checks pass: `./scripts/workflows.sh -p clang-tidy-checks -c`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
 - [ ] Doxygen comments added for new public APIs
@@ -894,6 +897,7 @@ We aim to review PRs within a few days. Complex changes may take longer.
 
 Check the CI logs on GitHub. Common issues:
 - Formatting: Run `./scripts/workflows.sh -p format-source-code`
+- Clang-tidy: Run `./scripts/workflows.sh -p clang-tidy-checks -c`
 - Test failures: Run tests locally and fix
 - Build errors: Check compiler output
 

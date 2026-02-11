@@ -8,7 +8,9 @@ If:
   - .*\.hpp
   - .*\.cpp
   PathExclude:
+  - examples/.*
   - external/.*
+  - tests/.*
 Completion:
   AllScopes: Yes
   ArgumentLists: FullPlaceholders

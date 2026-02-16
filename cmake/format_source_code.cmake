@@ -15,7 +15,10 @@ endif()
 # -----------------------------------------------------------------------------
 add_custom_target(format_source_code
     COMMAND
-        ${CLANG_FORMAT} -i -style=file ${magicxx_SOURCE_FILES_TO_FORMAT}
+        ${CLANG_FORMAT}
+        -i
+        -style=file
+        ${magicxx_SOURCE_FILES_TO_LINT}
     WORKING_DIRECTORY
         ${magicxx_SOURCE_DIR}
     COMMENT

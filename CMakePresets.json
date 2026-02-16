@@ -79,6 +79,16 @@
             "inherits": "base-config"
         },
         {
+            "name": "clang-tidy-checks",
+            "inherits": [
+                "linux-x86_64-clang-base-config",
+                "release-config"
+            ],
+            "cacheVariables": {
+                "BUILD_MAGICXX_STATIC_LIB":"OFF"
+            }
+        },
+        {
             "name": "generate-source-package",
             "inherits": "base-config"
         },
@@ -275,6 +285,14 @@
             "configurePreset": "format-source-code",
             "targets": [
                 "format_source_code"
+            ]
+        },
+        {
+            "name": "clang-tidy-checks",
+            "inherits": "base-config",
+            "configurePreset": "clang-tidy-checks",
+            "targets": [
+                "clang_tidy_checks"
             ]
         },
         {
@@ -523,6 +541,20 @@
                 {
                     "type": "build",
                     "name": "format-source-code"
+                }
+            ]
+        },
+        {
+            "name": "clang-tidy-checks",
+            "displayName": "Run Clang-Tidy Checks",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang-tidy-checks"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-tidy-checks"
                 }
             ]
         },

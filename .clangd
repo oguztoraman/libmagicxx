@@ -8,7 +8,9 @@ If:
   - .*\.hpp
   - .*\.cpp
   PathExclude:
+  - examples/.*
   - external/.*
+  - tests/.*
 Completion:
   AllScopes: Yes
   ArgumentLists: FullPlaceholders
@@ -31,6 +33,7 @@ CompileFlags:
     - -Wno-unknown-warning-option
     - -Wno-weak-vtables
     - -Wno-padded
+    - -Wno-ctad-maybe-unsupported
   CompilationDatabase: build
 Diagnostics:
   ClangTidy:
@@ -57,6 +60,7 @@ Diagnostics:
       - portability-*
       - readability-*
     Remove:
+      - cert-err58-cpp
       - modernize-use-trailing-return-type
       - readability-convert-member-functions-to-static
     CheckOptions:
@@ -122,7 +126,7 @@ Diagnostics:
       readability-identifier-naming.ConstantMemberCase: UPPER_CASE
       readability-identifier-naming.ConceptCase: CamelCase
       readability-identifier-naming.UnionCase: CamelCase
-      performance-unnecessary-value-param.AllowedTypes: "ProgressTrackerT"
+      performance-unnecessary-value-param.AllowedTypes: '.*ProgressTracker.*'
     FastCheckFilter: None
   MissingIncludes: Strict
   UnusedIncludes: Strict

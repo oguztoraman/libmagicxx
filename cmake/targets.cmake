@@ -19,6 +19,7 @@ function(configure_magicxx_target target_name alias_name library_type)
         CXX_STANDARD 23
         CXX_EXTENSIONS OFF
         CXX_STANDARD_REQUIRED ON
+        CXX_SCAN_FOR_MODULES OFF
         C_STANDARD 99
         C_EXTENSIONS OFF
         C_STANDARD_REQUIRED ON

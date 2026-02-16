@@ -93,6 +93,7 @@ Examples:
 ```bash
 ./scripts/workflows.sh -p linux-x86_64-clang-tests -c    # Clear cache + build + test
 ./scripts/workflows.sh -p format-source-code             # Format code
+./scripts/workflows.sh -p clang-tidy-checks -c           # Run clang-tidy static analysis
 ./scripts/workflows.sh -p documentation                  # Generate Doxygen documentation
 ./scripts/workflows.sh -p linux-x86_64-clang-examples    # Build examples
 cmake --workflow --preset linux-x86_64-clang-tests       # Direct CMake workflow alternative
@@ -116,9 +117,10 @@ Note: Prefer presets to toggling CMake options manually. If you must, ensure `BU
    - `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
    - `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
 2. **Formatting** — `./scripts/workflows.sh -p format-source-code`
-3. **Documentation** — `./scripts/workflows.sh -p documentation`
+3. **Clang-Tidy** — `./scripts/workflows.sh -p clang-tidy-checks -c`
+4. **Documentation** — `./scripts/workflows.sh -p documentation`
 
-All of the above workflows (both test presets, formatting, and documentation) must pass cleanly.
+All of the above workflows (both test presets, formatting, clang-tidy, and documentation) must pass cleanly.
 
 ## 8. Development Container Usage
 
@@ -170,13 +172,15 @@ Output: Unified diff + run instructions.
 
 3. Formatting preset clean; no style drift.
 
-4. No ABI-impactful changes (inspect public headers / symbols if modified).
+4. Clang-tidy checks pass; no new warnings or errors.
 
-5. Changelog updated if feature / refactor (keep versioning consistent with release procedure).
+5. No ABI-impactful changes (inspect public headers / symbols if modified).
 
-6. No license issues (no pasted third-party code without attribution & compatibility).
+6. Changelog updated if feature / refactor (keep versioning consistent with release procedure).
 
-7. Documentation updates for new public API.
+7. No license issues (no pasted third-party code without attribution & compatibility).
+
+8. Documentation updates for new public API.
 
 ## 11. Security & Safety
 
@@ -323,6 +327,8 @@ Human reviews ABI + formatting; merges sequentially.
 **Should agents modify `CMakePresets.json`?** Only to add clearly justified, documented presets; never remove existing ones without approval.  
 
 **What if formatting differs?** Re-run `./scripts/workflows.sh -p format-source-code` and amend.
+
+**What if clang-tidy fails?** Fix the reported warnings/errors, then re-run `./scripts/workflows.sh -p clang-tidy-checks -c` and amend.
 
 ## 21. Quick Start (Agent Contribution)
 

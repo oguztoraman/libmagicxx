@@ -106,9 +106,9 @@ set(magicxx_DOCUMENTATION_FILES
 )
 
 # -----------------------------------------------------------------------------
-# Source files for formatting
+# Source files for formatting and static analysis
 # -----------------------------------------------------------------------------
-set(magicxx_SOURCE_FILES_TO_FORMAT
+set(magicxx_SOURCE_FILES_TO_LINT
     ${magicxx_HEADER_FILES}
     ${magicxx_SOURCE_FILES}
     ${magicxx_examples_SOURCE_FILES}

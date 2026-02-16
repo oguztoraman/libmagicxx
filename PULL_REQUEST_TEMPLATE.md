@@ -15,6 +15,7 @@ Fixes issue #????.
 - [ ] Clang tests pass: `./scripts/workflows.sh -p linux-x86_64-clang-tests -c`
 - [ ] GCC tests pass: `./scripts/workflows.sh -p linux-x86_64-gcc-tests -c`
 - [ ] Code formatted: `./scripts/workflows.sh -p format-source-code`
+- [ ] Clang-tidy checks pass: `./scripts/workflows.sh -p clang-tidy-checks -c`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
 - [ ] Doxygen comments added for new public APIs

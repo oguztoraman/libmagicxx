@@ -26,6 +26,7 @@ Checks:
   performance-*,
   portability-*,
   readability-*,
+  -cert-err58-cpp,
   -modernize-use-trailing-return-type,
   -readability-convert-member-functions-to-static
 CheckOptions:
@@ -91,7 +92,7 @@ CheckOptions:
   readability-identifier-naming.ConstantMemberCase: UPPER_CASE
   readability-identifier-naming.ConceptCase: CamelCase
   readability-identifier-naming.UnionCase: CamelCase
-  performance-unnecessary-value-param.AllowedTypes: 'ProgressTrackerT'
+  performance-unnecessary-value-param.AllowedTypes: '.*ProgressTrackerT.*'
 ExcludeHeaderFilterRegex: 'external/.*'
 FormatStyle: file
 HeaderFileExtensions: ['hpp']

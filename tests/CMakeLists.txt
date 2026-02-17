@@ -14,27 +14,8 @@ project(magicxx_tests
 )
 
 # -----------------------------------------------------------------------------
-# Source files
+# Source files (defined in cmake/sources.cmake)
 # -----------------------------------------------------------------------------
-
-set(magicxx_tests_SOURCE_FILES
-    magic_check_test.cpp
-    magic_compile_test.cpp
-    magic_flags_mask_test.cpp
-    magic_flags_test.cpp
-    magic_identify_container_test.cpp
-    magic_identify_directory_test.cpp
-    magic_identify_file_test.cpp
-    magic_load_database_file_test.cpp
-    magic_open_close_test.cpp
-    magic_parameters_test.cpp
-    magic_percentage_test.cpp
-    magic_progress_tracker_test.cpp
-    magic_special_members_test.cpp
-    magic_to_string_test.cpp
-    magic_version_test.cpp
-    main.cpp
-)
 
 # -----------------------------------------------------------------------------
 # Dependencies

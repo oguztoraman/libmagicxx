@@ -62,12 +62,9 @@ protected:
             static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
             static_cast<Magic::Flags>(1ULL << m_dist(m_eng))
         };
-        std::ranges::sort(
-            test_flags,
-            [](Magic::Flags a, Magic::Flags b) {
-                return std::to_underlying(a) < std::to_underlying(b);
-            }
-        );
+        std::ranges::sort(test_flags, [](Magic::Flags a, Magic::Flags b) {
+            return std::to_underlying(a) < std::to_underlying(b);
+        });
         m_test_flags_container.clear();
         m_test_flags_container.assign(test_flags.begin(), test_flags.end());
         m_test_flags_container.erase(
@@ -80,14 +77,16 @@ protected:
         m_test_flags_mask = std::ranges::fold_left(
             m_test_flags_container,
             Magic::FlagsMaskT{},
-            [](Magic::FlagsMaskT acc, Magic::Flags f) { return acc | f; }
+            [](Magic::FlagsMaskT acc, Magic::Flags f) {
+                return acc | f;
+            }
         );
     }
 
-    std::filesystem::path    m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
+    std::filesystem::path  m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     Magic::FlagsContainerT m_test_flags_container{};
     Magic::FlagsMaskT      m_test_flags_mask{};
-    std::mt19937             m_eng{std::random_device{}()};
+    std::mt19937           m_eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_dist{
         0,
         Magic::FlagsMaskT{}.size() - 1

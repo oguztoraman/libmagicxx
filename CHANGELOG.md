@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** CMake, Format: Include example and test files in format and lint targets.
+
 + **[ENHANCEMENT]** CMake, CI/CD, Format: Add clang-tidy checks with preset and CI workflow.
 
 + **[ENHANCEMENT]** Magic, Tests: API CHANGE - Convert Flags to scoped enum class with FlagsMask bridge.

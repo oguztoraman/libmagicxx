@@ -37,12 +37,8 @@ message(STATUS "  Database dir:     ${MAGICXX_DEFAULT_DATABASE_DIR}")
 message(STATUS "")
 
 # -----------------------------------------------------------------------------
-# Source files
+# Source files (defined in cmake/sources.cmake)
 # -----------------------------------------------------------------------------
-
-set(magicxx_examples_SOURCE_FILES
-    magic_examples.cpp
-)
 
 # -----------------------------------------------------------------------------
 # Helper function to configure an example executable

@@ -48,6 +48,10 @@ set(magicxx_EXAMPLES_DIR
     ${magicxx_SOURCE_DIR}/examples
 )
 
+set(magicxx_TESTS_DIR
+    ${magicxx_SOURCE_DIR}/tests
+)
+
 set(magicxx_DEFAULT_DATABASE_DIR
     ${magicxx_SOURCE_DIR}/databases
 )

@@ -67,3 +67,32 @@ set(magicxx_HEADER_FILES
 set(magicxx_SOURCE_FILES
     ${magicxx_SOURCES_DIR}/magic.cpp
 )
+
+# -----------------------------------------------------------------------------
+# Magicxx example source files
+# -----------------------------------------------------------------------------
+set(magicxx_examples_SOURCE_FILES
+    ${magicxx_EXAMPLES_DIR}/magic_examples.cpp
+)
+
+# -----------------------------------------------------------------------------
+# Magicxx test source files
+# -----------------------------------------------------------------------------
+set(magicxx_tests_SOURCE_FILES
+    ${magicxx_TESTS_DIR}/magic_check_test.cpp
+    ${magicxx_TESTS_DIR}/magic_compile_test.cpp
+    ${magicxx_TESTS_DIR}/magic_flags_mask_test.cpp
+    ${magicxx_TESTS_DIR}/magic_flags_test.cpp
+    ${magicxx_TESTS_DIR}/magic_identify_container_test.cpp
+    ${magicxx_TESTS_DIR}/magic_identify_directory_test.cpp
+    ${magicxx_TESTS_DIR}/magic_identify_file_test.cpp
+    ${magicxx_TESTS_DIR}/magic_load_database_file_test.cpp
+    ${magicxx_TESTS_DIR}/magic_open_close_test.cpp
+    ${magicxx_TESTS_DIR}/magic_parameters_test.cpp
+    ${magicxx_TESTS_DIR}/magic_percentage_test.cpp
+    ${magicxx_TESTS_DIR}/magic_progress_tracker_test.cpp
+    ${magicxx_TESTS_DIR}/magic_special_members_test.cpp
+    ${magicxx_TESTS_DIR}/magic_to_string_test.cpp
+    ${magicxx_TESTS_DIR}/magic_version_test.cpp
+    ${magicxx_TESTS_DIR}/main.cpp
+)

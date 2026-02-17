@@ -39,8 +39,10 @@ struct MagicFlagsTest : testing::Test {
 protected:
     MagicFlagsTest()
     {
-        EXPECT_TRUE(m_opened_magic_without_database
-                        .Open(Magic::Flags::Mime, std::nothrow));
+        EXPECT_TRUE(m_opened_magic_without_database.Open(
+            Magic::Flags::Mime,
+            std::nothrow
+        ));
         EXPECT_TRUE(m_valid_magic.IsValid());
         std::error_code error_code;
         EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
@@ -57,12 +59,9 @@ protected:
             static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
             static_cast<Magic::Flags>(1ULL << m_dist(m_eng))
         };
-        std::ranges::sort(
-            test_flags,
-            [](Magic::Flags a, Magic::Flags b) {
-                return std::to_underlying(a) < std::to_underlying(b);
-            }
-        );
+        std::ranges::sort(test_flags, [](Magic::Flags a, Magic::Flags b) {
+            return std::to_underlying(a) < std::to_underlying(b);
+        });
         m_test_flags_container.clear();
         m_test_flags_container.assign(test_flags.begin(), test_flags.end());
         m_test_flags_container.erase(
@@ -75,7 +74,9 @@ protected:
         m_test_flags_mask = std::ranges::fold_left(
             m_test_flags_container,
             Magic::FlagsMaskT{},
-            [](Magic::FlagsMaskT acc, Magic::Flags f) { return acc | f; }
+            [](Magic::FlagsMaskT acc, Magic::Flags f) {
+                return acc | f;
+            }
         );
     }
 
@@ -83,8 +84,8 @@ protected:
     Magic                 m_closed_magic{};
     Magic                 m_opened_magic_without_database;
     Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
-    Magic::FlagsContainerT                   m_test_flags_container{};
-    Magic::FlagsMaskT                        m_test_flags_mask{};
+    Magic::FlagsContainerT                     m_test_flags_container{};
+    Magic::FlagsMaskT                          m_test_flags_mask{};
     std::mt19937                               m_eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_dist{
         0,
@@ -112,16 +113,12 @@ TEST_F(MagicFlagsTest, closed_magic_set_flags_container)
 
 TEST_F(MagicFlagsTest, closed_magic_set_flags_container_noexcept)
 {
-    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_container, std::nothrow)
-    );
+    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_container, std::nothrow));
 }
 
 TEST_F(MagicFlagsTest, closed_magic_get_flags)
 {
-    EXPECT_THROW(
-        static_cast<void>(m_closed_magic.GetFlags()),
-        MagicIsClosed
-    );
+    EXPECT_THROW(static_cast<void>(m_closed_magic.GetFlags()), MagicIsClosed);
 }
 
 TEST_F(MagicFlagsTest, closed_magic_get_flags_noexcept)
@@ -131,7 +128,8 @@ TEST_F(MagicFlagsTest, closed_magic_get_flags_noexcept)
 
 TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask)
 {
-    EXPECT_NO_THROW(m_opened_magic_without_database.SetFlags(m_test_flags_mask)
+    EXPECT_NO_THROW(
+        m_opened_magic_without_database.SetFlags(m_test_flags_mask)
     );
     EXPECT_EQ(
         m_test_flags_container,
@@ -141,8 +139,10 @@ TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask)
 
 TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask_noexcept)
 {
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .SetFlags(m_test_flags_mask, std::nothrow));
+    EXPECT_TRUE(m_opened_magic_without_database.SetFlags(
+        m_test_flags_mask,
+        std::nothrow
+    ));
     EXPECT_EQ(
         m_test_flags_container,
         m_opened_magic_without_database.GetFlags(std::nothrow).value()
@@ -162,8 +162,10 @@ TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container)
 
 TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container_noexcept)
 {
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .SetFlags(m_test_flags_container, std::nothrow));
+    EXPECT_TRUE(m_opened_magic_without_database.SetFlags(
+        m_test_flags_container,
+        std::nothrow
+    ));
     EXPECT_EQ(
         m_test_flags_container,
         m_opened_magic_without_database.GetFlags(std::nothrow).value()

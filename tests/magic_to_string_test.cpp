@@ -46,11 +46,13 @@ TEST(MagicToStringTest, file_type_entry_t)
 TEST(MagicToStringTest, file_type_map_t)
 {
     EXPECT_EQ(
-        ToString(Magic::FileTypeMapT{
-            {"path1", "type1"},
-            {"path2", "type2"},
-            {"path3", "type3"}
-    }),
+        ToString(
+            Magic::FileTypeMapT{
+                {"path1", "type1"},
+                {"path2", "type2"},
+                {"path3", "type3"}
+    }
+        ),
         "path1 -> type1\n"
         "path2 -> type2\n"
         "path3 -> type3"
@@ -74,11 +76,13 @@ TEST(MagicToStringTest, expected_file_type_entry_t)
 TEST(MagicToStringTest, expected_file_type_map_t)
 {
     EXPECT_EQ(
-        ToString(Magic::ExpectedFileTypeMapT{
-            {"path1", "type1"                  },
-            {"path2", std::unexpected{"error1"}},
-            {"path3", "type2"                  }
-    }),
+        ToString(
+            Magic::ExpectedFileTypeMapT{
+                {"path1", "type1"                  },
+                {"path2", std::unexpected{"error1"}},
+                {"path3", "type2"                  }
+    }
+        ),
         "path1 -> type1\n"
         "path2 -> error1\n"
         "path3 -> type2"
@@ -125,39 +129,41 @@ TEST(MagicToStringTest, flags_container_t)
 {
     using enum Magic::Flags;
     EXPECT_EQ(
-        ToString(Magic::FlagsContainerT{
-            None,
-            Debug,
-            Symlink,
-            Compress,
-            Devices,
-            MimeType,
-            ContinueSearch,
-            CheckDatabase,
-            PreserveAtime,
-            Raw,
-            Error,
-            MimeEncoding,
-            Mime,
-            Apple,
-            Extension,
-            CompressTransp,
-            NoCompressFork,
-            Nodesc,
-            NoCheckCompress,
-            NoCheckTar,
-            NoCheckSoft,
-            NoCheckApptype,
-            NoCheckElf,
-            NoCheckText,
-            NoCheckCdf,
-            NoCheckCsv,
-            NoCheckTokens,
-            NoCheckEncoding,
-            NoCheckJson,
-            NoCheckSimh,
-            NoCheckBuiltin
-        }),
+        ToString(
+            Magic::FlagsContainerT{
+                None,
+                Debug,
+                Symlink,
+                Compress,
+                Devices,
+                MimeType,
+                ContinueSearch,
+                CheckDatabase,
+                PreserveAtime,
+                Raw,
+                Error,
+                MimeEncoding,
+                Mime,
+                Apple,
+                Extension,
+                CompressTransp,
+                NoCompressFork,
+                Nodesc,
+                NoCheckCompress,
+                NoCheckTar,
+                NoCheckSoft,
+                NoCheckApptype,
+                NoCheckElf,
+                NoCheckText,
+                NoCheckCdf,
+                NoCheckCsv,
+                NoCheckTokens,
+                NoCheckEncoding,
+                NoCheckJson,
+                NoCheckSimh,
+                NoCheckBuiltin
+            }
+        ),
         "None, "
         "Debug, "
         "Symlink, "
@@ -210,28 +216,27 @@ TEST(MagicToStringTest, parameters)
 TEST(MagicToStringTest, parameter_value_t)
 {
     using enum Magic::Parameters;
-    EXPECT_EQ(
-        ToString(Magic::ParameterValueT{IndirMax, 1}),
-        "IndirMax: 1"
-    );
+    EXPECT_EQ(ToString(Magic::ParameterValueT{IndirMax, 1}), "IndirMax: 1");
 }
 
 TEST(MagicToStringTest, parameter_value_map_t)
 {
     using enum Magic::Parameters;
     EXPECT_EQ(
-        ToString(Magic::ParameterValueMapT{
-            {IndirMax,      1 },
-            {NameMax,       2 },
-            {ElfPhnumMax,   3 },
-            {ElfShnumMax,   4 },
-            {ElfNotesMax,   5 },
-            {RegexMax,      6 },
-            {BytesMax,      7 },
-            {EncodingMax,   8 },
-            {ElfShsizeMax,  9 },
-            {MagWarnMax,    10}
-    }),
+        ToString(
+            Magic::ParameterValueMapT{
+                {IndirMax,     1 },
+                {NameMax,      2 },
+                {ElfPhnumMax,  3 },
+                {ElfShnumMax,  4 },
+                {ElfNotesMax,  5 },
+                {RegexMax,     6 },
+                {BytesMax,     7 },
+                {EncodingMax,  8 },
+                {ElfShsizeMax, 9 },
+                {MagWarnMax,   10}
+    }
+        ),
         "IndirMax: 1, "
         "NameMax: 2, "
         "ElfPhnumMax: 3, "

@@ -32,8 +32,10 @@ struct MagicIdentifyFileTest : testing::Test {
 protected:
     MagicIdentifyFileTest()
     {
-        EXPECT_TRUE(m_opened_magic_without_database
-                        .Open(Magic::Flags::Mime, std::nothrow));
+        EXPECT_TRUE(m_opened_magic_without_database.Open(
+            Magic::Flags::Mime,
+            std::nothrow
+        ));
         EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
         EXPECT_TRUE(m_valid_magic.IsValid());
         std::filesystem::create_directory(m_test_dir, m_error_code);
@@ -116,14 +118,10 @@ TEST_F(MagicIdentifyFileTest, opened_magic_without_database_empty_path)
     );
 }
 
-TEST_F(
-    MagicIdentifyFileTest,
-    opened_magic_without_database_empty_path_noexcept
-)
+TEST_F(MagicIdentifyFileTest, opened_magic_without_database_empty_path_noexcept)
 {
     EXPECT_EQ(
-        m_opened_magic_without_database
-            .IdentifyFile(m_empty_path, std::nothrow)
+        m_opened_magic_without_database.IdentifyFile(m_empty_path, std::nothrow)
             .error(),
         MagicDatabaseNotLoaded{}.what()
     );

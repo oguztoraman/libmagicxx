@@ -124,10 +124,7 @@ TEST_F(
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_directory)
 {
-    EXPECT_THROW(
-        Magic(Magic::Flags::Mime, m_test_dir),
-        PathIsNotRegularFile
-    );
+    EXPECT_THROW(Magic(Magic::Flags::Mime, m_test_dir), PathIsNotRegularFile);
 }
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_directory_noexcept)
@@ -151,10 +148,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database)
     );
 }
 
-TEST_F(
-    MagicSpecialMembersTest,
-    construct_magic_from_invalid_database_noexcept
-)
+TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database_noexcept)
 {
     Magic opened_magic_without_database{
         Magic::Flags::Mime,

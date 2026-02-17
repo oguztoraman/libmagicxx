@@ -42,8 +42,10 @@ struct MagicParametersTest : testing::Test {
 protected:
     MagicParametersTest()
     {
-        EXPECT_TRUE(m_opened_magic_without_database
-                        .Open(Magic::Flags::Mime, std::nothrow));
+        EXPECT_TRUE(m_opened_magic_without_database.Open(
+            Magic::Flags::Mime,
+            std::nothrow
+        ));
         EXPECT_TRUE(m_valid_magic.IsValid());
         std::error_code error_code;
         EXPECT_TRUE(std::filesystem::exists(m_valid_database, error_code));
@@ -53,14 +55,14 @@ protected:
     {
         using enum Magic::Parameters;
         m_test_parameters = {
-            {IndirMax,      m_distribution(m_engine)},
-            {NameMax,       m_distribution(m_engine)},
+            {IndirMax,     m_distribution(m_engine)},
+            {NameMax,      m_distribution(m_engine)},
             {ElfPhnumMax,  m_distribution(m_engine)},
             {ElfShnumMax,  m_distribution(m_engine)},
             {ElfNotesMax,  m_distribution(m_engine)},
-            {RegexMax,      m_distribution(m_engine)},
-            {BytesMax,      m_distribution(m_engine)},
-            {EncodingMax,   m_distribution(m_engine)},
+            {RegexMax,     m_distribution(m_engine)},
+            {BytesMax,     m_distribution(m_engine)},
+            {EncodingMax,  m_distribution(m_engine)},
             {ElfShsizeMax, m_distribution(m_engine)},
             {MagWarnMax,   m_distribution(m_engine)}
         };
@@ -70,7 +72,7 @@ protected:
     Magic                 m_closed_magic{};
     Magic                 m_opened_magic_without_database;
     Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
-    Magic::ParameterValueMapT               m_test_parameters{};
+    Magic::ParameterValueMapT                  m_test_parameters{};
     std::mt19937                               m_engine{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_distribution{0, 100};
 };
@@ -106,8 +108,7 @@ TEST_F(MagicParametersTest, closed_magic_set_parameters)
 
 TEST_F(MagicParametersTest, closed_magic_set_parameters_noexcept)
 {
-    EXPECT_FALSE(m_closed_magic.SetParameters(m_test_parameters, std::nothrow)
-    );
+    EXPECT_FALSE(m_closed_magic.SetParameters(m_test_parameters, std::nothrow));
 }
 
 TEST_F(MagicParametersTest, closed_magic_get_parameters)
@@ -143,13 +144,17 @@ TEST_F(
 )
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
-        EXPECT_TRUE(m_opened_magic_without_database
-                        .SetParameter(parameter, parameter_value, std::nothrow)
-        );
+        EXPECT_TRUE(m_opened_magic_without_database.SetParameter(
+            parameter,
+            parameter_value,
+            std::nothrow
+        ));
         EXPECT_EQ(
             parameter_value,
-            m_opened_magic_without_database
-                .GetParameter(parameter, std::nothrow)
+            m_opened_magic_without_database.GetParameter(
+                parameter,
+                std::nothrow
+            )
         );
     }
 }
@@ -168,8 +173,10 @@ TEST_F(
     opened_magic_without_database_set_parameters_noexcept
 )
 {
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .SetParameters(m_test_parameters, std::nothrow));
+    EXPECT_TRUE(m_opened_magic_without_database.SetParameters(
+        m_test_parameters,
+        std::nothrow
+    ));
     EXPECT_EQ(
         m_test_parameters,
         m_opened_magic_without_database.GetParameters(std::nothrow)
@@ -187,8 +194,8 @@ TEST_F(MagicParametersTest, valid_magic_set_parameter)
 TEST_F(MagicParametersTest, valid_magic_set_parameter_noexcept)
 {
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
-        EXPECT_TRUE(m_valid_magic
-                        .SetParameter(parameter, parameter_value, std::nothrow)
+        EXPECT_TRUE(
+            m_valid_magic.SetParameter(parameter, parameter_value, std::nothrow)
         );
         EXPECT_EQ(
             parameter_value,

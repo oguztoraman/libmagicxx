@@ -44,8 +44,10 @@ struct MagicLoadDatabaseFileTest : testing::Test {
 protected:
     MagicLoadDatabaseFileTest()
     {
-        EXPECT_TRUE(m_opened_magic_without_database
-                        .Open(Magic::Flags::Mime, std::nothrow));
+        EXPECT_TRUE(m_opened_magic_without_database.Open(
+            Magic::Flags::Mime,
+            std::nothrow
+        ));
         EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
         std::filesystem::create_directory(m_test_dir, m_error_code);
         EXPECT_TRUE(std::filesystem::exists(m_test_dir, m_error_code));
@@ -94,10 +96,7 @@ TEST_F(MagicLoadDatabaseFileTest, closed_magic_noexcept)
     EXPECT_FALSE(m_closed_magic);
 }
 
-TEST_F(
-    MagicLoadDatabaseFileTest,
-    opened_magic_without_database_load_empty_path
-)
+TEST_F(MagicLoadDatabaseFileTest, opened_magic_without_database_load_empty_path)
 {
     EXPECT_THROW(
         m_opened_magic_without_database.LoadDatabaseFile(m_empty_path),
@@ -110,8 +109,10 @@ TEST_F(
     opened_magic_without_database_load_empty_path_noexcept
 )
 {
-    EXPECT_FALSE(m_opened_magic_without_database
-                     .LoadDatabaseFile(std::nothrow, m_empty_path));
+    EXPECT_FALSE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_empty_path
+    ));
     EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_FALSE(m_opened_magic_without_database.IsValid());
     EXPECT_FALSE(m_opened_magic_without_database);
@@ -135,17 +136,16 @@ TEST_F(
     opened_magic_without_database_load_nonexistent_database_noexcept
 )
 {
-    EXPECT_FALSE(m_opened_magic_without_database
-                     .LoadDatabaseFile(std::nothrow, m_nonexistent_database));
+    EXPECT_FALSE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_nonexistent_database
+    ));
     EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_FALSE(m_opened_magic_without_database.IsValid());
     EXPECT_FALSE(m_opened_magic_without_database);
 }
 
-TEST_F(
-    MagicLoadDatabaseFileTest,
-    opened_magic_without_database_load_directory
-)
+TEST_F(MagicLoadDatabaseFileTest, opened_magic_without_database_load_directory)
 {
     EXPECT_THROW(
         m_opened_magic_without_database.LoadDatabaseFile(m_test_dir),
@@ -158,8 +158,10 @@ TEST_F(
     opened_magic_without_database_load_directory_noexcept
 )
 {
-    EXPECT_FALSE(m_opened_magic_without_database
-                     .LoadDatabaseFile(std::nothrow, m_test_dir));
+    EXPECT_FALSE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_test_dir
+    ));
     EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_FALSE(m_opened_magic_without_database.IsValid());
     EXPECT_FALSE(m_opened_magic_without_database);
@@ -181,8 +183,10 @@ TEST_F(
     opened_magic_without_database_load_invalid_database_noexcept
 )
 {
-    EXPECT_FALSE(m_opened_magic_without_database
-                     .LoadDatabaseFile(std::nothrow, m_invalid_database));
+    EXPECT_FALSE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_invalid_database
+    ));
     EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_FALSE(m_opened_magic_without_database.IsValid());
     EXPECT_FALSE(m_opened_magic_without_database);
@@ -204,8 +208,10 @@ TEST_F(
     opened_magic_without_database_load_valid_database_noexcept
 )
 {
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .LoadDatabaseFile(std::nothrow, m_valid_database));
+    EXPECT_TRUE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_valid_database
+    ));
     EXPECT_TRUE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_TRUE(m_opened_magic_without_database.IsValid());
     EXPECT_TRUE(m_opened_magic_without_database);
@@ -213,26 +219,34 @@ TEST_F(
 
 TEST_F(MagicLoadDatabaseFileTest, load_database_files_multiple_times)
 {
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .LoadDatabaseFile(std::nothrow, m_valid_database));
+    EXPECT_TRUE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_valid_database
+    ));
     EXPECT_TRUE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_TRUE(m_opened_magic_without_database.IsValid());
     EXPECT_TRUE(m_opened_magic_without_database);
 
-    EXPECT_FALSE(m_opened_magic_without_database
-                     .LoadDatabaseFile(std::nothrow, m_invalid_database));
+    EXPECT_FALSE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_invalid_database
+    ));
     EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_FALSE(m_opened_magic_without_database.IsValid());
     EXPECT_FALSE(m_opened_magic_without_database);
 
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .LoadDatabaseFile(std::nothrow, m_valid_database));
+    EXPECT_TRUE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_valid_database
+    ));
     EXPECT_TRUE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_TRUE(m_opened_magic_without_database.IsValid());
     EXPECT_TRUE(m_opened_magic_without_database);
 
-    EXPECT_TRUE(m_opened_magic_without_database
-                    .LoadDatabaseFile(std::nothrow, m_valid_database));
+    EXPECT_TRUE(m_opened_magic_without_database.LoadDatabaseFile(
+        std::nothrow,
+        m_valid_database
+    ));
     EXPECT_TRUE(m_opened_magic_without_database.IsDatabaseLoaded());
     EXPECT_TRUE(m_opened_magic_without_database.IsValid());
     EXPECT_TRUE(m_opened_magic_without_database);

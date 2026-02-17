@@ -321,7 +321,8 @@ void ExampleLifecycleManagement()
     Magic example_magic;
     std::println(
         std::cout,
-        "After default construction: IsOpen={}, IsDatabaseLoaded={}, IsValid={}",
+        "After default construction: IsOpen={}, IsDatabaseLoaded={}, "
+        "IsValid={}",
         example_magic.IsOpen(),
         example_magic.IsDatabaseLoaded(),
         example_magic.IsValid()
@@ -380,8 +381,8 @@ void ExampleVersionAndAllParameters()
     std::println(std::cout, "All parameters: {}", ToString(all_params));
 
     example_magic.SetParameters({
-        {Magic::Parameters::BytesMax,  1'024'000},
-        {Magic::Parameters::RegexMax,  4'096    }
+        {Magic::Parameters::BytesMax, 1'024'000},
+        {Magic::Parameters::RegexMax, 4'096    }
     });
     auto updated_params = example_magic.GetParameters();
     std::println(

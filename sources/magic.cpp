@@ -2451,7 +2451,9 @@ Magic::Magic(
     const std::nothrow_t&        tag,
     const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{new (std::nothrow) MagicPrivate{flags_mask, tag, database_file}}
+  : m_impl{
+        new (std::nothrow) MagicPrivate{flags_mask, tag, database_file}
+}
 { }
 
 Magic::Magic(
@@ -2466,7 +2468,9 @@ Magic::Magic(
     const std::nothrow_t&        tag,
     const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{new (std::nothrow) MagicPrivate{flags_container, tag, database_file}}
+  : m_impl{
+        new (std::nothrow) MagicPrivate{flags_container, tag, database_file}
+}
 { }
 
 Magic::Magic(Magic&& other) noexcept
@@ -2710,7 +2714,8 @@ void Magic::Open(FlagsMaskT flags_mask)
 bool Magic::Open(FlagsMaskT flags_mask, const std::nothrow_t& tag) noexcept
 {
     if (!m_impl) {
-        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow) MagicPrivate{}};
+        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow)
+                                                   MagicPrivate{}};
         if (!m_impl) {
             return false;
         }
@@ -2732,7 +2737,8 @@ bool Magic::Open(
 ) noexcept
 {
     if (!m_impl) {
-        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow) MagicPrivate{}};
+        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow)
+                                                   MagicPrivate{}};
         if (!m_impl) {
             return false;
         }

@@ -54,6 +54,7 @@
 #include <cmath>
 
 #include <array>
+#include <new>
 #include <utility>
 
 #include "magic.hpp"
@@ -2438,7 +2439,7 @@ std::string ToString(
 std::string_view Magic::DEFAULT_DATABASE_FILE{MAGIC_DEFAULT_DATABASE_FILE};
 
 Magic::Magic() noexcept
-  : m_impl{std::make_unique<MagicPrivate>()}
+  : m_impl{new (std::nothrow) MagicPrivate{}}
 { }
 
 Magic::Magic(FlagsMaskT flags_mask, const std::filesystem::path& database_file)
@@ -2450,7 +2451,7 @@ Magic::Magic(
     const std::nothrow_t&        tag,
     const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{std::make_unique<MagicPrivate>(flags_mask, tag, database_file)}
+  : m_impl{new (std::nothrow) MagicPrivate{flags_mask, tag, database_file}}
 { }
 
 Magic::Magic(
@@ -2465,16 +2466,19 @@ Magic::Magic(
     const std::nothrow_t&        tag,
     const std::filesystem::path& database_file
 ) noexcept
-  : m_impl{std::make_unique<MagicPrivate>(flags_container, tag, database_file)}
+  : m_impl{new (std::nothrow) MagicPrivate{flags_container, tag, database_file}}
 { }
 
 Magic::Magic(Magic&& other) noexcept
-  : m_impl{std::exchange(other.m_impl, std::make_unique<MagicPrivate>())}
+  : m_impl{std::move(other.m_impl)}
 { }
 
 Magic& Magic::operator=(Magic&& other) noexcept
 {
-    m_impl = std::exchange(other.m_impl, std::make_unique<MagicPrivate>());
+    if (this == &other) {
+        return *this;
+    }
+    m_impl = std::move(other.m_impl);
     return *this;
 }
 
@@ -2482,7 +2486,7 @@ Magic::~Magic() = default;
 
 Magic::operator bool() const noexcept
 {
-    return IsValid();
+    return m_impl && IsValid();
 }
 
 bool Magic::Check(const std::filesystem::path& database_file) noexcept
@@ -2494,7 +2498,7 @@ bool Magic::Check(const std::filesystem::path& database_file) noexcept
 
 void Magic::Close() noexcept
 {
-    m_impl = std::make_unique<MagicPrivate>();
+    m_impl.reset();
 }
 
 bool Magic::Compile(const std::filesystem::path& database_file) noexcept
@@ -2506,6 +2510,7 @@ bool Magic::Compile(const std::filesystem::path& database_file) noexcept
 
 Magic::FlagsContainerT Magic::GetFlags() const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetFlags();
 }
 
@@ -2513,11 +2518,15 @@ std::optional<Magic::FlagsContainerT> Magic::GetFlags(
     const std::nothrow_t& tag
 ) const noexcept
 {
+    if (!m_impl) {
+        return std::nullopt;
+    }
     return m_impl->GetFlags(tag);
 }
 
 std::size_t Magic::GetParameter(Magic::Parameters parameter) const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetParameter(parameter);
 }
 
@@ -2526,11 +2535,15 @@ std::optional<std::size_t> Magic::GetParameter(
     const std::nothrow_t& tag
 ) const noexcept
 {
+    if (!m_impl) {
+        return std::nullopt;
+    }
     return m_impl->GetParameter(parameter, tag);
 }
 
 Magic::ParameterValueMapT Magic::GetParameters() const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetParameters();
 }
 
@@ -2538,6 +2551,9 @@ std::optional<Magic::ParameterValueMapT> Magic::GetParameters(
     const std::nothrow_t& tag
 ) const noexcept
 {
+    if (!m_impl) {
+        return std::nullopt;
+    }
     return m_impl->GetParameters(tag);
 }
 
@@ -2548,6 +2564,7 @@ std::string Magic::GetVersion() noexcept
 
 Magic::FileTypeT Magic::IdentifyFile(const std::filesystem::path& path) const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->IdentifyFile(
         path,
         MagicPrivate::IdentifyFileOptions::CheckEverything
@@ -2559,6 +2576,9 @@ Magic::ExpectedFileTypeT Magic::IdentifyFile(
     const std::nothrow_t&        tag
 ) const noexcept
 {
+    if (!m_impl) {
+        return std::unexpected{MagicIsClosed{}.what()};
+    }
     return m_impl->IdentifyFile(
         path,
         MagicPrivate::IdentifyFileOptions::CheckEverything,
@@ -2572,6 +2592,7 @@ Magic::FileTypeMapT Magic::IdentifyDirectoryImpl(
     ProgressTrackerT                   progress_tracker
 ) const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->IdentifyFiles(
         m_impl->IdentifyDirectoryPreliminaryChecks(
             directory,
@@ -2590,6 +2611,9 @@ Magic::ExpectedFileTypeMapT Magic::IdentifyDirectoryImpl(
     ProgressTrackerT                   progress_tracker
 ) const noexcept
 {
+    if (!m_impl) {
+        return {};
+    }
     auto files = m_impl->IdentifyDirectoryPreliminaryChecks(
         directory,
         tag,
@@ -2613,6 +2637,7 @@ Magic::FileTypeMapT Magic::IdentifyContainerImpl(
     ProgressTrackerT             progress_tracker
 ) const
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->IdentifyContainerPreliminaryChecks(progress_tracker);
     return m_impl->IdentifyFiles(
         files,
@@ -2628,6 +2653,9 @@ Magic::ExpectedFileTypeMapT Magic::IdentifyContainerImpl(
 ) const noexcept
 {
     Utility::MarkTrackerAsCompleted completion_marker{progress_tracker};
+    if (!m_impl) {
+        return {};
+    }
     if (!m_impl->IdentifyContainerPreliminaryChecks(tag, progress_tracker)) {
         return {};
     }
@@ -2641,21 +2669,22 @@ Magic::ExpectedFileTypeMapT Magic::IdentifyContainerImpl(
 
 bool Magic::IsDatabaseLoaded() const noexcept
 {
-    return m_impl->IsDatabaseLoaded();
+    return m_impl && m_impl->IsDatabaseLoaded();
 }
 
 bool Magic::IsOpen() const noexcept
 {
-    return m_impl->IsOpen();
+    return m_impl && m_impl->IsOpen();
 }
 
 bool Magic::IsValid() const noexcept
 {
-    return m_impl->IsValid();
+    return m_impl && m_impl->IsValid();
 }
 
 void Magic::LoadDatabaseFile(const std::filesystem::path& database_file)
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->LoadDatabaseFile(database_file);
 }
 
@@ -2664,21 +2693,36 @@ bool Magic::LoadDatabaseFile(
     const std::filesystem::path& database_file
 ) noexcept
 {
+    if (!m_impl) {
+        return false;
+    }
     return m_impl->LoadDatabaseFile(tag, database_file);
 }
 
 void Magic::Open(FlagsMaskT flags_mask)
 {
+    if (!m_impl) {
+        m_impl = std::make_unique<MagicPrivate>();
+    }
     m_impl->Open(flags_mask);
 }
 
 bool Magic::Open(FlagsMaskT flags_mask, const std::nothrow_t& tag) noexcept
 {
+    if (!m_impl) {
+        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow) MagicPrivate{}};
+        if (!m_impl) {
+            return false;
+        }
+    }
     return m_impl->Open(flags_mask, tag);
 }
 
 void Magic::Open(const FlagsContainerT& flags_container)
 {
+    if (!m_impl) {
+        m_impl = std::make_unique<MagicPrivate>();
+    }
     m_impl->Open(flags_container);
 }
 
@@ -2687,21 +2731,32 @@ bool Magic::Open(
     const std::nothrow_t&  tag
 ) noexcept
 {
+    if (!m_impl) {
+        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow) MagicPrivate{}};
+        if (!m_impl) {
+            return false;
+        }
+    }
     return m_impl->Open(flags_container, tag);
 }
 
 void Magic::SetFlags(FlagsMaskT flags_mask)
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetFlags(flags_mask);
 }
 
 bool Magic::SetFlags(FlagsMaskT flags_mask, const std::nothrow_t& tag) noexcept
 {
+    if (!m_impl) {
+        return false;
+    }
     return m_impl->SetFlags(flags_mask, tag);
 }
 
 void Magic::SetFlags(const FlagsContainerT& flags_container)
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetFlags(flags_container);
 }
 
@@ -2710,11 +2765,15 @@ bool Magic::SetFlags(
     const std::nothrow_t&  tag
 ) noexcept
 {
+    if (!m_impl) {
+        return false;
+    }
     return m_impl->SetFlags(flags_container, tag);
 }
 
 void Magic::SetParameter(Parameters parameter, std::size_t value)
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetParameter(parameter, value);
 }
 
@@ -2724,11 +2783,15 @@ bool Magic::SetParameter(
     const std::nothrow_t& tag
 ) noexcept
 {
+    if (!m_impl) {
+        return false;
+    }
     return m_impl->SetParameter(parameter, value, tag);
 }
 
 void Magic::SetParameters(const ParameterValueMapT& parameters)
 {
+    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetParameters(parameters);
 }
 
@@ -2737,6 +2800,9 @@ bool Magic::SetParameters(
     const std::nothrow_t&     tag
 ) noexcept
 {
+    if (!m_impl) {
+        return false;
+    }
     return m_impl->SetParameters(parameters, tag);
 }
 } /* namespace Recognition */

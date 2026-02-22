@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** Magic: Fix potential std::terminate by replacing std::make_unique with nothrow new in noexcept functions.
+
 + **[BUGFIX]** CMake, Format: Include example and test files in format and lint targets.
 
 + **[ENHANCEMENT]** CMake, CI/CD, Format: Add clang-tidy checks with preset and CI workflow.

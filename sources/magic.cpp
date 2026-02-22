@@ -2490,7 +2490,7 @@ Magic::~Magic() = default;
 
 Magic::operator bool() const noexcept
 {
-    return m_impl && IsValid();
+    return IsValid();
 }
 
 bool Magic::Check(const std::filesystem::path& database_file) noexcept

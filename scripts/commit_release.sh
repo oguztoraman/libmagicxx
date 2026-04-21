@@ -68,7 +68,6 @@
 # @warning Do not use for pre-release or beta versions
 #
 # @see RELEASE_PROCEDURE.md for complete release documentation
-# @see AGENTS.md Section 18 FAQ about release tagging restrictions
 
 SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
 cd -- "${SCRIPT_DIR}/.."

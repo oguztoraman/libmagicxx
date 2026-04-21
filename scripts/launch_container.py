@@ -75,7 +75,6 @@ See Also
 --------
 - Containerfile: Container image definition
 - CONTRIBUTING.md: Development environment setup guide
-- AGENTS.md: Agent workflow guidelines
 """
 
 from __future__ import annotations

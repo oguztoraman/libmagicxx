@@ -52,10 +52,6 @@ set(magicxx_INSTALLED_DEFAULT_DATABASE_FILE
     ${magicxx_INSTALL_DEFAULT_DATABASES_DIR}/magic
 )
 
-set(magicxx_AGENTS_FILE
-    ${magicxx_SOURCE_DIR}/AGENTS.md
-)
-
 set(magicxx_CMAKE_STYLE_GUIDE_FILE
     ${magicxx_CMAKE_DIR}/STYLE_GUIDE.md
 )
@@ -92,7 +88,6 @@ set(magicxx_SECURITY_FILE
 # Documentation files
 # -----------------------------------------------------------------------------
 set(magicxx_DOCUMENTATION_FILES
-    ${magicxx_AGENTS_FILE}
     ${magicxx_CHANGELOG_FILE}
     ${magicxx_CMAKE_STYLE_GUIDE_FILE}
     ${magicxx_CODE_OF_CONDUCT_FILE}

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Consolidate agent guidance into .github/copilot-instructions.md by removing AGENTS.md and introduce C++ Expert agent.
+
 + **[BUGFIX]** Magic: Fix potential std::terminate by replacing std::make_unique with nothrow new in noexcept functions.
 
 + **[BUGFIX]** CMake, Format: Include example and test files in format and lint targets.

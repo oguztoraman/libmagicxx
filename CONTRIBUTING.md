@@ -731,8 +731,8 @@ Complete this checklist:
 - [ ] Clang-tidy checks pass: `./scripts/workflows.sh -p clang-tidy-checks -c`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
- - [ ] Doxygen comments updated for all changed functions/symbols (public and internal)
- - [ ] CHANGELOG.md updated
+- [ ] Doxygen comments updated for all changed functions/symbols (public and internal)
+- [ ] CHANGELOG.md updated
 - [ ] Linked to an existing issue (or created one)
 
 ### Push Your Changes

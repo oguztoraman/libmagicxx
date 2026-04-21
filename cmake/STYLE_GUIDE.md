@@ -36,6 +36,8 @@ This document defines the coding conventions and best practices for CMake files 
 
 4. **Modularity**: Keep CMake modules focused on a single responsibility.
 
+5. **Document CMake changes**: When changing CMake behavior, targets, or workflows, update the relevant documentation (CONTRIBUTING.md, README.md, or CHANGELOG.md) so others understand the change.
+
 ## File Organization
 
 ### Directory Structure

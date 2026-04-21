@@ -283,7 +283,9 @@ All code must be formatted using the project's `.clang-format` configuration. Ru
 
 ### Doxygen Comments
 
-All APIs **must** be documented with Doxygen comments. Use `/** ... */` style for documentation blocks. Use `/**< ... */` for single-line trailing documentation comments after variable declarations.
+All code changes must be documented via in-code Doxygen comments. All changed functions and symbols — public and internal — must have their Doxygen blocks updated when parameters, return types, exceptions, or behavior change. For broader behavioral or internal changes, update the relevant project documentation files — for example: `README.md`, `CONTRIBUTING.md`, `STYLE_GUIDE.md`, `CHANGELOG.md`, the `documentation/` folder, and `examples/` — as appropriate.
+
+Use `/** ... */` style for documentation blocks. Use `/**< ... */` for single-line trailing documentation comments after variable declarations.
 
 ```cpp
 /**

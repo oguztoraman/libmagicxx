@@ -18,8 +18,9 @@ Fixes issue #????.
 - [ ] Clang-tidy checks pass: `./scripts/workflows.sh -p clang-tidy-checks -c`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
-- [ ] Doxygen comments added for new public APIs
-- [ ] CHANGELOG.md updated
+- [ ] Doxygen comments updated for all changed functions/symbols (public and internal)
+- [ ] CHANGELOG.md updated and includes the exact commit subject line(s) prefixed with exactly one of: `[DOCUMENTATION]`, `[BUGFIX]`, `[ENHANCEMENT]`, `[QUALITY]`
+- [ ] All code changes (internal and public API) include documentation updates
 - [ ] Linked to an existing issue (or created one)
 
 ### Title Format Guidelines

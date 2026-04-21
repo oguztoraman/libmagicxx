@@ -41,9 +41,9 @@
 - Do not delete tests without explicit approval.
 - Do not modify licensing files such as [COPYING.LESSER](../COPYING.LESSER) without explicit approval.
 - Public API additions or renames need Doxygen comments, including an accurate `@since` tag.
-- All code changes must be documented with Doxygen comments. Follow the existing style and conventions in the codebase.
+- All code changes must be documented via in-code Doxygen comments. Update the Doxygen block for any changed function or symbol (including parameter, return type, exception, or behavioral changes), even for internal functions implemented in `.cpp` files. Also update the relevant project documentation files for release notes or behavioral changes as needed — for example: `README.md`, `CONTRIBUTING.md`, `STYLE_GUIDE.md`, `CHANGELOG.md`, the `documentation/` folder, and `examples/`. Follow the existing style and conventions in the codebase.
 - Behavior changes should include or update regression tests in [tests](../tests).
-- Changes should update [CHANGELOG.md](../CHANGELOG.md).
+- Changes should update [CHANGELOG.md](../CHANGELOG.md). Changelog entries must use the exact commit subject line(s) and be prefixed with exactly one of the following tags in square brackets: `[DOCUMENTATION]`, `[BUGFIX]`, `[ENHANCEMENT]`, `[QUALITY]`. Do not paraphrase or modify the commit subject when adding it to `CHANGELOG.md`.
 - If asked to create commits, use the component prefixes documented in [CONTRIBUTING.md](../CONTRIBUTING.md), such as `Magic:`, `Tests:`, `CMake:`, `Docs:`, or `Scripts:`.
 
 ## Environment Notes

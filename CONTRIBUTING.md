@@ -354,7 +354,7 @@ CHANGELOG.md               # SCREAMING_SNAKE_CASE for documentation files
 
 2. **Add/update tests** for any behavior changes
 
-3. **Update documentation** (Doxygen comments for API changes)
+3. **Update documentation** — All code changes must include appropriate documentation updates: update Doxygen comments for public API changes; update README, `documentation/`, or `CHANGELOG.md` for behavioral or feature-level changes.
 
 4. **Commit frequently** with descriptive messages using component prefixes:
 
@@ -417,7 +417,11 @@ Before committing, run the following workflows **in order**. All must pass clean
 
 ### Step 5: Update CHANGELOG.md
 
-Add your changes under the "Next Release" section:
+Add your changes under the "Next Release" section.
+
+When adding entries, copy the exact commit subject line(s) into `CHANGELOG.md` and prefix each entry with exactly one of the following category tags in square brackets: `[DOCUMENTATION]`, `[BUGFIX]`, `[ENHANCEMENT]`, `[QUALITY]`. Do not paraphrase or edit the commit subject.
+
+Example:
 
 ```markdown
 ## Next Release
@@ -539,6 +543,8 @@ TEST_F(MagicYourFeatureTest, noexcept_variant_returns_nullopt_when_closed)
 ---
 
 ## Writing Documentation
+
+All code changes must be documented via in-code Doxygen comments. Update the Doxygen block for any changed function or symbol — including parameter, return type, exception, or behavioral changes — even for internal functions implemented in `.cpp` files. Additionally, update the relevant project documentation files for release notes or higher-level behavioral changes — for example: `README.md`, `CONTRIBUTING.md`, `STYLE_GUIDE.md`, `CHANGELOG.md`, the `documentation/` folder, and `examples/` — as appropriate.
 
 ### Doxygen Comments for Public API
 
@@ -725,7 +731,7 @@ Complete this checklist:
 - [ ] Clang-tidy checks pass: `./scripts/workflows.sh -p clang-tidy-checks -c`
 - [ ] Documentation generates cleanly: `./scripts/workflows.sh -p documentation`
 - [ ] New tests added for new functionality
-- [ ] Doxygen comments added for new public APIs
+- [ ] Doxygen comments updated for all changed functions/symbols (public and internal)
 - [ ] CHANGELOG.md updated
 - [ ] Linked to an existing issue (or created one)
 

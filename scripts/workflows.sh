@@ -33,7 +33,6 @@
 # - Build directory: ./build/ (relative to project root)
 #
 # @see CMakePresets.json for complete preset definitions
-# @see AGENTS.md for workflow usage guidelines
 
 SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
 cd -- "${SCRIPT_DIR}/.."

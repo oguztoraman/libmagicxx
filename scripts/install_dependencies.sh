@@ -63,7 +63,7 @@ echo "Installing the dependencies..."
 sudo dnf install -y              \
      git git-lfs python          \
      awk make autoconf libtool   \
-     cmake ninja-build           \
+     cmake ninja-build ccache    \
      rpm-build mingw32-nsis      \
      g++ gdb mingw64-gcc-c++     \
      clang libcxx-devel lld lldb \

@@ -10,6 +10,10 @@
             "name": "base-config",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
+            },
             "hidden": true
         },
         {

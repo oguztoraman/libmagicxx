@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** CMake: Add ccache as compiler launcher in base-config preset to speed up compilation.
+
 + **[ENHANCEMENT]** DevEnv: Install ccache in the development container.
 
 + **[ENHANCEMENT]** Magic: Bump libmagic version to 5.47 and update related tests.

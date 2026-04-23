@@ -15,7 +15,7 @@
  * - The returned version matches the expected libmagic version
  * - The version format is a valid version string
  *
- * @note The expected version ("5.46") corresponds to the bundled
+ * @note The expected version ("5.47") corresponds to the bundled
  *       libmagic version in the external/file submodule.
  *
  * @see Magic::GetVersion()
@@ -29,5 +29,5 @@ using namespace Recognition;
 
 TEST(MagicVersionTest, magic_get_version)
 {
-    EXPECT_EQ(Magic::GetVersion(), "5.46");
+    EXPECT_EQ(Magic::GetVersion(), "5.47");
 }

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** DevEnv: Install ccache in the development container.
+
 + **[ENHANCEMENT]** Magic: Bump libmagic version to 5.47 and update related tests.
 
 + **[BUGFIX]** Magic: Add -B flag to make command for rebuilding magic.h.

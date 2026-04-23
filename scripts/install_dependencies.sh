@@ -25,7 +25,7 @@
 # - git, git-lfs
 #
 # @subsection id_build Build Tools
-# - cmake, ninja-build, make
+# - cmake, ninja-build, make, ccache
 # - autoconf, libtool (for libmagic)
 # - awk, python
 #

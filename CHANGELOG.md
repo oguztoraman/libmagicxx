@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** Magic: Add -B flag to make command for rebuilding magic.h.
+
 + **[DOCUMENTATION]** Docs: Update documentation guidelines for Doxygen comments and CHANGELOG entries.
 
 + **[DOCUMENTATION]** Docs: Consolidate agent guidance into .github/copilot-instructions.md by removing AGENTS.md and introduce C++ Expert agent.

@@ -40,7 +40,7 @@ add_custom_target(configure_file
         --host=${FILE_TARGET}
         --silent
     COMMAND
-        make -C ${magic_SOURCE_DIR} magic.h
+        make -C ${magic_SOURCE_DIR} -B magic.h
     WORKING_DIRECTORY
         ${magic_DIR}
     COMMENT

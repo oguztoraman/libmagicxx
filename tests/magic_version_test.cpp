@@ -12,8 +12,7 @@
  *
  * This test verifies that:
  * - GetVersion() is callable as a static method
- * - The returned version matches the expected libmagic version
- * - The version format is a valid version string
+ * - The returned version matches the expected bundled libmagic version
  *
  * @note The expected version ("5.47") corresponds to the bundled
  *       libmagic version in the external/file submodule.

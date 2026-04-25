@@ -15,19 +15,19 @@
  * ```
  * std::runtime_error
  *  └── MagicException (base class for all Magic errors)
- *       ├── NullTracker              - Progress tracker is null
- *       ├── EmptyPath                - Path is empty
- *       ├── PathIsNotRegularFile     - Path is not a regular file
- *       ├── PathIsNotDirectory       - Path is not a directory
- *       ├── PathDoesNotExist         - Path does not exist
- *       ├── FilesystemError          - Filesystem operation failed
- *       ├── MagicIsClosed            - Magic instance is closed
- *       ├── MagicOpenError           - Failed to open Magic
+ *       ├── NullTracker                - Progress tracker is null
+ *       ├── EmptyPath                  - Path is empty
+ *       ├── PathIsNotRegularFile       - Path is not a regular file
+ *       ├── PathIsNotDirectory         - Path is not a directory
+ *       ├── PathDoesNotExist           - Path does not exist
+ *       ├── FilesystemError            - Filesystem operation failed
+ *       ├── MagicIsClosed              - Magic instance is closed
+ *       ├── MagicOpenError             - Failed to open Magic
  *       ├── MagicLoadDatabaseFileError - Failed to load database
- *       ├── MagicDatabaseNotLoaded   - Database not loaded
- *       ├── MagicIdentifyFileError   - Failed to identify file
- *       ├── MagicSetFlagsError       - Failed to set flags
- *       └── MagicSetParameterError   - Failed to set parameter
+ *       ├── MagicDatabaseNotLoaded     - Database not loaded
+ *       ├── MagicIdentifyFileError     - Failed to identify file
+ *       ├── MagicSetFlagsError         - Failed to set flags
+ *       └── MagicSetParameterError     - Failed to set parameter
  * ```
  *
  * @section exception_handling Exception Handling Patterns
@@ -49,7 +49,7 @@
  * @code{.cpp}
  * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
  * if (!result) {
- *     std::cerr << "Error: " << ToStringView(result.error()) << '\n';
+ *     std::cerr << "Error: " << Recognition::ToStringView(result.error()) << '\n';
  * }
  * @endcode
  *

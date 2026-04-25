@@ -462,6 +462,9 @@ public:
      *
      * @brief Result type for file identification, containing either a file type or an IdentifyError.
      *
+     * @note Since 11.0.0, the error type is IdentifyError; older versions used std::string.
+     *       As a result, result.error() is no longer directly printable as a string.
+     *
      * @since 10.0.0
      */
     using ExpectedFileTypeT = std::expected<FileTypeT, IdentifyError>;

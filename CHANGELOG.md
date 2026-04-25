@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** Magic: Replace std::expected error type with a noexcept-safe IdentifyError.
+
 + **[ENHANCEMENT]** CMake: Add ccache as compiler launcher in base-config preset to speed up compilation.
 
 + **[ENHANCEMENT]** DevEnv: Install ccache in the development container.

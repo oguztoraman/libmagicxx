@@ -57,8 +57,9 @@ set(magic_SOURCE_FILES
 # Magicxx library source files
 # -----------------------------------------------------------------------------
 set(magicxx_HEADER_FILES
-    ${magicxx_INCLUDE_DIR}/magic.hpp
+    ${magicxx_INCLUDE_DIR}/magic_error.hpp
     ${magicxx_INCLUDE_DIR}/magic_exception.hpp
+    ${magicxx_INCLUDE_DIR}/magic.hpp
     ${magicxx_INCLUDE_DIR}/percentage.hpp
     ${magicxx_INCLUDE_DIR}/progress_tracker.hpp
     ${magicxx_INCLUDE_DIR}/utility.hpp

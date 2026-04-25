@@ -72,7 +72,7 @@ TEST_F(MagicIdentifyFileTest, closed_magic_empty_path_noexcept)
 {
     EXPECT_EQ(
         m_closed_magic.IdentifyFile(m_empty_path, std::nothrow).error(),
-        MagicIsClosed{}.what()
+        IdentifyError::MagicIsClosed
     );
 }
 
@@ -88,7 +88,7 @@ TEST_F(MagicIdentifyFileTest, closed_magic_nonexistent_path_noexcept)
 {
     EXPECT_EQ(
         m_closed_magic.IdentifyFile(m_nonexistent_path, std::nothrow).error(),
-        MagicIsClosed{}.what()
+        IdentifyError::MagicIsClosed
     );
 }
 
@@ -104,7 +104,7 @@ TEST_F(MagicIdentifyFileTest, closed_magic_valid_database_noexcept)
 {
     EXPECT_EQ(
         m_closed_magic.IdentifyFile(m_valid_database, std::nothrow).error(),
-        MagicIsClosed{}.what()
+        IdentifyError::MagicIsClosed
     );
 }
 
@@ -123,7 +123,7 @@ TEST_F(MagicIdentifyFileTest, opened_magic_without_database_empty_path_noexcept)
     EXPECT_EQ(
         m_opened_magic_without_database.IdentifyFile(m_empty_path, std::nothrow)
             .error(),
-        MagicDatabaseNotLoaded{}.what()
+        IdentifyError::MagicDatabaseNotLoaded
     );
 }
 
@@ -146,7 +146,7 @@ TEST_F(
         m_opened_magic_without_database
             .IdentifyFile(m_nonexistent_path, std::nothrow)
             .error(),
-        MagicDatabaseNotLoaded{}.what()
+        IdentifyError::MagicDatabaseNotLoaded
     );
 }
 
@@ -169,7 +169,7 @@ TEST_F(
         m_opened_magic_without_database
             .IdentifyFile(m_valid_database, std::nothrow)
             .error(),
-        MagicDatabaseNotLoaded{}.what()
+        IdentifyError::MagicDatabaseNotLoaded
     );
 }
 
@@ -185,7 +185,7 @@ TEST_F(MagicIdentifyFileTest, valid_magic_empty_path_noexcept)
 {
     EXPECT_EQ(
         m_valid_magic.IdentifyFile(m_empty_path, std::nothrow).error(),
-        EmptyPath{}.what()
+        IdentifyError::EmptyPath
     );
 }
 
@@ -201,7 +201,7 @@ TEST_F(MagicIdentifyFileTest, valid_magic_nonexistent_path_noexcept)
 {
     EXPECT_EQ(
         m_valid_magic.IdentifyFile(m_nonexistent_path, std::nothrow).error(),
-        PathDoesNotExist{m_nonexistent_path}.what()
+        IdentifyError::PathDoesNotExist
     );
 }
 

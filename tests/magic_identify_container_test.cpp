@@ -97,8 +97,7 @@ protected:
         m_nonexistent_path
     };
     Magic::ExpectedFileTypeMapT m_expected_types_of_nonexistent_path_container{
-        {m_nonexistent_path,
-         std::unexpected{PathDoesNotExist{m_nonexistent_path}.what()}}
+        {m_nonexistent_path, std::unexpected{IdentifyError::PathDoesNotExist}}
     };
     std::vector<std::filesystem::path> m_valid_container{
         m_text_file,

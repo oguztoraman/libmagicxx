@@ -55,9 +55,11 @@
 
 #include <array>
 #include <new>
+#include <string>
 #include <utility>
 
 #include "magic.hpp"
+#include "magic_error.hpp"
 
 namespace Recognition {
 /**
@@ -907,22 +909,22 @@ public:
      * @brief Identify a single file's type (noexcept version).
      *
      * Non-throwing variant that returns a `std::expected` with either
-     * the file type or an error message.
+     * the file type or an `IdentifyError`.
      *
      * @param[in] path    Path to the file to identify.
      * @param[in] options Validation options to check before identification.
      * @param[in] tag     Pass `std::nothrow` to select this overload.
      *
      * @returns ExpectedFileTypeT containing file type on success,
-     *         or error message on failure.
+     *         or an IdentifyError on failure.
      *
      * @par Error Handling
-     * Returns `std::unexpected` with appropriate error message:
-     * - MagicIsClosed::what() if instance not open
-     * - MagicDatabaseNotLoaded::what() if database not loaded
-     * - EmptyPath::what() if path is empty
-     * - PathDoesNotExist::what() if file doesn't exist
-     * - MagicIdentifyFileError::what() if magic_file() fails
+     * Returns `std::unexpected` with an appropriate `IdentifyError` value:
+     * - `IdentifyError::MagicIsClosed` if instance not open
+     * - `IdentifyError::MagicDatabaseNotLoaded` if database not loaded
+     * - `IdentifyError::EmptyPath` if path is empty
+     * - `IdentifyError::PathDoesNotExist` if file doesn't exist
+     * - `IdentifyError::IdentifyFailed` if `magic_file()` fails
      *
      * @see Magic::IdentifyFile(const std::filesystem::path&, const std::nothrow_t&)
      * @see ExpectedFileTypeT
@@ -935,21 +937,21 @@ public:
     {
         if ((options & CHECK_IS_VALID_OPTION) == CHECK_IS_VALID_OPTION) {
             if (!IsOpen()) {
-                return std::unexpected{MagicIsClosed{}.what()};
+                return std::unexpected{IdentifyError::MagicIsClosed};
             }
             if (!IsDatabaseLoaded()) {
-                return std::unexpected{MagicDatabaseNotLoaded{}.what()};
+                return std::unexpected{IdentifyError::MagicDatabaseNotLoaded};
             }
         }
         if ((options & CHECK_PATH_EMPTY_OPTION) == CHECK_PATH_EMPTY_OPTION) {
             if (path.empty()) {
-                return std::unexpected{EmptyPath{}.what()};
+                return std::unexpected{IdentifyError::EmptyPath};
             }
         }
         if ((options & CHECK_PATH_EXISTS_OPTION) == CHECK_PATH_EXISTS_OPTION) {
             std::error_code error_code{};
             if (!std::filesystem::exists(path, error_code)) {
-                return std::unexpected{PathDoesNotExist{path.string()}.what()};
+                return std::unexpected{IdentifyError::PathDoesNotExist};
             }
         }
         auto type_cstr = Detail::magic_file(
@@ -957,10 +959,7 @@ public:
             path.string().c_str()
         );
         if (!type_cstr) {
-            return std::unexpected{
-                MagicIdentifyFileError{GetErrorMessage(), path.string()}
-                .what()
-            };
+            return std::unexpected{IdentifyError::IdentifyFailed};
         }
         return {type_cstr};
     }
@@ -2337,7 +2336,10 @@ std::string ToString(
 
 std::string ToString(const Magic::ExpectedFileTypeT& expected_file_type)
 {
-    return expected_file_type.value_or(expected_file_type.error());
+    if (expected_file_type) {
+        return expected_file_type.value();
+    }
+    return std::string{ToStringView(expected_file_type.error())};
 }
 
 std::string ToString(
@@ -2581,7 +2583,7 @@ Magic::ExpectedFileTypeT Magic::IdentifyFile(
 ) const noexcept
 {
     if (!m_impl) {
-        return std::unexpected{MagicIsClosed{}.what()};
+        return std::unexpected{IdentifyError::MagicIsClosed};
     }
     return m_impl->IdentifyFile(
         path,

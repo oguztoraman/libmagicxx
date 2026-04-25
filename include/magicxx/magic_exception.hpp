@@ -49,7 +49,7 @@
  * @code{.cpp}
  * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
  * if (!result) {
- *     std::cerr << "Error: " << result.error() << '\n';
+ *     std::cerr << "Error: " << ToStringView(result.error()) << '\n';
  * }
  * @endcode
  *

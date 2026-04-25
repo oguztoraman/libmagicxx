@@ -79,6 +79,7 @@
 #include <string_view>
 #include <vector>
 
+#include "magic_error.hpp"
 #include "magic_exception.hpp"
 #include "progress_tracker.hpp"
 #include "utility.hpp"
@@ -457,22 +458,13 @@ public:
     using FileTypeT = std::string;
 
     /**
-     * @typedef ErrorMessageT
-     *
-     * @brief String type representing an error message from file identification.
-     *
-     * @since 10.0.0
-     */
-    using ErrorMessageT = std::string;
-
-    /**
      * @typedef ExpectedFileTypeT
      *
-     * @brief Result type for file identification, containing either a file type or an error message.
+     * @brief Result type for file identification, containing either a file type or an IdentifyError.
      *
      * @since 10.0.0
      */
-    using ExpectedFileTypeT = std::expected<FileTypeT, ErrorMessageT>;
+    using ExpectedFileTypeT = std::expected<FileTypeT, IdentifyError>;
 
     /**
      * @typedef FileTypeMapT
@@ -1172,14 +1164,14 @@ public:
      * @param[in] path Path to the file to identify.
      * @param[in] tag  Pass `std::nothrow` to select this overload.
      *
-     * @returns ExpectedFileTypeT containing the file type or error message.
+     * @returns ExpectedFileTypeT containing the file type or an IdentifyError.
      *
      * @code{.cpp}
      * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
      * if (result) {
      *     std::println("Type: {}", *result);
      * } else {
-     *     std::println("Error: {}", result.error());
+     *     std::println("Error: {}", ToStringView(result.error()));
      * }
      * @endcode
      *
@@ -1978,11 +1970,11 @@ private:
  * @brief Convert an expected file type result to a string.
  * @ingroup magic_to_string
  *
- * Returns the file type if successful, or the error message if failed.
+ * Returns the file type if successful, or a string describing the IdentifyError on failure.
  *
  * @param[in] expected_file_type The expected result from noexcept identification.
  *
- * @returns The file type string on success, or error message on failure.
+ * @returns The file type string on success, or a string describing the IdentifyError on failure.
  *
  * @code{.cpp}
  * auto result = magic.IdentifyFile("/path/to/file", std::nothrow);
@@ -2006,7 +1998,7 @@ private:
  * @param[in] expected_file_type_entry The file path and expected result pair.
  * @param[in] type_separator           Separator between path and result (default: " -> ").
  *
- * @returns Formatted string: "path -> type" or "path -> [error message]".
+ * @returns Formatted string: "path -> type" or "path -> [IdentifyError message]".
  *
  * @see Magic::ExpectedFileTypeEntryT
  *

@@ -218,7 +218,7 @@ Use **PascalCase** ending with **`T`** for all type aliases and typedefs.
 using FlagsMaskT = unsigned long long;
 using ProgressTrackerT = std::shared_ptr<ProgressTracker>;
 using FileTypeT = std::string;
-using ExpectedFileTypeT = std::expected<FileTypeT, std::string>;
+using ExpectedFileTypeT = std::expected<FileTypeT, IdentifyError>;
 using FileTypeMapT = std::map<std::filesystem::path, FileTypeT>;
 using FileTypeEntryT = FileTypeMapT::value_type;
 using ParameterValueMapT = std::map<Parameters, std::size_t>;

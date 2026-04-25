@@ -26,7 +26,7 @@
  * | magic_percentage_test.cpp | Tests for Percentage utility class |
  * | magic_progress_tracker_test.cpp | Tests for ProgressTracker utility |
  * | magic_special_members_test.cpp | Tests for constructors and special members |
- * | magic_to_string_test.cpp | Tests for ToString() functions |
+ * | magic_to_string_test.cpp | Tests for ToString(), ToStringView functions |
  * | magic_version_test.cpp | Tests for Magic::GetVersion() |
  *
  * @section tests_running Running the Tests

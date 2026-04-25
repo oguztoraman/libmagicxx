@@ -3,13 +3,14 @@
 
 /**
  * @file magic_to_string_test.cpp
- * @brief Unit tests for ToString() free functions.
+ * @brief Unit tests for ToString(), ToStringView free functions.
  *
  * Tests string conversion functions for all Magic types including:
  * - FileTypeEntryT and FileTypeMapT
  * - ExpectedFileTypeEntryT and ExpectedFileTypeMapT
  * - Flags enum and FlagsContainerT
  * - Parameters enum and ParameterValueMapT
+ * - IdentifyError enum.
  *
  * @section to_string_test_types Types Tested
  *
@@ -22,10 +23,18 @@
  * | FlagsContainerT | Comma-separated names |
  * | Parameters | Enum name (e.g., "BytesMax") |
  * | ParameterValueT | "name: value" |
+ * | ParameterValueMapT | "name: value" pairs separated by commas |
+ * | IdentifyError | Short error message (e.g., "Magic instance is closed") |
  *
  * @see ToString(Magic::FileTypeEntryT)
  * @see ToString(Magic::Flags)
  * @see ToString(Magic::Parameters)
+ * @see ToString(Magic::ExpectedFileTypeEntryT)
+ * @see ToString(Magic::ExpectedFileTypeMapT)
+ * @see ToString(Magic::FlagsContainerT)
+ * @see ToString(Magic::ParameterValueT)
+ * @see ToString(Magic::ParameterValueMapT)
+ * @see ToStringView(IdentifyError)
  */
 
 #include <gtest/gtest.h>
@@ -41,6 +50,33 @@ TEST(MagicToStringTest, file_type_entry_t)
         ToString(Magic::FileTypeEntryT{"path1", "type1"}),
         "path1 -> type1"
     );
+}
+
+TEST(MagicToStringTest, identify_error)
+{
+    const std::array<IdentifyError, 5> codes{
+        IdentifyError::MagicIsClosed,
+        IdentifyError::MagicDatabaseNotLoaded,
+        IdentifyError::EmptyPath,
+        IdentifyError::PathDoesNotExist,
+        IdentifyError::IdentifyFailed
+    };
+
+    const std::array<std::string_view, 5> expected{
+        "Magic instance is closed",
+        "Magic database not loaded",
+        "Path is empty",
+        "Path does not exist",
+        "Identify operation failed"
+    };
+
+    for (size_t i = 0; i < codes.size(); ++i) {
+        EXPECT_EQ(ToStringView(codes[i]), expected[i]);
+        EXPECT_EQ(
+            std::string(ToStringView(codes[i])),
+            std::string(expected[i])
+        );
+    }
 }
 
 TEST(MagicToStringTest, file_type_map_t)
@@ -67,9 +103,12 @@ TEST(MagicToStringTest, expected_file_type_entry_t)
     );
     EXPECT_EQ(
         ToString(
-            Magic::ExpectedFileTypeEntryT{"path1", std::unexpected{"error1"}}
+            Magic::ExpectedFileTypeEntryT{
+                "path1",
+                std::unexpected{IdentifyError::IdentifyFailed}
+            }
         ),
-        "path1 -> error1"
+        "path1 -> Identify operation failed"
     );
 }
 
@@ -78,13 +117,13 @@ TEST(MagicToStringTest, expected_file_type_map_t)
     EXPECT_EQ(
         ToString(
             Magic::ExpectedFileTypeMapT{
-                {"path1", "type1"                  },
-                {"path2", std::unexpected{"error1"}},
-                {"path3", "type2"                  }
+                {"path1", "type1"                                       },
+                {"path2", std::unexpected{IdentifyError::IdentifyFailed}},
+                {"path3", "type2"                                       }
     }
         ),
         "path1 -> type1\n"
-        "path2 -> error1\n"
+        "path2 -> Identify operation failed\n"
         "path3 -> type2"
     );
 }

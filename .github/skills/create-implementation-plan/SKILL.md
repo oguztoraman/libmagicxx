@@ -27,7 +27,7 @@ Collect enough context to formulate precise web search queries in Step 3.
 
 ### Step 2 — Ask Clarifying Questions (BEFORE Searching the Web)
 
-Use the `vscode_askQuestions` tool to ask the user targeted clarifying questions that will focus the web search. Questions MUST cover:
+Use the `vscode/askQuestions` tool to ask the user targeted clarifying questions that will focus the web search. Questions MUST cover:
 
 1. **Scope**: What exactly should the plan cover? What is out of scope?
 2. **Constraints**: Are there language version, dependency, ABI, or API constraints to respect?
@@ -129,12 +129,12 @@ The `status` field must reflect the current state. Use the following values and 
 ```md
 ---
 goal: [Concise Title Describing the Package Implementation Plan's Goal]
-version: [Optional: e.g., 1.0, Date]
+version: [e.g., 1.0]
 date_created: [YYYY-MM-DD]
-last_updated: [Optional: YYYY-MM-DD]
-owner: [Optional: Team/Individual responsible for this spec]
+last_updated: [YYYY-MM-DD]
+owner: [Team/Individual responsible for this spec]
 status: 'Completed'|'In progress'|'Planned'|'Deprecated'|'On Hold'
-tags: [Optional: List of relevant tags or categories, e.g., `feature`, `upgrade`, `chore`, `architecture`, `migration`, `bug` etc]
+tags: [List of relevant tags or categories, e.g., `feature`, `upgrade`, `chore`, `architecture`, `migration`, `bug` etc]
 ---
 
 # Introduction

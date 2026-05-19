@@ -51,7 +51,7 @@ For each major design decision identified in Step 2, find **3 to 5 concrete opti
 
 ### Step 4 — Present Options and Ask User to Choose
 
-Use the `vscode_askQuestions` tool to present the options found in Step 3 to the user. For each decision point:
+Use the `vscode/askQuestions` tool to present the options found in Step 3 to the user. For each decision point:
 - Show a question with the option names as `options` array entries
 - Include source/rationale in the `message` field (Markdown is supported)
 - Use `multiSelect: false` unless the decision allows combining multiple approaches

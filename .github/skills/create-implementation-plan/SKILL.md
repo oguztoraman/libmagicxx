@@ -64,6 +64,7 @@ Use the `vscode/askQuestions` tool to present the options found in Step 3 to the
 Only after Steps 1–4 are complete, generate the implementation plan file using the **Mandatory Template Structure** below. Apply the user's selections from Step 4 as the chosen approach. Document all rejected alternatives in Section 3 (Alternatives) with the reason they were not chosen.
 
 **Output file location**: `plan/` directory at the repository root.
+**Directory requirement**: Before writing the plan file, verify that `plan/` exists at the repository root. If it does not exist, create it first, then write the file into that directory.
 **Naming convention**: `[purpose]-[component]-[version].md`
 **Purpose prefixes**: `bugfix|upgrade|refactor|feature|data|infrastructure|process|architecture|design`
 **Examples**: `feature-magic-error-type-1.md`, `refactor-pimpl-cleanup-2.md`

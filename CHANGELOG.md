@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Docs: Add create implementation plan skill with mandatory workflow.
+
 + **[QUALITY]** Format: Disable short case expressions and labels on a single line.
 
 + **[ENHANCEMENT]** CMake: Add ccache as compiler launcher in base-config preset to speed up compilation.

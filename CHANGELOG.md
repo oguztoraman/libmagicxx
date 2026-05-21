@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Docs: Prefer knowledge-first alternatives in create-implementation-plan skill.
+
 + **[ENHANCEMENT]** Docs: Add create implementation plan skill with mandatory workflow.
 
 + **[QUALITY]** Format: Disable short case expressions and labels on a single line.

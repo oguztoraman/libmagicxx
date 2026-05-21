@@ -59,7 +59,7 @@ For each major design decision identified in Steps 1 and 2, derive **2 to 3 conc
 
 Use the `vscode/askQuestions` tool to present the alternatives from Step 3 to the user. For each decision point:
 - Show a question with the option names as `options` array entries
-- Include the pros/cons and rationale in the `message` field (Markdown is supported)
+- Include the pros/cons and rationale in the `message` field (Markdown is supported); include source URL(s) when Step 3 used web search
 - Use `multiSelect: false` unless the decision allows combining multiple approaches
 - Set `recommended: true` on the most community-endorsed option
 

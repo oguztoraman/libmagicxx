@@ -23,11 +23,11 @@ Before anything else, use `semantic_search`, `grep_search`, and `read_file` to u
 - Existing naming conventions, patterns, and constraints in the repository
 - Any prior attempts or related work already in the codebase
 
-Collect enough context to formulate precise web search queries in Step 3.
+Collect enough context to reason about meaningful alternative approaches in Step 3.
 
-### Step 2 — Ask Clarifying Questions (BEFORE Searching the Web)
+### Step 2 — Ask Clarifying Questions
 
-Use the `vscode/askQuestions` tool to ask the user targeted clarifying questions that will focus the web search. Questions MUST cover:
+Use the `vscode/askQuestions` tool to ask the user targeted clarifying questions. Questions MUST cover:
 
 1. **Scope**: What exactly should the plan cover? What is out of scope?
 2. **Constraints**: Are there language version, dependency, ABI, or API constraints to respect?
@@ -36,24 +36,30 @@ Use the `vscode/askQuestions` tool to ask the user targeted clarifying questions
 
 Use `options` arrays in each question where the answer space is bounded. Use `multiSelect: true` when multiple choices are valid simultaneously. Do NOT proceed to Step 3 until the user has answered all questions.
 
-### Step 3 — Search the Web for Best Practices
+### Step 3 — Identify Alternative Approaches
 
-Using the answers from Step 2 and the codebase context from Step 1, construct specific search queries. Use the `fetch_webpage` tool to retrieve content from:
-- Official documentation (cppreference, isocpp.org, language-specific references)
-- Authoritative community sources (GitHub discussions, Stack Overflow accepted answers, CppCon/conference talks)
-- C++ Core Guidelines or equivalent authoritative style/pattern guides relevant to the topic
+For each major design decision identified in Steps 1 and 2, derive **2 to 3 concrete alternative approaches** using the following decision procedure:
 
-For each major design decision identified in Step 2, find **3 to 5 concrete options** with real-world backing. Document:
-- Option name and brief description
-- Source URL
-- Key tradeoff (pros/cons)
-- Recommendation level (widely adopted / niche / deprecated)
+1. **Use own knowledge first**: Based on the codebase context and clarifying answers, reason from your own knowledge about well-known implementation alternatives (e.g., patterns from the C++ Core Guidelines, ISO C++ Standard, CERT C++, CppCon talks, or established idioms). For each alternative document:
+   - Option name and brief description
+   - Key tradeoffs (pros/cons in the context of this codebase)
+   - Recommendation level (widely adopted / niche / deprecated)
+
+2. **Fall back to web search only when knowledge is insufficient**: If you cannot identify at least 2 meaningful alternatives from your own knowledge for a given decision point, use the `fetch_webpage` tool to search authoritative sources:
+   - Official documentation (cppreference, isocpp.org, language-specific references)
+   - Authoritative community sources (GitHub discussions, Stack Overflow accepted answers, CppCon/conference talks)
+   - C++ Core Guidelines or equivalent authoritative style/pattern guides relevant to the topic
+
+   When a web search is performed, additionally document:
+   - Source URL
+
+**Do not perform a web search if you already have sufficient knowledge to present meaningful alternatives.**
 
 ### Step 4 — Present Options and Ask User to Choose
 
-Use the `vscode/askQuestions` tool to present the options found in Step 3 to the user. For each decision point:
+Use the `vscode/askQuestions` tool to present the alternatives from Step 3 to the user. For each decision point:
 - Show a question with the option names as `options` array entries
-- Include source/rationale in the `message` field (Markdown is supported)
+- Include the pros/cons and rationale in the `message` field (Markdown is supported); include source URL(s) when Step 3 used web search
 - Use `multiSelect: false` unless the decision allows combining multiple approaches
 - Set `recommended: true` on the most community-endorsed option
 
@@ -61,7 +67,7 @@ Use the `vscode/askQuestions` tool to present the options found in Step 3 to the
 
 ### Step 5 — Generate the Plan File
 
-Only after Steps 1–4 are complete, generate the implementation plan file using the **Mandatory Template Structure** below. Apply the user's selections from Step 4 as the chosen approach. Document all rejected alternatives in Section 3 (Alternatives) with the reason they were not chosen.
+Only after Steps 1–4 are complete, generate the implementation plan file using the **Mandatory Template Structure** below. Apply the user's selections from Step 4 as the chosen approach. Document all alternatives from Step 3 that the user did not select in Section 3 (Alternatives) with the reason they were not chosen.
 
 **Output file location**: `plan/` directory at the repository root.
 **Directory requirement**: Before writing the plan file, verify that `plan/` exists at the repository root. If it does not exist, create it first, then write the file into that directory.

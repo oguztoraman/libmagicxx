@@ -208,7 +208,7 @@ TEST_F(MagicIdentifyFileTest, valid_magic_nonexistent_path_noexcept)
 TEST_F(MagicIdentifyFileTest, valid_magic_valid_database)
 {
     EXPECT_EQ(
-        m_valid_magic.IdentifyFile(m_valid_database, std::nothrow).value(),
+        m_valid_magic.IdentifyFile(m_valid_database),
         "text/x-file; charset=utf-8"
     );
 }
@@ -216,7 +216,7 @@ TEST_F(MagicIdentifyFileTest, valid_magic_valid_database)
 TEST_F(MagicIdentifyFileTest, valid_magic_valid_database_noexcept)
 {
     EXPECT_EQ(
-        m_valid_magic.IdentifyFile(m_valid_database),
+        m_valid_magic.IdentifyFile(m_valid_database, std::nothrow).value(),
         "text/x-file; charset=utf-8"
     );
 }

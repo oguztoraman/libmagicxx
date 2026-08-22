@@ -50,6 +50,7 @@ set(magic_SOURCE_FILES
     ${magic_SOURCE_DIR}/readcdf.c
     ${magic_SOURCE_DIR}/readelf.c
     ${magic_SOURCE_DIR}/softmagic.c
+    ${magic_SOURCE_DIR}/swap.c
     ${magic_OS_REPLACEMENT_SOURCE_FILES}
 )
 

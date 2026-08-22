@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: Bump libmagic version to 5.48.
+
 + **[ENHANCEMENT]** Docs: Prefer knowledge-first alternatives in create-implementation-plan skill.
 
 + **[ENHANCEMENT]** Docs: Add create implementation plan skill with mandatory workflow.

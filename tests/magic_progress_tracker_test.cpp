@@ -193,11 +193,13 @@ TEST(MagicProgressTrackerTest, thread_safety)
     constexpr auto  steps_per_thread  = 10;
 
     std::vector<std::thread> threads;
-    for (int thread_index = 0; thread_index < number_of_threads;
-         ++thread_index) {
+    for (
+        int thread_index = 0; thread_index < number_of_threads; ++thread_index
+    ) {
         threads.emplace_back([&progress_tracker]() {
-            for (int step_index = 0; step_index < steps_per_thread;
-                 ++step_index) {
+            for (
+                int step_index = 0; step_index < steps_per_thread; ++step_index
+            ) {
                 progress_tracker.Advance();
             }
         });
@@ -269,8 +271,8 @@ TEST(MagicProgressTrackerTest, try_wait_until_success)
         progress_tracker.Advance(2);
     });
 
-    auto deadline = std::chrono::steady_clock::now()
-                  + std::chrono::milliseconds{300};
+    auto deadline  = std::chrono::steady_clock::now()
+                   + std::chrono::milliseconds{300};
     bool completed = progress_tracker.TryWaitForCompletionUntil(deadline);
 
     EXPECT_TRUE(completed);
@@ -287,8 +289,8 @@ TEST(MagicProgressTrackerTest, try_wait_until_timeout)
         progress_tracker.Advance(2);
     });
 
-    auto deadline = std::chrono::steady_clock::now()
-                  + std::chrono::milliseconds{100};
+    auto deadline  = std::chrono::steady_clock::now()
+                   + std::chrono::milliseconds{100};
     bool completed = progress_tracker.TryWaitForCompletionUntil(deadline);
 
     EXPECT_FALSE(completed);

@@ -6,7 +6,7 @@
 # GoogleTest-based test suite for verifying library functionality.
 # -----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.31.6)
+cmake_minimum_required(VERSION 4.3.0 FATAL_ERROR)
 
 project(magicxx_tests
     DESCRIPTION "Unit tests for Libmagicxx."

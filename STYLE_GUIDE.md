@@ -364,7 +364,7 @@ enum class Parameters : std::size_t {
 
 **Exception - Example Code in Documentation:**
 
-When documentation blocks contain example code (e.g., within `@code` blocks), use standard C++ comment style (`//`) for comments within the example code to show realistic usage:
+When documentation blocks contain example code (e.g., within `code` blocks), use standard C++ comment style (`//`) for comments within the example code to show realistic usage:
 
 ```cpp
 /**

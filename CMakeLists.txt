@@ -19,7 +19,7 @@
 # See CMakePresets.json for available configuration presets.
 # -----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.31.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 4.3.0 FATAL_ERROR)
 
 # -----------------------------------------------------------------------------
 # Prevent in-source builds
@@ -64,6 +64,7 @@ include(cmake/generate_default_database_files.cmake)
 # Optional components
 # -----------------------------------------------------------------------------
 if(BUILD_MAGICXX_TESTS)
+    include(CTest)
     enable_testing()
     set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
     add_subdirectory(external/googletest)

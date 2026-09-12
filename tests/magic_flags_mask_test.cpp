@@ -43,14 +43,14 @@ TEST_F(MagicFlagsMaskTest, default_constructor_is_empty)
 TEST_F(MagicFlagsMaskTest, default_constructor_size)
 {
     Magic::FlagsMaskT mask{};
-    EXPECT_EQ(30uz, mask.size());
+    EXPECT_EQ(30UZ, mask.size());
 }
 
 TEST_F(MagicFlagsMaskTest, implicit_conversion_from_single_flag)
 {
     Magic::FlagsMaskT mask = Magic::Flags::Mime;
     EXPECT_FALSE(mask.none());
-    EXPECT_TRUE(mask[11uz]);
+    EXPECT_TRUE(mask[11UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, implicit_conversion_from_none_flag)
@@ -62,8 +62,8 @@ TEST_F(MagicFlagsMaskTest, implicit_conversion_from_none_flag)
 TEST_F(MagicFlagsMaskTest, operator_subscript_correct_bit)
 {
     Magic::FlagsMaskT mask = Magic::Flags::Debug;
-    EXPECT_TRUE(mask[0uz]);
-    for (std::size_t i{1uz}; i < mask.size(); ++i) {
+    EXPECT_TRUE(mask[0UZ]);
+    for (std::size_t i{1UZ}; i < mask.size(); ++i) {
         EXPECT_FALSE(mask[i]);
     }
 }
@@ -71,18 +71,18 @@ TEST_F(MagicFlagsMaskTest, operator_subscript_correct_bit)
 TEST_F(MagicFlagsMaskTest, operator_subscript_symlink)
 {
     Magic::FlagsMaskT mask = Magic::Flags::Symlink;
-    EXPECT_TRUE(mask[1uz]);
-    EXPECT_FALSE(mask[0uz]);
-    EXPECT_FALSE(mask[2uz]);
+    EXPECT_TRUE(mask[1UZ]);
+    EXPECT_FALSE(mask[0UZ]);
+    EXPECT_FALSE(mask[2UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, operator_or_two_flags)
 {
     Magic::FlagsMaskT mask = Magic::Flags::MimeType
                            | Magic::Flags::MimeEncoding;
-    EXPECT_TRUE(mask[4uz]);
-    EXPECT_TRUE(mask[10uz]);
-    EXPECT_FALSE(mask[0uz]);
+    EXPECT_TRUE(mask[4UZ]);
+    EXPECT_TRUE(mask[10UZ]);
+    EXPECT_FALSE(mask[0UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, operator_or_mask_with_mask)
@@ -90,55 +90,55 @@ TEST_F(MagicFlagsMaskTest, operator_or_mask_with_mask)
     Magic::FlagsMaskT mask_a   = Magic::Flags::Debug;
     Magic::FlagsMaskT mask_b   = Magic::Flags::Compress;
     Magic::FlagsMaskT combined = mask_a | mask_b;
-    EXPECT_TRUE(combined[0uz]);
-    EXPECT_TRUE(combined[2uz]);
-    EXPECT_FALSE(combined[1uz]);
+    EXPECT_TRUE(combined[0UZ]);
+    EXPECT_TRUE(combined[2UZ]);
+    EXPECT_FALSE(combined[1UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, operator_or_mask_with_flag)
 {
     Magic::FlagsMaskT mask     = Magic::Flags::Debug;
     Magic::FlagsMaskT combined = mask | Magic::Flags::Symlink;
-    EXPECT_TRUE(combined[0uz]);
-    EXPECT_TRUE(combined[1uz]);
+    EXPECT_TRUE(combined[0UZ]);
+    EXPECT_TRUE(combined[1UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, operator_or_flag_with_mask)
 {
     Magic::FlagsMaskT mask     = Magic::Flags::Debug | Magic::Flags::Symlink;
     Magic::FlagsMaskT combined = Magic::Flags::Compress | mask;
-    EXPECT_TRUE(combined[0uz]);
-    EXPECT_TRUE(combined[1uz]);
-    EXPECT_TRUE(combined[2uz]);
+    EXPECT_TRUE(combined[0UZ]);
+    EXPECT_TRUE(combined[1UZ]);
+    EXPECT_TRUE(combined[2UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, parenthesized_right_group)
 {
     Magic::FlagsMaskT mask = Magic::Flags::Debug
                            | (Magic::Flags::Symlink | Magic::Flags::Compress);
-    EXPECT_TRUE(mask[0uz]);
-    EXPECT_TRUE(mask[1uz]);
-    EXPECT_TRUE(mask[2uz]);
+    EXPECT_TRUE(mask[0UZ]);
+    EXPECT_TRUE(mask[1UZ]);
+    EXPECT_TRUE(mask[2UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, parenthesized_left_group)
 {
     Magic::FlagsMaskT mask = (Magic::Flags::Debug | Magic::Flags::Symlink)
                            | Magic::Flags::Compress;
-    EXPECT_TRUE(mask[0uz]);
-    EXPECT_TRUE(mask[1uz]);
-    EXPECT_TRUE(mask[2uz]);
+    EXPECT_TRUE(mask[0UZ]);
+    EXPECT_TRUE(mask[1UZ]);
+    EXPECT_TRUE(mask[2UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, parenthesized_both_groups)
 {
     Magic::FlagsMaskT mask = (Magic::Flags::Debug | Magic::Flags::Symlink)
                            | (Magic::Flags::Compress | Magic::Flags::Devices);
-    EXPECT_TRUE(mask[0uz]);
-    EXPECT_TRUE(mask[1uz]);
-    EXPECT_TRUE(mask[2uz]);
-    EXPECT_TRUE(mask[3uz]);
-    EXPECT_FALSE(mask[4uz]);
+    EXPECT_TRUE(mask[0UZ]);
+    EXPECT_TRUE(mask[1UZ]);
+    EXPECT_TRUE(mask[2UZ]);
+    EXPECT_TRUE(mask[3UZ]);
+    EXPECT_FALSE(mask[4UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, chained_or_multiple_flags)
@@ -148,11 +148,11 @@ TEST_F(MagicFlagsMaskTest, chained_or_multiple_flags)
                            | Magic::Flags::Compress
                            | Magic::Flags::Devices
                            | Magic::Flags::MimeType;
-    EXPECT_TRUE(mask[0uz]);
-    EXPECT_TRUE(mask[1uz]);
-    EXPECT_TRUE(mask[2uz]);
-    EXPECT_TRUE(mask[3uz]);
-    EXPECT_TRUE(mask[4uz]);
+    EXPECT_TRUE(mask[0UZ]);
+    EXPECT_TRUE(mask[1UZ]);
+    EXPECT_TRUE(mask[2UZ]);
+    EXPECT_TRUE(mask[3UZ]);
+    EXPECT_TRUE(mask[4UZ]);
 }
 
 TEST_F(MagicFlagsMaskTest, or_with_same_flag_is_idempotent)
@@ -160,14 +160,14 @@ TEST_F(MagicFlagsMaskTest, or_with_same_flag_is_idempotent)
     Magic::FlagsMaskT mask = Magic::Flags::Mime
                            | Magic::Flags::Mime
                            | Magic::Flags::Mime;
-    EXPECT_TRUE(mask[11uz]);
+    EXPECT_TRUE(mask[11UZ]);
     std::size_t set_count{};
     for (std::size_t i{}; i < mask.size(); ++i) {
         if (mask[i]) {
             ++set_count;
         }
     }
-    EXPECT_EQ(1uz, set_count);
+    EXPECT_EQ(1UZ, set_count);
 }
 
 TEST_F(MagicFlagsMaskTest, none_returns_true_for_none_flag)
@@ -187,9 +187,9 @@ TEST_F(MagicFlagsMaskTest, size_is_always_thirty)
     Magic::FlagsMaskT empty{};
     Magic::FlagsMaskT single   = Magic::Flags::Debug;
     Magic::FlagsMaskT combined = Magic::Flags::Debug | Magic::Flags::Symlink;
-    EXPECT_EQ(30uz, empty.size());
-    EXPECT_EQ(30uz, single.size());
-    EXPECT_EQ(30uz, combined.size());
+    EXPECT_EQ(30UZ, empty.size());
+    EXPECT_EQ(30UZ, single.size());
+    EXPECT_EQ(30UZ, combined.size());
 }
 
 TEST_F(MagicFlagsMaskTest, implicit_conversion_in_open_call)
@@ -221,7 +221,7 @@ TEST_F(MagicFlagsMaskTest, parenthesized_flags_in_constructor)
 
 TEST_F(MagicFlagsMaskTest, all_individual_flags_set_correct_bit)
 {
-    static constexpr std::size_t FLAG_COUNT{30uz};
+    static constexpr std::size_t FLAG_COUNT{30UZ};
     for (std::size_t bit{}; bit < FLAG_COUNT; ++bit) {
         auto              flag = static_cast<Magic::Flags>(1ULL << bit);
         Magic::FlagsMaskT mask = flag;

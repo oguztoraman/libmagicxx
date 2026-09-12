@@ -231,7 +231,7 @@ public:
      * @see IdentifyFileOptions
      * @see IdentifyFile()
      */
-    using IdentifyFileOptionsMaskT = std::bitset<3uz>;
+    using IdentifyFileOptionsMaskT = std::bitset<3UZ>;
 
     /**
      * @brief Options controlling file identification precondition checks.
@@ -1959,7 +1959,7 @@ private:
         FlagsMaskT{}.size()
     }; /**< Number of flags */
     static constexpr auto LIBMAGIC_PARAMETER_COUNT{
-        10uz
+        10UZ
     }; /**< Number of parameters */
     /** @} impl_libmagic_constants */
 
@@ -1974,9 +1974,9 @@ private:
     using LibmagicValueT     = int;         /**< libmagic integer type */
     using LibmagicValueNameT = std::string; /**< Flag/param name type */
     using LibmagicPairT      = std::pair<
-             LibmagicValueT,
-             const char*
-         >; /**< Value-name pair */
+        LibmagicValueT,
+        const char*
+    >; /**< Value-name pair */
     using LibmagicFlagsT = std::array<
         LibmagicPairT,
         LIBMAGIC_FLAGS_COUNT

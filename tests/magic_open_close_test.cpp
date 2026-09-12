@@ -91,7 +91,7 @@ protected:
         0,
         Magic::FlagsMaskT{}.size() - 1
     };
-    const std::size_t m_multiple_test_count{5uz};
+    const std::size_t m_multiple_test_count{5UZ};
 };
 
 TEST_F(MagicOpenCloseTest, closed_magic)

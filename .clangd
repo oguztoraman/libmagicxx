@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 #
-# clangd version: 21
+# clangd version: 22
 
 If:
   PathMatch:
@@ -16,6 +16,7 @@ Completion:
   ArgumentLists: FullPlaceholders
   HeaderInsertion: IWYU
   CodePatterns: All
+  MacroFilter: ExactPrefix
 CompileFlags:
   Add:
     - -std=c++23
@@ -132,6 +133,7 @@ Diagnostics:
   UnusedIncludes: Strict
 Hover:
   ShowAKA: true
+  MacroContentsLimit: 2048
 Index:
   Background: Build
   StandardLibrary: true
@@ -145,3 +147,5 @@ InlayHints:
   TypeNameLimit: 0
 Style:
   FullyQualifiedNamespaces: true
+Documentation:
+  CommentFormat: Doxygen

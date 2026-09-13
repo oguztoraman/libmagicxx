@@ -80,38 +80,22 @@ We expect all contributors to adhere to the <a href="CODE_OF_CONDUCT.md">Code of
 
 ## Development Workflow
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        Contribution Workflow                            │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  1. SETUP                     2. DEVELOP                                │
-│  ┌──────────────────┐         ┌──────────────────┐                      │
-│  │ Fork repository  │────────>│ Create branch    │                      │
-│  │ Clone locally    │         │ (from main)      │                      │
-│  │ Start container  │         │                  │                      │
-│  │ Run initialize.sh│         │ bugfix/my-fix    │                      │
-│  └──────────────────┘         └────────┬─────────┘                      │
-│                                        │                                │
-│                                        ▼                                │
-│  4. VALIDATE                   3. CODE                                  │
-│  ┌──────────────────┐         ┌──────────────────┐                      │
-│  │ Build & test     │<────────│ Make changes     │                      │
-│  │ Format code      │         │ Add/update tests │                      │
-│  │ Update CHANGELOG │         │ Update docs      │                      │
-│  │                  │         │ Commit often     │                      │
-│  └────────┬─────────┘         └──────────────────┘                      │
-│           │                                                             │
-│           ▼                                                             │
-│  5. SUBMIT                    6. REVIEW                                 │
-│  ┌──────────────────┐         ┌──────────────────┐                      │
-│  │ Push to fork     │────────>│ Maintainer review│                      │
-│  │ (from host, not  │         │ Address feedback │                      │
-│  │  container)      │         │ CI must pass     │                      │
-│  │ Create PR        │         │ Merge!           │                      │
-│  └──────────────────┘         └──────────────────┘                      │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    %% Workflow steps
+    step_setup["<b>1. SETUP</b><br/>Fork repository<br/>Clone locally<br/>Start container<br/>Run initialize.sh"]
+    step_develop["<b>2. DEVELOP</b><br/>Create branch<br/>(from main)<br/>bugfix/my-fix"]
+    step_code["<b>3. CODE</b><br/>Make changes<br/>Add/update tests<br/>Update docs<br/>Commit often"]
+    step_validate["<b>4. VALIDATE</b><br/>Build & test<br/>Format code<br/>Update CHANGELOG"]
+    step_submit["<b>5. SUBMIT</b><br/>Push to fork<br/>(from host, not<br/>container)<br/>Create PR"]
+    step_review["<b>6. REVIEW</b><br/>Maintainer review<br/>Address feedback<br/>CI must pass<br/>Merge!"]
+
+    %% Flow
+    step_setup --> step_develop
+    step_develop --> step_code
+    step_code --> step_validate
+    step_validate --> step_submit
+    step_submit --> step_review
 ```
 
 ### Branch Strategy
@@ -268,6 +252,8 @@ Install these extensions in the container for best experience:
 + [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap)
 
 + [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
+
++ [Mermaid](https://marketplace.visualstudio.com/items?itemName=MermaidChart.vscode-mermaid-chart)
 
 #### Step 5: Initialize the Project
 

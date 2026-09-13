@@ -89,9 +89,10 @@ CheckOptions:
   readability-identifier-naming.ConceptCase: CamelCase
   readability-identifier-naming.UnionCase: CamelCase
   performance-unnecessary-value-param.AllowedTypes: '.*ProgressTrackerT.*'
+ExcludeHeaderFilterRegex: 'external/.*'
 FormatStyle: file
 HeaderFileExtensions: ['hpp']
-HeaderFilterRegex: 'external/.*|.*\.hpp'
+HeaderFilterRegex: '.*\.hpp'
 ImplementationFileExtensions: ['cpp']
 SystemHeaders: false
 WarningsAsErrors: '*'

@@ -1,0 +1,30 @@
+---
+title: Magic Lifecycle State Diagram
+---
+flowchart LR
+    %% Entry points
+    constructor_default(["Constructor()"])
+    constructor_flags(["Constructor(flags)"])
+
+    %% States
+    state_closed["<b>Closed</b><br/>IsOpen() = false<br/>IsDatabaseLoaded() = false<br/>IsValid() = false"]
+    state_opened["<b>Opened</b><br/>IsOpen() = true<br/>IsDatabaseLoaded() = false<br/>IsValid() = false"]
+    state_valid["<b>Valid</b><br/>IsOpen() = true<br/>IsDatabaseLoaded() = true<br/>IsValid() = true"]
+
+    %% Transitions
+    constructor_default -->|creates| state_closed
+    constructor_flags -->|creates| state_valid
+    state_closed -->|"Close()"| state_closed
+    state_closed -->|"Open(flags)"| state_opened
+    state_opened -->|"Open(flags)"| state_opened
+    state_opened -->|"LoadDatabaseFile()"| state_valid
+    state_opened -->|"Close()"| state_closed
+    state_valid -->|"Open(flags)"| state_opened
+    state_valid -->|"Close()"| state_closed
+
+    %% Styling
+    style state_closed fill:#fde8e8,stroke:#c53030,color:#1a202c
+    style state_opened fill:#fefcbf,stroke:#d69e2e,color:#1a202c
+    style state_valid fill:#c6f6d5,stroke:#2f855a,color:#1a202c
+    style constructor_default fill:#e2e8f0,stroke:#4a5568,color:#1a202c
+    style constructor_flags fill:#e2e8f0,stroke:#4a5568,color:#1a202c

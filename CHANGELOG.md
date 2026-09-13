@@ -2,6 +2,12 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Rename lifecycle diagram and register it in CMake.
+
++ **[DOCUMENTATION]** Docs: Convert ASCII-art diagrams to Mermaid diagrams.
+
++ **[DOCUMENTATION]** Docs: Add Mermaid-ai-skills support.
+
 + **[ENHANCEMENT]** DevEnv: Update the development container to Fedora 44.
 
 + **[ENHANCEMENT]** Magic: Bump libmagic version to 5.48.

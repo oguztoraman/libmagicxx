@@ -120,31 +120,17 @@ namespace Recognition {
  *
  * ### Lifecycle
  *
- * A Magic instance follows a three-state lifecycle:
+ * A Magic instance follows a three-state lifecycle. See the state diagram source in
+ * `documentation/MAGIC_LIFECYCLE.mmd`:
  *
- * @verbatim
- * +-----------------------------------------------------------------------------------+
- * |                              Magic State Diagram                                  |
- * +-----------------------------------------------------------------------------------+
- * |                                                                                   |
- * |  Constructor()                                       Constructor(flags)           |
- * |       |                                                     |                     |
- * |       V                                                     V                     |
- * |   +------------+  Open(flags)  +------------+         +------------+              |
- * |   |   CLOSED   |-------------->|   OPENED   |<--------|   VALID    |              |
- * |   +--+---------+               +--+------+--+  Open   +---------+--+              |
- * |      |    ^   ^                   |  ^   |     (flags)    ^     |                 |
- * |      +----+   |                   |  +---+                |     |                 |
- * |      Close()  |                   |  Open(flags)          |     |                 |
- * |               |                   |                       |     |                 |
- * |               |                   +-----------------------+     |                 |
- * |               |                       LoadDatabaseFile()        |                 |
- * |               |                                                 |                 |
- * |               +-------------------------------------------------+                 |
- * |                                     Close()                                       |
- * |                                                                                   |
- * +-----------------------------------------------------------------------------------+
- * @endverbatim
+ * - **Closed**: initial state of the default-constructed instance.
+ * - **Opened**: after `Open(flags)` from Closed.
+ * - **Valid**: after `LoadDatabaseFile()` from Opened, or directly via `Constructor(flags)`.
+ *
+ * `Open(flags)` from Opened/Valid returns to Opened (database unloaded); `Close()` from any
+ * state returns to Closed (`Close()` from Closed is a no-op).
+ *
+ * @see documentation/MAGIC_LIFECYCLE.mmd
  *
  * #### State Descriptions
  *

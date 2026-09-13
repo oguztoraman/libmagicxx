@@ -11,7 +11,7 @@
 #
 # Features
 # --------
-# - Fedora 43 base image (stable, up-to-date packages)
+# - Fedora 44 base image (stable, up-to-date packages)
 # - GCC and Clang C++ toolchains
 # - CMake + Ninja build system
 # - Cross-compilation support for Windows (MinGW-w64)
@@ -43,7 +43,7 @@
 #
 # Image Layers
 # ------------
-# 1. Base: Fedora 43 minimal container image
+# 1. Base: Fedora 44 minimal container image
 # 2. Scripts: Copy install_dependencies.sh into container
 # 3. Dependencies: Run installation script (adds ~1.5GB)
 # 4. Workdir: Set /libmagicxx as default working directory
@@ -68,9 +68,9 @@
 # -----------------------------------------------------------------------------
 # Base Image
 # -----------------------------------------------------------------------------
-# Fedora 43 provides recent versions of GCC, Clang, CMake, and other tools.
+# Fedora 44 provides recent versions of GCC, Clang, CMake, and other tools.
 # Using a specific version ensures reproducible builds.
-FROM fedora:43
+FROM fedora:44
 
 # -----------------------------------------------------------------------------
 # Install Build Dependencies

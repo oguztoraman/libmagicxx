@@ -377,7 +377,7 @@ private:
         }
 
     private:
-        std::bitset<30uz>
+        std::bitset<30UZ>
             m_mask{}; /**< Internal bitmask storing combined flag values. */
     };
 

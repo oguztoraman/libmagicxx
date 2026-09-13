@@ -90,9 +90,9 @@ protected:
     std::filesystem::path m_text_file   = m_test_dir / "text.txt";
     std::filesystem::path m_binary_file = m_test_dir / "binary.txt";
     Magic::FileTypeMapT   m_types_of_valid_files{
-          {m_text_file,   "text/plain; charset=us-ascii"            },
-          {m_empty_dir,   "inode/directory; charset=binary"         },
-          {m_binary_file, "application/octet-stream; charset=binary"}
+        {m_text_file,   "text/plain; charset=us-ascii"            },
+        {m_empty_dir,   "inode/directory; charset=binary"         },
+        {m_binary_file, "application/octet-stream; charset=binary"}
     };
     Magic::ExpectedFileTypeMapT m_expected_types_of_valid_files{
         {m_text_file,   "text/plain; charset=us-ascii"            },

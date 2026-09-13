@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2022-2026 Oğuz Toraman <oguz.toraman@tutanota.com>
 # SPDX-License-Identifier: LGPL-3.0-only
 #
-# clang-tidy version: 21
+# clang-tidy version: 22
 
 Checks:
   -*,
@@ -15,12 +15,8 @@ Checks:
   fuchsia-statically-constructed-objects,
   fuchsia-trailing-return,
   google-explicit-constructor,
-  google-readability-casting,
   google-readability-todo,
   google-runtime-int,
-  hicpp-exception-baseclass,
-  hicpp-multiway-paths-covered,
-  hicpp-no-assembler,
   misc-*,
   modernize-*,
   performance-*,

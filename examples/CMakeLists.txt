@@ -6,7 +6,7 @@
 # Demonstrates usage of libmagicxx — a modern C++23 wrapper for libmagic.
 # -----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.31.6)
+cmake_minimum_required(VERSION 4.3.0 FATAL_ERROR)
 
 project(magicxx_examples
     DESCRIPTION "Example applications for Libmagicxx."

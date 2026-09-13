@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** DevEnv: Update the development container to Fedora 44.
+
 + **[ENHANCEMENT]** Magic: Bump libmagic version to 5.48.
 
 + **[ENHANCEMENT]** Docs: Prefer knowledge-first alternatives in create-implementation-plan skill.

@@ -124,8 +124,8 @@ public:
      *
      * @since 10.0.0
      */
-    explicit ProgressTracker(std::uint64_t total_steps = 1u) noexcept
-      : m_total_steps{std::max<std::uint64_t>(total_steps, 1u)}
+    explicit ProgressTracker(std::uint64_t total_steps = 1U) noexcept
+      : m_total_steps{std::max<std::uint64_t>(total_steps, 1U)}
     { }
 
     /**
@@ -146,7 +146,7 @@ public:
      *
      * @since 10.0.0
      */
-    void Advance(std::uint64_t step_count = 1u) noexcept
+    void Advance(std::uint64_t step_count = 1U) noexcept
     {
         std::lock_guard lock{m_mutex};
         m_completed_steps = std::min(
@@ -279,8 +279,8 @@ public:
     void Reset(std::uint64_t total_steps) noexcept
     {
         std::lock_guard lock{m_mutex};
-        m_total_steps     = std::max<std::uint64_t>(total_steps, 1u);
-        m_completed_steps = 0u;
+        m_total_steps     = std::max<std::uint64_t>(total_steps, 1U);
+        m_completed_steps = 0U;
         m_condition_variable.notify_all();
     }
 
@@ -385,7 +385,7 @@ private:
     mutable std::condition_variable
                   m_condition_variable{}; /**< For wait operations. */
     std::uint64_t m_total_steps;          /**< Total steps in the job. */
-    std::uint64_t m_completed_steps{0u};  /**< Steps completed so far. */
+    std::uint64_t m_completed_steps{0U};  /**< Steps completed so far. */
 };
 
 /**
@@ -438,7 +438,7 @@ using SharedProgressTrackerT = std::shared_ptr<ProgressTracker>;
  * @since 10.0.0
  */
 inline SharedProgressTrackerT MakeSharedProgressTracker(
-    std::uint64_t total_steps = 1u
+    std::uint64_t total_steps = 1U
 ) noexcept
 {
     return std::make_shared<ProgressTracker>(total_steps);
@@ -545,7 +545,7 @@ public:
      */
     explicit AdvanceTracker(
         SharedProgressTrackerT shared_progress_tracker,
-        std::uint64_t          step_count = 1u
+        std::uint64_t          step_count = 1U
     ) noexcept
       : m_shared_progress_tracker(shared_progress_tracker)
       , m_step_count(step_count)

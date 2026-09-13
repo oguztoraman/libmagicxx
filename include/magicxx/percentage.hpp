@@ -124,7 +124,7 @@ public:
       : m_percentage{std::clamp(
             static_cast<int>(
                 (completed_steps * 100)
-                / std::max<std::uint64_t>(total_steps, 1u)
+                / std::max<std::uint64_t>(total_steps, 1U)
             ),
             0,
             100

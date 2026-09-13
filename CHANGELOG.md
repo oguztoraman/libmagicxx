@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Add Mermaid-ai-skills support.
+
 + **[ENHANCEMENT]** DevEnv: Update the development container to Fedora 44.
 
 + **[ENHANCEMENT]** Magic: Bump libmagic version to 5.48.

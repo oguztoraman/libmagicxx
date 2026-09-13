@@ -53,3 +53,10 @@
 - Treat [Containerfile](../Containerfile) and [scripts/install_dependencies.sh](../scripts/install_dependencies.sh) changes as separate PR-sized work. Do not bundle them with unrelated fixes.
 - Do not add network downloads to build or test workflows, and do not expose secrets or credentials in generated code, scripts, logs, or documentation.
 - The development container is Fedora-based. Prefer repo scripts and documented presets over distro-specific ad hoc commands.
+
+<!-- mermaid-ai-skills:start -->
+## Mermaid Diagrams
+
+When the user asks to create, edit, or visualize a diagram, follow the
+instructions in `.github/instructions/mermaid.instructions.md`.
+<!-- mermaid-ai-skills:end -->

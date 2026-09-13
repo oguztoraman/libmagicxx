@@ -132,6 +132,7 @@ set(DOXYGEN_AUTOLINK_SUPPORT
 
 set(DOXYGEN_EXTENSION_MAPPING
     LESSER=md
+    MMD=md
 )
 
 # -----------------------------------------------------------------------------

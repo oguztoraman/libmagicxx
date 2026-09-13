@@ -109,6 +109,7 @@ if(INSTALL_MAGICXX)
     install(
         FILES
             ${PROJECT_SOURCE_DIR}/documentation/README.txt
+            ${magicxx_MAGIC_LIFECYCLE_DIAGRAM_FILE}
         DESTINATION
             ${magicxx_INSTALL_DOC_DIR}
         COMPONENT

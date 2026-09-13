@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[DOCUMENTATION]** Docs: Rename lifecycle diagram and register it in CMake.
+
 + **[DOCUMENTATION]** Docs: Convert ASCII-art diagrams to Mermaid diagrams.
 
 + **[DOCUMENTATION]** Docs: Add Mermaid-ai-skills support.

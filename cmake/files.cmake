@@ -72,6 +72,10 @@ set(magicxx_EXAMPLES_FILE
     ${magicxx_EXAMPLES_DIR}/magic_examples.cpp
 )
 
+set(magicxx_MAGIC_LIFECYCLE_DIAGRAM_FILE
+    ${magicxx_SOURCE_DIR}/documentation/MAGIC_LIFECYCLE.mmd
+)
+
 set(magicxx_PULL_REQUEST_TEMPLATE_FILE
     ${magicxx_SOURCE_DIR}/PULL_REQUEST_TEMPLATE.md
 )
@@ -95,6 +99,7 @@ set(magicxx_DOCUMENTATION_FILES
     ${magicxx_CXX_STYLE_GUIDE_FILE}
     ${magicxx_EXAMPLES_FILE}
     ${magicxx_LICENSE_FILE}
+    ${magicxx_MAGIC_LIFECYCLE_DIAGRAM_FILE}
     ${magicxx_PULL_REQUEST_TEMPLATE_FILE}
     ${magicxx_README_FILE}
     ${magicxx_SECURITY_FILE}

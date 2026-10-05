@@ -29,7 +29,7 @@
  *
  * // Start batch identification in background
  * auto future = std::async([tracker] {
- *     Magic magic{Magic::Flags::Mime};
+ *     Magic magic{Magic::FlagsT::Mime};
  *     return magic.IdentifyFiles("/path/to/directory", tracker);
  * });
  *

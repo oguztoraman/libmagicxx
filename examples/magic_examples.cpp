@@ -65,7 +65,7 @@ using namespace Recognition;
 void ExampleBasicIdentify()
 {
     try {
-        Magic example_magic{Magic::Flags::Mime, Magic::DEFAULT_DATABASE_FILE};
+        Magic example_magic{Magic::FlagsT::Mime, Magic::DEFAULT_DATABASE_FILE};
         if (!example_magic.IsValid()) {
             std::println(std::cerr, "Magic is not valid.");
             return;
@@ -101,7 +101,7 @@ void ExampleBasicIdentify()
 void ExampleNoexceptIdentify()
 {
     Magic example_magic;
-    if (!example_magic.Open(Magic::Flags::Mime, std::nothrow)) {
+    if (!example_magic.Open(Magic::FlagsT::Mime, std::nothrow)) {
         std::println(std::cerr, "Failed to open magic.");
         return;
     }
@@ -140,7 +140,7 @@ void ExampleNoexceptIdentify()
 void ExampleIdentifyDirectory()
 {
     try {
-        Magic example_magic{Magic::Flags::Mime, Magic::DEFAULT_DATABASE_FILE};
+        Magic example_magic{Magic::FlagsT::Mime, Magic::DEFAULT_DATABASE_FILE};
         auto  results = example_magic.IdentifyFiles(
             std::filesystem::temp_directory_path()
         );
@@ -171,21 +171,21 @@ void ExampleIdentifyDirectory()
  * ### Parameters Modified
  * - **BytesMax**: Maximum bytes to read from file (set to 2KB for demo)
  *
- * @see Magic::Flags
- * @see Magic::Parameters
+ * @see Magic::FlagsT
+ * @see Magic::ParametersT
  * @see Magic::SetParameter()
  * @see Magic::GetParameter()
  */
 void ExampleCustomFlagsParameters()
 {
     Magic example_magic;
-    example_magic.Open({Magic::Flags::Mime, Magic::Flags::Compress});
+    example_magic.Open({Magic::FlagsT::Mime, Magic::FlagsT::Compress});
     example_magic.LoadDatabaseFile();
-    example_magic.SetParameter(Magic::Parameters::BytesMax, 2'048);
-    auto value = example_magic.GetParameter(Magic::Parameters::BytesMax);
+    example_magic.SetParameter(Magic::ParametersT::BytesMax, 2'048);
+    auto value = example_magic.GetParameter(Magic::ParametersT::BytesMax);
     std::println(std::cout, "BytesMax: {}", value);
     auto flags = example_magic.GetFlags();
-    std::println(std::cout, "Flags: {}", ToString(flags));
+    std::println(std::cout, "Flags: {}", MagicFlags{flags}.ToString());
 }
 
 /**
@@ -242,7 +242,7 @@ void ExampleCheckAndCompile()
 void ExampleProgressTracking()
 {
     try {
-        Magic example_magic{Magic::Flags::Mime};
+        Magic example_magic{Magic::FlagsT::Mime};
         auto  tracker = Utility::MakeSharedProgressTracker();
         auto  results = example_magic.IdentifyFiles(
             std::filesystem::temp_directory_path(),
@@ -281,7 +281,7 @@ void ExampleProgressTracking()
 void ExampleContainerIdentify()
 {
     try {
-        Magic example_magic{Magic::Flags::MimeType};
+        Magic example_magic{Magic::FlagsT::MimeType};
         std::vector<std::filesystem::path> files = {
             Magic::DEFAULT_DATABASE_FILE
         };
@@ -328,7 +328,7 @@ void ExampleLifecycleManagement()
         example_magic.IsValid()
     );
 
-    example_magic.Open(Magic::Flags::None);
+    example_magic.Open(Magic::FlagsT::None);
     std::println(
         std::cout,
         "After Open(): IsOpen={}, IsDatabaseLoaded={}, IsValid={}",
@@ -346,9 +346,13 @@ void ExampleLifecycleManagement()
         example_magic.IsValid()
     );
 
-    example_magic.SetFlags(Magic::Flags::Mime);
+    example_magic.SetFlags(Magic::FlagsT::Mime);
     auto new_flags = example_magic.GetFlags();
-    std::println(std::cout, "After SetFlags(): {}", ToString(new_flags));
+    std::println(
+        std::cout,
+        "After SetFlags(): {}",
+        MagicFlags{new_flags}.ToString()
+    );
 
     example_magic.Close();
     std::println(
@@ -376,19 +380,23 @@ void ExampleVersionAndAllParameters()
 {
     std::println(std::cout, "Libmagic version: {}", Magic::GetVersion());
 
-    Magic example_magic{Magic::Flags::Mime};
+    Magic example_magic{Magic::FlagsT::Mime};
     auto  all_params = example_magic.GetParameters();
-    std::println(std::cout, "All parameters: {}", ToString(all_params));
+    std::println(
+        std::cout,
+        "All parameters: {}",
+        MagicParameters{all_params}.ToString()
+    );
 
     example_magic.SetParameters({
-        {Magic::Parameters::BytesMax, 1'024'000},
-        {Magic::Parameters::RegexMax, 4'096    }
+        {Magic::ParametersT::BytesMax, 1'024'000},
+        {Magic::ParametersT::RegexMax, 4'096    }
     });
     auto updated_params = example_magic.GetParameters();
     std::println(
         std::cout,
         "After SetParameters(): {}",
-        ToString(updated_params)
+        MagicParameters{updated_params}.ToString()
     );
 }
 

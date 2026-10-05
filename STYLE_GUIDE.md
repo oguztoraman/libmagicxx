@@ -112,12 +112,12 @@ struct MagicOpenCloseTest : testing::Test {
 /* Test cases - snake_case */
 TEST_F(MagicOpenCloseTest, closed_magic_open_with_flags_mask)
 {
-    EXPECT_TRUE(m_magic.Open(Magic::Flags::Mime, std::nothrow));
+    EXPECT_TRUE(m_magic.Open(Magic::FlagsT::Mime, std::nothrow));
 }
 
 TEST_F(MagicOpenCloseTest, close_after_open)
 {
-    m_magic.Open(Magic::Flags::Mime);
+    m_magic.Open(Magic::FlagsT::Mime);
     m_magic.Close();
     EXPECT_FALSE(m_magic.IsOpen());
 }
@@ -215,7 +215,7 @@ class StaticArray { };
 Use **PascalCase** ending with **`T`** for all type aliases and typedefs.
 
 ```cpp
-using FlagsMaskT = unsigned long long;
+using FlagsMaskT = MagicFlags;
 using ProgressTrackerT = std::shared_ptr<ProgressTracker>;
 using FileTypeT = std::string;
 using ExpectedFileTypeT = std::expected<FileTypeT, std::string>;
@@ -351,14 +351,14 @@ public:
     
 private:
     CookieT m_cookie{nullptr};        /**< Trailing comment for member variable. */
-    FlagsMaskT m_flags_mask{0};       /**< Current configuration flags. */
+    MagicFlags m_flags{};             /**< Current configuration flags. */
     bool m_is_database_loaded{false}; /**< True when database loaded successfully. */
 };
 
-enum class Parameters : std::size_t {
-    IndirMax    = 0uz, /**< Maximum recursion depth for indirect magic. */
-    NameMax     = 1uz, /**< Maximum use count for name/use magic entries. */
-    BytesMax    = 6uz  /**< Maximum bytes to read from file. */
+enum class Parameters : std::uint8_t {
+    IndirMax    = 0UZ, /**< Maximum recursion depth for indirect magic. */
+    NameMax     = 1UZ, /**< Maximum use count for name/use magic entries. */
+    BytesMax    = 6UZ  /**< Maximum bytes to read from file. */
 };
 ```
 
@@ -375,7 +375,7 @@ When documentation blocks contain example code (e.g., within `code` blocks), use
  *
  * // Start identification in background thread
  * auto future = std::async([tracker] {
- *     Magic magic{Magic::Flags::Mime};
+ *     Magic magic{Magic::FlagsT::Mime};
  *     return magic.IdentifyFiles("/path/to/dir", tracker);
  * });
  *

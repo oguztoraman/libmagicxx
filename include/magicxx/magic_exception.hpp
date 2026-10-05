@@ -386,7 +386,7 @@ public:
  *
  * @code{.cpp}
  * Magic magic;
- * magic.Open(Magic::Flags::Mime);
+ * magic.Open(Magic::FlagsT::Mime);
  * // Forgot to call LoadDatabaseFile()!
  * magic.IdentifyFile("file.txt");  // Throws MagicDatabaseNotLoaded
  * @endcode
@@ -454,7 +454,7 @@ public:
  * This typically occurs with invalid flag combinations.
  *
  * @see Magic::SetFlags()
- * @see Magic::Flags
+ * @see Magic::FlagsT
  *
  * @since 10.0.0
  */
@@ -489,7 +489,7 @@ public:
  * This may occur when setting a parameter to an invalid value.
  *
  * @see Magic::SetParameter()
- * @see Magic::Parameters
+ * @see Magic::ParametersT
  *
  * @since 10.0.0
  */

@@ -63,7 +63,7 @@
 | Raw C strings | `std::string` and `std::string_view` |
 | Procedural API | Object-oriented `Magic` class |
 | No type safety | Strong typing with concepts |
-| Manual flag handling | Type-safe `Flags` and `Parameters` enums |
+| Manual flag handling | Type-safe `FlagsT` and `ParametersT` enums |
 | Single file identification | Batch directory and container identification |
 | No progress feedback | Built-in progress tracking for batch operations |
 | Manual state checking | `IsOpen()`, `IsDatabaseLoaded()`, `IsValid()` queries |
@@ -119,7 +119,7 @@ Wraps libmagic's C API with modern features:
 
 Clean, intuitive interface:
 ```cpp
-Magic magic{Magic::Flags::Mime};
+Magic magic{Magic::FlagsT::Mime};
 auto type = magic.IdentifyFile("document.pdf");
 // Returns: "application/pdf"
 ```
@@ -254,7 +254,7 @@ int main()
     using namespace Recognition;
 
     // Create a Magic instance with MIME type detection
-    Magic magic{Magic::Flags::Mime};
+    Magic magic{Magic::FlagsT::Mime};
 
     // Identify a file's type
     auto result = magic.IdentifyFile("mystery_file");
@@ -275,17 +275,17 @@ using namespace std::chrono_literals;
 
 // Combine multiple flags for detailed output
 Magic detailed{
-    Magic::Flags::MimeType |
-    Magic::Flags::MimeEncoding |
-    Magic::Flags::ContinueSearch
+    Magic::FlagsT::MimeType |
+    Magic::FlagsT::MimeEncoding |
+    Magic::FlagsT::ContinueSearch
 };
 
 // Use custom database
-Magic custom{Magic::Flags::None};
+Magic custom{Magic::FlagsT::None};
 custom.LoadDatabaseFile("/path/to/custom.mgc");
 
 // Track progress for batch file identification
-Magic magic{Magic::Flags::Mime};
+Magic magic{Magic::FlagsT::Mime};
 auto tracker = Utility::MakeSharedProgressTracker();
 
 // Start identification in background thread

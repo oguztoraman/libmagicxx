@@ -9,7 +9,7 @@
  * including:
  * - Magic::MagicPrivate (PIMPL implementation class)
  * - Magic class public method implementations
- * - ToString() free function overloads for string conversion
+ * - ToString() free function overloads for file-type string conversion
  *
  * @section magic_cpp_architecture Architecture
  *
@@ -32,10 +32,10 @@
  * |-----------|---------|
  * | `Detail::magic_*` | Wrapped libmagic C functions |
  * | `MagicPrivate` | PIMPL class holding cookie and state |
- * | `MagicPrivate::FlagsConverter` | Converts between flag representations |
- * | `MagicPrivate::LibmagicPairConverter` | Extracts values from flag/param pairs |
+ * | `MagicFlags` | Flags value class (see magic_flags.cpp) |
+ * | `MagicParameters` | Parameters string-conversion utility (see magic_parameters.cpp) |
  * | `MagicPrivate::ThrowExceptionOnFailure` | Error handling template |
- * | `ToString()` overloads | String conversion utilities |
+ * | `ToString()` overloads | File-type string conversion utilities |
  *
  * @section magic_cpp_lifecycle Lifecycle Implementation
  *
@@ -51,13 +51,14 @@
  * @copyright Copyright (c) 2022-2026 Oğuz Toraman. LGPL-3.0-only.
  */
 
-#include <cmath>
+#include "magic.hpp"
 
-#include <array>
+#include <bitset>
 #include <new>
 #include <utility>
 
-#include "magic.hpp"
+#include "magic_flags.hpp"
+#include "magic_parameters.hpp"
 
 namespace Recognition {
 /**
@@ -72,7 +73,7 @@ namespace Recognition {
  *
  * @code{.cpp}
  * // MagicPrivate is accessed only through the Magic public interface
- * Magic magic{Magic::Flags::Mime};
+ * Magic magic{Magic::FlagsT::Mime};
  *
  * // Internally, Magic delegates to MagicPrivate:
  * // magic.IdentifyFile(path) -> m_impl->IdentifyFile(path)
@@ -170,25 +171,14 @@ namespace Detail {
  * | Member | Type | Purpose |
  * |--------|------|--------|
  * | `m_cookie` | `CookieT` | RAII-managed libmagic handle (nullptr = Closed) |
- * | `m_flags_mask` | `FlagsMaskT` | Current configuration flags bitmask |
+ * | `m_flags` | `MagicFlags` | Current configuration flags value class |
  * | `m_is_database_loaded` | `bool` | True only after successful LoadDatabaseFile() |
- *
- * @section magic_private_converters Converter Classes
- *
- * | Converter | Purpose |
- * |-----------|---------|
- * | `FlagsConverter` | Converts between FlagsContainerT, FlagsMaskT, and libmagic int |
- * | `LibmagicPairConverter` | Extracts int or string from libmagic constant pairs |
  *
  * @section magic_private_constants Constants
  *
  * | Constant | Value | Purpose |
  * |----------|-------|--------|
  * | `LIBMAGIC_ERROR` | -1 | libmagic error return value |
- * | `LIBMAGIC_FLAGS_COUNT` | 30 | Number of supported flags |
- * | `LIBMAGIC_PARAMETER_COUNT` | 10 | Number of tunable parameters |
- * | `LIBMAGIC_FLAGS` | array | Maps Flags enum bit positions to libmagic constants |
- * | `LIBMAGIC_PARAMETERS` | array | Maps Parameters enum to libmagic constants |
  *
  * @section magic_private_error_handling Error Handling
  *
@@ -291,7 +281,7 @@ public:
      *
      * Creates a MagicPrivate in the **Closed** state with:
      * - `m_cookie` = nullptr
-     * - `m_flags_mask` = 0
+     * - `m_flags` = empty MagicFlags set
      * - `m_is_database_loaded` = false
      *
      * @par Lifecycle State
@@ -307,7 +297,7 @@ public:
      * Creates a MagicPrivate, opens it with the specified flags, and
      * loads the magic database file in a single step.
      *
-     * @param[in] flags_mask    Configuration flags as a bitmask.
+     * @param[in] flags         Configuration flags value set.
      * @param[in] database_file Path to magic database file to load.
      *
      * @throws MagicOpenError             If `magic_open()` fails.
@@ -321,18 +311,18 @@ public:
      *
      * @par Implementation
      * @code{.cpp}
-     * Open(flags_mask);            // Closed -> Opened
+     * Open(flags);                      // Closed -> Opened
      * LoadDatabaseFile(database_file);  // Opened -> Valid
      * @endcode
      *
      * @see Magic::Magic(FlagsMaskT, const std::filesystem::path&)
      */
     MagicPrivate(
-        FlagsMaskT                   flags_mask,
+        const MagicFlags&            flags,
         const std::filesystem::path& database_file
     )
     {
-        Open(flags_mask);
+        Open(flags);
         LoadDatabaseFile(database_file);
     }
 
@@ -342,7 +332,7 @@ public:
      * Non-throwing variant that silently fails on errors. The short-circuit
      * evaluation ensures LoadDatabaseFile() is only called if Open() succeeds.
      *
-     * @param[in] flags_mask    Configuration flags as a bitmask.
+     * @param[in] flags         Configuration flags value set.
      * @param[in] tag           Pass `std::nothrow` to select this overload.
      * @param[in] database_file Path to magic database file to load.
      *
@@ -355,7 +345,7 @@ public:
      * @par Implementation
      * Uses short-circuit && to ensure proper sequencing:
      * @code{.cpp}
-     * Open(flags_mask, std::nothrow)           // Only proceed if true
+     * Open(flags, std::nothrow)           // Only proceed if true
      * && LoadDatabaseFile(std::nothrow, database_file);
      * @endcode
      *
@@ -364,13 +354,13 @@ public:
      * @see Magic::Magic(FlagsMaskT, const std::nothrow_t&, const std::filesystem::path&)
      */
     MagicPrivate(
-        FlagsMaskT                             flags_mask,
+        const MagicFlags&                      flags,
         [[maybe_unused]] const std::nothrow_t& tag,
         const std::filesystem::path&           database_file
     ) noexcept
     {
         static_cast<void>(
-            Open(flags_mask, std::nothrow)
+            Open(flags, std::nothrow)
             && LoadDatabaseFile(std::nothrow, database_file)
         );
     }
@@ -378,10 +368,10 @@ public:
     /**
      * @brief Construct with flags container (throwing version).
      *
-     * Alternative constructor accepting a container of individual Flags
-     * values instead of a bitmask.
+     * Alternative constructor accepting a container of individual FlagsT
+     * values instead of a MagicFlags value set.
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      * @param[in] database_file   Path to magic database file to load.
      *
      * @throws MagicOpenError             If `magic_open()` fails.
@@ -395,7 +385,7 @@ public:
      *
      * @par Usage Example
      * @code{.cpp}
-     * FlagsContainerT flags = {Flags::Mime, Flags::Compress};
+     * FlagsContainerT flags = {FlagsT::Mime, FlagsT::Compress};
      * MagicPrivate impl{flags, "/path/to/magic"};
      * @endcode
      *
@@ -413,10 +403,10 @@ public:
     /**
      * @brief Construct with flags container (noexcept version).
      *
-     * Non-throwing variant accepting a container of Flags values.
+     * Non-throwing variant accepting a container of FlagsT values.
      * Silently fails if initialization encounters errors.
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      * @param[in] database_file   Path to magic database file to load.
      *
@@ -639,27 +629,27 @@ public:
      * @brief Get current flags (throwing version).
      *
      * Retrieves the flags currently configured for this instance.
-     * Uses FlagsConverter to transform the internal bitmask to
-     * a container of individual Flags enum values.
+     * Uses MagicFlags::ToContainer() to transform the stored flag set
+     * into a container of individual FlagsT enum values.
      *
-     * @returns Container of active Flags values.
+     * @returns Container of active FlagsT values.
      *
      * @throws MagicIsClosed If instance is not open.
      *
      * @par Implementation
      * @code{.cpp}
      * ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-     * return FlagsConverter(m_flags_mask);  // Implicit conversion
+     * return m_flags.ToContainer();
      * @endcode
      *
      * @see Magic::GetFlags()
      * @see SetFlags()
-     * @see FlagsConverter
+     * @see MagicFlags::ToContainer()
      */
     [[nodiscard]] FlagsContainerT GetFlags() const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        return FlagsConverter(m_flags_mask);
+        return m_flags.ToContainer();
     }
 
     /**
@@ -670,7 +660,8 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Container of active Flags values, or `std::nullopt` if closed.
+     * @returns Container of active FlagsT values, or `std::nullopt` if closed
+     *          or the container conversion fails.
      *
      * @see Magic::GetFlags(const std::nothrow_t&)
      * @see SetFlags()
@@ -682,7 +673,11 @@ public:
         if (!IsOpen()) {
             return std::nullopt;
         }
-        return {FlagsConverter(m_flags_mask)};
+        try {
+            return {m_flags.ToContainer()};
+        } catch (const std::exception&) {
+            return std::nullopt;
+        }
     }
 
     /** @} impl_flag_management */
@@ -716,17 +711,15 @@ public:
      *
      * @see Magic::GetParameter()
      * @see SetParameter()
-     * @see LIBMAGIC_PARAMETERS
+     * @see MagicParameters::ToUnderlying()
      */
-    [[nodiscard]] std::size_t GetParameter(Parameters parameter) const
+    [[nodiscard]] std::size_t GetParameter(ParametersT parameter) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
         std::size_t value{};
         Detail::magic_getparam(
             m_cookie.get(),
-            LibmagicPairConverter(
-                LIBMAGIC_PARAMETERS[std::to_underlying(parameter)]
-            ),
+            MagicParameters::ToUnderlying(parameter),
             &value
         );
         return value;
@@ -743,11 +736,11 @@ public:
      *
      * @returns Current value of the parameter, or `std::nullopt` if closed.
      *
-     * @see Magic::GetParameter(Parameters, const std::nothrow_t&)
+     * @see Magic::GetParameter(ParametersT, const std::nothrow_t&)
      * @see SetParameter()
      */
     [[nodiscard]] std::optional<std::size_t> GetParameter(
-        Parameters                             parameter,
+        ParametersT                            parameter,
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
@@ -757,9 +750,7 @@ public:
         std::size_t value{};
         Detail::magic_getparam(
             m_cookie.get(),
-            LibmagicPairConverter(
-                LIBMAGIC_PARAMETERS[std::to_underlying(parameter)]
-            ),
+            MagicParameters::ToUnderlying(parameter),
             &value
         );
         return value;
@@ -769,29 +760,29 @@ public:
      * @brief Get all parameter values (throwing version).
      *
      * Retrieves a map of all parameters and their current values
-     * by iterating over all Parameters enum values and calling
+     * by iterating over all ParametersT enum values and calling
      * GetParameter() for each.
      *
-     * @returns Map from Parameters enum values to their current values.
+     * @returns Map from ParametersT enum values to their current values.
      *
      * @throws MagicIsClosed If instance is not open.
      *
      * @par Implementation
      * @code{.cpp}
-     * for (i = 0; i < LIBMAGIC_PARAMETER_COUNT; ++i) {
-     *     parameter_value_map[Parameters(i)] = GetParameter(Parameters(i));
+     * for (i = 0; i < MagicParameters::PARAMETER_COUNT; ++i) {
+     *     parameter_value_map[ParametersT(i)] = GetParameter(ParametersT(i));
      * }
      * @endcode
      *
      * @see Magic::GetParameters()
      * @see SetParameters()
-     * @see LIBMAGIC_PARAMETER_COUNT
+     * @see MagicParameters::Parameters
      */
     [[nodiscard]] ParameterValueMapT GetParameters() const
     {
         ParameterValueMapT parameter_value_map;
-        for (std::size_t i{}; i < LIBMAGIC_PARAMETER_COUNT; ++i) {
-            auto parameter                 = static_cast<Parameters>(i);
+        for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
+            auto parameter                 = static_cast<ParametersT>(i);
             parameter_value_map[parameter] = GetParameter(parameter);
         }
         return parameter_value_map;
@@ -805,7 +796,8 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from Parameters to values, or `std::nullopt` if closed.
+     * @returns Map from ParametersT to values, or `std::nullopt` if closed
+     *          or the map conversion fails.
      *
      * @see Magic::GetParameters(const std::nothrow_t&)
      * @see SetParameters()
@@ -817,12 +809,17 @@ public:
         if (!IsOpen()) {
             return std::nullopt;
         }
-        ParameterValueMapT parameter_value_map;
-        for (std::size_t i{}; i < LIBMAGIC_PARAMETER_COUNT; ++i) {
-            auto parameter                 = static_cast<Parameters>(i);
-            parameter_value_map[parameter] = GetParameter(parameter);
+        try {
+            ParameterValueMapT parameter_value_map;
+            for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
+                auto parameter = static_cast<ParametersT>(i);
+                parameter_value_map[parameter]
+                    = GetParameter(parameter, std::nothrow).value_or(0UZ);
+            }
+            return parameter_value_map;
+        } catch (const std::exception&) {
+            return std::nullopt;
         }
-        return parameter_value_map;
     }
 
     /** @} impl_parameter_management */
@@ -847,7 +844,7 @@ public:
      * @param[in] path    Path to the file to identify.
      * @param[in] options Validation options to check before identification.
      *
-     * @returns The file type string (format depends on configured Flags).
+     * @returns The file type string (format depends on configured FlagsT).
      *
      * @throws MagicIsClosed          If instance is closed (when CheckIsValid set).
      * @throws MagicDatabaseNotLoaded If database not loaded (when CheckIsValid set).
@@ -1445,7 +1442,7 @@ public:
      * Allocates the libmagic cookie with the specified configuration flags.
      * This is required before loading a database or identifying files.
      *
-     * @param[in] flags_mask Configuration flags as a bitmask.
+     * @param[in] flags Configuration flags value set.
      *
      * @throws MagicOpenError If `magic_open()` fails.
      *
@@ -1456,25 +1453,26 @@ public:
      *
      * @par libmagic Call
      * @code{.cpp}
-     * m_cookie.reset(Detail::magic_open(FlagsConverter(flags_mask)));
+     * m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
      * @endcode
      *
      * @note Calling Open() on an already-open instance will reopen it,
-     *       which unloads any previously loaded database.
+     *       which unloads any previously loaded database and resets the
+     *       parameter values to the libmagic defaults.
      *
      * @see Magic::Open(FlagsMaskT)
      * @see LoadDatabaseFile()
-     * @see FlagsConverter
+     * @see MagicFlags::ToUnderlying()
      */
-    void Open(FlagsMaskT flags_mask)
+    void Open(const MagicFlags& flags)
     {
         m_is_database_loaded = false;
-        m_cookie.reset(Detail::magic_open(FlagsConverter(flags_mask)));
+        m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
         MagicPrivate::ThrowExceptionOnFailure<MagicOpenError>(
             IsOpen(),
             GetErrorMessage()
         );
-        m_flags_mask = flags_mask;
+        m_flags = flags;
     }
 
     /**
@@ -1482,8 +1480,8 @@ public:
      *
      * Non-throwing variant that returns success/failure status.
      *
-     * @param[in] flags_mask Configuration flags as a bitmask.
-     * @param[in] tag        Pass `std::nothrow` to select this overload.
+     * @param[in] flags Configuration flags value set.
+     * @param[in] tag   Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success (now in Opened state),
      *         `false` if magic_open() fails.
@@ -1497,44 +1495,43 @@ public:
      * @see LoadDatabaseFile()
      */
     [[nodiscard]] bool Open(
-        FlagsMaskT                             flags_mask,
+        const MagicFlags&                      flags,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
         m_is_database_loaded = false;
-        m_cookie.reset(Detail::magic_open(FlagsConverter(flags_mask)));
+        m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
         if (!IsOpen()) {
             return false;
         }
-        m_flags_mask = flags_mask;
+        m_flags = flags;
         return true;
     }
 
     /**
      * @brief Open with flags container (throwing version).
      *
-     * Convenience overload accepting a container of individual Flags
-     * values. Converts to bitmask and delegates to Open(FlagsMaskT).
+     * Convenience overload accepting a container of individual FlagsT
+     * values. Builds a MagicFlags value set and delegates to Open().
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      *
      * @throws MagicOpenError If `magic_open()` fails.
      *
      * @see Magic::Open(const FlagsContainerT&)
-     * @see Open(FlagsMaskT)
-     * @see FlagsConverter
+     * @see Open(const MagicFlags&)
      */
     void Open(const FlagsContainerT& flags_container)
     {
-        Open(FlagsMaskT{FlagsConverter(flags_container)});
+        Open(MagicFlags{flags_container});
     }
 
     /**
      * @brief Open with flags container (noexcept version).
      *
-     * Non-throwing convenience overload accepting a container of Flags.
+     * Non-throwing convenience overload accepting a container of FlagsT.
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` on failure.
@@ -1546,7 +1543,7 @@ public:
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
-        return Open(FlagsMaskT{FlagsConverter(flags_container)}, std::nothrow);
+        return Open(MagicFlags{flags_container}, std::nothrow);
     }
 
     /** @} impl_open_reopen */
@@ -1568,30 +1565,38 @@ public:
      * `magic_setflags()`. This affects how subsequent file
      * identifications are performed.
      *
-     * @param[in] flags_mask New configuration flags as a bitmask.
+     * @param[in] flags New configuration flags value set.
      *
      * @throws MagicIsClosed      If instance is not open.
      * @throws MagicSetFlagsError If `magic_setflags()` fails.
      *
      * @par libmagic Call
      * @code{.cpp}
-     * Detail::magic_setflags(m_cookie.get(), FlagsConverter(flags_mask));
+     * Detail::magic_setflags(
+     *     m_cookie.get(), flags.ToUnderlying()
+     * );
      * @endcode
      *
-     * @note Updates internal m_flags_mask on success.
+     * @note Updates internal m_flags on success.
      *
      * @see Magic::SetFlags(FlagsMaskT)
      * @see GetFlags()
+     * @see MagicFlags::ToUnderlying()
      */
-    void SetFlags(FlagsMaskT flags_mask)
+    void SetFlags(const MagicFlags& flags)
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
-            Detail::magic_setflags(m_cookie.get(), FlagsConverter(flags_mask)),
-            GetErrorMessage(),
-            FlagsConverter(flags_mask)
-        );
-        m_flags_mask = flags_mask;
+        if (const auto result{
+                Detail::magic_setflags(m_cookie.get(), flags.ToUnderlying())
+            };
+            result == LIBMAGIC_ERROR) {
+            MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
+                result,
+                GetErrorMessage(),
+                flags.ToString()
+            );
+        }
+        m_flags = flags;
     }
 
     /**
@@ -1599,8 +1604,8 @@ public:
      *
      * Non-throwing variant that returns success/failure status.
      *
-     * @param[in] flags_mask New configuration flags as a bitmask.
-     * @param[in] tag        Pass `std::nothrow` to select this overload.
+     * @param[in] flags New configuration flags value set.
+     * @param[in] tag   Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` if closed or setflags fails.
      *
@@ -1608,32 +1613,28 @@ public:
      * @see GetFlags()
      */
     [[nodiscard]] bool SetFlags(
-        FlagsMaskT                             flags_mask,
+        const MagicFlags&                      flags,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
         if (!IsOpen()) {
             return false;
         }
-        auto result = Detail::magic_setflags(
-                          m_cookie.get(),
-                          FlagsConverter(flags_mask)
-                      )
-                   != LIBMAGIC_ERROR;
-        if (!result) {
+        if (Detail::magic_setflags(m_cookie.get(), flags.ToUnderlying())
+            == LIBMAGIC_ERROR) {
             return false;
         }
-        m_flags_mask = flags_mask;
+        m_flags = flags;
         return true;
     }
 
     /**
      * @brief Set new flags from container (throwing version).
      *
-     * Convenience overload accepting a container of individual Flags.
-     * Converts to bitmask and delegates to SetFlags(FlagsMaskT).
+     * Convenience overload accepting a container of individual FlagsT.
+     * Builds a MagicFlags value set and delegates to SetFlags().
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      *
      * @throws MagicIsClosed      If instance is not open.
      * @throws MagicSetFlagsError If `magic_setflags()` fails.
@@ -1642,15 +1643,15 @@ public:
      */
     void SetFlags(const FlagsContainerT& flags_container)
     {
-        SetFlags(FlagsMaskT{FlagsConverter(flags_container)});
+        SetFlags(MagicFlags{flags_container});
     }
 
     /**
      * @brief Set new flags from container (noexcept version).
      *
-     * Non-throwing convenience overload accepting a container of Flags.
+     * Non-throwing convenience overload accepting a container of FlagsT.
      *
-     * @param[in] flags_container Container (vector) of Flags enum values.
+     * @param[in] flags_container Container (vector) of FlagsT enum values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` on failure.
@@ -1662,10 +1663,7 @@ public:
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
-        return SetFlags(
-            FlagsMaskT{FlagsConverter(flags_container)},
-            std::nothrow
-        );
+        return SetFlags(MagicFlags{flags_container}, std::nothrow);
     }
 
     /** @} impl_flag_modification */
@@ -1684,7 +1682,7 @@ public:
      * @brief Set a single parameter value (throwing version).
      *
      * Changes the value of a libmagic parameter by calling
-     * `magic_setparam()`. Parameters control various internal
+     * `magic_setparam()`. ParametersT control various internal
      * limits and behaviors.
      *
      * @param[in] parameter The parameter to set.
@@ -1700,24 +1698,28 @@ public:
      *
      * @see Magic::SetParameter()
      * @see GetParameter()
-     * @see LIBMAGIC_PARAMETERS
+     * @see MagicParameters::ToUnderlying()
      */
-    void SetParameter(Parameters parameter, std::size_t value)
+    void SetParameter(ParametersT parameter, std::size_t value)
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        const auto& libmagic_parameter{
-            LIBMAGIC_PARAMETERS[std::to_underlying(parameter)]
-        };
-        MagicPrivate::ThrowExceptionOnFailure<MagicSetParameterError>(
-            Detail::magic_setparam(
+        if (const auto result{Detail::magic_setparam(
                 m_cookie.get(),
-                LibmagicPairConverter(libmagic_parameter),
+                MagicParameters::ToUnderlying(parameter),
                 &value
-            ),
-            GetErrorMessage(),
-            LibmagicPairConverter(libmagic_parameter),
-            value
-        );
+            )};
+            result == LIBMAGIC_ERROR) {
+            MagicPrivate::ThrowExceptionOnFailure<MagicSetParameterError>(
+                result,
+                GetErrorMessage(),
+                MagicParameters{parameter, value}.ToString(
+                    ':',
+                    ',',
+                    MagicParameters::StringFormat::Names
+                ),
+                value
+            );
+        }
     }
 
     /**
@@ -1731,11 +1733,11 @@ public:
      *
      * @returns `true` on success, `false` if closed or setparam fails.
      *
-     * @see Magic::SetParameter(Parameters, std::size_t, const std::nothrow_t&)
+     * @see Magic::SetParameter(ParametersT, std::size_t, const std::nothrow_t&)
      * @see GetParameter()
      */
     [[nodiscard]] bool SetParameter(
-        Parameters                             parameter,
+        ParametersT                            parameter,
         std::size_t                            value,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
@@ -1743,12 +1745,9 @@ public:
         if (!IsOpen()) {
             return false;
         }
-        const auto& libmagic_parameter{
-            LIBMAGIC_PARAMETERS[std::to_underlying(parameter)]
-        };
         return Detail::magic_setparam(
                    m_cookie.get(),
-                   LibmagicPairConverter(libmagic_parameter),
+                   MagicParameters::ToUnderlying(parameter),
                    &value
                )
             != LIBMAGIC_ERROR;
@@ -1760,7 +1759,7 @@ public:
      * Sets all parameters specified in the map by iterating and
      * calling SetParameter() for each entry.
      *
-     * @param[in] parameters Map from Parameters enum to new values.
+     * @param[in] parameters Map from ParametersT enum to new values.
      *
      * @throws MagicIsClosed          If instance is not open.
      * @throws MagicSetParameterError If any `magic_setparam()` fails.
@@ -1789,7 +1788,7 @@ public:
      * Non-throwing variant that returns false on first failure.
      * Uses `std::ranges::find_if_not` to stop on first error.
      *
-     * @param[in] parameters Map from Parameters enum to new values.
+     * @param[in] parameters Map from ParametersT enum to new values.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
      * @returns `true` if all parameters set successfully,
@@ -1919,7 +1918,7 @@ private:
      * @{
      */
     CookieT m_cookie{nullptr}; /**< libmagic handle (nullptr = Closed state) */
-    FlagsMaskT m_flags_mask{}; /**< Current configuration flags bitmask */
+    MagicFlags m_flags;        /**< Current configuration flags value set */
     bool       m_is_database_loaded{
         false
     }; /**< True only after successful LoadDatabaseFile() */
@@ -1949,120 +1948,17 @@ private:
      * @ingroup magic_implementation
      * @brief Constants for libmagic integration.
      *
-     * Error values and array sizes used throughout the implementation.
+     * Error value used throughout the implementation. The parameter
+     * iteration bound comes from MagicParameters::PARAMETER_COUNT, and
+     * the flags and parameters lookup tables live in magic_flags.cpp
+     * and magic_parameters.cpp.
      */
     /** @{ */
     static constexpr auto LIBMAGIC_ERROR{
         -1
     }; /**< libmagic error return value */
-    static constexpr auto LIBMAGIC_FLAGS_COUNT{
-        FlagsMaskT{}.size()
-    }; /**< Number of flags */
-    static constexpr auto LIBMAGIC_PARAMETER_COUNT{
-        10UZ
-    }; /**< Number of parameters */
+
     /** @} impl_libmagic_constants */
-
-    /**
-     * @defgroup impl_libmagic_type_aliases Libmagic Type Aliases
-     * @ingroup magic_implementation
-     * @brief Type definitions for libmagic interoperability.
-     *
-     * Type aliases for flag/parameter value-name pairs and arrays.
-     */
-    /** @{ */
-    using LibmagicValueT     = int;         /**< libmagic integer type */
-    using LibmagicValueNameT = std::string; /**< Flag/param name type */
-    using LibmagicPairT      = std::pair<
-        LibmagicValueT,
-        const char*
-    >; /**< Value-name pair */
-    using LibmagicFlagsT = std::array<
-        LibmagicPairT,
-        LIBMAGIC_FLAGS_COUNT
-    >; /**< Array type mapping all libmagic flag values to names. */
-    using LibmagicParametersT = std::array<
-        LibmagicPairT,
-        LIBMAGIC_PARAMETER_COUNT
-    >; /**< Array type mapping all libmagic parameter values to names. */
-    /** @} impl_libmagic_type_aliases */
-
-    /**
-     * @brief The MAGIC_NONE flag pair for default output.
-     *
-     * @see Flags::None
-     */
-    static constexpr LibmagicPairT LIBMAGIC_FLAG_NONE{
-        std::make_pair(MAGIC_NONE, "None")
-    };
-
-    /**
-     * @brief Mapping from Magic::Flags bit positions to libmagic constants.
-     *
-     * Static lookup table mapping each Flags enum bit position to
-     * the corresponding libmagic MAGIC_* constant and its
-     * human-readable name.
-     *
-     * @see Flags
-     * @see GetFlags()
-     * @see SetFlags()
-     */
-    static constexpr LibmagicFlagsT LIBMAGIC_FLAGS{
-        std::make_pair(MAGIC_DEBUG, "Debug"),
-        std::make_pair(MAGIC_SYMLINK, "Symlink"),
-        std::make_pair(MAGIC_COMPRESS, "Compress"),
-        std::make_pair(MAGIC_DEVICES, "Devices"),
-        std::make_pair(MAGIC_MIME_TYPE, "MimeType"),
-        std::make_pair(MAGIC_CONTINUE, "ContinueSearch"),
-        std::make_pair(MAGIC_CHECK, "CheckDatabase"),
-        std::make_pair(MAGIC_PRESERVE_ATIME, "PreserveAtime"),
-        std::make_pair(MAGIC_RAW, "Raw"),
-        std::make_pair(MAGIC_ERROR, "Error"),
-        std::make_pair(MAGIC_MIME_ENCODING, "MimeEncoding"),
-        std::make_pair(MAGIC_MIME, "Mime"),
-        std::make_pair(MAGIC_APPLE, "Apple"),
-        std::make_pair(MAGIC_EXTENSION, "Extension"),
-        std::make_pair(MAGIC_COMPRESS_TRANSP, "CompressTransp"),
-        std::make_pair(MAGIC_NO_COMPRESS_FORK, "NoCompressFork"),
-        std::make_pair(MAGIC_NODESC, "Nodesc"),
-        std::make_pair(MAGIC_NO_CHECK_COMPRESS, "NoCheckCompress"),
-        std::make_pair(MAGIC_NO_CHECK_TAR, "NoCheckTar"),
-        std::make_pair(MAGIC_NO_CHECK_SOFT, "NoCheckSoft"),
-        std::make_pair(MAGIC_NO_CHECK_APPTYPE, "NoCheckApptype"),
-        std::make_pair(MAGIC_NO_CHECK_ELF, "NoCheckElf"),
-        std::make_pair(MAGIC_NO_CHECK_TEXT, "NoCheckText"),
-        std::make_pair(MAGIC_NO_CHECK_CDF, "NoCheckCdf"),
-        std::make_pair(MAGIC_NO_CHECK_CSV, "NoCheckCsv"),
-        std::make_pair(MAGIC_NO_CHECK_TOKENS, "NoCheckTokens"),
-        std::make_pair(MAGIC_NO_CHECK_ENCODING, "NoCheckEncoding"),
-        std::make_pair(MAGIC_NO_CHECK_JSON, "NoCheckJson"),
-        std::make_pair(MAGIC_NO_CHECK_SIMH, "NoCheckSimh"),
-        std::make_pair(MAGIC_NO_CHECK_BUILTIN, "NoCheckBuiltin")
-    };
-
-    /**
-     * @brief Mapping from Magic::Parameters enum to libmagic constants.
-     *
-     * Static lookup table mapping Parameters enum ordinal values to
-     * the corresponding libmagic MAGIC_PARAM_* constants and their
-     * human-readable names.
-     *
-     * @see Parameters
-     * @see GetParameter()
-     * @see SetParameter()
-     */
-    static constexpr LibmagicParametersT LIBMAGIC_PARAMETERS{
-        std::make_pair(MAGIC_PARAM_INDIR_MAX, "IndirMax"),
-        std::make_pair(MAGIC_PARAM_NAME_MAX, "NameMax"),
-        std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX, "ElfPhnumMax"),
-        std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX, "ElfShnumMax"),
-        std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX, "ElfNotesMax"),
-        std::make_pair(MAGIC_PARAM_REGEX_MAX, "RegexMax"),
-        std::make_pair(MAGIC_PARAM_BYTES_MAX, "BytesMax"),
-        std::make_pair(MAGIC_PARAM_ENCODING_MAX, "EncodingMax"),
-        std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "ElfShsizeMax"),
-        std::make_pair(MAGIC_PARAM_MAGWARN_MAX, "MagWarnMax")
-    };
 
     /**
      * @brief Retrieve the last error message from libmagic.
@@ -2085,219 +1981,6 @@ private:
         const char* magic_error_cstr = Detail::magic_error(m_cookie.get());
         return magic_error_cstr ? magic_error_cstr : "";
     }
-
-    /**
-     * @brief Converter between C++ flag types and libmagic flag values.
-     * @ingroup magic_implementation
-     *
-     * FlagsConverter provides bidirectional conversion between the various
-     * flag representations used in the library:
-     *
-     * ### Supported Conversions
-     *
-     * | From | To | Purpose |
-     * |------|----|---------|
-     * | `FlagsContainerT` | `FlagsMaskT` | Container to bitmask |
-     * | `FlagsMaskT` | `LibmagicValueT` | Bitmask to libmagic int |
-     * | `FlagsMaskT` | `FlagsContainerT` | Bitmask to container |
-     * | `FlagsMaskT` | `LibmagicValueNameT` | Bitmask to string |
-     *
-     * ### Usage Examples
-     * @code{.cpp}
-     * // Container to libmagic int (for magic_open)
-     * FlagsContainerT flags = {Flags::Mime, Flags::Compress};
-     * LibmagicValueT libmagic_flags = FlagsConverter(flags);
-     *
-     * // Bitmask to container (for GetFlags)
-     * FlagsMaskT mask = ...;
-     * FlagsContainerT container = FlagsConverter(mask);
-     *
-     * // Bitmask to string (for ToString)
-     * std::string names = FlagsConverter(mask);
-     * @endcode
-     *
-     * @see Magic::Flags
-     * @see Magic::FlagsContainerT
-     * @see Magic::FlagsMaskT
-     */
-    struct FlagsConverter {
-        /**
-         * @brief Construct from a container of flags.
-         *
-         * Folds the container using bitwise OR to create the bitmask.
-         *
-         * @param[in] flags_container Container of individual Flags values.
-         */
-        explicit FlagsConverter(const FlagsContainerT& flags_container) noexcept
-          : m_flags_mask{std::ranges::fold_left(
-                flags_container,
-                FlagsMask{},
-                [](const FlagsMask& acc, Flags f) {
-                    return acc | f;
-                }
-            )}
-        { }
-
-        /**
-         * @brief Construct from a flags bitmask.
-         *
-         * @param[in] flags_mask Pre-computed flags bitmask.
-         */
-        explicit FlagsConverter(FlagsMaskT flags_mask) noexcept
-          : m_flags_mask{flags_mask}
-        { }
-
-        /**
-         * @brief Convert to libmagic integer flags.
-         *
-         * Iterates through the bitmask and ORs together the corresponding
-         * libmagic constants for use with magic_open() and magic_setflags().
-         *
-         * @returns Libmagic-compatible integer flags value.
-         */
-        operator LibmagicValueT() const noexcept
-        {
-            LibmagicValueT flags = LibmagicPairConverter(LIBMAGIC_FLAG_NONE);
-            for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
-                if (m_flags_mask[i]) {
-                    flags |= LibmagicPairConverter(LIBMAGIC_FLAGS[i]);
-                }
-            }
-            return flags;
-        }
-
-        /**
-         * @brief Convert to container of individual flag values.
-         *
-         * Extracts each set bit in the bitmask and converts to the
-         * corresponding Flags enum value.
-         *
-         * @returns Container of active Flags values.
-         */
-        operator FlagsContainerT() const
-        {
-            if (m_flags_mask.none()) {
-                LibmagicValueT value = LibmagicPairConverter(
-                    LIBMAGIC_FLAG_NONE
-                );
-                return {static_cast<Flags>(value)};
-            }
-            FlagsContainerT flags_container;
-            for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
-                if (m_flags_mask[i]) {
-                    flags_container.push_back(static_cast<Flags>(1ULL << i));
-                }
-            }
-            return flags_container;
-        }
-
-        /**
-         * @brief Convert to comma-separated flag names string.
-         *
-         * Creates a human-readable string of flag names for logging
-         * and debugging purposes.
-         *
-         * @returns Comma-separated flag names (e.g., "Mime,Compress").
-         */
-        operator LibmagicValueNameT() const
-        {
-            if (m_flags_mask.none()) {
-                return LibmagicPairConverter(LIBMAGIC_FLAG_NONE);
-            }
-            LibmagicValueNameT flags;
-            for (std::size_t i{}; i < m_flags_mask.size(); ++i) {
-                if (m_flags_mask[i]) {
-                    flags.append(
-                        LibmagicPairConverter(LIBMAGIC_FLAGS[i])
-                    ) += ",";
-                }
-            }
-            flags.erase(flags.find_last_of(','));
-            return flags;
-        }
-
-        /**
-         * @brief Convert to bitmask representation.
-         *
-         * @returns The underlying FlagsMaskT bitmask.
-         */
-        operator FlagsMaskT() const
-        {
-            return m_flags_mask;
-        }
-
-        const FlagsMaskT m_flags_mask; /**< The underlying flags bitmask */
-    };
-
-    /**
-     * @brief Extracts values from libmagic constant pairs.
-     * @ingroup magic_implementation
-     *
-     * LibmagicPairConverter wraps a `LibmagicPairT` (pair of int constant
-     * and const char* name) and provides implicit conversions to either
-     * the integer value or string name.
-     *
-     * ### Usage Example
-     * @code{.cpp}
-     * // Extract integer constant for libmagic API call
-     * LibmagicValueT magic_mime = LibmagicPairConverter(LIBMAGIC_FLAGS[4]);
-     *
-     * // Extract string name for ToString/logging
-     * LibmagicValueNameT name = LibmagicPairConverter(LIBMAGIC_FLAGS[4]);
-     * // name == "MimeType"
-     * @endcode
-     *
-     * @see LibmagicPairT
-     * @see LIBMAGIC_FLAGS
-     * @see LIBMAGIC_PARAMETERS
-     */
-    struct LibmagicPairConverter {
-        /**
-         * @brief Construct from a libmagic pair.
-         *
-         * @param[in] pair Reference to a (constant, name) pair.
-         */
-        constexpr explicit LibmagicPairConverter(
-            const LibmagicPairT& pair
-        ) noexcept
-          : m_pair{pair}
-        { }
-
-        /**
-         * @brief Convert to string name.
-         *
-         * @returns The human-readable name from the pair.
-         */
-        constexpr operator LibmagicValueNameT() const noexcept
-        {
-            return std::get<const char*>(m_pair);
-        }
-
-        /**
-         * @brief Convert to integer constant value.
-         *
-         * @returns The libmagic constant (e.g., MAGIC_MIME).
-         */
-        constexpr operator LibmagicValueT() const noexcept
-        {
-            return std::get<LibmagicValueT>(m_pair);
-        }
-
-        const LibmagicPairT& m_pair; /**< Reference to the wrapped pair */
-    };
-
-    /**
-     * @defgroup impl_friend_declarations Friend Declarations For ToString Access To Private Constants
-     * @ingroup magic_implementation
-     * @brief Friend declarations for string conversion access.
-     *
-     * Grants ToString() functions access to private LIBMAGIC_FLAGS and
-     * LIBMAGIC_PARAMETERS arrays for generating human-readable names.
-     */
-    /** @{ */
-    friend std::string ToString(Flags);
-    friend std::string ToString(Parameters);
-    /** @} impl_friend_declarations */
 };
 
 /* ===========================================================================
@@ -2372,60 +2055,6 @@ std::string ToString(
     );
 }
 
-std::string ToString(Magic::Flags flag)
-{
-    if (flag == Magic::Flags::None) {
-        return Magic::MagicPrivate::LIBMAGIC_FLAG_NONE.second;
-    }
-    const auto& flags = Magic::MagicPrivate::LIBMAGIC_FLAGS;
-    const auto& flag_name{flags[std::log2(std::to_underlying(flag))].second};
-    return flag_name;
-}
-
-std::string ToString(
-    const Magic::FlagsContainerT& flags,
-    const std::string&            separator
-)
-{
-    return Utility::ToString(flags, separator, [](Magic::Flags flag) {
-        return ToString(flag);
-    });
-}
-
-std::string ToString(Magic::Parameters parameter)
-{
-    const auto& parameters = Magic::MagicPrivate::LIBMAGIC_PARAMETERS;
-    const auto& parameter_name{
-        parameters[std::to_underlying(parameter)].second
-    };
-    return parameter_name;
-}
-
-std::string ToString(
-    const Magic::ParameterValueT& parameter_value,
-    const std::string&            value_separator
-)
-{
-    const auto& parameter = parameter_value.first;
-    const auto& value     = parameter_value.second;
-    return std::format("{}{}{}", ToString(parameter), value_separator, value);
-}
-
-std::string ToString(
-    const Magic::ParameterValueMapT& parameters,
-    const std::string&               value_separator,
-    const std::string&               parameter_separator
-)
-{
-    return Utility::ToString(
-        parameters,
-        parameter_separator,
-        [&value_separator](const Magic::ParameterValueT& parameter_value) {
-            return ToString(parameter_value, value_separator);
-        }
-    );
-}
-
 /* ===========================================================================
  * Magic Class Method Implementations
  * ===========================================================================
@@ -2442,12 +2071,15 @@ Magic::Magic() noexcept
   : m_impl{new (std::nothrow) MagicPrivate{}}
 { }
 
-Magic::Magic(FlagsMaskT flags_mask, const std::filesystem::path& database_file)
+Magic::Magic(
+    const FlagsMaskT&            flags_mask,
+    const std::filesystem::path& database_file
+)
   : m_impl{std::make_unique<MagicPrivate>(flags_mask, database_file)}
 { }
 
 Magic::Magic(
-    FlagsMaskT                   flags_mask,
+    const FlagsMaskT&            flags_mask,
     const std::nothrow_t&        tag,
     const std::filesystem::path& database_file
 ) noexcept
@@ -2496,7 +2128,7 @@ Magic::operator bool() const noexcept
 bool Magic::Check(const std::filesystem::path& database_file) noexcept
 {
     MagicPrivate magic_for_check{};
-    return magic_for_check.Open(Magic::Flags::None, std::nothrow)
+    return magic_for_check.Open(Magic::FlagsT::None, std::nothrow)
         && magic_for_check.Check(database_file);
 }
 
@@ -2508,7 +2140,7 @@ void Magic::Close() noexcept
 bool Magic::Compile(const std::filesystem::path& database_file) noexcept
 {
     MagicPrivate magic_for_compile{};
-    return magic_for_compile.Open(Magic::Flags::None, std::nothrow)
+    return magic_for_compile.Open(Magic::FlagsT::None, std::nothrow)
         && magic_for_compile.Compile(database_file);
 }
 
@@ -2528,14 +2160,14 @@ std::optional<Magic::FlagsContainerT> Magic::GetFlags(
     return m_impl->GetFlags(tag);
 }
 
-std::size_t Magic::GetParameter(Magic::Parameters parameter) const
+std::size_t Magic::GetParameter(Magic::ParametersT parameter) const
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetParameter(parameter);
 }
 
 std::optional<std::size_t> Magic::GetParameter(
-    Parameters            parameter,
+    ParametersT           parameter,
     const std::nothrow_t& tag
 ) const noexcept
 {
@@ -2703,7 +2335,7 @@ bool Magic::LoadDatabaseFile(
     return m_impl->LoadDatabaseFile(tag, database_file);
 }
 
-void Magic::Open(FlagsMaskT flags_mask)
+void Magic::Open(const FlagsMaskT& flags_mask)
 {
     if (!m_impl) {
         m_impl = std::make_unique<MagicPrivate>();
@@ -2711,7 +2343,10 @@ void Magic::Open(FlagsMaskT flags_mask)
     m_impl->Open(flags_mask);
 }
 
-bool Magic::Open(FlagsMaskT flags_mask, const std::nothrow_t& tag) noexcept
+bool Magic::Open(
+    const FlagsMaskT&     flags_mask,
+    const std::nothrow_t& tag
+) noexcept
 {
     if (!m_impl) {
         m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow)
@@ -2746,13 +2381,16 @@ bool Magic::Open(
     return m_impl->Open(flags_container, tag);
 }
 
-void Magic::SetFlags(FlagsMaskT flags_mask)
+void Magic::SetFlags(const FlagsMaskT& flags_mask)
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetFlags(flags_mask);
 }
 
-bool Magic::SetFlags(FlagsMaskT flags_mask, const std::nothrow_t& tag) noexcept
+bool Magic::SetFlags(
+    const FlagsMaskT&     flags_mask,
+    const std::nothrow_t& tag
+) noexcept
 {
     if (!m_impl) {
         return false;
@@ -2777,14 +2415,14 @@ bool Magic::SetFlags(
     return m_impl->SetFlags(flags_container, tag);
 }
 
-void Magic::SetParameter(Parameters parameter, std::size_t value)
+void Magic::SetParameter(ParametersT parameter, std::size_t value)
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetParameter(parameter, value);
 }
 
 bool Magic::SetParameter(
-    Parameters            parameter,
+    ParametersT           parameter,
     std::size_t           value,
     const std::nothrow_t& tag
 ) noexcept

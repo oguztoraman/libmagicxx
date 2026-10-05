@@ -432,12 +432,12 @@ Each feature area has its own test file:
 | Test File | What It Tests |
 |-----------|---------------|
 | `magic_open_close_test.cpp` | Open(), Close(), IsOpen() |
-| `magic_flags_test.cpp` | GetFlags(), SetFlags() |
+| `magic_flags_test.cpp` | MagicFlags value class, combination semantics, GetFlags(), SetFlags() |
 | `magic_identify_file_test.cpp` | IdentifyFile() |
 | `magic_identify_directory_test.cpp` | IdentifyFiles() with directories |
 | `magic_identify_container_test.cpp` | IdentifyFiles() with containers |
 | `magic_load_database_file_test.cpp` | LoadDatabaseFile() |
-| `magic_parameters_test.cpp` | GetParameter(), SetParameter() |
+| `magic_parameters_test.cpp` | MagicParameters value class, GetParameter(s)(), SetParameter(s)() |
 | `magic_compile_test.cpp` | Compile() |
 | `magic_check_test.cpp` | Check() |
 | `magic_version_test.cpp` | GetVersion() |
@@ -481,7 +481,7 @@ protected:
     }
     
     // Members available to all tests
-    Magic m_valid_magic{Magic::Flags::Mime};
+    Magic m_valid_magic{Magic::FlagsT::Mime};
     Magic m_closed_magic;  // Default-constructed = closed
 };
 
@@ -554,7 +554,7 @@ Every public class, method, and type must have Doxygen documentation:
  * @post Return value is non-empty on success.
  *
  * @code{.cpp}
- * Magic magic{Magic::Flags::Mime};
+ * Magic magic{Magic::FlagsT::Mime};
  * auto type = magic.IdentifyFile("/path/to/file");
  * std::println("Type: {}", type);  // "application/pdf; charset=binary"
  * @endcode

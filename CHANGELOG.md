@@ -2,6 +2,8 @@
 
 ## Next Release
 
+ **[QUALITY]** Magic: API CHANGE - Separate flags and parameters operations into MagicFlags and MagicParameters classes.
+
 + **[DOCUMENTATION]** Docs: Rename lifecycle diagram and register it in CMake.
 
 + **[DOCUMENTATION]** Docs: Convert ASCII-art diagrams to Mermaid diagrams.

@@ -625,7 +625,7 @@ TEST_F(MagicFlagsValueTest, copy_self_assignment_preserves_flags)
 {
     MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
     const auto expected = flags.ToContainer();
-    auto& alias         = flags;
+    auto&      alias    = flags;
     flags               = alias;
     EXPECT_EQ(expected, flags.ToContainer());
     EXPECT_EQ("Compress,Mime", flags.ToString());
@@ -634,8 +634,8 @@ TEST_F(MagicFlagsValueTest, copy_self_assignment_preserves_flags)
 TEST_F(MagicFlagsValueTest, move_self_assignment_leaves_usable_object)
 {
     MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
-    auto& alias = flags;
-    flags       = std::move(alias);
+    auto&      alias = flags;
+    flags            = std::move(alias);
     EXPECT_NO_THROW(static_cast<void>(flags.ToContainer()));
     EXPECT_NO_THROW(static_cast<void>(flags.ToString()));
 }

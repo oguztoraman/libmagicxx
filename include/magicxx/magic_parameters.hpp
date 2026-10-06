@@ -29,6 +29,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <string_view>
 
 /**
  * @namespace Recognition
@@ -68,12 +69,12 @@ namespace Recognition {
  * // Name of a single parameter
  * std::println("{}", MagicParameters{MagicParameters::Parameters::RegexMax,
  *     1UZ}
- *     .ToString(':', ',', MagicParameters::StringFormat::Names));  // "RegexMax"
+ *     .ToString(": ", ", ", MagicParameters::StringFormat::Names)); // "RegexMax"
  *
  * // Snapshot of all current values of a Magic instance
  * Magic magic{Magic::FlagsT::Mime};
  * MagicParameters parameters{magic.GetParameters()};
- * std::println("{}", parameters.ToString());  // "IndirMax:15,NameMax:30,..."
+ * std::println("{}", parameters.ToString());  // "IndirMax: 15, NameMax: 30,..."
  * @endcode
  *
  * @see Magic for the file type identification class using these parameters.
@@ -139,10 +140,10 @@ public:
      * MagicParameters parameters{map};
      *
      * // "RegexMax,BytesMax"
-     * parameters.ToString(':', ',', StringFormat::Names);
+     * parameters.ToString(": ", ", ", StringFormat::Names);
      *
-     * // "RegexMax:8192,BytesMax:1048576"
-     * parameters.ToString(':', ',', StringFormat::NamesAndValues);
+     * // "RegexMax: 8192, BytesMax: 1048576"
+     * parameters.ToString(": ", ", ", StringFormat::NamesAndValues);
      * @endcode
      *
      * @see MagicParameters::ToString()
@@ -199,7 +200,7 @@ public:
      * MagicParameters parameters{
      *     MagicParameters::Parameters::BytesMax, 1048576U
      * };
-     * std::println("{}", parameters.ToString());  // "BytesMax:1048576"
+     * std::println("{}", parameters.ToString());  // "BytesMax: 1048576"
      * @endcode
      *
      * @since 11.0.0
@@ -283,22 +284,23 @@ public:
     /**
      * @brief Convert the stored parameter values to a string.
      *
-     * @param[in] value_separator     Character separating each name and value
-     *                                (default: `:`). Used only with
+     * @param[in] value_separator     String separating each name and value
+     *                                (default: `: `). Used only with
      *                                `StringFormat::NamesAndValues`.
-     * @param[in] parameter_separator Character separating the entries
-     *                                (default: `,`).
+     * @param[in] parameter_separator String separating the entries
+     *                                (default: `, `).
      * @param[in] format              Whether to render only the parameter
      *                                names or the names with their values
      *                                (default: `StringFormat::NamesAndValues`).
      *
      * @returns Formatted string of the stored entries — e.g.
-     *          "RegexMax:8192,BytesMax:1048576" with the default separators
-     *          and `StringFormat::NamesAndValues`, or "RegexMax,BytesMax"
-     *          with `StringFormat::Names`; entries render in Parameters
-     *          ordinal order and the result is empty when no value is
-     *          stored. A single "ParameterName:value" entry is rendered by
-     *          constructing an instance from that parameter and value.
+     *          "RegexMax: 8192, BytesMax: 1048576" with the default
+     *          separators and `StringFormat::NamesAndValues`, or
+     *          "RegexMax,BytesMax" with `StringFormat::Names`; entries render
+     *          in Parameters ordinal order and the result is empty when no
+     *          value is stored. A single "ParameterName: value" entry is
+     *          rendered by constructing an instance from that parameter and
+     *          value.
      *
      * @throws std::bad_alloc If allocating the result string fails.
      *
@@ -308,18 +310,18 @@ public:
      *      {MagicParameters::Parameters::RegexMax, 8192U}}
      * };
      * auto text = parameters.ToString();
-     * // text == "RegexMax:8192,BytesMax:1048576"
+     * // text == "RegexMax: 8192, BytesMax: 1048576"
      * auto names = parameters.ToString(
-     *     ':', ',', MagicParameters::StringFormat::Names);
+     *     ": ", ", ", MagicParameters::StringFormat::Names);
      * // names == "RegexMax,BytesMax"
      * @endcode
      *
      * @since 11.0.0
      */
     [[nodiscard]] std::string ToString(
-        char         value_separator     = ':',
-        char         parameter_separator = ',',
-        StringFormat format              = StringFormat::NamesAndValues
+        std::string_view value_separator     = ": ",
+        std::string_view parameter_separator = ", ",
+        StringFormat     format              = StringFormat::NamesAndValues
     ) const;
 
 private:

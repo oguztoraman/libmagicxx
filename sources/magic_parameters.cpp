@@ -223,9 +223,9 @@ static_assert(
 
 std::string MagicParameters::ToString(
     /* NOLINTNEXTLINE(bugprone-easily-swappable-parameters) */
-    const char         value_separator,
-    const char         parameter_separator,
-    const StringFormat format
+    const std::string_view value_separator,
+    const std::string_view parameter_separator,
+    const StringFormat     format
 ) const
 {
     std::string result;
@@ -242,7 +242,7 @@ std::string MagicParameters::ToString(
                 result += std::format(
                     "{}{}{}",
                     ParameterName(parameter),
-                    std::string(1, value_separator),
+                    value_separator,
                     value.value()
                 );
             }

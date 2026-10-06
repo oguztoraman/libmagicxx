@@ -1713,8 +1713,8 @@ public:
                 result,
                 GetErrorMessage(),
                 MagicParameters{parameter, value}.ToString(
-                    ':',
-                    ',',
+                    ": ",
+                    ", ",
                     MagicParameters::StringFormat::Names
                 ),
                 value

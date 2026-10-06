@@ -18,8 +18,8 @@
  * | FileTypeEntryT | "path -> type" |
  * | FileTypeMapT | Entries separated by newlines |
  * | ExpectedFileTypeEntryT | "path -> type" or "path -> error" |
- * | MagicFlags | Comma-separated names (e.g., "Compress,Mime") |
- * | MagicParameters | "name:value" entries (e.g., "BytesMax:1048576") |
+ * | MagicFlags | Comma-separated names (e.g., "Compress, Mime") |
+ * | MagicParameters | "name: value" entries (e.g., "BytesMax: 1048576") |
  *
  * @note Exhaustive flags and parameters string coverage lives in
  *       tests/magic_flags_test.cpp and tests/magic_parameters_test.cpp.
@@ -123,15 +123,15 @@ TEST(MagicToStringTest, parameters)
     using enum Magic::ParametersT;
     EXPECT_EQ(
         (MagicParameters{IndirMax, 0UZ}.ToString(
-            ':',
-            ',',
+            ": ",
+            ", ",
             MagicParameters::StringFormat::Names
         )),
         "IndirMax"
     );
     EXPECT_EQ(
         (MagicParameters{BytesMax, 1'048'576UZ}.ToString()),
-        "BytesMax:1048576"
+        "BytesMax: 1048576"
     );
 }
 
@@ -153,15 +153,16 @@ TEST(MagicToStringTest, parameter_value_map_t)
     const MagicParameters parameters{all_values};
     EXPECT_EQ(
         parameters.ToString(),
-        "IndirMax:1,NameMax:2,ElfPhnumMax:3,ElfShnumMax:4,ElfNotesMax:5,"
-        "RegexMax:6,BytesMax:7,EncodingMax:8,ElfShsizeMax:9,MagWarnMax:10"
+        "IndirMax: 1, NameMax: 2, ElfPhnumMax: 3, ElfShnumMax: 4, "
+        "ElfNotesMax: 5, RegexMax: 6, BytesMax: 7, EncodingMax: 8, "
+        "ElfShsizeMax: 9, MagWarnMax: 10"
     );
     const Magic::ParameterValueMapT two_values{
         {BytesMax, 7UZ},
         {IndirMax, 1UZ}
     };
     const MagicParameters subset{two_values};
-    EXPECT_EQ(subset.ToString('=', ';'), "IndirMax=1;BytesMax=7");
+    EXPECT_EQ(subset.ToString("=", ";"), "IndirMax=1;BytesMax=7");
 }
 
 TEST(MagicToStringTest, empty_file_container)

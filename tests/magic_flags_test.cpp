@@ -503,7 +503,7 @@ TEST_F(MagicFlagsValueTest, to_string_name_lookup_for_every_flag)
     const MagicFlags flags{
         MagicFlags::Flags::Debug | MagicFlags::Flags::Compress
     };
-    EXPECT_EQ(flags.ToString(','), flags.ToString());
+    EXPECT_EQ(flags.ToString(", "), flags.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, every_bit_position_maps_to_expected_flag)
@@ -534,7 +534,7 @@ TEST_F(MagicFlagsValueTest, container_constructor_matches_pairwise_or)
                               | MagicFlags::Flags::Extension;
     EXPECT_EQ(from_container.ToContainer(), pairwise.ToContainer());
     EXPECT_EQ(from_container.ToString(), pairwise.ToString());
-    EXPECT_EQ("Debug,Compress,Extension", pairwise.ToString());
+    EXPECT_EQ("Debug, Compress, Extension", pairwise.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, empty_container_constructor_is_empty)
@@ -603,14 +603,14 @@ TEST_F(MagicFlagsValueTest, copy_constructor_preserves_flags)
     };
     const MagicFlags copy{original};
     EXPECT_EQ(original.ToContainer(), copy.ToContainer());
-    EXPECT_EQ("Compress,Mime", copy.ToString());
+    EXPECT_EQ("Compress, Mime", copy.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, move_constructor_preserves_flags)
 {
     MagicFlags original{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
     const MagicFlags moved{std::move(original)};
-    EXPECT_EQ("Compress,Mime", moved.ToString());
+    EXPECT_EQ("Compress, Mime", moved.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, copy_assignment_preserves_flags)
@@ -628,7 +628,7 @@ TEST_F(MagicFlagsValueTest, copy_self_assignment_preserves_flags)
     auto&      alias    = flags;
     flags               = alias;
     EXPECT_EQ(expected, flags.ToContainer());
-    EXPECT_EQ("Compress,Mime", flags.ToString());
+    EXPECT_EQ("Compress, Mime", flags.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, move_self_assignment_leaves_usable_object)
@@ -652,13 +652,13 @@ TEST_F(MagicFlagsValueTest, operator_or_mask_with_mask)
 {
     const MagicFlags mask_a{MagicFlags::Flags::Debug};
     const MagicFlags mask_b{MagicFlags::Flags::Compress};
-    EXPECT_EQ("Debug,Compress", (mask_a | mask_b).ToString());
+    EXPECT_EQ("Debug, Compress", (mask_a | mask_b).ToString());
 }
 
 TEST_F(MagicFlagsValueTest, operator_or_flag_with_flag)
 {
     EXPECT_EQ(
-        "Debug,Symlink",
+        "Debug, Symlink",
         (MagicFlags::Flags::Debug | MagicFlags::Flags::Symlink).ToString()
     );
 }
@@ -666,13 +666,13 @@ TEST_F(MagicFlagsValueTest, operator_or_flag_with_flag)
 TEST_F(MagicFlagsValueTest, operator_or_mask_with_flag)
 {
     const MagicFlags mask{MagicFlags::Flags::Debug};
-    EXPECT_EQ("Debug,Symlink", (mask | MagicFlags::Flags::Symlink).ToString());
+    EXPECT_EQ("Debug, Symlink", (mask | MagicFlags::Flags::Symlink).ToString());
 }
 
 TEST_F(MagicFlagsValueTest, operator_or_flag_with_mask)
 {
     const MagicFlags mask{MagicFlags::Flags::Symlink};
-    EXPECT_EQ("Debug,Symlink", (MagicFlags::Flags::Debug | mask).ToString());
+    EXPECT_EQ("Debug, Symlink", (MagicFlags::Flags::Debug | mask).ToString());
 }
 
 TEST_F(MagicFlagsValueTest, operator_or_with_none_keeps_other_operand)
@@ -710,7 +710,7 @@ TEST_F(MagicFlagsValueTest, composite_flags_are_single_bits)
         MagicFlags::Flags::Nodesc
     };
     EXPECT_EQ(expected, nodesc.ToContainer());
-    EXPECT_EQ("Debug,Nodesc", nodesc.ToString());
+    EXPECT_EQ("Debug, Nodesc", nodesc.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, operator_or_grouped_expressions)
@@ -718,7 +718,7 @@ TEST_F(MagicFlagsValueTest, operator_or_grouped_expressions)
     const MagicFlags left_grouped = (MagicFlags::Flags::Debug
                                      | MagicFlags::Flags::Symlink)
                                   | MagicFlags::Flags::Compress;
-    EXPECT_EQ("Debug,Symlink,Compress", left_grouped.ToString());
+    EXPECT_EQ("Debug, Symlink, Compress", left_grouped.ToString());
 
     const MagicFlags right_grouped = MagicFlags::Flags::Debug
                                    | (MagicFlags::Flags::Symlink
@@ -746,7 +746,7 @@ TEST_F(MagicFlagsValueTest, operator_or_chained_expression)
                            | MagicFlags::Flags::Devices
                            | MagicFlags::Flags::MimeType;
     EXPECT_EQ(5UZ, flags.ToContainer().size());
-    EXPECT_EQ("Debug,Symlink,Compress,Devices,MimeType", flags.ToString());
+    EXPECT_EQ("Debug, Symlink, Compress, Devices, MimeType", flags.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, to_string_joins_names_with_custom_separator)
@@ -754,17 +754,21 @@ TEST_F(MagicFlagsValueTest, to_string_joins_names_with_custom_separator)
     const MagicFlags flags{
         MagicFlags::Flags::Debug | MagicFlags::Flags::Compress
     };
-    EXPECT_EQ("Debug,Compress", flags.ToString());
-    EXPECT_EQ("Debug;Compress", flags.ToString(';'));
-    EXPECT_EQ("Debug\nCompress", flags.ToString('\n'));
+    EXPECT_EQ("Debug, Compress", flags.ToString());
+    EXPECT_EQ("Debug;Compress", flags.ToString(";"));
+    EXPECT_EQ("Debug\nCompress", flags.ToString("\n"));
+    EXPECT_EQ(
+        "Debug and Compress",
+        flags.ToString(" and ")
+    ); // multi-character separator
 }
 
 TEST_F(MagicFlagsValueTest, to_string_empty_set_is_none_with_any_separator)
 {
     EXPECT_EQ("None", MagicFlags{}.ToString());
-    EXPECT_EQ("None", MagicFlags{}.ToString(';'));
-    EXPECT_EQ("None", MagicFlags{MagicFlags::Flags::None}.ToString('\n'));
-    EXPECT_EQ("None", MagicFlags{MagicFlags::FlagsContainerT{}}.ToString(';'));
+    EXPECT_EQ("None", MagicFlags{}.ToString(";"));
+    EXPECT_EQ("None", MagicFlags{MagicFlags::Flags::None}.ToString("\n"));
+    EXPECT_EQ("None", MagicFlags{MagicFlags::FlagsContainerT{}}.ToString(";"));
 }
 
 TEST_F(MagicFlagsValueTest, to_string_of_every_flag_in_bit_order)
@@ -775,11 +779,11 @@ TEST_F(MagicFlagsValueTest, to_string_of_every_flag_in_bit_order)
         std::string{},
         [](std::string accumulator, const auto& entry) {
             if (!accumulator.empty()) {
-                accumulator += ',';
+                accumulator += ", ";
             }
             return accumulator + entry.second;
         }
     );
     EXPECT_EQ(expected, AllFlagsSet().ToString());
-    EXPECT_EQ(expected, AllFlagsSet().ToString(','));
+    EXPECT_EQ(expected, AllFlagsSet().ToString(", "));
 }

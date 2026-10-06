@@ -25,6 +25,7 @@
 #include <cstdint>
 #include <numeric>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -70,7 +71,7 @@ namespace Recognition {
  * MagicFlags combined = MagicFlags::Flags::Mime | MagicFlags::Flags::Compress;
  *
  * // Names of the set flags (ordered by flag position)
- * std::println("{}", combined.ToString());  // "Compress,Mime"
+ * std::println("{}", combined.ToString());  // "Compress, Mime"
  * std::println("{}", flags.ToString());     // "Mime"
  * @endcode
  *
@@ -370,23 +371,24 @@ public:
      * logging, debugging, and exception messages. A single flag name can be
      * obtained by constructing an instance from that flag.
      *
-     * @param[in] separator Character separating the names (default: `,`).
+     * @param[in] separator String separating the names (default: `, `).
      *
      * @returns The joined flag names, ordered by flag position
-     *          (e.g. "Compress,Mime"), or "None" when no flag is set.
+     *          (e.g. "Compress, Mime"), or "None" when no flag is set.
      *
      * @code{.cpp}
      * MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
-     * auto names = flags.ToString();          // "Compress,Mime"
-     * auto lines = flags.ToString('\n');      // "Compress\nMime"
+     * auto names = flags.ToString();           // "Compress, Mime"
+     * auto semi  = flags.ToString("; ");       // "Compress; Mime"
+     * auto lines = flags.ToString("\n");       // "Compress\nMime"
      *
      * MagicFlags single{MagicFlags::Flags::MimeType};
-     * auto name = single.ToString();          // "MimeType"
+     * auto name = single.ToString();           // "MimeType"
      * @endcode
      *
      * @since 11.0.0
      */
-    [[nodiscard]] std::string ToString(char separator = ',') const;
+    [[nodiscard]] std::string ToString(std::string_view separator = ", ") const;
 
 private:
     /**

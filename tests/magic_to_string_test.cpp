@@ -96,7 +96,7 @@ TEST(MagicToStringTest, flags)
     EXPECT_EQ(MagicFlags{}.ToString(), "None");
     EXPECT_EQ(
         MagicFlags{Magic::FlagsT::Mime | Magic::FlagsT::Compress}.ToString(),
-        "Compress,Mime"
+        "Compress, Mime"
     );
 }
 
@@ -107,7 +107,7 @@ TEST(MagicToStringTest, flags_container_t)
         Magic::FlagsT::Compress,
         Magic::FlagsT::Mime
     };
-    EXPECT_EQ(MagicFlags{container}.ToString(), "Debug,Compress,Mime");
+    EXPECT_EQ(MagicFlags{container}.ToString(), "Debug, Compress, Mime");
     const Magic::FlagsContainerT none_container{Magic::FlagsT::None};
     EXPECT_EQ(MagicFlags{none_container}.ToString(), "None");
     const Magic::FlagsContainerT mixed_container{
@@ -115,7 +115,7 @@ TEST(MagicToStringTest, flags_container_t)
         Magic::FlagsT::Mime,
         Magic::FlagsT::Compress
     };
-    EXPECT_EQ(MagicFlags{mixed_container}.ToString('\n'), "Compress\nMime");
+    EXPECT_EQ(MagicFlags{mixed_container}.ToString("\n"), "Compress\nMime");
 }
 
 TEST(MagicToStringTest, parameters)

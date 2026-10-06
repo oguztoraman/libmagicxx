@@ -262,11 +262,11 @@ static_assert(
 }
 } /* anonymous namespace */
 
-std::string MagicFlags::ToString(const char separator) const
+std::string MagicFlags::ToString(const std::string_view separator) const
 {
     return Utility::ToString(
         ToContainer(),
-        std::string(1, separator),
+        std::string{separator},
         [](Flags flag) {
             return std::string{FlagName(flag)};
         }

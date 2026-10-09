@@ -69,7 +69,7 @@ namespace Recognition {
  * // Name of a single parameter
  * std::println("{}", MagicParameters{MagicParameters::Parameters::RegexMax,
  *     1UZ}
- *     .ToString(": ", ", ", MagicParameters::StringFormat::Names)); // "RegexMax"
+ *     .ToString(MagicParameters::StringFormat::Names)); // "RegexMax"
  *
  * // Snapshot of all current values of a Magic instance
  * Magic magic{Magic::FlagsT::Mime};
@@ -140,10 +140,10 @@ public:
      * MagicParameters parameters{map};
      *
      * // "RegexMax,BytesMax"
-     * parameters.ToString(": ", ", ", StringFormat::Names);
+     * parameters.ToString(StringFormat::Names);
      *
      * // "RegexMax: 8192, BytesMax: 1048576"
-     * parameters.ToString(": ", ", ", StringFormat::NamesAndValues);
+     * parameters.ToString(StringFormat::NamesAndValues);
      * @endcode
      *
      * @see MagicParameters::ToString()
@@ -284,14 +284,14 @@ public:
     /**
      * @brief Convert the stored parameter values to a string.
      *
+     * @param[in] format              Whether to render only the parameter
+     *                                names or the names with their values
+     *                                (default: `StringFormat::NamesAndValues`).
      * @param[in] value_separator     String separating each name and value
      *                                (default: `: `). Used only with
      *                                `StringFormat::NamesAndValues`.
      * @param[in] parameter_separator String separating the entries
      *                                (default: `, `).
-     * @param[in] format              Whether to render only the parameter
-     *                                names or the names with their values
-     *                                (default: `StringFormat::NamesAndValues`).
      *
      * @returns Formatted string of the stored entries — e.g.
      *          "RegexMax: 8192, BytesMax: 1048576" with the default
@@ -312,16 +312,16 @@ public:
      * auto text = parameters.ToString();
      * // text == "RegexMax: 8192, BytesMax: 1048576"
      * auto names = parameters.ToString(
-     *     ": ", ", ", MagicParameters::StringFormat::Names);
+     *     MagicParameters::StringFormat::Names);
      * // names == "RegexMax,BytesMax"
      * @endcode
      *
      * @since 11.0.0
      */
     [[nodiscard]] std::string ToString(
+        StringFormat     format              = StringFormat::NamesAndValues,
         std::string_view value_separator     = ": ",
-        std::string_view parameter_separator = ", ",
-        StringFormat     format              = StringFormat::NamesAndValues
+        std::string_view parameter_separator = ", "
     ) const;
 
 private:

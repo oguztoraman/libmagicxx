@@ -222,10 +222,10 @@ static_assert(
 } /* anonymous namespace */
 
 std::string MagicParameters::ToString(
+    const StringFormat format,
     /* NOLINTNEXTLINE(bugprone-easily-swappable-parameters) */
     const std::string_view value_separator,
-    const std::string_view parameter_separator,
-    const StringFormat     format
+    const std::string_view parameter_separator
 ) const
 {
     std::string result;

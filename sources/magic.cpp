@@ -1593,7 +1593,7 @@ public:
             MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
                 result,
                 GetErrorMessage(),
-                flags.ToString()
+                flags
             );
         }
         m_flags = flags;
@@ -1688,8 +1688,8 @@ public:
      * @param[in] parameter The parameter to set.
      * @param[in] value     The new value for the parameter.
      *
-     * @throws MagicIsClosed          If instance is not open.
-     * @throws MagicSetParameterError If `magic_setparam()` fails.
+     * @throws MagicIsClosed            If instance is not open.
+     * @throws MagicSetParametersError  If `magic_setparam()` fails.
      *
      * @par libmagic Call
      * @code{.cpp}
@@ -1709,15 +1709,10 @@ public:
                 &value
             )};
             result == LIBMAGIC_ERROR) {
-            MagicPrivate::ThrowExceptionOnFailure<MagicSetParameterError>(
+            MagicPrivate::ThrowExceptionOnFailure<MagicSetParametersError>(
                 result,
                 GetErrorMessage(),
-                MagicParameters{parameter, value}.ToString(
-                    ": ",
-                    ", ",
-                    MagicParameters::StringFormat::Names
-                ),
-                value
+                MagicParameters{parameter, value}
             );
         }
     }
@@ -1761,8 +1756,8 @@ public:
      *
      * @param[in] parameters Map from ParametersT enum to new values.
      *
-     * @throws MagicIsClosed          If instance is not open.
-     * @throws MagicSetParameterError If any `magic_setparam()` fails.
+     * @throws MagicIsClosed            If instance is not open.
+     * @throws MagicSetParametersError  If any `magic_setparam()` fails.
      *
      * @note If an exception is thrown mid-iteration, some parameters
      *       may already have been set.

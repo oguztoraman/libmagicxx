@@ -123,9 +123,9 @@ TEST(MagicToStringTest, parameters)
     using enum Magic::ParametersT;
     EXPECT_EQ(
         (MagicParameters{IndirMax, 0UZ}.ToString(
+            MagicParameters::StringFormat::Names,
             ": ",
-            ", ",
-            MagicParameters::StringFormat::Names
+            ", "
         )),
         "IndirMax"
     );
@@ -162,7 +162,14 @@ TEST(MagicToStringTest, parameter_value_map_t)
         {IndirMax, 1UZ}
     };
     const MagicParameters subset{two_values};
-    EXPECT_EQ(subset.ToString("=", ";"), "IndirMax=1;BytesMax=7");
+    EXPECT_EQ(
+        subset.ToString(
+            MagicParameters::StringFormat::NamesAndValues,
+            "=",
+            ";"
+        ),
+        "IndirMax=1;BytesMax=7"
+    );
 }
 
 TEST(MagicToStringTest, empty_file_container)

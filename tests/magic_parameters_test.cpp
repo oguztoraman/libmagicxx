@@ -236,11 +236,11 @@ TEST_F(MagicParametersTest, get_parameters_render_through_magic_parameters)
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_NE(
             std::string::npos,
-            rendered.ToString(": ", ",", MagicParameters::StringFormat::Names)
+            rendered.ToString(MagicParameters::StringFormat::Names, ": ", ",")
                 .find((MagicParameters{parameter, parameter_value}.ToString(
+                    MagicParameters::StringFormat::Names,
                     ": ",
-                    ", ",
-                    MagicParameters::StringFormat::Names
+                    ", "
                 )))
         );
         EXPECT_EQ(parameter_value, m_valid_magic.GetParameter(parameter));
@@ -253,7 +253,7 @@ TEST_F(MagicParametersTest, get_parameters_names_via_magic_parameters)
     EXPECT_EQ(
         "IndirMax,NameMax,ElfPhnumMax,ElfShnumMax,ElfNotesMax,RegexMax,"
         "BytesMax,EncodingMax,ElfShsizeMax,MagWarnMax",
-        parameters.ToString(": ", ",", MagicParameters::StringFormat::Names)
+        parameters.ToString(MagicParameters::StringFormat::Names, ": ", ",")
     );
 }
 
@@ -313,9 +313,9 @@ TEST_F(MagicParametersConvertTest, name_of_every_parameter)
         EXPECT_EQ(
             name,
             (MagicParameters{parameter, 0UZ}.ToString(
+                MagicParameters::StringFormat::Names,
                 ": ",
-                ", ",
-                MagicParameters::StringFormat::Names
+                ","
             ))
         );
         EXPECT_EQ(name + ": 0", (MagicParameters{parameter, 0UZ}.ToString()));
@@ -328,7 +328,7 @@ TEST_F(MagicParametersConvertTest, default_and_empty_map_are_empty)
     const MagicParameters default_parameters;
     EXPECT_TRUE(default_parameters.ToString().empty());
     EXPECT_TRUE(default_parameters
-                    .ToString(": ", ",", MagicParameters::StringFormat::Names)
+                    .ToString(MagicParameters::StringFormat::Names, ": ", ",")
                     .empty());
     const MagicParameters empty_parameters{
         MagicParameters::ParameterValueMapT{}
@@ -358,7 +358,7 @@ TEST_F(MagicParametersConvertTest, to_string_renders_every_parameter)
     EXPECT_EQ(
         "IndirMax,NameMax,ElfPhnumMax,ElfShnumMax,ElfNotesMax,RegexMax,"
         "BytesMax,EncodingMax,ElfShsizeMax,MagWarnMax",
-        parameters.ToString(": ", ",", MagicParameters::StringFormat::Names)
+        parameters.ToString(MagicParameters::StringFormat::Names, ": ", ",")
     );
 }
 
@@ -368,19 +368,27 @@ TEST_F(MagicParametersConvertTest, to_string_custom_separators)
     EXPECT_EQ(
         "IndirMax=1;NameMax=2;ElfPhnumMax=3;ElfShnumMax=4;ElfNotesMax=5;"
         "RegexMax=6;BytesMax=7;EncodingMax=8;ElfShsizeMax=9;MagWarnMax=10",
-        parameters.ToString("=", ";")
+        parameters.ToString(
+            MagicParameters::StringFormat::NamesAndValues,
+            "=",
+            ";"
+        )
     );
     EXPECT_EQ(
         "IndirMax|NameMax|ElfPhnumMax|ElfShnumMax|ElfNotesMax|RegexMax|"
         "BytesMax|EncodingMax|ElfShsizeMax|MagWarnMax",
-        parameters.ToString("=", "|", MagicParameters::StringFormat::Names)
+        parameters.ToString(MagicParameters::StringFormat::Names, "=", "|")
     );
     EXPECT_EQ(
         "IndirMax -> 1 and NameMax -> 2 and ElfPhnumMax -> 3 and "
         "ElfShnumMax -> 4 and ElfNotesMax -> 5 and RegexMax -> 6 and "
         "BytesMax -> 7 and EncodingMax -> 8 and ElfShsizeMax -> 9 and "
         "MagWarnMax -> 10",
-        parameters.ToString(" -> ", " and ")
+        parameters.ToString(
+            MagicParameters::StringFormat::NamesAndValues,
+            " -> ",
+            " and "
+        )
     ); // multi-character separators
 }
 

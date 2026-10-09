@@ -1555,8 +1555,8 @@ public:
      * @param[in] parameter The parameter to modify.
      * @param[in] value     The new value for the parameter.
      *
-     * @throws MagicIsClosed          If the Magic instance is closed.
-     * @throws MagicSetParameterError If setting the parameter fails.
+     * @throws MagicIsClosed           If the Magic instance is closed.
+     * @throws MagicSetParametersError If setting the parameter fails.
      *
      * @code{.cpp}
      * // Limit file scanning to 1MB for performance
@@ -1592,8 +1592,8 @@ public:
      *
      * @param[in] parameters Map of parameters to their new values.
      *
-     * @throws MagicIsClosed          If the Magic instance is closed.
-     * @throws MagicSetParameterError If setting any parameter fails.
+     * @throws MagicIsClosed           If the Magic instance is closed.
+     * @throws MagicSetParametersError If setting any parameter fails.
      *
      * @code{.cpp}
      * magic.SetParameters({

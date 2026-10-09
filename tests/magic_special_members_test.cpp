@@ -82,13 +82,13 @@ TEST_F(MagicSpecialMembersTest, default_construct_magic)
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_empty_path)
 {
-    EXPECT_THROW(Magic(Magic::Flags::Mime, m_empty_path), EmptyPath);
+    EXPECT_THROW(Magic(Magic::FlagsT::Mime, m_empty_path), EmptyPath);
 }
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_empty_path_noexcept)
 {
     Magic opened_magic_without_database{
-        Magic::Flags::Mime,
+        Magic::FlagsT::Mime,
         std::nothrow,
         m_empty_path
     };
@@ -101,7 +101,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_empty_path_noexcept)
 TEST_F(MagicSpecialMembersTest, construct_magic_from_nonexisting_database)
 {
     EXPECT_THROW(
-        Magic(Magic::Flags::Mime, m_nonexistent_database),
+        Magic(Magic::FlagsT::Mime, m_nonexistent_database),
         PathDoesNotExist
     );
 }
@@ -112,7 +112,7 @@ TEST_F(
 )
 {
     Magic opened_magic_without_database{
-        Magic::Flags::Mime,
+        Magic::FlagsT::Mime,
         std::nothrow,
         m_nonexistent_database
     };
@@ -124,13 +124,13 @@ TEST_F(
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_directory)
 {
-    EXPECT_THROW(Magic(Magic::Flags::Mime, m_test_dir), PathIsNotRegularFile);
+    EXPECT_THROW(Magic(Magic::FlagsT::Mime, m_test_dir), PathIsNotRegularFile);
 }
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_directory_noexcept)
 {
     Magic opened_magic_without_database{
-        Magic::Flags::Mime,
+        Magic::FlagsT::Mime,
         std::nothrow,
         m_test_dir
     };
@@ -143,7 +143,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_directory_noexcept)
 TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database)
 {
     EXPECT_THROW(
-        Magic(Magic::Flags::Mime, m_invalid_database),
+        Magic(Magic::FlagsT::Mime, m_invalid_database),
         MagicLoadDatabaseFileError
     );
 }
@@ -151,7 +151,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database)
 TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database_noexcept)
 {
     Magic opened_magic_without_database{
-        Magic::Flags::Mime,
+        Magic::FlagsT::Mime,
         std::nothrow,
         m_invalid_database
     };
@@ -163,7 +163,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_invalid_database_noexcept)
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_valid_database)
 {
-    Magic valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    Magic valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
     EXPECT_TRUE(valid_magic.IsOpen());
     EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
     EXPECT_TRUE(valid_magic.IsValid());
@@ -172,7 +172,7 @@ TEST_F(MagicSpecialMembersTest, construct_magic_from_valid_database)
 
 TEST_F(MagicSpecialMembersTest, construct_magic_from_valid_database_noexcept)
 {
-    Magic valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    Magic valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
     EXPECT_TRUE(valid_magic.IsOpen());
     EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
     EXPECT_TRUE(valid_magic.IsValid());
@@ -200,7 +200,7 @@ TEST_F(MagicSpecialMembersTest, move_construct_magic_from_closed_magic)
 TEST_F(MagicSpecialMembersTest, move_construct_magic_from_opened_magic)
 {
     Magic opened_magic;
-    EXPECT_TRUE(opened_magic.Open(Magic::Flags::Mime, std::nothrow));
+    EXPECT_TRUE(opened_magic.Open(Magic::FlagsT::Mime, std::nothrow));
     EXPECT_TRUE(opened_magic.IsOpen());
     EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
     EXPECT_FALSE(opened_magic.IsValid());
@@ -218,7 +218,7 @@ TEST_F(MagicSpecialMembersTest, move_construct_magic_from_opened_magic)
 
 TEST_F(MagicSpecialMembersTest, move_construct_magic_from_valid_magic)
 {
-    Magic valid_magic(Magic::Flags::Mime, std::nothrow, m_valid_database);
+    Magic valid_magic(Magic::FlagsT::Mime, std::nothrow, m_valid_database);
     EXPECT_TRUE(valid_magic.IsOpen());
     EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
     EXPECT_TRUE(valid_magic.IsValid());
@@ -255,7 +255,7 @@ TEST_F(MagicSpecialMembersTest, move_assign_magic_from_closed_magic)
 TEST_F(MagicSpecialMembersTest, move_assign_magic_from_opened_magic)
 {
     Magic opened_magic;
-    EXPECT_TRUE(opened_magic.Open(Magic::Flags::Mime, std::nothrow));
+    EXPECT_TRUE(opened_magic.Open(Magic::FlagsT::Mime, std::nothrow));
     EXPECT_TRUE(opened_magic.IsOpen());
     EXPECT_FALSE(opened_magic.IsDatabaseLoaded());
     EXPECT_FALSE(opened_magic.IsValid());
@@ -273,7 +273,7 @@ TEST_F(MagicSpecialMembersTest, move_assign_magic_from_opened_magic)
 
 TEST_F(MagicSpecialMembersTest, move_assign_magic_from_valid_magic)
 {
-    Magic valid_magic(Magic::Flags::Mime, std::nothrow, m_valid_database);
+    Magic valid_magic(Magic::FlagsT::Mime, std::nothrow, m_valid_database);
     EXPECT_TRUE(valid_magic.IsOpen());
     EXPECT_TRUE(valid_magic.IsDatabaseLoaded());
     EXPECT_TRUE(valid_magic.IsValid());

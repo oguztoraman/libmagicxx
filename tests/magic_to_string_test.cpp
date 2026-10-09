@@ -3,13 +3,13 @@
 
 /**
  * @file magic_to_string_test.cpp
- * @brief Unit tests for ToString() free functions.
+ * @brief Unit tests for ToString() conversions.
  *
- * Tests string conversion functions for all Magic types including:
- * - FileTypeEntryT and FileTypeMapT
- * - ExpectedFileTypeEntryT and ExpectedFileTypeMapT
- * - Flags enum and FlagsContainerT
- * - Parameters enum and ParameterValueMapT
+ * Tests string conversion functions for Magic types including:
+ * - FileTypeEntryT and FileTypeMapT free functions
+ * - ExpectedFileTypeEntryT and ExpectedFileTypeMapT free functions
+ * - MagicFlags::ToString() member function
+ * - MagicParameters::ToString() member conversions
  *
  * @section to_string_test_types Types Tested
  *
@@ -18,14 +18,15 @@
  * | FileTypeEntryT | "path -> type" |
  * | FileTypeMapT | Entries separated by newlines |
  * | ExpectedFileTypeEntryT | "path -> type" or "path -> error" |
- * | Flags | Enum name (e.g., "Mime") |
- * | FlagsContainerT | Comma-separated names |
- * | Parameters | Enum name (e.g., "BytesMax") |
- * | ParameterValueT | "name: value" |
+ * | MagicFlags | Comma-separated names (e.g., "Compress, Mime") |
+ * | MagicParameters | "name: value" entries (e.g., "BytesMax: 1048576") |
+ *
+ * @note Exhaustive flags and parameters string coverage lives in
+ *       tests/magic_flags_test.cpp and tests/magic_parameters_test.cpp.
  *
  * @see ToString(Magic::FileTypeEntryT)
- * @see ToString(Magic::Flags)
- * @see ToString(Magic::Parameters)
+ * @see MagicFlags::ToString()
+ * @see MagicParameters::ToString()
  */
 
 #include <gtest/gtest.h>
@@ -91,162 +92,83 @@ TEST(MagicToStringTest, expected_file_type_map_t)
 
 TEST(MagicToStringTest, flags)
 {
-    using enum Magic::Flags;
-    EXPECT_EQ(ToString(None), "None");
-    EXPECT_EQ(ToString(Debug), "Debug");
-    EXPECT_EQ(ToString(Symlink), "Symlink");
-    EXPECT_EQ(ToString(Compress), "Compress");
-    EXPECT_EQ(ToString(Devices), "Devices");
-    EXPECT_EQ(ToString(MimeType), "MimeType");
-    EXPECT_EQ(ToString(ContinueSearch), "ContinueSearch");
-    EXPECT_EQ(ToString(CheckDatabase), "CheckDatabase");
-    EXPECT_EQ(ToString(PreserveAtime), "PreserveAtime");
-    EXPECT_EQ(ToString(Raw), "Raw");
-    EXPECT_EQ(ToString(Error), "Error");
-    EXPECT_EQ(ToString(MimeEncoding), "MimeEncoding");
-    EXPECT_EQ(ToString(Mime), "Mime");
-    EXPECT_EQ(ToString(Apple), "Apple");
-    EXPECT_EQ(ToString(Extension), "Extension");
-    EXPECT_EQ(ToString(CompressTransp), "CompressTransp");
-    EXPECT_EQ(ToString(NoCompressFork), "NoCompressFork");
-    EXPECT_EQ(ToString(Nodesc), "Nodesc");
-    EXPECT_EQ(ToString(NoCheckCompress), "NoCheckCompress");
-    EXPECT_EQ(ToString(NoCheckTar), "NoCheckTar");
-    EXPECT_EQ(ToString(NoCheckSoft), "NoCheckSoft");
-    EXPECT_EQ(ToString(NoCheckApptype), "NoCheckApptype");
-    EXPECT_EQ(ToString(NoCheckElf), "NoCheckElf");
-    EXPECT_EQ(ToString(NoCheckText), "NoCheckText");
-    EXPECT_EQ(ToString(NoCheckCdf), "NoCheckCdf");
-    EXPECT_EQ(ToString(NoCheckCsv), "NoCheckCsv");
-    EXPECT_EQ(ToString(NoCheckTokens), "NoCheckTokens");
-    EXPECT_EQ(ToString(NoCheckEncoding), "NoCheckEncoding");
-    EXPECT_EQ(ToString(NoCheckJson), "NoCheckJson");
-    EXPECT_EQ(ToString(NoCheckSimh), "NoCheckSimh");
-    EXPECT_EQ(ToString(NoCheckBuiltin), "NoCheckBuiltin");
+    EXPECT_EQ(MagicFlags{Magic::FlagsT::Mime}.ToString(), "Mime");
+    EXPECT_EQ(MagicFlags{}.ToString(), "None");
+    EXPECT_EQ(
+        MagicFlags{Magic::FlagsT::Mime | Magic::FlagsT::Compress}.ToString(),
+        "Compress, Mime"
+    );
 }
 
 TEST(MagicToStringTest, flags_container_t)
 {
-    using enum Magic::Flags;
-    EXPECT_EQ(
-        ToString(
-            Magic::FlagsContainerT{
-                None,
-                Debug,
-                Symlink,
-                Compress,
-                Devices,
-                MimeType,
-                ContinueSearch,
-                CheckDatabase,
-                PreserveAtime,
-                Raw,
-                Error,
-                MimeEncoding,
-                Mime,
-                Apple,
-                Extension,
-                CompressTransp,
-                NoCompressFork,
-                Nodesc,
-                NoCheckCompress,
-                NoCheckTar,
-                NoCheckSoft,
-                NoCheckApptype,
-                NoCheckElf,
-                NoCheckText,
-                NoCheckCdf,
-                NoCheckCsv,
-                NoCheckTokens,
-                NoCheckEncoding,
-                NoCheckJson,
-                NoCheckSimh,
-                NoCheckBuiltin
-            }
-        ),
-        "None, "
-        "Debug, "
-        "Symlink, "
-        "Compress, "
-        "Devices, "
-        "MimeType, "
-        "ContinueSearch, "
-        "CheckDatabase, "
-        "PreserveAtime, "
-        "Raw, "
-        "Error, "
-        "MimeEncoding, "
-        "Mime, "
-        "Apple, "
-        "Extension, "
-        "CompressTransp, "
-        "NoCompressFork, "
-        "Nodesc, "
-        "NoCheckCompress, "
-        "NoCheckTar, "
-        "NoCheckSoft, "
-        "NoCheckApptype, "
-        "NoCheckElf, "
-        "NoCheckText, "
-        "NoCheckCdf, "
-        "NoCheckCsv, "
-        "NoCheckTokens, "
-        "NoCheckEncoding, "
-        "NoCheckJson, "
-        "NoCheckSimh, "
-        "NoCheckBuiltin"
-    );
+    const Magic::FlagsContainerT container{
+        Magic::FlagsT::Debug,
+        Magic::FlagsT::Compress,
+        Magic::FlagsT::Mime
+    };
+    EXPECT_EQ(MagicFlags{container}.ToString(), "Debug, Compress, Mime");
+    const Magic::FlagsContainerT none_container{Magic::FlagsT::None};
+    EXPECT_EQ(MagicFlags{none_container}.ToString(), "None");
+    const Magic::FlagsContainerT mixed_container{
+        Magic::FlagsT::None,
+        Magic::FlagsT::Mime,
+        Magic::FlagsT::Compress
+    };
+    EXPECT_EQ(MagicFlags{mixed_container}.ToString("\n"), "Compress\nMime");
 }
 
 TEST(MagicToStringTest, parameters)
 {
-    using enum Magic::Parameters;
-    EXPECT_EQ(ToString(IndirMax), "IndirMax");
-    EXPECT_EQ(ToString(NameMax), "NameMax");
-    EXPECT_EQ(ToString(ElfPhnumMax), "ElfPhnumMax");
-    EXPECT_EQ(ToString(ElfShnumMax), "ElfShnumMax");
-    EXPECT_EQ(ToString(ElfNotesMax), "ElfNotesMax");
-    EXPECT_EQ(ToString(RegexMax), "RegexMax");
-    EXPECT_EQ(ToString(BytesMax), "BytesMax");
-    EXPECT_EQ(ToString(EncodingMax), "EncodingMax");
-    EXPECT_EQ(ToString(ElfShsizeMax), "ElfShsizeMax");
-    EXPECT_EQ(ToString(MagWarnMax), "MagWarnMax");
-}
-
-TEST(MagicToStringTest, parameter_value_t)
-{
-    using enum Magic::Parameters;
-    EXPECT_EQ(ToString(Magic::ParameterValueT{IndirMax, 1}), "IndirMax: 1");
+    using enum Magic::ParametersT;
+    EXPECT_EQ(
+        (MagicParameters{IndirMax, 0UZ}.ToString(
+            MagicParameters::StringFormat::Names,
+            ": ",
+            ", "
+        )),
+        "IndirMax"
+    );
+    EXPECT_EQ(
+        (MagicParameters{BytesMax, 1'048'576UZ}.ToString()),
+        "BytesMax: 1048576"
+    );
 }
 
 TEST(MagicToStringTest, parameter_value_map_t)
 {
-    using enum Magic::Parameters;
+    using enum Magic::ParametersT;
+    const Magic::ParameterValueMapT all_values{
+        {IndirMax,     1UZ },
+        {NameMax,      2UZ },
+        {ElfPhnumMax,  3UZ },
+        {ElfShnumMax,  4UZ },
+        {ElfNotesMax,  5UZ },
+        {RegexMax,     6UZ },
+        {BytesMax,     7UZ },
+        {EncodingMax,  8UZ },
+        {ElfShsizeMax, 9UZ },
+        {MagWarnMax,   10UZ}
+    };
+    const MagicParameters parameters{all_values};
     EXPECT_EQ(
-        ToString(
-            Magic::ParameterValueMapT{
-                {IndirMax,     1 },
-                {NameMax,      2 },
-                {ElfPhnumMax,  3 },
-                {ElfShnumMax,  4 },
-                {ElfNotesMax,  5 },
-                {RegexMax,     6 },
-                {BytesMax,     7 },
-                {EncodingMax,  8 },
-                {ElfShsizeMax, 9 },
-                {MagWarnMax,   10}
-    }
+        parameters.ToString(),
+        "IndirMax: 1, NameMax: 2, ElfPhnumMax: 3, ElfShnumMax: 4, "
+        "ElfNotesMax: 5, RegexMax: 6, BytesMax: 7, EncodingMax: 8, "
+        "ElfShsizeMax: 9, MagWarnMax: 10"
+    );
+    const Magic::ParameterValueMapT two_values{
+        {BytesMax, 7UZ},
+        {IndirMax, 1UZ}
+    };
+    const MagicParameters subset{two_values};
+    EXPECT_EQ(
+        subset.ToString(
+            MagicParameters::StringFormat::NamesAndValues,
+            "=",
+            ";"
         ),
-        "IndirMax: 1, "
-        "NameMax: 2, "
-        "ElfPhnumMax: 3, "
-        "ElfShnumMax: 4, "
-        "ElfNotesMax: 5, "
-        "RegexMax: 6, "
-        "BytesMax: 7, "
-        "EncodingMax: 8, "
-        "ElfShsizeMax: 9, "
-        "MagWarnMax: 10"
+        "IndirMax=1;BytesMax=7"
     );
 }
 

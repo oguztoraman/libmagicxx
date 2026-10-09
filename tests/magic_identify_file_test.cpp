@@ -33,7 +33,7 @@ protected:
     MagicIdentifyFileTest()
     {
         EXPECT_TRUE(m_opened_magic_without_database.Open(
-            Magic::Flags::Mime,
+            Magic::FlagsT::Mime,
             std::nothrow
         ));
         EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
@@ -57,7 +57,7 @@ protected:
     std::filesystem::path m_nonexistent_path{m_test_dir / "nonexistent_path"};
     Magic                 m_closed_magic{};
     Magic                 m_opened_magic_without_database;
-    Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    Magic m_valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
 };
 
 TEST_F(MagicIdentifyFileTest, closed_magic_empty_path)

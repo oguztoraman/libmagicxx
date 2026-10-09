@@ -46,7 +46,7 @@ protected:
     MagicIdentifyDirectoryTest()
     {
         EXPECT_TRUE(m_opened_magic_without_database.Open(
-            Magic::Flags::Mime,
+            Magic::FlagsT::Mime,
             std::nothrow
         ));
         EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());
@@ -101,7 +101,7 @@ protected:
     };
     Magic m_closed_magic{};
     Magic m_opened_magic_without_database;
-    Magic m_valid_magic{Magic::Flags::Mime, std::nothrow, m_valid_database};
+    Magic m_valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
     Magic::ProgressTrackerT m_null_progress_tracker{nullptr};
     Magic::ProgressTrackerT m_progress_tracker{MakeSharedProgressTracker()};
 };

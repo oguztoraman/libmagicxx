@@ -34,7 +34,7 @@
  *
  * int main() {
  *     // Create and configure Magic instance
- *     Magic magic{Magic::Flags::Mime};
+ *     Magic magic{Magic::FlagsT::Mime};
  *
  *     // Identify a file
  *     auto type = magic.IdentifyFile("/path/to/file");
@@ -71,7 +71,6 @@
 #ifndef MAGIC_HPP
 #define MAGIC_HPP
 
-#include <bitset>
 #include <expected>
 #include <map>
 #include <memory>
@@ -80,6 +79,8 @@
 #include <vector>
 
 #include "magic_exception.hpp"
+#include "magic_flags.hpp"
+#include "magic_parameters.hpp"
 #include "progress_tracker.hpp"
 #include "utility.hpp"
 
@@ -144,19 +145,19 @@ namespace Recognition {
  *
  * @code{.cpp}
  * // Pattern 1: Single-step construction (recommended)
- * Magic magic1{Magic::Flags::Mime};  // Opens and loads default database
+ * Magic magic1{Magic::FlagsT::Mime};  // Opens and loads default database
  * assert(magic1.IsValid());
  *
  * // Pattern 2: Manual lifecycle control
  * Magic magic2;                       // Closed state
  * assert(!magic2.IsOpen());
- * magic2.Open(Magic::Flags::Mime);    // Opened state
+ * magic2.Open(Magic::FlagsT::Mime);   // Opened state
  * assert(magic2.IsOpen() && !magic2.IsDatabaseLoaded());
  * magic2.LoadDatabaseFile();          // Valid state
  * assert(magic2.IsValid());
  *
  * // Pattern 3: Reopen with different flags
- * magic2.Open(Magic::Flags::Extension);  // Back to Opened (database unloaded)
+ * magic2.Open(Magic::FlagsT::Extension); // Back to Opened (database unloaded)
  * magic2.LoadDatabaseFile();             // Valid again with new flags
  *
  * // Pattern 4: Check before use
@@ -176,7 +177,7 @@ namespace Recognition {
  * ### Output Formats
  *
  * The Magic class can return file type information in several formats,
- * controlled by the Flags enum:
+ * controlled by the FlagsT enum:
  *
  * | Flag | Output Example |
  * |------|----------------|
@@ -193,8 +194,8 @@ namespace Recognition {
  * @warning The Magic class is **not thread-safe**. Do not share a single
  *          instance across threads. Create separate instances per thread.
  *
- * @see Magic::Flags for configuration options
- * @see Magic::Parameters for tunable limits
+ * @see Magic::FlagsT for configuration options
+ * @see Magic::ParametersT for tunable limits
  * @see MagicException for error handling
  *
  * @since 10.0.0
@@ -202,236 +203,55 @@ namespace Recognition {
 class Magic {
 public:
     /**
-     * @brief Flags for configuring Magic behavior.
+     * @typedef FlagsT
      * @ingroup magic_core
      *
-     * The Flags enum controls how Magic identifies files and formats output.
-     * Flags can be combined using bitwise OR operations.
+     * @brief Flags for configuring Magic behavior.
+     *
+     * Alias for MagicFlags::Flags, the enum owned by the MagicFlags class.
+     * The FlagsT values control how Magic identifies files and formats
+     * output, and can be combined using bitwise OR operations.
      *
      * ### Common Flag Combinations
      *
      * @code{.cpp}
      * // Get MIME type only
-     * Magic magic1{Magic::Flags::MimeType};
+     * Magic magic1{Magic::FlagsT::MimeType};
      *
      * // Get full MIME with encoding
-     * Magic magic2{Magic::Flags::Mime};
+     * Magic magic2{Magic::FlagsT::Mime};
      *
      * // Follow symlinks and decompress files
-     * Magic magic3{Magic::Flags::Symlink | Magic::Flags::Compress};
+     * Magic magic3{Magic::FlagsT::Symlink | Magic::FlagsT::Compress};
      *
      * // Using a container of flags
-     * Magic magic4{{Magic::Flags::Mime, Magic::Flags::Debug}};
+     * Magic magic4{{Magic::FlagsT::Mime, Magic::FlagsT::Debug}};
      * @endcode
      *
+     * @see MagicFlags::Flags for the individual flag meanings
      * @see SetFlags() to change flags after construction
      * @see GetFlags() to retrieve current flags
      *
-     * @since 10.0.0
-     */
-    enum class Flags : unsigned long long {
-        /* clang-format off */
-        None             = 0ULL,       /**< No special handling. Default textual output. */
-        Debug            = 1ULL << 0,  /**< Print debugging messages to stderr. Useful for troubleshooting. */
-        Symlink          = 1ULL << 1,  /**< If the file is a symlink, follow it and identify the target. */
-        Compress         = 1ULL << 2,  /**< If the file is compressed, decompress and identify contents. */
-        Devices          = 1ULL << 3,  /**< Open block/character devices and examine their contents. */
-        MimeType         = 1ULL << 4,  /**< Return MIME type (e.g., "text/plain") instead of description. */
-        ContinueSearch   = 1ULL << 5,  /**< Return all matches, not just the first one. */
-        CheckDatabase    = 1ULL << 6,  /**< Check database consistency and print warnings to stderr. */
-        PreserveAtime    = 1ULL << 7,  /**< Preserve access time of analyzed files (if supported by OS). */
-        Raw              = 1ULL << 8,  /**< Don't convert unprintable characters to \\ooo octal. */
-        Error            = 1ULL << 9,  /**< Treat OS errors as real errors instead of printing in buffer. */
-        MimeEncoding     = 1ULL << 10, /**< Return MIME encoding (e.g., "us-ascii") instead of description. */
-        Mime             = 1ULL << 11, /**< Shorthand for MimeType | MimeEncoding. Returns full MIME. */
-        Apple            = 1ULL << 12, /**< Return Apple creator and type codes. */
-        Extension        = 1ULL << 13, /**< Return slash-separated list of file extensions. */
-        CompressTransp   = 1ULL << 14, /**< Report on uncompressed data only, hide compression layer. */
-        NoCompressFork   = 1ULL << 15, /**< Don't use decompressors that require fork(). */
-        Nodesc           = 1ULL << 16, /**< Shorthand for Extension | Mime | Apple. */
-        NoCheckCompress  = 1ULL << 17, /**< Skip compressed file inspection. */
-        NoCheckTar       = 1ULL << 18, /**< Skip tar archive examination. */
-        NoCheckSoft      = 1ULL << 19, /**< Skip magic file consultation. */
-        NoCheckApptype   = 1ULL << 20, /**< Skip EMX application type check (EMX only). */
-        NoCheckElf       = 1ULL << 21, /**< Skip ELF details printing. */
-        NoCheckText      = 1ULL << 22, /**< Skip text file type detection. */
-        NoCheckCdf       = 1ULL << 23, /**< Skip MS Compound Document inspection. */
-        NoCheckCsv       = 1ULL << 24, /**< Skip CSV file examination. */
-        NoCheckTokens    = 1ULL << 25, /**< Skip known token search in ASCII files. */
-        NoCheckEncoding  = 1ULL << 26, /**< Skip text encoding detection. */
-        NoCheckJson      = 1ULL << 27, /**< Skip JSON file examination. */
-        NoCheckSimh      = 1ULL << 28, /**< Skip SIMH tape file examination. */
-        NoCheckBuiltin   = 1ULL << 29  /**< Use only magic file, skip all built-in tests. */
-        /* clang-format on */
-    };
-
-private:
-    /**
-     * @class FlagsMask
-     *
-     * @brief Bridge class between Flags enum class and the internal bitmask.
-     *
-     * Provides implicit conversion from individual Flags values and supports
-     * bitwise OR for combining flags. This allows Flags to be used directly
-     * wherever a FlagsMaskT is expected, without requiring explicit conversion.
-     *
-     * @code{.cpp}
-     * // Single flag converts implicitly
-     * Magic magic1{Magic::Flags::Mime};
-     *
-     * // Combined flags via operator|
-     * Magic magic2{Magic::Flags::Mime | Magic::Flags::Compress};
-     * @endcode
-     *
      * @since 11.0.0
      */
-    class FlagsMask {
-    public:
-        /**
-         * @brief Default constructor. Creates an empty flags mask.
-         *
-         * @since 11.0.0
-         */
-        constexpr FlagsMask() noexcept = default;
+    using FlagsT = MagicFlags::Flags;
 
-        /**
-         * @brief Implicit constructor from a single flag.
-         *
-         * This is the key bridge that allows Flags values to be used
-         * wherever FlagsMaskT is expected, without explicit conversion.
-         *
-         * @param[in] flag The flag to set in the mask.
-         *
-         * @since 11.0.0
-         */
-        constexpr FlagsMask(Flags flag) noexcept
-          : m_mask{static_cast<unsigned long long>(flag)}
-        { }
-
-        /**
-         * @brief Combine this mask with another mask.
-         *
-         * @param[in] other The other mask to combine.
-         *
-         * @returns A new FlagsMask with all bits from both masks set.
-         *
-         * @since 11.0.0
-         */
-        constexpr FlagsMask operator|(const FlagsMask& other) const noexcept
-        {
-            FlagsMask result;
-            result.m_mask = m_mask | other.m_mask;
-            return result;
-        }
-
-        /**
-         * @brief Test whether a specific bit is set.
-         *
-         * @param[in] pos Bit position to test.
-         *
-         * @returns true if the bit at the given position is set.
-         *
-         * @since 11.0.0
-         */
-        constexpr bool operator[](std::size_t pos) const
-        {
-            return m_mask[pos];
-        }
-
-        /**
-         * @brief Get the number of bits in the mask.
-         *
-         * @returns The size of the underlying bitmask (30).
-         *
-         * @since 11.0.0
-         */
-        constexpr std::size_t size() const noexcept
-        {
-            return m_mask.size();
-        }
-
-        /**
-         * @brief Test whether no bits are set.
-         *
-         * @returns true if no bits are set, false otherwise.
-         *
-         * @since 11.0.0
-         */
-        constexpr bool none() const noexcept
-        {
-            return m_mask.none();
-        }
-
-    private:
-        std::bitset<30UZ>
-            m_mask{}; /**< Internal bitmask storing combined flag values. */
-    };
-
-    /**
-     * @brief Combine two Flags values into a FlagsMask.
-     *
-     * @param[in] lhs Left-hand side flag.
-     * @param[in] rhs Right-hand side flag.
-     *
-     * @returns A FlagsMask with both flags set.
-     *
-     * @since 11.0.0
-     */
-    friend constexpr FlagsMask operator|(Flags lhs, Flags rhs) noexcept
-    {
-        return FlagsMask{lhs} | FlagsMask{rhs};
-    }
-
-    /**
-     * @brief Combine a Flags value with a FlagsMask.
-     *
-     * Enables expressions like `Flags::A | (Flags::B | Flags::C)`.
-     *
-     * @param[in] lhs Left-hand side flag.
-     * @param[in] rhs Right-hand side mask.
-     *
-     * @returns A FlagsMask with all bits from both operands set.
-     *
-     * @since 11.0.0
-     */
-    friend constexpr FlagsMask operator|(
-        Flags            lhs,
-        const FlagsMask& rhs
-    ) noexcept
-    {
-        return FlagsMask{lhs} | rhs;
-    }
-
-    /**
-     * @brief Combine a FlagsMask with a Flags value (non-member symmetric overload).
-     *
-     * Enables expressions like `(Flags::A | Flags::B) | Flags::C`
-     * without relying on member lookup.
-     *
-     * @param[in] lhs Left-hand side mask.
-     * @param[in] rhs Right-hand side flag.
-     *
-     * @returns A FlagsMask with all bits from both operands set.
-     *
-     * @since 11.0.0
-     */
-    friend constexpr FlagsMask operator|(
-        const FlagsMask& lhs,
-        Flags            rhs
-    ) noexcept
-    {
-        return lhs | FlagsMask{rhs};
-    }
-
-public:
     /**
      * @typedef FlagsMaskT
      *
-     * @brief Bitmask type representing a set of Magic::Flags used to configure the Magic instance.
+     * @brief Value type representing a set of Magic::FlagsT used to configure
+     *        the Magic instance.
      *
-     * @since 10.0.0
+     * Alias for MagicFlags. A single Magic::FlagsT value converts implicitly
+     * and flag sets are built with bitwise OR, so expressions such as
+     * `Magic::FlagsT::Mime | Magic::FlagsT::Compress` are accepted wherever a
+     * FlagsMaskT is expected.
+     *
+     * @see MagicFlags
+     *
+     * @since 11.0.0
      */
-    using FlagsMaskT = FlagsMask;
+    using FlagsMaskT = MagicFlags;
 
     /**
      * @typedef FileTypeT
@@ -511,68 +331,57 @@ public:
     using ProgressTrackerT = Utility::SharedProgressTrackerT;
 
     /**
-     * @brief Parameters for tuning Magic behavior limits.
+     * @typedef ParametersT
      * @ingroup magic_core
      *
-     * The Parameters enum provides access to various internal limits that
-     * control how deeply Magic analyzes files. Adjusting these can help
-     * balance between thoroughness and performance.
+     * @brief Parameters for tuning Magic behavior limits.
+     *
+     * Alias for MagicParameters::Parameters, the enum owned by the
+     * MagicParameters class. The ParametersT values provide access to
+     * various internal limits that control how deeply Magic analyzes files.
+     * Adjusting these can help balance between thoroughness and performance.
      *
      * @code{.cpp}
-     * Magic magic{Magic::Flags::Mime};
+     * Magic magic{Magic::FlagsT::Mime};
      *
      * // Limit bytes scanned for faster performance
-     * magic.SetParameter(Magic::Parameters::BytesMax, 1024 * 1024);
+     * magic.SetParameter(Magic::ParametersT::BytesMax, 1024 * 1024);
      *
      * // Get current value
-     * auto bytes = magic.GetParameter(Magic::Parameters::BytesMax);
+     * auto bytes = magic.GetParameter(Magic::ParametersT::BytesMax);
      *
-     * // Get all parameters
-     * auto params = magic.GetParameters();
-     * for (const auto& [param, value] : params) {
-     *     std::println("{}: {}", ToString(param), value);
-     * }
+     * // Get all parameters as "name: value" entries
+     * MagicParameters parameters{magic.GetParameters()};
+     * std::println("{}", parameters.ToString());
      * @endcode
      *
+     * @see MagicParameters::Parameters for the individual parameter meanings
      * @see SetParameter() to modify a single parameter
      * @see SetParameters() to modify multiple parameters
      * @see GetParameter() to retrieve a single parameter value
      * @see GetParameters() to retrieve all parameter values
      *
-     * @since 10.0.0
+     * @since 11.0.0
      */
-    enum class Parameters : std::size_t {
-        /* clang-format off */
-        IndirMax     = 0uz, /**< Maximum recursion depth for indirect magic (default: 15). */
-        NameMax      = 1uz, /**< Maximum use count for name/use magic entries (default: 30). */
-        ElfPhnumMax  = 2uz, /**< Maximum ELF program headers to process (default: 128). */
-        ElfShnumMax  = 3uz, /**< Maximum ELF section headers to process (default: 32768). */
-        ElfNotesMax  = 4uz, /**< Maximum ELF notes to process (default: 256). */
-        RegexMax     = 5uz, /**< Maximum regex search length in bytes (default: 8192). */
-        BytesMax     = 6uz, /**< Maximum bytes to read from file (default: 7340032 = 7MB). */
-        EncodingMax  = 7uz, /**< Maximum bytes to scan for encoding detection (default: 1048576 = 1MB). */
-        ElfShsizeMax = 8uz, /**< Maximum ELF section size to process (default: 134217728 = 128MB). */
-        MagWarnMax   = 9uz  /**< Maximum warnings to tolerate from magic file (default: 64). */
-        /* clang-format on */
-    };
+    using ParametersT = MagicParameters::Parameters;
 
     /**
      * @typedef FlagsContainerT
      *
-     * @brief Container type holding a collection of Magic::Flags.
+     * @brief Container type holding a collection of Magic::FlagsT.
      *
      * @since 10.0.0
      */
-    using FlagsContainerT = std::vector<Flags>;
+    using FlagsContainerT = std::vector<FlagsT>;
 
     /**
      * @typedef ParameterValueMapT
      *
-     * @brief Map from Magic::Parameters to their corresponding values.
+     * @brief Map from Magic::ParametersT to their corresponding values.
      *
      * @since 10.0.0
      */
-    using ParameterValueMapT = std::map<Parameters, std::size_t>;
+    using ParameterValueMapT = std::map<ParametersT, std::size_t>;
 
     /**
      * @typedef ParameterValueT
@@ -617,7 +426,7 @@ public:
      *
      * @code{.cpp}
      * Magic magic;  // Not yet valid
-     * magic.Open(Magic::Flags::Mime);
+     * magic.Open(Magic::FlagsT::Mime);
      * magic.LoadDatabaseFile();
      * // Now valid for identification
      * @endcode
@@ -637,7 +446,7 @@ public:
      * magic database file in a single step. On success, the instance is
      * immediately ready for file identification.
      *
-     * @param[in] flags_mask    Configuration flags (use Flags enum values combined with |).
+     * @param[in] flags_mask    Configuration flags (use FlagsT enum values combined with |).
      * @param[in] database_file Path to magic database file (default: DEFAULT_DATABASE_FILE).
      *
      * @throws MagicOpenError             If opening the Magic instance fails.
@@ -648,13 +457,13 @@ public:
      *
      * @code{.cpp}
      * // Use MIME output with default database
-     * Magic magic1{Magic::Flags::Mime};
+     * Magic magic1{Magic::FlagsT::Mime};
      *
      * // Combine flags
-     * Magic magic2{Magic::Flags::Mime | Magic::Flags::Compress};
+     * Magic magic2{Magic::FlagsT::Mime | Magic::FlagsT::Compress};
      *
      * // Custom database path
-     * Magic magic3{Magic::Flags::Mime, "/custom/path/magic"};
+     * Magic magic3{Magic::FlagsT::Mime, "/custom/path/magic"};
      * @endcode
      *
      * @note The ".mgc" extension is automatically appended to the database path if needed.
@@ -664,7 +473,7 @@ public:
      * @since 10.0.0
      */
     explicit Magic(
-        FlagsMaskT                   flags_mask,
+        const FlagsMaskT&            flags_mask,
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     );
 
@@ -674,12 +483,12 @@ public:
      * Non-throwing variant that silently fails if initialization errors occur.
      * Check IsValid() after construction to verify success.
      *
-     * @param[in] flags_mask    Configuration flags (use Flags enum values combined with |).
+     * @param[in] flags_mask    Configuration flags (use FlagsT enum values combined with |).
      * @param[in] tag           Pass `std::nothrow` to select this overload.
      * @param[in] database_file Path to magic database file (default: DEFAULT_DATABASE_FILE).
      *
      * @code{.cpp}
-     * Magic magic{Magic::Flags::Mime, std::nothrow};
+     * Magic magic{Magic::FlagsT::Mime, std::nothrow};
      * if (magic.IsValid()) {
      *     // Safe to use
      * }
@@ -692,7 +501,7 @@ public:
      * @since 10.0.0
      */
     Magic(
-        FlagsMaskT                   flags_mask,
+        const FlagsMaskT&            flags_mask,
         const std::nothrow_t&        tag,
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
@@ -703,7 +512,7 @@ public:
      * Alternative constructor accepting a container of individual flags
      * instead of a bitmask. Useful when flags are determined at runtime.
      *
-     * @param[in] flags_container Vector or other container of Flags values.
+     * @param[in] flags_container Vector or other container of FlagsT values.
      * @param[in] database_file   Path to magic database file (default: DEFAULT_DATABASE_FILE).
      *
      * @throws MagicOpenError             If opening the Magic instance fails.
@@ -713,7 +522,7 @@ public:
      * @throws MagicLoadDatabaseFileError If loading the database fails.
      *
      * @code{.cpp}
-     * std::vector<Magic::Flags> flags = {Magic::Flags::Mime, Magic::Flags::Compress};
+     * std::vector<Magic::FlagsT> flags = {Magic::FlagsT::Mime, Magic::FlagsT::Compress};
      * Magic magic{flags};
      * @endcode
      *
@@ -734,7 +543,7 @@ public:
      * Non-throwing variant that silently fails if initialization errors occur.
      * Check IsValid() after construction to verify success.
      *
-     * @param[in] flags_container Vector or other container of Flags values.
+     * @param[in] flags_container Vector or other container of FlagsT values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      * @param[in] database_file   Path to magic database file (default: DEFAULT_DATABASE_FILE).
      *
@@ -772,7 +581,7 @@ public:
      * @param[in,out] other The Magic instance to move from. Left closed after move.
      *
      * @code{.cpp}
-     * Magic magic1{Magic::Flags::Mime};
+     * Magic magic1{Magic::FlagsT::Mime};
      * Magic magic2{std::move(magic1)};  // magic1 is now closed
      * // magic2 is valid, magic1 is not
      * @endcode
@@ -846,7 +655,7 @@ public:
      * @returns `true` if valid (opened and database loaded), `false` otherwise.
      *
      * @code{.cpp}
-     * Magic magic{Magic::Flags::Mime, std::nothrow};
+     * Magic magic{Magic::FlagsT::Mime, std::nothrow};
      * if (magic) {
      *     auto type = magic.IdentifyFile("file.txt");
      * }
@@ -966,17 +775,17 @@ public:
      *
      * Retrieves the flags currently configured for this Magic instance.
      *
-     * @returns Container of active Flags values.
+     * @returns Container of active FlagsT values.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
      * @code{.cpp}
      * auto flags = magic.GetFlags();
-     * std::println("Active flags: {}", ToString(flags));
+     * std::println("Active flags: {}", MagicFlags{flags}.ToString());
      * @endcode
      *
      * @see SetFlags()
-     * @see ToString(const FlagsContainerT&)
+     * @see MagicFlags::ToString()
      *
      * @since 10.0.0
      */
@@ -987,7 +796,8 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Container of active Flags values, or `std::nullopt` if closed.
+     * @returns Container of active FlagsT values, or `std::nullopt` if closed
+     *          or the container conversion fails.
      *
      * @since 10.0.0
      */
@@ -1019,16 +829,16 @@ public:
      * @throws MagicIsClosed If the Magic instance is closed.
      *
      * @code{.cpp}
-     * auto maxBytes = magic.GetParameter(Magic::Parameters::BytesMax);
+     * auto maxBytes = magic.GetParameter(Magic::ParametersT::BytesMax);
      * std::println("Maximum bytes to scan: {}", maxBytes);
      * @endcode
      *
-     * @see Parameters for available parameters
+     * @see ParametersT for available parameters
      * @see SetParameter()
      *
      * @since 10.0.0
      */
-    [[nodiscard]] std::size_t GetParameter(Parameters parameter) const;
+    [[nodiscard]] std::size_t GetParameter(ParametersT parameter) const;
 
     /**
      * @brief Get the value of a specific parameter (noexcept version).
@@ -1041,7 +851,7 @@ public:
      * @since 10.0.0
      */
     [[nodiscard]] std::optional<std::size_t> GetParameter(
-        Parameters            parameter,
+        ParametersT           parameter,
         const std::nothrow_t& tag
     ) const noexcept;
 
@@ -1050,18 +860,17 @@ public:
      *
      * Retrieves a map of all parameters and their current values.
      *
-     * @returns Map from Parameters enum values to their current values.
+     * @returns Map from ParametersT enum values to their current values.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
      * @code{.cpp}
-     * auto params = magic.GetParameters();
-     * for (const auto& [param, value] : params) {
-     *     std::println("{}: {}", ToString(param), value);
-     * }
+     * MagicParameters parameters{magic.GetParameters()};
+     * std::println("{}", parameters.ToString());
      * @endcode
      *
      * @see ParameterValueMapT
+     * @see MagicParameters::ToString()
      * @see SetParameters()
      *
      * @since 10.0.0
@@ -1073,7 +882,8 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from Parameters to values, or `std::nullopt` if closed.
+     * @returns Map from ParametersT to values, or `std::nullopt` if closed
+     *          or the map conversion fails.
      *
      * @since 10.0.0
      */
@@ -1130,7 +940,7 @@ public:
      *
      * @param[in] path Path to the file to identify.
      *
-     * @returns File type string (format depends on configured Flags).
+     * @returns File type string (format depends on configured FlagsT).
      *
      * @throws MagicIsClosed          If the Magic instance is closed.
      * @throws MagicDatabaseNotLoaded If no database is loaded.
@@ -1139,7 +949,7 @@ public:
      * @throws MagicIdentifyFileError If identification fails.
      *
      * @code{.cpp}
-     * Magic magic{Magic::Flags::Mime};
+     * Magic magic{Magic::FlagsT::Mime};
      * auto type = magic.IdentifyFile("/etc/passwd");
      * // type = "text/plain; charset=us-ascii"
      * @endcode
@@ -1489,7 +1299,7 @@ public:
      * | Valid | `true` |
      *
      * @code{.cpp}
-     * Magic magic{Magic::Flags::Mime, std::nothrow};
+     * Magic magic{Magic::FlagsT::Mime, std::nothrow};
      * if (magic.IsValid()) {
      *     auto type = magic.IdentifyFile("file.txt");
      * }
@@ -1532,7 +1342,7 @@ public:
      *
      * @code{.cpp}
      * Magic magic;
-     * magic.Open(Magic::Flags::Mime);
+     * magic.Open(Magic::FlagsT::Mime);
      * magic.LoadDatabaseFile();  // Load default database
      *
      * // Or load custom database
@@ -1590,13 +1400,13 @@ public:
      * - From **Opened** → **Opened** (reopens with new flags)
      * - From **Valid** → **Opened** (database unloaded, must reload)
      *
-     * @param[in] flags_mask Configuration flags (use Flags enum values combined with |).
+     * @param[in] flags_mask Configuration flags (use FlagsT enum values combined with |).
      *
      * @throws MagicOpenError If opening fails.
      *
      * @code{.cpp}
      * Magic magic;
-     * magic.Open(Magic::Flags::Mime | Magic::Flags::Compress);
+     * magic.Open(Magic::FlagsT::Mime | Magic::FlagsT::Compress);
      * magic.LoadDatabaseFile();
      * @endcode
      *
@@ -1610,7 +1420,7 @@ public:
      *
      * @since 10.0.0
      */
-    void Open(FlagsMaskT flags_mask);
+    void Open(const FlagsMaskT& flags_mask);
 
     /**
      * @brief Open Magic with specified flags (noexcept version).
@@ -1623,14 +1433,14 @@ public:
      * @since 10.0.0
      */
     [[nodiscard]] bool Open(
-        FlagsMaskT            flags_mask,
+        const FlagsMaskT&     flags_mask,
         const std::nothrow_t& tag
     ) noexcept;
 
     /**
      * @brief Open Magic with a container of flags.
      *
-     * @param[in] flags_container Container of Flags values.
+     * @param[in] flags_container Container of FlagsT values.
      *
      * @throws MagicOpenError If opening fails.
      *
@@ -1641,7 +1451,7 @@ public:
     /**
      * @brief Open Magic with a container of flags (noexcept version).
      *
-     * @param[in] flags_container Container of Flags values.
+     * @param[in] flags_container Container of FlagsT values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` on failure.
@@ -1676,14 +1486,14 @@ public:
      * @throws MagicSetFlagsError If setting flags fails.
      *
      * @code{.cpp}
-     * magic.SetFlags(Magic::Flags::MimeType);  // Change to MIME type only
+     * magic.SetFlags(Magic::FlagsT::MimeType);  // Change to MIME type only
      * @endcode
      *
      * @see GetFlags()
      *
      * @since 10.0.0
      */
-    void SetFlags(FlagsMaskT flags_mask);
+    void SetFlags(const FlagsMaskT& flags_mask);
 
     /**
      * @brief Set new flags (noexcept version).
@@ -1696,14 +1506,14 @@ public:
      * @since 10.0.0
      */
     [[nodiscard]] bool SetFlags(
-        FlagsMaskT            flags_mask,
+        const FlagsMaskT&     flags_mask,
         const std::nothrow_t& tag
     ) noexcept;
 
     /**
      * @brief Set new flags from a container.
      *
-     * @param[in] flags_container Container of Flags values.
+     * @param[in] flags_container Container of FlagsT values.
      *
      * @throws MagicIsClosed      If the Magic instance is closed.
      * @throws MagicSetFlagsError If setting flags fails.
@@ -1715,7 +1525,7 @@ public:
     /**
      * @brief Set new flags from a container (noexcept version).
      *
-     * @param[in] flags_container Container of Flags values.
+     * @param[in] flags_container Container of FlagsT values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` on failure.
@@ -1745,20 +1555,20 @@ public:
      * @param[in] parameter The parameter to modify.
      * @param[in] value     The new value for the parameter.
      *
-     * @throws MagicIsClosed          If the Magic instance is closed.
-     * @throws MagicSetParameterError If setting the parameter fails.
+     * @throws MagicIsClosed           If the Magic instance is closed.
+     * @throws MagicSetParametersError If setting the parameter fails.
      *
      * @code{.cpp}
      * // Limit file scanning to 1MB for performance
-     * magic.SetParameter(Magic::Parameters::BytesMax, 1024 * 1024);
+     * magic.SetParameter(Magic::ParametersT::BytesMax, 1024 * 1024);
      * @endcode
      *
-     * @see Parameters
+     * @see ParametersT
      * @see GetParameter()
      *
      * @since 10.0.0
      */
-    void SetParameter(Parameters parameter, std::size_t value);
+    void SetParameter(ParametersT parameter, std::size_t value);
 
     /**
      * @brief Set a single parameter value (noexcept version).
@@ -1772,7 +1582,7 @@ public:
      * @since 10.0.0
      */
     [[nodiscard]] bool SetParameter(
-        Parameters            parameter,
+        ParametersT           parameter,
         std::size_t           value,
         const std::nothrow_t& tag
     ) noexcept;
@@ -1782,13 +1592,13 @@ public:
      *
      * @param[in] parameters Map of parameters to their new values.
      *
-     * @throws MagicIsClosed          If the Magic instance is closed.
-     * @throws MagicSetParameterError If setting any parameter fails.
+     * @throws MagicIsClosed           If the Magic instance is closed.
+     * @throws MagicSetParametersError If setting any parameter fails.
      *
      * @code{.cpp}
      * magic.SetParameters({
-     *     {Magic::Parameters::BytesMax, 1024 * 1024},
-     *     {Magic::Parameters::RegexMax, 4096}
+     *     {Magic::ParametersT::BytesMax, 1024 * 1024},
+     *     {Magic::ParametersT::RegexMax, 4096}
      * });
      * @endcode
      *
@@ -1885,12 +1695,6 @@ private:
         const std::nothrow_t&        tag,
         ProgressTrackerT progress_tracker = Utility::MakeSharedProgressTracker()
     ) const noexcept;
-
-    /** @brief Friend declaration for ToString(Flags) free function. */
-    friend std::string ToString(Flags);
-
-    /** @brief Friend declaration for ToString(Parameters) free function. */
-    friend std::string ToString(Parameters);
 };
 
 /**
@@ -2023,129 +1827,6 @@ private:
     const Magic::ExpectedFileTypeMapT& expected_file_type_map,
     const std::string&                 type_separator = " -> ",
     const std::string&                 file_separator = "\n"
-);
-
-/**
- * @brief Convert a Magic flag to its string name.
- * @ingroup magic_to_string
- *
- * Returns the symbolic name of a single flag value.
- *
- * @param[in] flag The flag to convert.
- *
- * @returns String name of the flag (e.g., "Mime", "MimeType").
- *
- * @code{.cpp}
- * std::println("{}", ToString(Magic::Flags::Mime));
- * // Output: Mime
- * @endcode
- *
- * @see Magic::Flags
- *
- * @since 10.0.0
- */
-[[nodiscard]] std::string ToString(Magic::Flags flag);
-
-/**
- * @brief Convert a container of flags to a string.
- * @ingroup magic_to_string
- *
- * Formats multiple flags as a comma-separated list.
- *
- * @param[in] flags     Container of flags to convert.
- * @param[in] separator Separator between flags (default: ", ").
- *
- * @returns Formatted string of flag names.
- *
- * @code{.cpp}
- * Magic::FlagsContainerT flags = {Magic::Flags::Mime, Magic::Flags::Compress};
- * std::println("{}", ToString(flags));
- * // Output: Mime, Compress
- * @endcode
- *
- * @see Magic::FlagsContainerT
- *
- * @since 10.0.0
- */
-[[nodiscard]] std::string ToString(
-    const Magic::FlagsContainerT& flags,
-    const std::string&            separator = ", "
-);
-
-/**
- * @brief Convert a Magic parameter to its string name.
- * @ingroup magic_to_string
- *
- * Returns the symbolic name of a single parameter value.
- *
- * @param[in] parameter The parameter to convert.
- *
- * @returns String name of the parameter (e.g., "BytesMax", "RegexMax").
- *
- * @code{.cpp}
- * std::println("{}", ToString(Magic::Parameters::BytesMax));
- * // Output: BytesMax
- * @endcode
- *
- * @see Magic::Parameters
- *
- * @since 10.0.0
- */
-[[nodiscard]] std::string ToString(Magic::Parameters parameter);
-
-/**
- * @brief Convert a parameter-value pair to a string.
- * @ingroup magic_to_string
- *
- * Formats a parameter and its value as "name: value".
- *
- * @param[in] parameter_value The parameter and its value.
- * @param[in] value_separator Separator between name and value (default: ": ").
- *
- * @returns Formatted string: "ParameterName: value".
- *
- * @code{.cpp}
- * Magic::ParameterValueT pv = {Magic::Parameters::BytesMax, 1048576};
- * std::println("{}", ToString(pv));
- * // Output: BytesMax: 1048576
- * @endcode
- *
- * @see Magic::ParameterValueT
- *
- * @since 10.0.0
- */
-[[nodiscard]] std::string ToString(
-    const Magic::ParameterValueT& parameter_value,
-    const std::string&            value_separator = ": "
-);
-
-/**
- * @brief Convert a parameter-value map to a string.
- * @ingroup magic_to_string
- *
- * Formats all parameters and their values as a formatted list.
- *
- * @param[in] parameters          Map of parameters to values.
- * @param[in] value_separator     Separator between name and value (default: ": ").
- * @param[in] parameter_separator Separator between entries (default: ", ").
- *
- * @returns Formatted string of all parameter-value pairs.
- *
- * @code{.cpp}
- * auto params = magic.GetParameters();
- * std::println("{}", ToString(params));
- * // Output: BytesMax: 1048576, RegexMax: 8192, ...
- * @endcode
- *
- * @see Magic::ParameterValueMapT
- * @see Magic::GetParameters()
- *
- * @since 10.0.0
- */
-[[nodiscard]] std::string ToString(
-    const Magic::ParameterValueMapT& parameters,
-    const std::string&               value_separator     = ": ",
-    const std::string&               parameter_separator = ", "
 );
 
 /** @} magic_to_string */

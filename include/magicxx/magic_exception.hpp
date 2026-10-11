@@ -26,9 +26,7 @@
  *       ├── MagicLoadDatabaseFileError - Failed to load database
  *       ├── MagicDatabaseNotLoaded   - Database not loaded
  *       ├── MagicIdentifyFileError   - Failed to identify file
- *       ├── MagicFlagsError          - Flag operation failed (base, set or get)
- *       │    ├── MagicSetFlagsError  - Magic::SetFlags() failed
- *       │    └── MagicGetFlagsError  - Magic::GetFlags() failed
+ *       ├── MagicSetFlagsError       - Magic::SetFlags() failed
  *       └── MagicParametersError     - Parameter operation failed (base, set or get)
  *            ├── MagicSetParametersError - Magic::SetParameter(s)() failed
  *            └── MagicGetParametersError - Magic::GetParameter(s)() failed
@@ -452,45 +450,6 @@ public:
 };
 
 /**
- * @class MagicFlagsError
- * @ingroup magic_exceptions
- *
- * @brief Base exception for all Magic flag operations.
- *
- * MagicFlagsError is the common base for the exceptions reported by the
- * flag operations of the Magic class: MagicSetFlagsError (writing flags
- * via Magic::SetFlags()) and MagicGetFlagsError (reading flags via
- * Magic::GetFlags()). Catching MagicFlagsError handles every flag
- * operation failure with a single catch block. Failures include unknown
- * flag bits and libmagic errors.
- *
- * @see MagicSetFlagsError
- * @see MagicGetFlagsError
- * @see Magic::SetFlags()
- * @see Magic::GetFlags()
- * @see Magic::FlagsT
- *
- * @since 11.0.0
- */
-class MagicFlagsError : public MagicException {
-public:
-    /**
-     * @brief Construct MagicFlagsError with function context and details.
-     *
-     * @param[in] function      Name of the flag operation that failed.
-     * @param[in] error_message Description of why the operation failed.
-     *
-     * @since 11.0.0
-     */
-    MagicFlagsError(
-        const std::string& function,
-        const std::string& error_message
-    )
-      : MagicException{function, error_message}
-    { }
-};
-
-/**
  * @class MagicSetFlagsError
  * @ingroup magic_exceptions
  *
@@ -500,12 +459,12 @@ public:
  * flags could not be applied, for example because the value contains
  * unknown flag bits or because the underlying libmagic call failed.
  *
- * @see MagicFlagsError
  * @see Magic::SetFlags()
+ * @see Magic::FlagsT
  *
  * @since 11.0.0
  */
-class MagicSetFlagsError final : public MagicFlagsError {
+class MagicSetFlagsError final : public MagicException {
 public:
     /**
      * @brief Construct MagicSetFlagsError with the flags that were set.
@@ -519,38 +478,10 @@ public:
         const std::string& error_message,
         const MagicFlags&  flags
     )
-      : MagicFlagsError{
+      : MagicException{
             std::format("Magic::SetFlags({})", flags.ToString()),
             error_message
         }
-    { }
-};
-
-/**
- * @class MagicGetFlagsError
- * @ingroup magic_exceptions
- *
- * @brief Exception thrown when a Magic flag read operation fails.
- *
- * This exception is reported by Magic::GetFlags(). It carries only an
- * error message because Magic::GetFlags() takes no arguments.
- *
- * @see MagicFlagsError
- * @see Magic::GetFlags()
- *
- * @since 11.0.0
- */
-class MagicGetFlagsError final : public MagicFlagsError {
-public:
-    /**
-     * @brief Construct MagicGetFlagsError with details.
-     *
-     * @param[in] error_message Description of why reading flags failed.
-     *
-     * @since 11.0.0
-     */
-    explicit MagicGetFlagsError(const std::string& error_message)
-      : MagicFlagsError{"Magic::GetFlags()", error_message}
     { }
 };
 

@@ -24,6 +24,7 @@
 #define MAGIC_PARAMETERS_HPP
 
 #include <array>
+#include <compare>
 #include <cstddef>
 #include <cstdint>
 #include <map>
@@ -57,6 +58,8 @@ namespace Recognition {
  *   `noexcept`; the inline storage performs no heap allocation.
  * - **Explicit Conversions**: `ToString()` named member function instead of
  *   implicit conversion operators.
+ * - **Comparison**: Snapshots are comparable with `operator==` and
+ *   `operator<=>`.
  *
  * ### Usage Examples
  *
@@ -280,6 +283,43 @@ public:
      * @since 11.0.0
      */
     MagicParameters& operator=(MagicParameters&& other) noexcept = default;
+
+    /**
+     * @brief Compare two parameter snapshots for equality.
+     *
+     * @param[in] lhs Left-hand side snapshot.
+     * @param[in] rhs Right-hand side snapshot.
+     *
+     * @returns `true` if both snapshots store identical entries.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] friend bool operator==(
+        const MagicParameters& lhs,
+        const MagicParameters& rhs
+    ) noexcept
+    {
+        return lhs.m_values == rhs.m_values;
+    }
+
+    /**
+     * @brief Compare two parameter snapshots entry by entry.
+     *
+     * @param[in] lhs Left-hand side snapshot.
+     * @param[in] rhs Right-hand side snapshot.
+     *
+     * @returns A `std::strong_ordering` result comparing the stored entries
+     *          in parameter ordinal order.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] friend std::strong_ordering operator<=>(
+        const MagicParameters& lhs,
+        const MagicParameters& rhs
+    ) noexcept
+    {
+        return lhs.m_values <=> rhs.m_values;
+    }
 
     /**
      * @brief Convert the stored parameter values to a string.

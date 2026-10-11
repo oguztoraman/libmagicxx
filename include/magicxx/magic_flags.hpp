@@ -21,6 +21,7 @@
 #define MAGIC_FLAGS_HPP
 
 #include <bit>
+#include <compare>
 #include <cstddef>
 #include <cstdint>
 #include <numeric>
@@ -56,6 +57,8 @@ namespace Recognition {
  *   `operator|` for building flag sets.
  * - **Explicit Conversions**: `ToContainer()` and `ToString()` named member
  *   functions instead of implicit conversion operators.
+ * - **Ordering**: Flag sets are comparable with `operator==` and ordered by
+ *   bitmask with `operator<=>`.
  *
  * ### Usage Examples
  *
@@ -330,6 +333,42 @@ public:
     ) noexcept
     {
         return lhs | MagicFlags{rhs};
+    }
+
+    /**
+     * @brief Compare two flag sets for equality.
+     *
+     * @param[in] lhs Left-hand side flag set.
+     * @param[in] rhs Right-hand side flag set.
+     *
+     * @returns `true` if both sets contain the same flags.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] friend bool operator==(
+        const MagicFlags& lhs,
+        const MagicFlags& rhs
+    ) noexcept
+    {
+        return lhs.m_mask == rhs.m_mask;
+    }
+
+    /**
+     * @brief Compare two flag sets by their underlying bitmask.
+     *
+     * @param[in] lhs Left-hand side flag set.
+     * @param[in] rhs Right-hand side flag set.
+     *
+     * @returns A `std::strong_ordering` result comparing the two bitmasks.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] friend std::strong_ordering operator<=>(
+        const MagicFlags& lhs,
+        const MagicFlags& rhs
+    ) noexcept
+    {
+        return lhs.m_mask <=> rhs.m_mask;
     }
 
     /**

@@ -11,6 +11,9 @@
  *   the trivially noexcept special members
  * - ToString() name lookup, formats, ordering, separators, and the empty
  *   snapshot
+ * - Equality comparison via operator==
+ * - Total ordering via operator<=> (entry-wise ordinal order, ordered
+ *   containers)
  * - SetParameter()/SetParameters() and GetParameter()/GetParameters()
  * - Both throwing and noexcept overloads
  * - Behavior on closed and valid Magic instances
@@ -44,9 +47,12 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
+#include <compare>
 #include <cstddef>
 #include <map>
 #include <random>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -644,4 +650,114 @@ TEST_F(MagicParametersConvertTest, copy_and_move_preserve_snapshot)
 
     const MagicParameters moved{std::move(original)};
     EXPECT_EQ("RegexMax: 8192, BytesMax: 7", moved.ToString());
+}
+
+TEST_F(MagicParametersConvertTest, equality_operator_compares_snapshots)
+{
+    const MagicParameters default_parameters;
+    EXPECT_EQ(default_parameters, MagicParameters{});
+    EXPECT_EQ(
+        default_parameters,
+        MagicParameters{MagicParameters::ParameterValueMapT{}}
+    );
+
+    const MagicParameters single{
+        MagicParameters::Parameters::RegexMax,
+        8'192UZ
+    };
+    const MagicParameters from_map{MagicParameters::ParameterValueMapT{
+        {MagicParameters::Parameters::RegexMax, 8'192UZ}
+    }};
+    EXPECT_EQ(single, from_map);
+
+    const MagicParameters other_value{
+        MagicParameters::Parameters::RegexMax,
+        4'096UZ
+    };
+    EXPECT_NE(single, other_value);
+
+    const MagicParameters superset{
+        MagicParameters::ParameterValueMapT{
+                                            {MagicParameters::Parameters::RegexMax, 8'192UZ},
+                                            {MagicParameters::Parameters::BytesMax, 7UZ}
+        }
+    };
+    EXPECT_NE(single, superset);
+    EXPECT_NE(superset, single);
+
+    constexpr MagicParameters::Parameters INVALID_PARAMETER{
+        static_cast<MagicParameters::Parameters>(99)
+    };
+    const MagicParameters invalid_snapshot{INVALID_PARAMETER, 1UZ};
+    EXPECT_EQ(invalid_snapshot, default_parameters);
+}
+
+TEST_F(MagicParametersConvertTest, spaceship_orders_snapshots_entrywise)
+{
+    const MagicParameters empty_parameters{};
+    const MagicParameters indir_15{MagicParameters::Parameters::IndirMax, 15UZ};
+    const MagicParameters indir_16{MagicParameters::Parameters::IndirMax, 16UZ};
+    const MagicParameters fuller{
+        MagicParameters::ParameterValueMapT{
+                                            {MagicParameters::Parameters::IndirMax, 15UZ},
+                                            {MagicParameters::Parameters::NameMax, 30UZ}
+        }
+    };
+
+    EXPECT_LT(empty_parameters, indir_15);
+    EXPECT_LT(indir_15, indir_16);
+    EXPECT_LT(indir_15, fuller);
+    EXPECT_GE(indir_15, indir_15);
+    EXPECT_LE(indir_15, indir_15);
+    EXPECT_GT(fuller, empty_parameters);
+
+    EXPECT_EQ(indir_15 <=> indir_16, std::strong_ordering::less);
+    EXPECT_EQ(indir_16 <=> indir_15, std::strong_ordering::greater);
+    const MagicParameters indir_15_from_map{MagicParameters::ParameterValueMapT{
+        {MagicParameters::Parameters::IndirMax, 15UZ}
+    }};
+    EXPECT_EQ(indir_15 <=> indir_15_from_map, std::strong_ordering::equal);
+
+    const MagicParameters early_big{
+        MagicParameters::ParameterValueMapT{
+                                            {MagicParameters::Parameters::IndirMax, 999UZ},
+                                            {MagicParameters::Parameters::MagWarnMax, 0UZ}
+        }
+    };
+    const MagicParameters late_big{
+        MagicParameters::ParameterValueMapT{
+                                            {MagicParameters::Parameters::IndirMax, 1UZ},
+                                            {MagicParameters::Parameters::MagWarnMax, 999UZ}
+        }
+    };
+    EXPECT_GT(early_big, late_big);
+}
+
+TEST_F(MagicParametersConvertTest, spaceship_provides_strict_weak_ordering)
+{
+    std::vector<MagicParameters> snapshots{
+        MagicParameters{},
+        MagicParameters{MagicParameters::Parameters::IndirMax, 15UZ},
+        MagicParameters{MagicParameters::Parameters::IndirMax, 16UZ},
+        MagicParameters{MagicParameters::Parameters::MagWarnMax, 64UZ},
+        MagicParameters{FullValueMap()},
+        MagicParameters{FullValueMap()},
+    };
+
+    const std::set<MagicParameters> ordered_set{
+        snapshots.begin(),
+        snapshots.end()
+    };
+    EXPECT_EQ(5UZ, ordered_set.size());
+
+    std::ranges::sort(snapshots);
+    EXPECT_TRUE(std::ranges::is_sorted(snapshots));
+    snapshots.erase(std::ranges::unique(snapshots).begin(), snapshots.end());
+    EXPECT_EQ(5UZ, snapshots.size());
+
+    const std::vector<MagicParameters> from_set{
+        ordered_set.begin(),
+        ordered_set.end()
+    };
+    EXPECT_EQ(from_set, snapshots);
 }

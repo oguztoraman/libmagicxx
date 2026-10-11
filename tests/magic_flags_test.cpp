@@ -10,6 +10,8 @@
  * - Every MagicFlags constructor (default, single flag, container, copy, move)
  * - Assignment operators and the full operator| overload family
  * - Grouped and chained operator| expressions
+ * - Equality comparison via operator==
+ * - Total ordering via operator<=> (mask order, ordered containers)
  * - Raw bit-position mapping of every flag
  * - ToContainer() ordering, membership, and round-trips
  * - ToString() name lookup for all flags and separator formatting
@@ -40,6 +42,7 @@
 
 #include <algorithm>
 #include <bit>
+#include <compare>
 #include <cstddef>
 #include <numeric>
 #include <random>
@@ -747,6 +750,96 @@ TEST_F(MagicFlagsValueTest, operator_or_chained_expression)
                            | MagicFlags::Flags::MimeType;
     EXPECT_EQ(5UZ, flags.ToContainer().size());
     EXPECT_EQ("Debug, Symlink, Compress, Devices, MimeType", flags.ToString());
+}
+
+TEST_F(MagicFlagsValueTest, equality_operator_compares_flag_sets)
+{
+    const MagicFlags empty_flags{};
+    EXPECT_EQ(empty_flags, MagicFlags::Flags::None);
+    EXPECT_EQ(empty_flags, MagicFlags{MagicFlags::FlagsContainerT{}});
+
+    const MagicFlags from_container{
+        MagicFlags::FlagsContainerT{
+                                    MagicFlags::Flags::Debug,
+                                    MagicFlags::Flags::Compress
+        }
+    };
+    const MagicFlags from_or = MagicFlags::Flags::Debug
+                             | MagicFlags::Flags::Compress;
+    EXPECT_EQ(from_container, from_or);
+
+    EXPECT_NE(
+        MagicFlags{MagicFlags::Flags::Mime},
+        MagicFlags{MagicFlags::Flags::Compress}
+    );
+    EXPECT_NE(
+        MagicFlags{MagicFlags::Flags::Mime},
+        MagicFlags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress}
+    );
+    EXPECT_NE(empty_flags, MagicFlags::Flags::Debug);
+
+    const MagicFlags symmetry_lhs = MagicFlags::Flags::Apple
+                                  | MagicFlags::Flags::Raw;
+    const MagicFlags symmetry_rhs = MagicFlags::Flags::Raw
+                                  | MagicFlags::Flags::Apple;
+    EXPECT_EQ(symmetry_lhs, symmetry_rhs);
+    EXPECT_NE(symmetry_lhs, AllFlagsSet());
+    EXPECT_NE(AllFlagsSet(), symmetry_lhs);
+}
+
+TEST_F(MagicFlagsValueTest, spaceship_orders_by_underlying_mask)
+{
+    const MagicFlags empty_flags{};
+    const MagicFlags debug{MagicFlags::Flags::Debug};
+    const MagicFlags symlink{MagicFlags::Flags::Symlink};
+    const MagicFlags mime{MagicFlags::Flags::Mime};
+
+    EXPECT_LT(debug, symlink);
+    EXPECT_LT(symlink, mime);
+    EXPECT_LE(debug, debug);
+    EXPECT_GE(debug, debug);
+    EXPECT_GT(mime, debug);
+    EXPECT_GT(mime, empty_flags);
+    EXPECT_LT(empty_flags, debug);
+
+    EXPECT_EQ(debug <=> symlink, std::strong_ordering::less);
+    EXPECT_EQ(mime <=> debug, std::strong_ordering::greater);
+    EXPECT_EQ(debug <=> debug, std::strong_ordering::equal);
+    EXPECT_EQ(debug <=> MagicFlags::Flags::Debug, std::strong_ordering::equal);
+}
+
+TEST_F(MagicFlagsValueTest, spaceship_provides_strict_weak_ordering)
+{
+    const MagicFlags superset{
+        MagicFlags::Flags::Debug | MagicFlags::Flags::Symlink
+    };
+    const MagicFlags high_bit{MagicFlags::Flags::NoCheckBuiltin};
+    EXPECT_LT(superset, high_bit);
+
+    MagicFlags::FlagsContainerT shuffled;
+    shuffled.reserve(ALL_FLAGS.size() - 1UZ);
+    for (std::size_t i{1UZ}; i < ALL_FLAGS.size(); ++i) {
+        shuffled.push_back(ALL_FLAGS.at(i).first);
+    }
+    std::ranges::shuffle(shuffled, std::mt19937{42U});
+
+    const std::set<MagicFlags> ordered_set{shuffled.begin(), shuffled.end()};
+    EXPECT_EQ(ALL_FLAGS.size() - 1UZ, ordered_set.size());
+
+    std::vector<MagicFlags> flags_vector{shuffled.begin(), shuffled.end()};
+    std::ranges::sort(flags_vector);
+    EXPECT_TRUE(std::ranges::is_sorted(flags_vector));
+    EXPECT_TRUE(
+        std::adjacent_find(flags_vector.begin(), flags_vector.end())
+        == flags_vector.end()
+    );
+
+    std::size_t expected_bit{};
+    for (const auto& flags : ordered_set) {
+        EXPECT_EQ(flags, MagicFlags{FlagAtBit(expected_bit)});
+        ++expected_bit;
+    }
+    EXPECT_EQ(expected_bit, ALL_FLAGS.size() - 1UZ);
 }
 
 TEST_F(MagicFlagsValueTest, to_string_joins_names_with_custom_separator)

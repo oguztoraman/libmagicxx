@@ -252,8 +252,9 @@ static_assert(
 /**
  * @brief Look up the human-readable name of a single flag.
  *
- * Internal helper used by MagicFlags::ToString(char) to render each set
- * bit. Uses the `std::countr_zero` bit-index lookup into LIBMAGIC_FLAGS;
+ * Internal helper used by MagicFlags::ToString(std::string_view) to render
+ * each set bit. Uses the `std::countr_zero` bit-index lookup into
+ * LIBMAGIC_FLAGS; the
  * the table order matches the dense Flags enum bit positions (asserted
  * above).
  *

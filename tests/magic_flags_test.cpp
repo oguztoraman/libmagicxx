@@ -691,6 +691,21 @@ TEST_F(MagicFlagsValueTest, container_constructor_with_large_duplicated_set)
     EXPECT_EQ(AllFlagsSet(), MagicFlags{large_container});
 }
 
+TEST_F(MagicFlagsValueTest, unknown_bits_remain_observable_in_conversions)
+{
+    const MagicFlags                  high_bit{FlagAtBit(FlagBitCount() + 1UZ)};
+    const MagicFlags::FlagsContainerT container{high_bit.ToContainer()};
+    ASSERT_EQ(1UZ, container.size());
+    EXPECT_EQ(FlagAtBit(FlagBitCount() + 1UZ), container.front());
+    EXPECT_EQ("Invalid(2147483648)", high_bit.ToString());
+
+    const MagicFlags mixed{
+        MagicFlags::Flags::Debug | FlagAtBit(FlagBitCount())
+    };
+    EXPECT_EQ(2UZ, mixed.ToContainer().size());
+    EXPECT_EQ("Debug, Invalid(1073741824)", mixed.ToString());
+}
+
 TEST_F(MagicFlagsValueTest, to_container_orders_by_ascending_bit)
 {
     const MagicFlags flags{

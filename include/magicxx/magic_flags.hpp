@@ -374,10 +374,17 @@ public:
     /**
      * @brief Convert the flag set to a container of flag values.
      *
-     * Returns each active flag as a Flags enum value.
+     * Returns each active flag as a Flags enum value, ordered by ascending
+     * bit position.
      *
      * @returns Container of active Flags values; `{Flags::None}` when no flag
      *          is set.
+     *
+     * @note Bit positions that no Flags enumerator covers are preserved as
+     *       raw enum values with a single unknown bit set, so invalid flag
+     *       sets remain observable through this conversion and ToString().
+     *       Such masks are still rejected by Magic::Open() and
+     *       Magic::SetFlags().
      *
      * @code{.cpp}
      * MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
@@ -392,14 +399,16 @@ public:
         if (m_mask == 0U) {
             return {Flags::None};
         }
-        constexpr std::size_t BIT_COUNT{static_cast<std::size_t>(
-            std::bit_width(std::to_underlying(Flags::NoCheckBuiltin))
-        )};
-        FlagsContainerT       flags_container;
-        for (std::size_t bit{}; bit < BIT_COUNT; ++bit) {
-            if (((m_mask >> bit) & 1U) != 0U) {
-                flags_container.push_back(static_cast<Flags>(1U << bit));
-            }
+        FlagsContainerT flags_container;
+        for (
+            std::uint32_t remaining{m_mask}; remaining != 0U;
+            remaining &= remaining - 1U
+        ) {
+            flags_container.push_back(
+                static_cast<Flags>(
+                    std::uint32_t{1U} << std::countr_zero(remaining)
+                )
+            );
         }
         return flags_container;
     }

@@ -64,7 +64,7 @@ namespace Recognition {
  * ### Usage Examples
  *
  * @code{.cpp}
- * #include <magic_parameters.hpp>
+ * #include <magic.hpp>
  * #include <print>
  *
  * using namespace Recognition;
@@ -142,7 +142,7 @@ public:
      * @code{.cpp}
      * MagicParameters parameters{map};
      *
-     * // "RegexMax,BytesMax"
+     * // "RegexMax, BytesMax"
      * parameters.ToString(StringFormat::Names);
      *
      * // "RegexMax: 8192, BytesMax: 1048576"
@@ -336,7 +336,7 @@ public:
      * @returns Formatted string of the stored entries — e.g.
      *          "RegexMax: 8192, BytesMax: 1048576" with the default
      *          separators and `StringFormat::NamesAndValues`, or
-     *          "RegexMax,BytesMax" with `StringFormat::Names`; entries render
+     *          "RegexMax, BytesMax" with `StringFormat::Names`; entries render
      *          in Parameters ordinal order and the result is empty when no
      *          value is stored. A single "ParameterName: value" entry is
      *          rendered by constructing an instance from that parameter and
@@ -353,7 +353,7 @@ public:
      * // text == "RegexMax: 8192, BytesMax: 1048576"
      * auto names = parameters.ToString(
      *     MagicParameters::StringFormat::Names);
-     * // names == "RegexMax,BytesMax"
+     * // names == "RegexMax, BytesMax"
      * @endcode
      *
      * @since 11.0.0

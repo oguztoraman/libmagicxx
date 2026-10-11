@@ -462,7 +462,7 @@ public:
  * @see Magic::SetFlags()
  * @see Magic::FlagsT
  *
- * @since 11.0.0
+ * @since 10.0.0
  */
 class MagicSetFlagsError final : public MagicException {
 public:

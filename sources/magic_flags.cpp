@@ -33,10 +33,10 @@
  * |-----------|---------|
  * | `Detail` (magic.h) | Wrapped libmagic C constants |
  * | `LIBMAGIC_FLAGS` | Bit position to `MAGIC_*` constant and name |
- * | `MaskToUnderlying()` | Bitmask to `MAGIC_*` OR-value |
+ * | `MaskToUnderlying()` | Bitmask to `MAGIC_*` OR-value (nullopt for unknown bits) |
  * | `PairValue()` | Extracts the integer from a value-name pair |
  * | `PairName()` | Extracts the name from a value-name pair |
- * | `FlagName()` | Flag enum value to name (countr_zero bit index) |
+ * | `FlagName()` | Flag enum value to name (countr_zero bit index, numeric fallback) |
  *
  * @see magic_flags.hpp for the public API documentation
  *
@@ -51,6 +51,8 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
+#include <format>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -220,14 +222,22 @@ static_assert(
  * @brief Convert a raw bitmask to libmagic flag constants.
  *
  * ORs together the `MAGIC_*` constants corresponding to every set bit for
- * use with `magic_open()` and `magic_setflags()`.
+ * use with `magic_open()` and `magic_setflags()`. Bit positions outside
+ * `[0, LIBMAGIC_FLAGS_COUNT)` are reported as `std::nullopt` so the caller
+ * can reject the mask.
  *
  * @param[in] mask Raw bitmask with the flag bits set.
  *
- * @returns Libmagic-compatible integer flags value.
+ * @returns Libmagic-compatible integer flags value, or `std::nullopt` if
+ *          `mask` carries a bit position that no `Flags` enumerator covers.
  */
-[[nodiscard]] int MaskToUnderlying(std::uint32_t mask) noexcept
+[[nodiscard]] constexpr std::optional<int> MaskToUnderlying(
+    std::uint32_t mask
+) noexcept
 {
+    if ((mask >> LIBMAGIC_FLAGS_COUNT) != 0U) {
+        return std::nullopt;
+    }
     auto        flags = PairValue(LIBMAGIC_FLAG_NONE);
     std::size_t bit{};
     for (const auto& pair : LIBMAGIC_FLAGS) {
@@ -249,16 +259,22 @@ static_assert(
  *
  * @param[in] flag The flag to convert.
  *
- * @returns The flag name (e.g. "Mime"), or "None" for Flags::None.
+ * @returns The flag name (e.g. "Mime"), "None" for Flags::None, or a
+ *          numeric "Invalid(N)" fallback when no defined bit matches.
  */
-[[nodiscard]] constexpr LibmagicValueNameT FlagName(MagicFlags::Flags flag)
+[[nodiscard]] std::string FlagName(MagicFlags::Flags flag)
 {
     if (flag == MagicFlags::Flags::None) {
-        return PairName(LIBMAGIC_FLAG_NONE);
+        return std::string{PairName(LIBMAGIC_FLAG_NONE)};
     }
-    return PairName(LIBMAGIC_FLAGS.at(
-        static_cast<std::size_t>(std::countr_zero(std::to_underlying(flag)))
-    ));
+    const auto        underlying{std::to_underlying(flag)};
+    const std::size_t bit{
+        static_cast<std::size_t>(std::countr_zero(underlying))
+    };
+    if (bit >= LIBMAGIC_FLAGS_COUNT) {
+        return std::format("Invalid({})", underlying);
+    }
+    return std::string{PairName(LIBMAGIC_FLAGS.at(bit))};
 }
 } /* anonymous namespace */
 
@@ -273,7 +289,7 @@ std::string MagicFlags::ToString(const std::string_view separator) const
     );
 }
 
-int MagicFlags::ToUnderlying() const noexcept
+std::optional<int> MagicFlags::ToUnderlying() const noexcept
 {
     return MaskToUnderlying(m_mask);
 }

@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[BUGFIX]** Magic: Reject out-of-range Parameters ordinals and unknown Flags mask bits.
+
 + **[BUGFIX]** Magic: Fix undefined behavior in ToString by replacing eager value_or with a ternary.
 
 + **[QUALITY]** Magic: API CHANGE - Separate flags and parameters operations into MagicFlags and MagicParameters classes.

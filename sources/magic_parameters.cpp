@@ -34,8 +34,8 @@
  * |-----------|---------|
  * | `Detail` (magic.h) | Wrapped libmagic C constants |
  * | `LIBMAGIC_PARAMETERS` | Ordinal to `MAGIC_PARAM_*` constant and name |
- * | `ParameterToUnderlying()` | `Parameters` to `MAGIC_PARAM_*` constant |
- * | `ParameterName()` | `Parameters` to name (ordinal index) |
+ * | `ParameterToUnderlying()` | `Parameters` to `MAGIC_PARAM_*` (nullopt when invalid) |
+ * | `ParameterName()` | `Parameters` to name (ordinal index, numeric fallback) |
  * | `PairValue()` | Extracts the integer from a value-name pair |
  * | `PairName()` | Extracts the name from a value-name pair |
  *
@@ -51,6 +51,7 @@
 #include <array>
 #include <cstddef>
 #include <format>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -174,25 +175,29 @@ static_assert(
  *
  * Looks up the `MAGIC_PARAM_*` constant corresponding to the given
  * `Parameters` ordinal for use with `magic_getparam()` and
- * `magic_setparam()`. The fallback keeps the function total and
- * non-throwing for an out-of-range enum value.
+ * `magic_setparam()`. An out-of-range ordinal is reported as `std::nullopt`.
  *
  * @param[in] parameter The parameter to convert.
  *
- * @returns Libmagic-compatible `MAGIC_PARAM_*` constant.
+ * @returns Libmagic-compatible `MAGIC_PARAM_*` constant, or `std::nullopt`
+ *          if `parameter` is not a valid ordinal.
  */
-[[nodiscard]] constexpr LibmagicValueT ParameterToUnderlying(
+[[nodiscard]] constexpr std::optional<LibmagicValueT> ParameterToUnderlying(
     MagicParameters::Parameters parameter
 ) noexcept
 {
-    std::size_t ordinal{};
+    const auto ordinal{static_cast<std::size_t>(std::to_underlying(parameter))};
+    if (ordinal >= LIBMAGIC_PARAMETER_COUNT) {
+        return std::nullopt;
+    }
+    std::size_t index{};
     for (const auto& pair : LIBMAGIC_PARAMETERS) {
-        if (parameter == static_cast<MagicParameters::Parameters>(ordinal)) {
+        if (parameter == static_cast<MagicParameters::Parameters>(index)) {
             return PairValue(pair);
         }
-        ++ordinal;
+        ++index;
     }
-    return PairValue(LIBMAGIC_PARAMETERS.front());
+    return std::nullopt;
 }
 
 /**
@@ -205,19 +210,16 @@ static_assert(
  *
  * @param[in] parameter The parameter to convert.
  *
- * @returns The parameter name (e.g. "BytesMax") as a view referencing
- *          the static table literal; valid for the program lifetime.
- *
- * @throws std::out_of_range If the ordinal exceeds the table bounds
- *         (impossible for valid Parameters enumerators; asserted above).
+ * @returns The parameter name (e.g. "BytesMax"), or a numeric
+ *          "Invalid(N)" fallback when the ordinal exceeds the table bounds.
  */
-[[nodiscard]] LibmagicValueNameT ParameterName(
-    MagicParameters::Parameters parameter
-)
+[[nodiscard]] std::string ParameterName(MagicParameters::Parameters parameter)
 {
-    return PairName(LIBMAGIC_PARAMETERS.at(
-        static_cast<std::size_t>(std::to_underlying(parameter))
-    ));
+    const auto ordinal{static_cast<std::size_t>(std::to_underlying(parameter))};
+    if (ordinal >= LIBMAGIC_PARAMETER_COUNT) {
+        return std::format("Invalid({})", ordinal);
+    }
+    return std::string{PairName(LIBMAGIC_PARAMETERS.at(ordinal))};
 }
 } /* anonymous namespace */
 
@@ -252,7 +254,7 @@ std::string MagicParameters::ToString(
     return result;
 }
 
-int MagicParameters::ToUnderlying(Parameters parameter) noexcept
+std::optional<int> MagicParameters::ToUnderlying(Parameters parameter) noexcept
 {
     return ParameterToUnderlying(parameter);
 }

@@ -14,6 +14,8 @@
  * - SetParameter()/SetParameters() and GetParameter()/GetParameters()
  * - Both throwing and noexcept overloads
  * - Behavior on closed and valid Magic instances
+ * - Rejection of out-of-range `Parameters` ordinals, which must never read
+ *   or modify another parameter
  *
  * @section params_test_strategy Test Strategy
  *
@@ -24,6 +26,8 @@
  * - Closed Magic throws appropriate exceptions
  * - Round-trip consistency (set then get), which also proves the internal
  *   libmagic constant mapping works for every parameter
+ * - Out-of-range ordinals fail explicitly, with the other parameters
+ *   verified to stay untouched
  *
  * @section params_test_parameters Parameters Tested
  *
@@ -80,6 +84,19 @@ protected:
             {MagWarnMax,   m_distribution(m_engine)}
         };
     }
+
+    static constexpr std::size_t INVALID_ORDINAL{99};
+    static constexpr std::size_t SENTINEL_VALUE{42};
+    static constexpr std::size_t SENTINEL_STEP{3};
+    static constexpr std::size_t ORDINAL_COUNT{10};
+
+    static constexpr Magic::ParametersT INVALID_PARAMETER{
+        static_cast<Magic::ParametersT>(INVALID_ORDINAL)
+    };
+
+    static constexpr Magic::ParametersT FIRST_INVALID_PARAMETER{
+        static_cast<Magic::ParametersT>(ORDINAL_COUNT)
+    };
 
     std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     Magic                 m_closed_magic{};
@@ -257,6 +274,211 @@ TEST_F(MagicParametersTest, get_parameters_names_via_magic_parameters)
     );
 }
 
+TEST_F(MagicParametersTest, set_parameter_with_invalid_ordinal_throws)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    EXPECT_THROW(
+        m_valid_magic.SetParameter(INVALID_PARAMETER, SENTINEL_STEP),
+        MagicSetParametersError
+    );
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
+TEST_F(MagicParametersTest, set_parameter_error_message_reports_ordinal)
+{
+    const auto report{[this]() -> std::string {
+        try {
+            m_valid_magic.SetParameter(INVALID_PARAMETER, SENTINEL_STEP);
+        } catch (const MagicSetParametersError& error) {
+            return error.what();
+        }
+        return {};
+    }()};
+    EXPECT_NE(
+        std::string::npos,
+        report.find(
+            "Invalid parameter ordinal " + std::to_string(INVALID_ORDINAL)
+        )
+    );
+}
+
+TEST_F(
+    MagicParametersTest,
+    set_parameter_with_invalid_ordinal_noexcept_returns_false
+)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    EXPECT_FALSE(m_valid_magic.SetParameter(
+        INVALID_PARAMETER,
+        SENTINEL_STEP,
+        std::nothrow
+    ));
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
+TEST_F(MagicParametersTest, get_parameter_with_invalid_ordinal_throws)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    EXPECT_THROW(
+        static_cast<void>(m_valid_magic.GetParameter(INVALID_PARAMETER)),
+        MagicGetParametersError
+    );
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
+TEST_F(
+    MagicParametersTest,
+    get_parameter_with_invalid_ordinal_noexcept_returns_nullopt
+)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    EXPECT_FALSE(
+        m_valid_magic.GetParameter(INVALID_PARAMETER, std::nothrow).has_value()
+    );
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax, std::nothrow)
+    );
+}
+
+TEST_F(MagicParametersTest, get_parameter_nothrow_after_close_returns_nullopt)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::RegexMax, SENTINEL_VALUE);
+    m_valid_magic.Close();
+    EXPECT_FALSE(m_valid_magic
+                     .GetParameter(Magic::ParametersT::RegexMax, std::nothrow)
+                     .has_value());
+}
+
+TEST_F(MagicParametersTest, set_parameters_with_invalid_key_throws)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    const Magic::ParameterValueMapT parameters{
+        {Magic::ParametersT::RegexMax, SENTINEL_STEP },
+        {INVALID_PARAMETER,            SENTINEL_VALUE}
+    };
+    EXPECT_THROW(
+        m_valid_magic.SetParameters(parameters),
+        MagicSetParametersError
+    );
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
+TEST_F(MagicParametersTest, set_parameters_with_invalid_key_noexcept)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    const Magic::ParameterValueMapT parameters{
+        {Magic::ParametersT::RegexMax, SENTINEL_STEP },
+        {INVALID_PARAMETER,            SENTINEL_VALUE}
+    };
+    EXPECT_FALSE(m_valid_magic.SetParameters(parameters, std::nothrow));
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
+TEST_F(MagicParametersTest, every_valid_ordinal_maps_to_own_libmagic_parameter)
+{
+    for (std::size_t ordinal{}; ordinal < ORDINAL_COUNT; ++ordinal) {
+        const auto parameter{static_cast<Magic::ParametersT>(ordinal)};
+        m_valid_magic.SetParameter(parameter, (ordinal + 1UZ) * SENTINEL_STEP);
+    }
+    for (std::size_t ordinal{}; ordinal < ORDINAL_COUNT; ++ordinal) {
+        const auto parameter{static_cast<Magic::ParametersT>(ordinal)};
+        EXPECT_EQ(
+            (ordinal + 1UZ) * SENTINEL_STEP,
+            m_valid_magic.GetParameter(parameter)
+        );
+    }
+}
+
+TEST_F(MagicParametersTest, get_parameter_error_message_reports_ordinal)
+{
+    const auto report{[this]() -> std::string {
+        try {
+            static_cast<void>(m_valid_magic.GetParameter(INVALID_PARAMETER));
+        } catch (const MagicGetParametersError& error) {
+            return error.what();
+        }
+        return {};
+    }()};
+    EXPECT_NE(
+        std::string::npos,
+        report.find(
+            "Invalid parameter ordinal " + std::to_string(INVALID_ORDINAL)
+        )
+    );
+}
+
+TEST_F(MagicParametersTest, set_parameter_with_first_invalid_ordinal_throws)
+{
+    EXPECT_THROW(
+        m_valid_magic.SetParameter(FIRST_INVALID_PARAMETER, SENTINEL_VALUE),
+        MagicSetParametersError
+    );
+    EXPECT_THROW(
+        static_cast<void>(m_valid_magic.GetParameter(FIRST_INVALID_PARAMETER)),
+        MagicGetParametersError
+    );
+}
+
+TEST_F(MagicParametersTest, invalid_ordinal_on_closed_magic_throws_is_closed)
+{
+    EXPECT_THROW(
+        static_cast<void>(m_closed_magic.GetParameter(INVALID_PARAMETER)),
+        MagicIsClosed
+    );
+    EXPECT_THROW(
+        m_closed_magic.SetParameter(INVALID_PARAMETER, SENTINEL_VALUE),
+        MagicIsClosed
+    );
+    EXPECT_FALSE(
+        m_closed_magic.GetParameter(INVALID_PARAMETER, std::nothrow).has_value()
+    );
+    EXPECT_FALSE(m_closed_magic.SetParameter(
+        INVALID_PARAMETER,
+        SENTINEL_VALUE,
+        std::nothrow
+    ));
+}
+
+TEST_F(
+    MagicParametersTest,
+    set_parameters_invalid_key_throws_after_valid_entries
+)
+{
+    m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
+    const Magic::ParameterValueMapT parameters{
+        {Magic::ParametersT::RegexMax, SENTINEL_STEP },
+        {INVALID_PARAMETER,            SENTINEL_VALUE}
+    };
+    EXPECT_THROW(
+        m_valid_magic.SetParameters(parameters),
+        MagicSetParametersError
+    );
+    EXPECT_EQ(
+        SENTINEL_STEP,
+        m_valid_magic.GetParameter(Magic::ParametersT::RegexMax)
+    );
+    EXPECT_EQ(
+        SENTINEL_VALUE,
+        m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
+    );
+}
+
 struct MagicParametersConvertTest : testing::Test {
     static const inline std::vector<
         std::pair<MagicParameters::Parameters, std::string>
@@ -390,6 +612,24 @@ TEST_F(MagicParametersConvertTest, to_string_custom_separators)
             " and "
         )
     ); // multi-character separators
+}
+
+TEST_F(MagicParametersConvertTest, invalid_ordinal_snapshot_is_empty)
+{
+    constexpr std::size_t                 INVALID_ORDINAL{99};
+    constexpr MagicParameters::Parameters INVALID_PARAMETER{
+        static_cast<MagicParameters::Parameters>(INVALID_ORDINAL)
+    };
+    const MagicParameters single{INVALID_PARAMETER, 1UZ};
+    EXPECT_TRUE(single.ToString().empty());
+
+    const MagicParameters::ParameterValueMapT map{
+        {INVALID_PARAMETER, 1UZ}
+    };
+    const MagicParameters from_map{map};
+    EXPECT_TRUE(
+        from_map.ToString(MagicParameters::StringFormat::Names).empty()
+    );
 }
 
 TEST_F(MagicParametersConvertTest, copy_and_move_preserve_snapshot)

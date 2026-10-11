@@ -54,6 +54,7 @@
 #include "magic.hpp"
 
 #include <bitset>
+#include <format>
 #include <new>
 #include <utility>
 
@@ -622,6 +623,11 @@ public:
      *
      * Methods for querying current configuration flags.
      *
+     * @note GetFlags() needs no mask validation: m_flags is assigned only
+     *       after a successful Open() or SetFlags(), and both reject masks
+     *       carrying bit positions outside the defined Flags range before
+     *       storing them, so the stored mask is always valid.
+     *
      * @{
      */
 
@@ -702,7 +708,10 @@ public:
      *
      * @returns Current value of the parameter.
      *
-     * @throws MagicIsClosed If instance is not open.
+     * @throws MagicIsClosed           If instance is not open.
+     * @throws MagicGetParametersError If `parameter` is an out-of-range
+     *                                 ordinal, or if `magic_getparam()`
+     *                                 reports a failure.
      *
      * @par libmagic Call
      * @code{.cpp}
@@ -716,11 +725,24 @@ public:
     [[nodiscard]] std::size_t GetParameter(ParametersT parameter) const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
+        const auto param_constant{MagicParameters::ToUnderlying(parameter)};
+        MagicPrivate::ThrowExceptionOnFailure<MagicGetParametersError>(
+            param_constant.has_value(),
+            std::format(
+                "Invalid parameter ordinal {}",
+                static_cast<std::size_t>(std::to_underlying(parameter))
+            ),
+            parameter
+        );
         std::size_t value{};
-        Detail::magic_getparam(
-            m_cookie.get(),
-            MagicParameters::ToUnderlying(parameter),
-            &value
+        MagicPrivate::ThrowExceptionOnFailure<MagicGetParametersError>(
+            Detail::magic_getparam(
+                m_cookie.get(),
+                param_constant.value(),
+                &value
+            ),
+            GetErrorMessage(),
+            parameter
         );
         return value;
     }
@@ -729,12 +751,14 @@ public:
      * @brief Get a single parameter value (noexcept version).
      *
      * Non-throwing variant that returns `std::nullopt` if the
-     * instance is not open.
+     * instance is not open, if `parameter` is an out-of-range ordinal, or
+     * if `magic_getparam()` reports a failure.
      *
      * @param[in] parameter The parameter to query.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @returns Current value of the parameter, or `std::nullopt` if closed.
+     * @returns Current value of the parameter, or `std::nullopt` if closed,
+     *          if the ordinal is invalid, or if the libmagic read failed.
      *
      * @see Magic::GetParameter(ParametersT, const std::nothrow_t&)
      * @see SetParameter()
@@ -747,12 +771,15 @@ public:
         if (!IsOpen()) {
             return std::nullopt;
         }
+        const auto param_constant{MagicParameters::ToUnderlying(parameter)};
+        if (!param_constant.has_value()) {
+            return std::nullopt;
+        }
         std::size_t value{};
-        Detail::magic_getparam(
-            m_cookie.get(),
-            MagicParameters::ToUnderlying(parameter),
-            &value
-        );
+        if (Detail::magic_getparam(m_cookie.get(), *param_constant, &value)
+            == LIBMAGIC_ERROR) {
+            return std::nullopt;
+        }
         return value;
     }
 
@@ -765,7 +792,9 @@ public:
      *
      * @returns Map from ParametersT enum values to their current values.
      *
-     * @throws MagicIsClosed If instance is not open.
+     * @throws MagicIsClosed           If instance is not open.
+     * @throws MagicGetParametersError If `magic_getparam()` fails for any
+     *                                 parameter.
      *
      * @par Implementation
      * @code{.cpp}
@@ -792,12 +821,12 @@ public:
      * @brief Get all parameter values (noexcept version).
      *
      * Non-throwing variant that returns `std::nullopt` if the
-     * instance is not open.
+     * instance is not open or any parameter read fails.
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from ParametersT to values, or `std::nullopt` if closed
-     *          or the map conversion fails.
+     * @returns Map from ParametersT to values, or `std::nullopt` if closed,
+     *          if any parameter read fails, or if the map conversion fails.
      *
      * @see Magic::GetParameters(const std::nothrow_t&)
      * @see SetParameters()
@@ -812,9 +841,12 @@ public:
         try {
             ParameterValueMapT parameter_value_map;
             for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
-                auto parameter = static_cast<ParametersT>(i);
-                parameter_value_map[parameter]
-                    = GetParameter(parameter, std::nothrow).value_or(0UZ);
+                const auto parameter{static_cast<ParametersT>(i)};
+                const auto value{GetParameter(parameter, std::nothrow)};
+                if (!value.has_value()) {
+                    return std::nullopt;
+                }
+                parameter_value_map[parameter] = *value;
             }
             return parameter_value_map;
         } catch (const std::exception&) {
@@ -1444,7 +1476,9 @@ public:
      *
      * @param[in] flags Configuration flags value set.
      *
-     * @throws MagicOpenError If `magic_open()` fails.
+     * @throws MagicOpenError If `magic_open()` fails, or if `flags` carries
+     *                        bit positions that no `FlagsT` enumerator
+     *                        covers.
      *
      * @par Lifecycle Transitions
      * - **Closed** → **Opened**
@@ -1453,8 +1487,10 @@ public:
      *
      * @par libmagic Call
      * @code{.cpp}
-     * m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
+     * m_cookie.reset(Detail::magic_open(flag_constant));
      * @endcode
+     *
+     * @note A rejected mask leaves the instance state untouched.
      *
      * @note Calling Open() on an already-open instance will reopen it,
      *       which unloads any previously loaded database and resets the
@@ -1466,8 +1502,18 @@ public:
      */
     void Open(const MagicFlags& flags)
     {
+        const auto flag_constant{flags.ToUnderlying()};
+        MagicPrivate::ThrowExceptionOnFailure<MagicOpenError>(
+            flag_constant.has_value(),
+            std::format(
+                "The requested flags [{}] carry bit positions outside the "
+                "defined Flags range (mask 0x{:08X})",
+                flags.ToString(),
+                flags.m_mask
+            )
+        );
         m_is_database_loaded = false;
-        m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
+        m_cookie.reset(Detail::magic_open(flag_constant.value()));
         MagicPrivate::ThrowExceptionOnFailure<MagicOpenError>(
             IsOpen(),
             GetErrorMessage()
@@ -1484,7 +1530,8 @@ public:
      * @param[in] tag   Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success (now in Opened state),
-     *         `false` if magic_open() fails.
+     *         `false` if magic_open() fails or the mask carries unknown
+     *         flag bits.
      *
      * @par Lifecycle Transitions
      * - **Closed** → **Opened** on success
@@ -1499,8 +1546,12 @@ public:
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
+        const auto flag_constant{flags.ToUnderlying()};
+        if (!flag_constant.has_value()) {
+            return false;
+        }
         m_is_database_loaded = false;
-        m_cookie.reset(Detail::magic_open(flags.ToUnderlying()));
+        m_cookie.reset(Detail::magic_open(*flag_constant));
         if (!IsOpen()) {
             return false;
         }
@@ -1568,16 +1619,16 @@ public:
      * @param[in] flags New configuration flags value set.
      *
      * @throws MagicIsClosed      If instance is not open.
-     * @throws MagicSetFlagsError If `magic_setflags()` fails.
+     * @throws MagicSetFlagsError If `flags` carries bit positions that no
+     *                            `FlagsT` enumerator covers, or if
+     *                            `magic_setflags()` fails.
      *
      * @par libmagic Call
      * @code{.cpp}
-     * Detail::magic_setflags(
-     *     m_cookie.get(), flags.ToUnderlying()
-     * );
+     * Detail::magic_setflags(m_cookie.get(), flag_constant);
      * @endcode
      *
-     * @note Updates internal m_flags on success.
+     * @note The stored flags are updated only on success.
      *
      * @see Magic::SetFlags(FlagsMaskT)
      * @see GetFlags()
@@ -1586,16 +1637,21 @@ public:
     void SetFlags(const MagicFlags& flags)
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        if (const auto result{
-                Detail::magic_setflags(m_cookie.get(), flags.ToUnderlying())
-            };
-            result == LIBMAGIC_ERROR) {
-            MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
-                result,
-                GetErrorMessage(),
-                flags
-            );
-        }
+        const auto flag_constant{flags.ToUnderlying()};
+        MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
+            flag_constant.has_value(),
+            std::format(
+                "The requested flags carry bit positions outside the "
+                "defined Flags range (mask 0x{:08X})",
+                flags.m_mask
+            ),
+            flags
+        );
+        MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
+            Detail::magic_setflags(m_cookie.get(), flag_constant.value()),
+            GetErrorMessage(),
+            flags
+        );
         m_flags = flags;
     }
 
@@ -1607,7 +1663,9 @@ public:
      * @param[in] flags New configuration flags value set.
      * @param[in] tag   Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` if closed or setflags fails.
+     * @returns `true` on success, `false` if closed, if the mask carries
+     *          unknown flag bits, or if setflags fails. The stored flags are
+     *          only updated on success.
      *
      * @see Magic::SetFlags(FlagsMaskT, const std::nothrow_t&)
      * @see GetFlags()
@@ -1620,7 +1678,11 @@ public:
         if (!IsOpen()) {
             return false;
         }
-        if (Detail::magic_setflags(m_cookie.get(), flags.ToUnderlying())
+        const auto flag_constant{flags.ToUnderlying()};
+        if (!flag_constant.has_value()) {
+            return false;
+        }
+        if (Detail::magic_setflags(m_cookie.get(), *flag_constant)
             == LIBMAGIC_ERROR) {
             return false;
         }
@@ -1689,7 +1751,9 @@ public:
      * @param[in] value     The new value for the parameter.
      *
      * @throws MagicIsClosed            If instance is not open.
-     * @throws MagicSetParametersError  If `magic_setparam()` fails.
+     * @throws MagicSetParametersError  If `parameter` is an out-of-range
+     *                                  ordinal, or if `magic_setparam()`
+     *                                  fails.
      *
      * @par libmagic Call
      * @code{.cpp}
@@ -1703,18 +1767,24 @@ public:
     void SetParameter(ParametersT parameter, std::size_t value)
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        if (const auto result{Detail::magic_setparam(
+        const auto param_constant{MagicParameters::ToUnderlying(parameter)};
+        MagicPrivate::ThrowExceptionOnFailure<MagicSetParametersError>(
+            param_constant.has_value(),
+            std::format(
+                "Invalid parameter ordinal {}",
+                static_cast<std::size_t>(std::to_underlying(parameter))
+            ),
+            MagicParameters{parameter, value}
+        );
+        MagicPrivate::ThrowExceptionOnFailure<MagicSetParametersError>(
+            Detail::magic_setparam(
                 m_cookie.get(),
-                MagicParameters::ToUnderlying(parameter),
+                param_constant.value(),
                 &value
-            )};
-            result == LIBMAGIC_ERROR) {
-            MagicPrivate::ThrowExceptionOnFailure<MagicSetParametersError>(
-                result,
-                GetErrorMessage(),
-                MagicParameters{parameter, value}
-            );
-        }
+            ),
+            GetErrorMessage(),
+            MagicParameters{parameter, value}
+        );
     }
 
     /**
@@ -1726,7 +1796,8 @@ public:
      * @param[in] value     The new value for the parameter.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` if closed or setparam fails.
+     * @returns `true` on success, `false` if closed, if the ordinal is
+     *          invalid, or if the libmagic write fails.
      *
      * @see Magic::SetParameter(ParametersT, std::size_t, const std::nothrow_t&)
      * @see GetParameter()
@@ -1740,11 +1811,11 @@ public:
         if (!IsOpen()) {
             return false;
         }
-        return Detail::magic_setparam(
-                   m_cookie.get(),
-                   MagicParameters::ToUnderlying(parameter),
-                   &value
-               )
+        const auto param_constant{MagicParameters::ToUnderlying(parameter)};
+        if (!param_constant.has_value()) {
+            return false;
+        }
+        return Detail::magic_setparam(m_cookie.get(), *param_constant, &value)
             != LIBMAGIC_ERROR;
     }
 

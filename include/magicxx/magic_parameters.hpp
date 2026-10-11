@@ -330,9 +330,12 @@ private:
      *
      * @param[in] parameter The parameter to convert.
      *
-     * @returns Libmagic-compatible `MAGIC_PARAM_*` constant.
+     * @returns Libmagic-compatible `MAGIC_PARAM_*` constant, or
+     *          `std::nullopt` if `parameter` is not a valid ordinal.
      */
-    [[nodiscard]] static int ToUnderlying(Parameters parameter) noexcept;
+    [[nodiscard]] static std::optional<int> ToUnderlying(
+        Parameters parameter
+    ) noexcept;
 
     /**
      * @brief Store a parameter value in the inline container.

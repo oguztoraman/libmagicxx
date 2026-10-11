@@ -24,6 +24,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <numeric>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -394,9 +395,11 @@ private:
     /**
      * @brief Convert the flag set to the libmagic flags value.
      *
-     * @returns Libmagic-compatible integer flags value.
+     * @returns Libmagic-compatible integer flags value, or `std::nullopt` if
+     *          the stored mask carries a bit position that no `Flags`
+     *          enumerator covers.
      */
-    [[nodiscard]] int ToUnderlying() const noexcept;
+    [[nodiscard]] std::optional<int> ToUnderlying() const noexcept;
 
     friend class Magic; /**< Grants Magic access to the libmagic bridge. */
 

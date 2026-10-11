@@ -827,6 +827,8 @@ public:
      * @returns Current value of the parameter.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
+     * @throws MagicGetParametersError If `parameter` is an out-of-range
+     *         enum value, or if the underlying libmagic read fails.
      *
      * @code{.cpp}
      * auto maxBytes = magic.GetParameter(Magic::ParametersT::BytesMax);
@@ -846,7 +848,9 @@ public:
      * @param[in] parameter The parameter to query.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @returns Current value of the parameter, or `std::nullopt` if closed.
+     * @returns Current value of the parameter, or `std::nullopt` if closed,
+     *          if `parameter` is an out-of-range enum value, or if the
+     *          underlying libmagic read fails.
      *
      * @since 10.0.0
      */
@@ -862,7 +866,8 @@ public:
      *
      * @returns Map from ParametersT enum values to their current values.
      *
-     * @throws MagicIsClosed If the Magic instance is closed.
+     * @throws MagicIsClosed           If the Magic instance is closed.
+     * @throws MagicGetParametersError If reading any parameter fails.
      *
      * @code{.cpp}
      * MagicParameters parameters{magic.GetParameters()};
@@ -882,8 +887,8 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from ParametersT to values, or `std::nullopt` if closed
-     *          or the map conversion fails.
+     * @returns Map from ParametersT to values, or `std::nullopt` if closed,
+     *          if any parameter read fails, or if the map conversion fails.
      *
      * @since 10.0.0
      */
@@ -1402,7 +1407,8 @@ public:
      *
      * @param[in] flags_mask Configuration flags (use FlagsT enum values combined with |).
      *
-     * @throws MagicOpenError If opening fails.
+     * @throws MagicOpenError If opening fails, or if `flags_mask` carries
+     *                        unknown flag bits.
      *
      * @code{.cpp}
      * Magic magic;
@@ -1428,7 +1434,8 @@ public:
      * @param[in] flags_mask Configuration flags.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure, including a mask with
+     *          unknown flag bits.
      *
      * @since 10.0.0
      */
@@ -1442,7 +1449,8 @@ public:
      *
      * @param[in] flags_container Container of FlagsT values.
      *
-     * @throws MagicOpenError If opening fails.
+     * @throws MagicOpenError If opening fails, or if a container element
+     *                        carries unknown flag bits.
      *
      * @since 10.0.0
      */
@@ -1454,7 +1462,8 @@ public:
      * @param[in] flags_container Container of FlagsT values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure, including a container
+     *          element with unknown flag bits.
      *
      * @since 10.0.0
      */
@@ -1483,7 +1492,9 @@ public:
      * @param[in] flags_mask New configuration flags.
      *
      * @throws MagicIsClosed      If the Magic instance is closed.
-     * @throws MagicSetFlagsError If setting flags fails.
+     * @throws MagicSetFlagsError If setting flags fails, including a mask
+     *                            with unknown flag bits. The current flags
+     *                            stay unchanged on failure.
      *
      * @code{.cpp}
      * magic.SetFlags(Magic::FlagsT::MimeType);  // Change to MIME type only
@@ -1501,7 +1512,8 @@ public:
      * @param[in] flags_mask New configuration flags.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure, including a mask with
+     *          unknown flag bits.
      *
      * @since 10.0.0
      */
@@ -1516,7 +1528,10 @@ public:
      * @param[in] flags_container Container of FlagsT values.
      *
      * @throws MagicIsClosed      If the Magic instance is closed.
-     * @throws MagicSetFlagsError If setting flags fails.
+     * @throws MagicSetFlagsError If setting flags fails, including a
+     *                            container element with unknown flag bits.
+     *                            The current flags stay unchanged on
+     *                            failure.
      *
      * @since 10.0.0
      */
@@ -1528,7 +1543,8 @@ public:
      * @param[in] flags_container Container of FlagsT values.
      * @param[in] tag             Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure, including a container
+     *          element with unknown flag bits.
      *
      * @since 10.0.0
      */
@@ -1556,7 +1572,8 @@ public:
      * @param[in] value     The new value for the parameter.
      *
      * @throws MagicIsClosed           If the Magic instance is closed.
-     * @throws MagicSetParametersError If setting the parameter fails.
+     * @throws MagicSetParametersError If setting the parameter fails,
+     *         including an out-of-range `parameter` enum value.
      *
      * @code{.cpp}
      * // Limit file scanning to 1MB for performance
@@ -1577,7 +1594,8 @@ public:
      * @param[in] value     The new value for the parameter.
      * @param[in] tag       Pass `std::nothrow` to select this overload.
      *
-     * @returns `true` on success, `false` on failure.
+     * @returns `true` on success, `false` on failure, including an
+     *          out-of-range `parameter` enum value.
      *
      * @since 10.0.0
      */
@@ -1593,7 +1611,8 @@ public:
      * @param[in] parameters Map of parameters to their new values.
      *
      * @throws MagicIsClosed           If the Magic instance is closed.
-     * @throws MagicSetParametersError If setting any parameter fails.
+     * @throws MagicSetParametersError If setting any parameter fails, or if
+     *         a map key is an out-of-range enum value.
      *
      * @code{.cpp}
      * magic.SetParameters({

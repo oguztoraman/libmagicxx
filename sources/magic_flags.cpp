@@ -254,8 +254,7 @@ static_assert(
  *
  * Internal helper used by MagicFlags::ToString(std::string_view) to render
  * each set bit. Uses the `std::countr_zero` bit-index lookup into
- * LIBMAGIC_FLAGS; the
- * the table order matches the dense Flags enum bit positions (asserted
+ * LIBMAGIC_FLAGS; the table order matches the dense Flags enum bit positions
  * above).
  *
  * @param[in] flag The flag to convert.

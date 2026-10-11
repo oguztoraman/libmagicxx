@@ -185,7 +185,7 @@ void ExampleCustomFlagsParameters()
     auto value = example_magic.GetParameter(Magic::ParametersT::BytesMax);
     std::println(std::cout, "BytesMax: {}", value);
     auto flags = example_magic.GetFlags();
-    std::println(std::cout, "Flags: {}", MagicFlags{flags}.ToString());
+    std::println(std::cout, "Flags: {}", flags.ToString());
 }
 
 /**
@@ -348,11 +348,7 @@ void ExampleLifecycleManagement()
 
     example_magic.SetFlags(Magic::FlagsT::Mime);
     auto new_flags = example_magic.GetFlags();
-    std::println(
-        std::cout,
-        "After SetFlags(): {}",
-        MagicFlags{new_flags}.ToString()
-    );
+    std::println(std::cout, "After SetFlags(): {}", new_flags.ToString());
 
     example_magic.Close();
     std::println(

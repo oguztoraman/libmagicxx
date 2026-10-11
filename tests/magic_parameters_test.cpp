@@ -617,7 +617,7 @@ TEST_F(MagicParametersConvertTest, to_string_custom_separators)
             " -> ",
             " and "
         )
-    ); // multi-character separators
+    );
 }
 
 TEST_F(MagicParametersConvertTest, invalid_ordinal_snapshot_is_empty)

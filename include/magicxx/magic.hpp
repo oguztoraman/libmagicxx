@@ -775,13 +775,13 @@ public:
      *
      * Retrieves the flags currently configured for this Magic instance.
      *
-     * @returns Container of active FlagsT values.
+     * @returns Current flags value set.
      *
      * @throws MagicIsClosed If the Magic instance is closed.
      *
      * @code{.cpp}
      * auto flags = magic.GetFlags();
-     * std::println("Active flags: {}", MagicFlags{flags}.ToString());
+     * std::println("Active flags: {}", flags.ToString());
      * @endcode
      *
      * @see SetFlags()
@@ -789,19 +789,19 @@ public:
      *
      * @since 10.0.0
      */
-    [[nodiscard]] FlagsContainerT GetFlags() const;
+    [[nodiscard]] FlagsMaskT GetFlags() const;
 
     /**
      * @brief Get the current flags (noexcept version).
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Container of active FlagsT values, or `std::nullopt` if closed
-     *          or the container conversion fails.
+     * @returns Current flags value set, or `std::nullopt` if the Magic
+     *          instance is closed.
      *
      * @since 10.0.0
      */
-    [[nodiscard]] std::optional<FlagsContainerT> GetFlags(
+    [[nodiscard]] std::optional<FlagsMaskT> GetFlags(
         const std::nothrow_t& tag
     ) const noexcept;
 

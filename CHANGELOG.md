@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** Magic: API CHANGE - Return FlagsMaskT from GetFlags().
+
 + **[BUGFIX]** Magic: Reject out-of-range Parameters ordinals and unknown Flags mask bits.
 
 + **[BUGFIX]** Magic: Fix undefined behavior in ToString by replacing eager value_or with a ternary.

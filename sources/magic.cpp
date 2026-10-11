@@ -635,27 +635,24 @@ public:
      * @brief Get current flags (throwing version).
      *
      * Retrieves the flags currently configured for this instance.
-     * Uses MagicFlags::ToContainer() to transform the stored flag set
-     * into a container of individual FlagsT enum values.
      *
-     * @returns Container of active FlagsT values.
+     * @returns Current flags value set.
      *
      * @throws MagicIsClosed If instance is not open.
      *
      * @par Implementation
      * @code{.cpp}
      * ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-     * return m_flags.ToContainer();
+     * return m_flags;
      * @endcode
      *
      * @see Magic::GetFlags()
      * @see SetFlags()
-     * @see MagicFlags::ToContainer()
      */
-    [[nodiscard]] FlagsContainerT GetFlags() const
+    [[nodiscard]] FlagsMaskT GetFlags() const
     {
         MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(IsOpen());
-        return m_flags.ToContainer();
+        return m_flags;
     }
 
     /**
@@ -666,24 +663,19 @@ public:
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Container of active FlagsT values, or `std::nullopt` if closed
-     *          or the container conversion fails.
+     * @returns Current flags value set, or `std::nullopt` if closed.
      *
      * @see Magic::GetFlags(const std::nothrow_t&)
      * @see SetFlags()
      */
-    [[nodiscard]] std::optional<FlagsContainerT> GetFlags(
+    [[nodiscard]] std::optional<FlagsMaskT> GetFlags(
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
         if (!IsOpen()) {
             return std::nullopt;
         }
-        try {
-            return {m_flags.ToContainer()};
-        } catch (const std::exception&) {
-            return std::nullopt;
-        }
+        return {m_flags};
     }
 
     /** @} impl_flag_management */
@@ -2211,13 +2203,13 @@ bool Magic::Compile(const std::filesystem::path& database_file) noexcept
         && magic_for_compile.Compile(database_file);
 }
 
-Magic::FlagsContainerT Magic::GetFlags() const
+Magic::FlagsMaskT Magic::GetFlags() const
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetFlags();
 }
 
-std::optional<Magic::FlagsContainerT> Magic::GetFlags(
+std::optional<Magic::FlagsMaskT> Magic::GetFlags(
     const std::nothrow_t& tag
 ) const noexcept
 {

@@ -684,12 +684,9 @@ TEST_F(
 
 TEST_F(MagicFlagsValueTest, container_constructor_with_large_duplicated_set)
 {
-    MagicFlags::FlagsContainerT large_container{AllFlagsSet().ToContainer()};
-    large_container.insert(
-        large_container.end(),
-        AllFlagsSet().ToContainer().begin(),
-        AllFlagsSet().ToContainer().end()
-    );
+    const MagicFlags::FlagsContainerT source{AllFlagsSet().ToContainer()};
+    MagicFlags::FlagsContainerT       large_container{source};
+    large_container.insert(large_container.end(), source.begin(), source.end());
     large_container.push_back(MagicFlags::Flags::None);
     EXPECT_EQ(AllFlagsSet(), MagicFlags{large_container});
 }

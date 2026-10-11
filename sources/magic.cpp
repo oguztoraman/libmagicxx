@@ -2015,7 +2015,8 @@ std::string ToString(
 
 std::string ToString(const Magic::ExpectedFileTypeT& expected_file_type)
 {
-    return expected_file_type.value_or(expected_file_type.error());
+    return expected_file_type.has_value() ? expected_file_type.value()
+                                          : expected_file_type.error();
 }
 
 std::string ToString(

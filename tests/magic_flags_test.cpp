@@ -561,6 +561,34 @@ TEST(MagicFlagsClassTest, satisfies_value_class_properties)
     }
 }
 
+TEST(MagicFlagsClassTest, supports_constexpr_composition)
+{
+    constexpr MagicFlags mime_flags{MagicFlags::Flags::Mime};
+    constexpr MagicFlags composed_flags = MagicFlags::Flags::Mime
+                                        | MagicFlags::Flags::Compress;
+    constexpr MagicFlags from_mask    = mime_flags
+                                      | MagicFlags{MagicFlags::Flags::Compress};
+    constexpr MagicFlags flag_on_mask = MagicFlags::Flags::Compress
+                                      | mime_flags;
+    constexpr MagicFlags mask_on_flag = mime_flags
+                                      | MagicFlags::Flags::Compress;
+    constexpr MagicFlags default_flags{};
+    static_assert(default_flags == MagicFlags{MagicFlags::Flags::None});
+    static_assert(mime_flags == MagicFlags{MagicFlags::Flags::Mime});
+    static_assert(composed_flags == from_mask);
+    static_assert(composed_flags == flag_on_mask);
+    static_assert(composed_flags == mask_on_flag);
+    static_assert(composed_flags == (composed_flags | MagicFlags::Flags::Mime));
+    static_assert(composed_flags != mime_flags);
+    static_assert(default_flags == MagicFlags{});
+    static_assert(
+        (composed_flags <=> mime_flags) == std::strong_ordering::greater
+    );
+    static_assert(
+        (mime_flags <=> composed_flags) == std::strong_ordering::less
+    );
+}
+
 TEST_F(MagicFlagsValueTest, every_single_flag_sets_only_own_bit)
 {
     for (std::size_t bit{}; bit < FlagBitCount(); ++bit) {

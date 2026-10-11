@@ -208,7 +208,7 @@ public:
      *
      * @since 11.0.0
      */
-    MagicParameters(Parameters parameter, std::size_t value) noexcept
+    constexpr MagicParameters(Parameters parameter, std::size_t value) noexcept
     {
         Store(parameter, value);
     }
@@ -294,7 +294,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend bool operator==(
+    [[nodiscard]] friend constexpr bool operator==(
         const MagicParameters& lhs,
         const MagicParameters& rhs
     ) noexcept
@@ -313,7 +313,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend std::strong_ordering operator<=>(
+    [[nodiscard]] friend constexpr std::strong_ordering operator<=>(
         const MagicParameters& lhs,
         const MagicParameters& rhs
     ) noexcept
@@ -383,7 +383,7 @@ private:
      * @param[in] parameter The parameter to store.
      * @param[in] value     The value for the parameter.
      */
-    void Store(Parameters parameter, std::size_t value) noexcept
+    constexpr void Store(Parameters parameter, std::size_t value) noexcept
     {
         std::size_t ordinal{};
         for (auto& slot : m_values) {

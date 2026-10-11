@@ -535,6 +535,33 @@ TEST(MagicParametersClassTest, satisfies_value_class_properties)
     }
 }
 
+TEST(MagicParametersClassTest, supports_constexpr_composition)
+{
+    constexpr MagicParameters indir_15{
+        MagicParameters::Parameters::IndirMax,
+        15UZ
+    };
+    constexpr MagicParameters same{MagicParameters::Parameters::IndirMax, 15UZ};
+    constexpr MagicParameters indir_16{
+        MagicParameters::Parameters::IndirMax,
+        16UZ
+    };
+    constexpr MagicParameters later{
+        MagicParameters::Parameters::NameMax,
+        999UZ
+    };
+    constexpr MagicParameters empty_snapshot{};
+
+    static_assert(indir_15 == same);
+    static_assert(indir_15 != indir_16);
+    static_assert(indir_15 != empty_snapshot);
+    static_assert((indir_15 <=> indir_16) == std::strong_ordering::less);
+    static_assert((indir_16 <=> indir_15) == std::strong_ordering::greater);
+    static_assert((indir_15 <=> same) == std::strong_ordering::equal);
+    static_assert((indir_15 <=> later) == std::strong_ordering::greater);
+    static_assert((empty_snapshot <=> indir_15) == std::strong_ordering::less);
+}
+
 TEST_F(MagicParametersConvertTest, name_of_every_parameter)
 {
     for (const auto& [parameter, name] : ALL_PARAMETERS) {

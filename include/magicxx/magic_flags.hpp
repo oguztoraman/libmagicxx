@@ -184,7 +184,9 @@ public:
      *
      * @since 11.0.0
      */
-    MagicFlags(Flags flag) noexcept /* NOLINT(google-explicit-constructor) */
+    constexpr MagicFlags(/* NOLINT(google-explicit-constructor) */
+        Flags flag
+    ) noexcept
       : m_mask{std::to_underlying(flag)}
     { }
 
@@ -273,7 +275,9 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] MagicFlags operator|(const MagicFlags& other) const noexcept
+    [[nodiscard]] constexpr MagicFlags operator|(
+        const MagicFlags& other
+    ) const noexcept
     {
         MagicFlags result{};
         result.m_mask = m_mask | other.m_mask;
@@ -290,7 +294,10 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend MagicFlags operator|(Flags lhs, Flags rhs) noexcept
+    [[nodiscard]] friend constexpr MagicFlags operator|(
+        Flags lhs,
+        Flags rhs
+    ) noexcept
     {
         return MagicFlags{lhs} | MagicFlags{rhs};
     }
@@ -307,7 +314,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend MagicFlags operator|(
+    [[nodiscard]] friend constexpr MagicFlags operator|(
         Flags             lhs,
         const MagicFlags& rhs
     ) noexcept
@@ -327,7 +334,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend MagicFlags operator|(
+    [[nodiscard]] friend constexpr MagicFlags operator|(
         const MagicFlags& lhs,
         Flags             rhs
     ) noexcept
@@ -345,7 +352,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend bool operator==(
+    [[nodiscard]] friend constexpr bool operator==(
         const MagicFlags& lhs,
         const MagicFlags& rhs
     ) noexcept
@@ -363,7 +370,7 @@ public:
      *
      * @since 11.0.0
      */
-    [[nodiscard]] friend std::strong_ordering operator<=>(
+    [[nodiscard]] friend constexpr std::strong_ordering operator<=>(
         const MagicFlags& lhs,
         const MagicFlags& rhs
     ) noexcept

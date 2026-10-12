@@ -325,8 +325,11 @@ public:
  *
  * @brief Exception thrown when Magic::Open() fails.
  *
- * This exception indicates that the underlying magic library could not
- * be initialized, typically due to memory allocation failures.
+ * This exception indicates that the requested flags carried bit
+ * positions that no `Magic::FlagsT` enumerator covers (the underlying
+ * libmagic call is then never attempted), or that the underlying magic
+ * library could not be initialized, typically due to memory allocation
+ * failures.
  *
  * @see Magic::Open()
  *
@@ -343,6 +346,25 @@ public:
      */
     explicit MagicOpenError(const std::string& error_message)
       : MagicException{"magic_open", error_message}
+    { }
+
+    /**
+     * @brief Construct MagicOpenError with function context and details.
+     *
+     * Reports the failure against the public Magic::Open() call that
+     * triggered it, for example when pre-validation rejects a flag mask
+     * carrying unknown bits before any libmagic function is called.
+     *
+     * @param[in] function      Name of the operation that failed.
+     * @param[in] error_message Description of why opening failed.
+     *
+     * @since 11.0.0
+     */
+    MagicOpenError(
+        const std::string& function,
+        const std::string& error_message
+    )
+      : MagicException{function, error_message}
     { }
 };
 

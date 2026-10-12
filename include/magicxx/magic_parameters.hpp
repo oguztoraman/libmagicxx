@@ -196,6 +196,9 @@ public:
      * ignores the value. Use Magic::GetParameter() to read the parameter's
      * actual libmagic value.
      *
+     * @note A `parameter` that is not a valid ordinal is silently
+     *       discarded, leaving an empty snapshot.
+     *
      * @param[in] parameter The parameter to store.
      * @param[in] value     The value for the parameter.
      *
@@ -217,6 +220,10 @@ public:
      * @brief Construct from a map of parameter values.
      *
      * The resulting snapshot holds exactly the entries of the given map.
+     *
+     * @note Map entries whose key is not a valid ordinal are silently
+     *       discarded; a map of only invalid keys leaves an empty
+     *       snapshot.
      *
      * @param[in] parameter_value_map Map from Parameters to their values.
      *

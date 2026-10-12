@@ -375,6 +375,21 @@ TEST_F(MagicFlagsTest, open_with_unknown_mask_bit_throws)
     EXPECT_FALSE(magic.IsOpen());
 }
 
+TEST_F(MagicFlagsTest, unknown_bit_open_error_reports_magic_open_context)
+{
+    const auto report{[]() -> std::string {
+        try {
+            Magic magic{};
+            magic.Open(UnknownBitFlags());
+        } catch (const MagicOpenError& error) {
+            return error.what();
+        }
+        return {};
+    }()};
+    EXPECT_NE(std::string::npos, report.find("Magic::Open("));
+    EXPECT_EQ(std::string::npos, report.find("magic_open"));
+}
+
 TEST_F(MagicFlagsTest, open_with_unknown_mask_bit_noexcept_returns_false)
 {
     Magic magic{};

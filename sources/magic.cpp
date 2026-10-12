@@ -301,7 +301,8 @@ public:
      * @param[in] flags         Configuration flags value set.
      * @param[in] database_file Path to magic database file to load.
      *
-     * @throws MagicOpenError             If `magic_open()` fails.
+     * @throws MagicOpenError             If `magic_open()` fails or the
+     *                                    flags carry unknown bits.
      * @throws EmptyPath                  If database_file is empty.
      * @throws PathDoesNotExist           If database_file does not exist.
      * @throws PathIsNotRegularFile       If database_file is not a regular file.
@@ -375,7 +376,8 @@ public:
      * @param[in] flags_container Container (vector) of FlagsT enum values.
      * @param[in] database_file   Path to magic database file to load.
      *
-     * @throws MagicOpenError             If `magic_open()` fails.
+     * @throws MagicOpenError             If `magic_open()` fails or the
+     *                                    flags carry unknown bits.
      * @throws EmptyPath                  If database_file is empty.
      * @throws PathDoesNotExist           If database_file does not exist.
      * @throws PathIsNotRegularFile       If database_file is not a regular file.
@@ -1470,7 +1472,8 @@ public:
      *
      * @throws MagicOpenError If `magic_open()` fails, or if `flags` carries
      *                        bit positions that no `FlagsT` enumerator
-     *                        covers.
+     *                        covers (reported as `Magic::Open()` when
+     *                        pre-validation rejects the mask).
      *
      * @par Lifecycle Transitions
      * - **Closed** → **Opened**
@@ -1497,10 +1500,10 @@ public:
         const auto flag_constant{flags.ToUnderlying()};
         MagicPrivate::ThrowExceptionOnFailure<MagicOpenError>(
             flag_constant.has_value(),
+            std::format("Magic::Open({})", flags.ToString()),
             std::format(
-                "The requested flags [{}] carry bit positions outside the "
+                "The requested flags carry bit positions outside the "
                 "defined Flags range (mask 0x{:08X})",
-                flags.ToString(),
                 flags.m_mask
             )
         );
@@ -1559,7 +1562,8 @@ public:
      *
      * @param[in] flags_container Container (vector) of FlagsT enum values.
      *
-     * @throws MagicOpenError If `magic_open()` fails.
+     * @throws MagicOpenError If `magic_open()` fails, or if a container
+     *                        element carries unknown flag bits.
      *
      * @see Magic::Open(const FlagsContainerT&)
      * @see Open(const MagicFlags&)

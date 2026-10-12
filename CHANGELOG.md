@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: Add StaticString allocation-free fixed-capacity string utility.
+
 + **[QUALITY]** Magic: API CHANGE - Return FlagsMaskT from GetFlags().
 
 + **[BUGFIX]** Magic: Reject out-of-range Parameters ordinals and unknown Flags mask bits.

@@ -45,7 +45,7 @@ protected:
     MagicLoadDatabaseFileTest()
     {
         EXPECT_TRUE(m_opened_magic_without_database.Open(
-            Magic::Flags::Mime,
+            Magic::FlagsT::Mime,
             std::nothrow
         ));
         EXPECT_FALSE(m_opened_magic_without_database.IsDatabaseLoaded());

@@ -26,8 +26,10 @@
  *       ├── MagicLoadDatabaseFileError - Failed to load database
  *       ├── MagicDatabaseNotLoaded   - Database not loaded
  *       ├── MagicIdentifyFileError   - Failed to identify file
- *       ├── MagicSetFlagsError       - Failed to set flags
- *       └── MagicSetParameterError   - Failed to set parameter
+ *       ├── MagicSetFlagsError       - Magic::SetFlags() failed
+ *       └── MagicParametersError     - Parameter operation failed (base, set or get)
+ *            ├── MagicSetParametersError - Magic::SetParameter(s)() failed
+ *            └── MagicGetParametersError - Magic::GetParameter(s)() failed
  * ```
  *
  * @section exception_handling Exception Handling Patterns
@@ -62,6 +64,9 @@
 #include <format>
 #include <stdexcept>
 #include <string>
+
+#include "magic_flags.hpp"
+#include "magic_parameters.hpp"
 
 namespace Recognition {
 /**
@@ -320,8 +325,11 @@ public:
  *
  * @brief Exception thrown when Magic::Open() fails.
  *
- * This exception indicates that the underlying magic library could not
- * be initialized, typically due to memory allocation failures.
+ * This exception indicates that the requested flags carried bit
+ * positions that no `Magic::FlagsT` enumerator covers (the underlying
+ * libmagic call is then never attempted), or that the underlying magic
+ * library could not be initialized, typically due to memory allocation
+ * failures.
  *
  * @see Magic::Open()
  *
@@ -338,6 +346,25 @@ public:
      */
     explicit MagicOpenError(const std::string& error_message)
       : MagicException{"magic_open", error_message}
+    { }
+
+    /**
+     * @brief Construct MagicOpenError with function context and details.
+     *
+     * Reports the failure against the public Magic::Open() call that
+     * triggered it, for example when pre-validation rejects a flag mask
+     * carrying unknown bits before any libmagic function is called.
+     *
+     * @param[in] function      Name of the operation that failed.
+     * @param[in] error_message Description of why opening failed.
+     *
+     * @since 11.0.0
+     */
+    MagicOpenError(
+        const std::string& function,
+        const std::string& error_message
+    )
+      : MagicException{function, error_message}
     { }
 };
 
@@ -386,7 +413,7 @@ public:
  *
  * @code{.cpp}
  * Magic magic;
- * magic.Open(Magic::Flags::Mime);
+ * magic.Open(Magic::FlagsT::Mime);
  * // Forgot to call LoadDatabaseFile()!
  * magic.IdentifyFile("file.txt");  // Throws MagicDatabaseNotLoaded
  * @endcode
@@ -448,69 +475,158 @@ public:
  * @class MagicSetFlagsError
  * @ingroup magic_exceptions
  *
- * @brief Exception thrown when Magic::SetFlags() fails.
+ * @brief Exception thrown when a Magic flag write operation fails.
  *
- * This exception indicates that the specified flags could not be set.
- * This typically occurs with invalid flag combinations.
+ * This exception is reported by Magic::SetFlags() when the specified
+ * flags could not be applied, for example because the value contains
+ * unknown flag bits or because the underlying libmagic call failed.
  *
  * @see Magic::SetFlags()
- * @see Magic::Flags
+ * @see Magic::FlagsT
  *
  * @since 10.0.0
  */
 class MagicSetFlagsError final : public MagicException {
 public:
     /**
-     * @brief Construct MagicSetFlagsError with details.
+     * @brief Construct MagicSetFlagsError with the flags that were set.
      *
      * @param[in] error_message Description of why setting flags failed.
-     * @param[in] flag_names    String representation of the flags that failed.
+     * @param[in] flags         Flag value set that could not be applied.
      *
-     * @since 10.0.0
+     * @since 11.0.0
      */
     MagicSetFlagsError(
         const std::string& error_message,
-        const std::string& flag_names
+        const MagicFlags&  flags
     )
       : MagicException{
-            std::format("Magic::SetFlags({})", flag_names),
+            std::format("Magic::SetFlags({})", flags.ToString()),
             error_message
         }
     { }
 };
 
 /**
- * @class MagicSetParameterError
+ * @class MagicParametersError
  * @ingroup magic_exceptions
  *
- * @brief Exception thrown when Magic::SetParameter() fails.
+ * @brief Base exception for all Magic parameter operations.
  *
- * This exception indicates that the specified parameter could not be set.
- * This may occur when setting a parameter to an invalid value.
+ * MagicParametersError is the common base for the exceptions reported by
+ * the parameter operations of the Magic class: MagicSetParametersError
+ * (writing via Magic::SetParameter() / Magic::SetParameters()) and
+ * MagicGetParametersError (reading via Magic::GetParameter() /
+ * Magic::GetParameters()). Catching MagicParametersError handles every
+ * parameter operation failure with a single catch block. Failures
+ * include out-of-range parameter values and libmagic errors.
  *
+ * @see MagicSetParametersError
+ * @see MagicGetParametersError
  * @see Magic::SetParameter()
- * @see Magic::Parameters
+ * @see Magic::GetParameter()
+ * @see Magic::ParametersT
  *
- * @since 10.0.0
+ * @since 11.0.0
  */
-class MagicSetParameterError final : public MagicException {
+class MagicParametersError : public MagicException {
 public:
     /**
-     * @brief Construct MagicSetParameterError with details.
+     * @brief Construct MagicParametersError with function context and details.
      *
-     * @param[in] error_message   Description of why setting the parameter failed.
-     * @param[in] parameter_name  Name of the parameter that failed.
-     * @param[in] value           The value that was attempted to set.
+     * @param[in] function      Name of the parameter operation that failed.
+     * @param[in] error_message Description of why the operation failed.
      *
-     * @since 10.0.0
+     * @since 11.0.0
      */
-    MagicSetParameterError(
-        const std::string& error_message,
-        const std::string& parameter_name,
-        std::size_t        value
+    MagicParametersError(
+        const std::string& function,
+        const std::string& error_message
     )
-      : MagicException{
-            std::format("Magic::SetParameter({}, {})", parameter_name, value),
+      : MagicException{function, error_message}
+    { }
+};
+
+/**
+ * @class MagicSetParametersError
+ * @ingroup magic_exceptions
+ *
+ * @brief Exception thrown when a Magic parameter write operation fails.
+ *
+ * This exception is reported by Magic::SetParameter() and
+ * Magic::SetParameters() when the specified parameter could not be set,
+ * for example because the parameter value is out of range or because the
+ * underlying libmagic call failed.
+ *
+ * @see MagicParametersError
+ * @see Magic::SetParameter()
+ * @see Magic::SetParameters()
+ *
+ * @since 11.0.0
+ */
+class MagicSetParametersError final : public MagicParametersError {
+public:
+    /**
+     * @brief Construct MagicSetParametersError with the attempted values.
+     *
+     * MagicParameters holds both the parameters and their values, so no
+     * separate value argument is needed.
+     *
+     * @param[in] error_message Description of why setting failed.
+     * @param[in] parameters    Parameter-value snapshot of the attempt.
+     *
+     * @since 11.0.0
+     */
+    MagicSetParametersError(
+        const std::string&     error_message,
+        const MagicParameters& parameters
+    )
+      : MagicParametersError{
+            std::format("Magic::SetParameter({})", parameters.ToString()),
+            error_message
+        }
+    { }
+};
+
+/**
+ * @class MagicGetParametersError
+ * @ingroup magic_exceptions
+ *
+ * @brief Exception thrown when a Magic parameter read operation fails.
+ *
+ * This exception is reported by Magic::GetParameter() and
+ * Magic::GetParameters() when the specified parameter could not be read,
+ * for example because the parameter value is out of range or because the
+ * underlying libmagic call failed. Read operations carry no value, so
+ * only the parameter name is reported.
+ *
+ * @see MagicParametersError
+ * @see Magic::GetParameter()
+ * @see Magic::GetParameters()
+ *
+ * @since 11.0.0
+ */
+class MagicGetParametersError final : public MagicParametersError {
+public:
+    /**
+     * @brief Construct MagicGetParametersError with the parameter read.
+     *
+     * @param[in] error_message Description of why reading failed.
+     * @param[in] parameter     The parameter that could not be read.
+     *
+     * @since 11.0.0
+     */
+    MagicGetParametersError(
+        const std::string&          error_message,
+        MagicParameters::Parameters parameter
+    )
+      : MagicParametersError{
+            std::format(
+                "Magic::GetParameter({})",
+                MagicParameters{parameter, 0UZ}.ToString(
+                    MagicParameters::StringFormat::Names
+                )
+            ),
             error_message
         }
     { }

@@ -60,6 +60,8 @@ set(magic_SOURCE_FILES
 set(magicxx_HEADER_FILES
     ${magicxx_INCLUDE_DIR}/magic.hpp
     ${magicxx_INCLUDE_DIR}/magic_exception.hpp
+    ${magicxx_INCLUDE_DIR}/magic_flags.hpp
+    ${magicxx_INCLUDE_DIR}/magic_parameters.hpp
     ${magicxx_INCLUDE_DIR}/percentage.hpp
     ${magicxx_INCLUDE_DIR}/progress_tracker.hpp
     ${magicxx_INCLUDE_DIR}/utility.hpp
@@ -67,6 +69,8 @@ set(magicxx_HEADER_FILES
 
 set(magicxx_SOURCE_FILES
     ${magicxx_SOURCES_DIR}/magic.cpp
+    ${magicxx_SOURCES_DIR}/magic_flags.cpp
+    ${magicxx_SOURCES_DIR}/magic_parameters.cpp
 )
 
 # -----------------------------------------------------------------------------
@@ -82,7 +86,6 @@ set(magicxx_examples_SOURCE_FILES
 set(magicxx_tests_SOURCE_FILES
     ${magicxx_TESTS_DIR}/magic_check_test.cpp
     ${magicxx_TESTS_DIR}/magic_compile_test.cpp
-    ${magicxx_TESTS_DIR}/magic_flags_mask_test.cpp
     ${magicxx_TESTS_DIR}/magic_flags_test.cpp
     ${magicxx_TESTS_DIR}/magic_identify_container_test.cpp
     ${magicxx_TESTS_DIR}/magic_identify_directory_test.cpp

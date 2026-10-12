@@ -35,6 +35,7 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <bit>
 #include <numeric>
 #include <random>
 #include <utility>
@@ -53,16 +54,16 @@ protected:
 
     void SetUp() override
     {
-        std::vector<Magic::Flags> test_flags{
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng)),
-            static_cast<Magic::Flags>(1ULL << m_dist(m_eng))
+        std::vector<Magic::FlagsT> test_flags{
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
+            static_cast<Magic::FlagsT>(1U << m_dist(m_eng))
         };
-        std::ranges::sort(test_flags, [](Magic::Flags a, Magic::Flags b) {
+        std::ranges::sort(test_flags, [](Magic::FlagsT a, Magic::FlagsT b) {
             return std::to_underlying(a) < std::to_underlying(b);
         });
         m_test_flags_container.clear();
@@ -77,21 +78,22 @@ protected:
         m_test_flags_mask = std::ranges::fold_left(
             m_test_flags_container,
             Magic::FlagsMaskT{},
-            [](Magic::FlagsMaskT acc, Magic::Flags f) {
+            [](Magic::FlagsMaskT acc, Magic::FlagsT f) {
                 return acc | f;
             }
         );
     }
 
+    static constexpr std::size_t FLAG_BIT_COUNT{
+        std::bit_width(std::to_underlying(Magic::FlagsT::NoCheckBuiltin))
+    };
+
     std::filesystem::path  m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     Magic::FlagsContainerT m_test_flags_container{};
     Magic::FlagsMaskT      m_test_flags_mask{};
     std::mt19937           m_eng{std::random_device{}()};
-    std::uniform_int_distribution<std::size_t> m_dist{
-        0,
-        Magic::FlagsMaskT{}.size() - 1
-    };
-    const std::size_t m_multiple_test_count{5UZ};
+    std::uniform_int_distribution<std::size_t> m_dist{0, FLAG_BIT_COUNT - 1};
+    const std::size_t                          m_multiple_test_count{5UZ};
 };
 
 TEST_F(MagicOpenCloseTest, closed_magic)
@@ -133,10 +135,7 @@ TEST_F(MagicOpenCloseTest, open_via_flags_container)
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_via_flags_container_noexcept)
@@ -147,10 +146,7 @@ TEST_F(MagicOpenCloseTest, open_via_flags_container_noexcept)
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_via_flags_mask)
@@ -161,10 +157,7 @@ TEST_F(MagicOpenCloseTest, open_via_flags_mask)
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_via_flags_mask_noexcept)
@@ -175,10 +168,7 @@ TEST_F(MagicOpenCloseTest, open_via_flags_mask_noexcept)
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_multiple_times)
@@ -191,10 +181,7 @@ TEST_F(MagicOpenCloseTest, open_multiple_times)
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_close_multiple_times)
@@ -210,10 +197,7 @@ TEST_F(MagicOpenCloseTest, open_close_multiple_times)
         EXPECT_FALSE(test_magic.IsDatabaseLoaded());
         EXPECT_FALSE(test_magic.IsValid());
         EXPECT_FALSE(test_magic);
-        EXPECT_EQ(
-            m_test_flags_container,
-            test_magic.GetFlags(std::nothrow).value()
-        );
+        EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
         test_magic.Close();
     }
 }
@@ -225,10 +209,7 @@ TEST_F(MagicOpenCloseTest, close_valid_magic)
     EXPECT_TRUE(test_magic.IsDatabaseLoaded());
     EXPECT_TRUE(test_magic.IsValid());
     EXPECT_TRUE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
     test_magic.Close();
     EXPECT_FALSE(test_magic.IsOpen());
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
@@ -243,16 +224,10 @@ TEST_F(MagicOpenCloseTest, open_valid_magic)
     EXPECT_TRUE(test_magic.IsDatabaseLoaded());
     EXPECT_TRUE(test_magic.IsValid());
     EXPECT_TRUE(test_magic);
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
     EXPECT_TRUE(test_magic.Open(m_test_flags_mask, std::nothrow));
     EXPECT_TRUE(test_magic.IsOpen());
-    EXPECT_EQ(
-        m_test_flags_container,
-        test_magic.GetFlags(std::nothrow).value()
-    );
+    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
     EXPECT_FALSE(test_magic.IsDatabaseLoaded());
     EXPECT_FALSE(test_magic.IsValid());
     EXPECT_FALSE(test_magic);

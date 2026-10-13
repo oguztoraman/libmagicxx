@@ -20,16 +20,19 @@
 #ifndef MAGIC_FLAGS_HPP
 #define MAGIC_FLAGS_HPP
 
+#include <algorithm>
+#include <array>
 #include <bit>
 #include <compare>
 #include <cstddef>
 #include <cstdint>
 #include <numeric>
 #include <optional>
-#include <string>
 #include <string_view>
 #include <utility>
 #include <vector>
+
+#include "static_string.hpp"
 
 /**
  * @namespace Recognition
@@ -51,8 +54,8 @@ namespace Recognition {
  * ### Key Features
  *
  * - **Value Semantics**: Copyable and movable flag container.
- * - **Exception Safety**: Every operation is `noexcept` except the
- *   `ToContainer()` and `ToString()` conversions.
+ * - **Exception Safety**: Every operation is `noexcept`; only
+ *   `ToContainer()` allocates.
  * - **Combination**: Implicit conversion from a single `Flags` value and
  *   `operator|` for building flag sets.
  * - **Explicit Conversions**: `ToContainer()` and `ToString()` named member
@@ -421,32 +424,153 @@ public:
     }
 
     /**
+     * @brief Default inline capacity of the string returned by ToString().
+     *
+     * The smallest capacity that fits every flag name with the default
+     * separator.
+     *
+     * @since 11.0.0
+     */
+    static constexpr std::size_t TO_STRING_CAPACITY{360UZ};
+
+    /**
      * @brief Convert the flag set to a separator-joined names string.
      *
-     * Produces a human-readable string of the names of all active flags for
-     * logging, debugging, and exception messages. A single flag name can be
-     * obtained by constructing an instance from that flag.
+     * The result is a fixed-capacity Utility::StaticString: rendering never
+     * allocates and never throws, and text beyond `CapacityV` characters is
+     * truncated (see StaticString::IsTruncated()).
+     *
+     * @tparam CapacityV Inline capacity, in characters, of the returned
+     *                   StaticString (default: `TO_STRING_CAPACITY`).
      *
      * @param[in] separator String separating the names (default: `, `).
      *
-     * @returns The joined flag names, ordered by flag position
-     *          (e.g. "Compress, Mime"), or "None" when no flag is set.
+     * @returns The flag names in bit order (e.g. "Compress, Mime"),
+     *          "None" when no flag is set, with unknown bits rendered as
+     *          "Invalid(N)".
      *
      * @code{.cpp}
      * MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
-     * auto names = flags.ToString();           // "Compress, Mime"
-     * auto semi  = flags.ToString("; ");       // "Compress; Mime"
-     * auto lines = flags.ToString("\n");       // "Compress\nMime"
-     *
-     * MagicFlags single{MagicFlags::Flags::MimeType};
-     * auto name = single.ToString();           // "MimeType"
+     * auto names = flags.ToString();      // "Compress, Mime"
+     * auto semi  = flags.ToString("; ");  // "Compress; Mime"
      * @endcode
      *
      * @since 11.0.0
      */
-    [[nodiscard]] std::string ToString(std::string_view separator = ", ") const;
+    template <std::size_t CapacityV = TO_STRING_CAPACITY>
+    [[nodiscard]] Utility::StaticString<CapacityV> ToString(
+        std::string_view separator = ", "
+    ) const noexcept
+    {
+        using Utility::StaticString;
+        if (m_mask == 0U) {
+            return StaticString<CapacityV>{std::string_view{"None"}};
+        }
+        StaticString<CapacityV> result{};
+        std::size_t             bit{};
+        for (const auto& name : TO_STRING_NAMES) {
+            if (((m_mask >> bit) & 1U) != 0U) {
+                if (!result.Empty()) {
+                    result.Append(separator);
+                }
+                result.Append(name);
+            }
+            ++bit;
+        }
+        for (
+            std::uint32_t unknown{m_mask >> FLAG_COUNT}; unknown != 0U;
+            unknown &= unknown - 1U
+        ) {
+            if (!result.Empty()) {
+                result.Append(separator);
+            }
+            result.Append(
+                std::string_view{StaticString<CapacityV>::Format(
+                    "Invalid({})",
+                    std::uint32_t{1U}
+                        << (FLAG_COUNT
+                            + static_cast<std::size_t>(
+                                std::countr_zero(unknown)
+                            ))
+                )}
+            );
+        }
+        return result;
+    }
 
 private:
+    /**
+     * @brief Number of bit positions covered by the Flags enum.
+     */
+    static constexpr std::size_t FLAG_COUNT{
+        std::bit_width(std::to_underlying(Flags::NoCheckBuiltin))
+    };
+
+    /**
+     * @brief Human-readable name of each Flags bit position.
+     *
+     * Indexed by bit position; consumed by ToString().
+     */
+    static constexpr std::array<std::string_view, FLAG_COUNT> TO_STRING_NAMES{
+        "Debug",
+        "Symlink",
+        "Compress",
+        "Devices",
+        "MimeType",
+        "ContinueSearch",
+        "CheckDatabase",
+        "PreserveAtime",
+        "Raw",
+        "Error",
+        "MimeEncoding",
+        "Mime",
+        "Apple",
+        "Extension",
+        "CompressTransp",
+        "NoCompressFork",
+        "Nodesc",
+        "NoCheckCompress",
+        "NoCheckTar",
+        "NoCheckSoft",
+        "NoCheckApptype",
+        "NoCheckElf",
+        "NoCheckText",
+        "NoCheckCdf",
+        "NoCheckCsv",
+        "NoCheckTokens",
+        "NoCheckEncoding",
+        "NoCheckJson",
+        "NoCheckSimh",
+        "NoCheckBuiltin"
+    };
+
+    static_assert(
+        TO_STRING_NAMES.size() == FLAG_COUNT,
+        "TO_STRING_NAMES must cover every Flags bit position"
+    );
+
+    static_assert(
+        []() noexcept {
+            std::size_t required{};
+            for (const auto name : TO_STRING_NAMES) {
+                required += name.size() + 2UZ; /* name + ", " */
+            }
+            return required - 2UZ; /* no trailing separator */
+        }() <= TO_STRING_CAPACITY,
+        "TO_STRING_CAPACITY must fit every flag name with the default "
+        "separator"
+    );
+
+    static_assert(
+        std::ranges::all_of(
+            TO_STRING_NAMES,
+            [](const std::string_view name) {
+                return !name.empty();
+            }
+        ),
+        "TO_STRING_NAMES must carry a non-empty name for every bit position"
+    );
+
     /**
      * @brief Convert the flag set to the libmagic flags value.
      *

@@ -7,23 +7,21 @@
  *
  * This file contains the complete implementation of the MagicParameters
  * value class, including:
- * - The file-local libmagic parameters lookup table (LIBMAGIC_PARAMETERS)
- *   and its helpers
+ * - The file-local libmagic parameters constant table
+ *   (LIBMAGIC_PARAMETER_VALUES) and the ParameterToUnderlying() helper
  * - MagicParameters public member function implementations
  *
  * @section magic_parameters_cpp_architecture Architecture
  *
  * MagicParameters stores its snapshot in a bounded inline container (a
  * fixed-size array of optionals indexed by the dense `Parameters`
- * ordinals), so every operation except `ToString()` performs no
- * heap allocation and is `noexcept`. A heap map could not provide this:
- * inserting into or copying a `std::map`/`std::flat_map` allocates and may
- * throw. The authoritative values stay in libmagic, reached through
- * Magic::GetParameter(). The functions that do not reference libmagic
- * constants (the constructors and `Store()`) are defined inline in the
- * header; this file holds only the definitions that need the lookup table.
- * The lookup table lives in an anonymous namespace in this translation
- * unit, keeping libmagic entirely out of the public header.
+ * ordinals), which keeps every operation allocation-free and `noexcept`
+ * — a heap map could not. The authoritative values stay in libmagic,
+ * reached through Magic::GetParameter(). The functions that do not
+ * reference libmagic constants (the constructors, `Store()`, and
+ * `ToString()`) are defined inline in the header; this file holds only
+ * the libmagic constant table and the bridge that needs it, kept in an
+ * anonymous namespace so libmagic stays out of the public header.
  *
  * The underlying libmagic C library is wrapped in the `Detail` namespace to
  * isolate its symbols; the `MAGIC_PARAM_*` constants are referenced only here.
@@ -33,11 +31,8 @@
  * | Component | Purpose |
  * |-----------|---------|
  * | `Detail` (magic.h) | Wrapped libmagic C constants |
- * | `LIBMAGIC_PARAMETERS` | Ordinal to `MAGIC_PARAM_*` constant and name |
+ * | `LIBMAGIC_PARAMETER_VALUES` | Ordinal to `MAGIC_PARAM_*` constant |
  * | `ParameterToUnderlying()` | `Parameters` to `MAGIC_PARAM_*` (nullopt when invalid) |
- * | `ParameterName()` | `Parameters` to name (ordinal index, numeric fallback) |
- * | `PairValue()` | Extracts the integer from a value-name pair |
- * | `PairName()` | Extracts the name from a value-name pair |
  *
  * @see magic_parameters.hpp for the public API documentation
  *
@@ -47,13 +42,9 @@
 
 #include "magic_parameters.hpp"
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
-#include <format>
 #include <optional>
-#include <string>
-#include <string_view>
 #include <utility>
 
 namespace Recognition {
@@ -75,100 +66,53 @@ namespace {
  * @ingroup magic_implementation
  * @brief Type definitions for libmagic interoperability.
  *
- * Type aliases for parameter value-name pairs and the parameters lookup
- * table.
+ * Type alias for the parameters constant lookup table.
  */
 /** @{ */
-using LibmagicValueT     = int;              /**< libmagic integer type */
-using LibmagicValueNameT = std::string_view; /**< Parameter name type. */
-using LibmagicPairT      = std::pair<
-    LibmagicValueT,
-    LibmagicValueNameT
->; /**< Value-name pair */
+using LibmagicValueT = int; /**< libmagic integer type */
 /** @} parameters_impl_type_aliases */
 
 /**
- * @brief Number of parameters in the lookup table.
- *
- * Equals the count of `Parameters` enum ordinals, from `IndirMax` (0) to
- * `MagWarnMax` (9).
+ * @brief Count of `Parameters` enum ordinals.
  */
 constexpr std::size_t LIBMAGIC_PARAMETER_COUNT{
     static_cast<std::size_t>(MagicParameters::Parameters::MagWarnMax) + 1UZ
 };
 
-using LibmagicParametersT = std::array<
-    LibmagicPairT,
+using LibmagicParameterValuesT = std::array<
+    LibmagicValueT,
     LIBMAGIC_PARAMETER_COUNT
->; /**< Array type mapping all libmagic parameter values to names. */
+>; /**< Array type holding all libmagic parameter constants in order. */
 
 /**
  * @brief Mapping from MagicParameters::Parameters ordinals to libmagic
  *        constants.
  *
  * Static lookup table mapping each Parameters enum ordinal to the
- * corresponding libmagic `MAGIC_PARAM_*` constant and its human-readable
- * name.
+ * corresponding libmagic `MAGIC_PARAM_*` constant. The human-readable
+ * names live in the header's `MagicParameters::TO_STRING_NAMES` table,
+ * which shares this order.
  *
  * @note The Parameters enum values are dense ordinals (0 through
  *       `LIBMAGIC_PARAMETER_COUNT - 1`), so the table index equals the
  *       `std::to_underlying(parameter)` result.
  *
  * @see MagicParameters::Parameters
+ * @see MagicParameters::ToString()
  * @see ParameterToUnderlying()
- * @see ParameterName()
  */
-constexpr LibmagicParametersT LIBMAGIC_PARAMETERS{
-    std::make_pair(MAGIC_PARAM_INDIR_MAX, "IndirMax"),
-    std::make_pair(MAGIC_PARAM_NAME_MAX, "NameMax"),
-    std::make_pair(MAGIC_PARAM_ELF_PHNUM_MAX, "ElfPhnumMax"),
-    std::make_pair(MAGIC_PARAM_ELF_SHNUM_MAX, "ElfShnumMax"),
-    std::make_pair(MAGIC_PARAM_ELF_NOTES_MAX, "ElfNotesMax"),
-    std::make_pair(MAGIC_PARAM_REGEX_MAX, "RegexMax"),
-    std::make_pair(MAGIC_PARAM_BYTES_MAX, "BytesMax"),
-    std::make_pair(MAGIC_PARAM_ENCODING_MAX, "EncodingMax"),
-    std::make_pair(MAGIC_PARAM_ELF_SHSIZE_MAX, "ElfShsizeMax"),
-    std::make_pair(MAGIC_PARAM_MAGWARN_MAX, "MagWarnMax")
+constexpr LibmagicParameterValuesT LIBMAGIC_PARAMETER_VALUES{
+    MAGIC_PARAM_INDIR_MAX,
+    MAGIC_PARAM_NAME_MAX,
+    MAGIC_PARAM_ELF_PHNUM_MAX,
+    MAGIC_PARAM_ELF_SHNUM_MAX,
+    MAGIC_PARAM_ELF_NOTES_MAX,
+    MAGIC_PARAM_REGEX_MAX,
+    MAGIC_PARAM_BYTES_MAX,
+    MAGIC_PARAM_ENCODING_MAX,
+    MAGIC_PARAM_ELF_SHSIZE_MAX,
+    MAGIC_PARAM_MAGWARN_MAX
 };
-
-static_assert(
-    std::ranges::all_of(
-        LIBMAGIC_PARAMETERS,
-        [](const LibmagicPairT& pair) {
-            return !pair.second.empty();
-        }
-    ),
-    "LIBMAGIC_PARAMETERS must carry a non-empty name for every ordinal"
-);
-
-/**
- * @brief Extract the libmagic integer constant from a value-name pair.
- *
- * @param[in] pair The libmagic value-name pair.
- *
- * @returns The libmagic constant (e.g. `MAGIC_PARAM_BYTES_MAX`).
- */
-[[nodiscard]] constexpr LibmagicValueT PairValue(
-    const LibmagicPairT& pair
-) noexcept
-{
-    return std::get<LibmagicValueT>(pair);
-}
-
-/**
- * @brief Extract the human-readable name from a value-name pair.
- *
- * @param[in] pair The libmagic value-name pair.
- *
- * @returns The parameter name (e.g. "BytesMax") as a view referencing
- *          the static table literal; valid for the program lifetime.
- */
-[[nodiscard]] constexpr LibmagicValueNameT PairName(
-    const LibmagicPairT& pair
-) noexcept
-{
-    return std::get<LibmagicValueNameT>(pair);
-}
 
 /**
  * @brief Convert a parameter to its libmagic constant.
@@ -191,68 +135,15 @@ static_assert(
         return std::nullopt;
     }
     std::size_t index{};
-    for (const auto& pair : LIBMAGIC_PARAMETERS) {
-        if (parameter == static_cast<MagicParameters::Parameters>(index)) {
-            return PairValue(pair);
+    for (const auto value : LIBMAGIC_PARAMETER_VALUES) {
+        if (index == ordinal) {
+            return value;
         }
         ++index;
     }
     return std::nullopt;
 }
-
-/**
- * @brief Look up the human-readable name of a single parameter.
- *
- * Internal helper used by MagicParameters::ToString() to render
- * each entry's name. Uses direct ordinal indexing into
- * LIBMAGIC_PARAMETERS; the table order
- * matches the dense Parameters enum ordinals (asserted above).
- *
- * @param[in] parameter The parameter to convert.
- *
- * @returns The parameter name (e.g. "BytesMax"), or a numeric
- *          "Invalid(N)" fallback when the ordinal exceeds the table bounds.
- */
-[[nodiscard]] std::string ParameterName(MagicParameters::Parameters parameter)
-{
-    const auto ordinal{static_cast<std::size_t>(std::to_underlying(parameter))};
-    if (ordinal >= LIBMAGIC_PARAMETER_COUNT) {
-        return std::format("Invalid({})", ordinal);
-    }
-    return std::string{PairName(LIBMAGIC_PARAMETERS.at(ordinal))};
-}
 } /* anonymous namespace */
-
-std::string MagicParameters::ToString(
-    const StringFormat format,
-    /* NOLINTNEXTLINE(bugprone-easily-swappable-parameters) */
-    const std::string_view value_separator,
-    const std::string_view parameter_separator
-) const
-{
-    std::string result;
-    std::size_t ordinal{};
-    for (const auto& value : m_values) {
-        if (value.has_value()) {
-            if (!result.empty()) {
-                result += parameter_separator;
-            }
-            const auto parameter{static_cast<Parameters>(ordinal)};
-            if (format == StringFormat::Names) {
-                result += ParameterName(parameter);
-            } else {
-                result += std::format(
-                    "{}{}{}",
-                    ParameterName(parameter),
-                    value_separator,
-                    value.value()
-                );
-            }
-        }
-        ++ordinal;
-    }
-    return result;
-}
 
 std::optional<int> MagicParameters::ToUnderlying(Parameters parameter) noexcept
 {

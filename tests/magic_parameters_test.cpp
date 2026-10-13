@@ -259,12 +259,22 @@ TEST_F(MagicParametersTest, get_parameters_render_through_magic_parameters)
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_NE(
             std::string::npos,
-            rendered.ToString(MagicParameters::StringFormat::Names, ": ", ",")
-                .find((MagicParameters{parameter, parameter_value}.ToString(
+            std::string_view{
+                rendered.ToString(
                     MagicParameters::StringFormat::Names,
                     ": ",
-                    ", "
-                )))
+                    ","
+                )
+        }
+                .find(
+                    std::string_view{
+                        MagicParameters{parameter, parameter_value}.ToString(
+                            MagicParameters::StringFormat::Names,
+                            ": ",
+                            ", "
+                        )
+                    }
+                )
         );
         EXPECT_EQ(parameter_value, m_valid_magic.GetParameter(parameter));
     }
@@ -581,14 +591,14 @@ TEST_F(MagicParametersConvertTest, name_of_every_parameter)
 TEST_F(MagicParametersConvertTest, default_and_empty_map_are_empty)
 {
     const MagicParameters default_parameters;
-    EXPECT_TRUE(default_parameters.ToString().empty());
+    EXPECT_TRUE(default_parameters.ToString().Empty());
     EXPECT_TRUE(default_parameters
                     .ToString(MagicParameters::StringFormat::Names, ": ", ",")
-                    .empty());
+                    .Empty());
     const MagicParameters empty_parameters{
         MagicParameters::ParameterValueMapT{}
     };
-    EXPECT_TRUE(empty_parameters.ToString().empty());
+    EXPECT_TRUE(empty_parameters.ToString().Empty());
 }
 
 TEST_F(MagicParametersConvertTest, two_entry_map_orders_by_ordinal)
@@ -654,14 +664,14 @@ TEST_F(MagicParametersConvertTest, invalid_ordinal_snapshot_is_empty)
         static_cast<MagicParameters::Parameters>(INVALID_ORDINAL)
     };
     const MagicParameters single{INVALID_PARAMETER, 1UZ};
-    EXPECT_TRUE(single.ToString().empty());
+    EXPECT_TRUE(single.ToString().Empty());
 
     const MagicParameters::ParameterValueMapT map{
         {INVALID_PARAMETER, 1UZ}
     };
     const MagicParameters from_map{map};
     EXPECT_TRUE(
-        from_map.ToString(MagicParameters::StringFormat::Names).empty()
+        from_map.ToString(MagicParameters::StringFormat::Names).Empty()
     );
 }
 

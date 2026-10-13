@@ -7,11 +7,10 @@
  *
  * This file contains the MagicParameters class, a C++23 value type that
  * owns the libmagicxx tuning parameters: the `Parameters` enum and the
- * operations that convert parameters to human-readable strings. Values
- * are snapshotted into a bounded inline container, so the class is
- * allocation-free and `noexcept` except for its string conversions;
- * the authoritative values live in libmagic and are reached through
- * Magic::GetParameter() and Magic::SetParameter().
+ * operations that convert parameters to human-readable strings. Every
+ * operation is allocation-free and `noexcept`; the authoritative values
+ * live in libmagic and are reached through Magic::GetParameter() and
+ * Magic::SetParameter().
  *
  * @author Oğuz Toraman
  * @copyright Copyright (c) 2022-2026 Oğuz Toraman. LGPL-3.0-only.
@@ -23,14 +22,18 @@
 #ifndef MAGIC_PARAMETERS_HPP
 #define MAGIC_PARAMETERS_HPP
 
+#include <algorithm>
 #include <array>
 #include <compare>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <map>
 #include <optional>
-#include <string>
+#include <ranges>
 #include <string_view>
+
+#include "static_string.hpp"
 
 /**
  * @namespace Recognition
@@ -54,8 +57,8 @@ namespace Recognition {
  * ### Key Features
  *
  * - **Value Semantics**: Trivially copyable and movable parameter snapshot.
- * - **Exception Safety**: Every operation except `ToString()` is
- *   `noexcept`; the inline storage performs no heap allocation.
+ * - **Exception Safety**: Every operation is `noexcept` and performs no
+ *   heap allocation.
  * - **Explicit Conversions**: `ToString()` named member function instead of
  *   implicit conversion operators.
  * - **Comparison**: Snapshots are comparable with `operator==` and
@@ -329,7 +332,24 @@ public:
     }
 
     /**
+     * @brief Default inline capacity of the string returned by ToString().
+     *
+     * The smallest capacity that fits every parameter with its maximum
+     * value and the default separators.
+     *
+     * @since 11.0.0
+     */
+    static constexpr std::size_t TO_STRING_CAPACITY{337UZ};
+
+    /**
      * @brief Convert the stored parameter values to a string.
+     *
+     * The result is a fixed-capacity Utility::StaticString, so rendering
+     * never allocates and never throws; text beyond `CapacityV` characters
+     * is truncated (see StaticString::IsTruncated()).
+     *
+     * @tparam CapacityV Inline capacity, in characters, of the returned
+     *                   StaticString (default: `TO_STRING_CAPACITY`).
      *
      * @param[in] format              Whether to render only the parameter
      *                                names or the names with their values
@@ -340,38 +360,116 @@ public:
      * @param[in] parameter_separator String separating the entries
      *                                (default: `, `).
      *
-     * @returns Formatted string of the stored entries — e.g.
-     *          "RegexMax: 8192, BytesMax: 1048576" with the default
-     *          separators and `StringFormat::NamesAndValues`, or
-     *          "RegexMax, BytesMax" with `StringFormat::Names`; entries render
-     *          in Parameters ordinal order and the result is empty when no
-     *          value is stored. A single "ParameterName: value" entry is
-     *          rendered by constructing an instance from that parameter and
-     *          value.
-     *
-     * @throws std::bad_alloc If allocating the result string fails.
+     * @returns The stored entries in parameter order — e.g.
+     *          "RegexMax: 8192, BytesMax: 1048576" with
+     *          `StringFormat::NamesAndValues`, or "RegexMax, BytesMax" with
+     *          `StringFormat::Names`. Empty when no value is stored.
      *
      * @code{.cpp}
      * MagicParameters parameters{
      *     {{MagicParameters::Parameters::BytesMax, 1048576U},
      *      {MagicParameters::Parameters::RegexMax, 8192U}}
      * };
-     * auto text = parameters.ToString();
-     * // text == "RegexMax: 8192, BytesMax: 1048576"
+     * auto text = parameters.ToString();  // "RegexMax: 8192, BytesMax: 1048576"
      * auto names = parameters.ToString(
-     *     MagicParameters::StringFormat::Names);
-     * // names == "RegexMax, BytesMax"
+     *     MagicParameters::StringFormat::Names);  // "RegexMax, BytesMax"
      * @endcode
      *
      * @since 11.0.0
      */
-    [[nodiscard]] std::string ToString(
-        StringFormat     format              = StringFormat::NamesAndValues,
+    template <std::size_t CapacityV = TO_STRING_CAPACITY>
+    [[nodiscard]] Utility::StaticString<CapacityV> ToString(
+        StringFormat format = StringFormat::NamesAndValues,
+        /* NOLINTNEXTLINE(bugprone-easily-swappable-parameters) */
         std::string_view value_separator     = ": ",
         std::string_view parameter_separator = ", "
-    ) const;
+    ) const noexcept
+    {
+        using Utility::StaticString;
+        StaticString<CapacityV> result{};
+        for (
+            const auto& [value, name] :
+            std::views::zip(m_values, TO_STRING_NAMES)
+        ) {
+            if (value.has_value()) {
+                if (!result.Empty()) {
+                    result.Append(parameter_separator);
+                }
+                result.Append(name);
+                if (format == StringFormat::NamesAndValues) {
+                    result.Append(value_separator);
+                    result.Append(
+                        std::string_view{
+                            StaticString<CapacityV>::Format("{}", *value)
+                        }
+                    );
+                }
+            }
+        }
+        return result;
+    }
 
 private:
+    /**
+     * @brief Number of Parameters ordinals, and capacity of the inline
+     *        value container.
+     */
+    static constexpr std::size_t PARAMETER_COUNT{
+        static_cast<std::size_t>(Parameters::MagWarnMax) + 1UZ
+    };
+
+    /**
+     * @brief Human-readable name of each Parameters ordinal.
+     *
+     * Indexed by ordinal; consumed by ToString().
+     */
+    static constexpr std::array<std::string_view, PARAMETER_COUNT>
+        TO_STRING_NAMES{
+            "IndirMax",
+            "NameMax",
+            "ElfPhnumMax",
+            "ElfShnumMax",
+            "ElfNotesMax",
+            "RegexMax",
+            "BytesMax",
+            "EncodingMax",
+            "ElfShsizeMax",
+            "MagWarnMax"
+        };
+
+    static_assert(
+        TO_STRING_NAMES.size() == PARAMETER_COUNT,
+        "TO_STRING_NAMES must cover every Parameters ordinal"
+    );
+
+    static_assert(
+        []() noexcept {
+            constexpr std::size_t MAX_DIGITS{
+                std::numeric_limits<std::size_t>::digits10 + 1
+            };
+            std::size_t required{};
+            for (const auto name : TO_STRING_NAMES) {
+                required += name.size()
+                          + 2UZ /* ": " */
+                          + MAX_DIGITS
+                          + 2UZ /* ", " */;
+            }
+            return required - 2UZ; /* no trailing separator */
+        }() <= TO_STRING_CAPACITY,
+        "TO_STRING_CAPACITY must fit every parameter with the default "
+        "separators"
+    );
+
+    static_assert(
+        std::ranges::all_of(
+            TO_STRING_NAMES,
+            [](const std::string_view name) {
+                return !name.empty();
+            }
+        ),
+        "TO_STRING_NAMES must carry a non-empty name for every ordinal"
+    );
+
     /**
      * @brief Convert a parameter to its libmagic constant.
      *
@@ -402,16 +500,6 @@ private:
     }
 
     friend class Magic; /**< Grants Magic access to the libmagic bridge. */
-
-    /**
-     * @brief Capacity of the bounded inline container.
-     *
-     * Equals the count of dense `Parameters` enum ordinals, from `IndirMax`
-     * (0) to `MagWarnMax` (9).
-     */
-    static constexpr std::size_t PARAMETER_COUNT{
-        static_cast<std::size_t>(Parameters::MagWarnMax) + 1UZ
-    };
 
     std::array<std::optional<std::size_t>, PARAMETER_COUNT>
         m_values{}; /**< Stored value of each parameter, empty when absent. */

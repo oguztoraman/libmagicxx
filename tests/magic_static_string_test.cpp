@@ -9,7 +9,7 @@
  * payload of Magic::ExpectedFileTypeT and the return type of
  * Magic::GetVersion() and Utility::Percentage::ToString():
  * - Construction (default, from `const char*`, from a null pointer, from
- *   `std::string_view`, and by copy)
+ *   `std::string_view`, by copy, and by move)
  * - Value transfer by return from a callee and by move assignment
  * - Assignment (copy, `std::string_view`, and `const char*`)
  * - `MaxSize()` reporting the template capacity
@@ -37,6 +37,7 @@
  * | long_capacity_boundaries | Truncation works at production capacities |
  * | truncation_sets_flag | Overlong input is dropped and flagged |
  * | copy_constructor_copies_content | Copy is independent and keeps the flag |
+ * | move_constructor_transfers_content | Container moves keep content and flag |
  * | return_from_callee_transfers_content | Returned strings keep their text |
  * | copy_assignment_replaces_state | Copy assignment replaces text and flag |
  * | move_assignment_replaces_state | Move assignment replaces text and flag |
@@ -75,6 +76,7 @@
 #include <string_view>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "static_string.hpp"
 
@@ -363,6 +365,28 @@ TEST_F(MagicStaticStringTest, copy_constructor_copies_content)
     independent.Append("def");
     EXPECT_EQ(independent, "abcdef");
     EXPECT_EQ(original, "abc");
+}
+
+TEST_F(MagicStaticStringTest, move_constructor_transfers_content)
+{
+    static_assert(std::is_nothrow_move_constructible_v<TestStringT>);
+    const std::string        long_text{OverlongText('v')};
+    std::vector<TestStringT> storage{};
+    storage.emplace_back(std::string_view{long_text});
+    storage.emplace_back("moved value");
+    const std::string_view truncated_prefix{
+        std::string_view{long_text}.substr(0, TEST_CAPACITY)
+    };
+    storage.reserve(storage.size() * 4UZ);
+    storage.emplace_back("grown");
+    ASSERT_EQ(storage.size(), 3UZ);
+    EXPECT_TRUE(storage[0].IsTruncated());
+    EXPECT_EQ(storage[0].Size(), TEST_CAPACITY);
+    EXPECT_EQ(storage[0], truncated_prefix);
+    EXPECT_EQ(storage[1], "moved value");
+    EXPECT_FALSE(storage[1].IsTruncated());
+    EXPECT_EQ(storage[2], "grown");
+    EXPECT_STREQ(storage[1].CStr(), "moved value");
 }
 
 TEST_F(MagicStaticStringTest, return_from_callee_transfers_content)

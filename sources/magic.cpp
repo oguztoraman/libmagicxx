@@ -56,6 +56,7 @@
 #include <bitset>
 #include <format>
 #include <new>
+#include <string_view>
 #include <utility>
 
 #include "magic_flags.hpp"
@@ -735,7 +736,7 @@ public:
                 param_constant.value(),
                 &value
             ),
-            GetErrorMessage(),
+            std::string{GetErrorMessage()},
             parameter
         );
         return value;
@@ -920,7 +921,7 @@ public:
         );
         MagicPrivate::ThrowExceptionOnFailure<MagicIdentifyFileError>(
             type_cstr != nullptr,
-            GetErrorMessage(),
+            std::string{GetErrorMessage()},
             path.string()
         );
         return type_cstr;
@@ -981,8 +982,11 @@ public:
         );
         if (!type_cstr) {
             return std::unexpected{
-                MagicIdentifyFileError{GetErrorMessage(), path.string()}
-                .what()
+                MagicIdentifyFileError{
+                                       std::string{GetErrorMessage()},
+                                       path.string()
+                }
+                    .what()
             };
         }
         return {type_cstr};
@@ -1395,7 +1399,7 @@ public:
         m_is_database_loaded = false;
         MagicPrivate::ThrowExceptionOnFailure<MagicLoadDatabaseFileError>(
             Detail::magic_load(m_cookie.get(), database_file.string().c_str()),
-            GetErrorMessage(),
+            std::string{GetErrorMessage()},
             database_file.string()
         );
         m_is_database_loaded = true;
@@ -1511,7 +1515,7 @@ public:
         m_cookie.reset(Detail::magic_open(flag_constant.value()));
         MagicPrivate::ThrowExceptionOnFailure<MagicOpenError>(
             IsOpen(),
-            GetErrorMessage()
+            std::string{GetErrorMessage()}
         );
         m_flags = flags;
     }
@@ -1645,7 +1649,7 @@ public:
         );
         MagicPrivate::ThrowExceptionOnFailure<MagicSetFlagsError>(
             Detail::magic_setflags(m_cookie.get(), flag_constant.value()),
-            GetErrorMessage(),
+            std::string{GetErrorMessage()},
             flags
         );
         m_flags = flags;
@@ -1778,7 +1782,7 @@ public:
                 param_constant.value(),
                 &value
             ),
-            GetErrorMessage(),
+            std::string{GetErrorMessage()},
             MagicParameters{parameter, value}
         );
     }
@@ -2025,23 +2029,24 @@ private:
     /**
      * @brief Retrieve the last error message from libmagic.
      *
-     * Calls `magic_error()` to get the most recent error message
-     * from the libmagic library. Returns an empty string if no
-     * error message is available.
+     * Calls `magic_error()` to get the most recent error message from
+     * the libmagic library. Used internally to populate exception
+     * messages.
      *
-     * @returns Error message string, or empty string if none.
+     * @returns Error message view, or a static "no error" message if
+     *          libmagic reports none.
      *
-     * @par libmagic Call
-     * @code{.cpp}
-     * Detail::magic_error(m_cookie.get());
-     * @endcode
-     *
-     * @note Used internally to populate exception messages.
+     * @note The view points into libmagic's internal buffer and is
+     *       only valid until the next libmagic call on this cookie.
      */
-    [[nodiscard]] std::string GetErrorMessage() const noexcept
+    [[nodiscard]] std::string_view GetErrorMessage() const noexcept
     {
+        static constexpr std::string_view NO_ERROR_MESSAGE{
+            "No error message available."
+        };
         const char* magic_error_cstr = Detail::magic_error(m_cookie.get());
-        return magic_error_cstr ? magic_error_cstr : "";
+        return magic_error_cstr != nullptr ? std::string_view{magic_error_cstr}
+                                           : NO_ERROR_MESSAGE;
     }
 };
 

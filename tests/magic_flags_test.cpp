@@ -113,7 +113,6 @@ protected:
         return Magic::FlagsMaskT{FlagAtBit(FLAG_BIT_COUNT)};
     }
 
-    /* Number of random flag bits combined into the test fixture mask. */
     static constexpr std::size_t RANDOM_FLAG_COUNT{7UZ};
 
     std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
@@ -544,7 +543,6 @@ TEST_F(MagicFlagsValueTest, default_constructor_is_empty)
     for (std::size_t bit{}; bit < FlagBitCount(); ++bit) {
         EXPECT_FALSE(flags.Contains(FlagAtBit(bit))) << bit;
     }
-    /* Contains(None) on the empty set reports that no flag is set. */
     EXPECT_TRUE(flags.Contains(MagicFlags::Flags::None));
     EXPECT_EQ("None", flags.ToString());
 }
@@ -614,7 +612,6 @@ TEST_F(
         MagicFlags::Flags::Compress,
         MagicFlags::Flags::Debug
     ));
-    /* Contains(Flags::None) is true only for an empty set. */
     EXPECT_FALSE(flags.Contains(MagicFlags::Flags::None));
     EXPECT_TRUE(MagicFlags{}.Contains(MagicFlags::Flags::None));
     const MagicFlags unknown{FlagAtBit(FlagBitCount() + 1UZ)};

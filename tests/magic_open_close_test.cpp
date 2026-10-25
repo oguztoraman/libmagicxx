@@ -6,7 +6,7 @@
  * @brief Unit tests for Magic::Open() and Magic::Close() methods.
  *
  * Tests the Magic instance lifecycle including:
- * - Opening with flag masks and flag containers
+ * - Opening with flag masks
  * - Closing and reopening instances
  * - State queries (IsOpen, IsValid, IsDatabaseLoaded)
  * - Throwing and noexcept variants
@@ -34,9 +34,8 @@
 
 #include <gtest/gtest.h>
 
-#include <algorithm>
 #include <bit>
-#include <numeric>
+#include <cstddef>
 #include <random>
 #include <utility>
 
@@ -54,44 +53,22 @@ protected:
 
     void SetUp() override
     {
-        std::vector<Magic::FlagsT> test_flags{
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng))
-        };
-        std::ranges::sort(test_flags, [](Magic::FlagsT a, Magic::FlagsT b) {
-            return std::to_underlying(a) < std::to_underlying(b);
-        });
-        m_test_flags_container.clear();
-        m_test_flags_container.assign(test_flags.begin(), test_flags.end());
-        m_test_flags_container.erase(
-            std::unique(
-                m_test_flags_container.begin(),
-                m_test_flags_container.end()
-            ),
-            m_test_flags_container.end()
-        );
-        m_test_flags_mask = std::ranges::fold_left(
-            m_test_flags_container,
-            Magic::FlagsMaskT{},
-            [](Magic::FlagsMaskT acc, Magic::FlagsT f) {
-                return acc | f;
-            }
-        );
+        m_test_flags_mask = Magic::FlagsMaskT{};
+        for (std::size_t i{}; i < RANDOM_FLAG_COUNT; ++i) {
+            m_test_flags_mask = m_test_flags_mask
+                              | static_cast<Magic::FlagsT>(1U << m_dist(m_eng));
+        }
     }
 
     static constexpr std::size_t FLAG_BIT_COUNT{
         std::bit_width(std::to_underlying(Magic::FlagsT::NoCheckBuiltin))
     };
 
-    std::filesystem::path  m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
-    Magic::FlagsContainerT m_test_flags_container{};
-    Magic::FlagsMaskT      m_test_flags_mask{};
-    std::mt19937           m_eng{std::random_device{}()};
+    static constexpr std::size_t RANDOM_FLAG_COUNT{7UZ};
+
+    std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
+    Magic::FlagsMaskT     m_test_flags_mask{};
+    std::mt19937          m_eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_dist{0, FLAG_BIT_COUNT - 1};
     const std::size_t                          m_multiple_test_count{5UZ};
 };
@@ -125,28 +102,6 @@ TEST_F(MagicOpenCloseTest, closed_magic_close_multiple_times)
     EXPECT_FALSE(closed_magic.IsDatabaseLoaded());
     EXPECT_FALSE(closed_magic.IsValid());
     EXPECT_FALSE(closed_magic);
-}
-
-TEST_F(MagicOpenCloseTest, open_via_flags_container)
-{
-    Magic test_magic{};
-    test_magic.Open(m_test_flags_container);
-    EXPECT_TRUE(test_magic.IsOpen());
-    EXPECT_FALSE(test_magic.IsDatabaseLoaded());
-    EXPECT_FALSE(test_magic.IsValid());
-    EXPECT_FALSE(test_magic);
-    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
-}
-
-TEST_F(MagicOpenCloseTest, open_via_flags_container_noexcept)
-{
-    Magic test_magic{};
-    EXPECT_TRUE(test_magic.Open(m_test_flags_container, std::nothrow));
-    EXPECT_TRUE(test_magic.IsOpen());
-    EXPECT_FALSE(test_magic.IsDatabaseLoaded());
-    EXPECT_FALSE(test_magic.IsValid());
-    EXPECT_FALSE(test_magic);
-    EXPECT_EQ(m_test_flags_mask, test_magic.GetFlags(std::nothrow).value());
 }
 
 TEST_F(MagicOpenCloseTest, open_via_flags_mask)

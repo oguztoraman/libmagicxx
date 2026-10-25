@@ -65,7 +65,7 @@ namespace Recognition {
  *   Magic::GetParameters() and Magic::SetParameters().
  * - **Iteration**: Range-for yields the stored entries as
  *   `ParameterValueT` pairs in ascending parameter ordinal order, skipping
- *   the unset slots.
+ *   the parameters that hold no value.
  * - **Keyed Lookup**: Read-only map-style access via `operator[]` and
  *   `Contains()`.
  * - **Size Queries**: `Count()` and `Empty()` report how many entries the
@@ -261,7 +261,8 @@ public:
         { }
 
         /**
-         * @brief Advance to the next stored entry, skipping unset slots.
+         * @brief Advance to the next stored entry, skipping parameters
+         *        that hold no value.
          *
          * @returns Reference to this iterator.
          *
@@ -292,8 +293,8 @@ public:
         /**
          * @brief Dereference the iterator.
          *
-         * Iteration only ever rests on slots that hold a value, so the
-         * entry is always present at a dereferenced position.
+         * Iteration only ever rests on stored entries, so the entry is
+         * always present at a dereferenced position.
          *
          * @returns The parameter-value pair at the current ordinal. The
          *          behavior is undefined at the end position.
@@ -357,7 +358,9 @@ public:
             SkipUnset();
         }
 
-        /** @brief Advance the ordinal past slots that hold no value. */
+        /**
+         * @brief Advance the ordinal past slots that hold no value.
+         */
         constexpr void SkipUnset() noexcept
         {
             while (
@@ -392,11 +395,11 @@ public:
      * ignores the value. Use Magic::GetParameter() to read the parameter's
      * actual libmagic value.
      *
-     * @note A `parameter` that is not a valid ordinal is silently
-     *       discarded, leaving an empty snapshot.
-     *
      * @param[in] parameter The parameter to store.
      * @param[in] value     The value for the parameter.
+     *
+     * @note A `parameter` that is not a valid ordinal is silently
+     *       discarded, leaving an empty snapshot.
      *
      * @code{.cpp}
      * MagicParameters parameters{
@@ -418,17 +421,11 @@ public:
      * The resulting snapshot holds exactly the given entries; a repeated
      * parameter keeps its last value.
      *
+     * @param[in] entries Pairs of a parameter and its value.
+     *
      * @note Entries whose key is not a valid ordinal are silently
      *       discarded; a list of only invalid keys leaves an empty
-     *       snapshot.
-     *
-     * @warning This replaces the map-based transport API, where an
-     *          out-of-range key was reported through
-     *          Magic::SetParameters(). Snapshots now drop invalid ordinals
-     *          at build time, so Magic::SetParameters() can no longer
-     *          detect them and applies only the surviving entries.
-     *
-     * @param[in] entries Pairs of a parameter and its value.
+     *       snapshot. Use Contains() to detect a discarded entry.
      *
      * @code{.cpp}
      * MagicParameters parameters{
@@ -502,8 +499,8 @@ public:
     /**
      * @brief Return an iterator to the first stored entry.
      *
-     * Leading slots that hold no value are skipped, so iteration yields
-     * exactly the stored entries in ascending parameter ordinal order.
+     * Leading unset parameters are skipped, so iteration yields exactly
+     * the stored entries in ascending parameter ordinal order.
      *
      * @code{.cpp}
      * for (const auto [parameter, value] : parameters) {

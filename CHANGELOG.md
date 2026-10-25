@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: API CHANGE - Replace map-based parameter API with allocation-free MagicParameters and remove redundant FlagsContainerT overloads.
+
 + **[ENHANCEMENT]** Magic: Redesign MagicFlags as a constexpr bitset with query and iteration APIs.
 
 + **[ENHANCEMENT]** Magic: Redesign MagicParameters as an allocation-free constexpr snapshot value type.

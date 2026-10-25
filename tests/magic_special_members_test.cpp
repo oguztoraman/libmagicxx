@@ -20,7 +20,6 @@
  * | Flags + path | Opens with flags, loads specified database |
  * | Flags + nothrow | Opens, attempts to load, returns invalid on failure |
  * | Flags + nothrow + path | Full noexcept construction |
- * | Container variants | Same patterns with FlagsContainerT |
  *
  * @section special_members_test_move Move Semantics
  *

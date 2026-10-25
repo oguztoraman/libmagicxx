@@ -160,7 +160,7 @@ void ExampleIdentifyDirectory()
  * @brief Example 4: Configuring flags and parameters.
  *
  * This example demonstrates advanced configuration:
- * - Opening with multiple flags using a container
+ * - Opening with multiple flags combined with bitwise OR
  * - Setting parameters to tune identification behavior
  * - Retrieving current flag and parameter values
  *
@@ -179,7 +179,7 @@ void ExampleIdentifyDirectory()
 void ExampleCustomFlagsParameters()
 {
     Magic example_magic;
-    example_magic.Open({Magic::FlagsT::Mime, Magic::FlagsT::Compress});
+    example_magic.Open(Magic::FlagsT::Mime | Magic::FlagsT::Compress);
     example_magic.LoadDatabaseFile();
     example_magic.SetParameter(Magic::ParametersT::BytesMax, 2'048);
     auto value = example_magic.GetParameter(Magic::ParametersT::BytesMax);
@@ -378,11 +378,7 @@ void ExampleVersionAndAllParameters()
 
     Magic example_magic{Magic::FlagsT::Mime};
     auto  all_params = example_magic.GetParameters();
-    std::println(
-        std::cout,
-        "All parameters: {}",
-        MagicParameters{all_params}.ToString()
-    );
+    std::println(std::cout, "All parameters: {}", all_params.ToString());
 
     example_magic.SetParameters({
         {Magic::ParametersT::BytesMax, 1'024'000},
@@ -392,8 +388,12 @@ void ExampleVersionAndAllParameters()
     std::println(
         std::cout,
         "After SetParameters(): {}",
-        MagicParameters{updated_params}.ToString()
+        updated_params.ToString()
     );
+
+    if (auto bytes_max = updated_params[Magic::ParametersT::BytesMax]) {
+        std::println(std::cout, "BytesMax is now {}", *bytes_max);
+    }
 }
 
 /**

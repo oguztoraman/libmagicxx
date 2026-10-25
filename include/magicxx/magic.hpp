@@ -223,9 +223,6 @@ public:
      *
      * // Follow symlinks and decompress files
      * Magic magic3{Magic::FlagsT::Symlink | Magic::FlagsT::Compress};
-     *
-     * // Using a container of flags
-     * Magic magic4{{Magic::FlagsT::Mime, Magic::FlagsT::Debug}};
      * @endcode
      *
      * @see MagicFlags::Flags for the individual flag meanings
@@ -351,7 +348,7 @@ public:
      * auto bytes = magic.GetParameter(Magic::ParametersT::BytesMax);
      *
      * // Get all parameters as "name: value" entries
-     * MagicParameters parameters{magic.GetParameters()};
+     * auto parameters = magic.GetParameters();
      * std::println("{}", parameters.ToString());
      * @endcode
      *
@@ -364,33 +361,6 @@ public:
      * @since 11.0.0
      */
     using ParametersT = MagicParameters::Parameters;
-
-    /**
-     * @typedef FlagsContainerT
-     *
-     * @brief Container type holding a collection of Magic::FlagsT.
-     *
-     * @since 10.0.0
-     */
-    using FlagsContainerT = std::vector<FlagsT>;
-
-    /**
-     * @typedef ParameterValueMapT
-     *
-     * @brief Map from Magic::ParametersT to their corresponding values.
-     *
-     * @since 10.0.0
-     */
-    using ParameterValueMapT = std::map<ParametersT, std::size_t>;
-
-    /**
-     * @typedef ParameterValueT
-     *
-     * @brief Key-value pair representing a single parameter and its value.
-     *
-     * @since 10.0.0
-     */
-    using ParameterValueT = ParameterValueMapT::value_type;
 
     /**
      * @brief Path to the default magic database file.
@@ -502,59 +472,6 @@ public:
      */
     Magic(
         const FlagsMaskT&            flags_mask,
-        const std::nothrow_t&        tag,
-        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
-    ) noexcept;
-
-    /**
-     * @brief Construct and initialize Magic with a container of flags.
-     *
-     * Alternative constructor accepting a container of individual flags
-     * instead of a bitmask. Useful when flags are determined at runtime.
-     *
-     * @param[in] flags_container Vector or other container of FlagsT values.
-     * @param[in] database_file   Path to magic database file (default: DEFAULT_DATABASE_FILE).
-     *
-     * @throws MagicOpenError             If opening the Magic instance fails.
-     * @throws EmptyPath                  If database_file path is empty.
-     * @throws PathDoesNotExist           If database_file does not exist.
-     * @throws PathIsNotRegularFile       If database_file is not a regular file.
-     * @throws MagicLoadDatabaseFileError If loading the database fails.
-     *
-     * @code{.cpp}
-     * std::vector<Magic::FlagsT> flags = {Magic::FlagsT::Mime, Magic::FlagsT::Compress};
-     * Magic magic{flags};
-     * @endcode
-     *
-     * @note The ".mgc" extension is automatically appended to the database path if needed.
-     *
-     * @see FlagsContainerT
-     *
-     * @since 10.0.0
-     */
-    explicit Magic(
-        const FlagsContainerT&       flags_container,
-        const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
-    );
-
-    /**
-     * @brief Construct and initialize Magic with a container of flags (noexcept version).
-     *
-     * Non-throwing variant that silently fails if initialization errors occur.
-     * Check IsValid() after construction to verify success.
-     *
-     * @param[in] flags_container Vector or other container of FlagsT values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     * @param[in] database_file   Path to magic database file (default: DEFAULT_DATABASE_FILE).
-     *
-     * @note The ".mgc" extension is automatically appended to the database path if needed.
-     *
-     * @see IsValid()
-     *
-     * @since 10.0.0
-     */
-    Magic(
-        const FlagsContainerT&       flags_container,
         const std::nothrow_t&        tag,
         const std::filesystem::path& database_file = DEFAULT_DATABASE_FILE
     ) noexcept;
@@ -862,37 +779,43 @@ public:
     /**
      * @brief Get all parameter values.
      *
-     * Retrieves a map of all parameters and their current values.
+     * Retrieves an allocation-free snapshot of all parameters and their
+     * current values.
      *
-     * @returns Map from ParametersT enum values to their current values.
+     * @returns MagicParameters snapshot of every parameter and its current
+     *          value.
      *
      * @throws MagicIsClosed           If the Magic instance is closed.
      * @throws MagicGetParametersError If reading any parameter fails.
      *
      * @code{.cpp}
-     * MagicParameters parameters{magic.GetParameters()};
+     * auto parameters = magic.GetParameters();
      * std::println("{}", parameters.ToString());
+     * if (auto bytes = parameters[MagicParameters::Parameters::BytesMax]) {
+     *     std::println("BytesMax is {}", *bytes);
+     * }
      * @endcode
      *
-     * @see ParameterValueMapT
+     * @see MagicParameters for the snapshot value class
      * @see MagicParameters::ToString()
      * @see SetParameters()
      *
      * @since 10.0.0
      */
-    [[nodiscard]] ParameterValueMapT GetParameters() const;
+    [[nodiscard]] MagicParameters GetParameters() const;
 
     /**
      * @brief Get all parameter values (noexcept version).
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from ParametersT to values, or `std::nullopt` if closed,
-     *          if any parameter read fails, or if the map conversion fails.
+     * @returns Snapshot of every parameter and its current value, or
+     *          `std::nullopt` if the Magic instance is closed or any
+     *          parameter read fails.
      *
      * @since 10.0.0
      */
-    [[nodiscard]] std::optional<ParameterValueMapT> GetParameters(
+    [[nodiscard]] std::optional<MagicParameters> GetParameters(
         const std::nothrow_t& tag
     ) const noexcept;
 
@@ -1444,34 +1367,6 @@ public:
         const std::nothrow_t& tag
     ) noexcept;
 
-    /**
-     * @brief Open Magic with a container of flags.
-     *
-     * @param[in] flags_container Container of FlagsT values.
-     *
-     * @throws MagicOpenError If opening fails, or if a container element
-     *                        carries unknown flag bits.
-     *
-     * @since 10.0.0
-     */
-    void Open(const FlagsContainerT& flags_container);
-
-    /**
-     * @brief Open Magic with a container of flags (noexcept version).
-     *
-     * @param[in] flags_container Container of FlagsT values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     *
-     * @returns `true` on success, `false` on failure, including a container
-     *          element with unknown flag bits.
-     *
-     * @since 10.0.0
-     */
-    [[nodiscard]] bool Open(
-        const FlagsContainerT& flags_container,
-        const std::nothrow_t&  tag
-    ) noexcept;
-
     /** @} open_reopen */
 
     /**
@@ -1520,37 +1415,6 @@ public:
     [[nodiscard]] bool SetFlags(
         const FlagsMaskT&     flags_mask,
         const std::nothrow_t& tag
-    ) noexcept;
-
-    /**
-     * @brief Set new flags from a container.
-     *
-     * @param[in] flags_container Container of FlagsT values.
-     *
-     * @throws MagicIsClosed      If the Magic instance is closed.
-     * @throws MagicSetFlagsError If setting flags fails, including a
-     *                            container element with unknown flag bits.
-     *                            The current flags stay unchanged on
-     *                            failure.
-     *
-     * @since 10.0.0
-     */
-    void SetFlags(const FlagsContainerT& flags_container);
-
-    /**
-     * @brief Set new flags from a container (noexcept version).
-     *
-     * @param[in] flags_container Container of FlagsT values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     *
-     * @returns `true` on success, `false` on failure, including a container
-     *          element with unknown flag bits.
-     *
-     * @since 10.0.0
-     */
-    [[nodiscard]] bool SetFlags(
-        const FlagsContainerT& flags_container,
-        const std::nothrow_t&  tag
     ) noexcept;
 
     /** @} flag_modification */
@@ -1608,11 +1472,18 @@ public:
     /**
      * @brief Set multiple parameter values.
      *
-     * @param[in] parameters Map of parameters to their new values.
+     * Applies the entries of a parameter snapshot, in ascending parameter
+     * ordinal order, by calling SetParameter() for each.
+     *
+     * @param[in] parameters Snapshot of parameters and their new values.
      *
      * @throws MagicIsClosed           If the Magic instance is closed.
-     * @throws MagicSetParametersError If setting any parameter fails, or if
-     *         a map key is an out-of-range enum value.
+     * @throws MagicSetParametersError If setting any parameter fails.
+     *
+     * @note Entries with out-of-range ordinals are dropped when the
+     *       snapshot is built, so this overload applies only the
+     *       surviving entries; unlike SetParameter(), it reports no
+     *       error for an invalid parameter.
      *
      * @code{.cpp}
      * magic.SetParameters({
@@ -1621,17 +1492,17 @@ public:
      * });
      * @endcode
      *
-     * @see ParameterValueMapT
+     * @see MagicParameters for the snapshot value class
      * @see GetParameters()
      *
      * @since 10.0.0
      */
-    void SetParameters(const ParameterValueMapT& parameters);
+    void SetParameters(const MagicParameters& parameters);
 
     /**
      * @brief Set multiple parameter values (noexcept version).
      *
-     * @param[in] parameters Map of parameters to their new values.
+     * @param[in] parameters Snapshot of parameters and their new values.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
      * @returns `true` on success, `false` on failure.
@@ -1639,8 +1510,8 @@ public:
      * @since 10.0.0
      */
     [[nodiscard]] bool SetParameters(
-        const ParameterValueMapT& parameters,
-        const std::nothrow_t&     tag
+        const MagicParameters& parameters,
+        const std::nothrow_t&  tag
     ) noexcept;
 
     /** @} parameter_modification */

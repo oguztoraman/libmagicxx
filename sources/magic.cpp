@@ -53,9 +53,11 @@
 
 #include "magic.hpp"
 
+#include <algorithm>
 #include <bitset>
 #include <format>
 #include <new>
+#include <ranges>
 #include <string_view>
 #include <utility>
 
@@ -364,74 +366,6 @@ public:
     {
         static_cast<void>(
             Open(flags, std::nothrow)
-            && LoadDatabaseFile(std::nothrow, database_file)
-        );
-    }
-
-    /**
-     * @brief Construct with flags container (throwing version).
-     *
-     * Alternative constructor accepting a container of individual FlagsT
-     * values instead of a MagicFlags value set.
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     * @param[in] database_file   Path to magic database file to load.
-     *
-     * @throws MagicOpenError             If `magic_open()` fails or the
-     *                                    flags carry unknown bits.
-     * @throws EmptyPath                  If database_file is empty.
-     * @throws PathDoesNotExist           If database_file does not exist.
-     * @throws PathIsNotRegularFile       If database_file is not a regular file.
-     * @throws MagicLoadDatabaseFileError If `magic_load()` fails.
-     *
-     * @par Lifecycle Transition
-     * **Closed** → **Opened** → **Valid**
-     *
-     * @par Usage Example
-     * @code{.cpp}
-     * FlagsContainerT flags = {FlagsT::Mime, FlagsT::Compress};
-     * MagicPrivate impl{flags, "/path/to/magic"};
-     * @endcode
-     *
-     * @see Magic::Magic(const FlagsContainerT&, const std::filesystem::path&)
-     */
-    MagicPrivate(
-        const FlagsContainerT&       flags_container,
-        const std::filesystem::path& database_file
-    )
-    {
-        Open(flags_container);
-        LoadDatabaseFile(database_file);
-    }
-
-    /**
-     * @brief Construct with flags container (noexcept version).
-     *
-     * Non-throwing variant accepting a container of FlagsT values.
-     * Silently fails if initialization encounters errors.
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     * @param[in] database_file   Path to magic database file to load.
-     *
-     * @par Lifecycle State
-     * After construction:
-     * - **Valid** if both Open() and LoadDatabaseFile() succeed
-     * - **Opened** if only Open() succeeds
-     * - **Closed** if Open() fails
-     *
-     * @note Check `IsValid()` after construction to verify success.
-     *
-     * @see Magic::Magic(const FlagsContainerT&, const std::nothrow_t&, const std::filesystem::path&)
-     */
-    MagicPrivate(
-        const FlagsContainerT&                 flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag,
-        const std::filesystem::path&           database_file
-    ) noexcept
-    {
-        static_cast<void>(
-            Open(flags_container, std::nothrow)
             && LoadDatabaseFile(std::nothrow, database_file)
         );
     }
@@ -781,11 +715,13 @@ public:
     /**
      * @brief Get all parameter values (throwing version).
      *
-     * Retrieves a map of all parameters and their current values
-     * by iterating over all ParametersT enum values and calling
-     * GetParameter() for each.
+     * Retrieves a snapshot of all parameters and their current values
+     * by iterating over all ParametersT ordinals and calling
+     * GetParameter() for each, storing the result directly into the
+     * MagicParameters inline container — no allocation.
      *
-     * @returns Map from ParametersT enum values to their current values.
+     * @returns MagicParameters snapshot of every parameter and its current
+     *          value.
      *
      * @throws MagicIsClosed           If instance is not open.
      * @throws MagicGetParametersError If `magic_getparam()` fails for any
@@ -794,7 +730,7 @@ public:
      * @par Implementation
      * @code{.cpp}
      * for (i = 0; i < MagicParameters::PARAMETER_COUNT; ++i) {
-     *     parameter_value_map[ParametersT(i)] = GetParameter(ParametersT(i));
+     *     parameters.Store(ParametersT(i), GetParameter(ParametersT(i)));
      * }
      * @endcode
      *
@@ -802,51 +738,50 @@ public:
      * @see SetParameters()
      * @see MagicParameters::Parameters
      */
-    [[nodiscard]] ParameterValueMapT GetParameters() const
+    [[nodiscard]] MagicParameters GetParameters() const
     {
-        ParameterValueMapT parameter_value_map;
+        MagicParameters parameters;
         for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
-            auto parameter                 = static_cast<ParametersT>(i);
-            parameter_value_map[parameter] = GetParameter(parameter);
+            const auto parameter{static_cast<ParametersT>(i)};
+            parameters.Store(parameter, GetParameter(parameter));
         }
-        return parameter_value_map;
+        return parameters;
     }
 
     /**
      * @brief Get all parameter values (noexcept version).
      *
      * Non-throwing variant that returns `std::nullopt` if the
-     * instance is not open or any parameter read fails.
+     * instance is not open or any parameter read fails. The snapshot is
+     * filled directly via MagicParameters::Store(), so this path performs
+     * no allocation and needs no exception handling.
      *
      * @param[in] tag Pass `std::nothrow` to select this overload.
      *
-     * @returns Map from ParametersT to values, or `std::nullopt` if closed,
-     *          if any parameter read fails, or if the map conversion fails.
+     * @returns MagicParameters snapshot of every parameter and its current
+     *          value, or `std::nullopt` if closed or any parameter read
+     *          fails.
      *
      * @see Magic::GetParameters(const std::nothrow_t&)
      * @see SetParameters()
      */
-    [[nodiscard]] std::optional<ParameterValueMapT> GetParameters(
+    [[nodiscard]] std::optional<MagicParameters> GetParameters(
         [[maybe_unused]] const std::nothrow_t& tag
     ) const noexcept
     {
         if (!IsOpen()) {
             return std::nullopt;
         }
-        try {
-            ParameterValueMapT parameter_value_map;
-            for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
-                const auto parameter{static_cast<ParametersT>(i)};
-                const auto value{GetParameter(parameter, std::nothrow)};
-                if (!value.has_value()) {
-                    return std::nullopt;
-                }
-                parameter_value_map[parameter] = *value;
+        MagicParameters parameters;
+        for (std::size_t i{}; i < MagicParameters::PARAMETER_COUNT; ++i) {
+            const auto parameter{static_cast<ParametersT>(i)};
+            const auto value{GetParameter(parameter, std::nothrow)};
+            if (!value.has_value()) {
+                return std::nullopt;
             }
-            return parameter_value_map;
-        } catch (const std::exception&) {
-            return std::nullopt;
+            parameters.Store(parameter, *value);
         }
+        return parameters;
     }
 
     /** @} impl_parameter_management */
@@ -1558,45 +1493,6 @@ public:
         return true;
     }
 
-    /**
-     * @brief Open with flags container (throwing version).
-     *
-     * Convenience overload accepting a container of individual FlagsT
-     * values. Builds a MagicFlags value set and delegates to Open().
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     *
-     * @throws MagicOpenError If `magic_open()` fails, or if a container
-     *                        element carries unknown flag bits.
-     *
-     * @see Magic::Open(const FlagsContainerT&)
-     * @see Open(const MagicFlags&)
-     */
-    void Open(const FlagsContainerT& flags_container)
-    {
-        Open(MagicFlags{flags_container});
-    }
-
-    /**
-     * @brief Open with flags container (noexcept version).
-     *
-     * Non-throwing convenience overload accepting a container of FlagsT.
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     *
-     * @returns `true` on success, `false` on failure.
-     *
-     * @see Magic::Open(const FlagsContainerT&, const std::nothrow_t&)
-     */
-    [[nodiscard]] bool Open(
-        const FlagsContainerT&                 flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag
-    ) noexcept
-    {
-        return Open(MagicFlags{flags_container}, std::nothrow);
-    }
-
     /** @} impl_open_reopen */
 
     /**
@@ -1688,44 +1584,6 @@ public:
         }
         m_flags = flags;
         return true;
-    }
-
-    /**
-     * @brief Set new flags from container (throwing version).
-     *
-     * Convenience overload accepting a container of individual FlagsT.
-     * Builds a MagicFlags value set and delegates to SetFlags().
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     *
-     * @throws MagicIsClosed      If instance is not open.
-     * @throws MagicSetFlagsError If `magic_setflags()` fails.
-     *
-     * @see Magic::SetFlags(const FlagsContainerT&)
-     */
-    void SetFlags(const FlagsContainerT& flags_container)
-    {
-        SetFlags(MagicFlags{flags_container});
-    }
-
-    /**
-     * @brief Set new flags from container (noexcept version).
-     *
-     * Non-throwing convenience overload accepting a container of FlagsT.
-     *
-     * @param[in] flags_container Container (vector) of FlagsT enum values.
-     * @param[in] tag             Pass `std::nothrow` to select this overload.
-     *
-     * @returns `true` on success, `false` on failure.
-     *
-     * @see Magic::SetFlags(const FlagsContainerT&, const std::nothrow_t&)
-     */
-    [[nodiscard]] bool SetFlags(
-        const FlagsContainerT&                 flags_container,
-        [[maybe_unused]] const std::nothrow_t& tag
-    ) noexcept
-    {
-        return SetFlags(MagicFlags{flags_container}, std::nothrow);
     }
 
     /** @} impl_flag_modification */
@@ -1822,10 +1680,11 @@ public:
     /**
      * @brief Set multiple parameter values (throwing version).
      *
-     * Sets all parameters specified in the map by iterating and
-     * calling SetParameter() for each entry.
+     * Sets all parameters carried by the snapshot by iterating its
+     * entries in ascending ordinal order and calling SetParameter()
+     * for each.
      *
-     * @param[in] parameters Map from ParametersT enum to new values.
+     * @param[in] parameters Snapshot of ParametersT values to set.
      *
      * @throws MagicIsClosed            If instance is not open.
      * @throws MagicSetParametersError  If any `magic_setparam()` fails.
@@ -1833,14 +1692,14 @@ public:
      * @note If an exception is thrown mid-iteration, some parameters
      *       may already have been set.
      *
-     * @see Magic::SetParameters(const ParameterValueMapT&)
+     * @see Magic::SetParameters(const MagicParameters&)
      * @see GetParameters()
      */
-    void SetParameters(const ParameterValueMapT& parameters)
+    void SetParameters(const MagicParameters& parameters)
     {
         std::ranges::for_each(
             parameters,
-            [&](const auto& parameter_value_pair) {
+            [&](const MagicParameters::ParameterValueT& parameter_value_pair) {
                 const auto& parameter = parameter_value_pair.first;
                 const auto& value     = parameter_value_pair.second;
                 SetParameter(parameter, value);
@@ -1852,25 +1711,27 @@ public:
      * @brief Set multiple parameter values (noexcept version).
      *
      * Non-throwing variant that returns false on first failure.
-     * Uses `std::ranges::find_if_not` to stop on first error.
+     * Uses `std::ranges::find_if_not` over the snapshot's entries, in
+     * ascending ordinal order, to stop on first error.
      *
-     * @param[in] parameters Map from ParametersT enum to new values.
+     * @param[in] parameters Snapshot of ParametersT values to set.
      * @param[in] tag        Pass `std::nothrow` to select this overload.
      *
      * @returns `true` if all parameters set successfully,
      *         `false` if any failed (partial updates may have occurred).
      *
-     * @see Magic::SetParameters(const ParameterValueMapT&, const std::nothrow_t&)
+     * @see Magic::SetParameters(const MagicParameters&, const std::nothrow_t&)
      * @see GetParameters()
      */
     [[nodiscard]] bool SetParameters(
-        const ParameterValueMapT&              parameters,
+        const MagicParameters&                 parameters,
         [[maybe_unused]] const std::nothrow_t& tag
     ) noexcept
     {
         return std::ranges::find_if_not(
                    parameters,
-                   [&](const auto& parameter_value_pair) {
+                   [&](const MagicParameters::ParameterValueT&
+                           parameter_value_pair) {
                        const auto& parameter = parameter_value_pair.first;
                        const auto& value     = parameter_value_pair.second;
                        return SetParameter(parameter, value, std::nothrow);
@@ -2156,23 +2017,6 @@ Magic::Magic(
 }
 { }
 
-Magic::Magic(
-    const FlagsContainerT&       flags_container,
-    const std::filesystem::path& database_file
-)
-  : m_impl{std::make_unique<MagicPrivate>(flags_container, database_file)}
-{ }
-
-Magic::Magic(
-    const FlagsContainerT&       flags_container,
-    const std::nothrow_t&        tag,
-    const std::filesystem::path& database_file
-) noexcept
-  : m_impl{
-        new (std::nothrow) MagicPrivate{flags_container, tag, database_file}
-}
-{ }
-
 Magic::Magic(Magic&& other) noexcept
   : m_impl{std::move(other.m_impl)}
 { }
@@ -2245,13 +2089,13 @@ std::optional<std::size_t> Magic::GetParameter(
     return m_impl->GetParameter(parameter, tag);
 }
 
-Magic::ParameterValueMapT Magic::GetParameters() const
+MagicParameters Magic::GetParameters() const
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     return m_impl->GetParameters();
 }
 
-std::optional<Magic::ParameterValueMapT> Magic::GetParameters(
+std::optional<MagicParameters> Magic::GetParameters(
     const std::nothrow_t& tag
 ) const noexcept
 {
@@ -2426,29 +2270,6 @@ bool Magic::Open(
     return m_impl->Open(flags_mask, tag);
 }
 
-void Magic::Open(const FlagsContainerT& flags_container)
-{
-    if (!m_impl) {
-        m_impl = std::make_unique<MagicPrivate>();
-    }
-    m_impl->Open(flags_container);
-}
-
-bool Magic::Open(
-    const FlagsContainerT& flags_container,
-    const std::nothrow_t&  tag
-) noexcept
-{
-    if (!m_impl) {
-        m_impl = std::unique_ptr<MagicPrivate>{new (std::nothrow)
-                                                   MagicPrivate{}};
-        if (!m_impl) {
-            return false;
-        }
-    }
-    return m_impl->Open(flags_container, tag);
-}
-
 void Magic::SetFlags(const FlagsMaskT& flags_mask)
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
@@ -2464,23 +2285,6 @@ bool Magic::SetFlags(
         return false;
     }
     return m_impl->SetFlags(flags_mask, tag);
-}
-
-void Magic::SetFlags(const FlagsContainerT& flags_container)
-{
-    MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
-    m_impl->SetFlags(flags_container);
-}
-
-bool Magic::SetFlags(
-    const FlagsContainerT& flags_container,
-    const std::nothrow_t&  tag
-) noexcept
-{
-    if (!m_impl) {
-        return false;
-    }
-    return m_impl->SetFlags(flags_container, tag);
 }
 
 void Magic::SetParameter(ParametersT parameter, std::size_t value)
@@ -2501,15 +2305,15 @@ bool Magic::SetParameter(
     return m_impl->SetParameter(parameter, value, tag);
 }
 
-void Magic::SetParameters(const ParameterValueMapT& parameters)
+void Magic::SetParameters(const MagicParameters& parameters)
 {
     MagicPrivate::ThrowExceptionOnFailure<MagicIsClosed>(m_impl != nullptr);
     m_impl->SetParameters(parameters);
 }
 
 bool Magic::SetParameters(
-    const ParameterValueMapT& parameters,
-    const std::nothrow_t&     tag
+    const MagicParameters& parameters,
+    const std::nothrow_t&  tag
 ) noexcept
 {
     if (!m_impl) {

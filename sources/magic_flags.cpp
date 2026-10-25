@@ -15,10 +15,11 @@
  *
  * MagicFlags stores its flag set as a raw 32-bit bitmask member. The
  * functions that do not reference libmagic constants (the constructors,
- * `operator|`, `ToContainer()`, and `ToString()`) are defined inline in the
- * header; this file holds only the libmagic constant table and the bridge
- * that needs it, kept in an anonymous namespace so libmagic stays out of
- * the public header and the class layout remains ABI-stable.
+ * `operator|`, `operator&`, `Contains()`, `Count()`, `Erase()`, the
+ * compound assignments, iteration, and `ToString()`) are defined inline in
+ * the header; this file holds only the libmagic constant table and the
+ * bridge that needs it, kept in an anonymous namespace so libmagic stays
+ * out of the public header and the class layout remains ABI-stable.
  *
  * The underlying libmagic C library is wrapped in the `Detail` namespace to
  * isolate its symbols; the `MAGIC_*` constants are referenced only here.

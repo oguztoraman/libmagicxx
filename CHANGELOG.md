@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[QUALITY]** Magic: Redesign MagicFlags as a constexpr bitset with query and iteration APIs.
+
 + **[ENHANCEMENT]** Magic: Redesign MagicParameters as an allocation-free constexpr snapshot value type.
 
 + **[BUGFIX]** Magic: Return std::string_view from GetErrorMessage() to avoid transient allocations.

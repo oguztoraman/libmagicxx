@@ -7,18 +7,25 @@
  *
  * Tests the MagicFlags value class and the flag getting and setting
  * functionality of Magic, including:
- * - Every MagicFlags constructor (default, single flag, container, copy, move)
- * - Assignment operators and the full operator| overload family
+ * - Every MagicFlags constructor (default, single flag, copy, move)
+ * - Assignment operators and the full operator| and operator& overload families
+ * - In-place composition via operator|= and flag removal via Erase()
  * - Grouped and chained operator| expressions
+ * - Membership queries via Contains() (single flag, variadic AND semantics,
+ *   and subset sets) and bit counting via Count()
+ * - Iteration over the set flags via begin()/end() (range-for, pair- and
+ *   range-based algorithms)
  * - Equality comparison via operator==
- * - Total ordering via operator<=> (mask order, ordered containers)
- * - Container constructor edge cases (None mixed in, large duplicated sets)
+ * - Total ordering via operator<=> (mask order, ordered flag sets)
+ * - Composition edge cases (None mixed in, duplicated flags)
  * - Raw bit-position mapping of every flag
- * - ToContainer() ordering, membership, and round-trips
- * - ToString() name lookup for all flags and separator formatting
- * - Every Magic flags constructor form (mask, container, noexcept variants)
- * - Open() with flag sets and containers, throwing and noexcept variants
- * - SetFlags() with flag sets and containers on Magic instances
+ * - Unknown-bit mask observability via Contains(), iteration, and ToString()
+ * - ToString() name lookup for all flags, separator formatting, and custom
+ *   capacity truncation
+ * - std::format rendering of flag sets and single flags
+ * - Every Magic flags constructor form (mask, noexcept variants)
+ * - Open() with flag sets, throwing and noexcept variants
+ * - SetFlags() with flag sets on Magic instances
  * - GetFlags() retrieval, throwing and noexcept variants
  * - Behavior on closed, opened, and valid Magic instances
  * - Rejection of flag masks carrying bit positions that no `FlagsT`
@@ -47,8 +54,10 @@
 #include <bit>
 #include <compare>
 #include <cstddef>
+#include <format>
 #include <numeric>
 #include <random>
+#include <ranges>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -74,34 +83,11 @@ protected:
 
     void SetUp() override
     {
-        std::vector<Magic::FlagsT> test_flags{
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng)),
-            static_cast<Magic::FlagsT>(1U << m_dist(m_eng))
-        };
-        std::ranges::sort(test_flags, [](Magic::FlagsT a, Magic::FlagsT b) {
-            return std::to_underlying(a) < std::to_underlying(b);
-        });
-        m_test_flags_container.clear();
-        m_test_flags_container.assign(test_flags.begin(), test_flags.end());
-        m_test_flags_container.erase(
-            std::unique(
-                m_test_flags_container.begin(),
-                m_test_flags_container.end()
-            ),
-            m_test_flags_container.end()
-        );
-        m_test_flags_mask = std::ranges::fold_left(
-            m_test_flags_container,
-            Magic::FlagsMaskT{},
-            [](Magic::FlagsMaskT acc, Magic::FlagsT f) {
-                return acc | f;
-            }
-        );
+        m_test_flags_mask = Magic::FlagsMaskT{};
+        for (std::size_t i{}; i < RANDOM_FLAG_COUNT; ++i) {
+            m_test_flags_mask = m_test_flags_mask
+                              | static_cast<Magic::FlagsT>(1U << m_dist(m_eng));
+        }
     }
 
     static constexpr std::size_t FLAG_BIT_COUNT{
@@ -122,24 +108,18 @@ protected:
         };
     }
 
-    static Magic::FlagsContainerT UnknownBitContainer()
-    {
-        return Magic::FlagsContainerT{
-            Magic::FlagsT::Mime,
-            static_cast<Magic::FlagsT>(1U << UNKNOWN_FLAG_BIT)
-        };
-    }
-
     static Magic::FlagsMaskT FirstUnknownBitFlags()
     {
         return Magic::FlagsMaskT{FlagAtBit(FLAG_BIT_COUNT)};
     }
 
+    /* Number of random flag bits combined into the test fixture mask. */
+    static constexpr std::size_t RANDOM_FLAG_COUNT{7UZ};
+
     std::filesystem::path m_valid_database{MAGIC_DEFAULT_DATABASE_FILE};
     Magic                 m_closed_magic{};
     Magic                 m_opened_magic_without_database;
     Magic m_valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
-    Magic::FlagsContainerT                     m_test_flags_container{};
     Magic::FlagsMaskT                          m_test_flags_mask{};
     std::mt19937                               m_eng{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_dist{0, FLAG_BIT_COUNT - 1};
@@ -153,19 +133,6 @@ TEST_F(MagicFlagsTest, closed_magic_set_flags_mask)
 TEST_F(MagicFlagsTest, closed_magic_set_flags_mask_noexcept)
 {
     EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_mask, std::nothrow));
-}
-
-TEST_F(MagicFlagsTest, closed_magic_set_flags_container)
-{
-    EXPECT_THROW(
-        m_closed_magic.SetFlags(m_test_flags_container),
-        MagicIsClosed
-    );
-}
-
-TEST_F(MagicFlagsTest, closed_magic_set_flags_container_noexcept)
-{
-    EXPECT_FALSE(m_closed_magic.SetFlags(m_test_flags_container, std::nothrow));
 }
 
 TEST_F(MagicFlagsTest, closed_magic_get_flags)
@@ -198,26 +165,6 @@ TEST_F(MagicFlagsTest, opened_magic_without_database_flags_mask_noexcept)
     );
 }
 
-TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container)
-{
-    EXPECT_NO_THROW(
-        m_opened_magic_without_database.SetFlags(m_test_flags_container)
-    );
-    EXPECT_EQ(m_test_flags_mask, m_opened_magic_without_database.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, opened_magic_without_database_flags_container_noexcept)
-{
-    EXPECT_TRUE(m_opened_magic_without_database.SetFlags(
-        m_test_flags_container,
-        std::nothrow
-    ));
-    EXPECT_EQ(
-        m_test_flags_mask,
-        m_opened_magic_without_database.GetFlags(std::nothrow).value()
-    );
-}
-
 TEST_F(MagicFlagsTest, valid_magic_flags_mask)
 {
     EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_mask));
@@ -230,18 +177,6 @@ TEST_F(MagicFlagsTest, valid_magic_flags_mask_noexcept)
     EXPECT_EQ(m_test_flags_mask, m_valid_magic.GetFlags(std::nothrow).value());
 }
 
-TEST_F(MagicFlagsTest, valid_magic_flags_container)
-{
-    EXPECT_NO_THROW(m_valid_magic.SetFlags(m_test_flags_container));
-    EXPECT_EQ(m_test_flags_mask, m_valid_magic.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, valid_magic_flags_container_noexcept)
-{
-    EXPECT_TRUE(m_valid_magic.SetFlags(m_test_flags_container, std::nothrow));
-    EXPECT_EQ(m_test_flags_mask, m_valid_magic.GetFlags(std::nothrow).value());
-}
-
 TEST_F(MagicFlagsTest, flags_mask_in_open_call)
 {
     EXPECT_NO_THROW(m_closed_magic.Open(m_test_flags_mask));
@@ -249,23 +184,9 @@ TEST_F(MagicFlagsTest, flags_mask_in_open_call)
     EXPECT_EQ(m_test_flags_mask, m_closed_magic.GetFlags());
 }
 
-TEST_F(MagicFlagsTest, flags_container_in_open_call)
-{
-    EXPECT_NO_THROW(m_closed_magic.Open(m_test_flags_container));
-    EXPECT_TRUE(m_closed_magic.IsOpen());
-    EXPECT_EQ(m_test_flags_mask, m_closed_magic.GetFlags());
-}
-
 TEST_F(MagicFlagsTest, flags_mask_in_open_call_noexcept)
 {
     EXPECT_TRUE(m_closed_magic.Open(m_test_flags_mask, std::nothrow));
-    EXPECT_TRUE(m_closed_magic.IsOpen());
-    EXPECT_EQ(m_test_flags_mask, m_closed_magic.GetFlags(std::nothrow).value());
-}
-
-TEST_F(MagicFlagsTest, flags_container_in_open_call_noexcept)
-{
-    EXPECT_TRUE(m_closed_magic.Open(m_test_flags_container, std::nothrow));
     EXPECT_TRUE(m_closed_magic.IsOpen());
     EXPECT_EQ(m_test_flags_mask, m_closed_magic.GetFlags(std::nothrow).value());
 }
@@ -305,24 +226,10 @@ TEST_F(MagicFlagsTest, flags_mask_in_constructor_noexcept)
     EXPECT_EQ(m_test_flags_mask, magic.GetFlags());
 }
 
-TEST_F(MagicFlagsTest, flags_container_in_constructor)
-{
-    const Magic magic{m_test_flags_container, m_valid_database};
-    EXPECT_TRUE(magic.IsValid());
-    EXPECT_EQ(m_test_flags_mask, magic.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, flags_container_in_constructor_noexcept)
-{
-    const Magic magic{m_test_flags_container, std::nothrow, m_valid_database};
-    EXPECT_TRUE(magic.IsValid());
-    EXPECT_EQ(m_test_flags_mask, magic.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, braced_flag_list_in_constructor)
+TEST_F(MagicFlagsTest, combined_flags_in_constructor_noexcept)
 {
     const Magic magic{
-        {Magic::FlagsT::Mime, Magic::FlagsT::Compress},
+        Magic::FlagsT::Mime | Magic::FlagsT::Compress,
         std::nothrow,
         m_valid_database
     };
@@ -355,16 +262,6 @@ TEST_F(MagicFlagsTest, set_flags_with_unknown_mask_bit_noexcept_returns_false)
 {
     const Magic::FlagsMaskT before{m_valid_magic.GetFlags()};
     EXPECT_FALSE(m_valid_magic.SetFlags(UnknownBitFlags(), std::nothrow));
-    EXPECT_EQ(before, m_valid_magic.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, set_flags_with_unknown_container_bit_throws)
-{
-    const Magic::FlagsMaskT before{m_valid_magic.GetFlags()};
-    EXPECT_THROW(
-        m_valid_magic.SetFlags(UnknownBitContainer()),
-        MagicSetFlagsError
-    );
     EXPECT_EQ(before, m_valid_magic.GetFlags());
 }
 
@@ -405,30 +302,6 @@ TEST_F(MagicFlagsTest, set_flags_with_first_unknown_bit_throws_and_keeps_flags)
         MagicSetFlagsError
     );
     EXPECT_EQ(before, m_valid_magic.GetFlags());
-}
-
-TEST_F(
-    MagicFlagsTest,
-    set_flags_with_unknown_container_bit_noexcept_returns_false
-)
-{
-    const Magic::FlagsMaskT before{m_valid_magic.GetFlags()};
-    EXPECT_FALSE(m_valid_magic.SetFlags(UnknownBitContainer(), std::nothrow));
-    EXPECT_EQ(before, m_valid_magic.GetFlags());
-}
-
-TEST_F(MagicFlagsTest, open_with_unknown_container_bit_throws)
-{
-    Magic magic{};
-    EXPECT_THROW(magic.Open(UnknownBitContainer()), MagicOpenError);
-    EXPECT_FALSE(magic.IsOpen());
-}
-
-TEST_F(MagicFlagsTest, open_with_unknown_container_bit_noexcept_returns_false)
-{
-    Magic magic{};
-    EXPECT_FALSE(magic.Open(UnknownBitContainer(), std::nothrow));
-    EXPECT_FALSE(magic.IsOpen());
 }
 
 TEST_F(MagicFlagsTest, constructor_with_unknown_mask_bit_throws)
@@ -507,15 +380,6 @@ struct MagicFlagsValueTest : testing::Test {
         return static_cast<MagicFlags::Flags>(1U << bit);
     }
 
-    static bool Contains(
-        const MagicFlags::FlagsContainerT& container,
-        MagicFlags::Flags                  flag
-    )
-    {
-        return std::find(container.begin(), container.end(), flag)
-            != container.end();
-    }
-
     static MagicFlags AllFlagsSet()
     {
         MagicFlags flags;
@@ -548,18 +412,17 @@ TEST(MagicFlagsClassTest, satisfies_value_class_properties)
     static_assert(std::is_nothrow_copy_assignable_v<MagicFlags>);
     static_assert(std::is_nothrow_move_assignable_v<MagicFlags>);
     static_assert(std::is_nothrow_destructible_v<MagicFlags>);
+    static_assert(
+        std::is_nothrow_destructible_v<MagicFlags>,
+        "MagicFlags must be noexcept destructible."
+    );
     {
-        const MagicFlags::FlagsContainerT container{MagicFlags::Flags::Mime};
-        static_assert(
-            std::bool_constant<noexcept(
-                MagicFlags{MagicFlags::Flags::Mime}
-            )>::value
-            && std::bool_constant<noexcept(MagicFlags{container})>::value
-        );
-        (void)container;
+        static_assert(std::bool_constant<noexcept(
+                          MagicFlags{MagicFlags::Flags::Mime}
+                      )>::value);
     }
     {
-        const MagicFlags lhs_mask{MagicFlags::Flags::Mime};
+        MagicFlags       lhs_mask{MagicFlags::Flags::Mime};
         const MagicFlags rhs_mask{MagicFlags::Flags::Compress};
         const auto       lhs_flag = MagicFlags::Flags::Debug;
         const auto       rhs_flag = MagicFlags::Flags::Symlink;
@@ -569,11 +432,44 @@ TEST(MagicFlagsClassTest, satisfies_value_class_properties)
             && std::bool_constant<noexcept(lhs_mask | rhs_flag)>::value
             && std::bool_constant<noexcept(lhs_flag | rhs_mask)>::value
         );
+        static_assert(
+            std::bool_constant<noexcept(lhs_mask & rhs_mask)>::value
+            && std::bool_constant<noexcept(lhs_mask & rhs_flag)>::value
+            && std::bool_constant<noexcept(lhs_flag & rhs_mask)>::value
+        );
+        static_assert(
+            std::bool_constant<noexcept(lhs_mask &= rhs_mask)>::value
+        );
+        static_assert(
+            std::bool_constant<noexcept(
+                lhs_mask.Contains(MagicFlags::Flags::Mime)
+            )>::value
+            && std::bool_constant<noexcept(
+                lhs_mask.Contains(MagicFlags::Flags::Mime, rhs_flag)
+            )>::value
+        );
         (void)lhs_mask;
         (void)rhs_mask;
         (void)lhs_flag;
         (void)rhs_flag;
     }
+}
+
+TEST(MagicFlagsClassTest, compose_query_render_never_throws)
+{
+    const auto exercise = []() noexcept {
+        MagicFlags flags{MagicFlags::Flags::Mime};
+        flags = flags | MagicFlags::Flags::Compress | MagicFlags::Flags::Debug;
+        flags &= MagicFlags::Flags::Mime | MagicFlags::Flags::Compress;
+        const bool member{
+            flags.Contains(MagicFlags::Flags::Mime, MagicFlags::Flags::Compress)
+        };
+        static_cast<void>(flags & MagicFlags::Flags::Mime);
+        static_cast<void>(flags.ToString());
+        return member;
+    };
+    static_assert(noexcept(exercise()));
+    EXPECT_TRUE(exercise());
 }
 
 TEST(MagicFlagsClassTest, supports_constexpr_composition)
@@ -602,18 +498,41 @@ TEST(MagicFlagsClassTest, supports_constexpr_composition)
     static_assert(
         (mime_flags <=> composed_flags) == std::strong_ordering::less
     );
+    static_assert(composed_flags.Contains(MagicFlags::Flags::Mime));
+    static_assert(composed_flags.Contains(MagicFlags::Flags::Compress));
+    static_assert(!composed_flags.Contains(MagicFlags::Flags::Debug));
+    static_assert(default_flags.Contains(MagicFlags::Flags::None));
+    static_assert(composed_flags.Contains(
+        MagicFlags::Flags::Mime,
+        MagicFlags::Flags::Compress
+    ));
+    static_assert(!composed_flags.Contains(
+        MagicFlags::Flags::Mime,
+        MagicFlags::Flags::Debug
+    ));
+    static_assert((composed_flags & mime_flags) == mime_flags);
+    static_assert((composed_flags & MagicFlags::Flags::Mime) == mime_flags);
+    static_assert((MagicFlags::Flags::Mime & composed_flags) == mime_flags);
+    static_assert(
+        (MagicFlags{MagicFlags::Flags::Mime} & MagicFlags::Flags::Compress)
+        == MagicFlags{}
+    );
+    static_assert(!composed_flags.Contains(MagicFlags::Flags::None));
+    static_assert(MagicFlags{}.Contains(MagicFlags::Flags::None));
+    static_assert(composed_flags.Contains(MagicFlags{}));
 }
 
 TEST_F(MagicFlagsValueTest, every_single_flag_sets_only_own_bit)
 {
     for (std::size_t bit{}; bit < FlagBitCount(); ++bit) {
         const auto flag = FlagAtBit(bit);
-        EXPECT_TRUE(Contains(MagicFlags{flag}.ToContainer(), flag));
+        EXPECT_TRUE(MagicFlags{flag}.Contains(flag)) << bit;
         for (std::size_t other{}; other < FlagBitCount(); ++other) {
             if (other != bit) {
-                EXPECT_FALSE(
-                    Contains(MagicFlags{flag}.ToContainer(), FlagAtBit(other))
-                );
+                EXPECT_FALSE(MagicFlags{flag}.Contains(FlagAtBit(other)))
+                    << bit
+                    << ' '
+                    << other;
             }
         }
     }
@@ -622,10 +541,11 @@ TEST_F(MagicFlagsValueTest, every_single_flag_sets_only_own_bit)
 TEST_F(MagicFlagsValueTest, default_constructor_is_empty)
 {
     const MagicFlags flags;
-    EXPECT_EQ(
-        MagicFlags::FlagsContainerT{MagicFlags::Flags::None},
-        flags.ToContainer()
-    );
+    for (std::size_t bit{}; bit < FlagBitCount(); ++bit) {
+        EXPECT_FALSE(flags.Contains(FlagAtBit(bit))) << bit;
+    }
+    /* Contains(None) on the empty set reports that no flag is set. */
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::None));
     EXPECT_EQ("None", flags.ToString());
 }
 
@@ -633,7 +553,7 @@ TEST_F(MagicFlagsValueTest, implicit_construction_from_every_flag)
 {
     for (const auto& [flag, name] : ALL_FLAGS) {
         const MagicFlags flags = flag;
-        EXPECT_EQ(MagicFlags::FlagsContainerT{flag}, flags.ToContainer());
+        EXPECT_EQ(MagicFlags{flag}, flags);
         EXPECT_EQ(name, flags.ToString());
     }
 }
@@ -661,127 +581,85 @@ TEST_F(MagicFlagsValueTest, every_bit_position_maps_to_expected_flag)
     }
 }
 
-TEST_F(MagicFlagsValueTest, container_constructor_matches_pairwise_or)
+TEST_F(MagicFlagsValueTest, operator_or_with_none_keeps_other_flags)
 {
-    const MagicFlags::FlagsContainerT container{
-        MagicFlags::Flags::Debug,
-        MagicFlags::Flags::Compress,
-        MagicFlags::Flags::Extension
-    };
-    const MagicFlags from_container{container};
-    const MagicFlags pairwise = MagicFlags::Flags::Debug
-                              | MagicFlags::Flags::Compress
-                              | MagicFlags::Flags::Extension;
-    EXPECT_EQ(from_container.ToContainer(), pairwise.ToContainer());
-    EXPECT_EQ(from_container.ToString(), pairwise.ToString());
-    EXPECT_EQ("Debug, Compress, Extension", pairwise.ToString());
-}
-
-TEST_F(MagicFlagsValueTest, empty_container_constructor_is_empty)
-{
-    const MagicFlags flags{MagicFlags::FlagsContainerT{}};
-    EXPECT_EQ(
-        MagicFlags::FlagsContainerT{MagicFlags::Flags::None},
-        flags.ToContainer()
-    );
-    EXPECT_EQ("None", flags.ToString());
-}
-
-TEST_F(MagicFlagsValueTest, container_constructor_collapses_duplicates)
-{
-    const MagicFlags flags{
-        MagicFlags::FlagsContainerT{
-                                    MagicFlags::Flags::Mime,
-                                    MagicFlags::Flags::Mime,
-                                    MagicFlags::Flags::Mime
-        }
-    };
-    EXPECT_EQ(1UZ, flags.ToContainer().size());
-    EXPECT_EQ("Mime", flags.ToString());
-}
-
-TEST_F(
-    MagicFlagsValueTest,
-    container_constructor_with_none_mixed_in_keeps_other_flags
-)
-{
-    const MagicFlags flags{
-        MagicFlags::FlagsContainerT{
-                                    MagicFlags::Flags::None,
-                                    MagicFlags::Flags::Mime,
-                                    MagicFlags::Flags::None
-        }
-    };
+    const MagicFlags flags = MagicFlags::Flags::None
+                           | MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::None;
     EXPECT_EQ(MagicFlags{MagicFlags::Flags::Mime}, flags);
     EXPECT_EQ("Mime", flags.ToString());
 
-    const MagicFlags only_none{
-        MagicFlags::FlagsContainerT{
-                                    MagicFlags::Flags::None,
-                                    MagicFlags::Flags::None
-        }
-    };
+    const MagicFlags only_none = MagicFlags::Flags::None
+                               | MagicFlags::Flags::None;
     EXPECT_EQ(MagicFlags{}, only_none);
     EXPECT_EQ("None", only_none.ToString());
 }
 
-TEST_F(MagicFlagsValueTest, container_constructor_with_large_duplicated_set)
+TEST_F(
+    MagicFlagsValueTest,
+    contains_reports_membership_for_single_and_multiple_flags
+)
 {
-    const MagicFlags::FlagsContainerT source{AllFlagsSet().ToContainer()};
-    MagicFlags::FlagsContainerT       large_container{source};
-    large_container.insert(large_container.end(), source.begin(), source.end());
-    large_container.push_back(MagicFlags::Flags::None);
-    EXPECT_EQ(AllFlagsSet(), MagicFlags{large_container});
+    const MagicFlags flags{
+        MagicFlags::Flags::Mime | MagicFlags::Flags::Compress
+    };
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::Mime));
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::Compress));
+    EXPECT_FALSE(flags.Contains(MagicFlags::Flags::Debug));
+    EXPECT_TRUE(
+        flags.Contains(MagicFlags::Flags::Mime, MagicFlags::Flags::Compress)
+    );
+    EXPECT_FALSE(flags.Contains(
+        MagicFlags::Flags::Mime,
+        MagicFlags::Flags::Compress,
+        MagicFlags::Flags::Debug
+    ));
+    /* Contains(Flags::None) is true only for an empty set. */
+    EXPECT_FALSE(flags.Contains(MagicFlags::Flags::None));
+    EXPECT_TRUE(MagicFlags{}.Contains(MagicFlags::Flags::None));
+    const MagicFlags unknown{FlagAtBit(FlagBitCount() + 1UZ)};
+    EXPECT_TRUE(unknown.Contains(FlagAtBit(FlagBitCount() + 1UZ)));
+    EXPECT_FALSE(unknown.Contains(MagicFlags::Flags::Debug));
 }
 
-TEST_F(MagicFlagsValueTest, unknown_bits_remain_observable_in_conversions)
+TEST_F(MagicFlagsValueTest, intersection_operator_combines_and_compares)
 {
-    const MagicFlags                  high_bit{FlagAtBit(FlagBitCount() + 1UZ)};
-    const MagicFlags::FlagsContainerT container{high_bit.ToContainer()};
-    ASSERT_EQ(1UZ, container.size());
-    EXPECT_EQ(FlagAtBit(FlagBitCount() + 1UZ), container.front());
+    const MagicFlags set_a{
+        MagicFlags::Flags::Mime | MagicFlags::Flags::Compress
+    };
+    const MagicFlags set_b{MagicFlags::Flags::Mime};
+    EXPECT_TRUE((set_a & set_b) == set_b);
+    EXPECT_EQ(set_b, set_a & set_b);
+    EXPECT_EQ(set_b, set_a & MagicFlags::Flags::Mime);
+    EXPECT_EQ(set_b, MagicFlags::Flags::Mime & set_a);
+    EXPECT_EQ(
+        MagicFlags{},
+        MagicFlags{MagicFlags::Flags::Mime} & MagicFlags::Flags::Compress
+    );
+    MagicFlags in_place{set_a};
+    in_place &= set_b;
+    EXPECT_EQ(set_b, in_place);
+    in_place &= set_b;
+    EXPECT_EQ(set_b, in_place);
+    in_place &= MagicFlags{};
+    EXPECT_EQ(MagicFlags{}, in_place);
+}
+
+TEST_F(
+    MagicFlagsValueTest,
+    unknown_bits_remain_observable_in_queries_and_rendering
+)
+{
+    const MagicFlags high_bit{FlagAtBit(FlagBitCount() + 1UZ)};
+    EXPECT_TRUE(high_bit.Contains(FlagAtBit(FlagBitCount() + 1UZ)));
     EXPECT_EQ("Invalid(2147483648)", high_bit.ToString());
 
     const MagicFlags mixed{
         MagicFlags::Flags::Debug | FlagAtBit(FlagBitCount())
     };
-    EXPECT_EQ(2UZ, mixed.ToContainer().size());
+    EXPECT_TRUE(mixed.Contains(MagicFlags::Flags::Debug));
+    EXPECT_TRUE(mixed.Contains(FlagAtBit(FlagBitCount())));
     EXPECT_EQ("Debug, Invalid(1073741824)", mixed.ToString());
-}
-
-TEST_F(MagicFlagsValueTest, to_container_orders_by_ascending_bit)
-{
-    const MagicFlags flags{
-        MagicFlags::Flags::Extension
-        | (MagicFlags::Flags::Mime | MagicFlags::Flags::Debug)
-    };
-    const MagicFlags::FlagsContainerT expected{
-        MagicFlags::Flags::Debug,
-        MagicFlags::Flags::Mime,
-        MagicFlags::Flags::Extension
-    };
-    EXPECT_EQ(expected, flags.ToContainer());
-    const MagicFlags all_flags = AllFlagsSet();
-    const auto       ordered   = all_flags.ToContainer();
-    EXPECT_TRUE(
-        std::adjacent_find(
-            ordered.begin(),
-            ordered.end(),
-            [](MagicFlags::Flags a, MagicFlags::Flags b) {
-                return std::to_underlying(a) >= std::to_underlying(b);
-            }
-        )
-        == ordered.end()
-    );
-    EXPECT_EQ(ordered.size(), std::set(ordered.begin(), ordered.end()).size());
-}
-
-TEST_F(MagicFlagsValueTest, to_container_round_trips_through_constructor)
-{
-    const MagicFlags original{AllFlagsSet()};
-    const MagicFlags rebuilt{original.ToContainer()};
-    EXPECT_EQ(original.ToContainer(), rebuilt.ToContainer());
-    EXPECT_EQ(original.ToString(), rebuilt.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, copy_constructor_preserves_flags)
@@ -790,7 +668,7 @@ TEST_F(MagicFlagsValueTest, copy_constructor_preserves_flags)
         MagicFlags::Flags::Mime | MagicFlags::Flags::Compress
     };
     const MagicFlags copy{original};
-    EXPECT_EQ(original.ToContainer(), copy.ToContainer());
+    EXPECT_EQ(original, copy);
     EXPECT_EQ("Compress, Mime", copy.ToString());
 }
 
@@ -812,10 +690,10 @@ TEST_F(MagicFlagsValueTest, copy_assignment_preserves_flags)
 TEST_F(MagicFlagsValueTest, copy_self_assignment_preserves_flags)
 {
     MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
-    const auto expected = flags.ToContainer();
-    auto&      alias    = flags;
-    flags               = alias;
-    EXPECT_EQ(expected, flags.ToContainer());
+    const MagicFlags expected{flags};
+    auto&            alias = flags;
+    flags                  = alias;
+    EXPECT_EQ(expected, flags);
     EXPECT_EQ("Compress, Mime", flags.ToString());
 }
 
@@ -824,7 +702,7 @@ TEST_F(MagicFlagsValueTest, move_self_assignment_leaves_usable_object)
     MagicFlags flags{MagicFlags::Flags::Mime | MagicFlags::Flags::Compress};
     auto&      alias = flags;
     flags            = std::move(alias);
-    EXPECT_NO_THROW(static_cast<void>(flags.ToContainer()));
+    EXPECT_NO_THROW(static_cast<void>(flags.Contains(MagicFlags::Flags::Mime)));
     EXPECT_NO_THROW(static_cast<void>(flags.ToString()));
 }
 
@@ -878,26 +756,22 @@ TEST_F(MagicFlagsValueTest, operator_or_is_idempotent)
         | MagicFlags::Flags::Mime
         | MagicFlags::Flags::Mime
     };
-    EXPECT_EQ(1UZ, flags.ToContainer().size());
+    EXPECT_EQ(MagicFlags{MagicFlags::Flags::Mime}, flags);
     EXPECT_EQ("Mime", flags.ToString());
 }
 
 TEST_F(MagicFlagsValueTest, composite_flags_are_single_bits)
 {
     const MagicFlags mime{MagicFlags::Flags::Mime};
-    EXPECT_EQ(
-        MagicFlags::FlagsContainerT{MagicFlags::Flags::Mime},
-        mime.ToContainer()
-    );
+    EXPECT_EQ(MagicFlags::Flags::Mime, mime & MagicFlags::Flags::Mime);
+    EXPECT_TRUE(mime.Contains(MagicFlags::Flags::Mime));
     EXPECT_EQ("Mime", mime.ToString());
 
-    const MagicFlags                  nodesc = MagicFlags::Flags::Debug
-                                             | MagicFlags::Flags::Nodesc;
-    const MagicFlags::FlagsContainerT expected{
-        MagicFlags::Flags::Debug,
-        MagicFlags::Flags::Nodesc
-    };
-    EXPECT_EQ(expected, nodesc.ToContainer());
+    const MagicFlags nodesc   = MagicFlags::Flags::Debug
+                              | MagicFlags::Flags::Nodesc;
+    const MagicFlags expected = MagicFlags{MagicFlags::Flags::Debug}
+                              | MagicFlags::Flags::Nodesc;
+    EXPECT_EQ(expected, nodesc);
     EXPECT_EQ("Debug, Nodesc", nodesc.ToString());
 }
 
@@ -911,19 +785,17 @@ TEST_F(MagicFlagsValueTest, operator_or_grouped_expressions)
     const MagicFlags right_grouped = MagicFlags::Flags::Debug
                                    | (MagicFlags::Flags::Symlink
                                       | MagicFlags::Flags::Compress);
-    EXPECT_EQ(left_grouped.ToContainer(), right_grouped.ToContainer());
+    EXPECT_EQ(left_grouped, right_grouped);
 
     const MagicFlags both_grouped = (MagicFlags::Flags::Debug
                                      | MagicFlags::Flags::Symlink)
                                   | (MagicFlags::Flags::Compress
                                      | MagicFlags::Flags::Devices);
-    const MagicFlags::FlagsContainerT expected{
-        MagicFlags::Flags::Debug,
-        MagicFlags::Flags::Symlink,
-        MagicFlags::Flags::Compress,
-        MagicFlags::Flags::Devices
-    };
-    EXPECT_EQ(expected, both_grouped.ToContainer());
+    const MagicFlags expected     = MagicFlags{MagicFlags::Flags::Debug}
+                                  | MagicFlags::Flags::Symlink
+                                  | MagicFlags::Flags::Compress
+                                  | MagicFlags::Flags::Devices;
+    EXPECT_EQ(expected, both_grouped);
 }
 
 TEST_F(MagicFlagsValueTest, operator_or_chained_expression)
@@ -933,7 +805,14 @@ TEST_F(MagicFlagsValueTest, operator_or_chained_expression)
                            | MagicFlags::Flags::Compress
                            | MagicFlags::Flags::Devices
                            | MagicFlags::Flags::MimeType;
-    EXPECT_EQ(5UZ, flags.ToContainer().size());
+    EXPECT_TRUE(flags.Contains(
+        MagicFlags::Flags::Debug,
+        MagicFlags::Flags::Symlink,
+        MagicFlags::Flags::Compress,
+        MagicFlags::Flags::Devices,
+        MagicFlags::Flags::MimeType
+    ));
+    EXPECT_FALSE(flags.Contains(MagicFlags::Flags::Error));
     EXPECT_EQ("Debug, Symlink, Compress, Devices, MimeType", flags.ToString());
 }
 
@@ -941,17 +820,13 @@ TEST_F(MagicFlagsValueTest, equality_operator_compares_flag_sets)
 {
     const MagicFlags empty_flags{};
     EXPECT_EQ(empty_flags, MagicFlags::Flags::None);
-    EXPECT_EQ(empty_flags, MagicFlags{MagicFlags::FlagsContainerT{}});
+    EXPECT_EQ(empty_flags, MagicFlags{});
 
-    const MagicFlags from_container{
-        MagicFlags::FlagsContainerT{
-                                    MagicFlags::Flags::Debug,
-                                    MagicFlags::Flags::Compress
-        }
-    };
-    const MagicFlags from_or = MagicFlags::Flags::Debug
-                             | MagicFlags::Flags::Compress;
-    EXPECT_EQ(from_container, from_or);
+    const MagicFlags from_or      = MagicFlags::Flags::Debug
+                                  | MagicFlags::Flags::Compress;
+    const MagicFlags from_grouped = MagicFlags{MagicFlags::Flags::Debug}
+                                  | MagicFlags::Flags::Compress;
+    EXPECT_EQ(from_grouped, from_or);
 
     EXPECT_NE(
         MagicFlags{MagicFlags::Flags::Mime},
@@ -993,7 +868,7 @@ TEST_F(MagicFlagsValueTest, spaceship_orders_by_underlying_mask)
     EXPECT_EQ(debug <=> MagicFlags::Flags::Debug, std::strong_ordering::equal);
 }
 
-TEST_F(MagicFlagsValueTest, spaceship_provides_strict_weak_ordering)
+TEST_F(MagicFlagsValueTest, spaceship_provides_strong_ordering)
 {
     const MagicFlags superset{
         MagicFlags::Flags::Debug | MagicFlags::Flags::Symlink
@@ -1001,22 +876,20 @@ TEST_F(MagicFlagsValueTest, spaceship_provides_strict_weak_ordering)
     const MagicFlags high_bit{MagicFlags::Flags::NoCheckBuiltin};
     EXPECT_LT(superset, high_bit);
 
-    MagicFlags::FlagsContainerT shuffled;
+    std::vector<MagicFlags> shuffled;
     shuffled.reserve(ALL_FLAGS.size() - 1UZ);
     for (std::size_t i{1UZ}; i < ALL_FLAGS.size(); ++i) {
-        shuffled.push_back(ALL_FLAGS.at(i).first);
+        shuffled.push_back(MagicFlags{ALL_FLAGS.at(i).first});
     }
     std::ranges::shuffle(shuffled, std::mt19937{42U});
 
     const std::set<MagicFlags> ordered_set{shuffled.begin(), shuffled.end()};
     EXPECT_EQ(ALL_FLAGS.size() - 1UZ, ordered_set.size());
 
-    std::vector<MagicFlags> flags_vector{shuffled.begin(), shuffled.end()};
-    std::ranges::sort(flags_vector);
-    EXPECT_TRUE(std::ranges::is_sorted(flags_vector));
+    std::ranges::sort(shuffled);
+    EXPECT_TRUE(std::ranges::is_sorted(shuffled));
     EXPECT_TRUE(
-        std::adjacent_find(flags_vector.begin(), flags_vector.end())
-        == flags_vector.end()
+        std::adjacent_find(shuffled.begin(), shuffled.end()) == shuffled.end()
     );
 
     std::size_t expected_bit{};
@@ -1043,7 +916,10 @@ TEST_F(MagicFlagsValueTest, to_string_empty_set_is_none_with_any_separator)
     EXPECT_EQ("None", MagicFlags{}.ToString());
     EXPECT_EQ("None", MagicFlags{}.ToString(";"));
     EXPECT_EQ("None", MagicFlags{MagicFlags::Flags::None}.ToString("\n"));
-    EXPECT_EQ("None", MagicFlags{MagicFlags::FlagsContainerT{}}.ToString(";"));
+    EXPECT_EQ(
+        "None",
+        (MagicFlags::Flags::None | MagicFlags::Flags::None).ToString(";")
+    );
 }
 
 TEST_F(MagicFlagsValueTest, to_string_of_every_flag_in_bit_order)
@@ -1061,4 +937,276 @@ TEST_F(MagicFlagsValueTest, to_string_of_every_flag_in_bit_order)
     );
     EXPECT_EQ(expected, AllFlagsSet().ToString());
     EXPECT_EQ(expected, AllFlagsSet().ToString(", "));
+}
+
+TEST_F(MagicFlagsValueTest, to_string_custom_capacity_truncates)
+{
+    const MagicFlags flags = MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::Compress;
+
+    const auto exact = flags.ToString<14UZ>();
+    EXPECT_EQ("Compress, Mime", exact);
+    EXPECT_FALSE(exact.IsTruncated());
+
+    const auto small = flags.ToString<8UZ>();
+    EXPECT_EQ("Compress", small);
+    EXPECT_TRUE(small.IsTruncated());
+
+    constexpr auto none_small = MagicFlags{}.ToString<2UZ>();
+    EXPECT_EQ("No", none_small);
+    EXPECT_TRUE(none_small.IsTruncated());
+}
+
+TEST_F(MagicFlagsValueTest, operator_or_assign_composes_in_place)
+{
+    MagicFlags flags{MagicFlags::Flags::Mime};
+    flags |= MagicFlags{MagicFlags::Flags::Compress};
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::Mime));
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::Compress));
+
+    flags |= MagicFlags::Flags::Debug;
+    EXPECT_EQ(
+        MagicFlags::Flags::Debug
+            | MagicFlags::Flags::Mime
+            | MagicFlags::Flags::Compress,
+        flags
+    );
+
+    constexpr MagicFlags COMPOSED = []() noexcept {
+        MagicFlags local{MagicFlags::Flags::Mime};
+        local |= MagicFlags::Flags::Mime;
+        local |= MagicFlags::Flags::Symlink;
+        return local;
+    }();
+    static_assert(COMPOSED.Count() == 2UZ);
+    static_assert(COMPOSED.Contains(MagicFlags::Flags::Symlink));
+}
+
+TEST_F(MagicFlagsValueTest, erase_removes_flags_in_place)
+{
+    MagicFlags flags = MagicFlags::Flags::Mime
+                     | MagicFlags::Flags::Compress
+                     | MagicFlags::Flags::Debug;
+
+    flags.Erase(MagicFlags::Flags::Compress);
+    EXPECT_FALSE(flags.Contains(MagicFlags::Flags::Compress));
+    EXPECT_TRUE(flags.Contains(MagicFlags::Flags::Mime));
+
+    flags.Erase(MagicFlags{MagicFlags::Flags::Mime | MagicFlags::Flags::Debug});
+    EXPECT_EQ(MagicFlags{}, flags);
+
+    const MagicFlags unknown{FlagAtBit(FlagBitCount() + 1UZ)};
+    MagicFlags       kept = unknown;
+    kept.Erase(MagicFlags::Flags::Raw);
+    EXPECT_EQ(unknown, kept);
+
+    constexpr MagicFlags ERASED = []() noexcept {
+        MagicFlags local{MagicFlags::Flags::Mime | MagicFlags::Flags::Raw};
+        local.Erase(MagicFlags::Flags::Raw);
+        return local;
+    }();
+    static_assert(ERASED == MagicFlags{MagicFlags::Flags::Mime});
+}
+
+TEST_F(MagicFlagsValueTest, contains_set_tests_subset)
+{
+    const MagicFlags flags = MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::Compress;
+
+    EXPECT_TRUE(flags.Contains(MagicFlags{MagicFlags::Flags::Mime}));
+    EXPECT_TRUE(
+        flags.Contains(MagicFlags::Flags::Mime | MagicFlags::Flags::Compress)
+    );
+    EXPECT_FALSE(
+        flags.Contains(MagicFlags::Flags::Mime | MagicFlags::Flags::Debug)
+    );
+    EXPECT_TRUE(flags.Contains(MagicFlags{}));
+    EXPECT_TRUE(MagicFlags{}.Contains(MagicFlags{}));
+
+    for (std::size_t bit{}; bit < FlagBitCount(); ++bit) {
+        const auto flag = FlagAtBit(bit);
+        EXPECT_EQ(flags.Contains(flag), flags.Contains(MagicFlags{flag}))
+            << bit;
+    }
+
+    const MagicFlags with_unknown = flags
+                                  | MagicFlags{FlagAtBit(FlagBitCount() + 1UZ)};
+    EXPECT_FALSE(flags.Contains(with_unknown));
+    EXPECT_TRUE(with_unknown.Contains(flags));
+}
+
+TEST_F(MagicFlagsValueTest, count_reports_set_bit_total)
+{
+    EXPECT_EQ(0UZ, MagicFlags{}.Count());
+    EXPECT_EQ(0UZ, MagicFlags{MagicFlags::Flags::None}.Count());
+    EXPECT_EQ(1UZ, MagicFlags{MagicFlags::Flags::Mime}.Count());
+    EXPECT_EQ(
+        2UZ,
+        (MagicFlags::Flags::Mime | MagicFlags::Flags::Compress).Count()
+    );
+    EXPECT_EQ(FlagBitCount(), AllFlagsSet().Count());
+
+    EXPECT_EQ(1UZ, MagicFlags{MagicFlags::Flags::Mime}.Count());
+
+    EXPECT_EQ(
+        2UZ,
+        (MagicFlags{MagicFlags::Flags::Mime}
+         | MagicFlags{FlagAtBit(FlagBitCount() + 1UZ)})
+            .Count()
+    );
+
+    static_assert(MagicFlags{MagicFlags::Flags::Mime}.Count() == 1UZ);
+}
+
+TEST_F(MagicFlagsValueTest, formatter_prints_flag_set_names)
+{
+    const MagicFlags flags = MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::Compress;
+    EXPECT_EQ(std::format("{}", flags), "Compress, Mime");
+    EXPECT_EQ(std::format("{}", MagicFlags{}), "None");
+    EXPECT_EQ(std::format("{}", MagicFlags{MagicFlags::Flags::Mime}), "Mime");
+    EXPECT_EQ(
+        std::format("{:*>15}", MagicFlags{MagicFlags::Flags::Raw}),
+        "************Raw"
+    );
+
+    EXPECT_EQ(std::format("{}", MagicFlags::Flags::Mime), "Mime");
+    EXPECT_EQ(std::format("{}", MagicFlags::Flags::None), "None");
+    EXPECT_EQ(
+        std::format("{}", static_cast<MagicFlags::Flags>(1U << 31U)),
+        "Invalid(2147483648)"
+    );
+    EXPECT_EQ(std::format("{:*>10}", MagicFlags::Flags::Raw), "*******Raw");
+
+    EXPECT_NO_THROW(static_cast<void>(std::format("{}", flags)));
+}
+
+TEST_F(MagicFlagsValueTest, iteration_yields_set_flags_in_bit_order)
+{
+    static_assert(std::forward_iterator<MagicFlags::Iterator>);
+
+    const MagicFlags flags = MagicFlags::Flags::NoCheckBuiltin
+                           | MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::Debug;
+
+    const std::vector<MagicFlags::Flags> yielded{flags.begin(), flags.end()};
+    const std::vector<MagicFlags::Flags> expected{
+        MagicFlags::Flags::Debug,
+        MagicFlags::Flags::Mime,
+        MagicFlags::Flags::NoCheckBuiltin
+    };
+    EXPECT_EQ(expected, yielded);
+
+    for (const auto flag : flags) {
+        EXPECT_TRUE(flags.Contains(flag));
+    }
+    EXPECT_EQ(flags.Count(), yielded.size());
+
+    std::string names{};
+    for (const auto flag : flags) {
+        if (!names.empty()) {
+            names += ", ";
+        }
+        names += MagicFlags{flag}.ToString().Data();
+    }
+    EXPECT_EQ(names, flags.ToString().Data());
+
+    EXPECT_TRUE(MagicFlags{}.begin() == MagicFlags{}.end());
+    EXPECT_TRUE(
+        MagicFlags{MagicFlags::Flags::None}.begin()
+        == MagicFlags{MagicFlags::Flags::None}.end()
+    );
+
+    constexpr auto COUNTED = []() noexcept {
+        const MagicFlags local{
+            MagicFlags::Flags::Compress | MagicFlags::Flags::Mime
+        };
+        std::size_t n{};
+        for ([[maybe_unused]] const auto flag : local) {
+            ++n;
+        }
+        return n;
+    }();
+    static_assert(COUNTED == 2UZ);
+}
+
+TEST_F(MagicFlagsValueTest, iteration_yields_unknown_bits)
+{
+    const MagicFlags high_bit{FlagAtBit(FlagBitCount() + 1UZ)};
+
+    ASSERT_TRUE(high_bit.begin() != high_bit.end());
+    EXPECT_EQ(*high_bit.begin(), FlagAtBit(FlagBitCount() + 1UZ));
+    EXPECT_EQ(1, std::ranges::distance(high_bit));
+
+    const MagicFlags mixed = high_bit | MagicFlags::Flags::Debug;
+    const auto       first{*mixed.begin()};
+    const auto       second{*std::ranges::next(mixed.begin())};
+    EXPECT_EQ(MagicFlags::Flags::Debug, first);
+    EXPECT_EQ(FlagAtBit(FlagBitCount() + 1UZ), second);
+}
+
+TEST_F(MagicFlagsValueTest, iterators_support_algorithms_and_multi_pass)
+{
+    const MagicFlags flags = MagicFlags::Flags::Mime
+                           | MagicFlags::Flags::Compress
+                           | MagicFlags::Flags::Raw;
+
+    EXPECT_EQ(3, std::distance(flags.begin(), flags.end()));
+    const auto raw_found{
+        std::find(flags.begin(), flags.end(), MagicFlags::Flags::Raw)
+    };
+    ASSERT_TRUE(raw_found != flags.end());
+    EXPECT_EQ(MagicFlags::Flags::Raw, *raw_found);
+
+    EXPECT_EQ(3, std::ranges::distance(flags));
+    const auto all_known{
+        std::ranges::all_of(flags, [&flags](const MagicFlags::Flags flag) {
+            return flags.Contains(flag);
+        })
+    };
+    EXPECT_TRUE(all_known);
+    EXPECT_EQ(
+        2,
+        std::ranges::count(
+            flags | std::views::filter([](const MagicFlags::Flags flag) {
+                return flag
+                    == MagicFlags::Flags::Mime
+                    || flag
+                    == MagicFlags::Flags::Compress;
+            }),
+            MagicFlags::Flags::Mime
+        )
+            + std::ranges::count(
+                flags | std::views::filter([](const MagicFlags::Flags flag) {
+                    return flag
+                        == MagicFlags::Flags::Mime
+                        || flag
+                        == MagicFlags::Flags::Compress;
+                }),
+                MagicFlags::Flags::Compress
+            )
+    );
+
+    auto first{flags.begin()};
+    auto second{flags.begin()};
+    for (int pass{}; pass < 3; ++pass) {
+        ASSERT_TRUE(first != flags.end());
+        ASSERT_TRUE(second != flags.end());
+        EXPECT_EQ(*first, *second);
+        ++first;
+        ++second;
+    }
+    EXPECT_TRUE(first == flags.end());
+    EXPECT_TRUE(second == flags.end());
+
+    auto copy{flags.begin()};
+    auto original{flags.begin()};
+    ++original;
+    EXPECT_EQ(MagicFlags::Flags::Compress, *copy);
+    EXPECT_EQ(MagicFlags::Flags::Raw, *original);
+
+    auto       post{flags.begin()};
+    const auto previous{post++};
+    EXPECT_EQ(MagicFlags::Flags::Compress, *previous);
+    EXPECT_EQ(MagicFlags::Flags::Raw, *post);
 }

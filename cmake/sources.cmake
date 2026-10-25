@@ -64,7 +64,7 @@ set(magicxx_HEADER_FILES
     ${magicxx_INCLUDE_DIR}/magic_parameters.hpp
     ${magicxx_INCLUDE_DIR}/percentage.hpp
     ${magicxx_INCLUDE_DIR}/progress_tracker.hpp
-    ${magicxx_INCLUDE_DIR}/static_string.hpp
+    ${magicxx_INCLUDE_DIR}/inplace_string.hpp
     ${magicxx_INCLUDE_DIR}/utility.hpp
 )
 
@@ -97,7 +97,7 @@ set(magicxx_tests_SOURCE_FILES
     ${magicxx_TESTS_DIR}/magic_percentage_test.cpp
     ${magicxx_TESTS_DIR}/magic_progress_tracker_test.cpp
     ${magicxx_TESTS_DIR}/magic_special_members_test.cpp
-    ${magicxx_TESTS_DIR}/magic_static_string_test.cpp
+    ${magicxx_TESTS_DIR}/magic_inplace_string_test.cpp
     ${magicxx_TESTS_DIR}/magic_to_string_test.cpp
     ${magicxx_TESTS_DIR}/magic_version_test.cpp
     ${magicxx_TESTS_DIR}/main.cpp

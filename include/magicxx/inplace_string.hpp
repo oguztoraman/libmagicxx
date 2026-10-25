@@ -2,26 +2,26 @@
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
 /**
- * @file static_string.hpp
- * @brief Allocation-free fixed-capacity inline string for `noexcept`
- *        boundaries.
+ * @file inplace_string.hpp
+ * @brief Allocation-free fixed-capacity string for `noexcept` boundaries.
  * @ingroup magic_utility
  *
- * This file defines Utility::StaticString, a fixed-capacity string whose
+ * This file defines Utility::InplaceString, a fixed-capacity string whose
  * entire lifetime — construction, copy, move, assignment, append, and
- * formatting — is `noexcept` and performs zero heap allocation.
+ * formatting — is `constexpr noexcept`.
  *
- * @see Recognition::Utility::StaticString
+ * @see Recognition::Utility::InplaceString
  */
 
-#ifndef STATIC_STRING_HPP
-#define STATIC_STRING_HPP
+#ifndef INPLACE_STRING_HPP
+#define INPLACE_STRING_HPP
 
 #include <algorithm>
 #include <array>
 #include <compare>
 #include <cstddef>
 #include <format>
+#include <functional>
 #include <iterator>
 #include <ostream>
 #include <ranges>
@@ -34,56 +34,59 @@ namespace Recognition::Utility {
  */
 
 /**
- * @class StaticString
+ * @class InplaceString
  * @ingroup magic_utility
  *
- * @brief A fixed-capacity, allocation-free inline string with `noexcept`
- *        operations, suitable for use across `noexcept` boundaries.
+ * @brief A fixed-capacity, allocation-free string with `constexpr
+ *        noexcept` operations, suitable for use across `noexcept`
+ *        boundaries.
  *
- * `StaticString` stores its characters inline in a fixed-size buffer of at
- * most `CapacityV` characters (plus a terminating null character). Every
- * operation — construction, copy, move, assignment, append, and formatting
- * — is `noexcept` and performs zero heap allocation.
+ * `InplaceString` holds at most `CapacityV` characters (plus a terminating
+ * null character) and never grows. Every operation — construction, copy,
+ * move, assignment, append, and formatting — is `constexpr noexcept`.
  *
  * If the represented text exceeds `CapacityV`, the text is truncated to the
  * first `CapacityV` characters and `IsTruncated()` reports `true`.
  *
+ * The stored text is exposed as a contiguous range of characters
+ * (`begin()`/`end()`), indexable (`operator[]`, `Front()`, `Back()`),
+ * searchable (`Find()`, `Contains()`, `StartsWith()`, `EndsWith()`), and
+ * hashable for use as an unordered container key.
+ *
  * ### Comparison transparency
  *
- * `StaticString` compares equal (and orders) against `std::string_view`,
- * `const char*`, and `std::string`, and compares equal against other
- * `StaticString` instantiations, via implicit conversion to
- * `std::string_view` and dedicated comparison operators. Ordering against
- * another `StaticString` uses its explicit conversion to
- * `std::string_view`.
+ * `InplaceString` compares equal (and orders) against `std::string_view`,
+ * `const char*`, and `std::string`, and compares equal and orders against
+ * other `InplaceString` instantiations, via dedicated comparison operators
+ * that compare the underlying text.
  *
- * @tparam CapacityV Maximum number of characters stored inline (excluding
- *                   the terminating null character).
+ * @tparam CapacityV Maximum number of characters the string can hold
+ *                   (excluding the terminating null character).
  *
- * @section static_string_example Example
+ * @section inplace_string_example Example
  *
  * @code{.cpp}
  * using namespace Recognition::Utility;
  *
- * StaticString<64> message{"hello"};          // noexcept, no allocation
+ * InplaceString<64> message{"hello"};          // noexcept, no allocation
  * message.Append(" world");                   // noexcept
- * auto formatted = StaticString<64>::Format(
+ * auto formatted = InplaceString<64>::Format(
  *     "value: {}", 42                          // bounded formatting
  * );
- * std::string_view view{message};             // borrowed inline storage
+ * std::string_view view{message};             // borrows the stored text
  * @endcode
  *
  * @since 11.0.0
  */
 template <std::size_t CapacityV>
-class StaticString {
+class InplaceString {
 public:
     /**
      * @brief Construct an empty string.
      *
      * @since 11.0.0
      */
-    constexpr StaticString() noexcept = default;
+    constexpr InplaceString() noexcept = default;
 
     /**
      * @brief Construct from a `std::string_view`, truncating on overflow.
@@ -97,7 +100,7 @@ public:
      *
      * @since 11.0.0
      */
-    constexpr explicit StaticString(std::string_view text) noexcept
+    constexpr explicit InplaceString(std::string_view text) noexcept
       : m_size{text.size() < CapacityV ? text.size() : CapacityV}
       , m_truncated{text.size() > CapacityV}
     {
@@ -116,8 +119,8 @@ public:
      *
      * @since 11.0.0
      */
-    constexpr explicit StaticString(const char* text) noexcept
-      : StaticString{
+    constexpr explicit InplaceString(const char* text) noexcept
+      : InplaceString{
             text != nullptr ? std::string_view{text} : std::string_view{}
         }
     { }
@@ -127,14 +130,14 @@ public:
      *
      * @since 11.0.0
      */
-    constexpr StaticString(const StaticString&) noexcept = default;
+    constexpr InplaceString(const InplaceString&) noexcept = default;
 
     /**
      * @brief Move constructor. `noexcept` and allocation-free.
      *
      * @since 11.0.0
      */
-    constexpr StaticString(StaticString&&) noexcept = default;
+    constexpr InplaceString(InplaceString&&) noexcept = default;
 
     /**
      * @brief Copy assignment. `noexcept` and allocation-free.
@@ -143,7 +146,7 @@ public:
      *
      * @since 11.0.0
      */
-    constexpr StaticString& operator=(const StaticString&) noexcept = default;
+    constexpr InplaceString& operator=(const InplaceString&) noexcept = default;
 
     /**
      * @brief Move assignment. `noexcept` and allocation-free.
@@ -152,56 +155,71 @@ public:
      *
      * @since 11.0.0
      */
-    constexpr StaticString& operator=(StaticString&&) noexcept = default;
+    constexpr InplaceString& operator=(InplaceString&&) noexcept = default;
 
     /**
      * @brief Destructor. Trivially `noexcept`.
      *
      * @since 11.0.0
      */
-    ~StaticString() noexcept = default;
+    ~InplaceString() noexcept = default;
 
     /**
-     * @brief Assign from a `std::string_view`, truncating on overflow.
+     * @brief Get the first character.
      *
-     * @param[in] text The text to store.
-     *
-     * @returns Reference to this string.
+     * @returns The first character. The behavior is undefined when the
+     *          string is empty, mirroring `std::string_view::front`.
      *
      * @since 11.0.0
      */
-    constexpr StaticString& operator=(std::string_view text) noexcept
+    [[nodiscard]] constexpr char Front() const noexcept
     {
-        return *this = StaticString{text};
+        return std::string_view{*this}.front();
     }
 
     /**
-     * @brief Assign from a null-terminated character pointer.
+     * @brief Get the last character.
      *
-     * @param[in] text The text to store.
-     *
-     * @returns Reference to this string.
+     * @returns The last character. The behavior is undefined when the
+     *          string is empty, mirroring `std::string_view::back`.
      *
      * @since 11.0.0
      */
-    constexpr StaticString& operator=(const char* text) noexcept
+    [[nodiscard]] constexpr char Back() const noexcept
     {
-        return *this = StaticString{text};
+        return std::string_view{*this}.back();
     }
 
     /**
-     * @brief Convert to a `std::string_view` over the stored text.
+     * @brief Return an iterator to the first stored character.
      *
-     * The returned view borrows the inline buffer and is invalidated when
-     * the string is destroyed or modified.
+     * The iterators expose the stored text as a contiguous range of
+     * `char`. They are invalidated when the string is destroyed or
+     * modified.
      *
-     * @returns A `std::string_view` over the stored text.
+     * @returns Pointer to the first character.
      *
      * @since 11.0.0
      */
-    constexpr explicit operator std::string_view() const noexcept
+    /* NOLINTNEXTLINE(readability-identifier-naming) */
+    [[nodiscard]] constexpr const char* begin() const noexcept
     {
-        return std::string_view{m_buffer.data(), m_size};
+        return m_buffer.data();
+    }
+
+    /**
+     * @brief Return an iterator past the last stored character.
+     *
+     * @returns Pointer past the last stored character (the terminating
+     *          null position).
+     *
+     * @since 11.0.0
+     */
+    /* NOLINTNEXTLINE(readability-identifier-naming) */
+    [[nodiscard]] constexpr const char* end() const noexcept
+    {
+        /* NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic) */
+        return m_buffer.data() + m_size;
     }
 
     /**
@@ -242,15 +260,15 @@ public:
     }
 
     /**
-     * @brief Get the maximum number of characters stored inline (excluding
-     *        the terminating null character).
+     * @brief Get the maximum number of characters the string can hold
+     *        (excluding the terminating null character).
      *
      * @returns The capacity `CapacityV`. Being a static member function, it
      *          is callable without an instance and usable in constant
      *          expressions.
      *
      * @code{.cpp}
-     * constexpr auto cap{StaticString<64>::MaxSize()}; // 64
+     * constexpr auto cap{InplaceString<64>::MaxSize()}; // 64
      * @endcode
      *
      * @since 11.0.0
@@ -286,6 +304,21 @@ public:
     }
 
     /**
+     * @brief Reset the string to empty.
+     *
+     * After the call the string holds no characters and `IsTruncated()`
+     * reports `false`, matching a default-constructed string.
+     *
+     * @since 11.0.0
+     */
+    constexpr void Clear() noexcept
+    {
+        m_size      = 0UZ;
+        m_truncated = false;
+        m_buffer[0] = '\0';
+    }
+
+    /**
      * @brief Append text to the end of the string, truncating on overflow.
      *
      * @param[in] text The text to append.
@@ -315,13 +348,80 @@ public:
     }
 
     /**
+     * @brief Find the first occurrence of text.
+     *
+     * @param[in] text The text to search for.
+     *
+     * @returns The index of the first occurrence, or `std::string_view::npos`
+     *          when the text is not found.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] constexpr std::size_t Find(
+        std::string_view text
+    ) const noexcept
+    {
+        return std::string_view{*this}.find(text);
+    }
+
+    /**
+     * @brief Check whether the stored text contains the given text.
+     *
+     * @param[in] text The text to search for.
+     *
+     * @returns `true` if `text` occurs in the stored text, `false`
+     *          otherwise.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] constexpr bool Contains(std::string_view text) const noexcept
+    {
+        return Find(text) != std::string_view::npos;
+    }
+
+    /**
+     * @brief Check whether the stored text starts with the given text.
+     *
+     * @param[in] prefix The text to look for at the start.
+     *
+     * @returns `true` if `prefix` occurs at position 0, matching
+     *          `std::string_view::starts_with` (an empty prefix always
+     *          matches).
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] constexpr bool StartsWith(
+        std::string_view prefix
+    ) const noexcept
+    {
+        return std::string_view{*this}.starts_with(prefix);
+    }
+
+    /**
+     * @brief Check whether the stored text ends with the given text.
+     *
+     * @param[in] suffix The text to look for at the end.
+     *
+     * @returns `true` if `suffix` occurs at the end, matching
+     *          `std::string_view::ends_with` (an empty suffix always
+     *          matches).
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] constexpr bool EndsWith(
+        std::string_view suffix
+    ) const noexcept
+    {
+        return std::string_view{*this}.ends_with(suffix);
+    }
+
+    /**
      * @brief Format arguments into a new string, truncating on overflow.
      *
-     * Formats `args` according to `format_text` (in `std::vformat` syntax)
-     * into the inline buffer using bounded formatting. The operation never
-     * allocates and never throws: if formatting reports an error, the
-     * format string text itself is stored (truncated as needed) as a
-     * fallback.
+     * Formats `args` according to `format_text` (in `std::format` syntax),
+     * truncating on overflow. The operation never throws: if formatting
+     * reports an error, the format string text itself is stored (truncated
+     * as needed) as a fallback.
      *
      * @tparam ArgsT Argument types (each must be formattable as `char`).
      *
@@ -337,7 +437,7 @@ public:
      * truncation flag (see `Append()`).
      *
      * @code{.cpp}
-     * auto msg = StaticString<64>::Format("{}: {}", "code", 42);
+     * auto msg = InplaceString<64>::Format("{}: {}", "code", 42);
      * // msg == "code: 42"
      * @endcode
      *
@@ -345,13 +445,13 @@ public:
      */
     template <typename... ArgsT>
     requires(std::formattable<ArgsT, char> && ...)
-    [[nodiscard]] static constexpr StaticString Format(
+    [[nodiscard]] static constexpr InplaceString Format(
         std::string_view format_text,
         /* NOLINTNEXTLINE(cppcoreguidelines-missing-std-forward) */
         ArgsT&&... args
     ) noexcept
     {
-        StaticString result{};
+        InplaceString result{};
         try {
             const auto writer = std::vformat_to(
                 BoundedCharWriter{result.m_buffer},
@@ -361,21 +461,82 @@ public:
             result.m_size      = writer.WrittenSize();
             result.m_truncated = writer.IsFull();
         } catch (...) {
-            result = StaticString{format_text};
+            result = InplaceString{format_text};
         }
         return result;
     }
 
     /**
-     * @brief Equality comparison against another `StaticString`.
+     * @brief Assign from a `std::string_view`, truncating on overflow.
      *
-     * @related StaticString
+     * @param[in] text The text to store.
+     *
+     * @returns Reference to this string.
+     *
+     * @since 11.0.0
+     */
+    constexpr InplaceString& operator=(std::string_view text) noexcept
+    {
+        return *this = InplaceString{text};
+    }
+
+    /**
+     * @brief Assign from a null-terminated character pointer.
+     *
+     * @param[in] text The text to store.
+     *
+     * @returns Reference to this string.
+     *
+     * @since 11.0.0
+     */
+    constexpr InplaceString& operator=(const char* text) noexcept
+    {
+        return *this = InplaceString{text};
+    }
+
+    /**
+     * @brief Convert to a `std::string_view` over the stored text.
+     *
+     * The returned view borrows the stored text and is invalidated when the
+     * string is destroyed or modified.
+     *
+     * @returns A `std::string_view` over the stored text.
+     *
+     * @since 11.0.0
+     */
+    constexpr explicit operator std::string_view() const noexcept
+    {
+        return std::string_view{m_buffer.data(), m_size};
+    }
+
+    /**
+     * @brief Get the character at an index.
+     *
+     * @param[in] index The position to read, at most `Size()`.
+     *
+     * @returns The character at `index`, mirroring
+     *          `std::string_view::operator[]`: the behavior is undefined
+     *          when `index > Size()`; at `index == Size()` it yields the
+     *          terminating null character.
+     *
+     * @since 11.0.0
+     */
+    [[nodiscard]] constexpr char operator[](std::size_t index) const noexcept
+    {
+        /* NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access) */
+        return std::string_view{*this}[index];
+    }
+
+    /**
+     * @brief Equality comparison against another `InplaceString`.
+     *
+     * @related InplaceString
      * @since 11.0.0
      */
     template <std::size_t OtherCapacityV>
     friend constexpr bool operator==(
-        const StaticString&                 lhs,
-        const StaticString<OtherCapacityV>& rhs
+        const InplaceString&                 lhs,
+        const InplaceString<OtherCapacityV>& rhs
     ) noexcept
     {
         return std::string_view{lhs} == std::string_view{rhs};
@@ -384,12 +545,12 @@ public:
     /**
      * @brief Equality comparison against a `std::string_view`.
      *
-     * @related StaticString
+     * @related InplaceString
      * @since 11.0.0
      */
     friend constexpr bool operator==(
-        const StaticString& lhs,
-        std::string_view    rhs
+        const InplaceString& lhs,
+        std::string_view     rhs
     ) noexcept
     {
         return std::string_view{lhs} == rhs;
@@ -398,15 +559,30 @@ public:
     /**
      * @brief Three-way comparison against a `std::string_view`.
      *
-     * @related StaticString
+     * @related InplaceString
      * @since 11.0.0
      */
     friend constexpr std::strong_ordering operator<=>(
-        const StaticString& lhs,
-        std::string_view    rhs
+        const InplaceString& lhs,
+        std::string_view     rhs
     ) noexcept
     {
         return std::string_view{lhs} <=> rhs;
+    }
+
+    /**
+     * @brief Three-way comparison against another `InplaceString`.
+     *
+     * @related InplaceString
+     * @since 11.0.0
+     */
+    template <std::size_t OtherCapacityV>
+    friend constexpr std::strong_ordering operator<=>(
+        const InplaceString&                 lhs,
+        const InplaceString<OtherCapacityV>& rhs
+    ) noexcept
+    {
+        return std::string_view{lhs} <=> std::string_view{rhs};
     }
 
 private:
@@ -523,42 +699,42 @@ private:
 };
 
 /**
- * @brief Stream the stored text of a `StaticString` to an output stream.
+ * @brief Stream the stored text of a `InplaceString` to an output stream.
  *
  * @param[in,out] output_stream Destination stream.
  * @param[in]     value         String to print.
  *
  * @returns Reference to `output_stream`.
  *
- * @related StaticString
+ * @related InplaceString
  * @since 11.0.0
  */
 template <std::size_t CapacityV>
 inline std::ostream& operator<<(
-    std::ostream&                  output_stream,
-    const StaticString<CapacityV>& value
+    std::ostream&                   output_stream,
+    const InplaceString<CapacityV>& value
 )
 {
     return output_stream << std::string_view{value};
 }
 
 /**
- * @brief Print a `StaticString` for GoogleTest diagnostics.
+ * @brief Print a `InplaceString` for GoogleTest diagnostics.
  * @ingroup magic_utility
  *
- * Found via ADL by GoogleTest when a `StaticString` value is printed on
+ * Found via ADL by GoogleTest when a `InplaceString` value is printed on
  * assertion failure.
  *
  * @param[in]  value          The string to print.
  * @param[out] output_stream  The stream to print to.
  *
- * @related StaticString
+ * @related InplaceString
  * @since 11.0.0
  */
 template <std::size_t CapacityV>
 inline void PrintTo(
-    const StaticString<CapacityV>& value,
-    std::ostream*                  output_stream
+    const InplaceString<CapacityV>& value,
+    std::ostream*                   output_stream
 )
 {
     *output_stream << "\"" << std::string_view{value} << "\"";
@@ -569,7 +745,7 @@ inline void PrintTo(
 
 namespace std {
 /**
- * @brief Format specialization making `Utility::StaticString` usable with
+ * @brief Format specialization making `Utility::InplaceString` usable with
  *        `std::format` / `std::print`.
  *
  * Delegates to the `std::string_view` formatter.
@@ -581,7 +757,7 @@ namespace std {
  */
 template <std::size_t CapacityV>
 /* NOLINTNEXTLINE(bugprone-std-namespace-modification,cert-dcl58-cpp) */
-struct formatter<Recognition::Utility::StaticString<CapacityV>, char>
+struct formatter<Recognition::Utility::InplaceString<CapacityV>, char>
   : formatter<string_view> {
     /**
      * @brief Format `value` into `ctx`.
@@ -593,13 +769,43 @@ struct formatter<Recognition::Utility::StaticString<CapacityV>, char>
      */
     template <typename FormatContextT>
     auto format(
-        const Recognition::Utility::StaticString<CapacityV>& value,
-        FormatContextT&                                      ctx
+        const Recognition::Utility::InplaceString<CapacityV>& value,
+        FormatContextT&                                       ctx
     ) const
     {
         return formatter<string_view>::format(std::string_view{value}, ctx);
     }
 };
+
+/**
+ * @brief Hash specialization making `Utility::InplaceString` usable as an
+ *        unordered container key.
+ *
+ * Delegates to the `std::string_view` hash, consistent with `operator==`:
+ * equal texts hash equal across capacities.
+ *
+ * @tparam CapacityV Maximum number of inline characters of the string being
+ *                   hashed.
+ *
+ * @since 11.0.0
+ */
+template <std::size_t CapacityV>
+/* NOLINTNEXTLINE(bugprone-std-namespace-modification,cert-dcl58-cpp) */
+struct hash<Recognition::Utility::InplaceString<CapacityV>> {
+    /**
+     * @brief Hash a string.
+     *
+     * @param[in] value The string to hash.
+     *
+     * @returns The hash of the stored text.
+     */
+    [[nodiscard]] std::size_t operator()(
+        const Recognition::Utility::InplaceString<CapacityV>& value
+    ) const noexcept
+    {
+        return std::hash<std::string_view>{}(std::string_view{value});
+    }
+};
 } /* namespace std */
 
-#endif /* STATIC_STRING_HPP */
+#endif /* INPLACE_STRING_HPP */

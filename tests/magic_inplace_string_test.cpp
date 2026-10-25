@@ -2,29 +2,33 @@
 /* SPDX-License-Identifier: LGPL-3.0-only */
 
 /**
- * @file magic_static_string_test.cpp
- * @brief Unit tests for Utility::StaticString.
+ * @file magic_inplace_string_test.cpp
+ * @brief Unit tests for Utility::InplaceString.
  *
- * Verifies the allocation-free fixed-capacity string used as the error
- * payload of Magic::ExpectedFileTypeT and the return type of
- * Magic::GetVersion() and Utility::Percentage::ToString():
+ * Verifies the allocation-free fixed-capacity string returned by
+ * MagicFlags::ToString() and MagicParameters::ToString():
  * - Construction (default, from `const char*`, from a null pointer, from
  *   `std::string_view`, by copy, and by move)
  * - Value transfer by return from a callee and by move assignment
  * - Assignment (copy, `std::string_view`, and `const char*`)
  * - `MaxSize()` reporting the template capacity
  * - Observers (`Data()`, `CStr()`, `Size()`, `Empty()`) and NUL termination
+ * - Element access (`operator[]`, `Front()`, `Back()`)
+ * - Contiguous-range iteration (`begin()`, `end()`) with ranges algorithms
+ * - `Clear()` resetting text and the truncation flag
  * - Truncation behavior and the `IsTruncated()` flag
  * - `Append()` growth, including boundary and overflow cases
+ * - `Find()`, `Contains()`, `StartsWith()`, and `EndsWith()` searching
  * - `Format()` matching `std::format`, including rvalue arguments, bounded
  *   output, and the error fallback
  * - Comparison transparency against `const char*`, `std::string_view`,
- *   `std::string`, and other `StaticString` instantiations
+ *   `std::string`, and other `InplaceString` instantiations
+ * - Hashing consistent with equality, for unordered container keys
  * - Printing (`operator<<`, `PrintTo()`, and `std::format`)
  * - `noexcept` and constant-evaluation guarantees required by the
  *   `noexcept` API boundary
  *
- * @section static_string_test_cases Test Cases
+ * @section inplace_string_test_cases Test Cases
  *
  * | Test Case | Description |
  * |-----------|-------------|
@@ -47,9 +51,16 @@
  * | append_keeps_text | `Append()` grows the stored text |
  * | append_fills_to_capacity_without_truncation | Boundary append is exact |
  * | append_after_full_drops_text | Appending to a full string truncates |
+ * | element_access_reads_characters | `operator[]`, `Front()`, `Back()` read the text |
+ * | iterates_as_contiguous_range | `begin()`/`end()` expose the characters |
+ * | clear_resets_state | `Clear()` empties text and the truncation flag |
+ * | find_and_contains_search_text | `Find()` and `Contains()` search the stored text |
+ * | starts_with_and_ends_with_check_affixes | Prefix and suffix queries match `string_view` |
+ * | hash_is_consistent_with_equality | Equal texts hash equal across capacities |
  * | equality_with_string_view_and_char_pointer | Equality is transparent |
  * | equality_across_capacities | Different capacities compare equal |
  * | ordering_against_string_view | Relational operators order as views |
+ * | ordering_across_capacities | Different capacities order as views |
  * | format_produces_identical_text_to_std_format | `Format()` matches `std::format` |
  * | format_accepts_temporary_arguments | Rvalue arguments are formatted |
  * | format_without_arguments | A placeholder-free template is stored |
@@ -62,7 +73,7 @@
  * | std_format_specialization | Usable with `std::format` |
  * | constant_evaluation_of_mutators | Construction and mutation are `constexpr` |
  *
- * @see Utility::StaticString
+ * @see Utility::InplaceString
  */
 
 #include <gtest/gtest.h>
@@ -71,25 +82,26 @@
 #include <cstddef>
 #include <expected>
 #include <format>
+#include <ranges>
 #include <sstream>
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "static_string.hpp"
+#include "inplace_string.hpp"
 
-using Recognition::Utility::StaticString;
+using Recognition::Utility::InplaceString;
 
-namespace {
 /**
- * @brief Fixture for Utility::StaticString tests.
+ * @brief Fixture for Utility::InplaceString tests.
  *
  * Holds the shared capacities, string aliases, helper functions, and the
- * `noexcept` trait checks exercised by the `MagicStaticStringTest` cases.
+ * `noexcept` trait checks exercised by the `MagicInplaceStringTest` cases.
  */
-struct MagicStaticStringTest : testing::Test {
+struct MagicInplaceStringTest : testing::Test {
     /**
      * @brief Small capacity used throughout these tests.
      */
@@ -108,17 +120,17 @@ struct MagicStaticStringTest : testing::Test {
     /**
      * @brief Convenience alias exercised by these tests.
      */
-    using TestStringT = StaticString<TEST_CAPACITY>;
+    using TestStringT = InplaceString<TEST_CAPACITY>;
 
     /**
      * @brief Larger alias used where messages must not truncate.
      */
-    using LongStringT = StaticString<LONG_CAPACITY>;
+    using LongStringT = InplaceString<LONG_CAPACITY>;
 
     /**
      * @brief Boundary alias used for exact-capacity and overflow cases.
      */
-    using ShortStringT = StaticString<SHORT_CAPACITY>;
+    using ShortStringT = InplaceString<SHORT_CAPACITY>;
 
     /**
      * @brief Build text one character longer than @ref TEST_CAPACITY.
@@ -168,44 +180,44 @@ struct MagicStaticStringTest : testing::Test {
 
     static_assert(
         std::is_nothrow_default_constructible_v<TestStringT>,
-        "StaticString must be noexcept default-constructible."
+        "InplaceString must be noexcept default-constructible."
     );
     static_assert(
         std::is_nothrow_copy_constructible_v<TestStringT>,
-        "StaticString must be noexcept copy-constructible."
+        "InplaceString must be noexcept copy-constructible."
     );
     static_assert(
         std::is_nothrow_move_constructible_v<TestStringT>,
-        "StaticString must be noexcept move-constructible."
+        "InplaceString must be noexcept move-constructible."
     );
     static_assert(
         std::is_nothrow_copy_assignable_v<TestStringT>,
-        "StaticString must be noexcept copy-assignable."
+        "InplaceString must be noexcept copy-assignable."
     );
     static_assert(
         std::is_nothrow_move_assignable_v<TestStringT>,
-        "StaticString must be noexcept move-assignable."
+        "InplaceString must be noexcept move-assignable."
     );
     static_assert(
         std::is_nothrow_destructible_v<TestStringT>,
-        "StaticString must be noexcept destructible."
+        "InplaceString must be noexcept destructible."
     );
     static_assert(
         std::is_trivially_copyable_v<TestStringT>,
-        "StaticString must stay relocatable so containers can move error"
+        "InplaceString must stay relocatable so containers can move error"
         " payloads without allocation."
     );
     static_assert(
         std::is_nothrow_constructible_v<TestStringT, std::nullptr_t>,
-        "StaticString must be noexcept constructible from a null pointer."
+        "InplaceString must be noexcept constructible from a null pointer."
     );
     static_assert(
         noexcept(std::declval<TestStringT&>() = std::string_view{}),
-        "StaticString must be noexcept assignable from string_view."
+        "InplaceString must be noexcept assignable from string_view."
     );
     static_assert(
         noexcept(std::declval<TestStringT&>() = "literal"),
-        "StaticString must be noexcept assignable from const char*."
+        "InplaceString must be noexcept assignable from const char*."
     );
     static_assert(
         noexcept(std::declval<TestStringT&>().Append(std::string_view{})),
@@ -227,9 +239,8 @@ struct MagicStaticStringTest : testing::Test {
         "Observers must be noexcept."
     );
 };
-} // namespace
 
-TEST_F(MagicStaticStringTest, max_size_reports_capacity)
+TEST_F(MagicInplaceStringTest, max_size_reports_capacity)
 {
     static_assert(TestStringT::MaxSize() == TEST_CAPACITY);
     static_assert(ShortStringT::MaxSize() < TestStringT::MaxSize());
@@ -239,7 +250,7 @@ TEST_F(MagicStaticStringTest, max_size_reports_capacity)
     EXPECT_GE(TestStringT::MaxSize(), message.Size());
 }
 
-TEST_F(MagicStaticStringTest, default_construction_is_empty)
+TEST_F(MagicInplaceStringTest, default_construction_is_empty)
 {
     constexpr TestStringT MESSAGE{};
     static_assert(MESSAGE.Empty());
@@ -253,7 +264,7 @@ TEST_F(MagicStaticStringTest, default_construction_is_empty)
     EXPECT_NE(MESSAGE.Data(), nullptr);
 }
 
-TEST_F(MagicStaticStringTest, construct_from_char_pointer)
+TEST_F(MagicInplaceStringTest, construct_from_char_pointer)
 {
     constexpr TestStringT MESSAGE{"text/plain"};
     static_assert(MESSAGE.Size() == std::string_view{"text/plain"}.size());
@@ -263,7 +274,7 @@ TEST_F(MagicStaticStringTest, construct_from_char_pointer)
     EXPECT_FALSE(MESSAGE.Empty());
 }
 
-TEST_F(MagicStaticStringTest, construct_from_null_char_pointer)
+TEST_F(MagicInplaceStringTest, construct_from_null_char_pointer)
 {
     constexpr const char* NULL_TEXT{nullptr};
     constexpr TestStringT MESSAGE{NULL_TEXT};
@@ -279,7 +290,7 @@ TEST_F(MagicStaticStringTest, construct_from_null_char_pointer)
     EXPECT_FALSE(runtime_message.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, construct_from_string_view)
+TEST_F(MagicInplaceStringTest, construct_from_string_view)
 {
     const std::string text{"ASCII text"};
     const TestStringT message{std::string_view{text}};
@@ -292,7 +303,7 @@ TEST_F(MagicStaticStringTest, construct_from_string_view)
     EXPECT_EQ(empty_message, "");
 }
 
-TEST_F(MagicStaticStringTest, construct_up_to_capacity)
+TEST_F(MagicInplaceStringTest, construct_up_to_capacity)
 {
     const std::string exact_text(TEST_CAPACITY, 'a');
     const TestStringT exact{std::string_view{exact_text}};
@@ -307,7 +318,7 @@ TEST_F(MagicStaticStringTest, construct_up_to_capacity)
     EXPECT_STREQ(oversized.CStr(), "abcd");
 }
 
-TEST_F(MagicStaticStringTest, long_capacity_boundaries)
+TEST_F(MagicInplaceStringTest, long_capacity_boundaries)
 {
     const std::string oversized_text(LongStringT::MaxSize() + 1UZ, 'L');
     const LongStringT constructed{std::string_view{oversized_text}};
@@ -334,7 +345,7 @@ TEST_F(MagicStaticStringTest, long_capacity_boundaries)
     EXPECT_FALSE(empty.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, truncation_sets_flag)
+TEST_F(MagicInplaceStringTest, truncation_sets_flag)
 {
     const std::string long_text{OverlongText('x')};
     const TestStringT message{std::string_view{long_text}};
@@ -351,7 +362,7 @@ TEST_F(MagicStaticStringTest, truncation_sets_flag)
     EXPECT_EQ(appender.Size(), TEST_CAPACITY);
 }
 
-TEST_F(MagicStaticStringTest, copy_constructor_copies_content)
+TEST_F(MagicInplaceStringTest, copy_constructor_copies_content)
 {
     const std::string long_text{OverlongText('c')};
     const TestStringT truncated{std::string_view{long_text}};
@@ -367,7 +378,7 @@ TEST_F(MagicStaticStringTest, copy_constructor_copies_content)
     EXPECT_EQ(original, "abc");
 }
 
-TEST_F(MagicStaticStringTest, move_constructor_transfers_content)
+TEST_F(MagicInplaceStringTest, move_constructor_transfers_content)
 {
     static_assert(std::is_nothrow_move_constructible_v<TestStringT>);
     const std::string        long_text{OverlongText('v')};
@@ -389,7 +400,7 @@ TEST_F(MagicStaticStringTest, move_constructor_transfers_content)
     EXPECT_STREQ(storage[1].CStr(), "moved value");
 }
 
-TEST_F(MagicStaticStringTest, return_from_callee_transfers_content)
+TEST_F(MagicInplaceStringTest, return_from_callee_transfers_content)
 {
     const TestStringT short_text{MakeStringInCallee("moved")};
     EXPECT_EQ(short_text, "moved");
@@ -407,7 +418,7 @@ TEST_F(MagicStaticStringTest, return_from_callee_transfers_content)
     );
 }
 
-TEST_F(MagicStaticStringTest, copy_assignment_replaces_state)
+TEST_F(MagicInplaceStringTest, copy_assignment_replaces_state)
 {
     const std::string long_text{OverlongText('C')};
     const TestStringT truncated_source{std::string_view{long_text}};
@@ -424,7 +435,7 @@ TEST_F(MagicStaticStringTest, copy_assignment_replaces_state)
     EXPECT_EQ(target.Size(), std::string_view{"reset"}.size());
 }
 
-TEST_F(MagicStaticStringTest, move_assignment_replaces_state)
+TEST_F(MagicInplaceStringTest, move_assignment_replaces_state)
 {
     TestStringT target{"stale"};
     target = TestStringT{"overwritten"};
@@ -436,7 +447,7 @@ TEST_F(MagicStaticStringTest, move_assignment_replaces_state)
     EXPECT_FALSE(target.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, assignment_from_view_and_pointer)
+TEST_F(MagicInplaceStringTest, assignment_from_view_and_pointer)
 {
     TestStringT message{"start"};
     message = std::string_view{"assigned"};
@@ -456,7 +467,7 @@ TEST_F(MagicStaticStringTest, assignment_from_view_and_pointer)
     EXPECT_EQ(message, "short");
 }
 
-TEST_F(MagicStaticStringTest, conversion_to_string_view)
+TEST_F(MagicInplaceStringTest, conversion_to_string_view)
 {
     constexpr TestStringT MESSAGE{"convert"};
     static_assert(MESSAGE.Size() == std::string_view{"convert"}.size());
@@ -473,7 +484,7 @@ TEST_F(MagicStaticStringTest, conversion_to_string_view)
     EXPECT_EQ(truncated_view, "abcd");
 }
 
-TEST_F(MagicStaticStringTest, data_and_cstr_agree)
+TEST_F(MagicInplaceStringTest, data_and_cstr_agree)
 {
     const TestStringT message{"text/plain"};
     EXPECT_STREQ(message.Data(), "text/plain");
@@ -490,7 +501,7 @@ TEST_F(MagicStaticStringTest, data_and_cstr_agree)
     );
 }
 
-TEST_F(MagicStaticStringTest, append_keeps_text)
+TEST_F(MagicInplaceStringTest, append_keeps_text)
 {
     TestStringT message{"ASCII"};
     message.Append(" text");
@@ -505,7 +516,7 @@ TEST_F(MagicStaticStringTest, append_keeps_text)
     EXPECT_FALSE(message.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, append_fills_to_capacity_without_truncation)
+TEST_F(MagicInplaceStringTest, append_fills_to_capacity_without_truncation)
 {
     ShortStringT message{"ab"};
     message.Append("cd");
@@ -514,7 +525,7 @@ TEST_F(MagicStaticStringTest, append_fills_to_capacity_without_truncation)
     EXPECT_EQ(message.Size(), ShortStringT::MaxSize());
 }
 
-TEST_F(MagicStaticStringTest, append_after_full_drops_text)
+TEST_F(MagicInplaceStringTest, append_after_full_drops_text)
 {
     ShortStringT message{"abcd"};
     message.Append("e");
@@ -523,7 +534,7 @@ TEST_F(MagicStaticStringTest, append_after_full_drops_text)
     EXPECT_EQ(message.Size(), ShortStringT::MaxSize());
 }
 
-TEST_F(MagicStaticStringTest, equality_with_string_view_and_char_pointer)
+TEST_F(MagicInplaceStringTest, equality_with_string_view_and_char_pointer)
 {
     constexpr TestStringT MESSAGE{"text/plain; charset=us-ascii"};
     static_assert(MESSAGE == "text/plain; charset=us-ascii");
@@ -534,7 +545,7 @@ TEST_F(MagicStaticStringTest, equality_with_string_view_and_char_pointer)
     EXPECT_NE(std::string{"text/plain"}, MESSAGE);
 }
 
-TEST_F(MagicStaticStringTest, equality_across_capacities)
+TEST_F(MagicInplaceStringTest, equality_across_capacities)
 {
     EXPECT_EQ(ShortStringT{"abcd"}, TestStringT{"abcd"});
     EXPECT_EQ(TestStringT{"abcd"}, ShortStringT{"abcd"});
@@ -542,7 +553,7 @@ TEST_F(MagicStaticStringTest, equality_across_capacities)
     EXPECT_NE(TestStringT{"abcde"}, ShortStringT{"abcd"});
 }
 
-TEST_F(MagicStaticStringTest, ordering_against_string_view)
+TEST_F(MagicInplaceStringTest, ordering_against_string_view)
 {
     EXPECT_LT(TestStringT{"a"}, std::string_view{"b"});
     EXPECT_GT(TestStringT{"b"}, std::string_view{"a"});
@@ -563,7 +574,7 @@ TEST_F(MagicStaticStringTest, ordering_against_string_view)
     EXPECT_LT(std::string_view{first}, std::string_view{second});
 }
 
-TEST_F(MagicStaticStringTest, format_produces_identical_text_to_std_format)
+TEST_F(MagicInplaceStringTest, format_produces_identical_text_to_std_format)
 {
     const std::string path{"/tmp/nonexistent file.txt"};
     const auto static_text = LongStringT::Format("'{}' does not exist.", path);
@@ -590,7 +601,7 @@ TEST_F(MagicStaticStringTest, format_produces_identical_text_to_std_format)
     EXPECT_FALSE(returned.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, format_accepts_temporary_arguments)
+TEST_F(MagicInplaceStringTest, format_accepts_temporary_arguments)
 {
     const std::string path{"/tmp/x"};
     const auto        temporary_string_argument = LongStringT::Format(
@@ -615,7 +626,7 @@ TEST_F(MagicStaticStringTest, format_accepts_temporary_arguments)
     EXPECT_FALSE(number_argument.IsTruncated());
 }
 
-TEST_F(MagicStaticStringTest, format_without_arguments)
+TEST_F(MagicInplaceStringTest, format_without_arguments)
 {
     const TestStringT message = TestStringT::Format("no placeholders");
     EXPECT_EQ(message, "no placeholders");
@@ -623,7 +634,7 @@ TEST_F(MagicStaticStringTest, format_without_arguments)
     EXPECT_EQ(message.Size(), std::string_view{"no placeholders"}.size());
 }
 
-TEST_F(MagicStaticStringTest, format_invalid_template_keeps_template_text)
+TEST_F(MagicInplaceStringTest, format_invalid_template_keeps_template_text)
 {
     const TestStringT unterminated = TestStringT::Format("broken {");
     EXPECT_EQ(unterminated, "broken {");
@@ -644,7 +655,7 @@ TEST_F(MagicStaticStringTest, format_invalid_template_keeps_template_text)
     EXPECT_STREQ(bad_option.CStr(), "{:d}");
 }
 
-TEST_F(MagicStaticStringTest, format_truncates_instead_of_growing)
+TEST_F(MagicInplaceStringTest, format_truncates_instead_of_growing)
 {
     const std::string long_path(TEST_CAPACITY * 2UZ, 'p');
     const TestStringT message = TestStringT::Format(
@@ -668,7 +679,7 @@ TEST_F(MagicStaticStringTest, format_truncates_instead_of_growing)
     EXPECT_EQ(overflow.Size(), ShortStringT::MaxSize());
 }
 
-TEST_F(MagicStaticStringTest, noexcept_assignment_in_noexcept_function)
+TEST_F(MagicInplaceStringTest, noexcept_assignment_in_noexcept_function)
 {
     const auto build = []() noexcept {
         TestStringT message;
@@ -681,7 +692,7 @@ TEST_F(MagicStaticStringTest, noexcept_assignment_in_noexcept_function)
     EXPECT_EQ(build, "formatted-1!");
 }
 
-TEST_F(MagicStaticStringTest, unexpected_construction_is_noexcept)
+TEST_F(MagicInplaceStringTest, unexpected_construction_is_noexcept)
 {
     const auto make_error = []() noexcept {
         return std::unexpected{TestStringT::Format("{}: {}", "err", 1)};
@@ -695,7 +706,7 @@ TEST_F(MagicStaticStringTest, unexpected_construction_is_noexcept)
     EXPECT_EQ(make_truncated_error.error(), "path");
 }
 
-TEST_F(MagicStaticStringTest, ostream_printing)
+TEST_F(MagicInplaceStringTest, ostream_printing)
 {
     const TestStringT  message{"print me"};
     std::ostringstream stream;
@@ -709,7 +720,7 @@ TEST_F(MagicStaticStringTest, ostream_printing)
     EXPECT_EQ(truncated_stream.str(), std::string(TEST_CAPACITY, 'o'));
 }
 
-TEST_F(MagicStaticStringTest, print_to_quotes_text)
+TEST_F(MagicInplaceStringTest, print_to_quotes_text)
 {
     const TestStringT  message{"quoted"};
     std::ostringstream stream;
@@ -729,14 +740,14 @@ TEST_F(MagicStaticStringTest, print_to_quotes_text)
     EXPECT_EQ(long_stream.str(), "\"long message\"");
 }
 
-TEST_F(MagicStaticStringTest, std_format_specialization)
+TEST_F(MagicInplaceStringTest, std_format_specialization)
 {
     const TestStringT message{"formatted"};
     EXPECT_EQ(std::format("[{}]", message), "[formatted]");
     EXPECT_EQ(std::format("{:>12}", TestStringT{"x"}), "           x");
 }
 
-TEST_F(MagicStaticStringTest, constant_evaluation_of_mutators)
+TEST_F(MagicInplaceStringTest, constant_evaluation_of_mutators)
 {
     constexpr auto BUILT = []() noexcept {
         TestStringT text{"abc"};
@@ -759,4 +770,188 @@ TEST_F(MagicStaticStringTest, constant_evaluation_of_mutators)
 
     EXPECT_EQ(BUILT, "xyz!");
     EXPECT_EQ(TRUNCATED, "abcd");
+}
+
+TEST_F(MagicInplaceStringTest, find_and_contains_search_text)
+{
+    constexpr TestStringT MESSAGE{"text/plain; charset=us-ascii"};
+
+    static_assert(MESSAGE.Find("charset") == 12UZ);
+    static_assert(MESSAGE.Contains("charset=us-ascii"));
+    static_assert(!MESSAGE.Contains("binary"));
+    static_assert(MESSAGE.Find("zzz") == std::string_view::npos);
+
+    static_assert(MESSAGE.Find("") == 0UZ);
+    static_assert(MESSAGE.Contains(""));
+
+    const ShortStringT truncated{std::string_view{"abcdefgh"}};
+    EXPECT_TRUE(truncated.Contains("abcd"));
+    EXPECT_FALSE(truncated.Contains("abcde"));
+    EXPECT_EQ(truncated.Find("abcd"), 0UZ);
+
+    const TestStringT empty{};
+    EXPECT_EQ(empty.Find("a"), std::string_view::npos);
+    EXPECT_FALSE(empty.Contains("a"));
+}
+
+TEST_F(MagicInplaceStringTest, ordering_across_capacities)
+{
+    EXPECT_LT(ShortStringT{"ab"}, TestStringT{"abc"});
+    EXPECT_GT(TestStringT{"abd"}, ShortStringT{"abcd"});
+    EXPECT_EQ(
+        ShortStringT{"abcd"} <=> TestStringT{"abcd"},
+        std::strong_ordering::equal
+    );
+    EXPECT_LE(TestStringT{"a"}, ShortStringT{"ab"});
+    EXPECT_GE(TestStringT{"b"}, ShortStringT{"ab"});
+
+    constexpr auto ORDERED = []() noexcept {
+        return InplaceString<8>{"abc"} < InplaceString<16>{"abd"};
+    }();
+    static_assert(ORDERED);
+
+    EXPECT_GT(
+        TestStringT{"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"},
+        LongStringT{"a"}
+    );
+}
+
+TEST_F(MagicInplaceStringTest, element_access_reads_characters)
+{
+    constexpr TestStringT MESSAGE{"text/plain"};
+
+    static_assert(MESSAGE[0] == 't');
+    static_assert(MESSAGE[4] == '/');
+    static_assert(MESSAGE.Front() == 't');
+    static_assert(MESSAGE.Back() == 'n');
+
+    EXPECT_EQ(MESSAGE[MESSAGE.Size() - 1UZ], 'n');
+    EXPECT_EQ(MESSAGE.Front(), MESSAGE[0]);
+    EXPECT_EQ(MESSAGE.Back(), MESSAGE[MESSAGE.Size() - 1UZ]);
+
+    const ShortStringT truncated{std::string_view{"abcdef"}};
+    EXPECT_EQ(truncated[3], 'd');
+    EXPECT_EQ(truncated.Size(), 4UZ);
+}
+
+TEST_F(MagicInplaceStringTest, iterates_as_contiguous_range)
+{
+    static_assert(std::ranges::contiguous_range<TestStringT>);
+    static_assert(std::ranges::contiguous_range<LongStringT>);
+
+    const TestStringT message{"abc"};
+
+    EXPECT_EQ(std::ranges::distance(message), 3);
+    EXPECT_EQ(message.begin(), message.Data());
+    EXPECT_EQ(message.end(), message.Data() + message.Size());
+
+    std::string collected{};
+    std::ranges::copy(message, std::back_inserter(collected));
+    EXPECT_EQ(collected, "abc");
+
+    const std::string_view  view{message};
+    const std::vector<char> from_iterators{message.begin(), message.end()};
+    const std::vector<char> from_view{view.begin(), view.end()};
+    EXPECT_EQ(from_view, from_iterators);
+
+    const ShortStringT truncated{std::string_view{"abcdefgh"}};
+    EXPECT_EQ(std::ranges::distance(truncated), 4);
+
+    const TestStringT empty{};
+    EXPECT_EQ(empty.begin(), empty.end());
+    EXPECT_EQ(std::ranges::distance(empty), 0);
+
+    constexpr auto SUM = []() noexcept {
+        InplaceString<8> digits{"1234"};
+        int              total{};
+        for (const char digit : digits) {
+            total += digit - '0';
+        }
+        return total;
+    }();
+    static_assert(SUM == 10);
+}
+
+TEST_F(MagicInplaceStringTest, clear_resets_state)
+{
+    ShortStringT truncated{std::string_view{"abcdefgh"}};
+    ASSERT_TRUE(truncated.IsTruncated());
+
+    truncated.Clear();
+    EXPECT_TRUE(truncated.Empty());
+    EXPECT_FALSE(truncated.IsTruncated());
+    EXPECT_EQ(truncated, "");
+    EXPECT_STREQ(truncated.CStr(), "");
+
+    truncated.Append("xy");
+    EXPECT_EQ(truncated, "xy");
+    EXPECT_FALSE(truncated.IsTruncated());
+
+    TestStringT empty{};
+    empty.Clear();
+    EXPECT_TRUE(empty.Empty());
+    EXPECT_FALSE(empty.IsTruncated());
+
+    constexpr auto CLEARED = []() noexcept {
+        TestStringT text{"reset me"};
+        text.Clear();
+        text.Append("fresh");
+        return text;
+    }();
+    static_assert(CLEARED == "fresh" && !CLEARED.IsTruncated());
+}
+
+TEST_F(MagicInplaceStringTest, starts_with_and_ends_with_check_affixes)
+{
+    constexpr TestStringT MESSAGE{"text/plain; charset=us-ascii"};
+
+    static_assert(MESSAGE.StartsWith("text/plain"));
+    static_assert(MESSAGE.EndsWith("us-ascii"));
+    static_assert(!MESSAGE.StartsWith("application"));
+    static_assert(!MESSAGE.EndsWith("binary"));
+
+    static_assert(MESSAGE.StartsWith(""));
+    static_assert(MESSAGE.EndsWith(""));
+    static_assert(TestStringT{}.StartsWith(""));
+
+    const TestStringT short_text{"ab"};
+    EXPECT_FALSE(short_text.StartsWith("abc"));
+    EXPECT_FALSE(short_text.EndsWith("abc"));
+    EXPECT_TRUE(short_text.StartsWith("ab"));
+    EXPECT_TRUE(short_text.EndsWith("ab"));
+
+    const ShortStringT truncated{std::string_view{"abcdefgh"}};
+    EXPECT_TRUE(truncated.StartsWith("abcd"));
+    EXPECT_FALSE(truncated.EndsWith("efgh"));
+}
+
+TEST_F(MagicInplaceStringTest, hash_is_consistent_with_equality)
+{
+    const TestStringT a{"text/plain"};
+    const TestStringT b{"text/plain"};
+    const LongStringT same_text_long_capacity{"text/plain"};
+    const TestStringT different{"text/html"};
+
+    EXPECT_TRUE(a == b);
+    EXPECT_EQ(std::hash<TestStringT>{}(a), std::hash<TestStringT>{}(b));
+
+    EXPECT_EQ(
+        std::hash<TestStringT>{}(a),
+        std::hash<LongStringT>{}(same_text_long_capacity)
+    );
+
+    const ShortStringT truncated_full{std::string_view{"abcd"}};
+    const ShortStringT truncated_cut{std::string_view{"abcdefgh"}};
+    EXPECT_EQ(truncated_full, truncated_cut);
+    EXPECT_EQ(
+        std::hash<ShortStringT>{}(truncated_full),
+        std::hash<ShortStringT>{}(truncated_cut)
+    );
+
+    std::unordered_map<TestStringT, int> counts{};
+    counts[a] += 1;
+    counts[b] += 1;
+    counts[different] += 1;
+    ASSERT_EQ(counts.size(), 2UZ);
+    EXPECT_EQ(counts[TestStringT{"text/plain"}], 2);
 }

@@ -4,7 +4,7 @@
 
 + **[BUGFIX]** Magic: Return std::string_view from GetErrorMessage() to avoid transient allocations.
 
-+ **[ENHANCEMENT]** Magic: Add StaticString allocation-free fixed-capacity string utility.
++ **[ENHANCEMENT]** Utility: Add InplaceString allocation-free fixed-capacity string utility.
 
 + **[QUALITY]** Magic: API CHANGE - Return FlagsMaskT from GetFlags().
 

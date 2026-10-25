@@ -2,7 +2,7 @@
 
 ## Next Release
 
-+ **[QUALITY]** Magic: Redesign MagicFlags as a constexpr bitset with query and iteration APIs.
++ **[ENHANCEMENT]** Magic: Redesign MagicFlags as a constexpr bitset with query and iteration APIs.
 
 + **[ENHANCEMENT]** Magic: Redesign MagicParameters as an allocation-free constexpr snapshot value type.
 

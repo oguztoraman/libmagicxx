@@ -7,13 +7,18 @@
  *
  * Tests the MagicParameters value class and the parameter getting and
  * setting functionality of Magic, including:
- * - Every MagicParameters constructor (default, parameter/value, map) and
- *   the trivially noexcept special members
- * - ToString() name lookup, formats, ordering, separators, and the empty
- *   snapshot
+ * - Every MagicParameters constructor (default, parameter/value,
+ *   initializer list) and the trivially noexcept special members
+ * - The allocation-free transport interface: range iteration in ordinal
+ *   order (forward iterators, including postfix increment and the
+ *   default-constructed end position) and the read-only map-like lookup
+ *   API (operator[], Contains()), with Count()/Empty() size queries
+ * - ToString() name lookup, formats, ordering, separators, capacity
+ *   truncation, and the empty snapshot
  * - Equality comparison via operator==
  * - Total ordering via operator<=> (entry-wise ordinal order, ordered
  *   containers)
+ * - std::format rendering of snapshots
  * - SetParameter()/SetParameters() and GetParameter()/GetParameters()
  * - Both throwing and noexcept overloads
  * - Behavior on closed and valid Magic instances
@@ -50,10 +55,15 @@
 #include <algorithm>
 #include <compare>
 #include <cstddef>
-#include <map>
+#include <format>
+#include <initializer_list>
+#include <iterator>
+#include <optional>
 #include <random>
+#include <ranges>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -108,7 +118,7 @@ protected:
     Magic                 m_closed_magic{};
     Magic                 m_opened_magic_without_database;
     Magic m_valid_magic{Magic::FlagsT::Mime, std::nothrow, m_valid_database};
-    Magic::ParameterValueMapT                  m_test_parameters{};
+    MagicParameters                            m_test_parameters{};
     std::mt19937                               m_engine{std::random_device{}()};
     std::uniform_int_distribution<std::size_t> m_distribution{0, 100};
 };
@@ -213,10 +223,11 @@ TEST_F(
         m_test_parameters,
         std::nothrow
     ));
-    EXPECT_EQ(
-        m_test_parameters,
+    const auto snapshot{
         m_opened_magic_without_database.GetParameters(std::nothrow)
-    );
+    };
+    ASSERT_TRUE(snapshot.has_value());
+    EXPECT_EQ(m_test_parameters, *snapshot);
 }
 
 TEST_F(MagicParametersTest, valid_magic_set_parameter)
@@ -249,13 +260,15 @@ TEST_F(MagicParametersTest, valid_magic_set_parameters)
 TEST_F(MagicParametersTest, valid_magic_set_parameters_noexcept)
 {
     EXPECT_TRUE(m_valid_magic.SetParameters(m_test_parameters, std::nothrow));
-    EXPECT_EQ(m_test_parameters, m_valid_magic.GetParameters(std::nothrow));
+    const auto snapshot{m_valid_magic.GetParameters(std::nothrow)};
+    ASSERT_TRUE(snapshot.has_value());
+    EXPECT_EQ(m_test_parameters, *snapshot);
 }
 
 TEST_F(MagicParametersTest, get_parameters_render_through_magic_parameters)
 {
     m_valid_magic.SetParameters(m_test_parameters);
-    const MagicParameters rendered{m_valid_magic.GetParameters()};
+    const auto rendered = m_valid_magic.GetParameters();
     for (const auto& [parameter, parameter_value] : m_test_parameters) {
         EXPECT_NE(
             std::string::npos,
@@ -282,7 +295,7 @@ TEST_F(MagicParametersTest, get_parameters_render_through_magic_parameters)
 
 TEST_F(MagicParametersTest, get_parameters_names_via_magic_parameters)
 {
-    const MagicParameters parameters{m_valid_magic.GetParameters()};
+    const auto parameters = m_valid_magic.GetParameters();
     EXPECT_EQ(
         "IndirMax,NameMax,ElfPhnumMax,ElfShnumMax,ElfNotesMax,RegexMax,"
         "BytesMax,EncodingMax,ElfShsizeMax,MagWarnMax",
@@ -375,16 +388,21 @@ TEST_F(MagicParametersTest, get_parameter_nothrow_after_close_returns_nullopt)
                      .has_value());
 }
 
-TEST_F(MagicParametersTest, set_parameters_with_invalid_key_throws)
+TEST_F(
+    MagicParametersTest,
+    set_parameters_discards_invalid_key_and_applies_valid_entries
+)
 {
     m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
-    const Magic::ParameterValueMapT parameters{
+    const MagicParameters parameters{
         {Magic::ParametersT::RegexMax, SENTINEL_STEP },
         {INVALID_PARAMETER,            SENTINEL_VALUE}
     };
-    EXPECT_THROW(
-        m_valid_magic.SetParameters(parameters),
-        MagicSetParametersError
+    EXPECT_FALSE(parameters.Contains(INVALID_PARAMETER));
+    EXPECT_NO_THROW(m_valid_magic.SetParameters(parameters));
+    EXPECT_EQ(
+        SENTINEL_STEP,
+        m_valid_magic.GetParameter(Magic::ParametersT::RegexMax)
     );
     EXPECT_EQ(
         SENTINEL_VALUE,
@@ -395,11 +413,15 @@ TEST_F(MagicParametersTest, set_parameters_with_invalid_key_throws)
 TEST_F(MagicParametersTest, set_parameters_with_invalid_key_noexcept)
 {
     m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
-    const Magic::ParameterValueMapT parameters{
+    const MagicParameters parameters{
         {Magic::ParametersT::RegexMax, SENTINEL_STEP },
         {INVALID_PARAMETER,            SENTINEL_VALUE}
     };
-    EXPECT_FALSE(m_valid_magic.SetParameters(parameters, std::nothrow));
+    EXPECT_TRUE(m_valid_magic.SetParameters(parameters, std::nothrow));
+    EXPECT_EQ(
+        SENTINEL_STEP,
+        m_valid_magic.GetParameter(Magic::ParametersT::RegexMax)
+    );
     EXPECT_EQ(
         SENTINEL_VALUE,
         m_valid_magic.GetParameter(Magic::ParametersT::IndirMax)
@@ -473,21 +495,25 @@ TEST_F(MagicParametersTest, invalid_ordinal_on_closed_magic_throws_is_closed)
 
 TEST_F(
     MagicParametersTest,
-    set_parameters_invalid_key_throws_after_valid_entries
+    set_parameters_discards_invalid_key_after_valid_entries
 )
 {
     m_valid_magic.SetParameter(Magic::ParametersT::IndirMax, SENTINEL_VALUE);
-    const Magic::ParameterValueMapT parameters{
-        {Magic::ParametersT::RegexMax, SENTINEL_STEP },
-        {INVALID_PARAMETER,            SENTINEL_VALUE}
+    const MagicParameters parameters{
+        {INVALID_PARAMETER,              SENTINEL_VALUE},
+        {Magic::ParametersT::MagWarnMax, SENTINEL_STEP },
+        {Magic::ParametersT::RegexMax,   SENTINEL_STEP }
     };
-    EXPECT_THROW(
-        m_valid_magic.SetParameters(parameters),
-        MagicSetParametersError
-    );
+    EXPECT_TRUE(parameters.Contains(Magic::ParametersT::RegexMax));
+    EXPECT_FALSE(parameters.Contains(INVALID_PARAMETER));
+    m_valid_magic.SetParameters(parameters);
     EXPECT_EQ(
         SENTINEL_STEP,
         m_valid_magic.GetParameter(Magic::ParametersT::RegexMax)
+    );
+    EXPECT_EQ(
+        SENTINEL_STEP,
+        m_valid_magic.GetParameter(Magic::ParametersT::MagWarnMax)
     );
     EXPECT_EQ(
         SENTINEL_VALUE,
@@ -512,13 +538,20 @@ struct MagicParametersConvertTest : testing::Test {
             {MagicParameters::Parameters::MagWarnMax,   "MagWarnMax"  }
     };
 
-    static MagicParameters::ParameterValueMapT FullValueMap()
+    static MagicParameters FullValueSnapshot()
     {
-        MagicParameters::ParameterValueMapT map;
-        for (std::size_t i{}; i < ALL_PARAMETERS.size(); ++i) {
-            map[ALL_PARAMETERS.at(i).first] = i + 1UZ;
-        }
-        return map;
+        return MagicParameters{
+            {MagicParameters::Parameters::IndirMax,     1UZ },
+            {MagicParameters::Parameters::NameMax,      2UZ },
+            {MagicParameters::Parameters::ElfPhnumMax,  3UZ },
+            {MagicParameters::Parameters::ElfShnumMax,  4UZ },
+            {MagicParameters::Parameters::ElfNotesMax,  5UZ },
+            {MagicParameters::Parameters::RegexMax,     6UZ },
+            {MagicParameters::Parameters::BytesMax,     7UZ },
+            {MagicParameters::Parameters::EncodingMax,  8UZ },
+            {MagicParameters::Parameters::ElfShsizeMax, 9UZ },
+            {MagicParameters::Parameters::MagWarnMax,   10UZ}
+        };
     }
 };
 
@@ -532,16 +565,24 @@ TEST(MagicParametersClassTest, satisfies_value_class_properties)
     static_assert(std::is_nothrow_move_assignable_v<MagicParameters>);
     static_assert(std::is_nothrow_destructible_v<MagicParameters>);
     {
-        const MagicParameters::ParameterValueMapT map{
+        const MagicParameters snapshot{
             {MagicParameters::Parameters::BytesMax, 7UZ}
         };
         static_assert(
-            std::bool_constant<noexcept(
-                MagicParameters{MagicParameters::Parameters::BytesMax, 7UZ}
+            std::bool_constant<noexcept(MagicParameters{
+                MagicParameters::Parameters::BytesMax,
+                7UZ
+        })>::value
+            && std::bool_constant<noexcept(
+                MagicParameters{{MagicParameters::Parameters::BytesMax, 7UZ}}
             )>::value
-            && std::bool_constant<noexcept(MagicParameters{map})>::value
+            && std::bool_constant<noexcept(MagicParameters{snapshot})>::value
         );
-        (void)map;
+        static_assert(std::is_nothrow_constructible_v<
+                      MagicParameters,
+                      std::initializer_list<MagicParameters::ParameterValueT>
+        >);
+        (void)snapshot;
     }
 }
 
@@ -588,7 +629,7 @@ TEST_F(MagicParametersConvertTest, name_of_every_parameter)
     }
 }
 
-TEST_F(MagicParametersConvertTest, default_and_empty_map_are_empty)
+TEST_F(MagicParametersConvertTest, default_and_empty_snapshot_are_empty)
 {
     const MagicParameters default_parameters;
     EXPECT_TRUE(default_parameters.ToString().Empty());
@@ -596,24 +637,23 @@ TEST_F(MagicParametersConvertTest, default_and_empty_map_are_empty)
                     .ToString(MagicParameters::StringFormat::Names, ": ", ",")
                     .Empty());
     const MagicParameters empty_parameters{
-        MagicParameters::ParameterValueMapT{}
+        std::initializer_list<MagicParameters::ParameterValueT>{}
     };
     EXPECT_TRUE(empty_parameters.ToString().Empty());
 }
 
-TEST_F(MagicParametersConvertTest, two_entry_map_orders_by_ordinal)
+TEST_F(MagicParametersConvertTest, two_entry_snapshot_orders_by_ordinal)
 {
-    const MagicParameters::ParameterValueMapT map{
+    const MagicParameters parameters{
         {MagicParameters::Parameters::BytesMax, 1'048'576UZ},
         {MagicParameters::Parameters::RegexMax, 8'192UZ    }
     };
-    const MagicParameters parameters{map};
     EXPECT_EQ("RegexMax: 8192, BytesMax: 1048576", parameters.ToString());
 }
 
 TEST_F(MagicParametersConvertTest, to_string_renders_every_parameter)
 {
-    const MagicParameters parameters{FullValueMap()};
+    const MagicParameters parameters{FullValueSnapshot()};
     EXPECT_EQ(
         "IndirMax: 1, NameMax: 2, ElfPhnumMax: 3, ElfShnumMax: 4, "
         "ElfNotesMax: 5, RegexMax: 6, BytesMax: 7, EncodingMax: 8, "
@@ -629,7 +669,7 @@ TEST_F(MagicParametersConvertTest, to_string_renders_every_parameter)
 
 TEST_F(MagicParametersConvertTest, to_string_custom_separators)
 {
-    const MagicParameters parameters{FullValueMap()};
+    const MagicParameters parameters{FullValueSnapshot()};
     EXPECT_EQ(
         "IndirMax=1;NameMax=2;ElfPhnumMax=3;ElfShnumMax=4;ElfNotesMax=5;"
         "RegexMax=6;BytesMax=7;EncodingMax=8;ElfShsizeMax=9;MagWarnMax=10",
@@ -666,22 +706,21 @@ TEST_F(MagicParametersConvertTest, invalid_ordinal_snapshot_is_empty)
     const MagicParameters single{INVALID_PARAMETER, 1UZ};
     EXPECT_TRUE(single.ToString().Empty());
 
-    const MagicParameters::ParameterValueMapT map{
+    const MagicParameters from_list{
         {INVALID_PARAMETER, 1UZ}
     };
-    const MagicParameters from_map{map};
     EXPECT_TRUE(
-        from_map.ToString(MagicParameters::StringFormat::Names).Empty()
+        from_list.ToString(MagicParameters::StringFormat::Names).Empty()
     );
 }
 
 TEST_F(MagicParametersConvertTest, copy_and_move_preserve_snapshot)
 {
-    const MagicParameters::ParameterValueMapT map{
+    const MagicParameters snapshot{
         {MagicParameters::Parameters::BytesMax, 7UZ    },
         {MagicParameters::Parameters::RegexMax, 8'192UZ}
     };
-    MagicParameters       original{map};
+    MagicParameters       original{snapshot};
     const MagicParameters copy{original};
     EXPECT_EQ(original.ToString(), copy.ToString());
 
@@ -695,17 +734,19 @@ TEST_F(MagicParametersConvertTest, equality_operator_compares_snapshots)
     EXPECT_EQ(default_parameters, MagicParameters{});
     EXPECT_EQ(
         default_parameters,
-        MagicParameters{MagicParameters::ParameterValueMapT{}}
+        MagicParameters{
+            std::initializer_list<MagicParameters::ParameterValueT>{}
+        }
     );
 
     const MagicParameters single{
         MagicParameters::Parameters::RegexMax,
         8'192UZ
     };
-    const MagicParameters from_map{MagicParameters::ParameterValueMapT{
+    const MagicParameters from_list{
         {MagicParameters::Parameters::RegexMax, 8'192UZ}
-    }};
-    EXPECT_EQ(single, from_map);
+    };
+    EXPECT_EQ(single, from_list);
 
     const MagicParameters other_value{
         MagicParameters::Parameters::RegexMax,
@@ -714,10 +755,8 @@ TEST_F(MagicParametersConvertTest, equality_operator_compares_snapshots)
     EXPECT_NE(single, other_value);
 
     const MagicParameters superset{
-        MagicParameters::ParameterValueMapT{
-                                            {MagicParameters::Parameters::RegexMax, 8'192UZ},
-                                            {MagicParameters::Parameters::BytesMax, 7UZ}
-        }
+        {MagicParameters::Parameters::RegexMax, 8'192UZ},
+        {MagicParameters::Parameters::BytesMax, 7UZ    }
     };
     EXPECT_NE(single, superset);
     EXPECT_NE(superset, single);
@@ -735,10 +774,8 @@ TEST_F(MagicParametersConvertTest, spaceship_orders_snapshots_entrywise)
     const MagicParameters indir_15{MagicParameters::Parameters::IndirMax, 15UZ};
     const MagicParameters indir_16{MagicParameters::Parameters::IndirMax, 16UZ};
     const MagicParameters fuller{
-        MagicParameters::ParameterValueMapT{
-                                            {MagicParameters::Parameters::IndirMax, 15UZ},
-                                            {MagicParameters::Parameters::NameMax, 30UZ}
-        }
+        {MagicParameters::Parameters::IndirMax, 15UZ},
+        {MagicParameters::Parameters::NameMax,  30UZ}
     };
 
     EXPECT_LT(empty_parameters, indir_15);
@@ -750,22 +787,18 @@ TEST_F(MagicParametersConvertTest, spaceship_orders_snapshots_entrywise)
 
     EXPECT_EQ(indir_15 <=> indir_16, std::strong_ordering::less);
     EXPECT_EQ(indir_16 <=> indir_15, std::strong_ordering::greater);
-    const MagicParameters indir_15_from_map{MagicParameters::ParameterValueMapT{
+    const MagicParameters indir_15_from_list{
         {MagicParameters::Parameters::IndirMax, 15UZ}
-    }};
-    EXPECT_EQ(indir_15 <=> indir_15_from_map, std::strong_ordering::equal);
+    };
+    EXPECT_EQ(indir_15 <=> indir_15_from_list, std::strong_ordering::equal);
 
     const MagicParameters early_big{
-        MagicParameters::ParameterValueMapT{
-                                            {MagicParameters::Parameters::IndirMax, 999UZ},
-                                            {MagicParameters::Parameters::MagWarnMax, 0UZ}
-        }
+        {MagicParameters::Parameters::IndirMax,   999UZ},
+        {MagicParameters::Parameters::MagWarnMax, 0UZ  }
     };
     const MagicParameters late_big{
-        MagicParameters::ParameterValueMapT{
-                                            {MagicParameters::Parameters::IndirMax, 1UZ},
-                                            {MagicParameters::Parameters::MagWarnMax, 999UZ}
-        }
+        {MagicParameters::Parameters::IndirMax,   1UZ  },
+        {MagicParameters::Parameters::MagWarnMax, 999UZ}
     };
     EXPECT_GT(early_big, late_big);
 }
@@ -777,8 +810,8 @@ TEST_F(MagicParametersConvertTest, spaceship_provides_strict_weak_ordering)
         MagicParameters{MagicParameters::Parameters::IndirMax, 15UZ},
         MagicParameters{MagicParameters::Parameters::IndirMax, 16UZ},
         MagicParameters{MagicParameters::Parameters::MagWarnMax, 64UZ},
-        MagicParameters{FullValueMap()},
-        MagicParameters{FullValueMap()},
+        MagicParameters{FullValueSnapshot()},
+        MagicParameters{FullValueSnapshot()},
     };
 
     const std::set<MagicParameters> ordered_set{
@@ -797,4 +830,312 @@ TEST_F(MagicParametersConvertTest, spaceship_provides_strict_weak_ordering)
         ordered_set.end()
     };
     EXPECT_EQ(from_set, snapshots);
+}
+
+TEST(MagicParametersTransportTest, satisfies_transport_properties)
+{
+    static_assert(std::ranges::input_range<MagicParameters>);
+    static_assert(std::input_iterator<MagicParameters::Iterator>);
+    static_assert(
+        std::sentinel_for<MagicParameters::Iterator, MagicParameters::Iterator>
+    );
+    static_assert(std::is_nothrow_constructible_v<
+                  MagicParameters,
+                  std::initializer_list<MagicParameters::ParameterValueT>
+    >);
+    static_assert(std::is_nothrow_invocable_v<
+                  decltype(&MagicParameters::operator[]),
+                  const MagicParameters&,
+                  MagicParameters::Parameters
+    >);
+    static_assert(std::is_nothrow_invocable_v<
+                  decltype(&MagicParameters::Contains),
+                  const MagicParameters&,
+                  MagicParameters::Parameters
+    >);
+}
+
+TEST(
+    MagicParametersTransportTest,
+    construct_from_initializer_list_stores_valid_and_discards_invalid_entries
+)
+{
+    constexpr MagicParameters::Parameters INVALID_PARAMETER{
+        static_cast<MagicParameters::Parameters>(99)
+    };
+    const MagicParameters parameters{
+        {MagicParameters::Parameters::BytesMax, 1'048'576UZ},
+        {INVALID_PARAMETER,                     42UZ       }
+    };
+    EXPECT_EQ(
+        (std::optional<std::size_t>{1'048'576UZ}),
+        parameters[MagicParameters::Parameters::BytesMax]
+    );
+    EXPECT_FALSE(parameters.Contains(INVALID_PARAMETER));
+    EXPECT_TRUE((MagicParameters{
+                     {INVALID_PARAMETER, 1UZ}
+    })
+                    .ToString()
+                    .Empty());
+
+    const MagicParameters repeated{
+        {MagicParameters::Parameters::NameMax, 1UZ},
+        {MagicParameters::Parameters::NameMax, 2UZ}
+    };
+    EXPECT_EQ(2UZ, repeated[MagicParameters::Parameters::NameMax].value());
+}
+
+TEST(
+    MagicParametersTransportTest,
+    iteration_yields_entries_in_ordinal_order_skipping_unset
+)
+{
+    const MagicParameters parameters{
+        {MagicParameters::Parameters::MagWarnMax, 64UZ   },
+        {MagicParameters::Parameters::RegexMax,   8'192UZ},
+        {MagicParameters::Parameters::IndirMax,   15UZ   }
+    };
+    const std::vector<MagicParameters::ParameterValueT> entries{
+        parameters.begin(),
+        parameters.end()
+    };
+    const std::vector<MagicParameters::ParameterValueT> expected{
+        {MagicParameters::Parameters::IndirMax,   15UZ   },
+        {MagicParameters::Parameters::RegexMax,   8'192UZ},
+        {MagicParameters::Parameters::MagWarnMax, 64UZ   }
+    };
+    EXPECT_EQ(expected, entries);
+    EXPECT_EQ(3, std::ranges::distance(parameters));
+
+    std::size_t iterated{};
+    for (const auto [parameter, value] : parameters) {
+        EXPECT_TRUE(parameters.Contains(parameter));
+        EXPECT_EQ(value, parameters[parameter].value());
+        EXPECT_EQ(
+            std::format("{}: {}", parameter, value),
+            std::format(
+                "{}: {}",
+                MagicParameters{parameter, 0UZ}.ToString(
+                    MagicParameters::StringFormat::Names
+                ),
+                value
+            )
+        );
+        ++iterated;
+    }
+    EXPECT_EQ(3UZ, iterated);
+}
+
+TEST(MagicParametersTransportTest, lookup_api_matches_map_semantics)
+{
+    constexpr MagicParameters::Parameters INVALID_PARAMETER{
+        static_cast<MagicParameters::Parameters>(99)
+    };
+    const MagicParameters parameters{
+        {MagicParameters::Parameters::BytesMax, 1'048'576UZ},
+        {MagicParameters::Parameters::RegexMax, 8'192UZ    }
+    };
+
+    EXPECT_EQ(
+        (std::optional<std::size_t>{1'048'576UZ}),
+        parameters[MagicParameters::Parameters::BytesMax]
+    );
+    EXPECT_EQ(
+        (std::optional<std::size_t>{8'192UZ}),
+        parameters[MagicParameters::Parameters::RegexMax]
+    );
+    EXPECT_FALSE(parameters[MagicParameters::Parameters::IndirMax].has_value());
+    EXPECT_FALSE(parameters[INVALID_PARAMETER].has_value());
+
+    EXPECT_TRUE(parameters.Contains(MagicParameters::Parameters::RegexMax));
+    EXPECT_FALSE(parameters.Contains(MagicParameters::Parameters::IndirMax));
+    EXPECT_FALSE(parameters.Contains(INVALID_PARAMETER));
+}
+
+TEST_F(
+    MagicParametersTest,
+    get_parameters_returns_full_snapshot_equal_to_stored_values
+)
+{
+    m_valid_magic.SetParameters(m_test_parameters);
+    const auto snapshot = m_valid_magic.GetParameters();
+    EXPECT_EQ(m_test_parameters, snapshot);
+    EXPECT_EQ(
+        static_cast<std::ptrdiff_t>(ORDINAL_COUNT),
+        std::ranges::distance(snapshot)
+    );
+}
+
+TEST_F(
+    MagicParametersTest,
+    get_parameters_nothrow_round_trip_in_noexcept_context
+)
+{
+    m_valid_magic.SetParameters(m_test_parameters);
+    const auto result{[this]() noexcept -> std::size_t {
+        const auto snapshot{m_valid_magic.GetParameters(std::nothrow)};
+        if (!snapshot.has_value()) {
+            return 0UZ;
+        }
+        std::size_t matches{};
+        for (const auto [parameter, value] : *snapshot) {
+            matches += (*snapshot)[parameter] == value ? 1UZ : 0UZ;
+        }
+        return matches;
+    }()};
+    EXPECT_EQ(ORDINAL_COUNT, result);
+}
+
+TEST_F(MagicParametersConvertTest, count_and_empty_report_size)
+{
+    EXPECT_EQ(0UZ, MagicParameters{}.Count());
+    EXPECT_TRUE(MagicParameters{}.Empty());
+
+    const MagicParameters single{MagicParameters::Parameters::BytesMax, 7UZ};
+    EXPECT_EQ(1UZ, single.Count());
+    EXPECT_FALSE(single.Empty());
+
+    constexpr MagicParameters::Parameters invalid_parameter{
+        static_cast<MagicParameters::Parameters>(99)
+    };
+    const MagicParameters with_invalid{
+        {MagicParameters::Parameters::BytesMax, 7UZ},
+        {invalid_parameter,                     8UZ}
+    };
+    EXPECT_EQ(1UZ, with_invalid.Count());
+    EXPECT_FALSE(with_invalid.Empty());
+
+    EXPECT_EQ(ALL_PARAMETERS.size(), FullValueSnapshot().Count());
+
+    static_assert(MagicParameters{}.Empty());
+    static_assert(
+        !MagicParameters{MagicParameters::Parameters::NameMax, 0UZ}.Empty()
+    );
+}
+
+TEST_F(MagicParametersConvertTest, entries_model_forward_iterator)
+{
+    static_assert(std::forward_iterator<MagicParameters::Iterator>);
+
+    const MagicParameters snapshot{
+        {MagicParameters::Parameters::RegexMax, 6UZ},
+        {MagicParameters::Parameters::IndirMax, 1UZ}
+    };
+
+    /* Multi-pass: two concurrent iterators over the same snapshot advance
+     * independently and must stay in lock-step, as forward iterators
+     * guarantee. */
+    auto        first{snapshot.begin()};
+    auto        second{snapshot.begin()};
+    std::size_t passes{};
+    for (int pass{}; pass < 2; ++pass) {
+        while (first != snapshot.end()) {
+            ASSERT_TRUE(second != snapshot.end());
+            EXPECT_EQ(*first, *second);
+            ++first;
+            ++second;
+            ++passes;
+        }
+        first  = snapshot.begin();
+        second = snapshot.begin();
+    }
+    EXPECT_EQ(2UZ * snapshot.Count(), passes);
+
+    EXPECT_EQ(static_cast<std::ptrdiff_t>(2), std::ranges::distance(snapshot));
+    const auto found{std::ranges::find_if(
+        snapshot,
+        [](const MagicParameters::ParameterValueT& entry) {
+            return entry.first == MagicParameters::Parameters::RegexMax;
+        }
+    )};
+    ASSERT_TRUE(found != snapshot.end());
+    EXPECT_EQ(6UZ, (*found).second);
+}
+
+TEST_F(
+    MagicParametersConvertTest,
+    postfix_increment_returns_the_previous_position
+)
+{
+    const MagicParameters snapshot{
+        {MagicParameters::Parameters::RegexMax, 6UZ},
+        {MagicParameters::Parameters::IndirMax, 1UZ}
+    };
+
+    auto       iterator{snapshot.begin()};
+    const auto previous{iterator++};
+    EXPECT_EQ(
+        (MagicParameters::ParameterValueT{
+            MagicParameters::Parameters::IndirMax,
+            1UZ
+        }),
+        *previous
+    );
+    EXPECT_EQ(
+        (MagicParameters::ParameterValueT{
+            MagicParameters::Parameters::RegexMax,
+            6UZ
+        }),
+        *iterator
+    );
+    EXPECT_TRUE(previous != iterator);
+
+    const auto at_end{iterator++};
+    EXPECT_EQ(
+        (MagicParameters::ParameterValueT{
+            MagicParameters::Parameters::RegexMax,
+            6UZ
+        }),
+        *at_end
+    );
+    EXPECT_TRUE(iterator == snapshot.end());
+}
+
+TEST_F(MagicParametersConvertTest, default_iterator_equals_any_end)
+{
+    static_assert(
+        std::is_nothrow_default_constructible_v<MagicParameters::Iterator>
+    );
+
+    const MagicParameters empty_snapshot;
+    const MagicParameters snapshot{MagicParameters::Parameters::RegexMax, 6UZ};
+
+    EXPECT_TRUE(MagicParameters::Iterator{} == empty_snapshot.end());
+    EXPECT_TRUE(MagicParameters::Iterator{} == snapshot.end());
+    EXPECT_TRUE(MagicParameters::Iterator{} != snapshot.begin());
+}
+
+TEST_F(MagicParametersConvertTest, to_string_truncates_to_smaller_capacity)
+{
+    const MagicParameters snapshot{
+        {MagicParameters::Parameters::RegexMax, 6UZ},
+        {MagicParameters::Parameters::BytesMax, 7UZ}
+    };
+
+    const auto truncated{snapshot.ToString<10UZ>()};
+    EXPECT_TRUE(truncated.IsTruncated());
+    EXPECT_EQ("RegexMax: ", truncated);
+
+    const auto full{FullValueSnapshot().ToString()};
+    EXPECT_FALSE(full.IsTruncated());
+
+    const auto tiny{
+        MagicParameters{MagicParameters::Parameters::RegexMax, 6UZ}
+            .ToString<3UZ>()
+    };
+    EXPECT_TRUE(tiny.IsTruncated());
+    EXPECT_EQ("Reg", tiny);
+}
+
+TEST_F(MagicParametersConvertTest, snapshot_formatter_prints_entries)
+{
+    const MagicParameters snapshot{
+        {MagicParameters::Parameters::RegexMax, 6UZ},
+        {MagicParameters::Parameters::BytesMax, 7UZ}
+    };
+    EXPECT_EQ(std::format("{}", snapshot), "RegexMax: 6, BytesMax: 7");
+    EXPECT_EQ(std::format("{}", MagicParameters{}), "");
+    EXPECT_EQ(std::format("{:*<25}", snapshot), "RegexMax: 6, BytesMax: 7*");
+
+    EXPECT_NO_THROW(static_cast<void>(std::format("{}", snapshot)));
 }

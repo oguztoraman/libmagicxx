@@ -15,13 +15,14 @@
  *
  * MagicParameters stores its snapshot in a bounded inline container (a
  * fixed-size array of optionals indexed by the dense `Parameters`
- * ordinals), which keeps every operation allocation-free and `noexcept`
- * — a heap map could not. The authoritative values stay in libmagic,
- * reached through Magic::GetParameter(). The functions that do not
- * reference libmagic constants (the constructors, `Store()`, and
- * `ToString()`) are defined inline in the header; this file holds only
- * the libmagic constant table and the bridge that needs it, kept in an
- * anonymous namespace so libmagic stays out of the public header.
+ * ordinals), which keeps every public operation allocation-free,
+ * `constexpr`, and `noexcept` — a heap map could not. The authoritative
+ * values stay in libmagic, reached through Magic::GetParameter(). The
+ * functions that do not reference libmagic constants (the constructors,
+ * `Store()`, and `ToString()`) are defined inline in the header; this
+ * file holds the libmagic constant table and the bridge that needs it,
+ * kept in an anonymous namespace so libmagic stays out of the public
+ * header.
  *
  * The underlying libmagic C library is wrapped in the `Detail` namespace to
  * isolate its symbols; the `MAGIC_PARAM_*` constants are referenced only here.

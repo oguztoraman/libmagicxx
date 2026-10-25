@@ -2,6 +2,8 @@
 
 ## Next Release
 
++ **[ENHANCEMENT]** Magic: Redesign MagicParameters as an allocation-free constexpr snapshot value type.
+
 + **[BUGFIX]** Magic: Return std::string_view from GetErrorMessage() to avoid transient allocations.
 
 + **[ENHANCEMENT]** Utility: Add InplaceString allocation-free fixed-capacity string utility.
